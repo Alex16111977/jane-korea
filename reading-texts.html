@@ -548,6 +548,15 @@
         let selectedLevel = null;
         let selectedCategory = null;
 
+        const categoryNames = {
+            personal: 'О себе',
+            stories: 'Рассказы',
+            culture: 'Культура',
+            science: 'Наука',
+            travel: 'Путешествия',
+            food: 'Еда'
+        };
+
         // База данных текстов с превью
         const textsDatabase = {
             1: {
@@ -604,7 +613,8 @@
             }
         };
 
-        function selectLevel(level) {
+        function selectLevel(level, options = {}) {
+            const { skipHistory = false } = options;
             selectedLevel = level;
             
             // Обновляем шаги
@@ -621,6 +631,11 @@
             // Переключаем страницы
             document.getElementById('levelsPage').classList.remove('active');
             document.getElementById('categoriesPage').classList.add('active');
+
+            if (!skipHistory) {
+                const newUrl = `${window.location.pathname}?level=${selectedLevel}`;
+                window.history.pushState({}, '', newUrl);
+            }
         }
 
         function updateCategoryCounts(level) {
@@ -640,7 +655,14 @@
                 `${(levelData.food || []).length} текстов`;
         }
 
-        function selectCategory(category) {
+        function selectCategory(category, options = {}) {
+            const { skipHistory = false } = options;
+
+            if (!categoryNames[category]) {
+                console.warn(`Неизвестная категория: ${category}`);
+                return;
+            }
+
             selectedCategory = category;
             
             // Обновляем шаги
@@ -649,16 +671,7 @@
             document.getElementById('step3').classList.add('active');
             
             // Переходим к выбору текста
-            const categoryNames = {
-                personal: 'О себе',
-                stories: 'Рассказы', 
-                culture: 'Культура',
-                science: 'Наука',
-                travel: 'Путешествия',
-                food: 'Еда'
-            };
-            
-            document.getElementById('breadcrumb').textContent = 
+            document.getElementById('breadcrumb').textContent =
                 `Уровень ${selectedLevel}급 → ${categoryNames[category]} - Выберите текст`;
             
             // Загружаем тексты
@@ -667,6 +680,11 @@
             // Переключаем страницы
             document.getElementById('categoriesPage').classList.remove('active');
             document.getElementById('textsPage').classList.add('active');
+
+            if (!skipHistory) {
+                const newUrl = `${window.location.pathname}?level=${selectedLevel}&category=${category}`;
+                window.history.pushState({}, '', newUrl);
+            }
         }
 
         function loadTextsPage() {
@@ -764,40 +782,18 @@
             const urlParams = new URLSearchParams(window.location.search);
             const levelParam = urlParams.get('level');
             const categoryParam = urlParams.get('category');
-            
-            if (levelParam && categoryParam) {
-                // Восстанавливаем состояние
-                selectedLevel = parseInt(levelParam);
-                selectedCategory = categoryParam;
-                
-                // Переходим к выбору текстов
-                document.getElementById('step1').classList.add('completed');
-                document.getElementById('step1').classList.remove('active');
-                document.getElementById('step2').classList.add('completed');
-                document.getElementById('step2').classList.remove('active');
-                document.getElementById('step3').classList.add('active');
-                
-                const categoryNames = {
-                    personal: 'О себе',
-                    stories: 'Рассказы', 
-                    culture: 'Культура',
-                    science: 'Наука',
-                    travel: 'Путешествия',
-                    food: 'Еда'
-                };
-                
-                document.getElementById('breadcrumb').textContent = 
-                    `Уровень ${selectedLevel}급 → ${categoryNames[selectedCategory]} - Выберите текст`;
-                
-                // Показываем страницу с текстами
-                document.getElementById('levelsPage').classList.remove('active');
-                document.getElementById('categoriesPage').classList.remove('active');
-                document.getElementById('textsPage').classList.add('active');
-                
-                // Загружаем тексты
-                loadTextsPage();
-                
-                console.log(`Восстановлено: Уровень ${selectedLevel}, Категория ${selectedCategory}`);
+
+            if (levelParam) {
+                const parsedLevel = parseInt(levelParam, 10);
+
+                if (!isNaN(parsedLevel)) {
+                    selectLevel(parsedLevel, { skipHistory: true });
+
+                    if (categoryParam) {
+                        selectCategory(categoryParam, { skipHistory: true });
+                        console.log(`Восстановлено: Уровень ${selectedLevel}, Категория ${selectedCategory}`);
+                    }
+                }
             }
         }
 
