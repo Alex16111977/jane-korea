@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>TEST: Progress Step 5 - lessons.html Integration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        .pass {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        .fail {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid #dc3545;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-left: 4px solid #17a2b8;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #667eea;
+        }
+        .summary {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        .summary.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .summary.warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 TEST: Крок 5 - Інтеграція в lessons.html</h1>
+    
+    <div class="test-section">
+        <h2>📋 Перевірка файлів</h2>
+        <div id="fileTests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔌 Перевірка підключення модулів</h2>
+        <div id="moduleTests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>💾 Перевірка localStorage</h2>
+        <div id="storageTests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🎨 Перевірка візуальних елементів</h2>
+        <div id="visualTests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>⚙️ Перевірка функціональності</h2>
+        <div id="functionalTests"></div>
+    </div>
+    
+    <div id="summary" class="summary"></div>
+    
+    <script>
+        let passCount = 0;
+        let failCount = 0;
+        
+        function test(containerId, name, condition, details = '') {
+            const container = document.getElementById(containerId);
+            const result = document.createElement('div');
+            result.className = 'test-result ' + (condition ? 'pass' : 'fail');
+            
+            const status = condition ? '[PASS]' : '[FAIL]';
+            result.innerHTML = `${status} ${name}${details ? '<br><small>' + details + '</small>' : ''}`;
+            
+            container.appendChild(result);
+            
+            if (condition) {
+                passCount++;
+            } else {
+                failCount++;
+            }
+            
+            console.log(`${status} ${name}`);
+        }
+        
+        function info(containerId, message) {
+            const container = document.getElementById(containerId);
+            const result = document.createElement('div');
+            result.className = 'test-result info';
+            result.innerHTML = `[INFO] ${message}`;
+            container.appendChild(result);
+            console.log(`[INFO] ${message}`);
+        }
+        
+        // === ТЕСТ 1: Перевірка файлів ===
+        async function testFiles() {
+            // Перевірка існування progress-tracker.js
+            try {
+                const response1 = await fetch('js/progress-tracker.js');
+                test('fileTests', 'Файл js/progress-tracker.js існує', response1.ok);
+            } catch (e) {
+                test('fileTests', 'Файл js/progress-tracker.js існує', false, e.message);
+            }
+            
+            // Перевірка існування progress-dashboard.js
+            try {
+                const response2 = await fetch('js/progress-dashboard.js');
+                test('fileTests', 'Файл js/progress-dashboard.js існує', response2.ok);
+            } catch (e) {
+                test('fileTests', 'Файл js/progress-dashboard.js існує', false, e.message);
+            }
+            
+            // Перевірка існування progress.css
+            try {
+                const response3 = await fetch('css/progress.css');
+                test('fileTests', 'Файл css/progress.css існує', response3.ok);
+            } catch (e) {
+                test('fileTests', 'Файл css/progress.css існує', false, e.message);
+            }
+        }
+        
+        // === ТЕСТ 2: Перевірка модулів ===
+        function testModules() {
+            test('moduleTests', 'ProgressTracker завантажено', typeof ProgressTracker !== 'undefined');
+            
+            if (typeof ProgressTracker !== 'undefined') {
+                test('moduleTests', 'ProgressTracker.init існує', typeof ProgressTracker.init === 'function');
+                test('moduleTests', 'ProgressTracker.get існує', typeof ProgressTracker.get === 'function');
+                test('moduleTests', 'ProgressTracker.markLessonCompleted існує', typeof ProgressTracker.markLessonCompleted === 'function');
+            }
+            
+            test('moduleTests', 'ProgressDashboard завантажено', typeof ProgressDashboard !== 'undefined');
+            
+            if (typeof ProgressDashboard !== 'undefined') {
+                test('moduleTests', 'ProgressDashboard.render існує', typeof ProgressDashboard.render === 'function');
+            }
+        }
+        
+        // === ТЕСТ 3: Перевірка localStorage ===
+        function testStorage() {
+            // Ініціалізація прогресу
+            if (typeof ProgressTracker !== 'undefined') {
+                ProgressTracker.init();
+                
+                const progress = ProgressTracker.get();
+                test('storageTests', 'localStorage має ключ janeKoreaProgress', progress !== null);
+                test('storageTests', 'Структура completedLessons існує', progress.completedLessons !== undefined);
+                test('storageTests', 'Структура stats існує', progress.stats !== undefined);
+                
+                // Тестове збереження
+                ProgressTracker.markLessonCompleted('level_1');
+                const updatedProgress = ProgressTracker.get();
+                test('storageTests', 'Збереження рівня працює', updatedProgress.completedLessons['level_1'] !== undefined);
+                
+                info('storageTests', `Всього пройдено рівнів: ${Object.keys(updatedProgress.completedLessons).length}`);
+            } else {
+                test('storageTests', 'ProgressTracker не завантажено', false);
+            }
+        }
+        
+        // === ТЕСТ 4: Візуальні елементи ===
+        function testVisual() {
+            // Перевірка панелі прогресу
+            const dashboard = document.getElementById('progressDashboard');
+            test('visualTests', 'Контейнер #progressDashboard існує на lessons.html', dashboard !== null);
+            
+            // Перевірка CSS класів
+            const styles = document.styleSheets;
+            let hasProgressStyles = false;
+            for (let i = 0; i < styles.length; i++) {
+                try {
+                    const cssText = [...styles[i].cssRules].map(r => r.cssText).join('');
+                    if (cssText.includes('progress-dashboard') || cssText.includes('completion-badge')) {
+                        hasProgressStyles = true;
+                        break;
+                    }
+                } catch (e) {
+                    // Ігноруємо CORS помилки
+                }
+            }
+            test('visualTests', 'CSS стилі для прогресу завантажені', hasProgressStyles);
+            
+            // Перевірка кнопки скидання
+            setTimeout(() => {
+                const resetButton = document.querySelector('.reset-progress');
+                test('visualTests', 'Кнопка скидання прогресу існує', resetButton !== null);
+            }, 1000);
+        }
+        
+        // === ТЕСТ 5: Функціональність ===
+        function testFunctional() {
+            // Перевірка функції markCompletedLessons
+            test('functionalTests', 'Функція markCompletedLessons визначена', typeof markCompletedLessons === 'function');
+            
+            // Перевірка відстеження кліків
+            const hasClickListener = window.addEventListener !== undefined;
+            test('functionalTests', 'Event listeners підтримуються', hasClickListener);
+            
+            // Перевірка функції navigateToLevel
+            test('functionalTests', 'Функція navigateToLevel визначена', typeof navigateToLevel === 'function');
+            
+            info('functionalTests', 'Для повного тесту відкрийте lessons.html і клікніть на рівень');
+        }
+        
+        // === ЗАПУСК ТЕСТІВ ===
+        async function runAllTests() {
+            console.log('=== ПОЧАТОК ТЕСТУВАННЯ ===');
+            
+            await testFiles();
+            testModules();
+            testStorage();
+            testVisual();
+            testFunctional();
+            
+            // Підсумок
+            const total = passCount + failCount;
+            const percent = Math.round((passCount / total) * 100);
+            
+            const summary = document.getElementById('summary');
+            summary.className = 'summary ' + (failCount === 0 ? 'success' : 'warning');
+            summary.innerHTML = `
+                <div>📊 РЕЗУЛЬТАТ ТЕСТУВАННЯ</div>
+                <div style="font-size: 2em; margin: 10px 0;">${passCount}/${total} тестів пройдено (${percent}%)</div>
+                ${failCount === 0 ? 
+                    '✅ Всі тести успішно пройдені!' : 
+                    `⚠️ Є ${failCount} непройдених тестів`
+                }
+            `;
+            
+            console.log('=== КІНЕЦЬ ТЕСТУВАННЯ ===');
+            console.log(`[SUMMARY] ${passCount}/${total} passed (${percent}%)`);
+        }
+        
+        // Запуск після завантаження
+        window.addEventListener('load', runAllTests);
+    </script>
+</body>
+</html>

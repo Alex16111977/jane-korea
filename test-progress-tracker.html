@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST: Progress Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        #results {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        #results p {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>TEST: Progress Tracker Module</h1>
+    <div id="results"></div>
+    
+    <script src="js/progress-tracker.js"></script>
+    <script>
+        const results = document.getElementById('results');
+        
+        function test(name, fn) {
+            try {
+                fn();
+                results.innerHTML += `<p style="color:green; background:#e8f5e9;">[OK] ${name}</p>`;
+                console.log(`[OK] ${name}`);
+            } catch (e) {
+                results.innerHTML += `<p style="color:red; background:#ffebee;">[ERROR] ${name}: ${e.message}</p>`;
+                console.error(`[ERROR] ${name}:`, e);
+            }
+        }
+        
+        // Очистка перед тестом
+        localStorage.removeItem('janeKoreaProgress');
+        
+        // Тест 1: Ініціалізація
+        test('Init progress', () => {
+            const progress = ProgressTracker.init();
+            if (!progress.completedTexts) throw new Error('Missing completedTexts');
+            if (!progress.stats) throw new Error('Missing stats');
+        });
+        
+        // Тест 2: Відмітка тексту
+        test('Mark text completed', () => {
+            const progress = ProgressTracker.markTextCompleted(1, 'personal', 'personal-1', 100, 45);
+            if (progress.stats.totalTexts !== 1) throw new Error('Wrong totalTexts count');
+            if (!progress.completedTexts['1-personal-personal-1']) throw new Error('Text not marked');
+        });
+        
+        // Тест 3: Перевірка завершення
+        test('Check text completed', () => {
+            const completed = ProgressTracker.isTextCompleted(1, 'personal', 'personal-1');
+            if (!completed) throw new Error('Text should be completed');
+        });
+        
+        // Тест 4: Відмітка уроку
+        test('Mark lesson completed', () => {
+            const progress = ProgressTracker.markLessonCompleted('lesson_01_korea');
+            if (progress.stats.totalLessons !== 1) throw new Error('Wrong totalLessons count');
+        });
+        
+        // Тест 5: Серія днів
+        test('Check streak', () => {
+            const progress = ProgressTracker.get();
+            if (progress.stats.currentStreak !== 1) throw new Error('Wrong streak');
+        });
+        
+        // Тест 6: Збереження і завантаження
+        test('Save and load', () => {
+            const saved = ProgressTracker.get();
+            const loaded = JSON.parse(localStorage.getItem('janeKoreaProgress'));
+            if (JSON.stringify(saved) !== JSON.stringify(loaded)) throw new Error('Data mismatch');
+        });
+        
+        results.innerHTML += '<h2 style="color:blue; background:#e3f2fd; padding:15px; border-radius:5px; margin-top:20px;">ALL TESTS PASSED!</h2>';
+        console.log('[OK] All tests passed');
+    </script>
+</body>
+</html>

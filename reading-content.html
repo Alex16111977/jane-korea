@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📖 Чтение - Изучение корейского</title>
+    <!-- Progress Tracking -->
+    <script src="js/progress-tracker.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         
@@ -1060,6 +1062,10 @@
             const totalQuestions = currentQuiz.length;
             const percentage = Math.round((correctAnswers / totalQuestions) * 100);
             
+            // === PROGRESS TRACKING ===
+            // Зберігаємо прогрес після завершення тесту
+            saveTextProgress(percentage);
+            
             let resultMessage = '';
             let resultColor = '';
             
@@ -1233,12 +1239,68 @@
             }
         });
 
-        // Initialize
+        // === PROGRESS TRACKING INTEGRATION ===
+
+        // Ініціалізація при завантаженні
         document.addEventListener('DOMContentLoaded', function() {
+            ProgressTracker.init();
+            console.log('[OK] Progress tracker initialized');
             updatePageInfo();
             updateBackButton();
             loadCurrentText();
         });
+
+        // Функція збереження прогресу після тесту
+        function saveTextProgress(finalScore) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const level = urlParams.get('level');
+            const category = urlParams.get('category');
+            const textId = urlParams.get('textId');
+            
+            if (!level || !category || !textId) {
+                console.error('[ERROR] Missing URL parameters');
+                return;
+            }
+            
+            // Підрахунок вивчених слів
+            const learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
+            const wordsCount = learnedWords.length;
+            
+            // Зберігаємо прогрес
+            ProgressTracker.markTextCompleted(level, category, textId, finalScore, wordsCount);
+            
+            console.log('[+] Progress saved:', {level, category, textId, score: finalScore, words: wordsCount});
+            
+            // Показати вітання
+            showCompletionCelebration(finalScore);
+        }
+
+        // Вітання після завершення
+        function showCompletionCelebration(score) {
+            const progress = ProgressTracker.get();
+            const totalTexts = progress.stats.totalTexts;
+            const streak = progress.stats.currentStreak;
+            
+            let message = `🎉 Вітаємо! Текст завершено!\n\n`;
+            message += `📊 Результат: ${score}%\n`;
+            message += `📚 Всього текстів пройдено: ${totalTexts}\n`;
+            message += `🔥 Серія днів: ${streak}`;
+            
+            // Перевірка на нові досягнення
+            if (totalTexts === 1) {
+                message += `\n\n🥇 НОВЕ ДОСЯГНЕННЯ: Перший текст!`;
+            }
+            if (score === 100) {
+                message += `\n\n💯 НОВЕ ДОСЯГНЕННЯ: Ідеальний результат!`;
+            }
+            if (streak === 7) {
+                message += `\n\n🔥 НОВЕ ДОСЯГНЕННЯ: Тижнева серія!`;
+            }
+            
+            alert(message);
+        }
+
+        console.log('[OK] Progress integration loaded');
     </script>
 </body>
 </html>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📚 텍스트로 배우기 - Изучение корейского с текстами</title>
     <link href="css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/progress.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         
@@ -349,6 +350,49 @@
             font-size: 0.95em;
         }
 
+        /* Progress Indicators */
+        .text-card.completed {
+            border-left: 6px solid #4caf50;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%);
+        }
+
+        .completion-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #4caf50;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+            z-index: 10;
+        }
+
+        .progress-info {
+            font-size: 0.85em;
+            color: #4caf50;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .progress-info.not-completed {
+            color: #999;
+        }
+
+        .text-card:not(.completed) {
+            opacity: 0.9;
+        }
+
+        .text-card:not(.completed):hover {
+            opacity: 1;
+        }
+
 
 
         .page {
@@ -384,6 +428,10 @@
             }
         }
     </style>
+    
+    <!-- Progress Tracking -->
+    <script src="js/progress-tracker.js"></script>
+    <script src="js/progress-dashboard.js"></script>
 </head>
 <body>
     <a href="index.html" class="back-button">← На главную</a>
@@ -394,6 +442,9 @@
             <h1>📚 텍스트로 배우기</h1>
             <div class="subtitle">Выберите уровень, категорию и текст для изучения</div>
         </div>
+
+        <!-- Progress Dashboard -->
+        <div id="progressDashboard"></div>
 
         <div class="step-indicator">
             <div class="step active" id="step1">1. Выбор уровня</div>
@@ -860,8 +911,75 @@
             selectedCategory = null;
         }
 
+        // === PROGRESS TRACKING ===
+        // Маркування завершених текстів
+        function markCompletedTexts() {
+            if (typeof ProgressTracker === 'undefined') {
+                console.warn('[WARN] ProgressTracker not loaded');
+                return;
+            }
+            
+            const progress = ProgressTracker.get();
+            console.log('[OK] Loading progress for texts');
+            
+            // Проходимо по всіх текстах
+            document.querySelectorAll('.text-card').forEach(card => {
+                const onclick = card.getAttribute('onclick');
+                if (!onclick) return;
+                
+                // Витягуємо textId з onclick="selectText('personal-1')"
+                const match = onclick.match(/selectText\('([^']+)'\)/);
+                if (!match) return;
+                
+                const textId = match[1];
+                const key = `${selectedLevel}-${selectedCategory}-${textId}`;
+                
+                if (progress.completedTexts[key]) {
+                    // Текст завершено
+                    card.classList.add('completed');
+                    
+                    // Додаємо галочку
+                    const badge = document.createElement('div');
+                    badge.className = 'completion-badge';
+                    badge.innerHTML = '&#10003;'; // HTML код галочки
+                    card.style.position = 'relative';
+                    card.insertBefore(badge, card.firstChild);
+                    
+                    // Додаємо інфо про прогрес
+                    const progressInfo = document.createElement('div');
+                    progressInfo.className = 'progress-info';
+                    const data = progress.completedTexts[key];
+                    const date = new Date(data.completedAt).toLocaleDateString('uk-UA');
+                    progressInfo.innerHTML = `Пройдено ${date} | Результат: ${data.quizScore}%`;
+                    card.appendChild(progressInfo);
+                    
+                    console.log('[+] Marked completed:', textId);
+                } else {
+                    // Текст не завершено
+                    const progressInfo = document.createElement('div');
+                    progressInfo.className = 'progress-info not-completed';
+                    progressInfo.innerHTML = 'Не пройдено';
+                    card.appendChild(progressInfo);
+                }
+            });
+            
+            console.log('[OK] Completed texts marked');
+        }
+
+        // Викликаємо після завантаження текстів
+        const originalLoadTextsPage = loadTextsPage;
+        loadTextsPage = function() {
+            originalLoadTextsPage.call(this);
+            setTimeout(markCompletedTexts, 150); // Невелика затримка для завантаження карток
+        };
+
         // Анимации при загрузке
         document.addEventListener('DOMContentLoaded', function() {
+            // Рендер панелі прогресу
+            if (typeof ProgressDashboard !== 'undefined') {
+                ProgressDashboard.render('progressDashboard');
+            }
+            
             // Проверяем URL параметры для восстановления состояния
             restoreStateFromURL();
             
