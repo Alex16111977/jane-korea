@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLACKPINK - BOOMBAYAH Official Music Video</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff6b9d, #c471ed, #12d8fa);
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.8);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b9d, #c471ed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #ffd700;
+        }
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            background: #000;
+        }
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            background-image: url('images/boombayah.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .play-overlay:hover {
+            background-color: rgba(0,0,0,0.4);
+        }
+        .play-overlay.hidden {
+            display: none;
+        }
+        .play-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff1744, #ff69b4);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+        }
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255, 20, 147, 0.6);
+        }
+        .play-text {
+            color: white;
+            font-size: 1.1em;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        .song-info {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .back-btn {
+            background: linear-gradient(135deg, #ff1744, #ff69b4);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Стили для изучения корейского */
+        .learning-section {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid #ff1744;
+        }
+        
+        .learning-section h3 {
+            color: #ff1744;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .lyrics-examples {
+            margin: 20px 0;
+        }
+        
+        .lyric-line {
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 4px solid #ff1744;
+        }
+        
+        .korean-line {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .word {
+            color: #ff69b4;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+            margin: 0 2px;
+        }
+        
+        .word:hover {
+            background: rgba(255, 20, 147, 0.3);
+            transform: scale(1.1);
+            color: #ffffff;
+        }
+        
+        .separator {
+            color: #cccccc;
+            margin: 0 3px;
+        }
+        
+        .translation {
+            color: #ffffff;
+            font-size: 1.1em;
+            margin: 8px 0;
+            font-weight: bold;
+        }
+        
+        .pronunciation {
+            color: #ffd700;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        
+        .word-tooltip {
+            position: absolute;
+            background: linear-gradient(135deg, #ff1744, #ff69b4);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            min-width: 150px;
+            text-align: center;
+        }
+        
+        .tooltip-word {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .tooltip-pronunciation {
+            color: #ffd700;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+        
+        .tooltip-meaning {
+            font-size: 0.9em;
+        }
+        
+        .grammar-section {
+            background: rgba(255, 20, 147, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .grammar-section h4 {
+            color: #ff1744;
+            margin-bottom: 10px;
+        }
+        
+        .grammar-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .grammar-section li {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .study-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .study-btn {
+            background: linear-gradient(135deg, #ff1744, #ff69b4);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin: 5px 10px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .study-btn:hover {
+            transform: scale(1.05);
+            border-color: #ffd700;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+        }
+        
+        /* Стили для добавления своих строк */
+        .add-lyrics {
+            background: rgba(0,0,0,0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border: 2px solid #ff69b4;
+        }
+        
+        .add-lyrics h4 {
+            color: #ff69b4;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .lyric-input {
+            padding: 12px;
+            border: 2px solid #ff1744;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        
+        .lyric-input:focus {
+            outline: none;
+            border-color: #ff69b4;
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+        }
+        
+        .lyric-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .add-btn {
+            background: linear-gradient(135deg, #ff69b4, #ff1744);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .add-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+        }
+        
+        #customLyrics {
+            margin-top: 15px;
+        }
+        
+        .custom-lyric-line {
+            background: rgba(255, 105, 180, 0.2);
+            border: 1px solid #ff69b4;
+        }
+        
+        /* Стили для быстрого добавления */
+        .quick-add-section {
+            background: rgba(255, 20, 147, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .quick-add-section h5 {
+            color: #ff69b4;
+            margin-bottom: 10px;
+        }
+        
+        .quick-add-section ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        
+        .quick-add-section li {
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+        
+        .example-section {
+            margin-top: 15px;
+        }
+        
+        .example-section h6 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+        
+        .example-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .example-btn {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            border: 1px solid #ffd700;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-size: 0.9em;
+        }
+        
+        .example-btn:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateX(5px);
+        }
+        
+        .batch-add-section {
+            background: rgba(18, 216, 250, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .batch-add-section h5 {
+            color: #12d8fa;
+            margin-bottom: 10px;
+        }
+        
+        .batch-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 2px solid #12d8fa;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1em;
+            resize: vertical;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+        
+        .batch-input:focus {
+            outline: none;
+            border-color: #ff69b4;
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 0 10px rgba(18, 216, 250, 0.3);
+        }
+        
+        .batch-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        @media (max-width: 768px) {
+            .input-section {
+                gap: 8px;
+            }
+            
+            .lyric-input {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="blackpink-songs.html" class="back-btn">← Назад к песням</a>
+        
+        <h1>🔥 BOOMBAYAH</h1>
+        <div class="subtitle">BLACKPINK • 붐바야 • 2016</div>
+        
+        <div class="video-container">
+            <video id="videoPlayer" preload="metadata">
+                <source src="audio/boombayah.mp4" type="video/mp4">
+                Ваш браузер не поддерживает воспроизведение видео.
+            </video>
+            
+            <div class="play-overlay" id="playOverlay" onclick="playVideo()">
+                <button class="play-btn">▶</button>
+                <div class="play-text">Нажмите для просмотра<br>BOOMBAYAH</div>
+            </div>
+        </div>
+
+        <div class="song-info">
+            <h3>💫 О песне</h3>
+            <p><strong>Artist:</strong> BLACKPINK (블랙핑크)</p>
+            <p><strong>Album:</strong> Square One</p>
+            <p><strong>Released:</strong> August 8, 2016</p>
+            <p><strong>Genre:</strong> K-pop, Hip hop, Trap</p>
+            <p><strong>Language:</strong> Korean, English</p>
+            <p><strong>Views:</strong> 1.8+ billion on YouTube</p>
+            <p><strong>About:</strong> BLACKPINK's explosive debut single that introduced their fierce and confident style to the world</p>
+        </div>
+
+        <div class="learning-section">
+            <h3>🎓 Изучай корейский с BOOMBAYAH</h3>
+            <p>Нажимайте на корейские слова для изучения произношения и значения:</p>
+            
+            <div class="lyrics-examples">
+                <div class="lyric-line">
+                    <div class="korean-line">
+                        <span class="word" data-meaning="горячий" data-pronunciation="[хот]">Hot</span>
+                        <span class="word" data-meaning="BLACKPINK" data-pronunciation="[блэкпинк]">BLACKPINK</span>
+                        <span class="word" data-meaning="в" data-pronunciation="[ин]">in</span>
+                        <span class="word" data-meaning="твоя" data-pronunciation="[ё]">your</span>
+                        <span class="word" data-meaning="зона" data-pronunciation="[эриа]">area</span>
+                    </div>
+                    <div class="translation">Горячие BLACKPINK в твоей зоне</div>
+                    <div class="pronunciation">[хот блэкпинк ин ё эриа]</div>
+                </div>
+                
+                <div class="lyric-line">
+                    <div class="korean-line">
+                        <span class="word" data-meaning="была" data-pronunciation="[бин]">Been</span>
+                        <span class="word" data-meaning="плохая" data-pronunciation="[э бэд]">a bad</span>
+                        <span class="word" data-meaning="девочка" data-pronunciation="[гёрл]">girl</span>
+                        <span class="separator">,</span>
+                        <span class="word" data-meaning="я" data-pronunciation="[ай]">I</span>
+                        <span class="word" data-meaning="знаю" data-pronunciation="[ноу]">know</span>
+                        <span class="word" data-meaning="я" data-pronunciation="[ай]">I</span>
+                        <span class="word" data-meaning="есть" data-pronunciation="[эм]">am</span>
+                    </div>
+                    <div class="translation">Была плохой девочкой, я знаю что такая</div>
+                    <div class="pronunciation">[бин э бэд гёрл, ай ноу ай эм]</div>
+                </div>
+                
+                <div class="lyric-line">
+                    <div class="korean-line">
+                        <span class="word" data-meaning="клик-клак" data-pronunciation="[клик-клак]">Click-clack</span>
+                        <span class="separator">,</span>
+                        <span class="word" data-meaning="бада-бинг" data-pronunciation="[бада-бинг]">bada-bing</span>
+                        <span class="separator">,</span>
+                        <span class="word" data-meaning="бада-бум" data-pronunciation="[бада-бум]">bada-boom</span>
+                    </div>
+                    <div class="translation">Клик-клак, бада-бинг, бада-бум</div>
+                    <div class="pronunciation">[клик-клак, бада-бинг, бада-бум]</div>
+                </div>
+                
+                <div class="lyric-line">
+                    <div class="korean-line">
+                        <span class="word" data-meaning="дверь" data-pronunciation="[мунын]">문을</span>
+                        <span class="word" data-meaning="пинать" data-pronunciation="[пакчхамён]">박차면</span>
+                        <span class="word" data-meaning="все" data-pronunciation="[моду]">모두</span>
+                        <span class="word" data-meaning="меня" data-pronunciation="[наль]">날</span>
+                        <span class="word" data-meaning="смотрят" data-pronunciation="[парабом]">바라봄</span>
+                    </div>
+                    <div class="translation">Когда пинаю дверь, все смотрят на меня</div>
+                    <div class="pronunciation">[мунын пакчхамён моду наль парабом]</div>
+                </div>
+                
+                <div class="lyric-line">
+                    <div class="korean-line">
+                        <span class="word" data-meaning="руки" data-pronunciation="[хэндс]">Hands</span>
+                        <span class="word" data-meaning="вверх" data-pronunciation="[ап]">up</span>
+                        <span class="separator">,</span>
+                        <span class="word" data-meaning="мои" data-pronunciation="[нэ]">내</span>
+                        <span class="word" data-meaning="руки" data-pronunciation="[сонэн]">손엔</span>
+                        <span class="word" data-meaning="бутылка" data-pronunciation="[ботл]">bottle</span>
+                        <span class="word" data-meaning="полная" data-pronunciation="[фул]">full</span>
+                        <span class="word" data-meaning="хеннесси" data-pronunciation="[о хенни]">o' Henny</span>
+                    </div>
+                    <div class="translation">Руки вверх, в моих руках бутылка полная Хеннесси</div>
+                    <div class="pronunciation">[хэндс ап, нэ сонэн ботл фул о хенни]</div>
+                </div>
+                
+                <div class="lyric-line">
+                    <div class="korean-line">
+                        <span class="word" data-meaning="хорошо" data-pronunciation="[чоа]">좋아</span>
+                        <span class="separator">,</span>
+                        <span class="word" data-meaning="эта" data-pronunciation="[и]">이</span>
+                        <span class="word" data-meaning="атмосфера" data-pronunciation="[пунвигига]">분위기가</span>
+                        <span class="word" data-meaning="хорошо" data-pronunciation="[чоа]">좋아</span>
+                    </div>
+                    <div class="translation">Хорошо, эта атмосфера хорошая</div>
+                    <div class="pronunciation">[чоа, и пунвигига чоа]</div>
+                </div>
+                
+                <div class="lyric-line">
+                    <div class="korean-line">
+                        <span class="word" data-meaning="Бумбая" data-pronunciation="[бумбая]">Boombayah</span>
+                        <span class="word" data-meaning="я-я-я" data-pronunciation="[я-я-я]">Yah-yah-yah</span>
+                        <span class="separator">,</span>
+                        <span class="word" data-meaning="бумбая" data-pronunciation="[бумбая]">boombayah</span>
+                    </div>
+                    <div class="translation">Бумбая я-я-я, бумбая</div>
+                    <div class="pronunciation">[бумбая я-я-я, бумбая]</div>
+                </div>
+                
+                <div class="lyric-line">
+                    <div class="korean-line">
+                        <span class="word" data-meaning="сегодня" data-pronunciation="[оныль]">오늘</span>
+                        <span class="word" data-meaning="ночь" data-pronunciation="[пам]">밤</span>
+                        <span class="word" data-meaning="с тобой" data-pronunciation="[нова]">너와</span>
+                        <span class="word" data-meaning="танцевать" data-pronunciation="[чхумчхуго]">춤추고</span>
+                        <span class="word" data-meaning="хочу" data-pronunciation="[сипхо]">싶어</span>
+                    </div>
+                    <div class="translation">Сегодня ночью хочу танцевать с тобой</div>
+                    <div class="pronunciation">[оныль пам нова чхумчхуго сипхо]</div>
+                </div>
+            </div>
+            
+            <div class="simple-add">
+                <h4>📝 Добавь остальные строки:</h4>
+                <p>Возьми полный текст с <a href="https://genius.com/Blackpink-boombayah-lyrics" target="_blank" style="color: #ff69b4;">Genius</a> и добавляй по строке:</p>
+                <input type="text" id="koreanInput" placeholder="Корейская/английская строка" class="lyric-input">
+                <input type="text" id="translationInput" placeholder="Русский перевод" class="lyric-input">
+                <button onclick="addCustomLyric()" class="add-btn">➕ Добавить</button>
+                <div id="customLyrics"></div>
+            </div>
+            
+            <div class="word-tooltip" id="tooltip" style="display: none;">
+                <div class="tooltip-word"></div>
+                <div class="tooltip-pronunciation"></div>
+                <div class="tooltip-meaning"></div>
+            </div>
+            
+            <div class="grammar-section">
+                <h4>📖 Грамматические заметки:</h4>
+                <ul>
+                    <li><strong>좋아</strong> - базовая форма прилагательного "хороший"</li>
+                    <li><strong>-고 싶어</strong> - конструкция "хочу + глагол"</li>
+                    <li><strong>오늘 밤</strong> - время "сегодня ночью"</li>
+                </ul>
+            </div>
+            
+            <div class="study-links">
+                <p>Для изучения полных текстов:</p>
+                <a href="https://genius.com/Blackpink-boombayah-lyrics" target="_blank" class="study-btn">📝 Полные тексты</a>
+                <a href="https://www.youtube.com/watch?v=bwmSjveL3Lc" target="_blank" class="study-btn">🎵 С субтитрами</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function playVideo() {
+            const video = document.getElementById('videoPlayer');
+            const overlay = document.getElementById('playOverlay');
+            
+            // Скрываем обложку
+            overlay.classList.add('hidden');
+            
+            // Добавляем контролы к видео
+            video.controls = true;
+            
+            // Запускаем видео
+            video.play().catch(function(error) {
+                console.log('Ошибка воспроизведения:', error);
+                // Если не удается воспроизвести, показываем обложку обратно
+                overlay.classList.remove('hidden');
+                alert('Не удается воспроизвести видео. Проверьте файл.');
+            });
+        }
+        
+        // Показываем обложку когда видео закончилось
+        document.getElementById('videoPlayer').addEventListener('ended', function() {
+            document.getElementById('playOverlay').classList.remove('hidden');
+            this.controls = false;
+        });
+        
+        // Интерактивность для изучения корейского
+        document.addEventListener('DOMContentLoaded', function() {
+            const words = document.querySelectorAll('.word');
+            const tooltip = document.getElementById('tooltip');
+            
+            words.forEach(word => {
+                word.addEventListener('mouseenter', function(e) {
+                    showTooltip(e, this);
+                });
+                
+                word.addEventListener('mouseleave', function() {
+                    hideTooltip();
+                });
+                
+                word.addEventListener('click', function() {
+                    speakWord(this.textContent);
+                });
+            });
+        });
+        
+        function showTooltip(event, element) {
+            const tooltip = document.getElementById('tooltip');
+            const meaning = element.getAttribute('data-meaning');
+            const pronunciation = element.getAttribute('data-pronunciation');
+            const word = element.textContent;
+            
+            // Заполняем содержимое tooltip'а
+            tooltip.querySelector('.tooltip-word').textContent = word;
+            tooltip.querySelector('.tooltip-pronunciation').textContent = pronunciation;
+            tooltip.querySelector('.tooltip-meaning').textContent = meaning;
+            
+            // Позиционируем tooltip
+            const rect = element.getBoundingClientRect();
+            tooltip.style.left = (rect.left + rect.width / 2 - 75) + 'px';
+            tooltip.style.top = (rect.top - 80) + 'px';
+            
+            // Показываем tooltip
+            tooltip.style.display = 'block';
+        }
+        
+        function hideTooltip() {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.style.display = 'none';
+        }
+        
+        function speakWord(word) {
+            // Показываем уведомление
+            showNotification(`🎤 Произношение: ${word}`);
+            
+            // Попытка использовать Web Speech API
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.7; // Медленнее для лучшего понимания
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #ff1744, #ff69b4);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 25px;
+                box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+                z-index: 1000;
+                font-weight: bold;
+                animation: slideIn 0.5s ease-out;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.5s ease-in';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 500);
+            }, 3000);
+        }
+        
+        // Добавляем анимации для уведомлений
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); }
+                to { transform: translateX(0); }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); }
+                to { transform: translateX(100%); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Функция для добавления пользовательских строк
+        function addCustomLyric() {
+            const koreanText = document.getElementById('koreanInput').value.trim();
+            const translation = document.getElementById('translationInput').value.trim();
+            const pronunciation = document.getElementById('pronunciationInput').value.trim();
+            
+            if (!koreanText || !translation) {
+                showNotification('⚠️ Введите корейский текст и перевод!');
+                return;
+            }
+            
+            const customLyrics = document.getElementById('customLyrics');
+            
+            // Создаем новую строку
+            const newLine = document.createElement('div');
+            newLine.className = 'lyric-line custom-lyric-line';
+            newLine.innerHTML = `
+                <div class="korean-line">
+                    ${createInteractiveWords(koreanText)}
+                </div>
+                <div class="translation">${translation}</div>
+                <div class="pronunciation">${pronunciation}</div>
+                <button onclick="removeLine(this)" style="
+                    background: #ff1744;
+                    color: white;
+                    border: none;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin-top: 10px;
+                    float: right;
+                ">🗑️ Удалить</button>
+            `;
+            
+            customLyrics.appendChild(newLine);
+            
+            // Очищаем поля ввода
+            document.getElementById('koreanInput').value = '';
+            document.getElementById('translationInput').value = '';
+            document.getElementById('pronunciationInput').value = '';
+            
+            // Обновляем обработчики событий для новых слов
+            updateWordEventListeners();
+            
+            showNotification('✅ Строка добавлена для изучения!');
+        }
+        
+        function createInteractiveWords(text) {
+            // Разбиваем текст на слова и делаем их интерактивными
+            return text.split(' ').map(word => {
+                if (word.trim()) {
+                    return `<span class="word" data-meaning="Нажмите для произношения" data-pronunciation="[${word}]">${word}</span>`;
+                }
+                return word;
+            }).join(' ');
+        }
+        
+        function removeLine(button) {
+            button.parentElement.remove();
+            showNotification('🗑️ Строка удалена');
+        }
+        
+        function updateWordEventListeners() {
+            const words = document.querySelectorAll('.word');
+            words.forEach(word => {
+                // Удаляем старые обработчики
+                word.removeEventListener('mouseenter', handleMouseEnter);
+                word.removeEventListener('mouseleave', handleMouseLeave);
+                word.removeEventListener('click', handleClick);
+                
+                // Добавляем новые
+                word.addEventListener('mouseenter', handleMouseEnter);
+                word.addEventListener('mouseleave', handleMouseLeave);
+                word.addEventListener('click', handleClick);
+            });
+        }
+        
+        function handleMouseEnter(e) {
+            showTooltip(e, this);
+        }
+        
+        function handleMouseLeave() {
+            hideTooltip();
+        }
+        
+        function handleClick() {
+            speakWord(this.textContent);
+        }
+        
+        // Функции для быстрого добавления примеров
+        function fillExample(exampleNum) {
+            const examples = {
+                1: {
+                    korean: "Click-clack, bada-bing, bada-boom",
+                    translation: "Клик-клак, бада-бинг, бада-бум",
+                    pronunciation: "[клик-клак, бада-бинг, бада-бум]"
+                },
+                2: {
+                    korean: "Hands up, 내 손엔 bottle full o' Henny",
+                    translation: "Руки вверх, в моих руках бутылка Хеннесси",
+                    pronunciation: "[хэндс ап, нэ сонэн ботл фул о хенни]"
+                },
+                3: {
+                    korean: "Been a bad girl, I know I am",
+                    translation: "Была плохой девочкой, я знаю это",
+                    pronunciation: "[бин э бэд гёрл, ай ноу ай эм]"
+                }
+            };
+            
+            const example = examples[exampleNum];
+            if (example) {
+                document.getElementById('koreanInput').value = example.korean;
+                document.getElementById('translationInput').value = example.translation;
+                document.getElementById('pronunciationInput').value = example.pronunciation;
+                
+                showNotification('✨ Пример загружен! Нажмите "Добавить строку"');
+            }
+        }
+        
+        // Функция для массового добавления строк
+        function addBatchLyrics() {
+            const batchText = document.getElementById('batchInput').value.trim();
+            
+            if (!batchText) {
+                showNotification('⚠️ Введите строки для добавления!');
+                return;
+            }
+            
+            const lines = batchText.split('\n').filter(line => line.trim());
+            let addedCount = 0;
+            
+            lines.forEach(line => {
+                if (line.trim()) {
+                    const customLyrics = document.getElementById('customLyrics');
+                    
+                    const newLine = document.createElement('div');
+                    newLine.className = 'lyric-line custom-lyric-line';
+                    newLine.innerHTML = `
+                        <div class="korean-line">
+                            ${createInteractiveWords(line.trim())}
+                        </div>
+                        <div class="translation">Добавьте перевод...</div>
+                        <div class="pronunciation">[Добавьте произношение...]</div>
+                        <button onclick="removeLine(this)" style="
+                            background: #ff1744;
+                            color: white;
+                            border: none;
+                            padding: 5px 10px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            margin-top: 10px;
+                            float: right;
+                        ">🗑️ Удалить</button>
+                        <button onclick="editLine(this)" style="
+                            background: #12d8fa;
+                            color: white;
+                            border: none;
+                            padding: 5px 10px;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            margin-top: 10px;
+                            margin-right: 10px;
+                            float: right;
+                        ">✏️ Редактировать</button>
+                    `;
+                    
+                    customLyrics.appendChild(newLine);
+                    addedCount++;
+                }
+            });
+            
+            // Обновляем обработчики событий
+            updateWordEventListeners();
+            
+            // Очищаем поле
+            document.getElementById('batchInput').value = '';
+            
+            showNotification(`🚀 Добавлено ${addedCount} строк! Теперь можете добавить переводы.`);
+        }
+        
+        // Функция для редактирования строки
+        function editLine(button) {
+            const lineElement = button.parentElement;
+            const koreanLine = lineElement.querySelector('.korean-line');
+            const translation = lineElement.querySelector('.translation');
+            const pronunciation = lineElement.querySelector('.pronunciation');
+            
+            const newKorean = prompt('Редактировать текст:', koreanLine.textContent.trim());
+            const newTranslation = prompt('Редактировать перевод:', translation.textContent.trim());
+            const newPronunciation = prompt('Редактировать произношение:', pronunciation.textContent.trim());
+            
+            if (newKorean !== null && newKorean.trim()) {
+                koreanLine.innerHTML = createInteractiveWords(newKorean.trim());
+            }
+            if (newTranslation !== null) {
+                translation.textContent = newTranslation;
+            }
+            if (newPronunciation !== null) {
+                pronunciation.textContent = newPronunciation;
+            }
+            
+            // Обновляем обработчики
+            updateWordEventListeners();
+            showNotification('✏️ Строка обновлена!');
+        }
+    </script>
+</body>
+</html>

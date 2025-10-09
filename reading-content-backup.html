@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 Чтение - Изучение корейского</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .level-info {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .translation-header {
+            background: #e3f2fd;
+            padding: 15px 30px;
+            border-bottom: 1px solid #bbdefb;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1976d2;
+            text-align: center;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .story-container {
+            padding: 30px;
+        }
+
+        .story-meta {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .story-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .story-subtitle {
+            color: #667eea;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .korean-content {
+            font-size: 18px;
+            line-height: 2;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .korean-word {
+            display: inline;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 3px;
+            padding: 2px 1px;
+            position: relative;
+        }
+
+        .korean-word:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .korean-word.clicked {
+            background: #c8e6c9;
+            color: #388e3c;
+        }
+
+        .translation-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+            display: none;
+        }
+
+        .translation-section.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .translation-title {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .translation-text {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .quiz-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid #e9ecef;
+        }
+
+        .quiz-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quiz-question {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 18px;
+        }
+
+        .quiz-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .quiz-option:hover {
+            border-color: #667eea;
+            background: #e3f2fd;
+        }
+
+        .quiz-option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .quiz-option.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+
+        .quiz-option.incorrect {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+
+        .quiz-result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .quiz-result.correct {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #4caf50;
+        }
+
+        .quiz-result.incorrect {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #f44336;
+        }
+
+        .vocab-cards {
+            margin-top: 30px;
+        }
+
+        .vocab-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .vocab-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .vocab-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .vocab-korean {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .vocab-translation {
+            color: #667eea;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .vocab-pronunciation {
+            color: #6c757d;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .controls {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 20px;
+            border-top: 1px solid #eee;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .control-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .control-btn.secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+        }
+
+        .control-btn.secondary:hover {
+            background: #6c757d;
+            color: white;
+        }
+
+        .control-btn.loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn.loading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .control-btn.playing {
+            background: #28a745;
+            border-color: #28a745;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 0;
+                box-shadow: none;
+            }
+            
+            .story-container {
+                padding: 20px;
+            }
+            
+            .korean-content {
+                font-size: 16px;
+                line-height: 1.8;
+            }
+            
+            .controls-row {
+                gap: 8px;
+            }
+            
+            .control-btn {
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+            
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <a href="#" class="back-btn" id="backBtn">← Назад</a>
+                <div class="level-info">
+                    <span class="badge" id="levelBadge">1급</span>
+                    <span class="badge" id="categoryBadge">О себе</span>
+                    <span class="badge" id="textCounter">1/3</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="translation-header" id="translationHeader">
+            Перевод появится здесь при клике на слово
+        </div>
+
+        <div class="story-container">
+            <div class="story-meta">
+                <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px;">
+                    <div style="flex: 1;">
+                        <h1 class="story-title" id="storyTitle">Загрузка...</h1>
+                        <div class="story-subtitle" id="storySubtitle">한국어 이야기</div>
+                    </div>
+                    <div id="storyImage" style="display: none;">
+                        <img src="" alt="" style="width: 120px; height: 80px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 2px solid #667eea;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="korean-content" id="koreanContent">
+                Загрузка текста...
+            </div>
+
+            <div class="translation-section" id="translationSection">
+                <div class="translation-title">📝 Полный перевод</div>
+                <div class="translation-text" id="translationText">
+                    Загрузка перевода...
+                </div>
+            </div>
+
+            <div class="quiz-section" id="quizSection" style="display: none;">
+                <div class="quiz-title">
+                    🧠 тест на понимание
+                </div>
+                <div id="quizContent">
+                    <!-- Quiz questions will be inserted here -->
+                </div>
+            </div>
+
+            <div class="vocab-cards" id="vocabSection" style="display: none;">
+                <div class="vocab-title">
+                    🎴 Изученные слова
+                </div>
+                <div class="vocab-grid" id="vocabGrid">
+                    <!-- Vocabulary cards will be inserted here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="controls-row">
+                <button class="control-btn" onclick="toggleTranslation()">
+                    <span>👁️</span> Полный перевод
+                </button>
+                <button class="control-btn" onclick="toggleQuiz()" id="quizBtn">
+                    <span>🧠</span> Тест
+                </button>
+                <button class="control-btn secondary" onclick="playAudio()">
+                    <span>🔊</span> Аудио
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedLevel = parseInt(urlParams.get('level')) || 1;
+        const selectedCategory = urlParams.get('category') || 'personal';
+        const selectedTextId = urlParams.get('textId') || null;
+        
+        let currentTextIndex = 0;
+        let translationVisible = false;
+        let quizVisible = false;
+        let vocabVisible = false;
+        let learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
+        
+        // Quiz variables
+        let currentQuestionIndex = 0;
+        let quizAnswers = [];
+        let currentQuiz = [];
+
+        // ВОССТАНОВЛЕННАЯ база данных текстов
+        const storyDatabase = {
+            1: {
+                personal: [
+                    {
+                        id: 'personal-1',
+                        title: "Мое знакомство с Кореей",
+                        subtitle: "한국과의 첫 만남",
+                        korean: `<span class="korean-word" data-translation="Здравствуйте" data-pronunciation="안녕하세요 [annyeonghaseyo]">안녕하세요</span>! <span class="korean-word" data-translation="я" data-pronunciation="저는 [jeoneun]">저는</span> <span class="korean-word" data-translation="Мария" data-pronunciation="마리아 [maria]">마리아</span><span class="korean-word" data-translation="есть" data-pronunciation="입니다 [imnida]">입니다</span>. <span class="korean-word" data-translation="Россия" data-pronunciation="러시아 [reosia]">러시아</span><span class="korean-word" data-translation="из" data-pronunciation="에서 [eseo]">에서</span> <span class="korean-word" data-translation="приехала" data-pronunciation="왔어요 [wassseoyo]">왔어요</span>. <span class="korean-word" data-translation="в прошлом году" data-pronunciation="작년 [jangnyeon]">작년</span><span class="korean-word" data-translation="에" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="впервые" data-pronunciation="처음 [cheoeum]">처음</span> <span class="korean-word" data-translation="корейскую" data-pronunciation="한국 [hanguk]">한국</span> <span class="korean-word" data-translation="дораму" data-pronunciation="드라마 [deurama]">드라마</span><span class="korean-word" data-translation="를" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="посмотрела" data-pronunciation="봤어요 [bwassseoyo]">봤어요</span>. 
+
+<span class="korean-word" data-translation="с тех пор" data-pronunciation="그때부터 [geuttaebuteo]">그때부터</span> <span class="korean-word" data-translation="корейским языком" data-pronunciation="한국어 [hangugeo]">한국어</span><span class="korean-word" data-translation="에" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="интерес" data-pronunciation="관심이 [gwansimi]">관심이</span> <span class="korean-word" data-translation="появился" data-pronunciation="생겼어요 [saenggyeosseoyo]">생겼어요</span>. <span class="korean-word" data-translation="каждый день" data-pronunciation="매일 [maeil]">매일</span> <span class="korean-word" data-translation="по часу" data-pronunciation="한 시간씩 [han sigansik]">한 시간씩</span> <span class="korean-word" data-translation="изучаю" data-pronunciation="공부해요 [gongbuhaeyo]">공부해요</span>. <span class="korean-word" data-translation="хангыль" data-pronunciation="한글 [hangeul]">한글</span><span class="korean-word" data-translation="을" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="изучать" data-pronunciation="배우는 [baeuneun]">배우는</span> <span class="korean-word" data-translation="것" data-pronunciation="것 [geot]">것</span><span class="korean-word" data-translation="이" data-pronunciation="이 [i]">이</span> <span class="korean-word" data-translation="очень" data-pronunciation="정말 [jeongmal]">정말</span> <span class="korean-word" data-translation="интересно" data-pronunciation="재미있어요 [jaemiisseoyo]">재미있어요</span>.
+
+<span class="korean-word" data-translation="сейчас" data-pronunciation="지금 [jigeum]">지금</span><span class="korean-word" data-translation="은" data-pronunciation="은 [eun]">은</span> <span class="korean-word" data-translation="простые" data-pronunciation="간단한 [gandanhan]">간단한</span> <span class="korean-word" data-translation="предложения" data-pronunciation="문장 [munjang]">문장</span><span class="korean-word" data-translation="을" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="читать" data-pronunciation="읽을 [ilgeul]">읽을</span> <span class="korean-word" data-translation="могу" data-pronunciation="수 [su]">수</span> <span class="korean-word" data-translation="있어요" data-pronunciation="있어요 [isseoyo]">있어요</span>. <span class="korean-word" data-translation="в следующем году" data-pronunciation="내년 [naenyeon]">내년</span><span class="korean-word" data-translation="에" data-pronunciation="에 [e]">에</span><span class="korean-word" data-translation="는" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="в Сеул" data-pronunciation="서울 [seoul]">서울</span><span class="korean-word" data-translation="에" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="в путешествие" data-pronunciation="여행 [yeohaeng]">여행</span> <span class="korean-word" data-translation="поехать" data-pronunciation="가고 [gago]">가고</span> <span class="korean-word" data-translation="хочу" data-pronunciation="싶어요 [sipeoyo]">싶어요</span>. <span class="korean-word" data-translation="там" data-pronunciation="그곳 [geugeot]">그곳</span><span class="korean-word" data-translation="에서" data-pronunciation="에서 [eseo]">에서</span> <span class="korean-word" data-translation="напрямую" data-pronunciation="직접 [jikjeop]">직접</span> <span class="korean-word" data-translation="на корейском" data-pronunciation="한국어 [hangugeo]">한국어</span><span class="korean-word" data-translation="로" data-pronunciation="로 [ro]">로</span> <span class="korean-word" data-translation="разговаривать" data-pronunciation="이야기하고 [iyagihago]">이야기하고</span> <span class="korean-word" data-translation="хочу" data-pronunciation="싶어요 [sipeoyo]">싶어요</span>!`,
+                        translation: "Привет! Меня зовут Мария. Я приехала из России. В прошлом году впервые посмотрела корейскую дораму. С тех пор заинтересовалась корейским языком. Каждый день изучаю по часу. Изучение хангыля действительно интересно. Сейчас могу читать простые предложения. В следующем году хочу поехать в Сеул. Там хочу напрямую разговаривать на корейском языке!",
+                        quiz: [
+                            {
+                                question: "러시아에서 온 사람은 누구입니까? (Кто приехал из России?)",
+                                options: ["민수", "마리아", "철수", "영희"],
+                                correct: 1
+                            },
+                            {
+                                question: "마리아가 한국어에 관심을 갖게 된 이유는? (Почему Мария заинтересовалась корейским языком?)",
+                                options: ["K-POP 때문에", "한국 드라마 때문에", "한국 음식 때문에", "일 때문에"],
+                                correct: 1
+                            },
+                            {
+                                question: "마리아가 내년에 가고 싶은 곳은? (Куда хочет поехать Мария в следующем году?)",
+                                options: ["부산", "대구", "서울", "인천"],
+                                correct: 2
+                            },
+                            {
+                                question: "마리아는 매일 얼마나 공부합니까? (Сколько времени Мария изучает корейский каждый день?)",
+                                options: ["30분", "한 시간", "두 시간", "세 시간"],
+                                correct: 1
+                            }
+                        ]
+                    },
+                    {
+                        id: 'stories-2',
+                        title: "Неожиданная встреча",
+                        subtitle: "예상치 못한 만남",
+                        korean: `<span class="korean-word" data-translation="сегодня" data-pronunciation="오늘 [oneul]">오늘</span> <span class="korean-word" data-translation="книжный магазин" data-pronunciation="서점 [seojeom]">서점</span><span class="korean-word" data-translation="에" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="갔어요" data-pronunciation="갔어요 [gassseoyo]">갔어요</span>. <span class="korean-word" data-translation="новую" data-pronunciation="새로운 [saeroun]">새로운</span> <span class="korean-word" data-translation="книгу" data-pronunciation="책을 [chaegeul]">책을</span> <span class="korean-word" data-translation="사고" data-pronunciation="사고 [sago]">사고</span> <span class="korean-word" data-translation="싶었어요" data-pronunciation="싶었어요 [sipeosseoyo]">싶었어요</span>.
+
+<span class="korean-word" data-translation="корейский язык" data-pronunciation="한국어 [hangugeo]">한국어</span> <span class="korean-word" data-translation="учебник" data-pronunciation="교재 [gyojae]">교재</span><span class="korean-word" data-translation="를" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="찾고" data-pronunciation="찾고 [chajgo]">찾고</span> <span class="korean-word" data-translation="있었는데" data-pronunciation="있었는데 [isseonnneunde]">있었는데</span>, <span class="korean-word" data-translation="갑자기" data-pronunciation="갑자기 [gapjagi]">갑자기</span> “<span class="korean-word" data-translation="안녕하세요" data-pronunciation="안녕하세요 [annyeonghaseyo]">안녕하세요</span>!” <span class="korean-word" data-translation="라는" data-pronunciation="라는 [raneun]">라는</span> <span class="korean-word" data-translation="목소리" data-pronunciation="목소리가 [moksoriga]">목소리가</span> <span class="korean-word" data-translation="들렸어요" data-pronunciation="들렸어요 [deullyeosseoyo]">들렸어요</span>.
+
+<span class="korean-word" data-translation="돌아보니" data-pronunciation="돌아보니 [doraboni]">돌아보니</span> <span class="korean-word" data-translation="고등학교" data-pronunciation="고등학교 [godeunghakgyo]">고등학교</span> <span class="korean-word" data-translation="친구" data-pronunciation="친구 [chingu]">친구</span> <span class="korean-word" data-translation="민수" data-pronunciation="민수가 [minsuga]">민수가</span> <span class="korean-word" data-translation="있었어요" data-pronunciation="있었어요 [isseosseoyo]">있었어요</span>! <span class="korean-word" data-translation="우리는" data-pronunciation="우리는 [urineun]">우리는</span> <span class="korean-word" data-translation="삼 년" data-pronunciation="삼 년 [sam nyeon]">삼 년</span> <span class="korean-word" data-translation="동안" data-pronunciation="동안 [dongan]">동안</span> <span class="korean-word" data-translation="못" data-pronunciation="못 [mot]">못</span> <span class="korean-word" data-translation="만났어요" data-pronunciation="만났어요 [mannasseoyo]">만났어요</span>.
+
+<span class="korean-word" data-translation="그는" data-pronunciation="그는 [geuneun]">그는</span> <span class="korean-word" data-translation="지금" data-pronunciation="지금 [jigeum]">지금</span> <span class="korean-word" data-translation="대학생" data-pronunciation="대학생이고 [daehaksaengigo]">대학생이고</span>, <span class="korean-word" data-translation="저도" data-pronunciation="저도 [jeodo]">저도</span> <span class="korean-word" data-translation="대학생" data-pronunciation="대학생이에요 [daehaksaengieyo]">대학생이에요</span>. <span class="korean-word" data-translation="오랜만에" data-pronunciation="오랜만에 [oraenmane]">오랜만에</span> <span class="korean-word" data-translation="만나서" data-pronunciation="만나서 [mannaseo]">만나서</span> <span class="korean-word" data-translation="정말" data-pronunciation="정말 [jeongmal]">정말</span> <span class="korean-word" data-translation="반가웠어요" data-pronunciation="반가웠어요 [bangawosseoyo]">반가웠어요</span>! <span class="korean-word" data-translation="그날" data-pronunciation="그날 [geunal]">그날</span> <span class="korean-word" data-translation="저녁" data-pronunciation="저녁에 [jeonyeoge]">저녁에</span> <span class="korean-word" data-translation="같이" data-pronunciation="같이 [gachi]">같이</span> <span class="korean-word" data-translation="식사하고" data-pronunciation="식사하고 [siksahago]">식사하고</span> <span class="korean-word" data-translation="옮은" data-pronunciation="옮은 [jeogeun]">옮은</span> <span class="korean-word" data-translation="이야기" data-pronunciation="이야기를 [iyagireul]">이야기를</span> <span class="korean-word" data-translation="많이" data-pronunciation="많이 [mani]">많이</span> <span class="korean-word" data-translation="했어요" data-pronunciation="했어요 [haesseoyo]">했어요</span>.`,
+                        translation: "Сегодня я пошел в книжный магазин. Я хотел купить новую книгу. Я искал учебник корейского языка, когда внезапно услышал: 'Привет!' Обернувшись, я увидел своего школьного друга Минсу! Мы не виделись три года. Он сейчас студент, и я тоже студент. Мы были очень рады встрече после долгого времени! В тот вечер мы поужинали вместе и много говорили о прошлом.",
+                        quiz: [
+                            {
+                                question: "어디에서 만났습니까? (Где они встретились?)",
+                                options: ["서점에서", "카페에서", "학교에서", "도서관에서"],
+                                correct: 0
+                            },
+                            {
+                                question: "몇 년 동안 못 만났습니까? (Сколько лет они не виделись?)",
+                                options: ["이 년", "삼 년", "네 년", "다섯 년"],
+                                correct: 1
+                            },
+                            {
+                                question: "친구의 이름은 무엇입니까? (Как зовут друга?)",
+                                options: ["민수", "민호", "지훈", "지민"],
+                                correct: 0
+                            },
+                            {
+                                question: "그날 저녁에 무엇을 했습니까? (Что они делали в тот вечер?)",
+                                options: ["영화를 봤다", "같이 식사했다", "노래방에 갔다", "집에 갔다"],
+                                correct: 1
+                            }
+                        ]
+                    },
+                    {
+                        id: 'personal-2',
+                        title: "Моя корейская семья",
+                        subtitle: "나의 한국 가족",
+                        korean: `<span class="korean-word" data-translation="Здравствуйте" data-pronunciation="안녕하세요 [annyeonghaseyo]">안녕하세요</span>! <span class="korean-word" data-translation="мою" data-pronunciation="저의 [jeoui]">저의</span> <span class="korean-word" data-translation="семью" data-pronunciation="가족 [gajok]">가족</span><span class="korean-word" data-translation="을" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="представить" data-pronunciation="소개 [sogae]">소개</span><span class="korean-word" data-translation="хочу" data-pronunciation="싶어요 [sipeoyo]">싶어요</span>. <span class="korean-word" data-translation="наша" data-pronunciation="우리 [uri]">우리</span> <span class="korean-word" data-translation="семья" data-pronunciation="가족 [gajok]">가족</span><span class="korean-word" data-translation="은" data-pronunciation="은 [eun]">은</span> <span class="korean-word" data-translation="пять" data-pronunciation="다섯 [daseot]">다섯</span> <span class="korean-word" data-translation="человек" data-pronunciation="명 [myeong]">명</span><span class="korean-word" data-translation="이에요" data-pronunciation="이에요 [ieyo]">이에요</span>.
+
+<span class="korean-word" data-translation="папа" data-pronunciation="아버지 [abeoji]">아버지</span><span class="korean-word" data-translation="는" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="врач" data-pronunciation="의사 [uisa]">의사</span><span class="korean-word" data-translation="이고" data-pronunciation="이고 [igo]">이고</span>, <span class="korean-word" data-translation="мама" data-pronunciation="어머니 [eomeoni]">어머니</span><span class="korean-word" data-translation="는" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="учительница" data-pronunciation="선생님 [seonsaengnim]">선생님</span><span class="korean-word" data-translation="이에요" data-pronunciation="이에요 [ieyo]">이에요</span>. <span class="korean-word" data-translation="старшая сестра" data-pronunciation="누나 [nuna]">누나</span><span class="korean-word" data-translation="는" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="университет" data-pronunciation="대학교 [daehakgyo]">대학교</span><span class="korean-word" data-translation="에서" data-pronunciation="에서 [eseo]">에서</span> <span class="korean-word" data-translation="медицину" data-pronunciation="의학 [uihak]">의학</span><span class="korean-word" data-translation="을" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="изучает" data-pronunciation="공부해요 [gongbuhaeyo]">공부해요</span>.
+
+<span class="korean-word" data-translation="бабушка" data-pronunciation="할머니 [halmeoni]">할머니</span><span class="korean-word" data-translation="는" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="семьдесят пять" data-pronunciation="일흔다섯 [ilheundaseot]">일흔다섯</span> <span class="korean-word" data-translation="лет" data-pronunciation="살 [sal]">살</span><span class="korean-word" data-translation="이시고" data-pronunciation="이시고 [isigo]">이시고</span> <span class="korean-word" data-translation="нами" data-pronunciation="우리 [uri]">우리</span><span class="korean-word" data-translation="와" data-pronunciation="와 [wa]">와</span> <span class="korean-word" data-translation="вместе" data-pronunciation="함께 [hamkke]">함께</span> <span class="korean-word" data-translation="живет" data-pronunciation="살아요 [salayo]">살아요</span>. <span class="korean-word" data-translation="я" data-pronunciation="저 [jeo]">저</span><span class="korean-word" data-translation="는" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="корейский язык" data-pronunciation="한국어 [hangugeo]">한국어</span><span class="korean-word" data-translation="를" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="изучаю" data-pronunciation="배우고 있어요 [baeugo isseoyo]">배우고 있어요</span>. <span class="korean-word" data-translation="всех" data-pronunciation="모든 [modeun]">모든</span> <span class="korean-word" data-translation="членов семьи" data-pronunciation="가족 [gajok]">가족</span><span class="korean-word" data-translation="을" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="очень" data-pronunciation="정말 [jeongmal]">정말</span> <span class="korean-word" data-translation="люблю" data-pronunciation="사랑해요 [saranghaeyo]">사랑해요</span>!`,
+                        translation: "Привет! Я хочу представить свою семью. В нашей семье пять человек. Папа - врач, а мама - учительница. Старшая сестра изучает медицину в университете. Бабушке семьдесят пять лет, и она живет вместе с нами. Я изучаю корейский язык. Я очень люблю всех членов семьи!",
+                        quiz: [
+                            {
+                                question: "가족이 몇 명입니까? (Сколько человек в семье?)",
+                                options: ["네 명", "다섯 명", "여섯 명", "세 명"],
+                                correct: 1
+                            },
+                            {
+                                question: "무엇을 소개하고 싶어요? (Что хочет представить?)",
+                                options: ["친구", "가족", "학교", "회사"],
+                                correct: 1
+                            },
+                            {
+                                question: "누가 가족을 소개합니까? (Кто представляет семью?)",
+                                options: ["아버지", "어머니", "저", "누나"],
+                                correct: 2
+                            },
+                            {
+                                question: "어머니는 무슨 일을 하십니까? (Кем работает мама?)",
+                                options: ["의사", "선생님", "요리사", "판매원"],
+                                correct: 1
+                            }
+                        ]
+                    },
+                    {
+                        id: 'personal-3',
+                        title: "Мои увлечения и хобби",
+                        subtitle: "나의 취미와 관심사",
+                        korean: `<span class="korean-word" data-translation="я" data-pronunciation="저 [jeo]">저</span><span class="korean-word" data-translation="는" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="разные" data-pronunciation="다양한 [dayanghan]">다양한</span> <span class="korean-word" data-translation="хобби" data-pronunciation="취미 [chwimi]">취미</span><span class="korean-word" data-translation="가" data-pronunciation="가 [ga]">가</span> <span class="korean-word" data-translation="есть" data-pronunciation="있어요 [isseoyo]">있어요</span>. <span class="korean-word" data-translation="особенно" data-pronunciation="특히 [teukhi]">특히</span> <span class="korean-word" data-translation="музыка" data-pronunciation="음악 [eumak]">음악</span> <span class="korean-word" data-translation="слушать" data-pronunciation="듣기 [deutgi]">듣기</span><span class="korean-word" data-translation="를" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="люблю" data-pronunciation="좋아해요 [joahaeyo]">좋아해요</span>.
+
+<span class="korean-word" data-translation="каждый день" data-pronunciation="매일 [maeil]">매일</span> <span class="korean-word" data-translation="K-POP" data-pronunciation="케이팝 [keipap]">케이팝</span><span class="korean-word" data-translation="을" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="слушаю" data-pronunciation="들어요 [deureoyo]">들어요</span>. <span class="korean-word" data-translation="BTS" data-pronunciation="방탄소년단 [bangtansonyeondan]">방탄소년단</span><span class="korean-word" data-translation="과" data-pronunciation="과 [gwa]">과</span> <span class="korean-word" data-translation="BLACKPINK" data-pronunciation="블랙핑크 [beullaekpingkeu]">블랙핑크</span><span class="korean-word" data-translation="를" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="особенно" data-pronunciation="특히 [teukhi]">특히</span> <span class="korean-word" data-translation="люблю" data-pronunciation="좋아해요 [joahaeyo]">좋아해요</span>.
+
+<span class="korean-word" data-translation="книги" data-pronunciation="책 [chaek]">책</span> <span class="korean-word" data-translation="читать" data-pronunciation="읽기 [ilkgi]">읽기</span><span class="korean-word" data-translation="도" data-pronunciation="도 [do]">도</span> <span class="korean-word" data-translation="люблю" data-pronunciation="좋아해요 [joahaeyo]">좋아해요</span>. <span class="korean-word" data-translation="в месяц" data-pronunciation="한 달에 [han dare]">한 달에</span> <span class="korean-word" data-translation="три" data-pronunciation="세 [se]">세</span> <span class="korean-word" data-translation="книги" data-pronunciation="권 [gwon]">권</span> <span class="korean-word" data-translation="примерно" data-pronunciation="정도 [jeongdo]">정도</span> <span class="korean-word" data-translation="читаю" data-pronunciation="읽어요 [ilgeoyo]">읽어요</span>. <span class="korean-word" data-translation="выходные" data-pronunciation="주말 [jumal]">주말</span><span class="korean-word" data-translation="에" data-pronunciation="에 [e]">에</span><span class="korean-word" data-translation="는" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="футбол" data-pronunciation="축구 [chukgu]">축구</span><span class="korean-word" data-translation="를" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="играю" data-pronunciation="해요 [haeyo]">해요</span>. <span class="korean-word" data-translation="друзья" data-pronunciation="친구들 [chingudeul]">친구들</span><span class="korean-word" data-translation="과" data-pronunciation="과 [gwa]">과</span> <span class="korean-word" data-translation="вместе" data-pronunciation="함께 [hamkke]">함께</span> <span class="korean-word" data-translation="играя" data-pronunciation="하면 [hamyeon]">하면</span> <span class="korean-word" data-translation="очень" data-pronunciation="정말 [jeongmal]">정말</span> <span class="korean-word" data-translation="весело" data-pronunciation="재미있어요 [jaemiisseoyo]">재미있어요</span>!`,
+                        translation: "У меня есть различные хобби. Особенно люблю слушать музыку. Каждый день слушаю K-POP. Особенно люблю BTS и BLACKPINK. Люблю также читать книги. В месяц читаю примерно три книги. По выходным играю в футбол. Когда играю с друзьями, это очень весело!",
+                        quiz: [
+                            {
+                                question: "가장 좋아하는 취미는 무엇입니까? (Какое самое любимое хобби?)",
+                                options: ["책 읽기", "음악 듣기", "축구하기", "영화 보기"],
+                                correct: 1
+                            },
+                            {
+                                question: "한 달에 몇 권의 책을 읽습니까? (Сколько книг читает в месяц?)",
+                                options: ["두 권", "세 권", "네 권", "다섯 권"],
+                                correct: 1
+                            },
+                            {
+                                question: "언제 축구를 합니까? (Когда играет в футбол?)",
+                                options: ["매일", "저녁에", "주말에", "아침에"],
+                                correct: 2
+                            },
+                            {
+                                question: "어떤 가수를 자주 들습니까? (Каких исполнителей часто слушает?)",
+                                options: ["IU와 빅뱅", "BTS와 블랙핑크", "aespa와 소녀시대", "NCT와 TWICE"],
+                                correct: 1
+                            }
+                        ]
+                    }
+                ],
+                stories: [
+                    {
+                        id: 'stories-1',
+                        title: "Забавная история в кафе",
+                        subtitle: "카페에서 일어난 재미있는 일",
+                        korean: `<span class="korean-word" data-translation="вчера" data-pronunciation="어제 [eoje]">어제</span> <span class="korean-word" data-translation="друг" data-pronunciation="친구 [chingu]">친구</span><span class="korean-word" data-translation="с" data-pronunciation="와 [wa]">와</span> <span class="korean-word" data-translation="вместе" data-pronunciation="함께 [hamkke]">함께</span> <span class="korean-word" data-translation="новое" data-pronunciation="새로운 [saeroun]">새로운</span> <span class="korean-word" data-translation="кафе" data-pronunciation="카페 [kape]">카페</span><span class="korean-word" data-translation="в" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="пошел" data-pronunciation="갔어요 [gassseoyo]">갔어요</span>. <span class="korean-word" data-translation="это" data-pronunciation="그곳은 [geugeoseun]">그곳은</span> <span class="korean-word" data-translation="кошачье" data-pronunciation="고양이 [goyangyi]">고양이</span> <span class="korean-word" data-translation="кафе" data-pronunciation="카페 [kape]">카페</span><span class="korean-word" data-translation="было" data-pronunciation="였어요 [yeosseoyo]">였어요</span>. 
+
+<span class="korean-word" data-translation="там" data-pronunciation="그곳에 [geugeose]">그곳에</span> <span class="korean-word" data-translation="는" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="белая" data-pronunciation="하얀 [hayan]">하얀</span> <span class="korean-word" data-translation="кошка" data-pronunciation="고양이 [goyangyi]">고양이</span><span class="korean-word" data-translation="가" data-pronunciation="가 [ga]">가</span> <span class="korean-word" data-translation="была" data-pronunciation="있었어요 [isseosseoyo]">있었어요</span>. <span class="korean-word" data-translation="когда" data-pronunciation="커피를 [keopireul]">커피를</span> <span class="korean-word" data-translation="мы" data-pronunciation="마시고 [masigo]">마시고</span> <span class="korean-word" data-translation="были" data-pronunciation="있었는데 [isseonnneunde]">있었는데</span>, <span class="korean-word" data-translation="внезапно" data-pronunciation="갑자기 [gapjagi]">갑자기</span> <span class="korean-word" data-translation="та" data-pronunciation="그 [geu]">그</span> <span class="korean-word" data-translation="кошка" data-pronunciation="고양이가 [goyangiga]">고양이가</span> <span class="korean-word" data-translation="лапу" data-pronunciation="발을 [bareul]">발을</span> <span class="korean-word" data-translation="кофе" data-pronunciation="커피 [keopi]">커피</span> <span class="korean-word" data-translation="в" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="сунула" data-pronunciation="넣었어요 [neoheosseoyo]">넣었어요</span>!
+
+<span class="korean-word" data-translation="люди" data-pronunciation="사람들이 [saramdeuri]">사람들이</span> <span class="korean-word" data-translation="все" data-pronunciation="모두 [modu]">모두</span> <span class="korean-word" data-translation="смеяться" data-pronunciation="웃기 [utgi]">웃기</span> <span class="korean-word" data-translation="начали" data-pronunciation="시작했어요 [sijakaesseoyo]">시작했어요</span>. <span class="korean-word" data-translation="кошка" data-pronunciation="고양이도 [goyangido]">고양이도</span> <span class="korean-word" data-translation="очень" data-pronunciation="매우 [maeu]">매우</span> <span class="korean-word" data-translation="удивленной" data-pronunciation="놀람 [nollam]">놀란</span> <span class="korean-word" data-translation="выглядела" data-pronunciation="보였어요 [boyeosseoyo]">보였어요</span>. <span class="korean-word" data-translation="мы" data-pronunciation="우리도 [urido]">우리도</span> <span class="korean-word" data-translation="очень" data-pronunciation="매우 [maeu]">매우</span> <span class="korean-word" data-translation="весело" data-pronunciation="재미있는 [jaemiinneun]">재미있는</span> <span class="korean-word" data-translation="время" data-pronunciation="시간을 [siganeul]">시간을</span> <span class="korean-word" data-translation="провели" data-pronunciation="보냈어요 [bonaesseoyo]">보냈어요</span>!`,
+                        translation: "Вчера с другом пошел в новое кафе. Это было кошачье кафе. Там была белая кошка. Когда мы пили кофе, внезапно та кошка сунула лапу в кофе! Все люди начали смеяться. Кошка тоже выглядела очень удивленной. Мы также очень весело провели время!",
+                        quiz: [
+                            {
+                                question: "어디에 갔습니까? (Куда пошел?)",
+                                options: ["식당", "고양이 카페", "도서관", "공원"],
+                                correct: 1
+                            },
+                            {
+                                question: "하얀 고양이가 무엇을 했습니까? (Что сделала белая кошка?)",
+                                options: ["도망갔다", "발을 커피에 넣었다", "잠들었다", "울었다"],
+                                correct: 1
+                            },
+                            {
+                                question: "사람들은 어떻게 반응했습니까? (Как отреагировали люди?)",
+                                options: ["무서워했다", "웃기 시작했다", "나갔다", "아무것도 안 했다"],
+                                correct: 1
+                            },
+                            {
+                                question: "누구와 함께 갔습니까? (С кем пошел?)",
+                                options: ["가족과", "친구와", "혼자", "선생님과"],
+                                correct: 1
+                            }
+                        ]
+                    }
+                ],
+                culture: [
+                    {
+                        id: 'culture-1',
+                        title: "Корейский Новый год",
+                        subtitle: "한국의 설날",
+                        korean: `<span class="korean-word" data-translation="Корея" data-pronunciation="한국 [hanguk]">한국</span><span class="korean-word" data-translation="в" data-pronunciation="에서 [eseo]">에서</span> <span class="korean-word" data-translation="самый" data-pronunciation="가장 [gajang]">가장</span> <span class="korean-word" data-translation="важный" data-pronunciation="중요한 [jungyohan]">중요한</span> <span class="korean-word" data-translation="праздник" data-pronunciation="명절 [myeongjeol]">명절</span><span class="korean-word" data-translation="은" data-pronunciation="은 [eun]">은</span> <span class="korean-word" data-translation="Новый год" data-pronunciation="설날 [seolnal]">설날</span><span class="korean-word" data-translation="является" data-pronunciation="입니다 [imnida]">입니다</span>. <span class="korean-word" data-translation="семья" data-pronunciation="가족들이 [gajokdeuri]">가족들이</span> <span class="korean-word" data-translation="все" data-pronunciation="모두 [modu]">모두</span> <span class="korean-word" data-translation="собираются" data-pronunciation="모여요 [moyeoyo]">모여요</span>.
+
+<span class="korean-word" data-translation="утром" data-pronunciation="아침에 [achime]">아침에</span> <span class="korean-word" data-translation="предкам" data-pronunciation="조상님께 [josangnim-kke]">조상님께</span> <span class="korean-word" data-translation="чарье" data-pronunciation="차례를 [charyereul]">차례를</span> <span class="korean-word" data-translation="проводят" data-pronunciation="지내요 [jinaeyo]">지내요</span>. <span class="korean-word" data-translation="потом" data-pronunciation="그리고 [geurigo]">그리고</span> <span class="korean-word" data-translation="суп с рисовыми клецками" data-pronunciation="떡국을 [tteokgugeul]">떡국을</span> <span class="korean-word" data-translation="едят" data-pronunciation="먹어요 [meogeoyo]">먹어요</span>. <span class="korean-word" data-translation="рисовый суп" data-pronunciation="떡국을 [tteokgugeul]">떡국을</span> <span class="korean-word" data-translation="съесть" data-pronunciation="먹으면 [meogeumyeon]">먹으면</span> <span class="korean-word" data-translation="возраст" data-pronunciation="나이가 [naiga]">나이가</span> <span class="korean-word" data-translation="один год" data-pronunciation="한 살 [han sal]">한 살</span> <span class="korean-word" data-translation="больше" data-pronunciation="더 [deo]">더</span> <span class="korean-word" data-translation="съедают" data-pronunciation="먹는다고 [meongneundago]">먹는다고</span> <span class="korean-word" data-translation="говорят" data-pronunciation="해요 [haeyo]">해요</span>.
+
+<span class="korean-word" data-translation="дети" data-pronunciation="아이들은 [aideureun]">아이들은</span> <span class="korean-word" data-translation="старшим" data-pronunciation="어른들께 [eoreundeul-kke]">어른들께</span> <span class="korean-word" data-translation="поклон" data-pronunciation="세배를 [saebaereul]">세배를</span> <span class="korean-word" data-translation="делают" data-pronunciation="드려요 [deuryeoyo]">드려요</span>. <span class="korean-word" data-translation="тогда" data-pronunciation="그러면 [geureomyeon]">그러면</span> <span class="korean-word" data-translation="новогодние деньги" data-pronunciation="세뱃돈을 [saebaetdoneul]">세뱃돈을</span> <span class="korean-word" data-translation="получают" data-pronunciation="받아요 [badayo]">받아요</span>. <span class="korean-word" data-translation="Новый год" data-pronunciation="설날은 [seollaleun]">설날은</span> <span class="korean-word" data-translation="очень" data-pronunciation="정말 [jeongmal]">정말</span> <span class="korean-word" data-translation="счастливый" data-pronunciation="행복한 [haengbokan]">행복한</span> <span class="korean-word" data-translation="день" data-pronunciation="날이에요 [narieyo]">날이에요</span>!`,
+                        translation: "Самый важный праздник в Корее — это Соллаль (корейский Новый год). Вся семья собирается вместе. Утром проводят чарье для предков. Потом едят суп с рисовыми клецками. Говорят, что если съесть рисовый суп, то станешь на год старше. Дети делают поклоны старшим. Тогда получают новогодние деньги. Соллаль — действительно счастливый день!",
+                        quiz: [
+                            {
+                                question: "한국의 설날은 언제입니까? (Когда отмечается корейский Новый год?)",
+                                options: ["양력 1월 1일", "음력 1월 1일", "12월 31일", "1월 15일"],
+                                correct: 1
+                            },
+                            {
+                                question: "차례는 무엇입니까? (Что такое чарье?)",
+                                options: ["어른들께 절하기", "조상님께 감사하는 의식", "세뱃돈", "전통 음식"],
+                                correct: 1
+                            },
+                            {
+                                question: "나이를 한 살 더 먹으려면 무엇을 먹어야 합니까? (Что нужно съесть, чтобы стать старше?)",
+                                options: ["밥", "떡국", "김치", "귤"],
+                                correct: 1
+                            },
+                            {
+                                question: "세뱃돈은 누가 누구에게 줍니까? (Кто кому даёт новогодние деньги?)",
+                                options: ["아이들이 어른들에게", "어른들이 아이들에게", "친구들이 서로", "이웃들이 서로"],
+                                correct: 1
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Category names
+        const categoryNames = {
+            personal: 'О себе',
+            stories: 'Рассказы', 
+            culture: 'Культура',
+            science: 'Наука',
+            travel: 'Путешествия',
+            food: 'Еда'
+        };
+
+        function getCurrentTexts() {
+            return storyDatabase[selectedLevel]?.[selectedCategory] || [];
+        }
+
+        function updateBackButton() {
+            const backBtn = document.getElementById('backBtn');
+            
+            // Создаем ссылку назад в зависимости от уровня
+            if (selectedLevel === 1) {
+                backBtn.href = 'reading-texts.html';
+            } else {
+                backBtn.href = `level_${selectedLevel}/reading-texts-level-${selectedLevel}.html`;
+            }
+        }
+
+        function updatePageInfo() {
+            document.getElementById('levelBadge').textContent = `${selectedLevel}급`;
+            document.getElementById('categoryBadge').textContent = categoryNames[selectedCategory];
+            updateTextCounter();
+        }
+
+        function updateTextCounter() {
+            const texts = getCurrentTexts();
+            document.getElementById('textCounter').textContent = `${currentTextIndex + 1}/${texts.length}`;
+        }
+
+        function loadCurrentText() {
+            const texts = getCurrentTexts();
+            
+            if (texts.length === 0) {
+                document.getElementById('storyTitle').textContent = 'Тексты скоро появятся';
+                document.getElementById('storySubtitle').textContent = '곧 올 예정';
+                document.getElementById('koreanContent').innerHTML = 
+                    '<span style="color: #666;">Тексты для этой категории пока добавляются. Попробуйте другую категорию!</span>';
+                document.getElementById('translationText').textContent = 
+                    'Скоро здесь появятся интересные истории!';
+                return;
+            }
+            
+            // Если указан конкретный textId, найти его индекс
+            if (selectedTextId) {
+                const textIndex = texts.findIndex(text => text.id === selectedTextId);
+                if (textIndex !== -1) {
+                    currentTextIndex = textIndex;
+                }
+            }
+            
+            if (currentTextIndex >= texts.length) {
+                currentTextIndex = 0;
+            }
+            
+            if (currentTextIndex < 0) {
+                currentTextIndex = texts.length - 1;
+            }
+            
+            const story = texts[currentTextIndex];
+            
+            // Update story info
+            document.getElementById('storyTitle').textContent = story.title;
+            document.getElementById('storySubtitle').textContent = story.subtitle;
+            document.getElementById('koreanContent').innerHTML = story.korean;
+            document.getElementById('translationText').textContent = story.translation;
+            
+            // Show image only for specific stories
+            const storyImage = document.getElementById('storyImage');
+            const storyImg = storyImage.querySelector('img');
+            
+            if (story.id === 'personal-1') {
+                storyImg.src = 'images/флаг.jpg';
+                storyImg.alt = 'Korean Flag';
+                storyImage.style.display = 'block';
+            } else if (story.id === 'personal-2') {
+                storyImg.src = 'images/OIP.jpg';
+                storyImg.alt = 'Korean Family';
+                storyImage.style.display = 'block';
+            } else if (story.id === 'personal-3') {
+                storyImg.src = 'images/OIP (1).jpg';
+                storyImg.alt = 'Korean Hobbies';
+                storyImage.style.display = 'block';
+            } else if (story.id === 'culture-1') {
+                storyImg.src = 'images/новый год.jpg';
+                storyImg.alt = 'Korean New Year';
+                storyImage.style.display = 'block';
+            } else {
+                storyImage.style.display = 'none';
+            }
+            
+            // Store current quiz
+            currentQuiz = story.quiz || [];
+            
+            updateTextCounter();
+            setupWordInteractions();
+        }
+
+        function setupWordInteractions() {
+            const words = document.querySelectorAll('.korean-word');
+            const translationHeader = document.getElementById('translationHeader');
+            
+            words.forEach(word => {
+                word.addEventListener('click', (e) => {
+                    const wordText = e.target.textContent;
+                    const translation = e.target.dataset.translation;
+                    
+                    // Show Korean word and translation in header
+                    translationHeader.innerHTML = `${wordText}<br><span style="color: #666; font-size: 16px;">${translation}</span>`;
+                    
+                    // Add to learned words
+                    if (!learnedWords.find(w => w.korean === wordText)) {
+                        learnedWords.push({
+                            korean: wordText,
+                            translation: translation
+                        });
+                        localStorage.setItem('koreanLearnedWords', JSON.stringify(learnedWords));
+                    }
+                    
+                    // Visual feedback
+                    e.target.classList.add('clicked');
+                    setTimeout(() => {
+                        e.target.classList.remove('clicked');
+                    }, 1000);
+                });
+            });
+        }
+
+        function toggleTranslation() {
+            translationVisible = !translationVisible;
+            const section = document.getElementById('translationSection');
+            
+            if (translationVisible) {
+                section.classList.add('show');
+            } else {
+                section.classList.remove('show');
+            }
+        }
+
+        function toggleQuiz() {
+            quizVisible = !quizVisible;
+            const section = document.getElementById('quizSection');
+            const koreanContent = document.getElementById('koreanContent');
+            const translationSection = document.getElementById('translationSection');
+            const quizBtn = document.getElementById('quizBtn');
+            
+            if (quizVisible && currentQuiz.length > 0) {
+                // Reset quiz state
+                currentQuestionIndex = 0;
+                quizAnswers = [];
+                loadQuiz();
+                section.style.display = 'block';
+                // Hide Korean text and translation while quiz is active
+                koreanContent.style.display = 'none';
+                translationSection.style.display = 'none';
+                translationVisible = false;
+                // Update button
+                quizBtn.innerHTML = '<span>❌</span> Закрыть тест';
+                quizBtn.classList.add('active');
+            } else {
+                section.style.display = 'none';
+                // Show Korean text back
+                koreanContent.style.display = 'block';
+                // Keep translation section hidden unless it was manually shown
+                if (translationVisible) {
+                    translationSection.classList.add('show');
+                }
+                // Reset button
+                quizBtn.innerHTML = '<span>🧠</span> Тест';
+                quizBtn.classList.remove('active');
+            }
+        }
+
+        function loadQuiz() {
+            const quizContent = document.getElementById('quizContent');
+            
+            if (currentQuestionIndex >= currentQuiz.length) {
+                showQuizResults();
+                return;
+            }
+            
+            const q = currentQuiz[currentQuestionIndex];
+            const progressText = `Вопрос ${currentQuestionIndex + 1} из ${currentQuiz.length}`;
+            
+            let html = `
+                <div style="text-align: center; margin-bottom: 20px; color: #667eea; font-weight: 600;">${progressText}</div>
+                <div class="quiz-question" data-question="${currentQuestionIndex}">
+                    <div class="question-text">${q.question}</div>
+                    <div class="quiz-options">
+                        ${q.options.map((option, optIndex) => 
+                            `<div class="quiz-option" data-option="${optIndex}" onclick="selectOption(${optIndex})">${option}</div>`
+                        ).join('')}
+                    </div>
+                    <div class="quiz-result" id="currentResult" style="display: none;"></div>
+                </div>
+            `;
+            
+            quizContent.innerHTML = html;
+        }
+        
+        function selectOption(optionIndex) {
+            const question = currentQuiz[currentQuestionIndex];
+            const questionEl = document.querySelector(`[data-question="${currentQuestionIndex}"]`);
+            const options = questionEl.querySelectorAll('.quiz-option');
+            const resultEl = document.getElementById('currentResult');
+            
+            // Disable all options
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            // Mark selected option
+            options[optionIndex].classList.add('selected');
+            
+            // Save answer
+            const isCorrect = optionIndex === question.correct;
+            quizAnswers.push({
+                questionIndex: currentQuestionIndex,
+                selectedOption: optionIndex,
+                correct: isCorrect
+            });
+            
+            // Show correct answer after 1 second
+            setTimeout(() => {
+                options[question.correct].classList.add('correct');
+                if (optionIndex !== question.correct) {
+                    options[optionIndex].classList.add('incorrect');
+                }
+                
+                // Show result
+                if (isCorrect) {
+                    resultEl.innerHTML = '✓ 맞습니다! (Правильно!)';
+                    resultEl.className = 'quiz-result correct';
+                } else {
+                    resultEl.innerHTML = `✗ 틀렸습니다. 정답: ${question.options[question.correct]} (Неправильно. Правильный ответ: ${question.options[question.correct]})`;
+                    resultEl.className = 'quiz-result incorrect';
+                }
+                resultEl.style.display = 'block';
+                
+                // Move to next question after 3 seconds
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    loadQuiz();
+                }, 3000);
+            }, 1000);
+        }
+        
+        function showQuizResults() {
+            const quizContent = document.getElementById('quizContent');
+            const correctAnswers = quizAnswers.filter(answer => answer.correct).length;
+            const totalQuestions = currentQuiz.length;
+            const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+            
+            let resultMessage = '';
+            let resultColor = '';
+            
+            if (percentage >= 90) {
+                resultMessage = '🎉 우수합니다! (Отлично!)';
+                resultColor = '#4caf50';
+            } else if (percentage >= 75) {
+                resultMessage = '😊 좋습니다! (Хорошо!)';
+                resultColor = '#2196f3';
+            } else if (percentage >= 50) {
+                resultMessage = '😐 보통입니다 (Неплохо)';
+                resultColor = '#ff9800';
+            } else {
+                resultMessage = '😔 더 공부하세요 (Нужно больше учиться)';
+                resultColor = '#f44336';
+            }
+            
+            let html = `
+                <div style="text-align: center; padding: 30px;">
+                    <div style="font-size: 48px; color: ${resultColor}; margin-bottom: 20px;">${percentage}%</div>
+                    <div style="font-size: 24px; font-weight: 700; margin-bottom: 15px; color: ${resultColor};">${resultMessage}</div>
+                    <div style="font-size: 18px; color: #666; margin-bottom: 30px;">
+                        정답: ${correctAnswers} / ${totalQuestions} (Правильных ответов: ${correctAnswers} из ${totalQuestions})
+                    </div>
+                    <button class="control-btn" onclick="toggleQuiz()" style="font-size: 16px; padding: 12px 24px;">
+                        🔄 다시 시도 (Попробовать снова)
+                    </button>
+                </div>
+            `;
+            
+            quizContent.innerHTML = html;
+        }
+
+        function toggleVocab() {
+            vocabVisible = !vocabVisible;
+            const section = document.getElementById('vocabSection');
+            
+            if (vocabVisible) {
+                loadVocab();
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+            }
+        }
+
+        function loadVocab() {
+            const vocabGrid = document.getElementById('vocabGrid');
+            let html = '';
+            
+            learnedWords.slice(-12).forEach(word => {
+                html += `
+                    <div class="vocab-card">
+                        <div class="vocab-korean">${word.korean}</div>
+                        <div class="vocab-translation">${word.translation}</div>
+                        <div class="vocab-pronunciation">${word.pronunciation || ''}</div>
+                    </div>
+                `;
+            });
+            
+            if (html === '') {
+                html = '<div style="grid-column: 1/-1; text-align: center; color: #666;">Кликайте на слова в тексте, чтобы добавить их сюда!</div>';
+            }
+            
+            vocabGrid.innerHTML = html;
+        }
+
+        // Переменные для аудио
+        let currentAudio = null;
+
+        // Подготовка данных для синхронизации аудио (автоматическое распределение)
+
+
+        async function playAudio() {
+            const btn = event.target.closest('.control-btn');
+            const originalText = btn.innerHTML;
+            
+            try {
+                // Получаем ID текущего текста
+                const texts = getCurrentTexts();
+                if (texts.length === 0) return;
+                
+                const currentStory = texts[currentTextIndex];
+                const audioFileName = `${selectedLevel}-${selectedCategory}-${currentStory.id}.mp3`;
+                const audioPath = `audio/${audioFileName}`;
+                
+                // Останавливаем предыдущее аудио если есть
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                }
+                
+                btn.innerHTML = '<span>🔊</span> Загружаю...';
+                btn.disabled = true;
+                btn.classList.add('loading');
+                
+                // Создаем новое аудио
+                currentAudio = new Audio(audioPath);
+                
+                // Обработка событий
+                currentAudio.oncanplaythrough = () => {
+                    btn.innerHTML = '<span>⏸️</span> Остановить';
+                    btn.classList.remove('loading');
+                    btn.classList.add('playing');
+                    btn.disabled = false;
+                };
+                
+                currentAudio.onended = () => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.classList.remove('playing', 'loading');
+                    btn.onclick = playAudio;
+                    currentAudio = null;
+                };
+                
+                currentAudio.onerror = () => {
+                    throw new Error(`Аудио файл не найден: ${audioFileName}`);
+                };
+                
+                // Функционал паузы/воспроизведения
+                btn.onclick = (e) => {
+                    e.preventDefault();
+                    if (currentAudio.paused) {
+                        currentAudio.play();
+                        btn.innerHTML = '<span>⏸️</span> Остановить';
+                        btn.classList.add('playing');
+                    } else {
+                        currentAudio.pause();
+                        btn.innerHTML = '<span>▶️</span> Продолжить';
+                        btn.classList.remove('playing');
+                    }
+                };
+                
+                // Начинаем воспроизведение
+                await currentAudio.play();
+                
+            } catch (error) {
+                console.error('Ошибка воспроизведения:', error);
+                btn.innerHTML = '<span>⚠️</span> Нет аудио';
+                btn.classList.remove('loading', 'playing');
+                currentAudio = null;
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 3000);
+            }
+        }
+
+        // Кнопка назад - ПРАВИЛЬНО ИСПРАВЛЕНО!
+        function updateBackButton() {
+            const backBtn = document.getElementById('backBtn');
+            if (backBtn) {
+                backBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Получаем параметры из URL
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const level = urlParams.get('level') || '1';
+                    const category = urlParams.get('category') || 'personal';
+                    
+                    // Возвращаемся с параметрами
+                    window.location.href = `reading-texts.html?level=${level}&category=${category}`;
+                });
+            }
+        }
+
+        // Очистка при выходе со страницы
+        window.addEventListener('beforeunload', function() {
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePageInfo();
+            updateBackButton();
+            loadCurrentText();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 18: Технологии (기술)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d3436, #00b894, #0984e3, #6c5ce7);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .nav {
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nav a {
+            background: #0984e3;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 10px;
+            margin: 0 10px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .nav a:hover {
+            background: #0770c2;
+            transform: translateY(-2px);
+        }
+        
+        .lesson-header {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .lesson-header h1 {
+            font-size: 2.5em;
+            color: #0984e3;
+            margin-bottom: 10px;
+        }
+        
+        .tech-animation {
+            position: relative;
+            height: 120px;
+            margin: 20px 0;
+            overflow: hidden;
+            border-radius: 15px;
+            background: linear-gradient(to bottom, #e8f4fd, #d1ecf1);
+        }
+        
+        .tech-icon {
+            position: absolute;
+            font-size: 2.5em;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .tech1 {
+            top: 10px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .tech2 {
+            top: 50px;
+            left: 30%;
+            animation-delay: -1s;
+        }
+        
+        .tech3 {
+            top: 20px;
+            left: 50%;
+            animation-delay: -2s;
+        }
+        
+        .tech4 {
+            top: 40px;
+            left: 70%;
+            animation-delay: -3s;
+        }
+        
+        .tech5 {
+            top: 15px;
+            left: 85%;
+            animation-delay: -4s;
+        }
+        
+        .vocabulary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .tech-card {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tech-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-color, #0984e3);
+        }
+        
+        .tech-card.hardware::before { background: linear-gradient(90deg, #2d3436, #636e72); }
+        .tech-card.software::before { background: linear-gradient(90deg, #0984e3, #74b9ff); }
+        .tech-card.internet::before { background: linear-gradient(90deg, #00b894, #00cec9); }
+        .tech-card.mobile::before { background: linear-gradient(90deg, #6c5ce7, #a29bfe); }
+        .tech-card.ai::before { background: linear-gradient(90deg, #fd79a8, #e84393); }
+        
+        .tech-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .tech-emoji {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 10px;
+            animation: glow 3s ease-in-out infinite;
+        }
+        
+        .korean-word {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #0984e3;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .pronunciation {
+            font-size: 1.1em;
+            color: #6c5ce7;
+            margin-bottom: 10px;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .translation {
+            font-size: 1em;
+            color: #666;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .tech-level {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        
+        .level-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+            margin: 0 2px;
+        }
+        
+        .level-dot.active {
+            background: linear-gradient(45deg, #0984e3, #74b9ff);
+        }
+        
+        .example-sentence {
+            background: #f0f8ff;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #0984e3;
+            font-size: 0.9em;
+        }
+        
+        .korean-sentence {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        .speak-btn {
+            background: #0984e3;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+            font-size: 0.9em;
+            color: white;
+        }
+        
+        .speak-btn:hover {
+            background: #0770c2;
+        }
+        
+        .study-mode {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .mode-btn {
+            background: #0984e3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn.active {
+            background: #6c5ce7;
+        }
+        
+        .filter-section {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: rgba(255,255,255,0.9);
+            border: 2px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active {
+            background: #0984e3;
+            color: white;
+            border-color: #0984e3;
+        }
+        
+        .tech-trends {
+            background: rgba(255,255,255,0.95);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .trend-item {
+            background: #f0f8ff;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+            border-left: 4px solid #0984e3;
+            display: inline-block;
+            min-width: 200px;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes glow {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+        
+        .flashcard {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .flashcard:hover {
+            transform: rotateY(3deg) scale(1.02);
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0984e3, #74b9ff);
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .code-snippet {
+            background: #2d3436;
+            color: #74b9ff;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <a href="../index.html">← К 4급</a>
+            <a href="../../index.html">🏠 Главная</a>
+        </div>
+        
+        <div class="lesson-header">
+            <h1>🖥️ Урок 18: Технологии (기술)</h1>
+            <p>Изучаем IT-термины и современные технологии</p>
+            
+            <div class="tech-animation">
+                <div class="tech-icon tech1">💻</div>
+                <div class="tech-icon tech2">📱</div>
+                <div class="tech-icon tech3">🌐</div>
+                <div class="tech-icon tech4">🤖</div>
+                <div class="tech-icon tech5">💾</div>
+            </div>
+        </div>
+        
+        <div class="tech-trends">
+            <h3>🚀 Технологические тренды в Корее</h3>
+            <div class="trend-item">
+                <strong>5G 네트워크</strong><br>
+                5G сети
+            </div>
+            <div class="trend-item">
+                <strong>스마트 시티</strong><br>
+                Умные города
+            </div>
+            <div class="trend-item">
+                <strong>가상현실 (VR)</strong><br>
+                Виртуальная реальность
+            </div>
+            <div class="trend-item">
+                <strong>블록체인</strong><br>
+                Блокчейн
+            </div>
+        </div>
+        
+        <div class="study-mode">
+            <button class="mode-btn active" onclick="showVocabulary()">📚 Технологический словарь</button>
+            <button class="mode-btn" onclick="showFlashcards()">🃏 Карточки</button>
+        </div>
+        
+        <div class="filter-section" id="filter-section">
+            <button class="filter-btn active" onclick="filterTech('all')">Все</button>
+            <button class="filter-btn" onclick="filterTech('hardware')">🔧 Железо</button>
+            <button class="filter-btn" onclick="filterTech('software')">💻 ПО</button>
+            <button class="filter-btn" onclick="filterTech('internet')">🌐 Интернет</button>
+            <button class="filter-btn" onclick="filterTech('mobile')">📱 Мобильные</button>
+            <button class="filter-btn" onclick="filterTech('ai')">🤖 ИИ</button>
+        </div>
+        
+        <div id="vocabulary-section">
+            <div class="vocabulary-grid" id="vocabularyGrid">
+                <!-- Будет заполнено JS -->
+            </div>
+        </div>
+        
+        <div id="flashcard-section" style="display: none;">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div id="flashcard-content">
+                    <div class="tech-emoji" id="flashcard-emoji">💻</div>
+                    <div class="korean-word" id="flashcard-korean">하드웨어</div>
+                    <button class="speak-btn" onclick="speak(document.getElementById('flashcard-korean').textContent)">🔊</button>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="mode-btn" onclick="prevCard()">← Предыдущая</button>
+                <span id="card-counter">1 / 20</span>
+                <button class="mode-btn" onclick="nextCard()">Следующая →</button>
+            </div>
+            <div style="text-align: center; margin-top: 10px; color: #666;">
+                <small>Нажмите на карточку для переворота или используйте Пробел</small>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            // Железо
+            {
+                korean: '하드웨어', 
+                pronunciation: 'хадывэо', 
+                translation: 'аппаратное обеспечение',
+                emoji: '🔧',
+                category: 'hardware',
+                level: 3,
+                example: '하드웨어를 업그레이드했어요',
+                exampleTranslation: 'Обновили аппаратное обеспечение'
+            },
+            {
+                korean: '프로세서', 
+                pronunciation: 'пхыросесо', 
+                translation: 'процессор',
+                emoji: '🔲',
+                category: 'hardware',
+                level: 4,
+                example: '새로운 프로세서가 더 빨라요',
+                exampleTranslation: 'Новый процессор быстрее'
+            },
+            {
+                korean: '메모리', 
+                pronunciation: 'мемори', 
+                translation: 'память',
+                emoji: '💾',
+                category: 'hardware',
+                level: 3,
+                example: '메모리가 부족해요',
+                exampleTranslation: 'Не хватает памяти'
+            },
+            {
+                korean: '저장장치', 
+                pronunciation: 'чоджанджанчхи', 
+                translation: 'накопитель',
+                emoji: '💿',
+                category: 'hardware',
+                level: 4,
+                example: '저장장치 용량이 큰데요',
+                exampleTranslation: 'У накопителя большая ёмкость'
+            },
+            
+            // Программное обеспечение
+            {
+                korean: '소프트웨어', 
+                pronunciation: 'сопхытхывэо', 
+                translation: 'программное обеспечение',
+                emoji: '💻',
+                category: 'software',
+                level: 3,
+                example: '소프트웨어를 설치했어요',
+                exampleTranslation: 'Установили программное обеспечение'
+            },
+            {
+                korean: '운영체제', 
+                pronunciation: 'унёнчхеджэ', 
+                translation: 'операционная система',
+                emoji: '🖥️',
+                category: 'software',
+                level: 4,
+                example: '운영체제를 업데이트해요',
+                exampleTranslation: 'Обновляем операционную систему'
+            },
+            {
+                korean: '어플리케이션', 
+                pronunciation: 'оплликэйсон', 
+                translation: 'приложение',
+                emoji: '📱',
+                category: 'software',
+                level: 3,
+                example: '유용한 어플리케이션이에요',
+                exampleTranslation: 'Это полезное приложение'
+            },
+            {
+                korean: '데이터베이스', 
+                pronunciation: 'дэитхабэисы', 
+                translation: 'база данных',
+                emoji: '🗃️',
+                category: 'software',
+                level: 5,
+                example: '데이터베이스를 관리해요',
+                exampleTranslation: 'Управляю базой данных'
+            },
+            {
+                korean: '백업', 
+                pronunciation: 'пэгоп', 
+                translation: 'резервная копия',
+                emoji: '💾',
+                category: 'software',
+                level: 4,
+                example: '백업을 만들어야 해요',
+                exampleTranslation: 'Нужно создать резервную копию'
+            },
+            
+            // Интернет
+            {
+                korean: '웹사이트', 
+                pronunciation: 'вэбсаитхы', 
+                translation: 'веб-сайт',
+                emoji: '🌐',
+                category: 'internet',
+                level: 3,
+                example: '새로운 웹사이트를 만들었어요',
+                exampleTranslation: 'Создали новый веб-сайт'
+            },
+            {
+                korean: '브라우저', 
+                pronunciation: 'быраудзо', 
+                translation: 'браузер',
+                emoji: '🔍',
+                category: 'internet',
+                level: 3,
+                example: '브라우저를 업데이트해요',
+                exampleTranslation: 'Обновляю браузер'
+            },
+            {
+                korean: '검색엔진', 
+                pronunciation: 'комсэгэнджин', 
+                translation: 'поисковая система',
+                emoji: '🔎',
+                category: 'internet',
+                level: 4,
+                example: '검색엔진에서 찾았어요',
+                exampleTranslation: 'Нашёл в поисковой системе'
+            },
+            {
+                korean: '클라우드', 
+                pronunciation: 'кыллауды', 
+                translation: 'облако',
+                emoji: '☁️',
+                category: 'internet',
+                level: 4,
+                example: '클라우드에 저장해요',
+                exampleTranslation: 'Сохраняю в облаке'
+            },
+            {
+                korean: '와이파이', 
+                pronunciation: 'ваипхаи', 
+                translation: 'Wi-Fi',
+                emoji: '📶',
+                category: 'internet',
+                level: 3,
+                example: '와이파이가 느려요',
+                exampleTranslation: 'Wi-Fi медленный'
+            },
+            
+            // Мобильные технологии
+            {
+                korean: '스마트폰', 
+                pronunciation: 'сымаытхыпхон', 
+                translation: 'смартфон',
+                emoji: '📱',
+                category: 'mobile',
+                level: 3,
+                example: '새로운 스마트폰을 샀어요',
+                exampleTranslation: 'Купил новый смартфон'
+            },
+            {
+                korean: '태블릿', 
+                pronunciation: 'тхэбыллит', 
+                translation: 'планшет',
+                emoji: '💻',
+                category: 'mobile',
+                level: 3,
+                example: '태블릿으로 그림을 그려요',
+                exampleTranslation: 'Рисую на планшете'
+            },
+            {
+                korean: '터치스크린', 
+                pronunciation: 'тхочхысыкырин', 
+                translation: 'сенсорный экран',
+                emoji: '👆',
+                category: 'mobile',
+                level: 4,
+                example: '터치스크린이 반응해요',
+                exampleTranslation: 'Сенсорный экран реагирует'
+            },
+            {
+                korean: '배터리', 
+                pronunciation: 'пэтхори', 
+                translation: 'батарея',
+                emoji: '🔋',
+                category: 'mobile',
+                level: 3,
+                example: '배터리가 부족해요',
+                exampleTranslation: 'Батарея разряжена'
+            },
+            
+            // Искусственный интеллект
+            {
+                korean: '인공지능', 
+                pronunciation: 'инконджинын', 
+                translation: 'искусственный интеллект',
+                emoji: '🤖',
+                category: 'ai',
+                level: 5,
+                example: '인공지능이 발전하고 있어요',
+                exampleTranslation: 'ИИ развивается'
+            },
+            {
+                korean: '머신러닝', 
+                pronunciation: 'мосинронин', 
+                translation: 'машинное обучение',
+                emoji: '🧠',
+                category: 'ai',
+                level: 5,
+                example: '머신러닝을 공부해요',
+                exampleTranslation: 'Изучаю машинное обучение'
+            },
+            {
+                korean: '알고리즘', 
+                pronunciation: 'альгоридым', 
+                translation: 'алгоритм',
+                emoji: '📊',
+                category: 'ai',
+                level: 5,
+                example: '새로운 알고리즘을 개발했어요',
+                exampleTranslation: 'Разработали новый алгоритм'
+            },
+            {
+                korean: '빅데이터', 
+                pronunciation: 'бигдэитха', 
+                translation: 'большие данные',
+                emoji: '📈',
+                category: 'ai',
+                level: 5,
+                example: '빅데이터를 분석해요',
+                exampleTranslation: 'Анализируем большие данные'
+            }
+        ];
+        
+        let filteredVocabulary = vocabulary;
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        
+        function loadVocabulary() {
+            const grid = document.getElementById('vocabularyGrid');
+            grid.innerHTML = '';
+            
+            filteredVocabulary.forEach((word, index) => {
+                const card = document.createElement('div');
+                card.className = `tech-card ${word.category}`;
+                
+                // Создаём индикатор сложности
+                let levelDots = '';
+                for (let i = 1; i <= 5; i++) {
+                    levelDots += `<div class="level-dot ${i <= word.level ? 'active' : ''}"></div>`;
+                }
+                
+                card.innerHTML = `
+                    <div class="tech-emoji">${word.emoji}</div>
+                    <div class="korean-word">${word.korean}</div>
+                    <div class="pronunciation">${word.pronunciation}</div>
+                    <div class="translation">${word.translation}</div>
+                    <div class="tech-level">
+                        ${levelDots}
+                    </div>
+                    <small style="text-align: center; display: block; color: #888;">Сложность: ${word.level}/5</small>
+                    <div class="example-sentence">
+                        <div class="korean-sentence">${word.example}</div>
+                        <div>${word.exampleTranslation}</div>
+                    </div>
+                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊 Слово</button>
+                    <button class="speak-btn" onclick="speak('${word.example}')">🔊 Пример</button>
+                `;
+                grid.appendChild(card);
+                
+                // Анимация появления
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'all 0.5s ease';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 100);
+            });
+        }
+        
+        function filterTech(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (category === 'all') {
+                filteredVocabulary = vocabulary;
+            } else {
+                filteredVocabulary = vocabulary.filter(word => word.category === category);
+            }
+            
+            loadVocabulary();
+        }
+        
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        function showVocabulary() {
+            document.getElementById('vocabulary-section').style.display = 'block';
+            document.getElementById('flashcard-section').style.display = 'none';
+            document.getElementById('filter-section').style.display = 'flex';
+            updateActiveButton(0);
+        }
+        
+        function showFlashcards() {
+            document.getElementById('vocabulary-section').style.display = 'none';
+            document.getElementById('flashcard-section').style.display = 'block';
+            document.getElementById('filter-section').style.display = 'none';
+            updateActiveButton(1);
+            updateFlashcard();
+        }
+        
+        function updateFlashcard() {
+            const word = vocabulary[currentCardIndex];
+            const flashcard = document.getElementById('flashcard');
+            const content = document.getElementById('flashcard-content');
+            
+            if (isFlipped) {
+                // Создаём индикатор сложности
+                let levelDots = '';
+                for (let i = 1; i <= 5; i++) {
+                    levelDots += `<div class="level-dot ${i <= word.level ? 'active' : ''}"></div>`;
+                }
+                
+                content.innerHTML = `
+                    <div class="tech-emoji">${word.emoji}</div>
+                    <div class="pronunciation">${word.pronunciation}</div>
+                    <div class="translation">${word.translation}</div>
+                    <div class="tech-level" style="margin: 15px 0;">
+                        ${levelDots}
+                    </div>
+                    <small style="color: #888;">Сложность: ${word.level}/5</small>
+                    <div class="example-sentence" style="margin-top: 15px;">
+                        <div class="korean-sentence">${word.example}</div>
+                        <div style="font-size: 0.9em; color: #666;">${word.exampleTranslation}</div>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="tech-emoji">${word.emoji}</div>
+                    <div class="korean-word">${word.korean}</div>
+                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊 Слово</button>
+                `;
+            }
+            
+            document.getElementById('card-counter').textContent = `${currentCardIndex + 1} / ${vocabulary.length}`;
+        }
+        
+        function flipCard() {
+            isFlipped = !isFlipped;
+            const flashcard = document.getElementById('flashcard');
+            flashcard.style.transform = isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+            setTimeout(() => {
+                updateFlashcard();
+                flashcard.style.transform = 'rotateY(0deg)';
+            }, 150);
+        }
+        
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % vocabulary.length;
+            isFlipped = false;
+            updateFlashcard();
+        }
+        
+        function prevCard() {
+            currentCardIndex = (currentCardIndex - 1 + vocabulary.length) % vocabulary.length;
+            isFlipped = false;
+            updateFlashcard();
+        }
+        
+        function updateActiveButton(index) {
+            const buttons = document.querySelectorAll('.mode-btn');
+            buttons.forEach((btn, i) => {
+                if (i === index) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVocabulary();
+            updateFlashcard();
+        });
+        
+        // Горячие клавиши
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('flashcard-section').style.display !== 'none') {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    flipCard();
+                } else if (e.code === 'ArrowRight') {
+                    nextCard();
+                } else if (e.code === 'ArrowLeft') {
+                    prevCard();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

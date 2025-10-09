@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 23: Образование (교육)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe, #fd79a8, #fdcb6e);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .nav {
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nav a {
+            background: #6c5ce7;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 10px;
+            margin: 0 10px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .nav a:hover {
+            background: #5f3dc4;
+            transform: translateY(-2px);
+        }
+        
+        .lesson-header {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .lesson-header h1 {
+            font-size: 2.5em;
+            color: #6c5ce7;
+            margin-bottom: 10px;
+        }
+        
+        .education-scene {
+            position: relative;
+            height: 120px;
+            margin: 20px 0;
+            overflow: hidden;
+            border-radius: 15px;
+            background: linear-gradient(to bottom, #e8ecff, #f8f9ff);
+        }
+        
+        .edu-element {
+            position: absolute;
+            font-size: 2.5em;
+            animation: study-bounce 3s ease-in-out infinite;
+        }
+        
+        .book1 {
+            top: 20px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .book2 {
+            top: 60px;
+            left: 25%;
+            animation-delay: -0.5s;
+        }
+        
+        .grad-cap {
+            top: 10px;
+            left: 45%;
+            animation-delay: -1s;
+        }
+        
+        .pencil {
+            top: 50px;
+            left: 65%;
+            animation-delay: -1.5s;
+        }
+        
+        .apple {
+            top: 30px;
+            left: 85%;
+            animation-delay: -2s;
+        }
+        
+        .vocabulary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .edu-card {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .edu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--card-color, #6c5ce7);
+        }
+        
+        .edu-card.levels::before { background: linear-gradient(90deg, #6c5ce7, #a29bfe); }
+        .edu-card.subjects::before { background: linear-gradient(90deg, #fd79a8, #fdcb6e); }
+        .edu-card.activities::before { background: linear-gradient(90deg, #74b9ff, #0984e3); }
+        .edu-card.assessment::before { background: linear-gradient(90deg, #00b894, #00cec9); }
+        .edu-card.resources::before { background: linear-gradient(90deg, #e17055, #d63031); }
+        
+        .edu-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .edu-emoji {
+            font-size: 3em;
+            text-align: center;
+            margin-bottom: 10px;
+            animation: academic-pulse 3s ease-in-out infinite;
+        }
+        
+        .korean-word {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #6c5ce7;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .pronunciation {
+            font-size: 1.1em;
+            color: #fd79a8;
+            margin-bottom: 10px;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .translation {
+            font-size: 1em;
+            color: #666;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .academic-note {
+            background: #f8f9ff;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            color: #6c5ce7;
+            margin: 8px 0;
+            border-left: 3px solid #6c5ce7;
+        }
+        
+        .example-sentence {
+            background: #fff5f9;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #6c5ce7;
+            font-size: 0.9em;
+        }
+        
+        .korean-sentence {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        .speak-btn {
+            background: #6c5ce7;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s;
+            font-size: 0.9em;
+            color: white;
+        }
+        
+        .speak-btn:hover {
+            background: #5f3dc4;
+        }
+        
+        .study-mode {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .mode-btn {
+            background: #6c5ce7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn.active {
+            background: #fd79a8;
+        }
+        
+        .filter-section {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: rgba(255,255,255,0.9);
+            border: 2px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active {
+            background: #6c5ce7;
+            color: white;
+            border-color: #6c5ce7;
+        }
+        
+        .korean-education {
+            background: rgba(255,255,255,0.95);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .edu-fact {
+            background: #f8f9ff;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+            border-left: 4px solid #6c5ce7;
+            display: inline-block;
+            min-width: 250px;
+            text-align: left;
+        }
+        
+        .flashcard {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .flashcard:hover {
+            transform: rotateY(3deg) scale(1.02);
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+            border-radius: 20px 20px 0 0;
+        }
+        
+        @keyframes study-bounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        @keyframes academic-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <a href="../index.html">← К 4급</a>
+            <a href="../../index.html">🏠 Главная</a>
+        </div>
+        
+        <div class="lesson-header">
+            <h1>📚 Урок 23: Образование (교육)</h1>
+            <p>Изучаем учебные дисциплины и академическую лексику</p>
+            
+            <div class="education-scene">
+                <div class="edu-element book1">📚</div>
+                <div class="edu-element book2">📖</div>
+                <div class="edu-element grad-cap">🎓</div>
+                <div class="edu-element pencil">✏️</div>
+                <div class="edu-element apple">🍎</div>
+            </div>
+        </div>
+        
+        <div class="korean-education">
+            <h3>🇰🇷 Система образования в Корее</h3>
+            <div class="edu-fact">
+                <strong>초중고 (Elementary-Middle-High)</strong><br>
+                12 лет обязательного образования (6+3+3)
+            </div>
+            <div class="edu-fact">
+                <strong>수능 (College entrance exam)</strong><br>
+                Главный экзамен для поступления в университет
+            </div>
+            <div class="edu-fact">
+                <strong>학원 (Private academies)</strong><br>
+                Дополнительное образование очень популярно
+            </div>
+        </div>
+        
+        <div class="study-mode">
+            <button class="mode-btn active" onclick="showVocabulary()">📚 Образовательный словарь</button>
+            <button class="mode-btn" onclick="showFlashcards()">🃏 Карточки</button>
+            <button class="mode-btn" onclick="showTests()">🧩 Образовательные тесты</button>
+        </div>
+        
+        <div class="filter-section" id="filter-section">
+            <button class="filter-btn active" onclick="filterEducation('all')">Все</button>
+            <button class="filter-btn" onclick="filterEducation('levels')">🎓 Уровни</button>
+            <button class="filter-btn" onclick="filterEducation('subjects')">📖 Предметы</button>
+            <button class="filter-btn" onclick="filterEducation('activities')">✏️ Деятельность</button>
+            <button class="filter-btn" onclick="filterEducation('assessment')">📊 Оценки</button>
+            <button class="filter-btn" onclick="filterEducation('resources')">📚 Ресурсы</button>
+        </div>
+        
+        <div id="vocabulary-section">
+            <div class="vocabulary-grid" id="vocabularyGrid">
+                <!-- Будет заполнено JS -->
+            </div>
+        </div>
+        
+        <div id="flashcard-section" style="display: none;">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div id="flashcard-content">
+                    <div class="edu-emoji" id="flashcard-emoji">📚</div>
+                    <div class="korean-word" id="flashcard-korean">교육</div>
+                    <button class="speak-btn" onclick="speak(document.getElementById('flashcard-korean').textContent)">🔊</button>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="mode-btn" onclick="prevCard()">← Предыдущая</button>
+                <span id="card-counter">1 / 25</span>
+                <button class="mode-btn" onclick="nextCard()">Следующая →</button>
+            </div>
+            <div style="text-align: center; margin-top: 10px; color: #666;">
+                <small>Нажмите на карточку для переворота или используйте Пробел</small>
+            </div>
+        </div>
+        
+        <div id="test-section" style="display: none;">
+            <div style="background: rgba(255,255,255,0.95); padding: 30px; border-radius: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+                <h3 style="text-align: center; color: #6c5ce7; margin-bottom: 20px;">🧩 Образовательные тесты</h3>
+                
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <button class="mode-btn" onclick="startEduTest()" style="font-size: 1.2em; padding: 15px 30px;">🎓 Начать тест</button>
+                </div>
+                
+                <div id="edu-test-content" style="display: none;">
+                    <div id="edu-test-question" style="font-size: 1.3em; text-align: center; margin-bottom: 20px; padding: 20px; background: #f8f9ff; border-radius: 10px; border-left: 4px solid #6c5ce7;"></div>
+                    <div id="edu-test-answers" style="display: grid; gap: 10px; margin-bottom: 20px;"></div>
+                    <div id="edu-test-result" style="text-align: center; margin-top: 20px;"></div>
+                </div>
+                
+                <div id="edu-final-result" style="display: none; text-align: center;">
+                    <h4 style="color: #6c5ce7; margin-bottom: 15px;">🎉 Образовательный тест завершён!</h4>
+                    <div id="edu-score-display" style="font-size: 2em; margin: 20px 0;"></div>
+                    <button class="mode-btn" onclick="startEduTest()">🔄 Повторить</button>
+                    <button class="mode-btn" onclick="showVocabulary()">📚 К словарю</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            // Уровни образования
+            {
+                korean: '교육', 
+                pronunciation: 'кёук', 
+                translation: 'образование',
+                emoji: '📚',
+                category: 'levels',
+                example: '교육이 사회 발전의 기초예요',
+                exampleTranslation: 'Образование - основа развития общества',
+                academicNote: 'Процесс передачи знаний и навыков'
+            },
+            {
+                korean: '초등학교', 
+                pronunciation: 'чодынхаккё', 
+                translation: 'начальная школа',
+                emoji: '🏫',
+                category: 'levels',
+                example: '초등학교는 6년 과정이에요',
+                exampleTranslation: 'Начальная школа - 6-летний курс',
+                academicNote: '1-6 классы, возраст 6-12 лет'
+            },
+            {
+                korean: '중학교', 
+                pronunciation: 'чунхаккё', 
+                translation: 'средняя школа',
+                emoji: '🎒',
+                category: 'levels',
+                example: '중학교에서 기초를 다져요',
+                exampleTranslation: 'В средней школе закладывают основы',
+                academicNote: '7-9 классы, возраст 12-15 лет'
+            },
+            {
+                korean: '고등학교', 
+                pronunciation: 'кодынхаккё', 
+                translation: 'старшая школа',
+                emoji: '🎓',
+                category: 'levels',
+                example: '고등학교를 졸업했어요',
+                exampleTranslation: 'Окончил старшую школу',
+                academicNote: '10-12 классы, подготовка к университету'
+            },
+            {
+                korean: '대학교', 
+                pronunciation: 'дэхаккё', 
+                translation: 'университет',
+                emoji: '🏛️',
+                category: 'levels',
+                example: '대학교에서 전공을 공부해요',
+                exampleTranslation: 'В университете изучаю специальность',
+                academicNote: 'Высшее образование, 4 года бакалавриата'
+            },
+            
+            // Предметы
+            {
+                korean: '수학', 
+                pronunciation: 'сухак', 
+                translation: 'математика',
+                emoji: '🔢',
+                category: 'subjects',
+                example: '수학 문제를 풀고 있어요',
+                exampleTranslation: 'Решаю математические задачи',
+                academicNote: 'Основной предмет во всех классах'
+            },
+            {
+                korean: '국어', 
+                pronunciation: 'куго', 
+                translation: 'родной язык',
+                emoji: '📝',
+                category: 'subjects',
+                example: '국어 시간에 문학을 배워요',
+                exampleTranslation: 'На уроке родного языка изучаем литературу',
+                academicNote: 'Корейский язык и литература'
+            },
+            {
+                korean: '영어', 
+                pronunciation: 'ёно', 
+                translation: 'английский язык',
+                emoji: '🇺🇸',
+                category: 'subjects',
+                example: '영어 공부가 중요해요',
+                exampleTranslation: 'Изучение английского языка важно',
+                academicNote: 'Обязательный иностранный язык'
+            },
+            {
+                korean: '과학', 
+                pronunciation: 'квахак', 
+                translation: 'наука',
+                emoji: '🔬',
+                category: 'subjects',
+                example: '과학 실험을 했어요',
+                exampleTranslation: 'Проводили научный эксперимент',
+                academicNote: 'Включает физику, химию, биологию'
+            },
+            {
+                korean: '역사', 
+                pronunciation: 'ёкса', 
+                translation: 'история',
+                emoji: '📜',
+                category: 'subjects',
+                example: '한국 역사를 공부해요',
+                exampleTranslation: 'Изучаю корейскую историю',
+                academicNote: 'Важный предмет для понимания культуры'
+            },
+            
+            // Учебная деятельность
+            {
+                korean: '공부', 
+                pronunciation: 'конбу', 
+                translation: 'учёба',
+                emoji: '📖',
+                category: 'activities',
+                example: '매일 공부를 해요',
+                exampleTranslation: 'Каждый день учусь',
+                academicNote: 'Основная деятельность студентов'
+            },
+            {
+                korean: '숙제', 
+                pronunciation: 'сукчэ', 
+                translation: 'домашнее задание',
+                emoji: '✏️',
+                category: 'activities',
+                example: '숙제를 다 했어요',
+                exampleTranslation: 'Сделал всё домашнее задание',
+                academicNote: 'Важная часть учебного процесса'
+            },
+            {
+                korean: '발표', 
+                pronunciation: 'парпхё', 
+                translation: 'презентация',
+                emoji: '🎤',
+                category: 'activities',
+                example: '내일 발표가 있어요',
+                exampleTranslation: 'Завтра у меня презентация',
+                academicNote: 'Развивает навыки публичных выступлений'
+            },
+            {
+                korean: '토론', 
+                pronunciation: 'тхорон', 
+                translation: 'дискуссия',
+                emoji: '💬',
+                category: 'activities',
+                example: '수업 시간에 토론했어요',
+                exampleTranslation: 'На уроке проводили дискуссию',
+                academicNote: 'Развивает критическое мышление'
+            },
+            {
+                korean: '연구', 
+                pronunciation: 'ёнгу', 
+                translation: 'исследование',
+                emoji: '🔍',
+                category: 'activities',
+                example: '논문을 위해 연구해요',
+                exampleTranslation: 'Провожу исследование для диссертации',
+                academicNote: 'Особенно важно в высшем образовании'
+            },
+            
+            // Оценки и экзамены
+            {
+                korean: '시험', 
+                pronunciation: 'сихом', 
+                translation: 'экзамен',
+                emoji: '📊',
+                category: 'assessment',
+                example: '다음 주에 시험이 있어요',
+                exampleTranslation: 'На следующей неделе экзамен',
+                academicNote: 'Основной способ оценки знаний'
+            },
+            {
+                korean: '성적', 
+                pronunciation: 'сонджок', 
+                translation: 'оценки',
+                emoji: '📈',
+                category: 'assessment',
+                example: '성적이 좋아졌어요',
+                exampleTranslation: 'Оценки улучшились',
+                academicNote: 'Показатель академической успеваемости'
+            },
+            {
+                korean: '졸업', 
+                pronunciation: 'чорыуп', 
+                translation: 'выпуск',
+                emoji: '🎓',
+                category: 'assessment',
+                example: '내년에 졸업해요',
+                exampleTranslation: 'В следующем году выпускаюсь',
+                academicNote: 'Завершение образовательного уровня'
+            },
+            {
+                korean: '학위', 
+                pronunciation: 'хагви', 
+                translation: 'степень',
+                emoji: '🏆',
+                category: 'assessment',
+                example: '석사 학위를 받았어요',
+                exampleTranslation: 'Получил степень магистра',
+                academicNote: 'Официальное подтверждение образования'
+            },
+            {
+                korean: '장학금', 
+                pronunciation: 'чансэгым', 
+                translation: 'стипендия',
+                emoji: '💰',
+                category: 'assessment',
+                example: '장학금을 받았어요',
+                exampleTranslation: 'Получил стипендию',
+                academicNote: 'Финансовая поддержка для обучения'
+            },
+            
+            // Учебные ресурсы
+            {
+                korean: '교과서', 
+                pronunciation: 'кёгвасо', 
+                translation: 'учебник',
+                emoji: '📚',
+                category: 'resources',
+                example: '새 교과서를 샀어요',
+                exampleTranslation: 'Купил новый учебник',
+                academicNote: 'Основной источник учебного материала'
+            },
+            {
+                korean: '도서관', 
+                pronunciation: 'тосогван', 
+                translation: 'библиотека',
+                emoji: '📖',
+                category: 'resources',
+                example: '도서관에서 책을 빌려요',
+                exampleTranslation: 'Беру книги в библиотеке',
+                academicNote: 'Центр информационных ресурсов'
+            },
+            {
+                korean: '컴퓨터', 
+                pronunciation: 'компхютхо', 
+                translation: 'компьютер',
+                emoji: '💻',
+                category: 'resources',
+                example: '컴퓨터로 과제를 해요',
+                exampleTranslation: 'Делаю задание на компьютере',
+                academicNote: 'Важный инструмент современного образования'
+            },
+            {
+                korean: '인터넷', 
+                pronunciation: 'интхонэт', 
+                translation: 'интернет',
+                emoji: '🌐',
+                category: 'resources',
+                example: '인터넷에서 자료를 찾아요',
+                exampleTranslation: 'Ищу материалы в интернете',
+                academicNote: 'Источник неограниченной информации'
+            },
+            {
+                korean: '학원', 
+                pronunciation: 'хагвон', 
+                translation: 'частная академия',
+                emoji: '🏢',
+                category: 'resources',
+                example: '영어 학원에 다녀요',
+                exampleTranslation: 'Хожу в английскую академию',
+                academicNote: 'Дополнительное образование в Корее'
+            }
+        ];
+        
+        let filteredVocabulary = vocabulary;
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        
+        function loadVocabulary() {
+            const grid = document.getElementById('vocabularyGrid');
+            grid.innerHTML = '';
+            
+            filteredVocabulary.forEach((word, index) => {
+                const card = document.createElement('div');
+                card.className = `edu-card ${word.category}`;
+                card.innerHTML = `
+                    <div class="edu-emoji">${word.emoji}</div>
+                    <div class="korean-word">${word.korean}</div>
+                    <div class="pronunciation">${word.pronunciation}</div>
+                    <div class="translation">${word.translation}</div>
+                    <div class="academic-note">🎓 ${word.academicNote}</div>
+                    <div class="example-sentence">
+                        <div class="korean-sentence">${word.example}</div>
+                        <div>${word.exampleTranslation}</div>
+                    </div>
+                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊 Слово</button>
+                    <button class="speak-btn" onclick="speak('${word.example}')">🔊 Пример</button>
+                `;
+                grid.appendChild(card);
+                
+                // Анимация появления
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'all 0.5s ease';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 100);
+            });
+        }
+        
+        function filterEducation(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (category === 'all') {
+                filteredVocabulary = vocabulary;
+            } else {
+                filteredVocabulary = vocabulary.filter(word => word.category === category);
+            }
+            
+            loadVocabulary();
+        }
+        
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        function showVocabulary() {
+            document.getElementById('vocabulary-section').style.display = 'block';
+            document.getElementById('flashcard-section').style.display = 'none';
+            document.getElementById('filter-section').style.display = 'flex';
+            updateActiveButton(0);
+        }
+        
+        function showFlashcards() {
+            document.getElementById('vocabulary-section').style.display = 'none';
+            document.getElementById('flashcard-section').style.display = 'block';
+            document.getElementById('filter-section').style.display = 'none';
+            updateActiveButton(1);
+            updateFlashcard();
+        }
+        
+        function updateFlashcard() {
+            const word = vocabulary[currentCardIndex];
+            const flashcard = document.getElementById('flashcard');
+            const content = document.getElementById('flashcard-content');
+            
+            if (isFlipped) {
+                content.innerHTML = `
+                    <div class="edu-emoji">${word.emoji}</div>
+                    <div class="pronunciation">${word.pronunciation}</div>
+                    <div class="translation">${word.translation}</div>
+                    <div class="academic-note" style="margin: 15px 0; max-width: 300px;">🎓 ${word.academicNote}</div>
+                    <div class="example-sentence" style="margin-top: 15px;">
+                        <div class="korean-sentence">${word.example}</div>
+                        <div style="font-size: 0.9em; color: #666;">${word.exampleTranslation}</div>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="edu-emoji">${word.emoji}</div>
+                    <div class="korean-word">${word.korean}</div>
+                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊 Слово</button>
+                `;
+            }
+            
+            document.getElementById('card-counter').textContent = `${currentCardIndex + 1} / ${vocabulary.length}`;
+        }
+        
+        function flipCard() {
+            isFlipped = !isFlipped;
+            const flashcard = document.getElementById('flashcard');
+            flashcard.style.transform = isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+            setTimeout(() => {
+                updateFlashcard();
+                flashcard.style.transform = 'rotateY(0deg)';
+            }, 150);
+        }
+        
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % vocabulary.length;
+            isFlipped = false;
+            updateFlashcard();
+        }
+        
+        function prevCard() {
+            currentCardIndex = (currentCardIndex - 1 + vocabulary.length) % vocabulary.length;
+            isFlipped = false;
+            updateFlashcard();
+        }
+        
+        function updateActiveButton(index) {
+            const buttons = document.querySelectorAll('.mode-btn');
+            buttons.forEach((btn, i) => {
+                if (i === index) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+        
+        function showTests() {
+            document.getElementById('vocabulary-section').style.display = 'none';
+            document.getElementById('flashcard-section').style.display = 'none';
+            document.getElementById('test-section').style.display = 'block';
+            document.getElementById('filter-section').style.display = 'none';
+            updateActiveButton(2);
+        }
+        
+        // Переменные для образовательного теста
+        let currentEduQ = 0;
+        let eduCorrectCount = 0;
+        let eduTestWords = [];
+        
+        function startEduTest() {
+            currentEduQ = 0;
+            eduCorrectCount = 0;
+            eduTestWords = vocabulary.sort(() => 0.5 - Math.random()).slice(0, 5);
+            
+            document.getElementById('edu-test-content').style.display = 'block';
+            document.getElementById('edu-final-result').style.display = 'none';
+            
+            showEduTestQuestion();
+        }
+        
+        function showEduTestQuestion() {
+            if (currentEduQ >= eduTestWords.length) {
+                showEduTestResult();
+                return;
+            }
+            
+            const word = eduTestWords[currentEduQ];
+            const questionEl = document.getElementById('edu-test-question');
+            const answersEl = document.getElementById('edu-test-answers');
+            
+            questionEl.innerHTML = `
+                Как переводится образовательный термин: <strong style="color: #6c5ce7;">${word.korean}</strong> 
+                <button class="speak-btn" onclick="speak('${word.korean}')">🔊</button><br>
+                <small style="color: #666;">[${word.pronunciation}]</small>
+            `;
+            
+            // Создаём варианты ответов
+            const wrongAnswers = vocabulary
+                .filter(w => w.korean !== word.korean)
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 3)
+                .map(w => w.translation);
+            
+            const allAnswers = [word.translation, ...wrongAnswers]
+                .sort(() => 0.5 - Math.random());
+            
+            answersEl.innerHTML = allAnswers.map(answer => 
+                `<button onclick="checkEduTestAnswer('${answer}', '${word.translation}')" 
+                 style="padding: 15px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; transition: all 0.3s; font-size: 1.1em;"
+                 onmouseover="this.style.borderColor='#6c5ce7'" 
+                 onmouseout="this.style.borderColor='#ddd'">${answer}</button>`
+            ).join('');
+            
+            document.getElementById('edu-test-result').innerHTML = '';
+        }
+        
+        function checkEduTestAnswer(selected, correct) {
+            const isCorrect = selected === correct;
+            
+            if (isCorrect) {
+                eduCorrectCount++;
+            }
+            
+            // Подсвечиваем ответы
+            const buttons = document.querySelectorAll('#edu-test-answers button');
+            buttons.forEach(btn => {
+                if (btn.textContent === correct) {
+                    btn.style.backgroundColor = '#6c5ce7';
+                    btn.style.color = 'white';
+                } else if (btn.textContent === selected && !isCorrect) {
+                    btn.style.backgroundColor = '#e17055';
+                    btn.style.color = 'white';
+                }
+                btn.disabled = true;
+                btn.style.cursor = 'not-allowed';
+            });
+            
+            const resultEl = document.getElementById('edu-test-result');
+            resultEl.innerHTML = `
+                <div style="margin: 20px 0; padding: 15px; border-radius: 8px; ${isCorrect ? 'background: #e8ecff; color: #5f3dc4;' : 'background: #f8d7da; color: #721c24;'}">
+                    ${isCorrect ? '✅ Правильно!' : '❌ Неправильно. Правильный ответ: ' + correct}
+                </div>
+                <button class="mode-btn" onclick="nextEduTestQuestion()">Следующий вопрос →</button>
+            `;
+        }
+        
+        function nextEduTestQuestion() {
+            currentEduQ++;
+            showEduTestQuestion();
+        }
+        
+        function showEduTestResult() {
+            const percentage = Math.round((eduCorrectCount / eduTestWords.length) * 100);
+            
+            document.getElementById('edu-test-content').style.display = 'none';
+            document.getElementById('edu-final-result').style.display = 'block';
+            
+            const scoreEl = document.getElementById('edu-score-display');
+            scoreEl.textContent = `${eduCorrectCount}/${eduTestWords.length} (${percentage}%)`;
+            
+            if (percentage >= 80) {
+                scoreEl.style.color = '#6c5ce7';
+            } else if (percentage >= 60) {
+                scoreEl.style.color = '#fd79a8';
+            } else {
+                scoreEl.style.color = '#e17055';
+            }
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVocabulary();
+            updateFlashcard();
+        });
+        
+        // Горячие клавиши
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('flashcard-section').style.display !== 'none') {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    flipCard();
+                } else if (e.code === 'ArrowRight') {
+                    nextCard();
+                } else if (e.code === 'ArrowLeft') {
+                    prevCard();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

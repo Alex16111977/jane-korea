@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>🎵 Тексты песен BLACKPINK</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background: linear-gradient(135deg, #2c2c54 0%, #40407a 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            background: rgba(255,255,255,0.95);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #000000, #ff1493, #000000);
+        }
+        
+        .title {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #000000, #ff1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn {
+            background: linear-gradient(135deg, #ff1493, #2c2c54);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .song-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .song-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #ff1493;
+            padding-bottom: 15px;
+        }
+        
+        .song-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #ff1493, #2c2c54);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            color: white;
+            margin-right: 20px;
+        }
+        
+        .song-info h2 {
+            color: #2c2c54;
+            margin: 0 0 5px 0;
+            font-size: 1.8em;
+        }
+        
+        .song-korean {
+            color: #ff1493;
+            font-size: 1.2em;
+            margin: 0 0 5px 0;
+        }
+        
+        .song-year {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .lyrics-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .lyrics-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #ff1493;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .lyrics-line:hover {
+            background: #ffe6f2;
+            transform: translateX(5px);
+        }
+        
+        .korean-text {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c2c54;
+            margin-bottom: 8px;
+        }
+        
+        .pronunciation-text {
+            color: #ff1493;
+            font-style: italic;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .translation-text {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .analysis {
+            background: linear-gradient(135deg, #2c2c54, #40407a);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        
+        .analysis-title {
+            color: #ff1493;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .analysis-content {
+            line-height: 1.6;
+        }
+        
+        .vocab-highlight {
+            background: rgba(255, 20, 147, 0.2);
+            padding: 2px 6px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .play-btn {
+            background: #ff1493;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .play-btn:hover {
+            background: #2c2c54;
+            transform: scale(1.1);
+        }
+        
+        .quiz-section {
+            background: linear-gradient(135deg, #ff1493, #2c2c54);
+            color: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .quiz-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .song-header { flex-direction: column; text-align: center; }
+            .song-icon { margin: 0 0 15px 0; }
+            .title { font-size: 2em; }
+            .korean-text { font-size: 1.2em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🎵 Тексты песен BLACKPINK</h1>
+            <p class="subtitle">Разбирайте корейские тексты хитов BLACKPINK построчно</p>
+            <a href="group-blackpink.html" class="back-btn">← Вернуться к BLACKPINK</a>
+        </div>
+        
+        <!-- DDU-DU DDU-DU -->
+        <div class="song-section">
+            <div class="song-header">
+                <div class="song-icon">🔥</div>
+                <div class="song-info">
+                    <h2>DDU-DU DDU-DU</h2>
+                    <p class="song-korean">뚜두뚜두</p>
+                    <p class="song-year">2018 • Square Up</p>
+                </div>
+            </div>
+            
+            <div class="lyrics-container">
+                <div class="lyrics-line" onclick="playLine('착한 아이야')">
+                    <div class="korean-text">착한 아이야
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('착한 아이야')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[чакхан аiya]</div>
+                    <div class="translation-text">Хороший ребенок</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('DDU-DU DDU-DU')">
+                    <div class="korean-text">DDU-DU DDU-DU
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('DDU-DU DDU-DU')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[дду-ду дду-ду]</div>
+                    <div class="translation-text">DDU-DU DDU-DU (звукоподражание выстрелам)</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('사랑을 했다 우리가')">
+                    <div class="korean-text">사랑을 했다 우리가
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('사랑을 했다 우리가')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[саранъыль хэтта урига]</div>
+                    <div class="translation-text">Мы были влюблены</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('맘이 어려서')">
+                    <div class="korean-text">맘이 어려서
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('맘이 어려서')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[мами орёсо]</div>
+                    <div class="translation-text">Потому что сердце молодое</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('이별이 쉬워서')">
+                    <div class="korean-text">이별이 쉬워서
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('이별이 쉬워서')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[ибёри свивосо]</div>
+                    <div class="translation-text">Расставание было легким</div>
+                </div>
+            </div>
+            
+            <div class="analysis">
+                <div class="analysis-title">📚 Грамматический разбор</div>
+                <div class="analysis-content">
+                    • <span class="vocab-highlight">사랑을</span> - любовь (винительный падеж с частицей 을)<br>
+                    • <span class="vocab-highlight">했다</span> - прошедшее время глагола 하다 (делать)<br>
+                    • <span class="vocab-highlight">우리가</span> - мы (именительный падеж с частицей 가)<br>
+                    • <span class="vocab-highlight">맘이</span> - сердце (разговорная форма от 마음)<br>
+                    • <span class="vocab-highlight">어려서</span> - потому что молодое (причина)
+                </div>
+            </div>
+        </div>
+        
+        <!-- Kill This Love -->
+        <div class="song-section">
+            <div class="song-header">
+                <div class="song-icon">💔</div>
+                <div class="song-info">
+                    <h2>Kill This Love</h2>
+                    <p class="song-korean">킬 디스 러브</p>
+                    <p class="song-year">2019 • Kill This Love</p>
+                </div>
+            </div>
+            
+            <div class="lyrics-container">
+                <div class="lyrics-line" onclick="playLine('사랑을 죽여')">
+                    <div class="korean-text">사랑을 죽여
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('사랑을 죽여')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[саранъыль чугё]</div>
+                    <div class="translation-text">Убей эту любовь</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('너의 love 너의 love')">
+                    <div class="korean-text">너의 love 너의 love
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('너의 love 너의 love')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[нои лов нои лов]</div>
+                    <div class="translation-text">Твою love, твою love</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('독이 든 성배')">
+                    <div class="korean-text">독이 든 성배
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('독이 든 성배')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[доги дын сонбе]</div>
+                    <div class="translation-text">Отравленный кубок</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('이별이 답인걸')">
+                    <div class="korean-text">이별이 답인걸
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('이별이 답인걸')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[ибёри дабинголь]</div>
+                    <div class="translation-text">Расставание - это ответ</div>
+                </div>
+            </div>
+            
+            <div class="analysis">
+                <div class="analysis-title">📚 Грамматический разбор</div>
+                <div class="analysis-content">
+                    • <span class="vocab-highlight">죽여</span> - убей (повелительная форма от 죽이다)<br>
+                    • <span class="vocab-highlight">너의</span> - твой (притяжательная форма)<br>
+                    • <span class="vocab-highlight">독이 든</span> - отравленный (с ядом)<br>
+                    • <span class="vocab-highlight">답인걸</span> - это ответ (걸 - разговорное окончание)
+                </div>
+            </div>
+        </div>
+        
+        <!-- How You Like That -->
+        <div class="song-section">
+            <div class="song-header">
+                <div class="song-icon">✨</div>
+                <div class="song-info">
+                    <h2>How You Like That</h2>
+                    <p class="song-korean">하우 유 라이크 댓</p>
+                    <p class="song-year">2020 • The Album</p>
+                </div>
+            </div>
+            
+            <div class="lyrics-container">
+                <div class="lyrics-line" onclick="playLine('보란 듯이 무너졌어')">
+                    <div class="korean-text">보란 듯이 무너졌어
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('보란 듯이 무너졌어')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[поран дыси мунодёссо]</div>
+                    <div class="translation-text">Рухнул напоказ</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('바닥을 뚫고 저 지하까지')">
+                    <div class="korean-text">바닥을 뚫고 저 지하까지
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('바닥을 뚫고 저 지하까지')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[падагыль тульго чо джихаккаджи]</div>
+                    <div class="translation-text">Пробил пол до самого низа</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('다시 캄캄한 이곳에 light up the sky')">
+                    <div class="korean-text">다시 캄캄한 이곳에 light up the sky
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('다시 캄캄한 이곳에 light up the sky')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[таши камкамхан игосе лайт ап зэ скай]</div>
+                    <div class="translation-text">Снова в этом темном месте - зажги небо</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('네 두 눈을 보며 I'll kiss you goodbye')">
+                    <div class="korean-text">네 두 눈을 보며 I'll kiss you goodbye
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('네 두 눈을 보며 I'll kiss you goodbye')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[не ду нуныль помё айл кис ю гудбай]</div>
+                    <div class="translation-text">Глядя в твои два глаза - поцелую тебя на прощание</div>
+                </div>
+            </div>
+            
+            <div class="analysis">
+                <div class="analysis-title">📚 Грамматический разбор</div>
+                <div class="analysis-content">
+                    • <span class="vocab-highlight">보란 듯이</span> - как будто напоказ, демонстративно<br>
+                    • <span class="vocab-highlight">무너졌어</span> - рухнул (прошедшее время от 무너지다)<br>
+                    • <span class="vocab-highlight">다시</span> - снова, опять<br>
+                    • <span class="vocab-highlight">캄캄한</span> - темный (прилагательное в именительном падеже)
+                </div>
+            </div>
+        </div>
+        
+        <!-- Lovesick Girls -->
+        <div class="song-section">
+            <div class="song-header">
+                <div class="song-icon">💕</div>
+                <div class="song-info">
+                    <h2>Lovesick Girls</h2>
+                    <p class="song-korean">러브시크 걸스</p>
+                    <p class="song-year">2020 • The Album</p>
+                </div>
+            </div>
+            
+            <div class="lyrics-container">
+                <div class="lyrics-line" onclick="playLine('영원한 밤')">
+                    <div class="korean-text">영원한 밤
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('영원한 밤')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[ёнвонхан пам]</div>
+                    <div class="translation-text">Вечная ночь</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('창문 없는 방')">
+                    <div class="korean-text">창문 없는 방
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('창문 없는 방')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[чханмун омнын панъ]</div>
+                    <div class="translation-text">Комната без окон</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('매번 아파도')">
+                    <div class="korean-text">매번 아파도
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('매번 아파도')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[мэбон ападо]</div>
+                    <div class="translation-text">Каждый раз, даже если больно</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('We are the lovesick girls')">
+                    <div class="korean-text">We are the lovesick girls
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('We are the lovesick girls')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[ви ар зэ лавсик голс]</div>
+                    <div class="translation-text">Мы - девушки, больные любовью</div>
+                </div>
+            </div>
+            
+            <div class="analysis">
+                <div class="analysis-title">📚 Грамматический разбор</div>
+                <div class="analysis-content">
+                    • <span class="vocab-highlight">영원한</span> - вечный (прилагательное)<br>
+                    • <span class="vocab-highlight">없는</span> - отсутствующий, без (отрицательная форма)<br>
+                    • <span class="vocab-highlight">매번</span> - каждый раз<br>
+                    • <span class="vocab-highlight">아파도</span> - даже если болит (уступительная форма)
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pink Venom -->
+        <div class="song-section">
+            <div class="song-header">
+                <div class="song-icon">🐍</div>
+                <div class="song-info">
+                    <h2>Pink Venom</h2>
+                    <p class="song-korean">핑크 베놈</p>
+                    <p class="song-year">2022 • Born Pink</p>
+                </div>
+            </div>
+            
+            <div class="lyrics-container">
+                <div class="lyrics-line" onclick="playLine('팝콘이나 챙겨 껴들어가 구경')">
+                    <div class="korean-text">팝콘이나 챙겨 껴들어가 구경
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('팝콘이나 챙겨 껴들어가 구경')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[попконина чэнгё кёдырога кугён]</div>
+                    <div class="translation-text">Возьми попкорн и приходи посмотреть</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('아직 쇼타임엔 좀 일러')">
+                    <div class="korean-text">아직 쇼타임엔 좀 일러
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('아직 쇼타임엔 좀 일러')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[аджик шотаимен чом илло]</div>
+                    <div class="translation-text">До шоутайма еще рано</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('착한 애들은 저리 가라')">
+                    <div class="korean-text">착한 애들은 저리 가라
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('착한 애들은 저리 가라')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[чакхан эдырын чори гара]</div>
+                    <div class="translation-text">Хорошие дети, идите отсюда</div>
+                </div>
+                
+                <div class="lyrics-line" onclick="playLine('Pink venom')">
+                    <div class="korean-text">Pink venom
+                        <button class="play-btn" onclick="event.stopPropagation(); playLine('Pink venom')">🔊</button>
+                    </div>
+                    <div class="pronunciation-text">[пинк беном]</div>
+                    <div class="translation-text">Розовый яд</div>
+                </div>
+            </div>
+            
+            <div class="analysis">
+                <div class="analysis-title">📚 Грамматический разбор</div>
+                <div class="analysis-content">
+                    • <span class="vocab-highlight">이나</span> - частица выбора (или что-то подобное)<br>
+                    • <span class="vocab-highlight">챙겨</span> - возьми, прихвати (повелительная форма)<br>
+                    • <span class="vocab-highlight">아직</span> - еще, пока что<br>
+                    • <span class="vocab-highlight">저리 가라</span> - идите отсюда (грубо)
+                </div>
+            </div>
+        </div>
+        
+        <!-- Квиз секция -->
+        <div class="quiz-section">
+            <h2>🎯 Проверьте понимание текстов!</h2>
+            <p>Готовы проверить, как хорошо вы понимаете песни BLACKPINK?</p>
+            <button class="quiz-btn" onclick="startLyricsQuiz()">🎮 Квиз по текстам</button>
+            <button class="quiz-btn" onclick="startGrammarQuiz()">📖 Грамматический квиз</button>
+            <button class="quiz-btn" onclick="startTranslationQuiz()">🔤 Квиз переводов</button>
+        </div>
+    </div>
+    
+    <script>
+        function playLine(text) {
+            // Уведомление о произношении
+            showNotification(`🎤 Произношение: ${text}`);
+            
+            // Попытка использовать Web Speech API
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.7; // Медленнее для лучшего понимания
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #ff1493, #2c2c54);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 25px;
+                box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+                z-index: 1000;
+                font-weight: bold;
+                animation: slideIn 0.5s ease-out;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.5s ease-in';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 500);
+            }, 3000);
+        }
+        
+        function startLyricsQuiz() {
+            alert('🎮 Квиз по текстам скоро будет готов!\n\nТипы заданий:\n• Выберите правильный перевод строки\n• Найдите пропущенное слово\n• Соедините корейскую строку с переводом\n• Расставьте строки в правильном порядке');
+        }
+        
+        function startGrammarQuiz() {
+            alert('📖 Грамматический квиз скоро будет готов!\n\nВы будете изучать:\n• Корейские частицы (을/를, 이/가, 은/는)\n• Времена глаголов\n• Окончания прилагательных\n• Повелительную и вопросительную формы');
+        }
+        
+        function startTranslationQuiz() {
+            alert('🔤 Квиз переводов скоро будет готов!\n\nЗадания:\n• Переведите строку с корейского на русский\n• Найдите корейский эквивалент русской фразы\n• Объясните значение сложных выражений\n• Культурные контексты переводов');
+        }
+        
+        // Добавляем анимации
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); }
+                to { transform: translateX(0); }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); }
+                to { transform: translateX(100%); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Анимация появления при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.song-section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 300);
+            });
+        });
+    </script>
+</body>
+</html>

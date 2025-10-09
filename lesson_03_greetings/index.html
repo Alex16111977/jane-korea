@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приветствие и знакомство - 인사와 만남</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: 
+                linear-gradient(rgba(102, 126, 234, 0.7), rgba(118, 75, 162, 0.8), rgba(240, 147, 251, 0.7), rgba(245, 87, 108, 0.8)),
+                url('seoul-sakura.jpg') center center / cover no-repeat fixed;
+            min-height: 100vh;
+            color: #333;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.1), 
+                rgba(118, 75, 162, 0.2), 
+                rgba(240, 147, 251, 0.1), 
+                rgba(245, 87, 108, 0.2)
+            );
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
+        .lesson-header {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(25px);
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .lesson-header h1 {
+            color: white;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .lesson-header .korean-title {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .lesson-header .description {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        .content-section {
+            background: rgba(255,255,255,0.9);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            padding: 25px 35px;
+            font-size: 1.5em;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '👋';
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em;
+            opacity: 0.7;
+        }
+
+        .section-content {
+            padding: 35px;
+        }
+
+        .phrase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .phrase-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .phrase-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .phrase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .phrase-card:hover::before {
+            opacity: 1;
+        }
+
+        .korean-phrase {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .pronunciation {
+            font-size: 1.1em;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .translation {
+            font-size: 1.1em;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .usage {
+            font-size: 0.95em;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.4;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 15px;
+        }
+
+        .play-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .play-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .dialogue-section {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 35px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+
+        .dialogue-header {
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .dialogue {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .dialogue-line {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            border-left: 4px solid rgba(255,255,255,0.5);
+        }
+
+        .speaker {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #ffeb3b;
+        }
+
+        .dialogue-korean {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .dialogue-pronunciation {
+            font-size: 1em;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        .dialogue-translation {
+            font-size: 1em;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .exercises {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #333;
+            padding: 35px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+
+        .exercise-header {
+            font-size: 1.6em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .exercise {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .exercise h4 {
+            color: #c44569;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .exercise-content {
+            line-height: 1.6;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4ecdc4, #44a08d);
+            height: 100%;
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .lesson-header h1 {
+                font-size: 2em;
+            }
+            
+            .korean-title {
+                font-size: 1.4em;
+            }
+            
+            .phrase-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navigation">
+            <a href="../level_1/index.html">← К 1급</a>
+            <a href="#dialogue">💬 Диалоги</a>
+            <a href="#exercises">📝 Упражнения</a>
+            <a href="../lesson_04_numbers/index.html">Урок 4: Числа →</a>
+        </nav>
+
+        <header class="lesson-header">
+            <h1>👋 Приветствие и знакомство</h1>
+            <div class="korean-title">인사와 만남</div>
+            <div class="description">
+                Изучаем базовые фразы для знакомства и общения на корейском языке
+            </div>
+            <div style="color: rgba(255,255,255,0.8); font-size: 1em; margin-top: 15px; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
+                🎧 <strong>Нажимайте на 🔊 для прослушивания произношения!</strong>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </header>
+
+        <section class="content-section">
+            <div class="section-header">
+                Основные приветствия
+            </div>
+            <div class="section-content">
+                <div class="phrase-grid">
+                    <div class="phrase-card" onclick="playAudio('annyeonghaseyo')">
+                        <button class="play-btn">🔊</button>
+                        <div class="korean-phrase">안녕하세요</div>
+                        <div class="pronunciation">[аннён хасэё]</div>
+                        <div class="translation">Здравствуйте (вежливо)</div>
+                        <div class="usage">Универсальное приветствие, подходит для любого времени дня</div>
+                    </div>
+
+                    <div class="phrase-card" onclick="playAudio('annyeong')">
+                        <button class="play-btn">🔊</button>
+                        <div class="korean-phrase">안녕</div>
+                        <div class="pronunciation">[аннён]</div>
+                        <div class="translation">Привет / Пока</div>
+                        <div class="usage">Неформальное приветствие/прощание с друзьями</div>
+                    </div>
+
+                    <div class="phrase-card" onclick="playAudio('annyeonghi-gaseyo')">
+                        <button class="play-btn">🔊</button>
+                        <div class="korean-phrase">안녕히 가세요</div>
+                        <div class="pronunciation">[аннён хи касэё]</div>
+                        <div class="translation">До свидания (уходящему)</div>
+                        <div class="usage">Говорим тому, кто уходит, а мы остаемся</div>
+                    </div>
+
+                    <div class="phrase-card" onclick="playAudio('annyeonghi-gyeseyo')">
+                        <button class="play-btn">🔊</button>
+                        <div class="korean-phrase">안녕히 계세요</div>
+                        <div class="pronunciation">[аннён хи кесэё]</div>
+                        <div class="translation">До свидания (остающемуся)</div>
+                        <div class="usage">Говорим тому, кто остается, когда мы уходим</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="section-header">
+                Знакомство и представление
+            </div>
+            <div class="section-content">
+                <div class="phrase-grid">
+                    <div class="phrase-card" onclick="playAudio('je-ireum')">
+                        <button class="play-btn">🔊</button>
+                        <div class="korean-phrase">제 이름은 [이름]입니다</div>
+                        <div class="pronunciation">[чжэ ирымын [имя] имнида]</div>
+                        <div class="translation">Меня зовут [имя]</div>
+                        <div class="usage">Формальное представление себя</div>
+                    </div>
+
+                    <div class="phrase-card" onclick="playAudio('ireum-mwoyeyo')">
+                        <button class="play-btn">🔊</button>
+                        <div class="korean-phrase">이름이 뭐예요?</div>
+                        <div class="pronunciation">[ирыми мвоэё]</div>
+                        <div class="translation">Как вас зовут?</div>
+                        <div class="usage">Вежливый вопрос об имени</div>
+                    </div>
+
+                    <div class="phrase-card" onclick="playAudio('mannaseo-bangawo')">
+                        <button class="play-btn">🔊</button>
+                        <div class="korean-phrase">만나서 반가워요</div>
+                        <div class="pronunciation">[маннасо пангавоё]</div>
+                        <div class="translation">Приятно познакомиться</div>
+                        <div class="usage">Стандартная фраза при знакомстве</div>
+                    </div>
+
+                    <div class="phrase-card" onclick="playAudio('eodi-waseoyo')">
+                        <button class="play-btn">🔊</button>
+                        <div class="korean-phrase">어디에서 왔어요?</div>
+                        <div class="pronunciation">[одиэсо вассоё]</div>
+                        <div class="translation">Откуда вы?</div>
+                        <div class="usage">Вопрос о месте происхождения</div>
+                    </div>
+
+                    <div class="phrase-card" onclick="playAudio('russia-waseoyo')">
+                        <button class="play-btn">🔊</button>
+                        <div class="korean-phrase">러시아에서 왔어요</div>
+                        <div class="pronunciation">[росиаэсо вассоё]</div>
+                        <div class="translation">Я из России</div>
+                        <div class="usage">Ответ на вопрос о происхождении</div>
+                    </div>
+
+                    <div class="phrase-card" onclick="playAudio('hanguk-mal')">
+                        <button class="play-btn">🔊</button>
+                        <div class="korean-phrase">한국말을 배워요</div>
+                        <div class="pronunciation">[хангук марыль пэвоё]</div>
+                        <div class="translation">Я изучаю корейский</div>
+                        <div class="usage">Полезная фраза для студентов</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="dialogue-section" id="dialogue">
+            <div class="dialogue-header">💬 Диалог: Первое знакомство</div>
+            
+            <div class="dialogue">
+                <div class="dialogue-line">
+                    <div class="speaker">지민 (Джимин):</div>
+                    <div class="dialogue-korean">안녕하세요!</div>
+                    <div class="dialogue-pronunciation">[аннён хасэё]</div>
+                    <div class="dialogue-translation">Здравствуйте!</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">안나 (Анна):</div>
+                    <div class="dialogue-korean">안녕하세요! 저는 안나입니다.</div>
+                    <div class="dialogue-pronunciation">[аннён хасэё! чонын анна имнида]</div>
+                    <div class="dialogue-translation">Здравствуйте! Я Анна.</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">지민:</div>
+                    <div class="dialogue-korean">만나서 반가워요! 제 이름은 지민입니다.</div>
+                    <div class="dialogue-pronunciation">[маннасо пангавоё! чжэ ирымын джимин имнида]</div>
+                    <div class="dialogue-translation">Приятно познакомиться! Меня зовут Джимин.</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">안나:</div>
+                    <div class="dialogue-korean">어디에서 왔어요?</div>
+                    <div class="dialogue-pronunciation">[одиэсо вассоё]</div>
+                    <div class="dialogue-translation">Откуда вы?</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">지민:</div>
+                    <div class="dialogue-korean">한국에서 왔어요. 안나 씨는요?</div>
+                    <div class="dialogue-pronunciation">[хангугэсо вассоё. анна ссинын]</div>
+                    <div class="dialogue-translation">Я из Кореи. А вы, Анна?</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">안나:</div>
+                    <div class="dialogue-korean">러시아에서 왔어요. 한국말을 배워요.</div>
+                    <div class="dialogue-pronunciation">[росиаэсо вассоё. хангук марыль пэвоё]</div>
+                    <div class="dialogue-translation">Я из России. Изучаю корейский язык.</div>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="playDialogue()">🎭 Прослушать диалог</button>
+            <button class="btn-primary" onclick="stopAllAudio()" style="background: linear-gradient(135deg, #f44336, #e91e63); margin-left: 15px;">⏹️ Остановить всё</button>
+        </section>
+
+        <section class="exercises" id="exercises">
+            <div class="exercise-header">📝 Упражнения</div>
+            
+            <div class="exercise">
+                <h4>Упражнение 1: Переведите на корейский</h4>
+                <div class="exercise-content">
+                    <p><strong>1.</strong> Здравствуйте → <input type="text" placeholder="Введите перевод" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ddd;"></p>
+                    <p><strong>2.</strong> Меня зовут Анна → <input type="text" placeholder="Введите перевод" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ddd;"></p>
+                    <p><strong>3.</strong> Откуда вы? → <input type="text" placeholder="Введите перевод" style="margin-left: 10px; padding: 5px; border-radius: 5px; border: 1px solid #ddd;"></p>
+                </div>
+                <button class="btn-primary" onclick="checkAnswers()">Проверить ответы</button>
+            </div>
+
+            <div class="exercise">
+                <h4>Упражнение 2: Составьте диалог</h4>
+                <div class="exercise-content">
+                    <p>Используя изученные фразы, составьте короткий диалог знакомства между двумя людьми. Включите:</p>
+                    <ul>
+                        <li>Приветствие</li>
+                        <li>Представление (имя)</li>
+                        <li>Вопрос о происхождении</li>
+                        <li>Прощание</li>
+                    </ul>
+                </div>
+                <button class="btn-primary" onclick="showSampleDialogue()">Показать пример</button>
+            </div>
+        </section>
+
+        <section class="content-section" id="next-lesson">
+            <div class="section-header">
+                🎯 Что дальше?
+            </div>
+            <div class="section-content">
+                <p style="font-size: 1.1em; line-height: 1.6; margin-bottom: 20px;">
+                    Отлично! Вы изучили основы приветствия и знакомства на корейском языке. 
+                    В следующем уроке мы изучим числа и выражение времени.
+                </p>
+                <button class="btn-primary" onclick="goToNextLesson()" style="font-size: 1.2em;">
+                    ➡️ Перейти к уроку 4: Числа и время
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let currentProgress = 0;
+        let lessonCompleted = false; // Флаг для отслеживания завершения
+        const totalSections = 15; // Увеличиваем количество секций
+
+        // Объект с корейскими фразами и их произношением
+        const phrases = {
+            'annyeonghaseyo': {
+                korean: '안녕하세요',
+                pronunciation: '아녕하세요',
+                russian: 'Здравствуйте'
+            },
+            'annyeong': {
+                korean: '안녕',
+                pronunciation: '안녕',
+                russian: 'Привет'
+            },
+            'annyeonghi-gaseyo': {
+                korean: '안녕히 가세요',
+                pronunciation: '안녕히 가세요',
+                russian: 'До свидания (уходящему)'
+            },
+            'annyeonghi-gyeseyo': {
+                korean: '안녕히 계세요',
+                pronunciation: '안녕히 계세요',
+                russian: 'До свидания (остающемуся)'
+            },
+            'je-ireum': {
+                korean: '제 이름은 안나입니다',
+                pronunciation: '제 이름은 안나입니다',
+                russian: 'Меня зовут Анна'
+            },
+            'ireum-mwoyeyo': {
+                korean: '이름이 뭐예요',
+                pronunciation: '이름이 뭐예요',
+                russian: 'Как вас зовут?'
+            },
+            'mannaseo-bangawo': {
+                korean: '만나서 반가워요',
+                pronunciation: '만나서 반가워요',
+                russian: 'Приятно познакомиться'
+            },
+            'eodi-waseoyo': {
+                korean: '어디에서 왔어요',
+                pronunciation: '어디에서 왔어요',
+                russian: 'Откуда вы?'
+            },
+            'russia-waseoyo': {
+                korean: '러시아에서 왔어요',
+                pronunciation: '러시아에서 왔어요',
+                russian: 'Я из России'
+            },
+            'hanguk-mal': {
+                korean: '한국말을 배워요',
+                pronunciation: '한국말을 배워요',
+                russian: 'Я изучаю корейский'
+            }
+        };
+
+        // Функция воспроизведения аудио с использованием Web Speech API
+        function playAudio(audioId) {
+            if ('speechSynthesis' in window) {
+                // Остановить предыдущее воспроизведение
+                window.speechSynthesis.cancel();
+                
+                const phrase = phrases[audioId];
+                if (phrase) {
+                    const utterance = new SpeechSynthesisUtterance(phrase.korean);
+                    
+                    // Настройки голоса
+                    utterance.lang = 'ko-KR';
+                    utterance.rate = 0.7;
+                    utterance.pitch = 1.0;
+                    utterance.volume = 1.0;
+                    
+                    // Попытка найти корейский голос
+                    const voices = window.speechSynthesis.getVoices();
+                    const koreanVoice = voices.find(voice => 
+                        voice.lang.includes('ko') || voice.lang.includes('KR')
+                    );
+                    
+                    if (koreanVoice) {
+                        utterance.voice = koreanVoice;
+                    }
+                    
+                    // Визуальная обратная связь
+                    const button = event.target.closest('.phrase-card').querySelector('.play-btn');
+                    button.innerHTML = '⏸️';
+                    button.style.background = 'rgba(76, 175, 80, 0.3)';
+                    
+                    utterance.onend = function() {
+                        button.innerHTML = '🔊';
+                        button.style.background = 'rgba(255,255,255,0.2)';
+                    };
+                    
+                    utterance.onerror = function() {
+                        button.innerHTML = '🔊';
+                        button.style.background = 'rgba(255,255,255,0.2)';
+                        console.log('Ошибка воспроизведения аудио');
+                    };
+                    
+                    // Воспроизведение
+                    window.speechSynthesis.speak(utterance);
+                    
+                    // Показать транскрипцию
+                    showPronunciation(phrase.korean, phrase.russian);
+                    updateProgress();
+                } else {
+                    console.error('Фраза не найдена:', audioId);
+                }
+            } else {
+                alert('Ваш браузер не поддерживает синтез речи. Попробуйте Chrome или Edge.');
+            }
+        }
+
+        // Показать произношение в всплывающем окне
+        function showPronunciation(korean, russian) {
+            const popup = document.createElement('div');
+            popup.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 15px;
+                font-size: 1.2em;
+                text-align: center;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+                z-index: 1000;
+                animation: fadeIn 0.3s ease;
+            `;
+            
+            popup.innerHTML = `
+                <div style="font-size: 1.5em; margin-bottom: 10px;">${korean}</div>
+                <div style="opacity: 0.8;">${russian}</div>
+            `;
+            
+            // Добавить CSS анимацию
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            document.body.appendChild(popup);
+            
+            // Удалить через 3 секунды
+            setTimeout(() => {
+                popup.style.animation = 'fadeIn 0.3s ease reverse';
+                setTimeout(() => {
+                    document.body.removeChild(popup);
+                    document.head.removeChild(style);
+                }, 300);
+            }, 2500);
+        }
+
+        // Функция воспроизведения диалога
+        function playDialogue() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                
+                const dialogueLines = [
+                    { speaker: '지민', text: '안녕하세요!', pause: 1000 },
+                    { speaker: '안나', text: '안녕하세요! 저는 안나입니다.', pause: 1500 },
+                    { speaker: '지민', text: '만나서 반가워요! 제 이름은 지민입니다.', pause: 1500 },
+                    { speaker: '안나', text: '어디에서 왔어요?', pause: 1000 },
+                    { speaker: '지민', text: '한국에서 왔어요. 안나 씨는요?', pause: 1500 },
+                    { speaker: '안나', text: '러시아에서 왔어요. 한국말을 배워요.', pause: 1000 }
+                ];
+                
+                const button = document.querySelector('[onclick="playDialogue()"]');
+                button.innerHTML = '⏸️ 일시 중지';
+                button.style.background = 'rgba(244, 67, 54, 0.2)';
+                
+                let currentLine = 0;
+                
+                function speakNextLine() {
+                    if (currentLine >= dialogueLines.length) {
+                        button.innerHTML = '🎭 Прослушать диалог';
+                        button.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+                        return;
+                    }
+                    
+                    const line = dialogueLines[currentLine];
+                    const utterance = new SpeechSynthesisUtterance(line.text);
+                    
+                    utterance.lang = 'ko-KR';
+                    utterance.rate = 0.8;
+                    utterance.pitch = line.speaker === '지민' ? 1.1 : 0.9;
+                    
+                    const voices = window.speechSynthesis.getVoices();
+                    const koreanVoice = voices.find(voice => 
+                        voice.lang.includes('ko') || voice.lang.includes('KR')
+                    );
+                    
+                    if (koreanVoice) {
+                        utterance.voice = koreanVoice;
+                    }
+                    
+                    highlightCurrentLine(currentLine);
+                    
+                    utterance.onend = function() {
+                        currentLine++;
+                        setTimeout(speakNextLine, line.pause);
+                    };
+                    
+                    utterance.onerror = function() {
+                        currentLine++;
+                        setTimeout(speakNextLine, line.pause);
+                    };
+                    
+                    window.speechSynthesis.speak(utterance);
+                }
+                
+                speakNextLine();
+                updateProgress();
+            } else {
+                alert('Ваш браузер не поддерживает синтез речи. Попробуйте Chrome или Edge.');
+            }
+        }
+        
+        // Функция остановки всех аудио
+        function stopAllAudio() {
+            window.speechSynthesis.cancel();
+            
+            const allPlayButtons = document.querySelectorAll('.play-btn');
+            allPlayButtons.forEach(button => {
+                button.innerHTML = '🔊';
+                button.style.background = 'rgba(255,255,255,0.2)';
+            });
+            
+            const dialogueButton = document.querySelector('[onclick="playDialogue()"]');
+            if (dialogueButton) {
+                dialogueButton.innerHTML = '🎭 Прослушать диалог';
+                dialogueButton.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+            }
+            
+            const allLines = document.querySelectorAll('.dialogue-line');
+            allLines.forEach(line => {
+                line.style.background = 'rgba(255,255,255,0.1)';
+                line.style.transform = 'scale(1)';
+            });
+            
+            console.log('Всё аудио остановлено');
+        }
+
+        // Подсвечивание текущей строки диалога
+        function highlightCurrentLine(lineIndex) {
+            const allLines = document.querySelectorAll('.dialogue-line');
+            allLines.forEach(line => {
+                line.style.background = 'rgba(255,255,255,0.1)';
+                line.style.transform = 'scale(1)';
+            });
+            
+            if (allLines[lineIndex]) {
+                allLines[lineIndex].style.background = 'rgba(255,235,59,0.3)';
+                allLines[lineIndex].style.transform = 'scale(1.02)';
+                allLines[lineIndex].style.transition = 'all 0.3s ease';
+            }
+        }
+
+        // Обновление прогресса - БЕЗ автоматического сообщения
+        function updateProgress() {
+            currentProgress++;
+            const percentage = Math.min((currentProgress / totalSections) * 100, 100);
+            document.getElementById('progress').style.width = percentage + '%';
+        }
+
+        // Проверка ответов в упражнениях
+        function checkAnswers() {
+            const answers = [
+                '안녕하세요',
+                '제 이름은 안나입니다',
+                '어디에서 왔어요'
+            ];
+            
+            const inputs = document.querySelectorAll('input[type="text"]');
+            let correct = 0;
+            
+            inputs.forEach((input, index) => {
+                if (input.value.trim() === answers[index]) {
+                    input.style.backgroundColor = '#c8e6c9';
+                    correct++;
+                } else {
+                    input.style.backgroundColor = '#ffcdd2';
+                }
+            });
+            
+            alert(`Правильных ответов: ${correct}/${answers.length}`);
+            updateProgress();
+        }
+
+        // Показать пример диалога
+        function showSampleDialogue() {
+            alert(`Пример диалога:
+А: 안녕하세요! (Здравствуйте!)
+Б: 안녕하세요! 제 이름은 김민수입니다. (Здравствуйте! Меня зовут Ким Минсу.)
+А: 만나서 반가워요! 어디에서 왔어요? (Приятно познакомиться! Откуда вы?)
+Б: 부산에서 왔어요. 안녕히 가세요! (Я из Пусана. До свидания!)
+А: 안녕히 계세요! (До свидания!)`);
+            updateProgress();
+        }
+
+        // Переход к следующему уроку
+        function goToNextLesson() {
+            if (!lessonCompleted) {
+                lessonCompleted = true;
+                alert('🎉 Поздравляем! Вы завершили урок 3! 축하합니다!\n\nПереходим к уроку 4 - Числа и время!');
+                setTimeout(() => {
+                    window.location.href = '../lesson_04_numbers/index.html';
+                }, 1000);
+            } else {
+                window.location.href = '../lesson_04_numbers/index.html';
+            }
+        }
+
+        // Анимация загрузки
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация синтезатора речи
+            if ('speechSynthesis' in window) {
+                function loadVoices() {
+                    const voices = window.speechSynthesis.getVoices();
+                    const koreanVoices = voices.filter(voice => 
+                        voice.lang.includes('ko') || voice.lang.includes('KR')
+                    );
+                    
+                    if (koreanVoices.length > 0) {
+                        console.log('Найдено корейских голосов:', koreanVoices.length);
+                    } else {
+                        console.log('Корейские голоса не найдены, используем стандартный');
+                    }
+                }
+                
+                if (window.speechSynthesis.getVoices().length === 0) {
+                    window.speechSynthesis.addEventListener('voiceschanged', loadVoices);
+                } else {
+                    loadVoices();
+                }
+            }
+            
+            // Анимация карточек
+            const cards = document.querySelectorAll('.phrase-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

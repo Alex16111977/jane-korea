@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 22: Диалекты и региональная речь</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans KR', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #2196F3, #4CAF50, #FF9800, #E91E63);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .nav {
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nav a {
+            background: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 10px;
+            margin: 0 10px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .nav a:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+        
+        .lesson-header {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .lesson-header h1 {
+            font-size: 2.5em;
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+        
+        .content-section {
+            background: rgba(255,255,255,0.95);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .region-card {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .region-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(45deg);
+        }
+        
+        .region-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .region-features {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .example-box {
+            background: #f8f9fa;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .korean-text {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .translation {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+        
+        .dialect-note {
+            background: #fff3e0;
+            border-left: 4px solid #FF9800;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        
+        .construction-title {
+            background: #E91E63;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .region-indicator {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            color: white;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        
+        .seoul { background: #2196F3; }
+        .busan { background: #FF5722; }
+        .jeolla { background: #4CAF50; }
+        .chungcheong { background: #FF9800; }
+        .gangwon { background: #9C27B0; }
+        .jeju { background: #00BCD4; }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .dialect-comparison {
+            background: white;
+            border: 2px solid #E91E63;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .practice-section {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .practice-button {
+            background: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+        
+        .practice-button:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .hidden { display: none; }
+        
+        .map-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .audio-note {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <a href="../index.html">← К 5급</a>
+            <a href="../../index.html">🏠 Главная</a>
+        </div>
+        
+        <div class="lesson-header">
+            <h1>🗺️ Урок 22: Диалекты и региональная речь</h1>
+            <p>Изучаем особенности региональных говоров Корейского полуострова</p>
+        </div>
+        
+        <div class="content-section">
+            <h2>🌏 Общий обзор диалектов</h2>
+            <div class="map-section">
+                <h3>Основные диалектные группы Кореи</h3>
+                <p>В Корее выделяют 6 основных диалектных регионов, каждый со своими уникальными особенностями произношения, лексики и грамматики</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="construction-title">1. Сеульский диалект (서울 사투리) <span class="region-indicator seoul">Столичный</span></div>
+            <div class="region-card" style="background: linear-gradient(135deg, #2196F3, #3F51B5);">
+                <div class="region-name">📍 Сеул и Кёнги-до</div>
+                <div class="region-features">
+                    <p><strong>Особенности:</strong> Основа литературного языка, нейтральное произношение</p>
+                    <p><strong>Статус:</strong> Стандартный корейский язык</p>
+                </div>
+            </div>
+            
+            <div class="example-box">
+                <div class="korean-text">뭐 해? (сеульский)</div>
+                <div class="translation">Что делаешь? (стандартно)</div>
+            </div>
+            
+            <div class="audio-note">
+                <strong>Произношение:</strong> Четкое, без сильных интонационных особенностей
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="construction-title">2. Пусанский диалект (부산 사투리) <span class="region-indicator busan">Кёнсан</span></div>
+            <div class="region-card" style="background: linear-gradient(135deg, #FF5722, #E65100);">
+                <div class="region-name">📍 Пусан, Кёнсан-до</div>
+                <div class="region-features">
+                    <p><strong>Особенности:</strong> Быстрая речь, уникальные интонации, много сокращений</p>
+                    <p><strong>Характер:</strong> Энергичный, прямолинейный</p>
+                </div>
+            </div>
+            
+            <h3>Ключевые отличия:</h3>
+            <div class="comparison-grid">
+                <div class="dialect-comparison">
+                    <div class="korean-text">뭐하노? (부산)</div>
+                    <div class="translation">Что делаешь?</div>
+                    <div style="font-size: 0.8em; color: #666;">vs 뭐 해? (서울)</div>
+                </div>
+                <div class="dialect-comparison">
+                    <div class="korean-text">그카제 (부산)</div>
+                    <div class="translation">Говорю же</div>
+                    <div style="font-size: 0.8em; color: #666;">vs 그러니까 (서울)</div>
+                </div>
+                <div class="dialect-comparison">
+                    <div class="korean-text">마이 (부산)</div>
+                    <div class="translation">Много</div>
+                    <div style="font-size: 0.8em; color: #666;">vs 많이 (서울)</div>
+                </div>
+            </div>
+            
+            <div class="dialect-note">
+                <strong>Интонация:</strong> Восходящий тон в конце предложений, характерные завершения на -노, -다 아이가
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="construction-title">3. Чолла диалект (전라 사투리) <span class="region-indicator jeolla">Чолла</span></div>
+            <div class="region-card" style="background: linear-gradient(135deg, #4CAF50, #388E3C);">
+                <div class="region-name">📍 Кванджу, Чолла-до</div>
+                <div class="region-features">
+                    <p><strong>Особенности:</strong> Мелодичная речь, уникальные окончания, богатая лексика</p>
+                    <p><strong>Характер:</strong> Эмоциональный, выразительный</p>
+                </div>
+            </div>
+            
+            <h3>Характерные выражения:</h3>
+            <div class="example-box">
+                <div class="korean-text">잘 건디야? (전라)</div>
+                <div class="translation">Как дела? (буквально: хорошо переносишь?)</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">겐디 (전라)</div>
+                <div class="translation">Да, правильно</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">댕기다 (전라)</div>
+                <div class="translation">Тащить, тянуть</div>
+            </div>
+            
+            <div class="dialect-note">
+                <strong>Особенность:</strong> Использование -잉 вместо -는 것, мелодичные интонации
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="construction-title">4. Чхунчхон диалект (충청 사투리) <span class="region-indicator chungcheong">Чхунчхон</span></div>
+            <div class="region-card" style="background: linear-gradient(135deg, #FF9800, #F57C00);">
+                <div class="region-name">📍 Тэджон, Чхунчхон-до</div>
+                <div class="region-features">
+                    <p><strong>Особенности:</strong> Медленная речь, характерные окончания -유, -겨</p>
+                    <p><strong>Характер:</strong> Спокойный, размеренный</p>
+                </div>
+            </div>
+            
+            <h3>Типичные формы:</h3>
+            <div class="example-box">
+                <div class="korean-text">먹었유? (충청)</div>
+                <div class="translation">Поел? (вежливо)</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">그런겨 (충청)</div>
+                <div class="translation">Да, так</div>
+            </div>
+            
+            <div class="dialect-note">
+                <strong>Интонация:</strong> Медленная, растянутая речь с характерными окончаниями
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="construction-title">5. Канвон диалект (강원 사투리) <span class="region-indicator gangwon">Канвон</span></div>
+            <div class="region-card" style="background: linear-gradient(135deg, #9C27B0, #7B1FA2);">
+                <div class="region-name">📍 Канвон-до (горные районы)</div>
+                <div class="region-features">
+                    <p><strong>Особенности:</strong> Архаичные формы, влияние северных диалектов</p>
+                    <p><strong>Характер:</strong> Простой, деревенский</p>
+                </div>
+            </div>
+            
+            <div class="example-box">
+                <div class="korean-text">감수다 (강원)</div>
+                <div class="translation">Идти (архаичная форма)</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">무신 (강원)</div>
+                <div class="translation">Какой, что за</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <div class="construction-title">6. Чеджу диалект (제주 사투리) <span class="region-indicator jeju">Чеджу</span></div>
+            <div class="region-card" style="background: linear-gradient(135deg, #00BCD4, #00ACC1);">
+                <div class="region-name">🏝️ Остров Чеджу</div>
+                <div class="region-features">
+                    <p><strong>Особенности:</strong> Наиболее отличающийся, почти отдельный язык</p>
+                    <p><strong>Статус:</strong> Находится под угрозой исчезновения</p>
+                </div>
+            </div>
+            
+            <h3>Уникальная лексика Чеджу:</h3>
+            <div class="comparison-grid">
+                <div class="dialect-comparison">
+                    <div class="korean-text">하르방 (제주)</div>
+                    <div class="translation">Дедушка</div>
+                    <div style="font-size: 0.8em; color: #666;">vs 할아버지 (서울)</div>
+                </div>
+                <div class="dialect-comparison">
+                    <div class="korean-text">물질 (제주)</div>
+                    <div class="translation">Ныряние за морепродуктами</div>
+                    <div style="font-size: 0.8em; color: #666;">(уникальное слово)</div>
+                </div>
+                <div class="dialect-comparison">
+                    <div class="korean-text">각기다 (제주)</div>
+                    <div class="translation">Идти</div>
+                    <div style="font-size: 0.8em; color: #666;">vs 가다 (서울)</div>
+                </div>
+            </div>
+            
+            <div class="dialect-note">
+                <strong>ЮНЕСКО:</strong> Диалект Чеджу внесен в список языков, находящихся под угрозой исчезновения
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <h2>🎯 Практические упражнения</h2>
+            
+            <div class="example-box">
+                <p><strong>1. Определите диалект по фразе:</strong></p>
+                <p>"마이 묵었다 아이가!" - (Много поел!)</p>
+                <button class="practice-button" onclick="showAnswer(1)">Показать ответ</button>
+                <div id="answer1" class="hidden">
+                    <p><strong>Пусанский диалект (부산 사투리)</strong></p>
+                    <p><em>마이 = 많이, 묵었다 = 먹었다, 아이가 - характерное окончание</em></p>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <p><strong>2. Переведите на стандартный корейский:</strong></p>
+                <p>"잘 건디야?" (Чолла диалект)</p>
+                <button class="practice-button" onclick="showAnswer(2)">Показать ответ</button>
+                <div id="answer2" class="hidden">
+                    <p><strong>잘 지내?</strong> (Как дела?)</p>
+                    <p><em>건디다 = 지내다 в диалекте Чолла</em></p>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <p><strong>3. Какой диалект известен окончанием -유?</strong></p>
+                <button class="practice-button" onclick="showAnswer(3)">Показать ответ</button>
+                <div id="answer3" class="hidden">
+                    <p><strong>Чхунчхон диалект (충청 사투리)</strong></p>
+                    <p><em>Характерное окончание вежливости в регионе Чхунчхон</em></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📺 Диалекты в современной культуре</h2>
+            <div class="example-box">
+                <p><strong>Где встретить диалекты:</strong></p>
+                <ul>
+                    <li><strong>K-драмы:</strong> Персонажи из разных регионов</li>
+                    <li><strong>Комедийные шоу:</strong> Имитация диалектов для юмора</li>
+                    <li><strong>Фильмы:</strong> Отражение региональной принадлежности героев</li>
+                    <li><strong>Музыка:</strong> Рэперы часто используют родные диалекты</li>
+                </ul>
+            </div>
+            
+            <div class="audio-note">
+                <strong>Важно помнить:</strong> Хотя диалекты интересны для изучения, в формальных ситуациях всегда используется стандартный корейский язык
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>🎭 Социолингвистические аспекты</h2>
+            <div class="example-box">
+                <p><strong>Отношение к диалектам в корейском обществе:</strong></p>
+                <ul>
+                    <li>Диалекты могут выдавать социальное происхождение</li>
+                    <li>В бизнесе предпочитается стандартный язык</li>
+                    <li>Региональная гордость vs столичные предрассудки</li>
+                    <li>Молодежь все меньше использует диалекты</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📚 Домашнее задание</h2>
+            <div class="example-box">
+                <p><strong>Задания:</strong></p>
+                <ol>
+                    <li>Посмотрите корейский фильм/дораму и попытайтесь определить диалекты персонажей</li>
+                    <li>Изучите 10 слов на диалекте Чеджу и их стандартные эквиваленты</li>
+                    <li>Найдите видео с носителями разных диалектов и сравните интонации</li>
+                    <li>Создайте мини-словарь диалектных выражений (20 фраз)</li>
+                    <li>Изучите историческое развитие одного из диалектов</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showAnswer(num) {
+            const answer = document.getElementById('answer' + num);
+            const button = answer.previousElementSibling;
+            
+            if (answer.classList.contains('hidden')) {
+                answer.classList.remove('hidden');
+                button.textContent = 'Скрыть ответ';
+                button.style.background = '#dc3545';
+            } else {
+                answer.classList.add('hidden');
+                button.textContent = 'Показать ответ';
+                button.style.background = '#28a745';
+            }
+        }
+
+        // Анимация появления элементов
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        });
+    </script>
+</body>
+</html>

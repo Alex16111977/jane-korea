@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Эмоции по-корейски</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8e6cf, #dcedc1, #ffd3e1);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .nav {
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .nav a {
+            background: #a8e6cf;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 10px;
+            margin: 0 10px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .nav a:hover {
+            background: #90d4b0;
+            transform: translateY(-2px);
+        }
+        
+        .lesson-header {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .lesson-header h1 {
+            font-size: 2.5em;
+            color: #a8e6cf;
+            margin-bottom: 10px;
+        }
+        
+        .vocabulary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .word-card {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .word-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #a8e6cf, #dcedc1);
+        }
+        
+        .word-card.happy::before { background: linear-gradient(90deg, #FFD93D, #6BCF7F); }
+        .word-card.sad::before { background: linear-gradient(90deg, #74b9ff, #0984e3); }
+        .word-card.angry::before { background: linear-gradient(90deg, #ff7675, #d63031); }
+        .word-card.neutral::before { background: linear-gradient(90deg, #ddd, #999); }
+        
+        .word-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .korean-word {
+            font-size: 2em;
+            font-weight: bold;
+            color: #a8e6cf;
+            margin-bottom: 5px;
+        }
+        
+        .pronunciation {
+            font-size: 1.2em;
+            color: #74b9ff;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+        
+        .translation {
+            font-size: 1.1em;
+            color: #666;
+        }
+        
+        .emotion-emoji {
+            font-size: 2em;
+            margin-right: 10px;
+        }
+        
+        .speak-btn {
+            background: #dcedc1;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.3s;
+        }
+        
+        .speak-btn:hover {
+            background: #a8e6cf;
+        }
+        
+        .quiz-section {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .quiz-question {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .quiz-option:hover {
+            background: #e9ecef;
+        }
+        
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .quiz-option.wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #a8e6cf, #dcedc1);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .study-mode {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .mode-btn {
+            background: #74b9ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .mode-btn.active {
+            background: #a8e6cf;
+        }
+        
+        .flashcard {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .flashcard:hover {
+            transform: rotateY(5deg);
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .emotion-filter {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: rgba(255,255,255,0.9);
+            border: 2px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active {
+            background: #a8e6cf;
+            color: white;
+            border-color: #a8e6cf;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <a href="../../level_2/index.html">← К 2급</a>
+            <a href="../../index.html">🏠 Главная</a>
+        </div>
+        
+        <div class="lesson-header">
+            <h1>😊 Эмоции по-корейски (감정)</h1>
+            <p>Изучаем выражение чувств и эмоций на корейском языке</p>
+        </div>
+        
+        <div class="study-mode">
+            <button class="mode-btn active" onclick="showVocabulary()">📚 Словарь</button>
+            <button class="mode-btn" onclick="showFlashcards()">🃏 Карточки</button>
+            <button class="mode-btn" onclick="showQuiz()">🎯 Тест</button>
+        </div>
+        
+        <div class="emotion-filter" id="emotion-filter">
+            <button class="filter-btn active" onclick="filterEmotions('all')">Все</button>
+            <button class="filter-btn" onclick="filterEmotions('happy')">😊 Радостные</button>
+            <button class="filter-btn" onclick="filterEmotions('sad')">😢 Грустные</button>
+            <button class="filter-btn" onclick="filterEmotions('angry')">😠 Злые</button>
+            <button class="filter-btn" onclick="filterEmotions('neutral')">😐 Нейтральные</button>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+        
+        <div id="vocabulary-section">
+            <div class="vocabulary-grid" id="vocabularyGrid">
+                <!-- Будет заполнено JS -->
+            </div>
+        </div>
+        
+        <div id="flashcard-section" style="display: none;">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div id="flashcard-content">
+                    <div class="korean-word" id="flashcard-korean">기쁘다</div>
+                    <button class="speak-btn" onclick="speak('기쁘다')">🔊</button>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="mode-btn" onclick="prevCard()">← Предыдущая</button>
+                <span id="card-counter">1 / 18</span>
+                <button class="mode-btn" onclick="nextCard()">Следующая →</button>
+            </div>
+        </div>
+        
+        <div id="quiz-section" style="display: none;">
+            <div class="quiz-section">
+                <h2>🎯 Тест: Эмоции</h2>
+                <div class="quiz-question" id="quiz-question">
+                    Как по-корейски "радоваться"?
+                </div>
+                <div class="quiz-options" id="quiz-options">
+                    <!-- Будет заполнено JS -->
+                </div>
+                <div class="result" id="quiz-result"></div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="mode-btn" onclick="nextQuestion()">Следующий вопрос</button>
+                    <button class="mode-btn" onclick="restartQuiz()">Начать заново</button>
+                </div>
+                <div id="quiz-stats" style="text-align: center; margin-top: 20px;">
+                    Правильных ответов: <span id="correct-count">0</span> из <span id="total-count">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            {korean: '기쁘다', pronunciation: 'кипыдаа', translation: 'радоваться, быть счастливым', emoji: '😊', category: 'happy'},
+            {korean: '슬프다', pronunciation: 'сылпыдаа', translation: 'грустить', emoji: '😢', category: 'sad'},
+            {korean: '화나다', pronunciation: 'хванада', translation: 'злиться', emoji: '😠', category: 'angry'},
+            {korean: '좋다', pronunciation: 'чоота', translation: 'хорошо, нравиться', emoji: '😊', category: 'happy'},
+            {korean: '무섭다', pronunciation: 'мусопта', translation: 'бояться, страшно', emoji: '😨', category: 'neutral'},
+            {korean: '놀라다', pronunciation: 'нолрада', translation: 'удивляться', emoji: '😲', category: 'neutral'},
+            {korean: '사랑하다', pronunciation: 'саранхада', translation: 'любить', emoji: '😍', category: 'happy'},
+            {korean: '싫다', pronunciation: 'силта', translation: 'не нравиться', emoji: '😒', category: 'neutral'},
+            {korean: '걱정하다', pronunciation: 'кокчонхада', translation: 'беспокоиться', emoji: '😟', category: 'sad'},
+            {korean: '외롭다', pronunciation: 'веропта', translation: 'одиноко', emoji: '😔', category: 'sad'},
+            {korean: '부끄럽다', pronunciation: 'пыккырыпта', translation: 'стыдиться', emoji: '😳', category: 'neutral'},
+            {korean: '신나다', pronunciation: 'синнада', translation: 'взволнованно, весело', emoji: '🤩', category: 'happy'},
+            {korean: '피곤하다', pronunciation: 'пигонхада', translation: 'уставать', emoji: '😴', category: 'neutral'},
+            {korean: '답답하다', pronunciation: 'таптапхада', translation: 'душно, тесно', emoji: '😤', category: 'angry'},
+            {korean: '미안하다', pronunciation: 'мианхада', translation: 'извиняться', emoji: '😔', category: 'sad'},
+            {korean: '고맙다', pronunciation: 'комапта', translation: 'благодарить', emoji: '😊', category: 'happy'},
+            {korean: '심심하다', pronunciation: 'симсимхада', translation: 'скучать', emoji: '😑', category: 'neutral'},
+            {korean: '배고프다', pronunciation: 'пэгопыда', translation: 'голодать', emoji: '😋', category: 'neutral'}
+        ];
+        
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let quizCurrentIndex = 0;
+        let correctAnswers = 0;
+        let totalQuestions = 0;
+        let filteredVocabulary = vocabulary;
+        
+        function loadVocabulary() {
+            const grid = document.getElementById('vocabularyGrid');
+            grid.innerHTML = '';
+            
+            filteredVocabulary.forEach((word, index) => {
+                const card = document.createElement('div');
+                card.className = `word-card ${word.category}`;
+                card.innerHTML = `
+                    <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <span class="emotion-emoji">${word.emoji}</span>
+                        <div class="korean-word">${word.korean}</div>
+                    </div>
+                    <div class="pronunciation">${word.pronunciation}</div>
+                    <div class="translation">${word.translation}</div>
+                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊</button>
+                `;
+                grid.appendChild(card);
+            });
+            
+            updateProgress();
+        }
+        
+        function filterEmotions(category) {
+            // Обновляем активную кнопку фильтра
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (category === 'all') {
+                filteredVocabulary = vocabulary;
+            } else {
+                filteredVocabulary = vocabulary.filter(word => word.category === category);
+            }
+            
+            loadVocabulary();
+        }
+        
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        function showVocabulary() {
+            document.getElementById('vocabulary-section').style.display = 'block';
+            document.getElementById('flashcard-section').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('emotion-filter').style.display = 'flex';
+            updateActiveButton(0);
+        }
+        
+        function showFlashcards() {
+            document.getElementById('vocabulary-section').style.display = 'none';
+            document.getElementById('flashcard-section').style.display = 'block';
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('emotion-filter').style.display = 'none';
+            updateActiveButton(1);
+            updateFlashcard();
+        }
+        
+        function showQuiz() {
+            document.getElementById('vocabulary-section').style.display = 'none';
+            document.getElementById('flashcard-section').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'block';
+            document.getElementById('emotion-filter').style.display = 'none';
+            updateActiveButton(2);
+            generateQuizQuestion();
+        }
+        
+        function updateActiveButton(index) {
+            const buttons = document.querySelectorAll('.mode-btn');
+            buttons.forEach((btn, i) => {
+                if (i === index) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+        
+        function updateFlashcard() {
+            const word = vocabulary[currentCardIndex];
+            const flashcard = document.getElementById('flashcard');
+            const content = document.getElementById('flashcard-content');
+            
+            if (isFlipped) {
+                content.innerHTML = `
+                    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                        <span class="emotion-emoji">${word.emoji}</span>
+                    </div>
+                    <div class="pronunciation">${word.pronunciation}</div>
+                    <div class="translation">${word.translation}</div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="korean-word">${word.korean}</div>
+                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊</button>
+                `;
+            }
+            
+            document.getElementById('card-counter').textContent = `${currentCardIndex + 1} / ${vocabulary.length}`;
+        }
+        
+        function flipCard() {
+            isFlipped = !isFlipped;
+            updateFlashcard();
+        }
+        
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % vocabulary.length;
+            isFlipped = false;
+            updateFlashcard();
+        }
+        
+        function prevCard() {
+            currentCardIndex = (currentCardIndex - 1 + vocabulary.length) % vocabulary.length;
+            isFlipped = false;
+            updateFlashcard();
+        }
+        
+        function generateQuizQuestion() {
+            const word = vocabulary[quizCurrentIndex % vocabulary.length];
+            const options = [word];
+            
+            // Добавляем 3 случайных неправильных варианта
+            while (options.length < 4) {
+                const randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+                if (!options.includes(randomWord)) {
+                    options.push(randomWord);
+                }
+            }
+            
+            // Перемешиваем варианты
+            options.sort(() => Math.random() - 0.5);
+            
+            const questionTypes = [
+                `Как по-корейски "${word.translation}"?`,
+                `Что означает "${word.korean}"?`,
+                `Какая эмоция соответствует ${word.emoji}?`
+            ];
+            
+            const questionType = Math.floor(Math.random() * questionTypes.length);
+            document.getElementById('quiz-question').textContent = questionTypes[questionType];
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            
+            options.forEach(option => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'quiz-option';
+                
+                if (questionType === 0) {
+                    optionDiv.innerHTML = `${option.korean} <br><small>(${option.pronunciation})</small>`;
+                } else if (questionType === 1) {
+                    optionDiv.textContent = option.translation;
+                } else {
+                    optionDiv.innerHTML = `${option.emoji} ${option.korean}`;
+                }
+                
+                optionDiv.onclick = () => selectAnswer(option, word);
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            document.getElementById('quiz-result').textContent = '';
+        }
+        
+        function selectAnswer(selected, correct) {
+            totalQuestions++;
+            const options = document.querySelectorAll('.quiz-option');
+            
+            options.forEach(option => {
+                option.onclick = null; // Отключаем клики
+                if (option.textContent.includes(correct.korean) || option.textContent.includes(correct.translation)) {
+                    option.classList.add('correct');
+                } else if (option.textContent.includes(selected.korean) || option.textContent.includes(selected.translation)) {
+                    option.classList.add('wrong');
+                }
+            });
+            
+            if (selected.korean === correct.korean) {
+                correctAnswers++;
+                document.getElementById('quiz-result').innerHTML = `✅ Правильно! ${correct.emoji}`;
+                document.getElementById('quiz-result').style.color = '#28a745';
+            } else {
+                document.getElementById('quiz-result').innerHTML = `❌ Неправильно! Правильный ответ: ${correct.korean} (${correct.translation})`;
+                document.getElementById('quiz-result').style.color = '#dc3545';
+            }
+            
+            document.getElementById('correct-count').textContent = correctAnswers;
+            document.getElementById('total-count').textContent = totalQuestions;
+        }
+        
+        function nextQuestion() {
+            quizCurrentIndex++;
+            generateQuizQuestion();
+        }
+        
+        function restartQuiz() {
+            quizCurrentIndex = 0;
+            correctAnswers = 0;
+            totalQuestions = 0;
+            document.getElementById('correct-count').textContent = '0';
+            document.getElementById('total-count').textContent = '0';
+            generateQuizQuestion();
+        }
+        
+        function updateProgress() {
+            const progress = Math.min(100, (filteredVocabulary.length / vocabulary.length) * 100);
+            document.getElementById('progress').style.width = progress + '%';
+        }
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVocabulary();
+            updateFlashcard();
+            generateQuizQuestion();
+        });
+        
+        // Горячие клавиши
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('flashcard-section').style.display !== 'none') {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    flipCard();
+                } else if (e.code === 'ArrowRight') {
+                    nextCard();
+                } else if (e.code === 'ArrowLeft') {
+                    prevCard();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <title>🔢 Числа и время</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: 
+                linear-gradient(135deg, rgba(14, 116, 144, 0.85), rgba(30, 58, 138, 0.9), rgba(6, 95, 70, 0.8)),
+                url('../../../foto/море.jpg') center/cover no-repeat fixed;
+            font-family: 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            color: #333;
+            backdrop-filter: blur(1px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a, .navigation button {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 12px 25px;
+            background: rgba(14, 116, 144, 0.9);
+            border: 2px solid rgba(56, 189, 248, 0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 4px 15px rgba(6, 95, 70, 0.2);
+        }
+
+        .navigation a:hover, .navigation button:hover {
+            background: rgba(56, 189, 248, 0.9);
+            border-color: rgba(14, 116, 144, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6, 95, 70, 0.3);
+        }
+
+        .lesson-header {
+            background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(240,249,255,0.95));
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(6, 95, 70, 0.3);
+            text-align: center;
+            border: 3px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .lesson-header::before {
+            content: '1️⃣2️⃣3️⃣';
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.05;
+            right: -20px;
+            top: -20px;
+            color: #0e7490;
+        }
+
+        .lesson-header h1 {
+            color: #0f172a;
+            text-shadow: 2px 2px 4px rgba(14, 116, 144, 0.1);
+            margin: 0 0 20px 0;
+            font-size: 2.8em;
+            position: relative;
+        }
+
+        .lesson-subtitle {
+            font-size: 1.4em;
+            color: #0e7490;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .lesson-description {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(6, 95, 70, 0.2);
+            border: 2px solid rgba(56, 189, 248, 0.1);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #0e7490, #0891b2);
+            padding: 25px;
+            color: white;
+            position: relative;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-content {
+            padding: 30px;
+        }
+
+        .number-systems {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 25px 0;
+        }
+
+        .number-system {
+            background: linear-gradient(135deg, rgba(240,249,255,0.9), rgba(239,246,255,0.95));
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #0891b2;
+            box-shadow: 0 5px 15px rgba(14, 116, 144, 0.1);
+        }
+
+        .number-system h3 {
+            color: #0e7490;
+            margin: 0 0 20px 0;
+            font-size: 1.4em;
+        }
+
+        .numbers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .number-card {
+            background: linear-gradient(135deg, #0891b2, #0e7490);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(6, 95, 70, 0.2);
+            border: 2px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .number-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(6, 95, 70, 0.3);
+            border-color: rgba(56, 189, 248, 0.6);
+        }
+
+        .number-card.clicked {
+            animation: pulse 0.6s ease;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+        }
+
+        .number-card.sino-korean {
+            background: linear-gradient(135deg, #1e40af, #1e3a8a);
+        }
+
+        .number-card.native-korean {
+            background: linear-gradient(135deg, #0891b2, #065f46);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .korean-number {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .number-value {
+            font-size: 1.4em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .number-romanization {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #0891b2, #0e7490);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(14, 116, 144, 0.2);
+            border: 2px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .highlight-box::before {
+            content: '💡';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            opacity: 0.3;
+        }
+
+        .time-section {
+            background: linear-gradient(135deg, #0891b2, #0e7490);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(6, 95, 70, 0.3);
+            border: 2px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .time-section::before {
+            content: '⏰';
+            position: absolute;
+            font-size: 150px;
+            opacity: 0.1;
+            right: 20px;
+            top: 10px;
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        .time-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .time-card {
+            background: rgba(56, 189, 248, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .time-card:hover {
+            background: rgba(56, 189, 248, 0.3);
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 25px rgba(6, 95, 70, 0.2);
+        }
+
+        .time-korean {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .time-meaning {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .calendar-section {
+            background: linear-gradient(135deg, #1e40af, #1e3a8a);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 15px 40px rgba(30, 58, 138, 0.3);
+            border: 2px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .day-card {
+            background: rgba(56, 189, 248, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .day-card:hover {
+            background: rgba(56, 189, 248, 0.35);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .day-korean {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .day-english {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #065f46, #047857);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            box-shadow: 0 15px 40px rgba(6, 95, 70, 0.3);
+            border: 2px solid rgba(52, 211, 153, 0.2);
+        }
+
+        .practice-exercises {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .exercise-card {
+            background: rgba(52, 211, 153, 0.1);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(52, 211, 153, 0.2);
+        }
+
+        .exercise-question {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .exercise-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .exercise-option {
+            background: rgba(52, 211, 153, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(52, 211, 153, 0.3);
+            color: white;
+            font-size: 1em;
+        }
+
+        .exercise-option:hover {
+            background: rgba(52, 211, 153, 0.3);
+            border-color: rgba(52, 211, 153, 0.5);
+        }
+
+        .exercise-option.correct {
+            background: rgba(76, 175, 80, 0.8);
+        }
+
+        .exercise-option.incorrect {
+            background: rgba(244, 67, 54, 0.8);
+        }
+
+        .continue-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #0891b2, #0e7490);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+            border: 2px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(14, 116, 144, 0.3);
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+        }
+
+        @media (max-width: 768px) {
+            .lesson-header h1 {
+                font-size: 2.2em;
+            }
+            
+            .number-systems {
+                grid-template-columns: 1fr;
+            }
+            
+            .numbers-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .time-examples {
+                grid-template-columns: 1fr;
+            }
+            
+            .days-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .animated {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideInUp 0.6s ease forwards;
+        }
+
+        @keyframes slideInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../level_1/index.html">← К 1급</a>
+            <a href="../lesson_03_greetings/index.html">← Урок 3</a>
+            <a href="../lesson_05_family/index.html">Урок 5 →</a>
+            <button onclick="startQuiz()">📝 Тест на знание</button>
+        </div>
+
+        <header class="lesson-header">
+            <h1>🔢 Урок 4: Числа и время</h1>
+            <div class="lesson-subtitle">숫자와 시간을 배워요!</div>
+            <p class="lesson-description">
+                В корейском языке существуют две системы счисления! Изучим корейские числа и научимся говорить время.
+            </p>
+        </header>
+
+        <div class="content-section animated">
+            <div class="section-header">
+                <h2>🔢 Две системы чисел</h2>
+            </div>
+            <div class="section-content">
+                <p>В корейском языке используются <strong>две системы счисления</strong>:</p>
+                
+                <div class="highlight-box">
+                    <h3>Важно запомнить!</h3>
+                    <ul>
+                        <li><strong>Китайско-корейские числа</strong> - для денег, математики, телефонов, адресов</li>
+                        <li><strong>Исконно корейские числа</strong> - для возраста, часов, количества предметов</li>
+                    </ul>
+                </div>
+
+                <div class="number-systems">
+                    <div class="number-system">
+                        <h3>🇨🇳 Китайско-корейские (한자어 수사)</h3>
+                        <p><strong>Используются для:</strong> денег, математики, телефонов, адресов, минут</p>
+                        <div class="numbers-grid">
+                            <div class="number-card sino-korean" onclick="playNumber(this, '영', 'ёнъ')">
+                                <span class="korean-number">영</span>
+                                <div class="number-value">0</div>
+                                <div class="number-romanization">yeong</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '일', 'иль')">
+                                <span class="korean-number">일</span>
+                                <div class="number-value">1</div>
+                                <div class="number-romanization">il</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '이', 'и')">
+                                <span class="korean-number">이</span>
+                                <div class="number-value">2</div>
+                                <div class="number-romanization">i</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '삼', 'сам')">
+                                <span class="korean-number">삼</span>
+                                <div class="number-value">3</div>
+                                <div class="number-romanization">sam</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '사', 'са')">
+                                <span class="korean-number">사</span>
+                                <div class="number-value">4</div>
+                                <div class="number-romanization">sa</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '오', 'о')">
+                                <span class="korean-number">오</span>
+                                <div class="number-value">5</div>
+                                <div class="number-romanization">o</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '육', 'юк')">
+                                <span class="korean-number">육</span>
+                                <div class="number-value">6</div>
+                                <div class="number-romanization">yuk</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '칠', 'чиль')">
+                                <span class="korean-number">칠</span>
+                                <div class="number-value">7</div>
+                                <div class="number-romanization">chil</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '팔', 'пхаль')">
+                                <span class="korean-number">팔</span>
+                                <div class="number-value">8</div>
+                                <div class="number-romanization">pal</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '구', 'ку')">
+                                <span class="korean-number">구</span>
+                                <div class="number-value">9</div>
+                                <div class="number-romanization">gu</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '십', 'щип')">
+                                <span class="korean-number">십</span>
+                                <div class="number-value">10</div>
+                                <div class="number-romanization">sip</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="number-system">
+                        <h3>🇰🇷 Исконно корейские (고유어 수사)</h3>
+                        <p><strong>Используются для:</strong> возраста, часов, количества предметов</p>
+                        <div class="numbers-grid">
+                            <div class="number-card native-korean" onclick="playNumber(this, '하나', 'хана')">
+                                <span class="korean-number">하나</span>
+                                <div class="number-value">1</div>
+                                <div class="number-romanization">hana</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '둘', 'туль')">
+                                <span class="korean-number">둘</span>
+                                <div class="number-value">2</div>
+                                <div class="number-romanization">dul</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '셋', 'сет')">
+                                <span class="korean-number">셋</span>
+                                <div class="number-value">3</div>
+                                <div class="number-romanization">set</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '넷', 'нет')">
+                                <span class="korean-number">넷</span>
+                                <div class="number-value">4</div>
+                                <div class="number-romanization">net</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '다섯', 'тасот')">
+                                <span class="korean-number">다섯</span>
+                                <div class="number-value">5</div>
+                                <div class="number-romanization">daseot</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '여섯', 'йосот')">
+                                <span class="korean-number">여섯</span>
+                                <div class="number-value">6</div>
+                                <div class="number-romanization">yeoseot</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '일곱', 'ильгоп')">
+                                <span class="korean-number">일곱</span>
+                                <div class="number-value">7</div>
+                                <div class="number-romanization">ilgop</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '여덟', 'йодоль')">
+                                <span class="korean-number">여덟</span>
+                                <div class="number-value">8</div>
+                                <div class="number-romanization">yeodeol</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '아홉', 'ахоп')">
+                                <span class="korean-number">아홉</span>
+                                <div class="number-value">9</div>
+                                <div class="number-romanization">ahop</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '열', 'йоль')">
+                                <span class="korean-number">열</span>
+                                <div class="number-value">10</div>
+                                <div class="number-romanization">yeol</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 🔢 Числа 11-99 -->
+        <div class="content-section animated">
+            <div class="section-header">
+                <h2>🔢 Корейские числа 11-99</h2>
+            </div>
+            <div class="section-content">
+                <p>После 10 в корейском начинается <strong>логичная система</strong>! Обе системы счисления следуют одинаковой логике.</p>
+                
+                <div class="highlight-box">
+                    <h3>📝 Формула образования чисел 11-99:</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                            <h4 style="color: white; margin-top: 0;">🇨🇳 Китайско-корейская:</h4>
+                            <p style="color: white; font-size: 1.2em; text-align: center; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin: 15px 0;">
+                                <strong>십 (10) + 숫자</strong>
+                            </p>
+                            <p style="color: white; line-height: 1.6;">
+                                11 = 십일 (щип + иль)<br>
+                                25 = 이십오 (2×10 + 5)<br>
+                                99 = 구십구 (9×10 + 9)
+                            </p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                            <h4 style="color: white; margin-top: 0;">🇰🇷 Исконно корейская:</h4>
+                            <p style="color: white; font-size: 1.2em; text-align: center; background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; margin: 15px 0;">
+                                <strong>열 (10) + 숫자</strong>
+                            </p>
+                            <p style="color: white; line-height: 1.6;">
+                                11 = 열하나 (ёль + хана)<br>
+                                25 = 스물다섯 (смул + тасот)<br>
+                                99 = 아흔여댟아홉 (ахун + ахоп)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="number-systems">
+                    <div class="number-system">
+                        <h3>🇨🇳 Китайско-кор. 11-20</h3>
+                        <p><strong>📅 Используем для:</strong> дат, минут, денег, телефонов</p>
+                        <div class="numbers-grid">
+                            <div class="number-card sino-korean" onclick="playNumber(this, '십일', '십일')">
+                                <span class="korean-number">십일</span>
+                                <div class="number-value">11</div>
+                                <div class="number-romanization">sib-il</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '십이', '십이')">
+                                <span class="korean-number">십이</span>
+                                <div class="number-value">12</div>
+                                <div class="number-romanization">sib-i</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '십삼', '십삼')">
+                                <span class="korean-number">십삼</span>
+                                <div class="number-value">13</div>
+                                <div class="number-romanization">sib-sam</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '십사', '십사')">
+                                <span class="korean-number">십사</span>
+                                <div class="number-value">14</div>
+                                <div class="number-romanization">sib-sa</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '십오', '십오')">
+                                <span class="korean-number">십오</span>
+                                <div class="number-value">15</div>
+                                <div class="number-romanization">sib-o</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '십육', '십육')">
+                                <span class="korean-number">십육</span>
+                                <div class="number-value">16</div>
+                                <div class="number-romanization">sim-nyuk</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '십칠', '십칠')">
+                                <span class="korean-number">십칠</span>
+                                <div class="number-value">17</div>
+                                <div class="number-romanization">sib-chil</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '십팔', '십팔')">
+                                <span class="korean-number">십팔</span>
+                                <div class="number-value">18</div>
+                                <div class="number-romanization">sib-pal</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '십구', '십구')">
+                                <span class="korean-number">십구</span>
+                                <div class="number-value">19</div>
+                                <div class="number-romanization">sib-gu</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '이십', '이십')">
+                                <span class="korean-number">이십</span>
+                                <div class="number-value">20</div>
+                                <div class="number-romanization">i-sip</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="number-system">
+                        <h3>🇰🇷 Исконно кор. 11-20</h3>
+                        <p><strong>⏰ Используем для:</strong> часов, возраста, количества</p>
+                        <div class="numbers-grid">
+                            <div class="number-card native-korean" onclick="playNumber(this, '열하나', '열하나')">
+                                <span class="korean-number">열하나</span>
+                                <div class="number-value">11</div>
+                                <div class="number-romanization">yeol-hana</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '열둘', '열둘')">
+                                <span class="korean-number">열둘</span>
+                                <div class="number-value">12</div>
+                                <div class="number-romanization">yeol-dul</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '열셋', '열셋')">
+                                <span class="korean-number">열셋</span>
+                                <div class="number-value">13</div>
+                                <div class="number-romanization">yeol-set</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '열넷', '열넷')">
+                                <span class="korean-number">열넷</span>
+                                <div class="number-value">14</div>
+                                <div class="number-romanization">yeol-net</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '열다섯', '열다섯')">
+                                <span class="korean-number">열다섯</span>
+                                <div class="number-value">15</div>
+                                <div class="number-romanization">yeol-daseot</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '열여섯', '열여섯')">
+                                <span class="korean-number">열여섯</span>
+                                <div class="number-value">16</div>
+                                <div class="number-romanization">yeol-yeoseot</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '열일곱', '열일곱')">
+                                <span class="korean-number">열일곱</span>
+                                <div class="number-value">17</div>
+                                <div class="number-romanization">yeol-ilgop</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '열여덟', '열여덟')">
+                                <span class="korean-number">열여덟</span>
+                                <div class="number-value">18</div>
+                                <div class="number-romanization">yeol-yeodeol</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '열아홉', '열아홉')">
+                                <span class="korean-number">열아홉</span>
+                                <div class="number-value">19</div>
+                                <div class="number-romanization">yeol-ahop</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '스물', '스물')">
+                                <span class="korean-number">스물</span>
+                                <div class="number-value">20</div>
+                                <div class="number-romanization">seumul</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🔢 Десятки 20-90 -->
+                <div style="margin-top: 40px;">
+                    <h3 style="color: #0e7490; font-size: 2em; text-align: center; margin-bottom: 25px;">🔢 Десятки 20-90</h3>
+                    
+                    <div class="number-systems">
+                        <div class="number-system">
+                            <h3>🇨🇳 Китайско-корейские</h3>
+                            <p><strong>Формула:</strong> Число + 십 (10)</p>
+                            <div class="numbers-grid">
+                                <div class="number-card sino-korean" onclick="playNumber(this, '이십', '이십')">
+                                    <span class="korean-number">이십</span>
+                                    <div class="number-value">20</div>
+                                    <div class="number-romanization">i-sip</div>
+                                </div>
+                                <div class="number-card sino-korean" onclick="playNumber(this, '삼십', '삼십')">
+                                    <span class="korean-number">삼십</span>
+                                    <div class="number-value">30</div>
+                                    <div class="number-romanization">sam-sip</div>
+                                </div>
+                                <div class="number-card sino-korean" onclick="playNumber(this, '사십', '사십')">
+                                    <span class="korean-number">사십</span>
+                                    <div class="number-value">40</div>
+                                    <div class="number-romanization">sa-sip</div>
+                                </div>
+                                <div class="number-card sino-korean" onclick="playNumber(this, '오십', '오십')">
+                                    <span class="korean-number">오십</span>
+                                    <div class="number-value">50</div>
+                                    <div class="number-romanization">o-sip</div>
+                                </div>
+                                <div class="number-card sino-korean" onclick="playNumber(this, '육십', '육십')">
+                                    <span class="korean-number">육십</span>
+                                    <div class="number-value">60</div>
+                                    <div class="number-romanization">yuk-sip</div>
+                                </div>
+                                <div class="number-card sino-korean" onclick="playNumber(this, '칠십', '칠십')">
+                                    <span class="korean-number">칠십</span>
+                                    <div class="number-value">70</div>
+                                    <div class="number-romanization">chil-sip</div>
+                                </div>
+                                <div class="number-card sino-korean" onclick="playNumber(this, '팔십', '팔십')">
+                                    <span class="korean-number">팔십</span>
+                                    <div class="number-value">80</div>
+                                    <div class="number-romanization">pal-sip</div>
+                                </div>
+                                <div class="number-card sino-korean" onclick="playNumber(this, '구십', '구십')">
+                                    <span class="korean-number">구십</span>
+                                    <div class="number-value">90</div>
+                                    <div class="number-romanization">gu-sip</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="number-system">
+                            <h3>🇰🇷 Исконно корейские</h3>
+                            <p><strong>Отдельные слова</strong> для каждой десятки!</p>
+                            <div class="numbers-grid">
+                                <div class="number-card native-korean" onclick="playNumber(this, '스물', '스물')">
+                                    <span class="korean-number">스물</span>
+                                    <div class="number-value">20</div>
+                                    <div class="number-romanization">seumul</div>
+                                </div>
+                                <div class="number-card native-korean" onclick="playNumber(this, '서른', '서른')">
+                                    <span class="korean-number">서른</span>
+                                    <div class="number-value">30</div>
+                                    <div class="number-romanization">seoreun</div>
+                                </div>
+                                <div class="number-card native-korean" onclick="playNumber(this, '마흔', '마흔')">
+                                    <span class="korean-number">마흔</span>
+                                    <div class="number-value">40</div>
+                                    <div class="number-romanization">maheun</div>
+                                </div>
+                                <div class="number-card native-korean" onclick="playNumber(this, '쉰', '쉰')">
+                                    <span class="korean-number">쉰</span>
+                                    <div class="number-value">50</div>
+                                    <div class="number-romanization">swin</div>
+                                </div>
+                                <div class="number-card native-korean" onclick="playNumber(this, '예순', '예순')">
+                                    <span class="korean-number">예순</span>
+                                    <div class="number-value">60</div>
+                                    <div class="number-romanization">yesun</div>
+                                </div>
+                                <div class="number-card native-korean" onclick="playNumber(this, '일흔', '일흔')">
+                                    <span class="korean-number">일흔</span>
+                                    <div class="number-value">70</div>
+                                    <div class="number-romanization">ilheun</div>
+                                </div>
+                                <div class="number-card native-korean" onclick="playNumber(this, '여든', '여든')">
+                                    <span class="korean-number">여든</span>
+                                    <div class="number-value">80</div>
+                                    <div class="number-romanization">yeodeun</div>
+                                </div>
+                                <div class="number-card native-korean" onclick="playNumber(this, '아흔', '아흔')">
+                                    <span class="korean-number">아흔</span>
+                                    <div class="number-value">90</div>
+                                    <div class="number-romanization">aheun</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <h3>💡 Примеры составных чисел 21-99:</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                            <h4 style="color: white; margin-top: 0;">🇨🇳 Китайско-корейские:</h4>
+                            <div style="display: grid; gap: 8px; font-size: 1.1em;">
+                                <div style="cursor: pointer; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 6px;" onclick="playNumber(this, '이십일', '이십일')">
+                                    <strong>21</strong> = 이십일 (i-sib-il)
+                                </div>
+                                <div style="cursor: pointer; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 6px;" onclick="playNumber(this, '삼십오', '삼십오')">
+                                    <strong>35</strong> = 삼십오 (sam-sib-o)
+                                </div>
+                                <div style="cursor: pointer; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 6px;" onclick="playNumber(this, '여든여덟', '여든여덟')">
+                                    <strong>58</strong> = 오십팔 (o-sib-pal)
+                                </div>
+                                <div style="cursor: pointer; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 6px;" onclick="playNumber(this, '칠십이', '칠십이')">
+                                    <strong>72</strong> = 칠십이 (chil-sib-i)
+                                </div>
+                                <div style="cursor: pointer; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 6px;" onclick="playNumber(this, '구십육', '구십육')">
+                                    <strong>96</strong> = 구십육 (gu-sib-yuk)
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                            <h4 style="color: white; margin-top: 0;">🇰🇷 Исконно корейские:</h4>
+                            <div style="display: grid; gap: 8px; font-size: 1.1em;">
+                                <div style="cursor: pointer; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 6px;" onclick="playNumber(this, '스물하나', '스물하나')">
+                                    <strong>21</strong> = 스물하나 (seumul-hana)
+                                </div>
+                                <div style="cursor: pointer; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 6px;" onclick="playNumber(this, '서른다섯', '서른다섯')">
+                                    <strong>35</strong> = 서른다섯 (seoreun-daseot)
+                                </div>
+                                <div style="cursor: pointer; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 6px;" onclick="playNumber(this, '쉰여덟', '쉰여덟')">
+                                    <strong>58</strong> = 쉰여덟 (swin-yeodeol)
+                                </div>
+                                <div style="cursor: pointer; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 6px;" onclick="playNumber(this, '일흔둘', '일흔둘')">
+                                    <strong>72</strong> = 일흔둘 (ilheun-dul)
+                                </div>
+                                <div style="cursor: pointer; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 6px;" onclick="playNumber(this, '아흔여섯', '아흔여섯')">
+                                    <strong>96</strong> = 아흔여섯 (aheun-yeoseot)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="color: white; text-align: center; font-size: 1.1em; margin-top: 20px;">
+                        ⚠️ <strong>Важно!</strong> Исконно корейские числа используются только до 99! После 100 - только китайско-корейские.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 🔥 Большие числа -->
+        <div class="content-section animated">
+            <div class="section-header">
+                <h2>🔥 Большие числа в корейском</h2>
+            </div>
+            <div class="section-content">
+                <p>Корейские большие числа следуют <strong>китайско-корейской системе</strong>. Важно знать основные разряды!</p>
+                
+                <div class="highlight-box">
+                    <h3>🏗️ Структура больших чисел:</h3>
+                    <p style="font-size: 1.2em; text-align: center; margin: 15px 0; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; line-height: 1.6;">
+                        <strong>십</strong> (10) → <strong>백</strong> (100) → <strong>천</strong> (1,000) → <strong>만</strong> (10,000) → <strong>십만</strong> (100,000) → <strong>백만</strong> (1,000,000) → <strong>천만</strong> (10,000,000) → <strong>억</strong> (100,000,000)
+                    </p>
+                    <ul style="font-size: 1.1em; line-height: 1.6; color: white;">
+                        <li><strong>만 (ман)</strong> - ключевая единица! 10,000 = одна "ман"</li>
+                        <li><strong>억 (ок)</strong> - 100,000,000 (сто миллионов)</li>
+                        <li><strong>조 (чо)</strong> - триллион (1,000,000,000,000)</li>
+                        <li>Корейцы считают по 10,000, не по 1,000 как мы!</li>
+                    </ul>
+                </div>
+
+                <div class="number-systems">
+                    <div class="number-system">
+                        <h3>📈 Основные разряды</h3>
+                        <p><strong>Запомните эти ключевые единицы!</strong></p>
+                        <div class="numbers-grid">
+                            <div class="number-card sino-korean" onclick="playNumber(this, '십', 'щип')">
+                                <span class="korean-number">십</span>
+                                <div class="number-value">10</div>
+                                <div class="number-romanization">sip</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '백', 'пэк')">
+                                <span class="korean-number">백</span>
+                                <div class="number-value">100</div>
+                                <div class="number-romanization">baek</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '천', 'чхон')">
+                                <span class="korean-number">천</span>
+                                <div class="number-value">1,000</div>
+                                <div class="number-romanization">cheon</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '만', 'ман')">
+                                <span class="korean-number">만</span>
+                                <div class="number-value">10,000</div>
+                                <div class="number-romanization">man</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '십만', 'щимман')">
+                                <span class="korean-number">십만</span>
+                                <div class="number-value">100,000</div>
+                                <div class="number-romanization">simman</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '백만', 'пэгман')">
+                                <span class="korean-number">백만</span>
+                                <div class="number-value">1,000,000</div>
+                                <div class="number-romanization">baengman</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '천만', 'чхонман')">
+                                <span class="korean-number">천만</span>
+                                <div class="number-value">10,000,000</div>
+                                <div class="number-romanization">cheonman</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '억', 'ок')">
+                                <span class="korean-number">억</span>
+                                <div class="number-value">100,000,000</div>
+                                <div class="number-romanization">eok</div>
+                            </div>
+                            <div class="number-card sino-korean" onclick="playNumber(this, '조', 'чо')">
+                                <span class="korean-number">조</span>
+                                <div class="number-value">1,000,000,000,000</div>
+                                <div class="number-romanization">jo</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="number-system">
+                        <h3>💰 Примеры составных чисел</h3>
+                        <p><strong>Как складывать большие числа</strong></p>
+                        <div style="display: grid; gap: 15px; margin-top: 20px;">
+                            <div style="background: rgba(14, 116, 144, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #0891b2; cursor: pointer;" onclick="playNumber(this, '이십삼', '이십삼')">
+                                <div style="font-size: 1.4em; font-weight: bold; color: #0e7490; margin-bottom: 5px;">이십삼 (23)</div>
+                                <div style="color: #666; margin-bottom: 5px;">이십 (20) + 삼 (3)</div>
+                                <div style="font-size: 0.9em; color: #888;">i-sip-sam</div>
+                            </div>
+                            <div style="background: rgba(14, 116, 144, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #0891b2; cursor: pointer;" onclick="playNumber(this, '백오십', '백오십')">
+                                <div style="font-size: 1.4em; font-weight: bold; color: #0e7490; margin-bottom: 5px;">백오십 (150)</div>
+                                <div style="color: #666; margin-bottom: 5px;">백 (100) + 오십 (50)</div>
+                                <div style="font-size: 0.9em; color: #888;">baek-o-sip</div>
+                            </div>
+                            <div style="background: rgba(14, 116, 144, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #0891b2; cursor: pointer;" onclick="playNumber(this, '삼천구백', '삼천구백')">
+                                <div style="font-size: 1.4em; font-weight: bold; color: #0e7490; margin-bottom: 5px;">삼천구백 (3,900)</div>
+                                <div style="color: #666; margin-bottom: 5px;">삼천 (3,000) + 구백 (900)</div>
+                                <div style="font-size: 0.9em; color: #888;">sam-cheon-gu-baek</div>
+                            </div>
+                            <div style="background: rgba(14, 116, 144, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #0891b2; cursor: pointer;" onclick="playNumber(this, '오만원', '오만원')">
+                                <div style="font-size: 1.4em; font-weight: bold; color: #0e7490; margin-bottom: 5px;">오만 원 (50,000 вон)</div>
+                                <div style="color: #666; margin-bottom: 5px;">오 (5) × 만 (10,000)</div>
+                                <div style="font-size: 0.9em; color: #888;">o-man won</div>
+                            </div>
+                            <div style="background: rgba(14, 116, 144, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #0891b2; cursor: pointer;" onclick="playNumber(this, '백만원', '백만원')">
+                                <div style="font-size: 1.4em; font-weight: bold; color: #0e7490; margin-bottom: 5px;">백만 원 (1,000,000 вон)</div>
+                                <div style="color: #666; margin-bottom: 5px;">백 (100) × 만 (10,000) = миллион</div>
+                                <div style="font-size: 0.9em; color: #888;">baeng-man won</div>
+                            </div>
+                            <div style="background: rgba(14, 116, 144, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #0891b2; cursor: pointer;" onclick="playNumber(this, '이억원', '이억원')">
+                                <div style="font-size: 1.4em; font-weight: bold; color: #0e7490; margin-bottom: 5px;">이억 원 (200,000,000 вон)</div>
+                                <div style="color: #666; margin-bottom: 5px;">이 (2) × 억 (100,000,000)</div>
+                                <div style="font-size: 0.9em; color: #888;">i-eok won</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="background: linear-gradient(135deg, #e74c3c, #c0392b); margin-top: 30px;">
+                    <h3>⚠️ Важно! Корейская логика счета:</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                            <h4 style="color: white; margin-top: 0;">🇷🇺 Русская логика:</h4>
+                            <p style="color: white; font-size: 1.1em;">12,345 = двенадцать <strong>тысяч</strong> триста сорок пять</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px;">
+                            <h4 style="color: white; margin-top: 0;">🇰🇷 Корейская логика:</h4>
+                            <p style="color: white; font-size: 1.1em;">12,345 = 일만 (одна <strong>ман</strong>) 이천삼백사십오</p>
+                        </div>
+                    </div>
+                    <p style="color: white; font-size: 1.2em; text-align: center; margin: 20px 0 0 0;">Корейцы группируют по 10,000 (만), а не по 1,000!</p>
+                </div>
+
+                <div class="practice-section" style="background: linear-gradient(135deg, #8e44ad, #9b59b6); margin-top: 30px;">
+                    <h3 style="text-align: center; color: white; margin-bottom: 25px;">💡 Практика с большими числами</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; text-align: center;">
+                            <h4 style="color: white; margin-top: 0;">💰 Цены в Корее</h4>
+                            <div style="display: grid; gap: 10px; margin-top: 15px;">
+                                <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; cursor: pointer;" onclick="playNumber(this, '천원', '천원')">
+                                    <strong>천 원</strong> (1,000 ₩) - кофе
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; cursor: pointer;" onclick="playNumber(this, '만원', '만원')">
+                                    <strong>만 원</strong> (10,000 ₩) - обед
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; cursor: pointer;" onclick="playNumber(this, '십만원', '십만원')">
+                                    <strong>십만 원</strong> (100,000 ₩) - одежда
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; text-align: center;">
+                            <h4 style="color: white; margin-top: 0;">🏠 Недвижимость</h4>
+                            <div style="display: grid; gap: 10px; margin-top: 15px;">
+                                <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; cursor: pointer;" onclick="playNumber(this, '오백만원', '오백만원')">
+                                    <strong>오백만 원</strong> (5,000,000 ₩) - залог
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; cursor: pointer;" onclick="playNumber(this, '삼억원', '삼억원')">
+                                    <strong>삼억 원</strong> (300,000,000 ₩) - квартира
+                                </div>
+                                <div style="background: rgba(255,255,255,0.1); padding: 10px; border-radius: 8px; cursor: pointer;" onclick="playNumber(this, '십억원', '십억원')">
+                                    <strong>십억 원</strong> (1,000,000,000 ₩) - дом
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px; text-align: center;">
+                        <h4 style="color: white;">🎯 Попробуйте произнести:</h4>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px;">
+                            <button style="background: rgba(255,255,255,0.2); color: white; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-size: 1.1em; transition: all 0.3s ease;" onclick="this.style.background='rgba(255,255,255,0.3)'; playNumber(this, '칠만삼천', '칠만삼천')" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                <strong>73,000</strong><br>칠만삼천
+                            </button>
+                            <button style="background: rgba(255,255,255,0.2); color: white; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-size: 1.1em; transition: all 0.3s ease;" onclick="this.style.background='rgba(255,255,255,0.3)'; playNumber(this, '이백오십만', '이백오십만')" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                <strong>2,500,000</strong><br>이백오십만
+                            </button>
+                            <button style="background: rgba(255,255,255,0.2); color: white; padding: 15px; border: none; border-radius: 10px; cursor: pointer; font-size: 1.1em; transition: all 0.3s ease;" onclick="this.style.background='rgba(255,255,255,0.3)'; playNumber(this, '팔억구천만', '팔억구천만')" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                                <strong>890,000,000</strong><br>팔억구천만
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 📊 Порядковые числительные -->
+        <div class="content-section animated">
+            <div class="section-header">
+                <h2>📊 Порядковые числительные: первый, второй, третий...</h2>
+            </div>
+            <div class="section-content">
+                <div class="highlight-box">
+                    <h3>🔢 Как образовать порядковые числительные:</h3>
+                    <p><strong>Основная формула:</strong></p>
+                    <p style="font-size: 1.3em; text-align: center; margin: 15px 0; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
+                        <strong>ЧИСЛО (исконно корейское) + 번째 (пхончхэ)</strong>
+                    </p>
+                    <ul style="font-size: 1.1em; line-height: 1.6; color: white;">
+                        <li><strong>번째</strong> - основной суффикс для порядковых числительных</li>
+                        <li><strong>째</strong> - короткая форма (менее формальная)</li>
+                        <li><strong>첫 번째</strong> - особая форма для "первый"</li>
+                        <li>Используются <strong>исконно корейские</strong> числа до 99</li>
+                    </ul>
+                </div>
+
+                <div class="number-systems">
+                    <div class="number-system">
+                        <h3>🥇 Порядковые числительные 1-10</h3>
+                        <p><strong>Используем исконно корейские + 번째</strong></p>
+                        <div class="numbers-grid">
+                            <div class="number-card native-korean" onclick="playNumber(this, '첫 번째', '첫 번째')">
+                                <span class="korean-number">첫 번째</span>
+                                <div class="number-value">1-й</div>
+                                <div class="number-romanization">cheot beonjjae</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '두 번째', '두 번째')">
+                                <span class="korean-number">두 번째</span>
+                                <div class="number-value">2-й</div>
+                                <div class="number-romanization">du beonjjae</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '세 번째', '세 번째')">
+                                <span class="korean-number">세 번째</span>
+                                <div class="number-value">3-й</div>
+                                <div class="number-romanization">se beonjjae</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '네 번째', '네 번째')">
+                                <span class="korean-number">네 번째</span>
+                                <div class="number-value">4-й</div>
+                                <div class="number-romanization">ne beonjjae</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '다섯 번째', '다섯 번째')">
+                                <span class="korean-number">다섯 번째</span>
+                                <div class="number-value">5-й</div>
+                                <div class="number-romanization">daseot beonjjae</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '여섯 번째', '여섯 번째')">
+                                <span class="korean-number">여섯 번째</span>
+                                <div class="number-value">6-й</div>
+                                <div class="number-romanization">yeoseot beonjjae</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '일곱 번째', '일곱 번째')">
+                                <span class="korean-number">일곱 번째</span>
+                                <div class="number-value">7-й</div>
+                                <div class="number-romanization">ilgop beonjjae</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '여덟 번째', '여덟 번째')">
+                                <span class="korean-number">여덟 번째</span>
+                                <div class="number-value">8-й</div>
+                                <div class="number-romanization">yeodeol beonjjae</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '아홉 번째', '아홉 번째')">
+                                <span class="korean-number">아홉 번째</span>
+                                <div class="number-value">9-й</div>
+                                <div class="number-romanization">ahop beonjjae</div>
+                            </div>
+                            <div class="number-card native-korean" onclick="playNumber(this, '열 번째', '열 번째')">
+                                <span class="korean-number">열 번째</span>
+                                <div class="number-value">10-й</div>
+                                <div class="number-romanization">yeol beonjjae</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="number-system">
+                        <h3>🎯 Практические примеры</h3>
+                        <p><strong>Как использовать в речи</strong></p>
+                        <div style="display: grid; gap: 15px; margin-top: 20px;">
+                            <div style="background: rgba(14, 116, 144, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #0891b2;" onclick="playNumber(this, '첫 번째 층에 살아요', '첫 번째 층에 살아요')">
+                                <div style="font-size: 1.3em; font-weight: bold; color: #0e7490; margin-bottom: 5px;">첫 번째 층에 살아요</div>
+                                <div style="color: #666;">Живу на первом этаже</div>
+                            </div>
+                            <div style="background: rgba(14, 116, 144, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #0891b2;" onclick="playNumber(this, '두 번째 문을 여세요', '두 번째 문을 여세요')">
+                                <div style="font-size: 1.3em; font-weight: bold; color: #0e7490; margin-bottom: 5px;">두 번째 문을 여세요</div>
+                                <div style="color: #666;">Откройте вторую дверь</div>
+                            </div>
+                            <div style="background: rgba(14, 116, 144, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #0891b2;" onclick="playNumber(this, '세 번째 정거장에서 내려요', '세 번째 정거장에서 내려요')">
+                                <div style="font-size: 1.3em; font-weight: bold; color: #0e7490; margin-bottom: 5px;">세 번째 정거장에서 내려요</div>
+                                <div style="color: #666;">Выхожу на третьей остановке</div>
+                            </div>
+                            <div style="background: rgba(14, 116, 144, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid #0891b2;" onclick="playNumber(this, '몇 번째예요', '몇 번째예요')">
+                                <div style="font-size: 1.3em; font-weight: bold; color: #0e7490; margin-bottom: 5px;">몇 번째예요?</div>
+                                <div style="color: #666;">Который по счету?</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="margin-top: 30px;">
+                    <h3>💡 Важные моменты:</h3>
+                    <ul style="font-size: 1.1em; line-height: 1.6; color: white;">
+                        <li><strong>첫 번째</strong> - особая форма! НЕ "한 번째"</li>
+                        <li><strong>Короткие формы:</strong> 둘째 (2-й), 셋째 (3-й), 넷째 (4-й) - менее формальные</li>
+                        <li><strong>В вопросах:</strong> 몇 번째? (который по счету?)</li>
+                        <li><strong>Позиция:</strong> 몇 번째 자리? (какое место по счету?)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="time-section animated">
+            <h2 style="color: white; text-align: center; margin-bottom: 30px; font-size: 2em;">
+                ⏰ Время по-корейски
+            </h2>
+            
+            <div class="highlight-box" style="background: rgba(255,255,255,0.2); color: white;">
+                <h3>📋 Правила выражения времени:</h3>
+                <p><strong>Основная формула:</strong></p>
+                <p style="font-size: 1.3em; text-align: center; margin: 15px 0; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
+                    <strong>ЧАСЫ (исконно корейские) + 시 + МИНУТЫ (китайско-корейские) + 분</strong>
+                </p>
+                <p><strong>Примеры:</strong></p>
+                <ul style="font-size: 1.1em; line-height: 1.6;">
+                    <li>3:15 = <strong>세 시 십오 분</strong> (сэ си щибо пун)</li>
+                    <li>7:30 = <strong>일곱 시 삼십 분</strong> (ильгоп си самщип пун)</li>
+                    <li>12:00 = <strong>열두 시</strong> (йольду си)</li>
+                </ul>
+            </div>
+
+            <div class="time-examples">
+                <div class="time-card" onclick="playTime(this, '한 시')">
+                    <div class="time-korean">한 시</div>
+                    <div class="time-meaning">1:00 (один час)</div>
+                </div>
+                <div class="time-card" onclick="playTime(this, '두 시')">
+                    <div class="time-korean">두 시</div>
+                    <div class="time-meaning">2:00 (два часа)</div>
+                </div>
+                <div class="time-card" onclick="playTime(this, '세 시')">
+                    <div class="time-korean">세 시</div>
+                    <div class="time-meaning">3:00 (три часа)</div>
+                </div>
+                <div class="time-card" onclick="playTime(this, '네 시 십오 분')">
+                    <div class="time-korean">네 시 십오 분</div>
+                    <div class="time-meaning">4:15 (четверть пятого)</div>
+                </div>
+                <div class="time-card" onclick="playTime(this, '다섯 시 삼십 분')">
+                    <div class="time-korean">다섯 시 삼십 분</div>
+                    <div class="time-meaning">5:30 (половина шестого)</div>
+                </div>
+                <div class="time-card" onclick="playTime(this, '여섯 시 사십오 분')">
+                    <div class="time-korean">여섯 시 사십오 분</div>
+                    <div class="time-meaning">6:45 (без четверти семь)</div>
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 15px; margin-top: 25px;">
+                <h3 style="color: white; text-align: center; margin-bottom: 20px;">💬 Полезные фразы о времени:</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; cursor: pointer;" onclick="playTime(this, '지금 몇 시예요')">
+                        <div style="font-size: 1.3em; font-weight: bold; margin-bottom: 5px;">지금 몇 시예요?</div>
+                        <div style="opacity: 0.8;">Который сейчас час?</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; cursor: pointer;" onclick="playTime(this, '세 시예요')">
+                        <div style="font-size: 1.3em; font-weight: bold; margin-bottom: 5px;">세 시예요</div>
+                        <div style="opacity: 0.8;">Сейчас три часа</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; cursor: pointer;" onclick="playTime(this, '몇 시에 만날까요')">
+                        <div style="font-size: 1.3em; font-weight: bold; margin-bottom: 5px;">몇 시에 만날까요?</div>
+                        <div style="opacity: 0.8;">Во сколько встретимся?</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; cursor: pointer;" onclick="playTime(this, '다섯 시에 만나요')">
+                        <div style="font-size: 1.3em; font-weight: bold; margin-bottom: 5px;">다섯 시에 만나요</div>
+                        <div style="opacity: 0.8;">Встретимся в пять</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="calendar-section animated">
+            <h2 style="color: white; text-align: center; margin-bottom: 30px; font-size: 2em;">
+                📅 Дни недели
+            </h2>
+            
+            <div class="days-grid">
+                <div class="day-card" onclick="playDay(this, '월요일')">
+                    <div class="day-korean">월요일</div>
+                    <div class="day-english">Понедельник</div>
+                </div>
+                <div class="day-card" onclick="playDay(this, '화요일')">
+                    <div class="day-korean">화요일</div>
+                    <div class="day-english">Вторник</div>
+                </div>
+                <div class="day-card" onclick="playDay(this, '수요일')">
+                    <div class="day-korean">수요일</div>
+                    <div class="day-english">Среда</div>
+                </div>
+                <div class="day-card" onclick="playDay(this, '목요일')">
+                    <div class="day-korean">목요일</div>
+                    <div class="day-english">Четверг</div>
+                </div>
+                <div class="day-card" onclick="playDay(this, '금요일')">
+                    <div class="day-korean">금요일</div>
+                    <div class="day-english">Пятница</div>
+                </div>
+                <div class="day-card" onclick="playDay(this, '토요일')">
+                    <div class="day-korean">토요일</div>
+                    <div class="day-english">Суббота</div>
+                </div>
+                <div class="day-card" onclick="playDay(this, '일요일')">
+                    <div class="day-korean">일요일</div>
+                    <div class="day-english">Воскресенье</div>
+                </div>
+            </div>
+
+            <p style="text-align: center; font-size: 1.1em; opacity: 0.9; margin-top: 25px;">
+                <strong>Полезные фразы:</strong><br>
+                오늘은 무슨 요일이에요? - Какой сегодня день недели?<br>
+                내일은 금요일이에요 - Завтра пятница
+            </p>
+        </div>
+
+        <div class="practice-section animated">
+            <h2 style="color: white; text-align: center; margin-bottom: 30px;">
+                📝 Практические упражнения
+            </h2>
+            
+            <div class="practice-exercises">
+                <div class="exercise-card">
+                    <div class="exercise-question">Как сказать "5:20"?</div>
+                    <div class="exercise-options">
+                        <button class="exercise-option" onclick="checkExercise(this, false)">오 시 이십 분</button>
+                        <button class="exercise-option" onclick="checkExercise(this, true)">다섯 시 이십 분</button>
+                        <button class="exercise-option" onclick="checkExercise(this, false)">다섯 시 스무 분</button>
+                    </div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="exercise-question">Что означает "열두 시"?</div>
+                    <div class="exercise-options">
+                        <button class="exercise-option" onclick="checkExercise(this, false)">10:00</button>
+                        <button class="exercise-option" onclick="checkExercise(this, true)">12:00</button>
+                        <button class="exercise-option" onclick="checkExercise(this, false)">11:00</button>
+                    </div>
+                </div>
+
+                <div class="exercise-card">
+                    <div class="exercise-question">Как сказать "второй"?</div>
+                    <div class="exercise-options">
+                        <button class="exercise-option" onclick="checkExercise(this, false)">첫 번째</button>
+                        <button class="exercise-option" onclick="checkExercise(this, true)">두 번째</button>
+                        <button class="exercise-option" onclick="checkExercise(this, false)">세 번째</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Завершающая секция -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px; background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85)); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            <h3 style="color: #2c3e50; margin-bottom: 20px;">🎉 Отлично! Вы изучили корейские числа и время!</h3>
+            <p style="color: #555; margin-bottom: 25px; font-size: 1.1em;">Теперь вы можете говорить время, считать, использовать порядковые числительные и знаете дни недели по-корейски!</p>
+            <a href="../lesson_05_family/index.html" class="continue-btn">
+                👨‍👩‍👧‍👦 Следующий урок: Семья и отношения
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        let learnedItems = 0;
+        let totalItems = document.querySelectorAll('.number-card, .time-card, .day-card').length;
+
+        function playNumber(element, korean, pronunciation) {
+            element.classList.add('clicked');
+            setTimeout(() => {
+                element.classList.remove('clicked');
+            }, 600);
+
+            if (!element.classList.contains('learned')) {
+                element.classList.add('learned');
+                learnedItems++;
+                updateProgress();
+            }
+
+            speak(korean);
+        }
+
+        function playTime(element, korean) {
+            element.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+            }, 300);
+
+            if (!element.classList.contains('learned')) {
+                element.classList.add('learned');
+                learnedItems++;
+                updateProgress();
+            }
+
+            speak(korean);
+        }
+
+        function playDay(element, korean) {
+            element.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+            }, 300);
+
+            if (!element.classList.contains('learned')) {
+                element.classList.add('learned');
+                learnedItems++;
+                updateProgress();
+            }
+
+            speak(korean);
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.8;
+                utterance.pitch = 1.1;
+                speechSynthesis.speak(utterance);
+            } else {
+                console.log(`Произношение: ${text}`);
+            }
+        }
+
+        function updateProgress() {
+            console.log(`Прогресс: ${learnedItems}/${totalItems}`);
+        }
+
+        function showProgress() {
+            const progress = Math.round((learnedItems / totalItems) * 100);
+            alert(`Ваш прогресс: ${progress}%\n진행률: ${progress}%\n\nИзучено: ${learnedItems} из ${totalItems}`);
+        }
+
+        function checkExercise(button, isCorrect) {
+            const allOptions = button.parentNode.querySelectorAll('.exercise-option');
+            allOptions.forEach(opt => {
+                opt.disabled = true;
+                opt.style.cursor = 'not-allowed';
+            });
+
+            if (isCorrect) {
+                button.classList.add('correct');
+                speak('정답입니다');
+            } else {
+                button.classList.add('incorrect');
+                // Показать правильный ответ
+                allOptions.forEach(opt => {
+                    if (opt.onclick.toString().includes('true')) {
+                        opt.classList.add('correct');
+                    }
+                });
+                speak('틀렸습니다');
+            }
+        }
+
+        function startQuiz() {
+            alert('Тест скоро будет добавлен! 곧 추가될 예정입니다!');
+        }
+
+        // Анимация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animated');
+            animatedElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.animationDelay = index * 0.2 + 's';
+                    el.classList.add('slideInUp');
+                }, 100);
+            });
+
+            const cards = document.querySelectorAll('.number-card, .time-card, .day-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.4s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1)';
+                }, index * 50 + 200);
+            });
+        });
+
+        // Клавиатурная навигация
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') {
+                window.location.href = '../lesson_03_greetings/index.html';
+            }
+            if (e.key === 'ArrowRight') {
+                window.location.href = '../lesson_05_family/index.html';
+            }
+            if (e.key === 't' || e.key === 'T') {
+                startQuiz();
+            }
+        });
+    </script>
+</body>
+</html>

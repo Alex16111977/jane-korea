@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>🌈 Цвета на корейском - 색깔</title>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { 
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .vocab-header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .vocab-header h1 {
+            font-size: 3em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .korean-title {
+            font-size: 2em;
+            color: #FF5722;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .colors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .color-card {
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .color-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .color-display {
+            height: 120px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .color-info {
+            padding: 20px;
+        }
+
+        .korean-color {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .romanization {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .russian-color {
+            font-size: 1em;
+            color: #888;
+        }
+
+        .practice-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question {
+            font-size: 2em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .quiz-option {
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .quiz-option:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .navigation {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .nav-button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 0 10px;
+            background: rgba(255,255,255,0.9);
+            color: #2c3e50;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Цвета */
+        .red { background: linear-gradient(135deg, #ff416c, #ff4757); }
+        .blue { background: linear-gradient(135deg, #3742fa, #2f3542); }
+        .yellow { background: linear-gradient(135deg, #ffa502, #ff6348); }
+        .green { background: linear-gradient(135deg, #7bed9f, #5f27cd); }
+        .orange { background: linear-gradient(135deg, #ff9500, #ff6b35); }
+        .purple { background: linear-gradient(135deg, #5f27cd, #341f97); }
+        .pink { background: linear-gradient(135deg, #ff9ff3, #f368e0); }
+        .brown { background: linear-gradient(135deg, #8d5524, #c44569); }
+        .black { background: linear-gradient(135deg, #2c2c54, #40407a); }
+        .white { background: linear-gradient(135deg, #f1f2f6, #ddd); color: #333 !important; }
+        .gray { background: linear-gradient(135deg, #57606f, #2f3542); }
+        .gold { background: linear-gradient(135deg, #ffd700, #ffb142); color: #333 !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Навигация -->
+        <div style="display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap;">
+            <a href="../../level_1/index.html" style="color: white; text-decoration: none; font-size: 1.1em; padding: 12px 25px; background: rgba(255,255,255,0.15); border-radius: 15px; transition: all 0.3s ease; backdrop-filter: blur(10px);">← К 1급</a>
+        </div>
+
+
+        <div class="vocab-header">
+            <h1>🌈 Цвета</h1>
+            <div class="korean-title">색깔 [сэккаль]</div>
+            <p>Изучите названия цветов на корейском языке!</p>
+        </div>
+
+        <div class="colors-grid" id="colorsGrid">
+            <div class="color-card" onclick="playColor('빨간색', 'красный')">
+                <div class="color-display red">빨간색</div>
+                <div class="color-info">
+                    <div class="korean-color">빨간색</div>
+                    <div class="romanization">ppalgansaek</div>
+                    <div class="russian-color">красный</div>
+                </div>
+            </div>
+
+            <div class="color-card" onclick="playColor('파란색', 'синий')">
+                <div class="color-display blue">파란색</div>
+                <div class="color-info">
+                    <div class="korean-color">파란색</div>
+                    <div class="romanization">paransaek</div>
+                    <div class="russian-color">синий</div>
+                </div>
+            </div>
+
+            <div class="color-card" onclick="playColor('노란색', 'желтый')">
+                <div class="color-display yellow">노란색</div>
+                <div class="color-info">
+                    <div class="korean-color">노란색</div>
+                    <div class="romanization">noransaek</div>
+                    <div class="russian-color">желтый</div>
+                </div>
+            </div>
+
+            <div class="color-card" onclick="playColor('초록색', 'зеленый')">
+                <div class="color-display green">초록색</div>
+                <div class="color-info">
+                    <div class="korean-color">초록색</div>
+                    <div class="romanization">choroksaek</div>
+                    <div class="russian-color">зеленый</div>
+                </div>
+            </div>
+
+            <div class="color-card" onclick="playColor('주황색', 'оранжевый')">
+                <div class="color-display orange">주황색</div>
+                <div class="color-info">
+                    <div class="korean-color">주황색</div>
+                    <div class="romanization">juhwangsaek</div>
+                    <div class="russian-color">оранжевый</div>
+                </div>
+            </div>
+
+            <div class="color-card" onclick="playColor('보라색', 'фиолетовый')">
+                <div class="color-display purple">보라색</div>
+                <div class="color-info">
+                    <div class="korean-color">보라색</div>
+                    <div class="romanization">borasaek</div>
+                    <div class="russian-color">фиолетовый</div>
+                </div>
+            </div>
+
+            <div class="color-card" onclick="playColor('분홍색', 'розовый')">
+                <div class="color-display pink">분홍색</div>
+                <div class="color-info">
+                    <div class="korean-color">분홍색</div>
+                    <div class="romanization">bunhongsaek</div>
+                    <div class="russian-color">розовый</div>
+                </div>
+            </div>
+
+            <div class="color-card" onclick="playColor('갈색', 'коричневый')">
+                <div class="color-display brown">갈색</div>
+                <div class="color-info">
+                    <div class="korean-color">갈색</div>
+                    <div class="romanization">galsaek</div>
+                    <div class="russian-color">коричневый</div>
+                </div>
+            </div>
+
+            <div class="color-card" onclick="playColor('검은색', 'черный')">
+                <div class="color-display black">검은색</div>
+                <div class="color-info">
+                    <div class="korean-color">검은색</div>
+                    <div class="romanization">geomeunsaek</div>
+                    <div class="russian-color">черный</div>
+                </div>
+            </div>
+
+            <div class="color-card" onclick="playColor('흰색', 'белый')">
+                <div class="color-display white">흰색</div>
+                <div class="color-info">
+                    <div class="korean-color">흰색</div>
+                    <div class="romanization">hinsaek</div>
+                    <div class="russian-color">белый</div>
+                </div>
+            </div>
+
+            <div class="color-card" onclick="playColor('회색', 'серый')">
+                <div class="color-display gray">회색</div>
+                <div class="color-info">
+                    <div class="korean-color">회색</div>
+                    <div class="romanization">hoesaek</div>
+                    <div class="russian-color">серый</div>
+                </div>
+            </div>
+
+            <div class="color-card" onclick="playColor('금색', 'золотой')">
+                <div class="color-display gold">금색</div>
+                <div class="color-info">
+                    <div class="korean-color">금색</div>
+                    <div class="romanization">geumsaek</div>
+                    <div class="russian-color">золотой</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <h2>🎯 Практика</h2>
+            <p>Проверьте свои знания цветов на корейском языке!</p>
+            
+            <div class="quiz-card" id="quizCard">
+                <div class="quiz-question" id="quizQuestion">Как сказать "красный" по-корейски?</div>
+                <div class="quiz-options" id="quizOptions">
+                    <div class="quiz-option" onclick="checkAnswer(this, true)">빨간색</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">파란색</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">노란색</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">초록색</div>
+                </div>
+            </div>
+            
+            <button onclick="nextQuestion()" style="padding: 15px 30px; background: #FF5722; color: white; border: none; border-radius: 10px; font-size: 1.1em; cursor: pointer; margin-top: 20px;">Следующий вопрос</button>
+        </div>
+        
+        <!-- Навигация к следующему уроку -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px; background: rgba(255,255,255,0.95); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            <h3 style="color: #2c3e50; margin-bottom: 20px;">🎉 Отлично! Вы изучили цвета на корейском!</h3>
+            <p style="color: #555; margin-bottom: 25px; font-size: 1.1em;">Теперь вы можете описывать предметы по цвету!</p>
+            <a href="../../lessons.html" style="display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-size: 1.2em; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                ← К урокам
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Произношение цветов
+        function playColor(korean, russian) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(korean);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.8;
+                utterance.pitch = 1.1;
+                speechSynthesis.speak(utterance);
+            } else {
+                alert(`${korean} - ${russian}`);
+            }
+        }
+
+        // Вопросы для квиза
+        const quizData = [
+            {question: 'Как сказать "красный"?', answer: '빨간색', options: ['빨간색', '파란색', '노란색', '초록색']},
+            {question: 'Как сказать "синий"?', answer: '파란색', options: ['주황색', '파란색', '보라색', '분홍색']},
+            {question: 'Как сказать "зеленый"?', answer: '초록색', options: ['갈색', '회색', '초록색', '금색']},
+            {question: 'Как сказать "желтый"?', answer: '노란색', options: ['노란색', '흰색', '검은색', '빨간색']},
+            {question: 'Как сказать "фиолетовый"?', answer: '보라색', options: ['분홍색', '보라색', '주황색', '파란색']}
+        ];
+        
+        let currentQuiz = 0;
+
+        function checkAnswer(element, isCorrect) {
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.onclick = null;
+                if (opt.textContent === quizData[currentQuiz].answer) {
+                    opt.classList.add('correct');
+                } else {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                playColor(quizData[currentQuiz].answer, 'правильно');
+            }
+        }
+
+        function nextQuestion() {
+            currentQuiz = (currentQuiz + 1) % quizData.length;
+            const quiz = quizData[currentQuiz];
+            
+            document.getElementById('quizQuestion').textContent = quiz.question;
+            
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+            
+            // Перемешиваем варианты
+            const shuffled = [...quiz.options].sort(() => Math.random() - 0.5);
+            
+            shuffled.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'quiz-option';
+                div.textContent = option;
+                div.onclick = () => checkAnswer(div, option === quiz.answer);
+                optionsContainer.appendChild(div);
+            });
+        }
+
+        // Анимация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.color-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>

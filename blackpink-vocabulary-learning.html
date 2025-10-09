@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>📚 K-POP Словарь с BLACKPINK</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background: linear-gradient(135deg, #2c2c54 0%, #40407a 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            background: rgba(255,255,255,0.95);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #000000, #ff1493, #000000);
+        }
+        
+        .title {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #000000, #ff1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn {
+            background: linear-gradient(135deg, #ff1493, #2c2c54);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .category-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .category-header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #ff1493;
+            padding-bottom: 15px;
+        }
+        
+        .category-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .category-title {
+            color: #2c2c54;
+            font-size: 2em;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .category-desc {
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .words-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .word-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid #ff1493;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .word-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 20, 147, 0.05);
+            transform: rotate(45deg);
+            transition: all 0.3s ease;
+        }
+        
+        .word-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(255, 20, 147, 0.2);
+        }
+        
+        .word-card:hover::before {
+            top: -10%;
+            right: -10%;
+        }
+        
+        .korean-word {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2c2c54;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .pronunciation {
+            color: #ff1493;
+            font-size: 1.2em;
+            font-style: italic;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .meaning {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.4;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .example {
+            background: rgba(255, 20, 147, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #2c2c54;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .play-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff1493;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+        
+        .play-btn:hover {
+            background: #2c2c54;
+            transform: scale(1.1);
+        }
+        
+
+        
+        @media (max-width: 768px) {
+            .words-grid { grid-template-columns: 1fr; }
+            .title { font-size: 2em; }
+            .korean-word { font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">📚 K-POP Словарь с BLACKPINK</h1>
+            <p class="subtitle">Изучайте корейский язык через песни и культуру BLACKPINK</p>
+            <a href="group-blackpink.html" class="back-btn">← Вернуться к BLACKPINK</a>
+        </div>
+        
+        <!-- Основные слова из песен -->
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">💕</div>
+                <h2 class="category-title">Основные слова из песен</h2>
+                <p class="category-desc">Самые важные корейские слова из хитов BLACKPINK</p>
+            </div>
+            
+            <div class="words-grid">
+                <div class="word-card" onclick="playWord('사랑')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">사랑</div>
+                    <div class="pronunciation">[саранъ]</div>
+                    <div class="meaning">любовь</div>
+                    <div class="example">Пример: "Kill This Love" - 사랑을 죽여 (убей любовь)</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('마음')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">마음</div>
+                    <div class="pronunciation">[маым]</div>
+                    <div class="meaning">сердце, душа</div>
+                    <div class="example">Пример: "DDU-DU DDU-DU" - 맘이 어려서 (потому что сердце молодое)</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('꿈')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">꿈</div>
+                    <div class="pronunciation">[кум]</div>
+                    <div class="meaning">мечта, сон</div>
+                    <div class="example">Часто используется в балладах BLACKPINK</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('희망')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">희망</div>
+                    <div class="pronunciation">[хивэН]</div>
+                    <div class="meaning">надежда</div>
+                    <div class="example">Пример: "How You Like That" - о возрождении надежды</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('아름다움')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">아름다움</div>
+                    <div class="pronunciation">[арымдаум]</div>
+                    <div class="meaning">красота</div>
+                    <div class="example">Часто описывает внешность и внутренний мир</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('강하다')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">강하다</div>
+                    <div class="pronunciation">[канхада]</div>
+                    <div class="meaning">сильный, мощный</div>
+                    <div class="example">Пример: образ сильных девушек в песнях BLACKPINK</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Музыкальные термины -->
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">🎵</div>
+                <h2 class="category-title">Музыкальные термины</h2>
+                <p class="category-desc">Корейские слова из мира K-POP и музыки</p>
+            </div>
+            
+            <div class="words-grid">
+                <div class="word-card" onclick="playWord('노래')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">노래</div>
+                    <div class="pronunciation">[норе]</div>
+                    <div class="meaning">песня</div>
+                    <div class="example">노래하다 [норехада] - петь</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('춤')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">춤</div>
+                    <div class="pronunciation">[чум]</div>
+                    <div class="meaning">танец</div>
+                    <div class="example">춤추다 [чумчуда] - танцевать (как Lisa!)</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('무대')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">무대</div>
+                    <div class="pronunciation">[мудэ]</div>
+                    <div class="meaning">сцена</div>
+                    <div class="example">BLACKPINK выступают на больших 무대</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('공연')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">공연</div>
+                    <div class="pronunciation">[конъён]</div>
+                    <div class="meaning">выступление, концерт</div>
+                    <div class="example">BLACKPINK дают потрясающие 공연</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('팬')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">팬</div>
+                    <div class="pronunciation">[пэн]</div>
+                    <div class="meaning">фанат</div>
+                    <div class="example">BLINK - это 팬 BLACKPINK</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('아이돌')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">아이돌</div>
+                    <div class="pronunciation">[аидоль]</div>
+                    <div class="meaning">айдол (K-POP звезда)</div>
+                    <div class="example">BLACKPINK - самые популярные 아이돌</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Эмоции и чувства -->
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">😊</div>
+                <h2 class="category-title">Эмоции и чувства</h2>
+                <p class="category-desc">Выражайте эмоции как в песнях BLACKPINK</p>
+            </div>
+            
+            <div class="words-grid">
+                <div class="word-card" onclick="playWord('행복하다')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">행복하다</div>
+                    <div class="pronunciation">[хэнбокхада]</div>
+                    <div class="meaning">быть счастливым</div>
+                    <div class="example">BLINK 행복해요 когда видят BLACKPINK!</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('슬프다')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">슬프다</div>
+                    <div class="pronunciation">[сыльпхыда]</div>
+                    <div class="meaning">быть грустным</div>
+                    <div class="example">В балладах BLACKPINK часто поют о грусти</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('화나다')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">화나다</div>
+                    <div class="pronunciation">[хванада]</div>
+                    <div class="meaning">злиться</div>
+                    <div class="example">"Kill This Love" - песня о гневе на токсичную любовь</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('좋아하다')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">좋아하다</div>
+                    <div class="pronunciation">[чоахада]</div>
+                    <div class="meaning">нравиться, любить</div>
+                    <div class="example">우리는 BLACKPINK를 좋아해요! (Мы любим BLACKPINK!)</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- K-POP сленг -->
+        <div class="category-section">
+            <div class="category-header">
+                <div class="category-icon">🎤</div>
+                <h2 class="category-title">K-POP сленг</h2>
+                <p class="category-desc">Специальные термины из мира корейской индустрии развлечений</p>
+            </div>
+            
+            <div class="words-grid">
+                <div class="word-card" onclick="playWord('데뷔')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">데뷔</div>
+                    <div class="pronunciation">[дебю]</div>
+                    <div class="meaning">дебют</div>
+                    <div class="example">BLACKPINK 데뷔 в 2016 году</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('컴백')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">컴백</div>
+                    <div class="pronunciation">[комбэк]</div>
+                    <div class="meaning">камбэк (возвращение с новой песней)</div>
+                    <div class="example">"Born Pink" - последний 컴백 BLACKPINK</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('솔로')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">솔로</div>
+                    <div class="pronunciation">[солло]</div>
+                    <div class="meaning">соло карьера</div>
+                    <div class="example">Jennie первая начала 솔로 карьеру</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('리더')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">리더</div>
+                    <div class="pronunciation">[лидо]</div>
+                    <div class="meaning">лидер группы</div>
+                    <div class="example">У BLACKPINK нет официального 리더</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('막내')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">막내</div>
+                    <div class="pronunciation">[макнэ]</div>
+                    <div class="meaning">самый младший в группе</div>
+                    <div class="example">Lisa - 막내 BLACKPINK</div>
+                </div>
+                
+                <div class="word-card" onclick="playWord('선배')">
+                    <button class="play-btn">🔊</button>
+                    <div class="korean-word">선배</div>
+                    <div class="pronunciation">[сонбэ]</div>
+                    <div class="meaning">старший коллега, наставник</div>
+                    <div class="example">2NE1 - 선배 для BLACKPINK в YG</div>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+    
+    <script>
+        function playWord(word) {
+            // Уведомление о произношении
+            showNotification(`🎤 Произношение: ${word}`);
+            
+            // Попытка использовать Web Speech API
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+        
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #ff1493, #2c2c54);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 25px;
+                box-shadow: 0 10px 30px rgba(255, 20, 147, 0.4);
+                z-index: 1000;
+                font-weight: bold;
+                animation: slideIn 0.5s ease-out;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.5s ease-in';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 500);
+            }, 3000);
+        }
+        
+
+        
+        // Добавляем анимации
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); }
+                to { transform: translateX(0); }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); }
+                to { transform: translateX(100%); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Анимация появления при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.category-section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 300);
+            });
+        });
+    </script>
+</body>
+</html>

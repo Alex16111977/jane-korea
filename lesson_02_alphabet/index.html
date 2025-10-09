@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <title>🔤 Корейский алфавит 한글</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('background.jpg') center center;
+            background-size: cover;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            font-family: 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Добавляем полупрозрачный оверлей для лучшей читаемости */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 107, 157, 0.1);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lesson-header {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 40px;
+            border-radius: 25px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .lesson-header::before {
+            content: '한';
+            position: absolute;
+            font-size: 300px;
+            opacity: 0.05;
+            right: -50px;
+            top: -100px;
+            color: #ff6b9d;
+            font-weight: bold;
+        }
+
+        .lesson-header h1 {
+            color: #2c3e50;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin: 0 0 20px 0;
+            font-size: 2.8em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lesson-subtitle {
+            font-size: 1.8em;
+            color: #e74c3c;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lesson-description {
+            font-size: 1.2em;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .historical-info {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border-left: 5px solid #e17055;
+            position: relative;
+            z-index: 1;
+        }
+
+        .historical-info h3 {
+            color: #2d3436;
+            margin: 0 0 15px 0;
+            font-size: 1.4em;
+        }
+
+        .historical-info p {
+            color: #2d3436;
+            line-height: 1.6;
+            margin: 0 0 10px 0;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a, .navigation button {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .navigation a:hover, .navigation button:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
+        .content-section {
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            padding: 25px;
+            color: white;
+            position: relative;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+
+        .section-content {
+            padding: 30px;
+        }
+
+        .vowel-types {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 25px 0;
+        }
+
+        .vowel-type-section {
+            background: linear-gradient(135deg, #fff5f9, #f8f0ff);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #FFB6C1;
+        }
+
+        .vowel-type-section h4 {
+            color: #9370DB;
+            margin: 0 0 20px 0;
+            font-size: 1.3em;
+        }
+
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .letter-card {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .letter-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .letter-card.clicked {
+            animation: pulse 0.6s ease;
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        }
+
+        .letter-card.monophthong {
+            background: linear-gradient(135deg, #a8e6cf, #7fcdcd);
+        }
+
+        .letter-card.diphthong {
+            background: linear-gradient(135deg, #ffd93d, #ff6b6b);
+        }
+
+        .letter-card.basic-consonant {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .letter-card.tense-consonant {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+        }
+
+        .letter-card.aspirated-consonant {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .korean-char {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .romanization {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .pronunciation {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .korean-name {
+            font-size: 0.8em;
+            opacity: 0.7;
+            font-style: italic;
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .consonant-table {
+            overflow-x: auto;
+            margin: 25px 0;
+        }
+
+        .consonant-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .consonant-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .consonant-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .consonant-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .korean-example {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        .combination-example {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .combination-example .example-korean {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .combination-example .example-meaning {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #a8e6cf, #7fcdcd);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .practice-section h3 {
+            color: white;
+            margin: 0 0 20px 0;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        .word-practice {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .practice-word {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .practice-korean {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .practice-romanization {
+            color: #e74c3c;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .practice-meaning {
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        .quiz-section {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .quiz-question {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .quiz-korean {
+            font-size: 3em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .quiz-option {
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .quiz-option:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .quiz-option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+
+
+        .important-note {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #e91e63;
+        }
+
+        .important-note h4 {
+            color: #ad1457;
+            margin: 0 0 10px 0;
+        }
+
+        .important-note p {
+            color: #880e4f;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .batchim-section {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .batchim-section h3 {
+            color: white;
+            margin: 0 0 20px 0;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        .batchim-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .batchim-card {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .batchim-card:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
+
+        .batchim-char {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .batchim-sound {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .syllable-structure {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .syllable-example {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .syllable-part {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.2em;
+        }
+
+        .initial {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .medial {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .final {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .compound-batchim {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .compound-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .compound-item {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .batchim-examples {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .batchim-examples h4 {
+            color: white;
+            margin: 0 0 15px 0;
+        }
+
+        .batchim-word {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            font-size: 1.1em;
+        }
+
+        /* Стили для бейджей уровней */
+        .level-badge-container {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            text-align: right;
+            z-index: 10;
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .level-badge.level-1 {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A);
+            color: white;
+        }
+
+        .level-badge.level-2 {
+            background: linear-gradient(135deg, #2196F3, #03A9F4);
+            color: white;
+        }
+
+        .level-badge.level-3 {
+            background: linear-gradient(135deg, #FF9800, #FF5722);
+            color: white;
+        }
+
+        .level-badge.level-4 {
+            background: linear-gradient(135deg, #9C27B0, #E91E63);
+            color: white;
+        }
+
+        .level-badge.level-5 {
+            background: linear-gradient(135deg, #E91E63, #F44336);
+            color: white;
+        }
+
+        .level-badge.level-6 {
+            background: linear-gradient(135deg, #F44336, #9C27B0);
+            color: white;
+        }
+
+        .level-description {
+            font-size: 0.8em;
+            color: rgba(255,255,255,0.8);
+            background: rgba(0,0,0,0.1);
+            padding: 4px 12px;
+            border-radius: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .lesson-header h1 {
+                font-size: 2.2em;
+            }
+            
+            .vowel-types {
+                grid-template-columns: 1fr;
+            }
+            
+            .alphabet-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .korean-char {
+                font-size: 2em;
+            }
+
+            .consonant-table {
+                font-size: 0.9em;
+            }
+            
+            .level-badge-container {
+                position: relative;
+                top: 0;
+                right: 0;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../level_1/index.html">← К 1급</a>
+            <button onclick="playAllSounds()">🔊 Прослушать все</button>
+            <button onclick="startQuiz()">📝 Тест на знание</button>
+            <a href="../lesson_03_greetings/index.html">Урок 3: Приветствие →</a>
+        </div>
+        
+        <div class="lesson-header">
+            <!-- Бейдж уровня -->
+            <div class="level-badge-container">
+                <div class="level-badge level-1">1급 (첫 번째)</div>
+                <div class="level-description">Элементарный уровень</div>
+            </div>
+            <h1>🔤 Урок 2: Корейский алфавит 한글</h1>
+            <div class="lesson-subtitle">한글을 배워요!</div>
+            <div class="lesson-description">
+                С чего начинается обучение любому иностранному языку? Конечно же, с алфавита! 
+                Основа всех основ в изучении корейского языка – это корейский алфавит 한글. 
+                Только когда вы изучите буквы и их правильное звучание, вы сможете овладеть 4 аспектами языка:
+            </div>
+            <ul style="position: relative; z-index: 1; color: #555; font-size: 1.1em;">
+                <li><strong>Чтение – 읽기</strong></li>
+                <li><strong>Письмо – 쓰기</strong></li>
+                <li><strong>Слушание (аудирование) – 듣기</strong></li>
+                <li><strong>Говорение – 말하기</strong></li>
+            </ul>
+            
+            <div class="historical-info">
+                <h3>🏛️ История создания 한글</h3>
+                <p><strong>한글</strong> был создан королем Седжоном Великим в <strong>1443 году</strong>. До создания корейского алфавита корейцы пользовались китайской письменностью.</p>
+                <p>Первоначальное название корейского алфавита было <strong>훈민정음</strong> (Хун Мин Чонг Ым), что в переводе с китайского означает <em>"правильная письменность, созданная для обучения народа"</em>.</p>
+                <p><strong>Состав алфавита:</strong> 40 букв • 19 согласных • 21 гласная</p>
+            </div>
+
+            <div class="important-note">
+                <h4>⚠️ ВАЖНО</h4>
+                <p>Это НЕ иероглифы, это именно БУКВЫ! Обратите особое внимание на то, что буквы и звуки корейского отличаются от букв и звуков в русском языке. Поэтому при изучении не стоит опираться на русскую транскрипцию.</p>
+            </div>
+
+
+
+        </div>
+
+        <!-- Гласные буквы -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2>🎵 Гласные буквы 모음</h2>
+            </div>
+            <div class="section-content">
+                <p><strong>Гласные буквы</strong> – это такие буквы, при произнесении которых выдыхаемый воздух свободно выходит через гортань и ротовую полость между голосовыми связками и не встречает преград. Попробуйте произнести русскую букву "а". Чувствуете, что нет препятствия для произношения?</p>
+                
+                <p>Гласные в корейском языке разделяют на:</p>
+                <ul>
+                    <li><strong>монофтонги</strong> (гласные, издающие один звук);</li>
+                    <li><strong>дифтонги</strong> (гласные, издающие два звука).</li>
+                </ul>
+
+                <div class="vowel-types">
+                    <div class="vowel-type-section">
+                        <h4>Монофтонги (один звук)</h4>
+                        <div class="alphabet-grid">
+                            <div class="letter-card monophthong" onclick="playSound(this, '아')">
+                                <span class="korean-char">ㅏ</span>
+                                <div class="romanization">[а]</div>
+                            </div>
+                            <div class="letter-card monophthong" onclick="playSound(this, '애')">
+                                <span class="korean-char">ㅐ</span>
+                                <div class="romanization">[э]</div>
+                            </div>
+                            <div class="letter-card monophthong" onclick="playSound(this, '어')">
+                                <span class="korean-char">ㅓ</span>
+                                <div class="romanization">[о]</div>
+                            </div>
+                            <div class="letter-card monophthong" onclick="playSound(this, '에')">
+                                <span class="korean-char">ㅔ</span>
+                                <div class="romanization">[э] короче</div>
+                            </div>
+                            <div class="letter-card monophthong" onclick="playSound(this, '오')">
+                                <span class="korean-char">ㅗ</span>
+                                <div class="romanization">[о]</div>
+                            </div>
+                            <div class="letter-card monophthong" onclick="playSound(this, '우')">
+                                <span class="korean-char">ㅜ</span>
+                                <div class="romanization">[у]</div>
+                            </div>
+                            <div class="letter-card monophthong" onclick="playSound(this, '으')">
+                                <span class="korean-char">ㅡ</span>
+                                <div class="romanization">[ы]</div>
+                            </div>
+                            <div class="letter-card monophthong" onclick="playSound(this, '이')">
+                                <span class="korean-char">ㅣ</span>
+                                <div class="romanization">[и]</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="vowel-type-section">
+                        <h4>Дифтонги (два звука)</h4>
+                        <div class="alphabet-grid">
+                            <div class="letter-card diphthong" onclick="playSound(this, '야')">
+                                <span class="korean-char">ㅑ</span>
+                                <div class="romanization">[я]</div>
+                            </div>
+                            <div class="letter-card diphthong" onclick="playSound(this, '예')">
+                                <span class="korean-char">ㅒ</span>
+                                <div class="romanization">[йэ]</div>
+                            </div>
+                            <div class="letter-card diphthong" onclick="playSound(this, '요')">
+                                <span class="korean-char">ㅕ</span>
+                                <div class="romanization">[йо]</div>
+                            </div>
+                            <div class="letter-card diphthong" onclick="playSound(this, '예')">
+                                <span class="korean-char">ㅖ</span>
+                                <div class="romanization">[йэ]</div>
+                            </div>
+                            <div class="letter-card diphthong" onclick="playSound(this, '요')">
+                                <span class="korean-char">ㅛ</span>
+                                <div class="romanization">[йо]</div>
+                            </div>
+                            <div class="letter-card diphthong" onclick="playSound(this, '유')">
+                                <span class="korean-char">ㅠ</span>
+                                <div class="romanization">[ю]</div>
+                            </div>
+                            <div class="letter-card diphthong" onclick="playSound(this, '와')">
+                                <span class="korean-char">ㅘ</span>
+                                <div class="romanization">[ва]</div>
+                            </div>
+                            <div class="letter-card diphthong" onclick="playSound(this, '웨')">
+                                <span class="korean-char">ㅙ</span>
+                                <div class="romanization">[вэ]</div>
+                            </div>
+                            <div class="letter-card diphthong" onclick="playSound(this, '외')">
+                                <span class="korean-char">ㅚ</span>
+                                <div class="romanization">[вэ]</div>
+                            </div>
+                            <div class="letter-card diphthong" onclick="playSound(this, '워')">
+                                <span class="korean-char">ㅝ</span>
+                                <div class="romanization">[во]</div>
+                            </div>
+                            <div class="letter-card diphthong" onclick="playSound(this, '웨')">
+                                <span class="korean-char">ㅞ</span>
+                                <div class="romanization">[вэ]</div>
+                            </div>
+                            <div class="letter-card diphthong" onclick="playSound(this, '위')">
+                                <span class="korean-char">ㅟ</span>
+                                <div class="romanization">[ви]</div>
+                            </div>
+                            <div class="letter-card diphthong" onclick="playSound(this, 'ыи')">
+                                <span class="korean-char">ㅢ</span>
+                                <div class="romanization">[ыи]</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Согласные буквы -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2>🎯 Согласные буквы 자음</h2>
+            </div>
+            <div class="section-content">
+                <p><strong>Согласные</strong> – это такие буквы, при произнесении которых воздух встречает в полости рта преграду, создавая шум. Сравните, как вы произносите буквы "г" и "а". Когда мы произносим букву "г", то сразу можно заметить разницу между гласными и согласными.</p>
+
+                <div class="consonant-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Буква</th>
+                                <th>Произношение</th>
+                                <th>Корейское название</th>
+                                <th>Примеры</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="korean-example">ㄱ</span></td>
+                                <td>[к] в начале/подслоге<br>[г] в середине между гласными</td>
+                                <td>기역</td>
+                                <td><span class="korean-example">가구</span> [кагу]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㄴ</span></td>
+                                <td>[н] всегда</td>
+                                <td>니은</td>
+                                <td><span class="korean-example">눈</span> [нун]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㄷ</span></td>
+                                <td>[т] в начале/подслоге<br>[д] в середине между гласными</td>
+                                <td>디귿</td>
+                                <td><span class="korean-example">드디어</span> [тыдио]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㄹ</span></td>
+                                <td>[р] в начале/между гласными<br>[л] в подслоге</td>
+                                <td>리을</td>
+                                <td><span class="korean-example">갈</span> [каль]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㅁ</span></td>
+                                <td>[м]</td>
+                                <td>미음</td>
+                                <td><span class="korean-example">엄마</span> [омма]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㅂ</span></td>
+                                <td>[п] в начале/подслоге<br>[б] в середине между гласными</td>
+                                <td>비읍</td>
+                                <td><span class="korean-example">바보</span> [пабо]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㅅ</span></td>
+                                <td>[с] в начале/между гласными<br>[т] в подслоге<br>[щ] перед ㅕ,ㅑ,ㅛ,ㅠ,ㅣ,ㅟ</td>
+                                <td>시옷</td>
+                                <td><span class="korean-example">사실</span> [сащиль]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㅇ</span></td>
+                                <td>[нг] только в подслоге<br>не читается перед гласными</td>
+                                <td>이응</td>
+                                <td><span class="korean-example">형</span> [хён]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㅈ</span></td>
+                                <td>[ч] в начале<br>[дж] в середине между гласными<br>[т] только в подслоге</td>
+                                <td>지읒</td>
+                                <td><span class="korean-example">자주</span> [чаджу]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㅊ</span></td>
+                                <td>[ч] в начале и середине<br>[т] только в подслоге</td>
+                                <td>치읓</td>
+                                <td><span class="korean-example">차</span> [ча]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㅋ</span></td>
+                                <td>[кх] придыхательный "к"<br>[к] простой в подслоге</td>
+                                <td>키읔</td>
+                                <td><span class="korean-example">카트</span> [кхатхы]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㅌ</span></td>
+                                <td>[тх] в начале и середине<br>[т] только в подслоге</td>
+                                <td>티읕</td>
+                                <td><span class="korean-example">팀</span> [тхим]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㅍ</span></td>
+                                <td>[пх] в начале и середине<br>[п] только в подслоге</td>
+                                <td>피읖</td>
+                                <td><span class="korean-example">파이</span> [пхаи]</td>
+                            </tr>
+                            <tr>
+                                <td><span class="korean-example">ㅎ</span></td>
+                                <td>[х] в начале и середине<br>[т] только в подслоге</td>
+                                <td>히읗</td>
+                                <td><span class="korean-example">좋아</span> [чоа]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4>🔥 Сильные согласные (쌍자음)</h4>
+                <div class="alphabet-grid">
+                    <div class="letter-card tense-consonant" onclick="playSound(this, '끄')">
+                        <span class="korean-char">ㄲ</span>
+                        <div class="romanization">[кк]</div>
+                        <div class="korean-name">쌍기역</div>
+                    </div>
+                    <div class="letter-card tense-consonant" onclick="playSound(this, '뜨')">
+                        <span class="korean-char">ㄸ</span>
+                        <div class="romanization">[тт]</div>
+                        <div class="korean-name">쌍디귿</div>
+                    </div>
+                    <div class="letter-card tense-consonant" onclick="playSound(this, '뿌')">
+                        <span class="korean-char">ㅃ</span>
+                        <div class="romanization">[пп]</div>
+                        <div class="korean-name">쌍비읍</div>
+                    </div>
+                    <div class="letter-card tense-consonant" onclick="playSound(this, '쓰')">
+                        <span class="korean-char">ㅆ</span>
+                        <div class="romanization">[сс]</div>
+                        <div class="korean-name">쌍시옷</div>
+                    </div>
+                    <div class="letter-card tense-consonant" onclick="playSound(this, '즈')">
+                        <span class="korean-char">ㅉ</span>
+                        <div class="romanization">[чч]</div>
+                        <div class="korean-name">쌍지읒</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Правила сборки слогов -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2>🔗 Правила сборки слогов</h2>
+            </div>
+            <div class="section-content">
+                <p>В корейском языке буквы объединяются в <strong>слоги-блоки</strong>. Каждый слог читается как одно целое:</p>
+                
+                <div class="combination-example">
+                    <div class="example-korean">가</div>
+                    <div class="example-meaning">ㄱ + ㅏ = 가 [га]</div>
+                </div>
+
+                <div class="combination-example">
+                    <div class="example-korean">한</div>
+                    <div class="example-meaning">ㅎ + ㅏ + ㄴ = 한 [хан]</div>
+                </div>
+
+                <div class="combination-example">
+                    <div class="example-korean">글</div>
+                    <div class="example-meaning">ㄱ + ㅡ + ㄹ = 글 [кыль]</div>
+                </div>
+
+                <div class="important-note">
+                    <h4>🤔 В чем же разница?</h4>
+                    <p>И все же, в чем же разница между ㅓ, ㅗ, ㅐ, ㅔ? Почему разные буквы читаются одинаково? Дело в том, что разница между звучанием некоторых букв настолько стерлась, что даже сами корейцы не могут разобрать, где какая. Достаточно просто запомнить, как пишется слово. Русские буквы не могут полностью передать корейских звуков, поэтому рекомендуем также изучить аудиоматериалы.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Бадчим (받침) - Завершающие согласные -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2>🅰️ Бадчим (받침) - Завершающие согласные</h2>
+            </div>
+            <div class="section-content">
+                <p><strong>받침 (бадчим)</strong> - это согласные, которые стоят в конце слога. Это очень важная часть корейской письменности!</p>
+                
+                <div class="syllable-structure">
+                    <h3 style="color: #74b9ff; text-align: center; font-size: 1.4em;">🏢 Структура корейского слога</h3>
+                    <p>Каждый корейский слог состоит из трех частей:</p>
+                    
+                    <div class="syllable-example">
+                        <div class="syllable-part initial">
+                            <div style="font-size: 2em; margin-bottom: 10px;">ㅎ</div>
+                            <div><strong>초성</strong></div>
+                            <div>начальная согласная</div>
+                        </div>
+                        <div class="syllable-part medial">
+                            <div style="font-size: 2em; margin-bottom: 10px;">ㅏ</div>
+                            <div><strong>중성</strong></div>
+                            <div>гласная (обязательна)</div>
+                        </div>
+                        <div class="syllable-part final">
+                            <div style="font-size: 2em; margin-bottom: 10px;">ㄴ</div>
+                            <div><strong>종성 (받침)</strong></div>
+                            <div>завершающая согласная</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 20px 0;">
+                        <div style="font-size: 3em; color: #74b9ff; font-weight: bold;">한</div>
+                        <div style="font-size: 1.2em; color: #666;">Результат = ㅎ + ㅏ + ㄴ</div>
+                    </div>
+                </div>
+
+                <div class="batchim-section">
+                    <h3>🔤 Одиночные бадчимы</h3>
+                    <p style="text-align: center; margin-bottom: 20px;">Основные согласные, которые могут стоять в конце слога:</p>
+                    
+                    <div class="batchim-grid">
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㄱ</div>
+                            <div class="batchim-sound">[ㄱ]</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㄴ</div>
+                            <div class="batchim-sound">[ㄴ]</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㄷ</div>
+                            <div class="batchim-sound">[ㄷ]</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㄹ</div>
+                            <div class="batchim-sound">[ㄹ]</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㅁ</div>
+                            <div class="batchim-sound">[ㅁ]</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㅂ</div>
+                            <div class="batchim-sound">[ㅂ]</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㅅ</div>
+                            <div class="batchim-sound">[ㄷ] в конце</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㅇ</div>
+                            <div class="batchim-sound">[ㅇ]</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㅈ</div>
+                            <div class="batchim-sound">[ㄷ] в конце</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㅊ</div>
+                            <div class="batchim-sound">[ㄷ] в конце</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㅋ</div>
+                            <div class="batchim-sound">[ㄱ] в конце</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㅌ</div>
+                            <div class="batchim-sound">[ㄷ] в конце</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㅍ</div>
+                            <div class="batchim-sound">[ㅂ] в конце</div>
+                        </div>
+                        <div class="batchim-card">
+                            <div class="batchim-char">ㅎ</div>
+                            <div class="batchim-sound">[ㄷ] в конце</div>
+                        </div>
+                    </div>
+
+                    <div class="compound-batchim">
+                        <h4>🔀 Сложные (двойные) бадчимы</h4>
+                        <p>Два согласных в одном бадчиме!</p>
+                        
+                        <div class="compound-grid">
+                            <div class="compound-item">ㄳ<br><span style="font-size: 0.7em; opacity: 0.8;">ㄱ+ㅅ → [ㄱ]</span></div>
+                            <div class="compound-item">ㄵ<br><span style="font-size: 0.7em; opacity: 0.8;">ㄴ+ㅈ → [ㄴ]</span></div>
+                            <div class="compound-item">ㄶ<br><span style="font-size: 0.7em; opacity: 0.8;">ㄴ+ㅎ → [ㄴ]</span></div>
+                            <div class="compound-item">ㄺ<br><span style="font-size: 0.7em; opacity: 0.8;">ㄹ+ㄱ → [ㄱ]</span></div>
+                            <div class="compound-item">ㄻ<br><span style="font-size: 0.7em; opacity: 0.8;">ㄹ+ㅁ → [ㄹ]</span></div>
+                            <div class="compound-item">ㄼ<br><span style="font-size: 0.7em; opacity: 0.8;">ㄹ+ㅂ → [ㄹ]</span></div>
+                            <div class="compound-item">ㄽ<br><span style="font-size: 0.7em; opacity: 0.8;">ㄹ+ㅅ → [ㄹ]</span></div>
+                            <div class="compound-item">ㄾ<br><span style="font-size: 0.7em; opacity: 0.8;">ㄹ+ㅌ → [ㄹ]</span></div>
+                            <div class="compound-item">ㄿ<br><span style="font-size: 0.7em; opacity: 0.8;">ㄹ+ㅍ → [ㄹ]</span></div>
+                            <div class="compound-item">ㅀ<br><span style="font-size: 0.7em; opacity: 0.8;">ㄹ+ㅎ → [ㄹ]</span></div>
+                            <div class="compound-item">ㅄ<br><span style="font-size: 0.7em; opacity: 0.8;">ㅂ+ㅅ → [ㅂ]</span></div>
+                        </div>
+                        
+                        <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px; margin: 15px 0;">
+                            <p style="margin: 0; text-align: center;"><strong>💡 Правило:</strong> Обычно произносится первая согласная, но есть исключения!</p>
+                        </div>
+                    </div>
+
+                    <div class="batchim-examples">
+                        <h4>📚 Примеры слов с бадчимом</h4>
+                        
+                        <div style="margin: 15px 0;">
+                            <strong>Одиночные бадчимы:</strong><br>
+                            <span class="batchim-word">책 [[책]] - книга</span>
+                            <span class="batchim-word">밥 [밥] - рис, еда</span>
+                            <span class="batchim-word">물 [물] - вода</span>
+                            <span class="batchim-word">집 [집] - дом</span>
+                            <span class="batchim-word">손 [손] - рука</span>
+                            <span class="batchim-word">말 [말] - слово</span>
+                        </div>
+                        
+                        <div style="margin: 15px 0;">
+                            <strong>Сложные бадчимы:</strong><br>
+                            <span class="batchim-word">값 [갑] - цена</span>
+                            <span class="batchim-word">닭 [닥] - курица</span>
+                            <span class="batchim-word">앙다 [안따] - сидеть</span>
+                            <span class="batchim-word">읽다 [익따] - читать</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="important-note">
+                    <h4>❗ ВАЖНО про произношение</h4>
+                    <p>Многие согласные в конце слога звучат по-другому! Например, ㄱ, ㅋ, ㄲ в конце все звучат как [ㄱ]. А ㄷ, ㅅ, ㅆ, ㅈ, ㅊ, ㅌ, ㅎ - как [ㄷ].</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Практические примеры -->
+        <div class="content-section">
+            <div class="section-header">
+                <h2>📝 Тренируем фонетику</h2>
+            </div>
+            <div class="section-content">
+                <div class="practice-section">
+                    <h3>🎯 Первые корейские слова для практики</h3>
+                    <div class="word-practice">
+                        <div class="practice-word" onclick="speakWord('가구', 'кагу')">
+                            <div class="practice-korean">가구</div>
+                            <div class="practice-romanization">kagu</div>
+                            <div class="practice-meaning">мебель</div>
+                        </div>
+                        <div class="practice-word" onclick="speakWord('눈', 'нун')">
+                            <div class="practice-korean">눈</div>
+                            <div class="practice-romanization">nun</div>
+                            <div class="practice-meaning">глаза/снег</div>
+                        </div>
+                        <div class="practice-word" onclick="speakWord('엄마', 'омма')">
+                            <div class="practice-korean">엄마</div>
+                            <div class="practice-romanization">eomma</div>
+                            <div class="practice-meaning">мама</div>
+                        </div>
+                        <div class="practice-word" onclick="speakWord('바보', 'пабо')">
+                            <div class="practice-korean">바보</div>
+                            <div class="practice-romanization">babo</div>
+                            <div class="practice-meaning">дурак</div>
+                        </div>
+                        <div class="practice-word" onclick="speakWord('사실', 'сащиль')">
+                            <div class="practice-korean">사실</div>
+                            <div class="practice-romanization">sasil</div>
+                            <div class="practice-meaning">правда</div>
+                        </div>
+                        <div class="practice-word" onclick="speakWord('자주', 'чаджу')">
+                            <div class="practice-korean">자주</div>
+                            <div class="practice-romanization">jaju</div>
+                            <div class="practice-meaning">часто</div>
+                        </div>
+                        <div class="practice-word" onclick="speakWord('좋아', 'чоа')">
+                            <div class="practice-korean">좋아</div>
+                            <div class="practice-romanization">joha</div>
+                            <div class="practice-meaning">хорошо/нравится</div>
+                        </div>
+                        <div class="practice-word" onclick="speakWord('한국', 'хангук')">
+                            <div class="practice-korean">한국</div>
+                            <div class="practice-romanization">hanguk</div>
+                            <div class="practice-meaning">Корея</div>
+                        </div>
+                        <div class="practice-word" onclick="speakWord('사랑', 'саран')">
+                            <div class="practice-korean">사랑</div>
+                            <div class="practice-romanization">sarang</div>
+                            <div class="practice-meaning">любовь</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Тест -->
+        <div class="quiz-section" id="quizSection" style="display: none;">
+            <h3 style="text-align: center; color: white; margin-bottom: 25px;">📝 Тест: Как называется буква?</h3>
+            <div class="quiz-question" id="quizQuestion">
+                <div class="quiz-korean" id="quizKorean">ㄱ</div>
+                <p>Какое корейское название у этой буквы?</p>
+                <div class="quiz-options" id="quizOptions">
+                    <div class="quiz-option" onclick="checkAnswer(this, true)">기역</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">니은</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">디귿</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false)">미음</div>
+                </div>
+            </div>
+            <button onclick="nextQuestion()" id="nextBtn" style="display: none; margin: 20px auto; display: block; padding: 15px 30px; background: #4ecdc4; color: white; border: none; border-radius: 10px; font-size: 1.1em; cursor: pointer;">Следующий вопрос</button>
+        </div>
+
+        <!-- Навигация к следующему уроку -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px; background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85)); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            <h3 style="color: #2c3e50; margin-bottom: 20px;">🎉 Поздравляем! Вы изучили корейский алфавит!</h3>
+            <p style="color: #555; margin-bottom: 25px; font-size: 1.1em;">Теперь вы готовы к следующему этапу - изучению приветствий и знакомства!</p>
+            <a href="../lesson_03_greetings/index.html" style="display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-size: 1.2em; font-weight: 500; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.1);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.1)'">
+                👋 Перейти к уроку 3: Приветствие и знакомство
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        let clickedLetters = 0;
+        const totalLetters = document.querySelectorAll('.letter-card').length;
+        let quizQuestions = [
+            {korean: 'ㄱ', answer: '기역', options: ['기역', '니은', '디귿', '미음']},
+            {korean: 'ㅂ', answer: '비읍', options: ['비읍', '미음', '시옷', '지읒']},
+            {korean: 'ㄸ', answer: '쌍디귿', options: ['디귿', '쌍디귿', '티읕', '키읔']},
+            {korean: 'ㅈ', answer: '지읒', options: ['지읒', '치읓', '시옷', '히읗']},
+            {korean: 'ㅁ', answer: '미음', options: ['미음', '비읍', '시옷', '이응']}
+        ];
+        let currentQuestionIndex = 0;
+        let quizActive = false;
+
+        function playSound(element, pronunciation) {
+            element.classList.add('clicked');
+            setTimeout(() => {
+                element.classList.remove('clicked');
+            }, 600);
+
+            if (!element.classList.contains('studied')) {
+                element.classList.add('studied');
+                clickedLetters++;
+            }
+
+            speak(pronunciation);
+        }
+
+        function speakWord(korean, pronunciation) {
+            // Произносим корейское слово корейским голосом
+            speak(korean);
+        }
+
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ko-KR'; // Корейский язык для корейских звуков
+                utterance.rate = 0.8;
+                utterance.pitch = 1.1;
+                speechSynthesis.speak(utterance);
+            } else {
+                alert(`Произношение: ${text}`);
+            }
+        }
+
+        function playAllSounds() {
+            const cards = document.querySelectorAll('.letter-card');
+            let index = 0;
+            
+            function playNext() {
+                if (index < cards.length) {
+                    cards[index].click();
+                    index++;
+                    setTimeout(playNext, 1000);
+                }
+            }
+            
+            playNext();
+        }
+
+        function startQuiz() {
+            quizActive = true;
+            currentQuestionIndex = 0;
+            document.getElementById('quizSection').style.display = 'block';
+            document.getElementById('quizSection').scrollIntoView({behavior: 'smooth'});
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            if (currentQuestionIndex >= quizQuestions.length) {
+                alert('🎉 Тест завершен! Поздравляем!\n시험이 끝났어요! 축하해요!');
+                document.getElementById('quizSection').style.display = 'none';
+                return;
+            }
+
+            const question = quizQuestions[currentQuestionIndex];
+            document.getElementById('quizKorean').textContent = question.korean;
+            
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+            
+            // Перемешиваем варианты
+            const shuffledOptions = [...question.options].sort(() => Math.random() - 0.5);
+            
+            shuffledOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'quiz-option';
+                div.textContent = option;
+                div.onclick = () => checkAnswer(div, option === question.answer);
+                optionsContainer.appendChild(div);
+            });
+
+            document.getElementById('nextBtn').style.display = 'none';
+        }
+
+        function checkAnswer(element, isCorrect) {
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.onclick = null;
+                if (opt.textContent === quizQuestions[currentQuestionIndex].answer) {
+                    opt.classList.add('correct');
+                } else {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            if (isCorrect) {
+                element.classList.add('correct');
+                speak('정답입니다'); // "Правильно"
+            } else {
+                element.classList.add('incorrect');
+                speak('틀렸습니다'); // "Неправильно"
+            }
+
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+
+        // Анимация при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.letter-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.4s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1)';
+                }, index * 50);
+            });
+        });
+
+        // Клавиатурные сочетания
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') {
+                window.location.href = '../lesson_03_greetings/index.html';
+            }
+            if (e.key === 'ArrowLeft') {
+                window.location.href = '../index.html';
+            }
+            if (e.key === 't' || e.key === 'T') {
+                startQuiz();
+            }
+        });
+    </script>
+</body>
+</html>

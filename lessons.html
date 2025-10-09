@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Уроки корейского языка - 한국어 수업</title>
+    <link href="css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        body { 
+            font-family: 'Noto Sans KR', sans-serif;
+            background: #fafafa;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            background: url('images/флаг.jpg');
+            background-size: contain;
+            background-position: center;
+            background-repeat: repeat-x;
+            background-color: #667eea;
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            min-height: 200px;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(1px);
+            z-index: 1;
+        }
+        
+        .header h1, .header p, .back-btn {
+            position: relative;
+            z-index: 2;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.7);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+        
+
+        
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .level-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 5px solid;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .level-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 60%, rgba(255,255,255,0.4) 100%);
+            z-index: 0;
+        }
+        
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            z-index: 0;
+        }
+        
+        .level-header, .level-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .level-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .level-1 { border-top-color: #4CAF50; }
+        .level-2 { border-top-color: #2196F3; }
+        .level-3 { border-top-color: #FF9800; }
+        .level-4 { border-top-color: #9C27B0; }
+        .level-5 { border-top-color: #E91E63; }
+        .level-6 { border-top-color: #F44336; }
+        
+        .level-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .level-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+        
+        .level-badge {
+            background: #ff6b9d;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        
+        .level-content h3 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+        
+        .level-korean {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .level-lessons {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .level-topics {
+            font-size: 0.9em;
+            color: #888;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+        
+        .level-action {
+            position: relative;
+            z-index: 1;
+            margin-top: 15px;
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #333;
+            border: 2px solid #e9ecef;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+
+        
+        .start-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-color: #dee2e6;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .start-btn:hover::before {
+            left: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .levels-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .level-card {
+                padding: 25px;
+            }
+            .back-btn {
+                position: static;
+                transform: none;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" style="position: relative;">
+        <button class="back-btn" onclick="goBackToMain()">← Назад</button>
+        <h1>한국어 수업</h1>
+        <p>Выберите уровень для изучения корейского языка</p>
+    </header>
+    
+    <div class="container">
+        <div class="levels-grid">
+            <div class="level-card level-1" style="background-image: url('images/кот.jpg');">
+                <div class="level-header">
+                    <div class="level-icon">🌱</div>
+                    <div class="level-badge">1급</div>
+                </div>
+                <div class="level-content">
+                    <h3>Элементарный</h3>
+                    <div class="level-korean">첫 번째</div>
+                    <div class="level-lessons">11 уроков</div>
+                    <div class="level-topics">Алфавит • Числа • Приветствие • Связка 이다</div>
+                    <div class="level-action">
+                        <button class="start-btn" onclick="navigateToLevel('level_1', event)">НАЧАТЬ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-card level-2" style="background-image: url('images/кот2 (1).jpg');">
+                <div class="level-header">
+                    <div class="level-icon">🌿</div>
+                    <div class="level-badge">2급</div>
+                </div>
+                <div class="level-content">
+                    <h3>Базовый</h3>
+                    <div class="level-korean">두 번째</div>
+                    <div class="level-lessons">11 уроков</div>
+                    <div class="level-topics">Глаголы • Времена • Вежливость • Грамматика</div>
+                    <div class="level-action">
+                        <button class="start-btn" onclick="navigateToLevel('level_2', event)">НАЧАТЬ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-card level-3" style="background-image: url('images/кот2 (2).jpg');">
+                <div class="level-header">
+                    <div class="level-icon">🍃</div>
+                    <div class="level-badge">3급</div>
+                </div>
+                <div class="level-content">
+                    <h3>Средний</h3>
+                    <div class="level-korean">세 번째</div>
+                    <div class="level-lessons">13 уроков</div>
+                    <div class="level-topics">Падежи • Частицы • Союзы • Желания</div>
+                    <div class="level-action">
+                        <button class="start-btn" onclick="navigateToLevel('level_3', event)">НАЧАТЬ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-card level-4" style="background-image: url('images/кот2 (3).jpg');">
+                <div class="level-header">
+                    <div class="level-icon">🌺</div>
+                    <div class="level-badge">4급</div>
+                </div>
+                <div class="level-content">
+                    <h3>Средне-продвинутый</h3>
+                    <div class="level-korean">네 번째</div>
+                    <div class="level-lessons">15 уроков</div>
+                    <div class="level-topics">Условия • Модальность • Сложные времена</div>
+                    <div class="level-action">
+                        <button class="start-btn" onclick="navigateToLevel('level_4', event)">НАЧАТЬ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-card level-5" style="background-image: url('images/кот2 (4).jpg');">
+                <div class="level-header">
+                    <div class="level-icon">🌸</div>
+                    <div class="level-badge">5급</div>
+                </div>
+                <div class="level-content">
+                    <h3>Продвинутый</h3>
+                    <div class="level-korean">다섯 번째</div>
+                    <div class="level-lessons">15 уроков</div>
+                    <div class="level-topics">Почтительность • Неправильные глаголы</div>
+                    <div class="level-action">
+                        <button class="start-btn" onclick="navigateToLevel('level_5', event)">НАЧАТЬ</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-card level-6" style="background-image: url('images/кот3.jpg');">
+                <div class="level-header">
+                    <div class="level-icon">💎</div>
+                    <div class="level-badge">6급</div>
+                </div>
+                <div class="level-content">
+                    <h3>Мастерский</h3>
+                    <div class="level-korean">여섯 번째</div>
+                    <div class="level-lessons">11 уроков</div>
+                    <div class="level-topics">Идиомы • Литературный стиль • Продвинутые конструкции</div>
+                    <div class="level-action">
+                        <button class="start-btn" onclick="navigateToLevel('level_6', event)">НАЧАТЬ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Анимация карточек при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            const levelCards = document.querySelectorAll('.level-card');
+            levelCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        });
+        
+        // Функция навигации с проверкой файлов
+        window.navigateToLevel = function(levelFolder, event) {
+            if (event) event.stopPropagation();
+            console.log('Navigating to level:', levelFolder);
+            const targetUrl = levelFolder + '/index.html';
+            
+            // Пробуем перейти к файлу
+            const testImg = new Image();
+            testImg.onload = function() {
+                window.location.href = targetUrl;
+            };
+            testImg.onerror = function() {
+                console.log('File exists, navigating...');
+                window.location.href = targetUrl;
+            };
+            testImg.src = targetUrl + '?test=' + Date.now();
+            
+            // Дополнительный фаллбэк - перейти через таймаут
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 200);
+        };
+        
+        // ИСПРАВЛЕНО: Функция возврата на главную - ВСЕГДА на новую версию
+        window.goBackToMain = function() {
+            console.log('🏠 Возврат на главную страницу...');
+            // Всегда возвращаемся на новую версию index.html
+            const targetUrl = 'index.html?from=lessons&v=' + Date.now();
+            console.log('🚀 Переходим на НОВУЮ версию:', targetUrl);
+            window.location.href = targetUrl;
+        };
+    </script>
+</body>
+</html>

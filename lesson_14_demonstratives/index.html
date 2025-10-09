@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 14: Указательные слова 이것/그것/저것</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #667eea;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #667eea;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #764ba2;
+            padding-bottom: 10px;
+        }
+
+        .distance-diagram {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+        }
+
+        .diagram-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .person {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .person-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .person-label {
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .object-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            flex: 2;
+        }
+
+        .zone {
+            background: rgba(255,255,255,0.15);
+            padding: 15px 25px;
+            border-radius: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .zone-near {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        }
+
+        .zone-middle {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+        }
+
+        .zone-far {
+            background: linear-gradient(135deg, #ffd93d, #ff9f1a);
+        }
+
+        .zone-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .zone-korean {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .zone-usage {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .demonstrative-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .demo-card {
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .demo-this {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+        }
+
+        .demo-that-near {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+        }
+
+        .demo-that-far {
+            background: linear-gradient(135deg, #ffd93d, #ff9f1a);
+        }
+
+        .demo-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .demo-korean {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 1.5em;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .demo-description {
+            font-size: 1.1em;
+            margin: 15px 0;
+            opacity: 0.9;
+        }
+
+        .demo-examples {
+            margin-top: 20px;
+        }
+
+        .demo-example {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .korean-phrase {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .phrase-translation {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .contraction-box {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .contraction-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .contraction-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .contraction-card {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .full-form {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .arrow {
+            font-size: 1.5em;
+            color: #ffeb3b;
+            margin: 5px 0;
+        }
+
+        .short-form {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .table-cell.korean {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #d81b60;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            border: 3px solid #f06292;
+        }
+
+        .warning-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-content {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .warning-examples {
+            background: rgba(255,255,255,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #764ba2, #667eea);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #e1bee7;
+            margin-bottom: 8px;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.8em;
+            color: #d1c4e9;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #a8e6cf, #7fcdcd);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: #27ae60;
+        }
+
+        .option.wrong {
+            background: #e74c3c;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct {
+            background: #d5f5d5;
+            color: #27ae60;
+            display: block;
+        }
+
+        .result.wrong {
+            background: #fdd5d5;
+            color: #e74c3c;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .demonstrative-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .diagram-container {
+                flex-direction: column;
+            }
+            
+            .table-row {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+            
+            .options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .contraction-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../level_1/index.html">← К урокам 1급</a>
+            <a href="../index.html">🏠 Главная</a>
+        </div>
+        
+        <header class="header">
+            <h1>👉 Урок 14: Указательные слова</h1>
+            <div class="korean-title">이것/그것/저것: "это", "то", "вон то"</div>
+            <div class="description">Изучаем как указывать на предметы по расстоянию</div>
+        </header>
+
+        <div class="content-section">
+            <h2>🎯 Система расстояний в корейском</h2>
+            
+            <div class="distance-diagram">
+                <h3 style="margin-top: 0; color: white; text-align: center;">Кто где находится?</h3>
+                
+                <div class="diagram-container">
+                    <div class="person">
+                        <div class="person-icon">🗣️</div>
+                        <div class="person-label">Говорящий<br>(나/저)</div>
+                    </div>
+                    
+                    <div class="object-zone">
+                        <div class="zone zone-near">
+                            <div class="zone-title">РЯДОМ С ГОВОРЯЩИМ</div>
+                            <div class="zone-korean">이것</div>
+                            <div class="zone-usage">"это" (рядом со мной)</div>
+                        </div>
+                        
+                        <div class="zone zone-middle">
+                            <div class="zone-title">РЯДОМ СО СЛУШАЮЩИМ</div>
+                            <div class="zone-korean">그것</div>
+                            <div class="zone-usage">"то" (рядом с собеседником)</div>
+                        </div>
+                        
+                        <div class="zone zone-far">
+                            <div class="zone-title">ДАЛЕКО ОТ ВСЕХ</div>
+                            <div class="zone-korean">저것</div>
+                            <div class="zone-usage">"вон то" (далеко от всех)</div>
+                        </div>
+                    </div>
+                    
+                    <div class="person">
+                        <div class="person-icon">👂</div>
+                        <div class="person-label">Слушающий<br>(собеседник)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📝 Три указательных слова</h2>
+            
+            <div class="demonstrative-cards">
+                <div class="demo-card demo-this">
+                    <div class="demo-title">
+                        👈 이것 (это)
+                    </div>
+                    <div class="demo-korean">
+                        이것은
+                    </div>
+                    <div class="demo-description">
+                        Используется когда предмет находится <strong>рядом с говорящим</strong>
+                    </div>
+                    <div class="demo-examples">
+                        <div class="demo-example">
+                            <div class="korean-phrase">이것은 펜이에요</div>
+                            <div class="phrase-translation">Это ручка (у меня в руке)</div>
+                        </div>
+                        <div class="demo-example">
+                            <div class="korean-phrase">이것은 책이에요</div>
+                            <div class="phrase-translation">Это книга (передо мной)</div>
+                        </div>
+                        <div class="demo-example">
+                            <div class="korean-phrase">이것은 물이에요</div>
+                            <div class="phrase-translation">Это вода (рядом со мной)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-card demo-that-near">
+                    <div class="demo-title">
+                        👉 그것 (то)
+                    </div>
+                    <div class="demo-korean">
+                        그것은
+                    </div>
+                    <div class="demo-description">
+                        Используется когда предмет находится <strong>рядом с собеседником</strong> или <strong>далеко от говорящего</strong>
+                    </div>
+                    <div class="demo-examples">
+                        <div class="demo-example">
+                            <div class="korean-phrase">그것은 사과예요</div>
+                            <div class="phrase-translation">То яблоко (у вас в руках)</div>
+                        </div>
+                        <div class="demo-example">
+                            <div class="korean-phrase">그것은 컵이에요</div>
+                            <div class="phrase-translation">То чашка (на вашем столе)</div>
+                        </div>
+                        <div class="demo-example">
+                            <div class="korean-phrase">그것은 공이에요</div>
+                            <div class="phrase-translation">То мяч (недалеко от вас)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-card demo-that-far">
+                    <div class="demo-title">
+                        👆 저것 (вон то)
+                    </div>
+                    <div class="demo-korean">
+                        저것은
+                    </div>
+                    <div class="demo-description">
+                        Используется когда предмет находится <strong>далеко и от говорящего, и от собеседника</strong>
+                    </div>
+                    <div class="demo-examples">
+                        <div class="demo-example">
+                            <div class="korean-phrase">저것은 자동차예요</div>
+                            <div class="phrase-translation">Вон то машина (далеко от всех)</div>
+                        </div>
+                        <div class="demo-example">
+                            <div class="korean-phrase">저것은 건물이에요</div>
+                            <div class="phrase-translation">Вон то здание (вдали)</div>
+                        </div>
+                        <div class="demo-example">
+                            <div class="korean-phrase">저것은 나무예요</div>
+                            <div class="phrase-translation">Вон то дерево (далеко)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>✂️ Сокращенные формы (для удобства произношения)</h2>
+            
+            <div class="contraction-box">
+                <div class="contraction-title">💡 Корейцы любят говорить коротко!</div>
+                <p style="text-align: center; font-size: 1.1em; margin: 20px 0;">
+                    В разговорной речи <strong>гораздо чаще</strong> используются сокращенные формы:
+                </p>
+                
+                <div class="contraction-grid">
+                    <div class="contraction-card">
+                        <div class="full-form">이것은</div>
+                        <div class="arrow">↓</div>
+                        <div class="short-form">이건</div>
+                    </div>
+                    <div class="contraction-card">
+                        <div class="full-form">그것은</div>
+                        <div class="arrow">↓</div>
+                        <div class="short-form">그건</div>
+                    </div>
+                    <div class="contraction-card">
+                        <div class="full-form">저것은</div>
+                        <div class="arrow">↓</div>
+                        <div class="short-form">저건</div>
+                    </div>
+                </div>
+                
+                <p style="text-align: center; font-size: 1.1em; margin-top: 20px;">
+                    <strong>Пример:</strong> 이건 뭐예요? (Что это?) - гораздо естественнее чем 이것은 뭐예요?
+                </p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📊 Примеры со всеми связками</h2>
+            
+            <div class="comparison-table">
+                <div class="table-header">
+                    Указательные слова + изученные связки
+                </div>
+                <div class="table-row">
+                    <div class="table-cell header">Расстояние</div>
+                    <div class="table-cell header">Вежливо</div>
+                    <div class="table-cell header">Дружески</div>
+                    <div class="table-cell header">Официально</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Рядом со мной</div>
+                    <div class="table-cell korean">이건 펜이에요</div>
+                    <div class="table-cell korean">이거 펜이야</div>
+                    <div class="table-cell korean">이것은 펜입니다</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Рядом с вами</div>
+                    <div class="table-cell korean">그건 책이에요</div>
+                    <div class="table-cell korean">그거 책이야</div>
+                    <div class="table-cell korean">그것은 책입니다</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Далеко от всех</div>
+                    <div class="table-cell korean">저건 자동차예요</div>
+                    <div class="table-cell korean">저거 자동차야</div>
+                    <div class="table-cell korean">저것은 자동차입니다</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>⚠️ ВАЖНО: Только для предметов!</h2>
+            
+            <div class="warning-box">
+                <div class="warning-title">
+                    🚨 НЕ используйте для людей!
+                </div>
+                <div class="warning-content">
+                    Указательные слова 이것/그것/저것 используются <strong>ТОЛЬКО для предметов и вещей</strong>. 
+                    Указывать на людей таким образом <strong>очень невежливо</strong>!
+                </div>
+                
+                <div class="warning-examples">
+                    <h4 style="margin-top: 0;">❌ Неправильно (невежливо):</h4>
+                    <div style="color: #d81b60; font-size: 1.1em; margin: 10px 0;">
+                        이것은 민수예요 ← Звучит как "этот человечишка Минсу"
+                    </div>
+                    
+                    <h4 style="margin-top: 15px;">✅ Правильно:</h4>
+                    <div style="color: #2e7d32; font-size: 1.1em; margin: 10px 0;">
+                        이분은 민수씨예요 (Этот человек - господин Минсу)<br>
+                        저 사람은 누구예요? (Кто тот человек?)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>💬 Диалоги: Что это такое?</h2>
+            
+            <div class="dialogue-box">
+                <h3 style="margin-top: 0; color: white; text-align: center;">В классе корейского</h3>
+                
+                <div class="dialogue-line">
+                    <div class="speaker">선생님 (учитель):</div>
+                    <div class="korean-text">이건 뭐예요?</div>
+                    <div class="translation">Что это? (показывает ручку рядом с собой)</div>
+                    <div class="grammar-note">이건 = сокращение от 이것은</div>
+                </div>
+                
+                <div class="dialogue-line">
+                    <div class="speaker">학생 (студент):</div>
+                    <div class="korean-text">이건 펜이에요.</div>
+                    <div class="translation">Это ручка.</div>
+                </div>
+                
+                <div class="dialogue-line">
+                    <div class="speaker">선생님:</div>
+                    <div class="korean-text">맞아요! 그럼 그건 뭐예요?</div>
+                    <div class="translation">Правильно! Тогда что то? (показывает на книгу у студента)</div>
+                    <div class="grammar-note">그건 - предмет рядом со студентом</div>
+                </div>
+                
+                <div class="dialogue-line">
+                    <div class="speaker">학생:</div>
+                    <div class="korean-text">그건 책이에요. 그런데 저건 뭐예요?</div>
+                    <div class="translation">То книга. А вон то что? (показывает на доску вдали)</div>
+                    <div class="grammar-note">저건 - предмет далеко от всех</div>
+                </div>
+                
+                <div class="dialogue-line">
+                    <div class="speaker">선생님:</div>
+                    <div class="korean-text">저건 칠판이에요.</div>
+                    <div class="translation">Вон то доска.</div>
+                </div>
+            </div>
+
+            <div class="dialogue-box" style="background: linear-gradient(135deg, #667eea, #5a67d8);">
+                <h3 style="margin-top: 0; color: white; text-align: center;">В кафе</h3>
+                
+                <div class="dialogue-line">
+                    <div class="speaker">수민:</div>
+                    <div class="korean-text">이거 뭐야? 커피야?</div>
+                    <div class="translation">Это что? Кофе? (показывает свой напиток)</div>
+                    <div class="grammar-note">Дружеская форма - 이거 뭐야</div>
+                </div>
+                
+                <div class="dialogue-line">
+                    <div class="speaker">지호:</div>
+                    <div class="korean-text">응, 이거 아메리카노야. 그거는?</div>
+                    <div class="translation">Да, это американо. А то что? (показывает на напиток у друга)</div>
+                </div>
+                
+                <div class="dialogue-line">
+                    <div class="speaker">수민:</div>
+                    <div class="korean-text">그거? 그거 라테야. 아, 저거는 뭐지?</div>
+                    <div class="translation">То? То латте. А, вон то что? (смотрит на витрину вдали)</div>
+                </div>
+                
+                <div class="dialogue-line">
+                    <div class="speaker">지호:</div>
+                    <div class="korean-text">저거? 저거 케이크야. 맛있어 보여!</div>
+                    <div class="translation">Вон то? Вон то торт. Выглядит вкусно!</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>🎨 Разные предметы в комнате</h2>
+            
+            <div class="comparison-table">
+                <div class="table-header">
+                    Примеры с разными предметами
+                </div>
+                <div class="table-row">
+                    <div class="table-cell header">Предмет</div>
+                    <div class="table-cell header">Рядом со мной</div>
+                    <div class="table-cell header">Рядом с вами</div>
+                    <div class="table-cell header">Далеко от всех</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">телефон (핸드폰)</div>
+                    <div class="table-cell korean">이건 핸드폰이에요</div>
+                    <div class="table-cell korean">그건 핸드폰이에요</div>
+                    <div class="table-cell korean">저건 핸드폰이에요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">стул (의자)</div>
+                    <div class="table-cell korean">이건 의자예요</div>
+                    <div class="table-cell korean">그건 의자예요</div>
+                    <div class="table-cell korean">저건 의자예요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">сумка (가방)</div>
+                    <div class="table-cell korean">이건 가방이에요</div>
+                    <div class="table-cell korean">그건 가방이에요</div>
+                    <div class="table-cell korean">저건 가방이에요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">компьютер (컴퓨터)</div>
+                    <div class="table-cell korean">이건 컴퓨터예요</div>
+                    <div class="table-cell korean">그건 컴퓨터예요</div>
+                    <div class="table-cell korean">저건 컴퓨터예요</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <h3>🎯 Практические упражнения</h3>
+            
+            <div class="exercise">
+                <div class="question">1. Как сказать "Это ручка" (펜), если ручка у вас в руке?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">이건 펜이에요</button>
+                    <button class="option" data-correct="false">그건 펜이에요</button>
+                    <button class="option" data-correct="false">저건 펜이에요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. Собеседник держит яблоко (사과). Как спросить "Что то?"</div>
+                <div class="options">
+                    <button class="option" data-correct="false">이거 뭐야?</button>
+                    <button class="option" data-correct="true">그거 뭐야?</button>
+                    <button class="option" data-correct="false">저거 뭐야?</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Вы смотрите на здание (건물) вдали. Как сказать "Вон то здание"?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">이건 건물이에요</button>
+                    <button class="option" data-correct="false">그건 건물이에요</button>
+                    <button class="option" data-correct="true">저건 건물이에요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. Можно ли сказать "이것은 민수예요" про человека?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Да, можно</button>
+                    <button class="option" data-correct="true">Нет, это невежливо</button>
+                    <button class="option" data-correct="false">Можно только с друзьями</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>✨ Заключение</h2>
+            <p>Теперь вы умеете указывать на предметы правильно!</p>
+            
+            <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; text-align: center;">
+                <h3 style="margin-top: 0;">🎯 Краткий обзор указательных слов</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>이것/이건</strong><br>
+                        "это"<br>
+                        <em>рядом со мной</em><br>
+                        👈 У говорящего
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>그것/그건</strong><br>
+                        "то"<br>
+                        <em>рядом с собеседником</em><br>
+                        👉 У слушающего
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>저것/저건</strong><br>
+                        "вон то"<br>
+                        <em>далеко от всех</em><br>
+                        👆 Вдали
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.9); padding: 20px; border-radius: 15px; margin: 20px 0;">
+                <h3 style="color: #667eea; margin-top: 0;">💡 Полезные советы</h3>
+                <div style="color: #333; font-size: 1.1em;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                        <div style="background: #e8f5e8; color: #2e7d32; padding: 15px; border-radius: 10px; text-align: center;">
+                            <strong>✅ Для предметов:</strong><br>
+                            이건 뭐예요?<br>
+                            그건 책이에요<br>
+                            저건 자동차예요
+                        </div>
+                        <div style="background: #ffebee; color: #c62828; padding: 15px; border-radius: 10px; text-align: center;">
+                            <strong>❌ НЕ для людей:</strong><br>
+                            이것은 사람이에요 ✗<br>
+                            Используйте:<br>
+                            이분은... 저 사람은...
+                        </div>
+                    </div>
+                    
+                    <div style="background: #e3f2fd; color: #1565c0; padding: 15px; border-radius: 10px; margin-top: 15px; text-align: center;">
+                        <strong>🗣️ В разговоре чаще используйте сокращения:</strong><br>
+                        이건, 그건, 저건 звучат естественнее чем 이것은, 그것은, 저것은
+                    </div>
+                </div>
+            </div>
+            
+            <p style="font-size: 1.2em; text-align: center; color: #2c3e50;">Теперь указывайте на предметы как настоящий кореец! 화이팅! 💪</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const exercises = document.querySelectorAll('.exercise');
+            
+            exercises.forEach((exercise) => {
+                const options = exercise.querySelectorAll('.option');
+                const result = exercise.querySelector('.result');
+                
+                options.forEach((option) => {
+                    option.addEventListener('click', function() {
+                        options.forEach(opt => {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+                        
+                        const isCorrect = this.dataset.correct === 'true';
+                        
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = '✅ 정답! Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = '❌ 틀렸어요. Неправильно. Попробуйте еще раз!';
+                            
+                            options.forEach(opt => {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+                        
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            // Анимация загрузки
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
