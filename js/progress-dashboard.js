@@ -1,9 +1,9 @@
 /**
  * Jane Korea - Progress Dashboard Component
- * Версія: 1.0
+ * Версия: 1.0
  */
 
-// Генерація HTML панелі прогресу
+// Генерация HTML панели прогресса
 function renderProgressDashboard(containerId) {
     const container = document.getElementById(containerId);
     if (!container) {
@@ -13,64 +13,64 @@ function renderProgressDashboard(containerId) {
     
     const progress = ProgressTracker.get();
     
-    // Підрахунок статистики
+    // Подсчет статистики
     const totalTexts = Object.keys(progress.completedTexts).length;
     const totalLessons = Object.keys(progress.completedLessons).length;
     const streak = progress.stats.currentStreak || 0;
     const studyTime = Math.floor(progress.stats.studyTimeMinutes || 0);
     
-    // Перевірка досягнень
+    // Проверка достижений
     const achievements = checkAllAchievements(progress);
     
-    // HTML панелі
+    // HTML панели
     const html = `
         <div class="progress-dashboard">
             <div class="dashboard-header">
-                <h3>📊 Ваш прогрес</h3>
+                <h3>📊 Ваш прогресс</h3>
                 <button class="reset-progress" onclick="ProgressTracker.resetProgress()">
-                    🔄 Скинути прогрес
+                    🔄 Сбросить прогресс
                 </button>
             </div>
             
             <div class="stats-grid">
-                <!-- Інтерактивні тексти -->
+                <!-- Интерактивные тексты -->
                 <div class="stat-card">
                     <div class="stat-icon">📖</div>
                     <div class="stat-value">${totalTexts}</div>
-                    <div class="stat-label">Тексти пройдено</div>
+                    <div class="stat-label">Текстов пройдено</div>
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: ${Math.min((totalTexts/6)*100, 100)}%"></div>
                     </div>
                 </div>
                 
-                <!-- Граматичні уроки -->
+                <!-- Грамматические уроки -->
                 <div class="stat-card">
                     <div class="stat-icon">📝</div>
                     <div class="stat-value">${totalLessons}</div>
-                    <div class="stat-label">Уроки пройдено</div>
+                    <div class="stat-label">Уроков пройдено</div>
                     <div class="progress-bar">
                         <div class="progress-fill" style="width: ${Math.min((totalLessons/50)*100, 100)}%"></div>
                     </div>
                 </div>
                 
-                <!-- Серія днів -->
+                <!-- Серия дней -->
                 <div class="stat-card">
                     <div class="stat-icon">🔥</div>
                     <div class="stat-value">${streak}</div>
-                    <div class="stat-label">Днів підряд</div>
+                    <div class="stat-label">Дней подряд</div>
                 </div>
                 
-                <!-- Час навчання -->
+                <!-- Время обучения -->
                 <div class="stat-card">
                     <div class="stat-icon">⏱️</div>
                     <div class="stat-value">${studyTime}</div>
-                    <div class="stat-label">Хвилин навчання</div>
+                    <div class="stat-label">Минут обучения</div>
                 </div>
             </div>
             
-            <!-- Досягнення -->
+            <!-- Достижения -->
             <div class="achievements">
-                <h4>🏆 Досягнення</h4>
+                <h4>🏆 Достижения</h4>
                 <div class="badges">
                     ${achievements.map(a => `
                         <div class="badge ${a.earned ? 'earned' : 'locked'}">
@@ -86,13 +86,13 @@ function renderProgressDashboard(containerId) {
     console.log('[OK] Dashboard rendered');
 }
 
-// Перевірка всіх досягнень
+// Проверка всех достижений
 function checkAllAchievements(progress) {
     const totalTexts = Object.keys(progress.completedTexts).length;
     const totalLessons = Object.keys(progress.completedLessons).length;
     const streak = progress.stats.currentStreak || 0;
     
-    // Перевірка на 100% результат
+    // Проверка на 100% результат
     const hasPerfectScore = Object.values(progress.completedTexts)
         .some(t => t.quizScore === 100);
     
@@ -100,43 +100,43 @@ function checkAllAchievements(progress) {
         {
             id: 'first_text',
             icon: '🥇',
-            title: 'Перший текст',
+            title: 'Первый текст',
             earned: totalTexts >= 1
         },
         {
             id: 'text_master_5',
             icon: '📚',
-            title: '5 текстів',
+            title: '5 текстов',
             earned: totalTexts >= 5
         },
         {
             id: 'perfect_quiz',
             icon: '💯',
-            title: 'Ідеальний результат',
+            title: 'Идеальный результат',
             earned: hasPerfectScore
         },
         {
             id: 'streak_7',
             icon: '🔥',
-            title: 'Тижнева серія',
+            title: 'Недельная серия',
             earned: streak >= 7
         },
         {
             id: 'grammar_guru_10',
             icon: '📝',
-            title: '10 уроків',
+            title: '10 уроков',
             earned: totalLessons >= 10
         },
         {
             id: 'text_master_10',
             icon: '🎓',
-            title: '10 текстів',
+            title: '10 текстов',
             earned: totalTexts >= 10
         }
     ];
 }
 
-// Експорт
+// Экспорт
 window.ProgressDashboard = {
     render: renderProgressDashboard,
     checkAchievements: checkAllAchievements

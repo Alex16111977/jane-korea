@@ -1,12 +1,12 @@
 /**
  * Jane Korea - Progress Tracking System
- * Версія: 1.0
+ * Версия: 1.0
  * Дата: 2025-10-09
  */
 
 const STORAGE_KEY = 'janeKoreaProgress';
 
-// Ініціалізація структури даних
+// Инициализация структуры данных
 function initProgress() {
     const existing = localStorage.getItem(STORAGE_KEY);
     if (existing) {
@@ -33,18 +33,18 @@ function initProgress() {
     return initial;
 }
 
-// Зберегти прогрес
+// Сохранить прогресс
 function saveProgress(progress) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
     console.log('[OK] Progress saved');
 }
 
-// Отримати прогрес
+// Получить прогресс
 function getProgress() {
     return initProgress();
 }
 
-// Відмітити текст як завершений
+// Отметить текст как завершенный
 function markTextCompleted(level, category, textId, quizScore, wordsLearned) {
     const progress = getProgress();
     const key = `${level}-${category}-${textId}`;
@@ -64,7 +64,7 @@ function markTextCompleted(level, category, textId, quizScore, wordsLearned) {
     return progress;
 }
 
-// Відмітити урок як пройденим
+// Отметить урок как пройденный
 function markLessonCompleted(lessonId) {
     const progress = getProgress();
     
@@ -86,7 +86,7 @@ function markLessonCompleted(lessonId) {
     return progress;
 }
 
-// Оновити серію днів
+// Обновить серию дней
 function updateStreak(progress) {
     const today = new Date().toDateString();
     const lastActivity = progress.stats.lastActivityDate;
@@ -99,15 +99,15 @@ function updateStreak(progress) {
         const yesterday = new Date(Date.now() - 86400000).toDateString();
         
         if (lastDate === today) {
-            // Сьогодні вже навчався - не змінюємо
+            // Сегодня уже учился - не меняем
         } else if (lastDate === yesterday) {
-            // Вчора навчався - продовжуємо серію
+            // Вчера учился - продолжаем серию
             progress.stats.currentStreak++;
             if (progress.stats.currentStreak > progress.stats.longestStreak) {
                 progress.stats.longestStreak = progress.stats.currentStreak;
             }
         } else {
-            // Пропустив день - скидаємо серію
+            // Пропустил день - сбрасываем серию
             progress.stats.currentStreak = 1;
         }
     }
@@ -115,29 +115,29 @@ function updateStreak(progress) {
     progress.stats.lastActivityDate = today;
 }
 
-// Перевірити чи текст завершено
+// Проверить завершен ли текст
 function isTextCompleted(level, category, textId) {
     const progress = getProgress();
     const key = `${level}-${category}-${textId}`;
     return !!progress.completedTexts[key];
 }
 
-// Перевірити чи урок завершено
+// Проверить завершен ли урок
 function isLessonCompleted(lessonId) {
     const progress = getProgress();
     return !!progress.completedLessons[lessonId];
 }
 
-// Скинути весь прогрес
+// Сбросить весь прогресс
 function resetProgress() {
-    if (confirm('Ви впевнені? Весь прогрес буде втрачено!')) {
+    if (confirm('Вы уверены? Весь прогресс будет потерян!')) {
         localStorage.removeItem(STORAGE_KEY);
         console.log('[!] Progress reset');
         location.reload();
     }
 }
 
-// Експорт функцій
+// Экспорт функций
 window.ProgressTracker = {
     init: initProgress,
     get: getProgress,

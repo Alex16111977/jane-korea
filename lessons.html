@@ -385,7 +385,7 @@
             if (event) event.stopPropagation();
             console.log('Navigating to level:', levelFolder);
             
-            // Відстежуємо відвідування рівня
+            // Отслеживаем посещение уровня
             if (typeof ProgressTracker !== 'undefined') {
                 ProgressTracker.markLessonCompleted(levelFolder);
                 console.log('[+] Level visited:', levelFolder);
@@ -424,13 +424,13 @@
     <script src="js/progress-tracker.js"></script>
     <script src="js/progress-dashboard.js"></script>
     <script>
-        // Рендер панели прогресу
+        // Рендер панели прогресса
         document.addEventListener('DOMContentLoaded', function() {
             ProgressDashboard.render('progressDashboard');
             markCompletedLessons();
         });
 
-        // Маркування завершених уроків (рівнів)
+        // Маркировка завершенных уроков (уровней)
         function markCompletedLessons() {
             const progress = ProgressTracker.get();
             console.log('[OK] Marking completed lessons');
@@ -442,18 +442,18 @@
                 const onclick = button.getAttribute('onclick');
                 if (!onclick) return;
                 
-                // Витягуємо levelId з onclick="navigateToLevel('level_1', event)"
+                // Извлекаем levelId из onclick="navigateToLevel('level_1', event)"
                 const match = onclick.match(/navigateToLevel\('([^']+)'/);
                 if (!match) return;
                 
                 const levelId = match[1];
                 
                 if (progress.completedLessons[levelId]) {
-                    // Рівень завершено
+                    // Уровень завершен
                     card.style.borderLeft = '6px solid #4caf50';
                     card.style.background = 'linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%)';
                     
-                    // Додаємо галочку
+                    // Добавляем галочку
                     const badge = document.createElement('div');
                     badge.className = 'completion-badge';
                     badge.style.cssText = `
@@ -477,7 +477,7 @@
                     card.style.position = 'relative';
                     card.insertBefore(badge, card.firstChild);
                     
-                    // Інфо про перегляди
+                    // Информация о просмотрах
                     const revisited = progress.completedLessons[levelId].revisited || 0;
                     if (revisited > 0) {
                         const revisitInfo = document.createElement('div');
@@ -489,7 +489,7 @@
                             position: relative;
                             z-index: 1;
                         `;
-                        revisitInfo.innerHTML = `Переглянуто: ${revisited + 1} разів`;
+                        revisitInfo.innerHTML = `Просмотрено: ${revisited + 1} раз`;
                         const levelContent = card.querySelector('.level-content');
                         if (levelContent) {
                             levelContent.appendChild(revisitInfo);
@@ -503,7 +503,7 @@
             console.log('[OK] Levels marked');
         }
 
-        // Відстеження кліків на рівні
+        // Отслеживание кликов на уровни
         document.addEventListener('click', function(e) {
             const button = e.target.closest('.start-btn');
             if (!button) return;

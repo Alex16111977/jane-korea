@@ -11,14 +11,69 @@
         
         body {
             font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: 
+                linear-gradient(rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9)),
+                repeating-linear-gradient(45deg, transparent, transparent 60px, rgba(255,255,255,.03) 60px, rgba(255,255,255,.03) 120px),
+                repeating-linear-gradient(-45deg, transparent, transparent 60px, rgba(255,255,255,.03) 60px, rgba(255,255,255,.03) 120px),
+                radial-gradient(ellipse at top left, rgba(102, 126, 234, 0.4), transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(118, 75, 162, 0.4), transparent 50%),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             color: #333;
             margin: 0;
             padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Плавающие световые круги */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.08) 0%, transparent 35%),
+                radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.08) 0%, transparent 35%),
+                radial-gradient(circle at 50% 50%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(3%, -3%) rotate(2deg); }
+            66% { transform: translate(-3%, 3%) rotate(-2deg); }
+        }
+
+        /* Светящиеся акценты */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse 900px 700px at 15% 25%, rgba(102, 126, 234, 0.2), transparent),
+                radial-gradient(ellipse 700px 900px at 85% 75%, rgba(118, 75, 162, 0.2), transparent);
+            pointer-events: none;
+            z-index: 0;
+            animation: glow 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
         }
 
         .container {
+            position: relative;
+            z-index: 1;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
@@ -34,22 +89,23 @@
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
         }
 
         .header .subtitle {
             font-size: 1.2em;
-            opacity: 0.9;
+            opacity: 0.95;
             margin-bottom: 20px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
         }
 
         .back-button {
             position: fixed;
             top: 20px;
             left: 20px;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(102, 126, 234, 0.8);
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(102, 126, 234, 0.5);
             color: #667eea;
             padding: 12px 20px;
             border-radius: 25px;
@@ -57,26 +113,27 @@
             font-weight: bold;
             transition: all 0.3s ease;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
 
         .back-button:hover {
             background: #667eea;
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.4);
         }
 
         .breadcrumb {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.25);
             border-radius: 15px;
             padding: 15px 25px;
             margin-bottom: 30px;
             color: white;
             text-align: center;
             font-size: 1.1em;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .step-indicator {
@@ -88,9 +145,10 @@
         }
 
         .step {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
             border: 2px solid rgba(255,255,255,0.3);
-            color: rgba(255,255,255,0.7);
+            color: rgba(255,255,255,0.8);
             padding: 10px 20px;
             border-radius: 25px;
             font-weight: bold;
@@ -98,13 +156,14 @@
         }
 
         .step.active {
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.95);
             color: #667eea;
             border-color: white;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.3);
         }
 
         .step.completed {
-            background: rgba(76, 175, 80, 0.8);
+            background: rgba(76, 175, 80, 0.85);
             color: white;
             border-color: #4caf50;
         }
@@ -118,13 +177,14 @@
         }
 
         .level-card {
-            background: white;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 30px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border-top: 6px solid transparent;
             position: relative;
             overflow: hidden;
@@ -137,7 +197,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.04) 0%, rgba(255, 255, 255, 0.08) 100%);
             z-index: 0;
         }
 
@@ -147,8 +207,8 @@
         }
 
         .level-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.25);
         }
 
         .level-1 { border-top-color: #4caf50; }
@@ -189,7 +249,7 @@
         }
 
         .level-texts-count {
-            background: rgba(102, 126, 234, 0.1);
+            background: rgba(102, 126, 234, 0.12);
             color: #667eea;
             padding: 8px 16px;
             border-radius: 20px;
@@ -206,13 +266,14 @@
         }
 
         .category-card {
-            background: white;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 30px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
         }
@@ -224,7 +285,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.04) 0%, rgba(255, 255, 255, 0.08) 100%);
             z-index: 0;
         }
 
@@ -234,8 +295,8 @@
         }
 
         .category-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.25);
         }
 
         .category-icon {
@@ -264,7 +325,7 @@
         }
 
         .category-texts-count {
-            background: rgba(102, 126, 234, 0.1);
+            background: rgba(102, 126, 234, 0.12);
             color: #667eea;
             padding: 8px 16px;
             border-radius: 20px;
@@ -281,12 +342,13 @@
         }
 
         .text-card {
-            background: white;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             border-left: 6px solid #667eea;
@@ -309,13 +371,13 @@
         }
 
         .text-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(118, 75, 162, 0.25);
             border-left-color: #764ba2;
         }
 
         .text-number {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             width: 40px;
             height: 40px;
@@ -326,6 +388,7 @@
             font-weight: bold;
             font-size: 1.2em;
             margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
 
         .text-title {
@@ -360,7 +423,7 @@
             position: absolute;
             top: 15px;
             right: 15px;
-            background: #4caf50;
+            background: linear-gradient(135deg, #4caf50, #66bb6a);
             color: white;
             width: 35px;
             height: 35px;
@@ -370,7 +433,7 @@
             justify-content: center;
             font-weight: bold;
             font-size: 18px;
-            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
             z-index: 10;
         }
 
@@ -386,14 +449,12 @@
         }
 
         .text-card:not(.completed) {
-            opacity: 0.9;
+            opacity: 0.95;
         }
 
         .text-card:not(.completed):hover {
             opacity: 1;
         }
-
-
 
         .page {
             display: none;
@@ -744,18 +805,14 @@
             const { skipHistory = false } = options;
             selectedLevel = level;
             
-            // Обновляем шаги
             document.getElementById('step1').classList.add('completed');
             document.getElementById('step1').classList.remove('active');
             document.getElementById('step2').classList.add('active');
             
-            // Обновляем breadcrumb
             document.getElementById('breadcrumb').textContent = `Уровень ${level}급 - Выберите категорию текстов`;
             
-            // Обновляем количество текстов для выбранного уровня
             updateCategoryCounts(level);
             
-            // Переключаем страницы
             document.getElementById('levelsPage').classList.remove('active');
             document.getElementById('categoriesPage').classList.add('active');
 
@@ -792,19 +849,15 @@
 
             selectedCategory = category;
             
-            // Обновляем шаги
             document.getElementById('step2').classList.add('completed');
             document.getElementById('step2').classList.remove('active');
             document.getElementById('step3').classList.add('active');
             
-            // Переходим к выбору текста
             document.getElementById('breadcrumb').textContent =
                 `Уровень ${selectedLevel}급 → ${categoryNames[category]} - Выберите текст`;
             
-            // Загружаем тексты
             loadTextsPage();
             
-            // Переключаем страницы
             document.getElementById('categoriesPage').classList.remove('active');
             document.getElementById('textsPage').classList.add('active');
 
@@ -843,120 +896,33 @@
             
             let html = '';
             categoryTexts.forEach((text, index) => {
-                // Проверяем, нужно ли добавить изображение
                 let imageHtml = '';
-                if (text.id === 'personal-1') {
+                const imageMap = {
+                    'personal-1': 'флаг.jpg',
+                    'personal-2': 'OIP.jpg',
+                    'personal-3': 'OIP (1).jpg',
+                    'culture-1': 'новый год.jpg',
+                    'culture-2': 'хангыль.jpg',
+                    'culture-3': 'Традиционный костюм Ханбок.jpg',
+                    'culture-4': 'флаг.jpg',
+                    'stories-1': 'кошка белая в кафе.jpg',
+                    'stories-2': 'встреча с другом.jpg',
+                    'science-1': 'стакан.jpg',
+                    'science-2': 'магнит.jpg',
+                    'science-3': 'Лёд превращается в воду.jpg',
+                    'travel-1': 'сеул.jpg',
+                    'travel-2': 'Олененок в траве_ Олененок в лесу.jpg',
+                    'travel-3': 'На рынке Намдемун.jpg',
+                    'food-1': 'бибимпаб.jpg',
+                    'food-2': 'В корейском ресторане.jpg',
+                    'food-3': 'Учусь готовить кимчи.jpg',
+                    'food-4': 'Корейские напитки.jpg'
+                };
+                
+                if (imageMap[text.id]) {
                     imageHtml = `
                         <div class="text-image">
-                            <img src="images/флаг.jpg" alt="Korean Flag" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'personal-2') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/OIP.jpg" alt="Korean Family" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'personal-3') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/OIP (1).jpg" alt="Korean Hobbies" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'culture-1') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/новый год.jpg" alt="Korean New Year" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'culture-2') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/хангыль.jpg" alt="Hangeul Alphabet" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'culture-3') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/Традиционный костюм Ханбок.jpg" alt="Traditional Hanbok" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'culture-4') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/флаг.jpg" alt="Taekwondo" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'stories-1') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/кошка белая в кафе.jpg" alt="Cat in cafe" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'stories-2') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/встреча с другом.jpg" alt="Meeting with friend" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'science-1') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/стакан.jpg" alt="Science experiment" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'science-2') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/магнит.jpg" alt="Magnet" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'science-3') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/Лёд превращается в воду.jpg" alt="Ice melting" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'travel-1') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/сеул.jpg" alt="Seoul Travel" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'travel-2') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/Олененок в траве_ Олененок в лесу.jpg" alt="National Park" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'travel-3') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/На рынке Намдемун.jpg" alt="Namdaemun Market" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'food-1') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/бибимпаб.jpg" alt="Bibimbap" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'food-2') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/В корейском ресторане.jpg" alt="Korean Restaurant" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'food-3') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/Учусь готовить кимчи.jpg" alt="Making Kimchi" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'food-4') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/Корейские напитки.jpg" alt="Korean Drinks" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
+                            <img src="images/${imageMap[text.id]}" alt="${text.title}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
                         </div>
                     `;
                 }
@@ -980,21 +946,17 @@
         }
 
         function selectText(textId) {
-            // Обновляем шаги
             document.getElementById('step3').classList.add('completed');
             document.getElementById('step3').classList.remove('active');
             document.getElementById('step4').classList.add('active');
             
-            // Переходим к чтению конкретного текста
             window.location.href = `reading-content.html?level=${selectedLevel}&category=${selectedCategory}&textId=${textId}`;
         }
 
         function goBack() {
-            // Используем восстановленную логику
             goBackToCategories();
         }
 
-        // Автоматическое восстановление состояния при возвращении
         function restoreStateFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             const levelParam = urlParams.get('level');
@@ -1014,33 +976,27 @@
             }
         }
 
-        // Умная кнопка назад - работает по текущему состоянию
         function setupSmartBackButton() {
             const backBtn = document.getElementById('backBtn');
             
             backBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 
-                // Определяем текущее состояние по активной странице
                 const levelsPageActive = document.getElementById('levelsPage').classList.contains('active');
                 const categoriesPageActive = document.getElementById('categoriesPage').classList.contains('active');
                 const textsPageActive = document.getElementById('textsPage').classList.contains('active');
                 
                 if (textsPageActive) {
-                    // Мы на странице выбора текстов → возврат к категориям
                     goBackToCategories();
                 } else if (categoriesPageActive) {
-                    // Мы на странице выбора категории → возврат к уровням
                     goBackToLevels();
                 } else if (levelsPageActive) {
-                    // Мы на странице выбора уровня → возврат на главную
                     window.location.href = 'index.html';
                 }
             });
         }
         
         function goBackToCategories() {
-            // Возврат от текстов к категориям
             document.getElementById('step3').classList.remove('active');
             document.getElementById('step2').classList.add('active');
             document.getElementById('step2').classList.remove('completed');
@@ -1051,13 +1007,11 @@
             document.getElementById('textsPage').classList.remove('active');
             document.getElementById('categoriesPage').classList.add('active');
             
-            // Обновляем URL без category
             const newUrl = `${window.location.pathname}?level=${selectedLevel}`;
             window.history.pushState({}, '', newUrl);
         }
         
         function goBackToLevels() {
-            // Возврат от категорий к уровням
             document.getElementById('step2').classList.remove('active');
             document.getElementById('step1').classList.add('active');
             document.getElementById('step1').classList.remove('completed');
@@ -1068,17 +1022,13 @@
             document.getElementById('categoriesPage').classList.remove('active');
             document.getElementById('levelsPage').classList.add('active');
             
-            // Обновляем URL без параметров
             const newUrl = window.location.pathname;
             window.history.pushState({}, '', newUrl);
             
-            // Сбрасываем состояние
             selectedLevel = null;
             selectedCategory = null;
         }
 
-        // === PROGRESS TRACKING ===
-        // Маркування завершених текстів
         function markCompletedTexts() {
             if (typeof ProgressTracker === 'undefined') {
                 console.warn('[WARN] ProgressTracker not loaded');
@@ -1088,12 +1038,10 @@
             const progress = ProgressTracker.get();
             console.log('[OK] Loading progress for texts');
             
-            // Проходимо по всіх текстах
             document.querySelectorAll('.text-card').forEach(card => {
                 const onclick = card.getAttribute('onclick');
                 if (!onclick) return;
                 
-                // Витягуємо textId з onclick="selectText('personal-1')"
                 const match = onclick.match(/selectText\('([^']+)'\)/);
                 if (!match) return;
                 
@@ -1101,17 +1049,14 @@
                 const key = `${selectedLevel}-${selectedCategory}-${textId}`;
                 
                 if (progress.completedTexts[key]) {
-                    // Текст завершено
                     card.classList.add('completed');
                     
-                    // Додаємо галочку
                     const badge = document.createElement('div');
                     badge.className = 'completion-badge';
-                    badge.innerHTML = '&#10003;'; // HTML код галочки
+                    badge.innerHTML = '&#10003;';
                     card.style.position = 'relative';
                     card.insertBefore(badge, card.firstChild);
                     
-                    // Додаємо інфо про прогрес
                     const progressInfo = document.createElement('div');
                     progressInfo.className = 'progress-info';
                     const data = progress.completedTexts[key];
@@ -1121,7 +1066,6 @@
                     
                     console.log('[+] Marked completed:', textId);
                 } else {
-                    // Текст не завершено
                     const progressInfo = document.createElement('div');
                     progressInfo.className = 'progress-info not-completed';
                     progressInfo.innerHTML = 'Не пройдено';
@@ -1132,24 +1076,19 @@
             console.log('[OK] Completed texts marked');
         }
 
-        // Викликаємо після завантаження текстів
         const originalLoadTextsPage = loadTextsPage;
         loadTextsPage = function() {
             originalLoadTextsPage.call(this);
-            setTimeout(markCompletedTexts, 150); // Невелика затримка для завантаження карток
+            setTimeout(markCompletedTexts, 150);
         };
 
-        // Анимации при загрузке
         document.addEventListener('DOMContentLoaded', function() {
-            // Рендер панелі прогресу
             if (typeof ProgressDashboard !== 'undefined') {
                 ProgressDashboard.render('progressDashboard');
             }
             
-            // Проверяем URL параметры для восстановления состояния
             restoreStateFromURL();
             
-            // Настраиваем умную кнопку назад
             setupSmartBackButton();
             
             const cards = document.querySelectorAll('.level-card');
