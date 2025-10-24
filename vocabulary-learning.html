@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Вивчення слів - Jane Korea</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            background: rgba(255,255,255,0.95);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .tab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* КАРТКИ СЛІВ */
+        .words-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .word-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .word-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .word-card.selected {
+            background: #e3f2fd;
+            border: 3px solid #667eea;
+        }
+
+        .word-korean {
+            font-size: 2em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .word-translation {
+            font-size: 1.2em;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .word-pronunciation {
+            color: #999;
+            font-size: 0.95em;
+        }
+
+        .select-checkbox {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #667eea;
+            border-radius: 50%;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .word-card.selected .select-checkbox {
+            background: #667eea;
+        }
+
+        .word-card.selected .select-checkbox::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* ФЛЕШКАРТКИ */
+        .flashcard-container {
+            max-width: 600px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .flashcard {
+            background: white;
+            padding: 60px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backface-visibility: hidden;
+        }
+
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard .korean {
+            font-size: 3.5em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .flashcard .translation {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .flashcard .pronunciation {
+            font-size: 1.3em;
+            color: #999;
+        }
+
+        .flashcard-controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .control-button {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-button:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* З'ЄДНУВАННЯ */
+        .matching-game {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .matching-column h3 {
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5em;
+        }
+
+        .matching-item {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.3em;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .matching-item:hover {
+            transform: scale(1.05);
+        }
+
+        .matching-item.selected {
+            background: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .matching-item.matched {
+            background: #4caf50;
+            color: white;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .matching-item.wrong {
+            background: #f44336;
+            color: white;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* ПРОПИСУВАННЯ */
+        .writing-practice {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .writing-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .writing-word {
+            font-size: 3em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .writing-translation {
+            font-size: 1.5em;
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .writing-input {
+            width: 100%;
+            font-size: 2em;
+            padding: 20px;
+            border: 3px solid #e0e0e0;
+            border-radius: 12px;
+            text-align: center;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .writing-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .writing-input.correct {
+            border-color: #4caf50;
+            background: #e8f5e9;
+        }
+
+        .writing-input.wrong {
+            border-color: #f44336;
+            background: #ffebee;
+            animation: shake 0.5s;
+        }
+
+        .writing-feedback {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+            min-height: 40px;
+        }
+
+        .writing-feedback.correct {
+            color: #4caf50;
+        }
+
+        .writing-feedback.wrong {
+            color: #f44336;
+        }
+
+        /* СТАТИСТИКА */
+        .stats {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .stats h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .start-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            border-radius: 30px;
+            font-size: 1.3em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .start-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .empty-state {
+            background: white;
+            padding: 60px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .empty-state h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .matching-game {
+                grid-template-columns: 1fr;
+            }
+            
+            .flashcard {
+                padding: 40px 20px;
+                min-height: 300px;
+            }
+            
+            .flashcard .korean {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="reading-content.html" class="back-btn" id="backToReading">← Назад до читання</a>
+    
+    <div class="container">
+        <div class="header">
+            <h1>📚 Вивчення слів</h1>
+            <p>Виберіть слова з тексту і вивчайте їх за допомогою карток та вправ</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('select')">Вибрати слова</button>
+            <button class="tab" onclick="showTab('flashcards')">Флешкартки</button>
+            <button class="tab" onclick="showTab('matching')">З'єднати</button>
+            <button class="tab" onclick="showTab('writing')">Прописати</button>
+        </div>
+
+        <!-- ВИБІР СЛІВ -->
+        <div class="tab-content active" id="select-tab">
+            <div class="words-grid" id="wordsGrid"></div>
+            <div class="stats" style="display: none;" id="selectedStats">
+                <div class="stat-item">
+                    <div class="stat-value" id="selectedCount">0</div>
+                    <div class="stat-label">Вибрано слів</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ФЛЕШКАРТКИ -->
+        <div class="tab-content" id="flashcards-tab">
+            <div class="flashcard-container" id="flashcardContainer">
+                <div class="empty-state">
+                    <h2>Спочатку виберіть слова</h2>
+                    <p>Перейдіть на вкладку "Вибрати слова" та виберіть слова, які хочете вивчати</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- З'ЄДНУВАННЯ -->
+        <div class="tab-content" id="matching-tab">
+            <div class="matching-game" id="matchingGame">
+                <div class="empty-state">
+                    <h2>Спочатку виберіть слова</h2>
+                    <p>Перейдіть на вкладку "Вибрати слова" та виберіть мінімум 5 слів</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ПРОПИСУВАННЯ -->
+        <div class="tab-content" id="writing-tab">
+            <div class="writing-practice" id="writingPractice">
+                <div class="empty-state">
+                    <h2>Спочатку виберіть слова</h2>
+                    <p>Перейдіть на вкладку "Вибрати слова" та виберіть слова для практики</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Отримуємо параметри з URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const level = urlParams.get('level');
+        const category = urlParams.get('category');
+        const textId = urlParams.get('textId');
+
+        // Оновлюємо кнопку "Назад"
+        document.getElementById('backToReading').href = 
+            `reading-content.html?level=${level}&category=${category}&textId=${textId}`;
+
+        // Завантажуємо вивчені слова з localStorage
+        let learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
+        let selectedWords = JSON.parse(localStorage.getItem('selectedWordsForStudy') || '[]');
+
+        // Відображаємо всі вивчені слова
+        function displayWords() {
+            const grid = document.getElementById('wordsGrid');
+            if (learnedWords.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <h2>Поки немає вивчених слів</h2>
+                        <p>Перейдіть до читання тексту і натисніть на слова, щоб додати їх сюди</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = learnedWords.map((word, index) => {
+                const isSelected = selectedWords.some(w => w.korean === word.korean);
+                return `
+                    <div class="word-card ${isSelected ? 'selected' : ''}" onclick="toggleWord(${index})">
+                        <div class="select-checkbox"></div>
+                        <div class="word-korean">${word.korean}</div>
+                        <div class="word-translation">${word.translation}</div>
+                        <div class="word-pronunciation">${word.pronunciation}</div>
+                    </div>
+                `;
+            }).join('');
+
+            updateSelectedCount();
+        }
+
+        function toggleWord(index) {
+            const word = learnedWords[index];
+            const existingIndex = selectedWords.findIndex(w => w.korean === word.korean);
+            
+            if (existingIndex >= 0) {
+                selectedWords.splice(existingIndex, 1);
+            } else {
+                selectedWords.push(word);
+            }
+            
+            localStorage.setItem('selectedWordsForStudy', JSON.stringify(selectedWords));
+            displayWords();
+        }
+
+        function updateSelectedCount() {
+            const statsDiv = document.getElementById('selectedStats');
+            const countDiv = document.getElementById('selectedCount');
+            countDiv.textContent = selectedWords.length;
+            statsDiv.style.display = selectedWords.length > 0 ? 'block' : 'none';
+        }
+
+        // Перемикання вкладок
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+
+            // Ініціалізуємо контент вкладки
+            if (tabName === 'flashcards') initFlashcards();
+            if (tabName === 'matching') initMatching();
+            if (tabName === 'writing') initWriting();
+        }
+
+        // ФЛЕШКАРТКИ
+        let currentCardIndex = 0;
+
+        function initFlashcards() {
+            const container = document.getElementById('flashcardContainer');
+            
+            if (selectedWords.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h2>Спочатку виберіть слова</h2>
+                        <p>Перейдіть на вкладку "Вибрати слова"</p>
+                    </div>
+                `;
+                return;
+            }
+
+            currentCardIndex = 0;
+            showFlashcard();
+        }
+
+        function showFlashcard() {
+            const container = document.getElementById('flashcardContainer');
+            const word = selectedWords[currentCardIndex];
+            
+            container.innerHTML = `
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="flashcard-front">
+                        <div class="korean">${word.korean}</div>
+                        <p style="color: #999; margin-top: 20px;">Натисніть, щоб перевернути</p>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="translation">${word.translation}</div>
+                        <div class="pronunciation">${word.pronunciation}</div>
+                    </div>
+                </div>
+                <div class="flashcard-controls">
+                    <button class="control-button" onclick="previousCard()">← Попередня</button>
+                    <span style="color: white; font-size: 1.2em; font-weight: 600;">${currentCardIndex + 1} / ${selectedWords.length}</span>
+                    <button class="control-button" onclick="nextCard()">Наступна →</button>
+                </div>
+            `;
+        }
+
+        function flipCard() {
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % selectedWords.length;
+            showFlashcard();
+        }
+
+        function previousCard() {
+            currentCardIndex = (currentCardIndex - 1 + selectedWords.length) % selectedWords.length;
+            showFlashcard();
+        }
+
+        // З'ЄДНУВАННЯ
+        let matchingPairs = [];
+        let firstSelected = null;
+        let matchedCount = 0;
+
+        function initMatching() {
+            const container = document.getElementById('matchingGame');
+            
+            if (selectedWords.length < 5) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <h2>Виберіть мінімум 5 слів</h2>
+                        <p>Для гри потрібно хоча б 5 слів</p>
+                    </div>
+                `;
+                return;
+            }
+
+            matchingPairs = selectedWords.slice(0, 8); // Беремо максимум 8 слів
+            firstSelected = null;
+            matchedCount = 0;
+
+            // Перемішуємо переклади
+            const translations = [...matchingPairs].sort(() => Math.random() - 0.5);
+
+            container.innerHTML = `
+                <div class="matching-column">
+                    <h3>Корейська</h3>
+                    ${matchingPairs.map((word, i) => `
+                        <div class="matching-item" data-id="${i}" data-type="korean" onclick="selectMatching(this)">
+                            ${word.korean}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="matching-column">
+                    <h3>Переклад</h3>
+                    ${translations.map((word, i) => `
+                        <div class="matching-item" data-id="${matchingPairs.findIndex(w => w.korean === word.korean)}" data-type="translation" onclick="selectMatching(this)">
+                            ${word.translation}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function selectMatching(element) {
+            if (element.classList.contains('matched')) return;
+
+            if (!firstSelected) {
+                firstSelected = element;
+                element.classList.add('selected');
+            } else {
+                const secondSelected = element;
+                
+                if (firstSelected.dataset.id === secondSelected.dataset.id && 
+                    firstSelected.dataset.type !== secondSelected.dataset.type) {
+                    // Правильно!
+                    firstSelected.classList.remove('selected');
+                    firstSelected.classList.add('matched');
+                    secondSelected.classList.add('matched');
+                    matchedCount++;
+                    
+                    if (matchedCount === matchingPairs.length) {
+                        setTimeout(() => {
+                            alert('Вітаю! Ви з\'єднали всі слова! 🎉');
+                            initMatching();
+                        }, 500);
+                    }
+                } else {
+                    // Неправильно
+                    secondSelected.classList.add('wrong');
+                    firstSelected.classList.add('wrong');
+                    
+                    setTimeout(() => {
+                        secondSelected.classList.remove('wrong');
+                        firstSelected.classList.remove('wrong', 'selected');
+                    }, 500);
+                }
+                
+                firstSelected = null;
+            }
+        }
+
+        // ПРОПИСУВАННЯ
+        let writingIndex = 0;
+
+        function initWriting() {
+            const container = document.getElementById('writingPractice');
+            
+            if (selectedWords.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h2>Спочатку виберіть слова</h2>
+                        <p>Перейдіть на вкладку "Вибрати слова"</p>
+                    </div>
+                `;
+                return;
+            }
+
+            writingIndex = 0;
+            showWritingWord();
+        }
+
+        function showWritingWord() {
+            const container = document.getElementById('writingPractice');
+            const word = selectedWords[writingIndex];
+            
+            container.innerHTML = `
+                <div class="writing-card">
+                    <div class="writing-word">${word.translation}</div>
+                    <div class="writing-translation">${word.pronunciation}</div>
+                    <input type="text" class="writing-input" id="writingInput" placeholder="Напишіть корейською..." autocomplete="off">
+                    <div class="writing-feedback" id="writingFeedback"></div>
+                </div>
+                <div style="text-align: center;">
+                    <span style="color: white; font-size: 1.2em; font-weight: 600;">${writingIndex + 1} / ${selectedWords.length}</span>
+                </div>
+            `;
+
+            const input = document.getElementById('writingInput');
+            input.focus();
+            input.addEventListener('input', checkWriting);
+        }
+
+        function checkWriting() {
+            const input = document.getElementById('writingInput');
+            const feedback = document.getElementById('writingFeedback');
+            const word = selectedWords[writingIndex];
+            
+            if (input.value === word.korean) {
+                input.classList.add('correct');
+                input.classList.remove('wrong');
+                feedback.textContent = '✓ Правильно!';
+                feedback.classList.add('correct');
+                feedback.classList.remove('wrong');
+                
+                setTimeout(() => {
+                    writingIndex = (writingIndex + 1) % selectedWords.length;
+                    showWritingWord();
+                }, 1500);
+            } else if (word.korean.startsWith(input.value) && input.value.length > 0) {
+                // Поки вірний напрямок
+                input.classList.remove('wrong', 'correct');
+                feedback.textContent = '';
+            } else if (input.value.length > 0) {
+                input.classList.add('wrong');
+                input.classList.remove('correct');
+                feedback.textContent = `✗ Спробуйте ще раз. Підказка: ${word.korean.charAt(0)}...`;
+                feedback.classList.add('wrong');
+                feedback.classList.remove('correct');
+            }
+        }
+
+        // Ініціалізація
+        displayWords();
+    </script>
+</body>
+</html>

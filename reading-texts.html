@@ -11,14 +11,118 @@
         
         body {
             font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #1a1a2e;
             min-height: 100vh;
             color: #333;
             margin: 0;
             padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Анимированный градиентный фон */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(125deg, 
+                    #667eea 0%, 
+                    #764ba2 25%, 
+                    #f093fb 50%, 
+                    #4facfe 75%, 
+                    #00f2fe 100%
+                );
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Корейские волны (традиционный паттерн) */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255,255,255,0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 30%, rgba(255,255,255,0.1) 0%, transparent 40%),
+                repeating-radial-gradient(circle at 50% 50%, transparent 0, rgba(255,255,255,0.05) 2px, transparent 4px, transparent 100px);
+            animation: waveMove 20s linear infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes waveMove {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* Плавающие частицы */
+        .particle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 2;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Светящиеся линии */
+        .glow-line {
+            position: fixed;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(255,255,255,0.8) 50%, 
+                transparent 100%
+            );
+            pointer-events: none;
+            z-index: 2;
+            animation: lineMove 8s linear infinite;
+        }
+
+        @keyframes lineMove {
+            0% { left: -100%; width: 50%; }
+            100% { left: 100%; width: 50%; }
         }
 
         .container {
+            position: relative;
+            z-index: 10;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
@@ -29,27 +133,44 @@
             margin-bottom: 40px;
             color: white;
             padding: 40px 20px;
+            position: relative;
         }
 
         .header h1 {
-            font-size: 2.5em;
+            font-size: 2.8em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 
+                0 0 10px rgba(255,255,255,0.5),
+                0 0 20px rgba(102, 126, 234, 0.5),
+                0 0 30px rgba(118, 75, 162, 0.5);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 
+                0 0 10px rgba(255,255,255,0.5),
+                0 0 20px rgba(102, 126, 234, 0.5),
+                0 0 30px rgba(118, 75, 162, 0.5); }
+            50% { text-shadow: 
+                0 0 20px rgba(255,255,255,0.8),
+                0 0 30px rgba(102, 126, 234, 0.8),
+                0 0 40px rgba(118, 75, 162, 0.8); }
         }
 
         .header .subtitle {
             font-size: 1.2em;
-            opacity: 0.9;
+            opacity: 0.95;
             margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         .back-button {
             position: fixed;
             top: 20px;
             left: 20px;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(102, 126, 234, 0.8);
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.5);
             color: #667eea;
             padding: 12px 20px;
             border-radius: 25px;
@@ -57,26 +178,33 @@
             font-weight: bold;
             transition: all 0.3s ease;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 
+                0 4px 20px rgba(0,0,0,0.2),
+                0 0 40px rgba(102, 126, 234, 0.3);
         }
 
         .back-button:hover {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 8px 30px rgba(0,0,0,0.3),
+                0 0 60px rgba(102, 126, 234, 0.6);
         }
 
         .breadcrumb {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 15px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
             padding: 15px 25px;
             margin-bottom: 30px;
             color: white;
             text-align: center;
             font-size: 1.1em;
+            box-shadow: 
+                0 8px 32px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.3);
         }
 
         .step-indicator {
@@ -88,28 +216,34 @@
         }
 
         .step {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
             border: 2px solid rgba(255,255,255,0.3);
-            color: rgba(255,255,255,0.7);
+            color: rgba(255,255,255,0.9);
             padding: 10px 20px;
             border-radius: 25px;
             font-weight: bold;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         .step.active {
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.95);
             color: #667eea;
             border-color: white;
+            box-shadow: 
+                0 8px 25px rgba(255,255,255,0.3),
+                0 0 40px rgba(255,255,255,0.5);
+            transform: scale(1.05);
         }
 
         .step.completed {
-            background: rgba(76, 175, 80, 0.8);
+            background: linear-gradient(135deg, #4caf50, #66bb6a);
             color: white;
             border-color: #4caf50;
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4);
         }
 
-        /* Уровни */
         .levels-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -118,19 +252,41 @@
         }
 
         .level-card {
-            background: white;
-            border-radius: 20px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(25px);
+            border-radius: 25px;
             padding: 30px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 
+                0 10px 40px rgba(0,0,0,0.2),
+                0 0 60px rgba(102, 126, 234, 0.2);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border-top: 6px solid transparent;
             position: relative;
             overflow: hidden;
         }
 
         .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255,255,255,0.3), 
+                transparent
+            );
+            transition: left 0.5s;
+        }
+
+        .level-card:hover::before {
+            left: 100%;
+        }
+
+        .level-card::after {
             content: '';
             position: absolute;
             top: 0;
@@ -147,8 +303,10 @@
         }
 
         .level-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-15px) scale(1.05) rotateZ(2deg);
+            box-shadow: 
+                0 25px 60px rgba(0,0,0,0.3),
+                0 0 80px rgba(102, 126, 234, 0.5);
         }
 
         .level-1 { border-top-color: #4caf50; }
@@ -159,13 +317,19 @@
         .level-6 { border-top-color: #9c27b0; }
 
         .level-number {
-            font-size: 3em;
+            font-size: 3.5em;
             font-weight: bold;
             margin-bottom: 15px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: numberShine 3s ease-in-out infinite;
+        }
+
+        @keyframes numberShine {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
         }
 
         .level-name {
@@ -189,15 +353,15 @@
         }
 
         .level-texts-count {
-            background: rgba(102, 126, 234, 0.1);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
             color: #667eea;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.9em;
             font-weight: bold;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* Категории */
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -206,13 +370,16 @@
         }
 
         .category-card {
-            background: white;
-            border-radius: 20px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(25px);
+            border-radius: 25px;
             padding: 30px;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 
+                0 10px 40px rgba(0,0,0,0.2),
+                0 0 60px rgba(102, 126, 234, 0.2);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
         }
@@ -220,12 +387,21 @@
         .category-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%);
-            z-index: 0;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg, 
+                transparent 40%, 
+                rgba(102, 126, 234, 0.1) 50%, 
+                transparent 60%
+            );
+            animation: cardShimmer 3s infinite;
+        }
+
+        @keyframes cardShimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
         }
 
         .category-card > * {
@@ -234,13 +410,22 @@
         }
 
         .category-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 
+                0 25px 60px rgba(0,0,0,0.3),
+                0 0 80px rgba(102, 126, 234, 0.5);
         }
 
         .category-icon {
-            font-size: 3em;
+            font-size: 3.5em;
             margin-bottom: 20px;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         .category-name {
@@ -264,7 +449,7 @@
         }
 
         .category-texts-count {
-            background: rgba(102, 126, 234, 0.1);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
             color: #667eea;
             padding: 8px 16px;
             border-radius: 20px;
@@ -272,7 +457,6 @@
             font-weight: bold;
         }
 
-        /* Список текстов */
         .texts-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -281,51 +465,47 @@
         }
 
         .text-card {
-            background: white;
-            border-radius: 20px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(25px);
+            border-radius: 25px;
             padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 
+                0 10px 40px rgba(0,0,0,0.2),
+                0 0 60px rgba(102, 126, 234, 0.2);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             border-left: 6px solid #667eea;
         }
 
-        .text-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(255, 255, 255, 0.1) 100%);
-            z-index: 0;
-        }
-
-        .text-card > * {
-            position: relative;
-            z-index: 1;
-        }
-
         .text-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 
+                0 25px 60px rgba(0,0,0,0.3),
+                0 0 80px rgba(118, 75, 162, 0.5);
             border-left-color: #764ba2;
         }
 
         .text-number {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
             color: white;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 1.2em;
+            font-size: 1.3em;
             margin-bottom: 15px;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+            animation: numberPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes numberPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         .text-title {
@@ -346,32 +526,38 @@
         .text-preview {
             color: #666;
             line-height: 1.5;
-            margin-bottom: 20px;
             font-size: 0.95em;
         }
 
-        /* Progress Indicators */
+
+
         .text-card.completed {
             border-left: 6px solid #4caf50;
-            background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%);
         }
 
         .completion-badge {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: #4caf50;
+            background: linear-gradient(135deg, #4caf50, #66bb6a);
             color: white;
-            width: 35px;
-            height: 35px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 18px;
-            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+            font-size: 20px;
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.6);
             z-index: 10;
+            animation: badgePop 0.5s ease;
+        }
+
+        @keyframes badgePop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
         }
 
         .progress-info {
@@ -385,22 +571,18 @@
             color: #999;
         }
 
-        .text-card:not(.completed) {
-            opacity: 0.9;
-        }
-
-        .text-card:not(.completed):hover {
-            opacity: 1;
-        }
-
-
-
         .page {
             display: none;
         }
 
         .page.active {
             display: block;
+            animation: pageSlide 0.5s ease;
+        }
+
+        @keyframes pageSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 768px) {
@@ -429,11 +611,32 @@
         }
     </style>
     
-    <!-- Progress Tracking -->
     <script src="js/progress-tracker.js"></script>
     <script src="js/progress-dashboard.js"></script>
 </head>
 <body>
+    <script>
+        for(let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particle.style.width = (Math.random() * 6 + 4) + 'px';
+            particle.style.height = particle.style.width;
+            document.body.appendChild(particle);
+        }
+
+        for(let i = 0; i < 3; i++) {
+            const line = document.createElement('div');
+            line.className = 'glow-line';
+            line.style.top = (20 + i * 30) + '%';
+            line.style.animationDelay = i * 2 + 's';
+            line.style.animationDuration = (6 + i * 2) + 's';
+            document.body.appendChild(line);
+        }
+    </script>
+
     <a href="index.html" class="back-button">← На главную</a>
     <button class="back-button" id="backBtn" style="top: 20px; left: 200px; border: none; cursor: pointer;">← Назад</button>
     
@@ -443,7 +646,6 @@
             <div class="subtitle">Выберите уровень, категорию и текст для изучения</div>
         </div>
 
-        <!-- Progress Dashboard -->
         <div id="progressDashboard"></div>
 
         <div class="step-indicator">
@@ -457,7 +659,6 @@
             Выберите ваш уровень корейского языка
         </div>
 
-        <!-- Страница выбора уровня -->
         <div class="page active" id="levelsPage">
             <div class="levels-grid">
                 <div class="level-card level-1" onclick="selectLevel(1)">
@@ -497,7 +698,7 @@
                     <div class="level-description">
                         Сложная грамматика, деловое общение, культура
                     </div>
-                    <div class="level-texts-count">18 текстов</div>
+                    <div class="level-texts-count">9 текстов</div>
                 </div>
 
                 <div class="level-card level-5" onclick="selectLevel(5)">
@@ -522,7 +723,6 @@
             </div>
         </div>
 
-        <!-- Страница выбора категории -->
         <div class="page" id="categoriesPage">
             <div class="categories-grid">
                 <div class="category-card" onclick="selectCategory('personal')">
@@ -587,11 +787,8 @@
             </div>
         </div>
 
-        <!-- Страница выбора текста -->
         <div class="page" id="textsPage">
-            <div class="texts-grid" id="textsGrid">
-                <!-- Тексты будут загружены динамически -->
-            </div>
+            <div class="texts-grid" id="textsGrid"></div>
         </div>
     </div>
 
@@ -608,7 +805,6 @@
             food: 'Еда'
         };
 
-        // База данных текстов с превью
         const textsDatabase = {
             1: {
                 personal: [
@@ -737,6 +933,280 @@
                         preview: "Вкусные корейские напитки: холодный сикхе, горячий юджа чха и популярное банановое молоко."
                     }
                 ]
+            },
+            3: {
+                personal: [
+                    {
+                        id: 'personal-1',
+                        title: "Моя работа и карьера",
+                        subtitle: "나의 일과 커리어",
+                        preview: "Работаю программистом в IT-компании. Гибкий график, дружная команда. Планирую карьерный рост."
+                    },
+                    {
+                        id: 'personal-2',
+                        title: "Баланс работы и жизни",
+                        subtitle: "일과 삶의 균형",
+                        preview: "Как я совмещаю карьеру, хобби и личную жизнь. Важность отдыха и самообразования."
+                    },
+                    {
+                        id: 'personal-3',
+                        title: "Мои планы на будущее",
+                        subtitle: "나의 미래 계획",
+                        preview: "Переезд в Корею через два года. Изучение языка, поиск работы, культурная адаптация."
+                    }
+                ],
+                stories: [
+                    {
+                        id: 'stories-1',
+                        title: "Неожиданная встреча",
+                        subtitle: "뜻밖의 만남",
+                        preview: "Встретил школьного учителя в метро после 10 лет. Разговор о жизни и воспоминаниях."
+                    },
+                    {
+                        id: 'stories-2',
+                        title: "Первый день на новой работе",
+                        subtitle: "새 직장에서의 첫날",
+                        preview: "Волнение, знакомство с коллегами, ориентация в офисе. Всё оказалось лучше, чем ожидал!"
+                    },
+                    {
+                        id: 'stories-3',
+                        title: "Помощь незнакомцу",
+                        subtitle: "낯선 사람을 도와준 이야기",
+                        preview: "Помог иностранному туристу найти дорогу. Практиковал корейский язык и нашёл друга!"
+                    }
+                ],
+                culture: [
+                    {
+                        id: 'culture-1',
+                        title: "Корейский офисный этикет",
+                        subtitle: "한국의 사무실 예절",
+                        preview: "Правила поведения в корейском офисе: иерархия, обращение к старшим, корпоративная культура."
+                    },
+                    {
+                        id: 'culture-2',
+                        title: "Феномен K-Drama",
+                        subtitle: "K-드라마의 인기",
+                        preview: "Почему корейские дорамы популярны во всём мире. Сюжеты, актёры, культурное влияние."
+                    },
+                    {
+                        id: 'culture-3',
+                        title: "Корейские технологии",
+                        subtitle: "한국의 기술",
+                        preview: "Samsung, LG, Hyundai - лидеры мировой технологии. Инновации и влияние на глобальный рынок."
+                    }
+                ],
+                science: [
+                    {
+                        id: 'science-1',
+                        title: "Искусственный интеллект",
+                        subtitle: "인공지능",
+                        preview: "Что такое AI? Машинное обучение, нейросети. Применение в повседневной жизни."
+                    },
+                    {
+                        id: 'science-2',
+                        title: "Зелёная энергия Кореи",
+                        subtitle: "한국의 녹색 에너지",
+                        preview: "Солнечные панели, ветровые электростанции. Как Корея переходит на возобновляемую энергию."
+                    }
+                ],
+                travel: [
+                    {
+                        id: 'travel-1',
+                        title: "Деловая поездка в Сеул",
+                        subtitle: "서울 출장",
+                        preview: "Конференция в Gangnam. Встречи с партнёрами, презентации, нетворкинг. Впечатления от города."
+                    },
+                    {
+                        id: 'travel-2',
+                        title: "Путешествие в Кёнджу",
+                        subtitle: "경주 여행",
+                        preview: "Древняя столица Силла. Храмы, гробницы королей, традиционная архитектура. История оживает!"
+                    },
+                    {
+                        id: 'travel-3',
+                        title: "Хостел и новые знакомства",
+                        subtitle: "호스텔에서 만난 사람들",
+                        preview: "Остановился в хостеле в Итхэвоне. Познакомился с путешественниками со всего мира."
+                    }
+                ],
+                food: [
+                    {
+                        id: 'food-1',
+                        title: "Корейская уличная еда",
+                        subtitle: "한국의 길거리 음식",
+                        preview: "Ттокпокки, кимпап, хоттоги, бунгоппанг. Популярные уличные деликатесы и их история."
+                    },
+                    {
+                        id: 'food-2',
+                        title: "Корпоративный обед",
+                        subtitle: "회식",
+                        preview: "Традиция корпоративных ужинов в Корее. Самгёпсаль, соджу, укрепление командного духа."
+                    },
+                    {
+                        id: 'food-3',
+                        title: "Кафе и культура кофе",
+                        subtitle: "카페 문화",
+                        preview: "Почему в Корее так много кафе? Места для работы, встреч и отдыха. Популярные напитки."
+                    },
+                    {
+                        id: 'food-4',
+                        title: "Здоровое корейское питание",
+                        subtitle: "건강한 한식",
+                        preview: "Ферментированные продукты, овощи, морепродукты. Польза традиционной корейской кухни."
+                    }
+                ]
+            },
+            2: {
+                personal: [
+                    {
+                        id: 'personal-1',
+                        title: "Мой день в университете",
+                        subtitle: "대학교에서의 하루",
+                        preview: "Утро начинается с лекций. Обед с друзьями в столовой. Вечером занятия в библиотеке."
+                    },
+                    {
+                        id: 'personal-2',
+                        title: "Моя квартира",
+                        subtitle: "나의 아파트",
+                        preview: "Описание комнат: спальня, кухня, ванная. Мебель и любимые вещи. Уютный дом."
+                    }
+                ],
+                stories: [
+                    {
+                        id: 'stories-1',
+                        title: "Потерянный телефон",
+                        subtitle: "잃어버린 휴대폰",
+                        preview: "Забыл телефон в автобусе. Поиски по городу. Добрый человек вернул через полицию!"
+                    },
+                    {
+                        id: 'stories-2',
+                        title: "День рождения друга",
+                        subtitle: "친구의 생일",
+                        preview: "Подготовка сюрприза. Торт и подарки. Веселая вечеринка до поздней ночи."
+                    }
+                ],
+                culture: [
+                    {
+                        id: 'culture-1',
+                        title: "Корейский чай",
+                        subtitle: "한국의 차",
+                        preview: "Традиционные виды чая: женьшеневый, хризантемовый. Чайная церемония и польза для здоровья."
+                    },
+                    {
+                        id: 'culture-2',
+                        title: "День детей",
+                        subtitle: "어린이날",
+                        preview: "5 мая - особый праздник. Парки аттракционов, подарки детям. Семейные традиции."
+                    }
+                ],
+                science: [
+                    {
+                        id: 'science-1',
+                        title: "Радуга после дождя",
+                        subtitle: "비 온 뒤 무지개",
+                        preview: "Почему появляется радуга? Преломление света в каплях воды. Семь цветов спектра."
+                    },
+                    {
+                        id: 'science-2',
+                        title: "Смена времен года",
+                        subtitle: "계절의 변화",
+                        preview: "Почему меняются сезоны? Наклон земной оси. Весна, лето, осень, зима в Корее."
+                    }
+                ],
+                travel: [
+                    {
+                        id: 'travel-1',
+                        title: "Поездка в Пусан",
+                        subtitle: "부산 여행",
+                        preview: "Второй по величине город. Знаменитый пляж Хэундэ. Свежие морепродукты на рынке."
+                    },
+                    {
+                        id: 'travel-2',
+                        title: "Остров Чеджу",
+                        subtitle: "제주도",
+                        preview: "Тропический остров Кореи. Вулкан Халласан, водопады. Апельсиновые сады и черная свинина."
+                    }
+                ],
+                food: [
+                    {
+                        id: 'food-1',
+                        title: "Приготовление рамёна",
+                        subtitle: "라면 끓이기",
+                        preview: "Популярная быстрая еда. Кипяток, лапша, приправы. Добавляем яйцо и зеленый лук."
+                    },
+                    {
+                        id: 'food-2',
+                        title: "Корейское барбекю",
+                        subtitle: "한국식 바비큐",
+                        preview: "Самгёпсаль - жареная свиная грудинка. Готовим на столе. Заворачиваем в листья салата."
+                    }
+                ]
+            },
+            4: {
+                personal: [
+                    {
+                        id: 'personal-1',
+                        title: "Моя работа и карьера",
+                        subtitle: "나의 일과 커리어",
+                        preview: "Работаю программистом в IT-компании. Гибкий график, дружная команда. Планирую карьерный рост."
+                    },
+                    {
+                        id: 'personal-2',
+                        title: "Баланс работы и жизни",
+                        subtitle: "일과 삶의 균형",
+                        preview: "Как я совмещаю карьеру, хобби и личную жизнь. Важность отдыха и самообразования."
+                    },
+                    {
+                        id: 'personal-3',
+                        title: "Мои планы на будущее",
+                        subtitle: "나의 미래 계획",
+                        preview: "Переезд в Корею через два года. Изучение языка, поиск работы, культурная адаптация."
+                    }
+                ],
+                stories: [
+                    {
+                        id: 'stories-1',
+                        title: "Неожиданная встреча в метро",
+                        subtitle: "지하철에서의 뜻밖의 만남",
+                        preview: "Встреча с учителем спустя 10 лет. Разговор о жизни, работе и воспоминаниях."
+                    },
+                    {
+                        id: 'stories-2',
+                        title: "Первый день на новой работе",
+                        subtitle: "새 직장에서의 첫날",
+                        preview: "Волнение, знакомство с коллегами, ориентация. Всё лучше, чем ожидал!"
+                    },
+                    {
+                        id: 'stories-3',
+                        title: "Помощь незнакомцу",
+                        subtitle: "낯선 사람을 도와준 이야기",
+                        preview: "Помог туристу из Франции. Практиковал корейский и нашёл друга!"
+                    }
+                ],
+                culture: [
+                    {
+                        id: 'culture-1',
+                        title: "Корейский офисный этикет",
+                        subtitle: "한국의 사무실 예절",
+                        preview: "Иерархия, обращение к старшим, корпоративная культура в корейском офисе."
+                    },
+                    {
+                        id: 'culture-2',
+                        title: "Феномен K-Drama",
+                        subtitle: "K-드라마의 인기",
+                        preview: "Почему корейские дорамы популярны во всём мире. Сюжеты, актёры, влияние."
+                    }
+                ],
+                science: [
+                    {
+                        id: 'science-1',
+                        title: "Искусственный интеллект",
+                        subtitle: "일상생활 속 인공지능",
+                        preview: "AI в повседневной жизни. Машинное обучение, применение, этические вопросы."
+                    }
+                ],
+                travel: [],
+                food: []
             }
         };
 
@@ -744,18 +1214,14 @@
             const { skipHistory = false } = options;
             selectedLevel = level;
             
-            // Обновляем шаги
             document.getElementById('step1').classList.add('completed');
             document.getElementById('step1').classList.remove('active');
             document.getElementById('step2').classList.add('active');
             
-            // Обновляем breadcrumb
             document.getElementById('breadcrumb').textContent = `Уровень ${level}급 - Выберите категорию текстов`;
             
-            // Обновляем количество текстов для выбранного уровня
             updateCategoryCounts(level);
             
-            // Переключаем страницы
             document.getElementById('levelsPage').classList.remove('active');
             document.getElementById('categoriesPage').classList.add('active');
 
@@ -792,19 +1258,15 @@
 
             selectedCategory = category;
             
-            // Обновляем шаги
             document.getElementById('step2').classList.add('completed');
             document.getElementById('step2').classList.remove('active');
             document.getElementById('step3').classList.add('active');
             
-            // Переходим к выбору текста
             document.getElementById('breadcrumb').textContent =
                 `Уровень ${selectedLevel}급 → ${categoryNames[category]} - Выберите текст`;
             
-            // Загружаем тексты
             loadTextsPage();
             
-            // Переключаем страницы
             document.getElementById('categoriesPage').classList.remove('active');
             document.getElementById('textsPage').classList.add('active');
 
@@ -843,120 +1305,33 @@
             
             let html = '';
             categoryTexts.forEach((text, index) => {
-                // Проверяем, нужно ли добавить изображение
                 let imageHtml = '';
-                if (text.id === 'personal-1') {
+                const imageMap = {
+                    'personal-1': 'флаг.jpg',
+                    'personal-2': 'OIP.jpg',
+                    'personal-3': 'OIP (1).jpg',
+                    'culture-1': 'новый год.jpg',
+                    'culture-2': 'хангыль.jpg',
+                    'culture-3': 'Традиционный костюм Ханбок.jpg',
+                    'culture-4': 'флаг.jpg',
+                    'stories-1': 'кошка белая в кафе.jpg',
+                    'stories-2': 'встреча с другом.jpg',
+                    'science-1': 'стакан.jpg',
+                    'science-2': 'магнит.jpg',
+                    'science-3': 'Лёд превращается в воду.jpg',
+                    'travel-1': 'сеул.jpg',
+                    'travel-2': 'Олененок в траве_ Олененок в лесу.jpg',
+                    'travel-3': 'На рынке Намдемун.jpg',
+                    'food-1': 'бибимпаб.jpg',
+                    'food-2': 'В корейском ресторане.jpg',
+                    'food-3': 'Учусь готовить кимчи.jpg',
+                    'food-4': 'Корейские напитки.jpg'
+                };
+                
+                if (imageMap[text.id]) {
                     imageHtml = `
                         <div class="text-image">
-                            <img src="images/флаг.jpg" alt="Korean Flag" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'personal-2') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/OIP.jpg" alt="Korean Family" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'personal-3') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/OIP (1).jpg" alt="Korean Hobbies" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'culture-1') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/новый год.jpg" alt="Korean New Year" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'culture-2') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/хангыль.jpg" alt="Hangeul Alphabet" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'culture-3') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/Традиционный костюм Ханбок.jpg" alt="Traditional Hanbok" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'culture-4') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/флаг.jpg" alt="Taekwondo" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'stories-1') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/кошка белая в кафе.jpg" alt="Cat in cafe" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'stories-2') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/встреча с другом.jpg" alt="Meeting with friend" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'science-1') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/стакан.jpg" alt="Science experiment" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'science-2') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/магнит.jpg" alt="Magnet" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'science-3') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/Лёд превращается в воду.jpg" alt="Ice melting" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'travel-1') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/сеул.jpg" alt="Seoul Travel" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'travel-2') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/Олененок в траве_ Олененок в лесу.jpg" alt="National Park" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'travel-3') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/На рынке Намдемун.jpg" alt="Namdaemun Market" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'food-1') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/бибимпаб.jpg" alt="Bibimbap" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'food-2') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/В корейском ресторане.jpg" alt="Korean Restaurant" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'food-3') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/Учусь готовить кимчи.jpg" alt="Making Kimchi" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                        </div>
-                    `;
-                } else if (text.id === 'food-4') {
-                    imageHtml = `
-                        <div class="text-image">
-                            <img src="images/Корейские напитки.jpg" alt="Korean Drinks" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
+                            <img src="images/${imageMap[text.id]}" alt="${text.title}" style="width: 60px; height: 40px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3);">
                         </div>
                     `;
                 }
@@ -968,10 +1343,10 @@
                             <div style="flex: 1;">
                                 <div class="text-title">${text.title}</div>
                                 <div class="text-subtitle">${text.subtitle}</div>
-                                <div class="text-preview">${text.preview}</div>
                             </div>
                             ${imageHtml}
                         </div>
+                        <div class="text-preview" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(102, 126, 234, 0.2);">${text.preview}</div>
                     </div>
                 `;
             });
@@ -979,22 +1354,20 @@
             textsGrid.innerHTML = html;
         }
 
+
+
         function selectText(textId) {
-            // Обновляем шаги
             document.getElementById('step3').classList.add('completed');
             document.getElementById('step3').classList.remove('active');
             document.getElementById('step4').classList.add('active');
             
-            // Переходим к чтению конкретного текста
             window.location.href = `reading-content.html?level=${selectedLevel}&category=${selectedCategory}&textId=${textId}`;
         }
 
         function goBack() {
-            // Используем восстановленную логику
             goBackToCategories();
         }
 
-        // Автоматическое восстановление состояния при возвращении
         function restoreStateFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             const levelParam = urlParams.get('level');
@@ -1014,33 +1387,27 @@
             }
         }
 
-        // Умная кнопка назад - работает по текущему состоянию
         function setupSmartBackButton() {
             const backBtn = document.getElementById('backBtn');
             
             backBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 
-                // Определяем текущее состояние по активной странице
                 const levelsPageActive = document.getElementById('levelsPage').classList.contains('active');
                 const categoriesPageActive = document.getElementById('categoriesPage').classList.contains('active');
                 const textsPageActive = document.getElementById('textsPage').classList.contains('active');
                 
                 if (textsPageActive) {
-                    // Мы на странице выбора текстов → возврат к категориям
                     goBackToCategories();
                 } else if (categoriesPageActive) {
-                    // Мы на странице выбора категории → возврат к уровням
                     goBackToLevels();
                 } else if (levelsPageActive) {
-                    // Мы на странице выбора уровня → возврат на главную
                     window.location.href = 'index.html';
                 }
             });
         }
         
         function goBackToCategories() {
-            // Возврат от текстов к категориям
             document.getElementById('step3').classList.remove('active');
             document.getElementById('step2').classList.add('active');
             document.getElementById('step2').classList.remove('completed');
@@ -1051,13 +1418,11 @@
             document.getElementById('textsPage').classList.remove('active');
             document.getElementById('categoriesPage').classList.add('active');
             
-            // Обновляем URL без category
             const newUrl = `${window.location.pathname}?level=${selectedLevel}`;
             window.history.pushState({}, '', newUrl);
         }
         
         function goBackToLevels() {
-            // Возврат от категорий к уровням
             document.getElementById('step2').classList.remove('active');
             document.getElementById('step1').classList.add('active');
             document.getElementById('step1').classList.remove('completed');
@@ -1068,17 +1433,13 @@
             document.getElementById('categoriesPage').classList.remove('active');
             document.getElementById('levelsPage').classList.add('active');
             
-            // Обновляем URL без параметров
             const newUrl = window.location.pathname;
             window.history.pushState({}, '', newUrl);
             
-            // Сбрасываем состояние
             selectedLevel = null;
             selectedCategory = null;
         }
 
-        // === PROGRESS TRACKING ===
-        // Маркування завершених текстів
         function markCompletedTexts() {
             if (typeof ProgressTracker === 'undefined') {
                 console.warn('[WARN] ProgressTracker not loaded');
@@ -1088,12 +1449,10 @@
             const progress = ProgressTracker.get();
             console.log('[OK] Loading progress for texts');
             
-            // Проходимо по всіх текстах
             document.querySelectorAll('.text-card').forEach(card => {
                 const onclick = card.getAttribute('onclick');
                 if (!onclick) return;
                 
-                // Витягуємо textId з onclick="selectText('personal-1')"
                 const match = onclick.match(/selectText\('([^']+)'\)/);
                 if (!match) return;
                 
@@ -1101,17 +1460,14 @@
                 const key = `${selectedLevel}-${selectedCategory}-${textId}`;
                 
                 if (progress.completedTexts[key]) {
-                    // Текст завершено
                     card.classList.add('completed');
                     
-                    // Додаємо галочку
                     const badge = document.createElement('div');
                     badge.className = 'completion-badge';
-                    badge.innerHTML = '&#10003;'; // HTML код галочки
+                    badge.innerHTML = '&#10003;';
                     card.style.position = 'relative';
                     card.insertBefore(badge, card.firstChild);
                     
-                    // Додаємо інфо про прогрес
                     const progressInfo = document.createElement('div');
                     progressInfo.className = 'progress-info';
                     const data = progress.completedTexts[key];
@@ -1121,7 +1477,6 @@
                     
                     console.log('[+] Marked completed:', textId);
                 } else {
-                    // Текст не завершено
                     const progressInfo = document.createElement('div');
                     progressInfo.className = 'progress-info not-completed';
                     progressInfo.innerHTML = 'Не пройдено';
@@ -1132,24 +1487,19 @@
             console.log('[OK] Completed texts marked');
         }
 
-        // Викликаємо після завантаження текстів
         const originalLoadTextsPage = loadTextsPage;
         loadTextsPage = function() {
             originalLoadTextsPage.call(this);
-            setTimeout(markCompletedTexts, 150); // Невелика затримка для завантаження карток
+            setTimeout(markCompletedTexts, 150);
         };
 
-        // Анимации при загрузке
         document.addEventListener('DOMContentLoaded', function() {
-            // Рендер панелі прогресу
             if (typeof ProgressDashboard !== 'undefined') {
                 ProgressDashboard.render('progressDashboard');
             }
             
-            // Проверяем URL параметры для восстановления состояния
             restoreStateFromURL();
             
-            // Настраиваем умную кнопку назад
             setupSmartBackButton();
             
             const cards = document.querySelectorAll('.level-card');
