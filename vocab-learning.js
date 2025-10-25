@@ -11,29 +11,58 @@ class VocabularyLearning {
         this.score = 0;
         this.questionIndex = 0;
         this.selectedPairs = [];
+        this.currentTextId = null;
     }
 
     // Загрузить слова ИЗ LOCALSTORAGE (на которые кликнул пользователь)
-    loadLearnedWords() {
+    loadLearnedWords(filterTextId = this.currentTextId) {
         const learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
-        
+
         if (learnedWords.length === 0) {
             return [];
         }
-        
+
+        const filtered = learnedWords.filter(word => {
+            if (!word || !word.korean) {
+                return false;
+            }
+
+            if (!filterTextId) {
+                return !word.textId;
+            }
+
+            return word.textId === filterTextId;
+        });
+
+        if (filtered.length === 0) {
+            this.currentWords = [];
+            return [];
+        }
+
         // Удалить дубликаты
         const uniqueWords = [];
         const seen = new Set();
-        
-        for (const word of learnedWords) {
-            if (!seen.has(word.korean)) {
-                seen.add(word.korean);
+
+        for (const word of filtered) {
+            const key = `${word.textId || 'none'}::${word.korean}`;
+            if (!seen.has(key)) {
+                seen.add(key);
                 uniqueWords.push(word);
             }
         }
-        
+
         this.currentWords = uniqueWords;
         return uniqueWords;
+    }
+
+    // Для совместимости с обработчиками на странице чтения
+    loadWordsFromText(textId = null) {
+        if (textId === null || typeof textId === 'undefined') {
+            textId = window.currentStoryId || window.selectedTextId || null;
+        }
+
+        this.currentTextId = textId;
+        return this.loadLearnedWords(textId);
     }
 
     // Перемешать массив
@@ -57,8 +86,8 @@ class VocabularyLearning {
 
     // РЕЖИМ 1: ТЕСТ
     startTestMode() {
-        this.loadLearnedWords();
-        
+        this.loadLearnedWords(this.currentTextId);
+
         if (this.currentWords.length === 0) {
             this.showNoWordsMessage();
             return;
@@ -198,7 +227,7 @@ class VocabularyLearning {
 
     // РЕЖИМ 2: КАРТОЧКИ
     startCardsMode() {
-        this.loadLearnedWords();
+        this.loadLearnedWords(this.currentTextId);
         
         if (this.currentWords.length === 0) {
             this.showNoWordsMessage();
@@ -283,7 +312,7 @@ class VocabularyLearning {
 
     // РЕЖИМ 3: СОЕДИНЕНИЕ
     startMatchMode() {
-        this.loadLearnedWords();
+        this.loadLearnedWords(this.currentTextId);
         
         if (this.currentWords.length === 0) {
             this.showNoWordsMessage();
@@ -446,7 +475,7 @@ class VocabularyLearning {
                     Нет изученных слов
                 </div>
                 <div style="font-size: 16px; line-height: 1.6; max-width: 400px; margin: 0 auto;">
-                    Нажимайте на слова в тексте, чтобы добавить их в список для изучения. 
+                    Нажимайте на слова в тексте и используйте кнопку «Учить слово», чтобы добавить их в список для изучения.
                     После того как нажмёте на несколько слов, вернитесь сюда и выберите режим обучения!
                 </div>
             </div>
@@ -463,11 +492,8 @@ class VocabularyLearning {
                     Недостаточно слов
                 </div>
                 <div style="font-size: 16px; line-height: 1.6; max-width: 400px; margin: 0 auto;">
-                    Для этого режима нужно как минимум 4 слова. 
+                    Для этого режима нужно как минимум 4 слова.
                     Нажмите на больше слов в тексте, чтобы начать обучение!
-                </div>
-                <div style="margin-top: 20px; font-size: 18px; color: #667eea; font-weight: 600;">
-                    Изучено слов: ${this.currentWords.length}
                 </div>
             </div>
         `;
@@ -480,13 +506,21 @@ const vocabLearning = new VocabularyLearning();
 // === ФУНКЦИЯ ОБНОВЛЕНИЯ КНОПКИ "УЧИТЬ СЛОВА" ===
 function updateVocabButton() {
     const vocabBtn = document.getElementById('vocabBtn');
+    if (!vocabBtn) {
+        return;
+    }
+
     const learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
-    
-    if (learnedWords.length > 0) {
-        vocabBtn.style.display = 'flex'; // Показать кнопку
-        vocabBtn.innerHTML = `<span>📚</span> Учить слова (${learnedWords.length})`;
+    const currentTextId = window.currentStoryId || window.selectedTextId || null;
+
+    const wordsForText = learnedWords.filter(word => word && word.textId === currentTextId);
+
+    if (wordsForText.length > 0) {
+        vocabBtn.style.display = 'flex';
+        vocabBtn.innerHTML = '<span>📚</span> Учить слова';
     } else {
-        vocabBtn.style.display = 'none'; // Скрыть кнопку
+        vocabBtn.style.display = 'none';
+        vocabBtn.innerHTML = '<span>📚</span> Учить слова';
     }
 }
 
