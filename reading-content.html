@@ -119,6 +119,19 @@
             cursor: not-allowed;
         }
 
+        .learn-word-btn.remove-btn {
+            background: #f44336;
+        }
+
+        .learn-word-btn.remove-btn:hover {
+            background: #d32f2f;
+        }
+
+        .learn-word-btn.remove-btn:disabled {
+            background: #bbb;
+            cursor: not-allowed;
+        }
+
         .story-container {
             padding: 30px;
         }
@@ -346,6 +359,28 @@
             margin-top: 5px;
         }
 
+        .vocab-card-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+
+        .vocab-remove-btn {
+            background: #f44336;
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .vocab-remove-btn:hover {
+            background: #d32f2f;
+        }
+
         .controls {
             position: sticky;
             bottom: 0;
@@ -385,6 +420,11 @@
         .control-btn.active {
             background: #667eea;
             color: white;
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         .control-btn.secondary {
@@ -480,6 +520,9 @@
             <button class="learn-word-btn" id="learnWordBtn" onclick="addWordToLearn()" style="display: none;">
                 + Учить
             </button>
+            <button class="learn-word-btn remove-btn" id="removeWordBtn" onclick="removeWordFromLearn()" style="display: none;">
+                − Удалить
+            </button>
         </div>
 
         <div class="story-container">
@@ -572,6 +615,9 @@
                 <button class="control-btn" onclick="toggleVocabLearning()" id="vocabBtn">
                     <span>📚</span> Учить слова
                 </button>
+                <button class="control-btn" onclick="toggleVocab()" id="savedWordsBtn" disabled>
+                    <span>🗂️</span> Мои слова
+                </button>
                 <button class="control-btn secondary" onclick="playAudio()">
                     <span>🔊</span> Аудио
                 </button>
@@ -617,6 +663,15 @@
             localStorage.setItem(WORDS_STORAGE_KEY, JSON.stringify(words));
         }
 
+        function escapeHtmlAttribute(value) {
+            return (value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/'/g, '&#39;');
+        }
+
         function getCurrentTextKey() {
             if (!currentStoryId) {
                 return null;
@@ -630,7 +685,7 @@
             currentStoryWordSet = new Set(Array.from(wordElements).map(el => el.textContent.trim()));
         }
 
-        function getWordsForCurrentText() {
+        function fetchWordsForCurrentText() {
             const allWords = getStoredLearnedWords();
             const textKey = getCurrentTextKey();
 
@@ -661,7 +716,7 @@
         }
 
         function updateLearnedWordsCache() {
-            learnedWords = getWordsForCurrentText();
+            learnedWords = fetchWordsForCurrentText();
         }
 
         function isWordInCurrentText(koreanWord) {
@@ -670,7 +725,7 @@
 
         window.getCurrentTextKey = getCurrentTextKey;
         window.isWordInCurrentText = isWordInCurrentText;
-        window.getWordsForCurrentText = () => learnedWords.map(word => ({ ...word }));
+        window.getWordsForCurrentText = () => fetchWordsForCurrentText().map(word => ({ ...word }));
 
         // ВОССТАНОВЛЕННАЯ база данных текстов
         const storyDatabase = {
@@ -1812,6 +1867,13 @@
                 learnWordBtn.disabled = false;
                 learnWordBtn.textContent = '+ Учить';
             }
+
+            const removeWordBtn = document.getElementById('removeWordBtn');
+            if (removeWordBtn) {
+                removeWordBtn.style.display = 'none';
+                removeWordBtn.disabled = false;
+                removeWordBtn.dataset.currentWord = '';
+            }
             
             // Show image only for specific stories
             const storyImage = document.getElementById('storyImage');
@@ -1911,6 +1973,7 @@
         function setupWordInteractions() {
             const words = document.querySelectorAll('.korean-word');
             const learnWordBtn = document.getElementById('learnWordBtn');
+            const removeWordBtn = document.getElementById('removeWordBtn');
 
             words.forEach(word => {
                 word.addEventListener('click', (e) => {
@@ -1927,12 +1990,12 @@
                         pronunciation: pronunciation
                     };
 
+                    updateLearnedWordsCache();
+                    const alreadyLearned = learnedWords.some(w => w.korean === wordText);
+
                     if (learnWordBtn) {
                         learnWordBtn.style.display = 'inline-flex';
                         learnWordBtn.dataset.currentWord = wordText;
-
-                        updateLearnedWordsCache();
-                        const alreadyLearned = learnedWords.some(w => w.korean === wordText);
 
                         if (alreadyLearned) {
                             learnWordBtn.textContent = '✓ Уже добавлено';
@@ -1942,6 +2005,17 @@
                             learnWordBtn.textContent = '+ Учить';
                             learnWordBtn.classList.remove('added');
                             learnWordBtn.disabled = false;
+                        }
+                    }
+
+                    if (removeWordBtn) {
+                        removeWordBtn.dataset.currentWord = wordText;
+
+                        if (alreadyLearned) {
+                            removeWordBtn.style.display = 'inline-flex';
+                            removeWordBtn.disabled = false;
+                        } else {
+                            removeWordBtn.style.display = 'none';
                         }
                     }
 
@@ -1984,6 +2058,7 @@
 
         function addWordToLearn() {
             const learnWordBtn = document.getElementById('learnWordBtn');
+            const removeWordBtn = document.getElementById('removeWordBtn');
 
             if (!learnWordBtn || !currentWordToLearn) {
                 return;
@@ -1997,6 +2072,11 @@
                 learnWordBtn.textContent = '✓ Уже добавлено';
                 learnWordBtn.classList.add('added');
                 learnWordBtn.disabled = true;
+                if (removeWordBtn) {
+                    removeWordBtn.style.display = 'inline-flex';
+                    removeWordBtn.disabled = false;
+                    removeWordBtn.dataset.currentWord = currentWordToLearn.korean;
+                }
                 return;
             }
 
@@ -2026,6 +2106,12 @@
             learnWordBtn.classList.add('added');
             learnWordBtn.disabled = true;
 
+            if (removeWordBtn) {
+                removeWordBtn.style.display = 'inline-flex';
+                removeWordBtn.disabled = false;
+                removeWordBtn.dataset.currentWord = currentWordToLearn.korean;
+            }
+
             if (typeof updateVocabButton === 'function') {
                 updateVocabButton();
             }
@@ -2033,9 +2119,95 @@
             if (vocabVisible) {
                 loadVocab();
             }
+
+            if (vocabLearningVisible && typeof vocabLearning.loadWordsFromText === 'function') {
+                vocabLearning.loadWordsFromText();
+            }
         }
 
         window.addWordToLearn = addWordToLearn;
+
+        function removeWordFromLearn(koreanWord = null) {
+            const learnWordBtn = document.getElementById('learnWordBtn');
+            const removeWordBtn = document.getElementById('removeWordBtn');
+
+            let targetWord = koreanWord;
+
+            if (!targetWord && removeWordBtn && removeWordBtn.dataset.currentWord) {
+                targetWord = removeWordBtn.dataset.currentWord;
+            }
+
+            if (!targetWord && currentWordToLearn) {
+                targetWord = currentWordToLearn.korean;
+            }
+
+            if (!targetWord) {
+                return;
+            }
+
+            const storedWords = getStoredLearnedWords();
+            const textKey = getCurrentTextKey();
+            const index = storedWords.findIndex(word => {
+                if (!word || word.korean !== targetWord) {
+                    return false;
+                }
+
+                if (!textKey) {
+                    return !word.textKey;
+                }
+
+                return word.textKey === textKey || !word.textKey;
+            });
+
+            if (index === -1) {
+                return;
+            }
+
+            storedWords.splice(index, 1);
+            saveStoredLearnedWords(storedWords);
+            updateLearnedWordsCache();
+
+            if (learnedWords.length === 0) {
+                vocabVisible = false;
+                const vocabSection = document.getElementById('vocabSection');
+                if (vocabSection) {
+                    vocabSection.style.display = 'none';
+                }
+
+                const savedWordsBtnEl = document.getElementById('savedWordsBtn');
+                if (savedWordsBtnEl) {
+                    savedWordsBtnEl.innerHTML = '<span>🗂️</span> Мои слова';
+                    savedWordsBtnEl.classList.remove('active');
+                }
+            }
+
+            if (learnWordBtn && (!currentWordToLearn || currentWordToLearn.korean === targetWord)) {
+                learnWordBtn.textContent = '+ Учить';
+                learnWordBtn.classList.remove('added');
+                learnWordBtn.disabled = false;
+                learnWordBtn.style.display = 'inline-flex';
+            }
+
+            if (removeWordBtn && (!currentWordToLearn || currentWordToLearn.korean === targetWord)) {
+                removeWordBtn.style.display = 'none';
+                removeWordBtn.disabled = false;
+                removeWordBtn.dataset.currentWord = '';
+            }
+
+            if (vocabVisible) {
+                loadVocab();
+            }
+
+            if (vocabLearningVisible && typeof vocabLearning.loadWordsFromText === 'function') {
+                vocabLearning.loadWordsFromText();
+            }
+
+            if (typeof updateVocabButton === 'function') {
+                updateVocabButton();
+            }
+        }
+
+        window.removeWordFromLearn = removeWordFromLearn;
 
         function toggleTranslation() {
             translationVisible = !translationVisible;
@@ -2203,12 +2375,40 @@
         function toggleVocab() {
             vocabVisible = !vocabVisible;
             const section = document.getElementById('vocabSection');
-            
+            const savedWordsBtn = document.getElementById('savedWordsBtn');
+            const vocabLearningSection = document.getElementById('vocabLearningSection');
+            const vocabBtn = document.getElementById('vocabBtn');
+
+            if (!section) {
+                return;
+            }
+
             if (vocabVisible) {
+                if (vocabLearningVisible) {
+                    vocabLearningVisible = false;
+                    if (vocabLearningSection) {
+                        vocabLearningSection.style.display = 'none';
+                    }
+                    if (vocabBtn) {
+                        vocabBtn.innerHTML = '<span>📚</span> Учить слова';
+                        vocabBtn.classList.remove('active');
+                    }
+                }
+
                 loadVocab();
                 section.style.display = 'block';
+
+                if (savedWordsBtn) {
+                    savedWordsBtn.innerHTML = '<span>❌</span> Скрыть слова';
+                    savedWordsBtn.classList.add('active');
+                }
             } else {
                 section.style.display = 'none';
+
+                if (savedWordsBtn) {
+                    savedWordsBtn.innerHTML = '<span>🗂️</span> Мои слова';
+                    savedWordsBtn.classList.remove('active');
+                }
             }
         }
 
@@ -2223,15 +2423,27 @@
                         <div class="vocab-korean">${word.korean}</div>
                         <div class="vocab-translation">${word.translation}</div>
                         <div class="vocab-pronunciation">${word.pronunciation || ''}</div>
+                        <div class="vocab-card-actions">
+                            <button class="vocab-remove-btn" data-korean="${escapeHtmlAttribute(word.korean)}">Удалить</button>
+                        </div>
                     </div>
                 `;
             });
-            
+
             if (html === '') {
                 html = '<div style="grid-column: 1/-1; text-align: center; color: #666;">Кликайте на слова в тексте, чтобы добавить их сюда!</div>';
             }
-            
+
             vocabGrid.innerHTML = html;
+
+            const removeButtons = vocabGrid.querySelectorAll('.vocab-remove-btn');
+            removeButtons.forEach(btn => {
+                btn.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const korean = event.currentTarget.dataset.korean;
+                    removeWordFromLearn(korean);
+                });
+            });
         }
 
         function toggleVocabLearning() {
@@ -2242,33 +2454,47 @@
             const quizSection = document.getElementById('quizSection');
             const vocabSection = document.getElementById('vocabSection');
             const vocabBtn = document.getElementById('vocabBtn');
-            
+            const savedWordsBtn = document.getElementById('savedWordsBtn');
+
             if (vocabLearningVisible) {
                 // Загрузить слова из текущего текста
                 vocabLearning.loadWordsFromText();
-                
+
                 section.style.display = 'block';
                 // Скрыть остальной контент
                 koreanContent.style.display = 'none';
                 translationSection.style.display = 'none';
                 quizSection.style.display = 'none';
                 vocabSection.style.display = 'none';
-                
+
                 translationVisible = false;
                 quizVisible = false;
                 vocabVisible = false;
-                
+
                 // Обновить кнопки
                 vocabBtn.innerHTML = '<span>❌</span> Закрыть';
                 vocabBtn.classList.add('active');
-                
+
+                if (savedWordsBtn) {
+                    savedWordsBtn.innerHTML = '<span>🗂️</span> Мои слова';
+                    savedWordsBtn.classList.remove('active');
+                }
+
                 document.getElementById('quizBtn').classList.remove('active');
                 document.getElementById('quizBtn').innerHTML = '<span>🧠</span> Тест';
             } else {
                 section.style.display = 'none';
                 // Показать корейский текст назад
                 koreanContent.style.display = 'block';
-                
+
+                if (translationVisible) {
+                    translationSection.style.display = 'block';
+                    translationSection.classList.add('show');
+                } else {
+                    translationSection.style.display = 'none';
+                    translationSection.classList.remove('show');
+                }
+
                 // Сбросить кнопку
                 vocabBtn.innerHTML = '<span>📚</span> Учить слова';
                 vocabBtn.classList.remove('active');
