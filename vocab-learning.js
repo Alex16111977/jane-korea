@@ -16,24 +16,29 @@ class VocabularyLearning {
     // Загрузить слова ИЗ LOCALSTORAGE (на которые кликнул пользователь)
     loadLearnedWords() {
         const learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
-        
+
         if (learnedWords.length === 0) {
             return [];
         }
-        
+
         // Удалить дубликаты
         const uniqueWords = [];
         const seen = new Set();
-        
+
         for (const word of learnedWords) {
             if (!seen.has(word.korean)) {
                 seen.add(word.korean);
                 uniqueWords.push(word);
             }
         }
-        
+
         this.currentWords = uniqueWords;
         return uniqueWords;
+    }
+
+    // Для совместимости с обработчиками на странице чтения
+    loadWordsFromText() {
+        return this.loadLearnedWords();
     }
 
     // Перемешать массив
