@@ -570,35 +570,36 @@
             <!-- VOCAB LEARNING SECTION -->
             <div class="vocab-learning-section" id="vocabLearningSection" style="display: none;">
                 <div class="vocab-learning-title">
-                    📚 Вивчення слів з тексту
+                    📚 Изучение слов из текста
                 </div>
-                
-                <!-- Вибір режиму -->
+
+                <!-- Выбор режима -->
                 <div class="vocab-mode-selector">
                     <button class="vocab-mode-btn" onclick="vocabLearning.loadWordsFromText(); vocabLearning.startTestMode();">
                         <div class="vocab-mode-icon">✏️</div>
                         <div>Тест</div>
-                        <div style="font-size: 12px; opacity: 0.8;">Вибери переклад</div>
+                        <div style="font-size: 12px; opacity: 0.8;">Выбери перевод</div>
                     </button>
                     
                     <button class="vocab-mode-btn" onclick="vocabLearning.loadWordsFromText(); vocabLearning.startCardsMode();">
                         <div class="vocab-mode-icon">🎴</div>
-                        <div>Картки</div>
-                        <div style="font-size: 12px; opacity: 0.8;">Клікай для перекладу</div>
+                        <div>Карточки</div>
+                        <div style="font-size: 12px; opacity: 0.8;">Нажимай для перевода</div>
                     </button>
                     
                     <button class="vocab-mode-btn" onclick="vocabLearning.loadWordsFromText(); vocabLearning.startMatchMode();">
                         <div class="vocab-mode-icon">🔗</div>
-                        <div>З'єднання</div>
-                        <div style="font-size: 12px; opacity: 0.8;">Сполучи слова</div>
+                        <div>Соединение</div>
+                        <div style="font-size: 12px; opacity: 0.8;">Соедини слова</div>
                     </button>
                 </div>
                 
-                <!-- Контент режимів -->
+                <!-- Контент режимов -->
                 <div id="vocabLearningContent">
                     <div style="text-align: center; color: #666; padding: 60px 20px;">
                         <div style="font-size: 48px; margin-bottom: 20px;">👆</div>
-                        <div style="font-size: 20px; font-weight: 600;">Оберіть режим навчання</div>
+                        <div style="font-size: 20px; font-weight: 600;">Выберите режим обучения</div>
+                        <div style="font-size: 16px; opacity: 0.8; margin-top: 8px;">Кликайте по словам в тексте, чтобы добавить их сюда.</div>
                     </div>
                 </div>
             </div>
@@ -614,9 +615,6 @@
                 </button>
                 <button class="control-btn" onclick="toggleVocabLearning()" id="vocabBtn">
                     <span>📚</span> Учить слова
-                </button>
-                <button class="control-btn" onclick="toggleVocab()" id="savedWordsBtn" disabled>
-                    <span>🗂️</span> Мои слова
                 </button>
                 <button class="control-btn secondary" onclick="playAudio()">
                     <span>🔊</span> Аудио
@@ -636,7 +634,6 @@
         let currentTextIndex = 0;
         let translationVisible = false;
         let quizVisible = false;
-        let vocabVisible = false;
         let vocabLearningVisible = false;
         let learnedWords = [];
         let currentWordToLearn = null;
@@ -644,6 +641,13 @@
         let currentStoryWordSet = new Set();
 
         const defaultTranslationHeaderMessage = 'Перевод появится здесь при клике на слово';
+        const defaultVocabLearningHTML = `
+            <div style="text-align: center; color: #666; padding: 60px 20px;">
+                <div style="font-size: 48px; margin-bottom: 20px;">👆</div>
+                <div style="font-size: 20px; font-weight: 600;">Выберите режим обучения</div>
+                <div style="font-size: 16px; opacity: 0.8; margin-top: 8px;">Кликайте по словам в тексте, чтобы добавить их сюда.</div>
+            </div>
+        `;
 
         // Quiz variables
         let currentQuestionIndex = 0;
@@ -678,6 +682,28 @@
             }
 
             return `${selectedLevel}-${selectedCategory}-${currentStoryId}`;
+        }
+
+        function renderDefaultVocabLearningMessage() {
+            const content = document.getElementById('vocabLearningContent');
+            if (content) {
+                content.innerHTML = defaultVocabLearningHTML;
+            }
+        }
+
+        function renderEmptyVocabLearningMessage() {
+            const content = document.getElementById('vocabLearningContent');
+            if (content) {
+                content.innerHTML = `
+                    <div style="text-align: center; color: #666; padding: 60px 20px;">
+                        <div style="font-size: 48px; margin-bottom: 20px;">📝</div>
+                        <div style="font-size: 20px; font-weight: 600;">Пока нет выбранных слов</div>
+                        <div style="font-size: 16px; opacity: 0.8; margin-top: 8px;">
+                            Нажимайте на слова в тексте и добавляйте их через кнопку «+ Учить».
+                        </div>
+                    </div>
+                `;
+            }
         }
 
         function updateCurrentStoryWordSet() {
@@ -1730,7 +1756,7 @@
                 ]
             },
             
-            // РІВЕНЬ 4 - Тексти з level-4-texts.js
+            // УРОВЕНЬ 4 - тексты из level-4-texts.js
             4: (typeof level4Texts !== 'undefined' && level4Texts[4]) ? level4Texts[4] : {
                 personal: [
                     {
@@ -1849,6 +1875,10 @@
             document.getElementById('koreanContent').innerHTML = story.korean;
             document.getElementById('translationText').textContent = story.translation;
             document.getElementById('translationHeaderText').textContent = defaultTranslationHeaderMessage;
+
+            if (!vocabLearningVisible) {
+                renderDefaultVocabLearningMessage();
+            }
 
             updateCurrentStoryWordSet();
             updateLearnedWordsCache();
@@ -2116,12 +2146,14 @@
                 updateVocabButton();
             }
 
-            if (vocabVisible) {
+            if (vocabLearningVisible) {
                 loadVocab();
-            }
-
-            if (vocabLearningVisible && typeof vocabLearning.loadWordsFromText === 'function') {
-                vocabLearning.loadWordsFromText();
+                if (typeof vocabLearning.loadWordsFromText === 'function') {
+                    const words = vocabLearning.loadWordsFromText();
+                    if (!words || words.length === 0) {
+                        renderEmptyVocabLearningMessage();
+                    }
+                }
             }
         }
 
@@ -2167,20 +2199,6 @@
             saveStoredLearnedWords(storedWords);
             updateLearnedWordsCache();
 
-            if (learnedWords.length === 0) {
-                vocabVisible = false;
-                const vocabSection = document.getElementById('vocabSection');
-                if (vocabSection) {
-                    vocabSection.style.display = 'none';
-                }
-
-                const savedWordsBtnEl = document.getElementById('savedWordsBtn');
-                if (savedWordsBtnEl) {
-                    savedWordsBtnEl.innerHTML = '<span>🗂️</span> Мои слова';
-                    savedWordsBtnEl.classList.remove('active');
-                }
-            }
-
             if (learnWordBtn && (!currentWordToLearn || currentWordToLearn.korean === targetWord)) {
                 learnWordBtn.textContent = '+ Учить';
                 learnWordBtn.classList.remove('added');
@@ -2194,12 +2212,14 @@
                 removeWordBtn.dataset.currentWord = '';
             }
 
-            if (vocabVisible) {
+            if (vocabLearningVisible) {
                 loadVocab();
-            }
-
-            if (vocabLearningVisible && typeof vocabLearning.loadWordsFromText === 'function') {
-                vocabLearning.loadWordsFromText();
+                if (typeof vocabLearning.loadWordsFromText === 'function') {
+                    const words = vocabLearning.loadWordsFromText();
+                    if (!words || words.length === 0) {
+                        renderEmptyVocabLearningMessage();
+                    }
+                }
             }
 
             if (typeof updateVocabButton === 'function') {
@@ -2336,7 +2356,7 @@
             const percentage = Math.round((correctAnswers / totalQuestions) * 100);
             
             // === PROGRESS TRACKING ===
-            // Зберігаємо прогрес після завершення тесту
+            // Сохраняем прогресс после завершения теста
             saveTextProgress(percentage);
             
             let resultMessage = '';
@@ -2370,46 +2390,6 @@
             `;
             
             quizContent.innerHTML = html;
-        }
-
-        function toggleVocab() {
-            vocabVisible = !vocabVisible;
-            const section = document.getElementById('vocabSection');
-            const savedWordsBtn = document.getElementById('savedWordsBtn');
-            const vocabLearningSection = document.getElementById('vocabLearningSection');
-            const vocabBtn = document.getElementById('vocabBtn');
-
-            if (!section) {
-                return;
-            }
-
-            if (vocabVisible) {
-                if (vocabLearningVisible) {
-                    vocabLearningVisible = false;
-                    if (vocabLearningSection) {
-                        vocabLearningSection.style.display = 'none';
-                    }
-                    if (vocabBtn) {
-                        vocabBtn.innerHTML = '<span>📚</span> Учить слова';
-                        vocabBtn.classList.remove('active');
-                    }
-                }
-
-                loadVocab();
-                section.style.display = 'block';
-
-                if (savedWordsBtn) {
-                    savedWordsBtn.innerHTML = '<span>❌</span> Скрыть слова';
-                    savedWordsBtn.classList.add('active');
-                }
-            } else {
-                section.style.display = 'none';
-
-                if (savedWordsBtn) {
-                    savedWordsBtn.innerHTML = '<span>🗂️</span> Мои слова';
-                    savedWordsBtn.classList.remove('active');
-                }
-            }
         }
 
         function loadVocab() {
@@ -2454,37 +2434,50 @@
             const quizSection = document.getElementById('quizSection');
             const vocabSection = document.getElementById('vocabSection');
             const vocabBtn = document.getElementById('vocabBtn');
-            const savedWordsBtn = document.getElementById('savedWordsBtn');
+            const quizBtn = document.getElementById('quizBtn');
+
+            if (!section || !koreanContent || !translationSection || !quizSection || !vocabBtn) {
+                return;
+            }
 
             if (vocabLearningVisible) {
-                // Загрузить слова из текущего текста
-                vocabLearning.loadWordsFromText();
+                const words = typeof vocabLearning.loadWordsFromText === 'function'
+                    ? vocabLearning.loadWordsFromText()
+                    : [];
+
+                loadVocab();
+
+                if (!words || words.length === 0) {
+                    renderEmptyVocabLearningMessage();
+                } else {
+                    renderDefaultVocabLearningMessage();
+                }
 
                 section.style.display = 'block';
-                // Скрыть остальной контент
+                if (vocabSection) {
+                    vocabSection.style.display = 'block';
+                }
+
                 koreanContent.style.display = 'none';
                 translationSection.style.display = 'none';
                 quizSection.style.display = 'none';
-                vocabSection.style.display = 'none';
 
                 translationVisible = false;
                 quizVisible = false;
-                vocabVisible = false;
 
-                // Обновить кнопки
                 vocabBtn.innerHTML = '<span>❌</span> Закрыть';
                 vocabBtn.classList.add('active');
 
-                if (savedWordsBtn) {
-                    savedWordsBtn.innerHTML = '<span>🗂️</span> Мои слова';
-                    savedWordsBtn.classList.remove('active');
+                if (quizBtn) {
+                    quizBtn.classList.remove('active');
+                    quizBtn.innerHTML = '<span>🧠</span> Тест';
                 }
-
-                document.getElementById('quizBtn').classList.remove('active');
-                document.getElementById('quizBtn').innerHTML = '<span>🧠</span> Тест';
             } else {
                 section.style.display = 'none';
-                // Показать корейский текст назад
+                if (vocabSection) {
+                    vocabSection.style.display = 'none';
+                }
+
                 koreanContent.style.display = 'block';
 
                 if (translationVisible) {
@@ -2495,9 +2488,13 @@
                     translationSection.classList.remove('show');
                 }
 
-                // Сбросить кнопку
-                vocabBtn.innerHTML = '<span>📚</span> Учить слова';
                 vocabBtn.classList.remove('active');
+                renderDefaultVocabLearningMessage();
+                if (typeof updateVocabButton === 'function') {
+                    updateVocabButton();
+                } else {
+                    vocabBtn.innerHTML = '<span>📚</span> Учить слова';
+                }
             }
         }
 
@@ -2610,7 +2607,7 @@
 
         // === PROGRESS TRACKING INTEGRATION ===
 
-        // Ініціалізація при завантаженні
+        // Инициализация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
             ProgressTracker.init();
             console.log('[OK] Progress tracker initialized');
@@ -2622,7 +2619,7 @@
             }
         });
 
-        // Функція збереження прогресу після тесту
+        // Функция сохранения прогресса после теста
         function saveTextProgress(finalScore) {
             const urlParams = new URLSearchParams(window.location.search);
             const level = urlParams.get('level');
@@ -2634,14 +2631,14 @@
                 return;
             }
             
-            // Підрахунок вивчених слів
+            // Подсчитываем выученные слова
             let wordsCount = 0;
             if (typeof window !== 'undefined' && typeof window.getWordsForCurrentText === 'function') {
                 const wordsForText = window.getWordsForCurrentText();
                 wordsCount = Array.isArray(wordsForText) ? wordsForText.length : 0;
             }
 
-            // Зберігаємо прогрес
+            // Сохраняем прогресс
             ProgressTracker.markTextCompleted(level, category, textId, finalScore, wordsCount);
             
             console.log('[+] Progress saved:', {level, category, textId, score: finalScore, words: wordsCount});
@@ -2650,28 +2647,28 @@
             showCompletionCelebration(finalScore);
         }
 
-        // Вітання після завершення
+        // Поздравление после завершения
         function showCompletionCelebration(score) {
             const progress = ProgressTracker.get();
             const totalTexts = progress.stats.totalTexts;
             const streak = progress.stats.currentStreak;
-            
-            let message = `🎉 Вітаємо! Текст завершено!\n\n`;
+
+            let message = `🎉 Поздравляем! Текст завершён!\n\n`;
             message += `📊 Результат: ${score}%\n`;
-            message += `📚 Всього текстів пройдено: ${totalTexts}\n`;
-            message += `🔥 Серія днів: ${streak}`;
-            
-            // Перевірка на нові досягнення
+            message += `📚 Всего текстов пройдено: ${totalTexts}\n`;
+            message += `🔥 Серия дней: ${streak}`;
+
+            // Проверка на новые достижения
             if (totalTexts === 1) {
-                message += `\n\n🥇 НОВЕ ДОСЯГНЕННЯ: Перший текст!`;
+                message += `\n\n🥇 НОВОЕ ДОСТИЖЕНИЕ: Первый текст!`;
             }
             if (score === 100) {
-                message += `\n\n💯 НОВЕ ДОСЯГНЕННЯ: Ідеальний результат!`;
+                message += `\n\n💯 НОВОЕ ДОСТИЖЕНИЕ: Идеальный результат!`;
             }
             if (streak === 7) {
-                message += `\n\n🔥 НОВЕ ДОСЯГНЕННЯ: Тижнева серія!`;
+                message += `\n\n🔥 НОВОЕ ДОСТИЖЕНИЕ: Недельная серия!`;
             }
-            
+
             alert(message);
         }
 
