@@ -503,8 +503,12 @@ const vocabLearning = new VocabularyLearning();
 // === ФУНКЦИЯ ОБНОВЛЕНИЯ КНОПКИ "УЧИТЬ СЛОВА" ===
 function updateVocabButton() {
     const vocabBtn = document.getElementById('vocabBtn');
-    const savedWordsBtn = document.getElementById('savedWordsBtn');
     if (!vocabBtn) {
+        return;
+    }
+
+    if (vocabBtn.dataset.forceHidden === 'true') {
+        vocabBtn.style.display = 'none';
         return;
     }
 
@@ -530,27 +534,17 @@ function updateVocabButton() {
         words = [];
     }
 
-    const hasWords = Array.isArray(words) && words.length > 0;
+    const count = Array.isArray(words) ? words.length : 0;
+    const baseLabel = count > 0
+        ? `<span>📚</span> Учить слова (${count})`
+        : '<span>📚</span> Учить слова';
 
-    if (hasWords) {
-        vocabBtn.style.display = 'flex';
-        vocabBtn.innerHTML = '<span>📚</span> Учить слова';
-        if (savedWordsBtn) {
-            savedWordsBtn.disabled = false;
-            savedWordsBtn.style.display = 'flex';
-        }
-    } else {
-        vocabBtn.style.display = 'none';
-        if (savedWordsBtn) {
-            savedWordsBtn.disabled = true;
-            savedWordsBtn.style.display = 'flex';
-            savedWordsBtn.classList.remove('active');
-            savedWordsBtn.innerHTML = '<span>🗂️</span> Мои слова';
-            const vocabSection = document.getElementById('vocabSection');
-            if (vocabSection) {
-                vocabSection.style.display = 'none';
-            }
-        }
+    vocabBtn.style.display = 'flex';
+    vocabBtn.disabled = false;
+    vocabBtn.dataset.wordCount = String(count);
+
+    if (!vocabBtn.classList.contains('active')) {
+        vocabBtn.innerHTML = baseLabel;
     }
 }
 
