@@ -15,21 +15,43 @@ class VocabularyLearning {
 
     // Загрузить слова ИЗ LOCALSTORAGE (на которые кликнул пользователь)
     loadLearnedWords() {
-        const learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
+        let learnedWords = [];
 
-        if (learnedWords.length === 0) {
+        try {
+            if (typeof window !== 'undefined' && typeof window.getWordsForCurrentText === 'function') {
+                learnedWords = window.getWordsForCurrentText();
+            } else if (typeof localStorage !== 'undefined') {
+                const stored = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
+                const textKey = (typeof window !== 'undefined' && typeof window.getCurrentTextKey === 'function')
+                    ? window.getCurrentTextKey()
+                    : (typeof localStorage !== 'undefined' ? localStorage.getItem('koreanCurrentTextKey') : null);
+
+                if (textKey) {
+                    learnedWords = stored.filter(word => word && word.textKey === textKey);
+                } else {
+                    learnedWords = stored;
+                }
+            }
+        } catch (error) {
+            console.error('[ERROR] Не удалось загрузить слова для изучения', error);
+            learnedWords = [];
+        }
+
+        if (!Array.isArray(learnedWords) || learnedWords.length === 0) {
+            this.currentWords = [];
             return [];
         }
 
-        // Удалить дубликаты
         const uniqueWords = [];
         const seen = new Set();
 
         for (const word of learnedWords) {
-            if (!seen.has(word.korean)) {
-                seen.add(word.korean);
-                uniqueWords.push(word);
+            const key = word?.korean;
+            if (!key || seen.has(key)) {
+                continue;
             }
+            seen.add(key);
+            uniqueWords.push(word);
         }
 
         this.currentWords = uniqueWords;
@@ -228,7 +250,7 @@ class VocabularyLearning {
                         Все карточки просмотрены!
                     </div>
                     <div style="font-size: 16px; color: #666; margin-bottom: 30px;">
-                        Вы просмотрели ${words.length} слов
+                        Вы повторили все добавленные слова из этого текста
                     </div>
                     <button class="vocab-mode-btn" onclick="vocabLearning.startCardsMode()">
                         🔄 Начать сначала
@@ -243,7 +265,7 @@ class VocabularyLearning {
         container.innerHTML = `
             <div class="vocab-cards-mode">
                 <div class="vocab-progress">
-                    Карточка ${this.questionIndex + 1} из ${words.length}
+                    Карточки для повторения
                 </div>
                 <div class="vocab-flashcard" id="flashcard" onclick="vocabLearning.flipCard()">
                     <div class="flashcard-inner">
@@ -468,11 +490,7 @@ class VocabularyLearning {
                     Недостаточно слов
                 </div>
                 <div style="font-size: 16px; line-height: 1.6; max-width: 400px; margin: 0 auto;">
-                    Для этого режима нужно как минимум 4 слова. 
-                    Нажмите на больше слов в тексте, чтобы начать обучение!
-                </div>
-                <div style="margin-top: 20px; font-size: 18px; color: #667eea; font-weight: 600;">
-                    Изучено слов: ${this.currentWords.length}
+                    Добавьте ещё несколько слов из текста, чтобы запустить этот режим обучения.
                 </div>
             </div>
         `;
@@ -485,13 +503,37 @@ const vocabLearning = new VocabularyLearning();
 // === ФУНКЦИЯ ОБНОВЛЕНИЯ КНОПКИ "УЧИТЬ СЛОВА" ===
 function updateVocabButton() {
     const vocabBtn = document.getElementById('vocabBtn');
-    const learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
-    
-    if (learnedWords.length > 0) {
-        vocabBtn.style.display = 'flex'; // Показать кнопку
-        vocabBtn.innerHTML = `<span>📚</span> Учить слова (${learnedWords.length})`;
+    if (!vocabBtn) {
+        return;
+    }
+
+    let words = [];
+
+    try {
+        if (typeof window !== 'undefined' && typeof window.getWordsForCurrentText === 'function') {
+            words = window.getWordsForCurrentText();
+        } else if (typeof localStorage !== 'undefined') {
+            const stored = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
+            const textKey = (typeof window !== 'undefined' && typeof window.getCurrentTextKey === 'function')
+                ? window.getCurrentTextKey()
+                : localStorage.getItem('koreanCurrentTextKey');
+
+            if (textKey) {
+                words = stored.filter(word => word && word.textKey === textKey);
+            } else {
+                words = stored;
+            }
+        }
+    } catch (error) {
+        console.error('[ERROR] Не удалось обновить кнопку изучения слов', error);
+        words = [];
+    }
+
+    if (Array.isArray(words) && words.length > 0) {
+        vocabBtn.style.display = 'flex';
+        vocabBtn.innerHTML = '<span>📚</span> Учить слова';
     } else {
-        vocabBtn.style.display = 'none'; // Скрыть кнопку
+        vocabBtn.style.display = 'none';
     }
 }
 
