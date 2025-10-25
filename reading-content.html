@@ -476,7 +476,7 @@
         </div>
 
         <div class="translation-header" id="translationHeader">
-            <span id="translationText">Перевод появится здесь при клике на слово</span>
+            <span id="translationHeaderText">Перевод появится здесь при клике на слово</span>
             <button class="learn-word-btn" id="learnWordBtn" onclick="addWordToLearn()">
                 + Учить
             </button>
@@ -592,6 +592,8 @@
         let vocabVisible = false;
         let vocabLearningVisible = false;
         let learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
+
+        const defaultTranslationHeaderMessage = 'Перевод появится здесь при клике на слово';
         
         // Quiz variables
         let currentQuestionIndex = 0;
@@ -1681,8 +1683,9 @@
                 document.getElementById('storySubtitle').textContent = '곧 올 예정';
                 document.getElementById('koreanContent').innerHTML = 
                     '<span style="color: #666;">Тексты для этой категории пока добавляются. Попробуйте другую категорию!</span>';
-                document.getElementById('translationText').textContent = 
+                document.getElementById('translationText').textContent =
                     'Скоро здесь появятся интересные истории!';
+                document.getElementById('translationHeaderText').textContent = defaultTranslationHeaderMessage;
                 return;
             }
             
@@ -1709,6 +1712,7 @@
             document.getElementById('storySubtitle').textContent = story.subtitle;
             document.getElementById('koreanContent').innerHTML = story.korean;
             document.getElementById('translationText').textContent = story.translation;
+            document.getElementById('translationHeaderText').textContent = defaultTranslationHeaderMessage;
             
             // Show image only for specific stories
             const storyImage = document.getElementById('storyImage');
@@ -1803,15 +1807,15 @@
 
         function setupWordInteractions() {
             const words = document.querySelectorAll('.korean-word');
-            const translationHeader = document.getElementById('translationHeader');
-            
+            const translationHeaderText = document.getElementById('translationHeaderText');
+
             words.forEach(word => {
                 word.addEventListener('click', (e) => {
                     const wordText = e.target.textContent;
                     const translation = e.target.dataset.translation;
-                    
+
                     // Show Korean word and translation in header
-                    translationHeader.innerHTML = `${wordText}<br><span style="color: #666; font-size: 16px;">${translation}</span>`;
+                    translationHeaderText.innerHTML = `${wordText}<br><span style="color: #666; font-size: 16px;">${translation}</span>`;
                     
                     // Add to learned words
                     if (!learnedWords.find(w => w.korean === wordText)) {
