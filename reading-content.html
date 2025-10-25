@@ -639,6 +639,116 @@
         let currentWordToLearn = null;
         let currentStoryId = null;
         let currentStoryWordSet = new Set();
+        let lastClickedWordIsGrammar = false;
+
+        const RUSSIAN_LETTERS_REGEX = /[А-Яа-яЁё]/;
+        const WORD_METADATA = {
+            '10월 9일': { translation: '9 октября' },
+            '1443년': { translation: '1443 год' },
+            '2천년': { translation: '2000 год' },
+            '가': { translation: 'частица подлежащего (가)', grammar: true },
+            '갑자기': { translation: 'внезапно' },
+            '갔어요': { translation: 'пошёл/пошла' },
+            '같이': { translation: 'вместе' },
+            '개': { translation: 'штук (счётное слово)' },
+            '것': { translation: 'вещь; то, что' },
+            '고등학교': { translation: 'старшая школа' },
+            '곳': { translation: 'место' },
+            '과': { translation: 'частица «и» (с сущ.)', grammar: true },
+            '그날': { translation: 'в тот день' },
+            '그는': { translation: 'он' },
+            '는': { translation: 'тематическая частица (는)', grammar: true },
+            '대학생이고': { translation: 'студент, и…' },
+            '대학생이에요': { translation: 'я студент' },
+            '도': { translation: 'тоже; также (частица 도)', grammar: true },
+            '돌아보니': { translation: 'оглянувшись' },
+            '동안': { translation: 'в течение; во время' },
+            '두': { translation: 'два' },
+            '들렸어요': { translation: 'послышался' },
+            '등': { translation: 'и так далее' },
+            '때': { translation: 'когда; время' },
+            '라는': { translation: 'под названием; который называется' },
+            '로': { translation: 'к; в; с помощью (로)', grammar: true },
+            '를': { translation: 'частица дополнения (를)', grammar: true },
+            '만나서': { translation: 'встретившись' },
+            '만났어요': { translation: 'встретились' },
+            '많이': { translation: 'много' },
+            '목소리가': { translation: 'голос (подлежащее)' },
+            '못': { translation: 'не могу; не в состоянии' },
+            '민수가': { translation: 'Минсу (подлежащее)' },
+            '반가웠어요': { translation: 'было приятно встретиться' },
+            '방탄소년단': { translation: 'группа BTS (Bangtan Boys)' },
+            '배워요': { translation: 'учусь' },
+            '부터': { translation: 'с; начиная с (부터)', grammar: true },
+            '불렀어요': { translation: 'назвал; позвал' },
+            '블랙핑크': { translation: 'группа BLACKPINK' },
+            '사고': { translation: 'купить; покупая' },
+            '삼 년': { translation: 'три года' },
+            '수': { translation: 'возможность «мочь» (грамм. конструкция)', grammar: true },
+            '스물넷': { translation: 'двадцать четыре' },
+            '식사하고': { translation: 'поев; пообедав' },
+            '싶었어요': { translation: 'хотелось' },
+            '아니에요': { translation: 'не является', grammar: true },
+            '안녕하세요': { translation: 'здравствуйте' },
+            '에': { translation: 'в; на (место, время)', grammar: true },
+            '에서': { translation: 'в; из (место действия)', grammar: true },
+            '열': { translation: 'десять' },
+            '열넷': { translation: 'четырнадцать' },
+            '였어요': { translation: 'было', grammar: true },
+            '예요': { translation: 'является (неофиц.)', grammar: true },
+            '오랜만에': { translation: 'спустя долгое время' },
+            '옮은': { translation: 'приятные; хорошие' },
+            '와': { translation: 'частица «и» (с сущ.)', grammar: true },
+            '우리는': { translation: 'мы' },
+            '으로': { translation: 'в; к; посредством (으로)', grammar: true },
+            '은': { translation: 'тематическая частица (은)', grammar: true },
+            '을': { translation: 'частица дополнения (을)', grammar: true },
+            '의': { translation: 'частица принадлежности (의)', grammar: true },
+            '이': { translation: 'частица подлежащего (이)', grammar: true },
+            '이고': { translation: 'и есть; являюсь и', grammar: true },
+            '이나': { translation: 'или; либо (частица 이나)', grammar: true },
+            '이시고': { translation: 'является и (уваж. форма)', grammar: true },
+            '이야기를': { translation: 'разговоры; истории (вин. падеж)' },
+            '이에요': { translation: 'является (неофиц.)', grammar: true },
+            '입니다': { translation: 'является (офиц. стиль)', grammar: true },
+            '입어요': { translation: 'ношу; надеваю' },
+            '있어요': { translation: 'есть; находится' },
+            '있었는데': { translation: 'было, но…' },
+            '있었어요': { translation: 'было' },
+            '저녁에': { translation: 'вечером' },
+            '저도': { translation: 'я тоже' },
+            '정말': { translation: 'действительно' },
+            '종목': { translation: 'вид спорта' },
+            '좋은': { translation: 'хороший; приятный' },
+            '지금': { translation: 'сейчас' },
+            '찾고': { translation: 'искал; ищу' },
+            '친구': { translation: 'друг' },
+            '케이팝': { translation: 'кей-поп' },
+            '해요': { translation: 'делаю; занимаюсь' },
+            '했어요': { translation: 'сделал; сделали' }
+        };
+
+        function getWordMetadata(word) {
+            return WORD_METADATA[word] || null;
+        }
+
+        function normalizeTranslation(word, rawTranslation) {
+            const metadata = getWordMetadata(word);
+            if (metadata && metadata.translation) {
+                return metadata.translation;
+            }
+
+            if (rawTranslation && RUSSIAN_LETTERS_REGEX.test(rawTranslation)) {
+                return rawTranslation;
+            }
+
+            return rawTranslation || 'Перевод появится позже';
+        }
+
+        function isGrammarWord(word) {
+            const metadata = getWordMetadata(word);
+            return metadata ? metadata.grammar === true : false;
+        }
 
         const defaultTranslationHeaderMessage = 'Перевод появится здесь при клике на слово';
         const defaultVocabLearningHTML = `
@@ -719,23 +829,39 @@
                 return [];
             }
 
+            const sanitized = [];
             const filtered = [];
             let needsUpdate = false;
 
-            allWords.forEach(word => {
-                if (word.textKey) {
-                    if (word.textKey === textKey) {
-                        filtered.push(word);
-                    }
-                } else if (currentStoryWordSet.has(word.korean)) {
-                    word.textKey = textKey;
-                    filtered.push(word);
+            allWords.forEach(originalWord => {
+                if (!originalWord || !originalWord.korean) {
+                    return;
+                }
+
+                if (isGrammarWord(originalWord.korean)) {
                     needsUpdate = true;
+                    return;
+                }
+
+                const normalizedTranslation = normalizeTranslation(originalWord.korean, originalWord.translation);
+                const translationChanged = normalizedTranslation !== originalWord.translation;
+                const word = translationChanged
+                    ? { ...originalWord, translation: normalizedTranslation }
+                    : originalWord;
+
+                if (translationChanged) {
+                    needsUpdate = true;
+                }
+
+                sanitized.push(word);
+
+                if (word.textKey === textKey) {
+                    filtered.push(word);
                 }
             });
 
-            if (needsUpdate) {
-                saveStoredLearnedWords(allWords);
+            if (sanitized.length !== allWords.length || needsUpdate) {
+                saveStoredLearnedWords(sanitized);
             }
 
             return filtered;
@@ -1890,6 +2016,7 @@
             }
 
             currentWordToLearn = null;
+            lastClickedWordIsGrammar = false;
             const learnWordBtn = document.getElementById('learnWordBtn');
             if (learnWordBtn) {
                 learnWordBtn.style.display = 'none';
@@ -2011,41 +2138,62 @@
                     const wordText = wordElement.textContent.trim();
                     const translation = wordElement.dataset.translation || '';
                     const pronunciation = wordElement.dataset.pronunciation || '';
+                    const normalizedTranslation = normalizeTranslation(wordText, translation);
+                    const grammarWord = isGrammarWord(wordText);
+                    lastClickedWordIsGrammar = grammarWord;
 
-                    renderTranslationHeader(wordText, translation, pronunciation);
-
-                    currentWordToLearn = {
-                        korean: wordText,
-                        translation: translation,
-                        pronunciation: pronunciation
-                    };
+                    renderTranslationHeader(wordText, normalizedTranslation, pronunciation);
 
                     updateLearnedWordsCache();
                     const alreadyLearned = learnedWords.some(w => w.korean === wordText);
 
-                    if (learnWordBtn) {
-                        learnWordBtn.style.display = 'inline-flex';
-                        learnWordBtn.dataset.currentWord = wordText;
+                    if (grammarWord) {
+                        currentWordToLearn = null;
+                    } else {
+                        currentWordToLearn = {
+                            korean: wordText,
+                            translation: normalizedTranslation,
+                            pronunciation: pronunciation
+                        };
+                    }
 
-                        if (alreadyLearned) {
-                            learnWordBtn.textContent = '✓ Уже добавлено';
-                            learnWordBtn.classList.add('added');
-                            learnWordBtn.disabled = true;
-                        } else {
-                            learnWordBtn.textContent = '+ Учить';
+                    if (learnWordBtn) {
+                        if (grammarWord) {
+                            learnWordBtn.style.display = 'none';
                             learnWordBtn.classList.remove('added');
                             learnWordBtn.disabled = false;
+                            learnWordBtn.dataset.currentWord = '';
+                            learnWordBtn.textContent = '+ Учить';
+                        } else {
+                            learnWordBtn.style.display = 'inline-flex';
+                            learnWordBtn.dataset.currentWord = wordText;
+
+                            if (alreadyLearned) {
+                                learnWordBtn.textContent = '✓ Уже добавлено';
+                                learnWordBtn.classList.add('added');
+                                learnWordBtn.disabled = true;
+                            } else {
+                                learnWordBtn.textContent = '+ Учить';
+                                learnWordBtn.classList.remove('added');
+                                learnWordBtn.disabled = false;
+                            }
                         }
                     }
 
                     if (removeWordBtn) {
-                        removeWordBtn.dataset.currentWord = wordText;
-
-                        if (alreadyLearned) {
-                            removeWordBtn.style.display = 'inline-flex';
-                            removeWordBtn.disabled = false;
-                        } else {
+                        if (grammarWord) {
                             removeWordBtn.style.display = 'none';
+                            removeWordBtn.disabled = false;
+                            removeWordBtn.dataset.currentWord = '';
+                        } else {
+                            removeWordBtn.dataset.currentWord = wordText;
+
+                            if (alreadyLearned) {
+                                removeWordBtn.style.display = 'inline-flex';
+                                removeWordBtn.disabled = false;
+                            } else {
+                                removeWordBtn.style.display = 'none';
+                            }
                         }
                     }
 
@@ -2094,6 +2242,11 @@
                 return;
             }
 
+            if (isGrammarWord(currentWordToLearn.korean)) {
+                learnWordBtn.style.display = 'none';
+                return;
+            }
+
             updateLearnedWordsCache();
             const textKey = getCurrentTextKey();
             const alreadyLearned = learnedWords.some(w => w.korean === currentWordToLearn.korean);
@@ -2116,9 +2269,10 @@
                 (word.textKey === textKey || !word.textKey)
             );
 
+            const normalizedTranslation = normalizeTranslation(currentWordToLearn.korean, currentWordToLearn.translation);
             const wordToSave = {
                 korean: currentWordToLearn.korean,
-                translation: currentWordToLearn.translation,
+                translation: normalizedTranslation,
                 pronunciation: currentWordToLearn.pronunciation,
                 textKey: textKey || null
             };
@@ -2203,7 +2357,12 @@
                 learnWordBtn.textContent = '+ Учить';
                 learnWordBtn.classList.remove('added');
                 learnWordBtn.disabled = false;
-                learnWordBtn.style.display = 'inline-flex';
+                if (lastClickedWordIsGrammar) {
+                    learnWordBtn.style.display = 'none';
+                    learnWordBtn.dataset.currentWord = '';
+                } else {
+                    learnWordBtn.style.display = 'inline-flex';
+                }
             }
 
             if (removeWordBtn && (!currentWordToLearn || currentWordToLearn.korean === targetWord)) {
@@ -2398,10 +2557,11 @@
             let html = '';
 
             learnedWords.slice(-12).forEach(word => {
+                const displayTranslation = normalizeTranslation(word.korean, word.translation);
                 html += `
                     <div class="vocab-card">
                         <div class="vocab-korean">${word.korean}</div>
-                        <div class="vocab-translation">${word.translation}</div>
+                        <div class="vocab-translation">${displayTranslation}</div>
                         <div class="vocab-pronunciation">${word.pronunciation || ''}</div>
                         <div class="vocab-card-actions">
                             <button class="vocab-remove-btn" data-korean="${escapeHtmlAttribute(word.korean)}">Удалить</button>
