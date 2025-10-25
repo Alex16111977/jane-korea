@@ -3,7 +3,7 @@
  * Версія: 1.0
  */
 
-// Ініціалізація при завантаженні
+// Инициализация при загрузке
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof ProgressTracker !== 'undefined') {
         ProgressTracker.init();
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Функція збереження прогресу після тесту
+// Функция сохранения прогресса после теста
 function saveTextProgress(finalScore) {
     const urlParams = new URLSearchParams(window.location.search);
     const level = urlParams.get('level');
@@ -23,20 +23,23 @@ function saveTextProgress(finalScore) {
         return;
     }
     
-    // Підрахунок вивчених слів
-    const learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
-    const wordsCount = learnedWords.length;
+    // Подсчёт изученных слов
+    let wordsCount = 0;
+    if (typeof window !== 'undefined' && typeof window.getWordsForCurrentText === 'function') {
+        const wordsForText = window.getWordsForCurrentText();
+        wordsCount = Array.isArray(wordsForText) ? wordsForText.length : 0;
+    }
     
-    // Зберігаємо прогрес
+    // Сохраняем прогресс
     ProgressTracker.markTextCompleted(level, category, textId, finalScore, wordsCount);
     
     console.log('[+] Progress saved:', {level, category, textId, score: finalScore, words: wordsCount});
     
-    // Показати вітання
+    // Показать поздравление
     showCompletionCelebration(finalScore);
 }
 
-// Вітання після завершення
+// Поздравление после завершения
 function showCompletionCelebration(score) {
     const progress = ProgressTracker.get();
     const totalTexts = progress.stats.totalTexts;
@@ -47,7 +50,7 @@ function showCompletionCelebration(score) {
     message += `📚 Всього текстів пройдено: ${totalTexts}\n`;
     message += `🔥 Серія днів: ${streak}`;
     
-    // Перевірка на нові досягнення
+    // Проверка новых достижений
     if (totalTexts === 1) {
         message += `\n\n🥇 НОВЕ ДОСЯГНЕННЯ: Перший текст!`;
     }

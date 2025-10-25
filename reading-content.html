@@ -586,20 +586,91 @@
         const selectedCategory = urlParams.get('category') || 'personal';
         const selectedTextId = urlParams.get('textId') || null;
         
+        const WORDS_STORAGE_KEY = 'koreanLearnedWords';
         let currentTextIndex = 0;
         let translationVisible = false;
         let quizVisible = false;
         let vocabVisible = false;
         let vocabLearningVisible = false;
-        let learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
+        let learnedWords = [];
         let currentWordToLearn = null;
+        let currentStoryId = null;
+        let currentStoryWordSet = new Set();
 
         const defaultTranslationHeaderMessage = 'Перевод появится здесь при клике на слово';
-        
+
         // Quiz variables
         let currentQuestionIndex = 0;
         let quizAnswers = [];
         let currentQuiz = [];
+
+        function getStoredLearnedWords() {
+            try {
+                return JSON.parse(localStorage.getItem(WORDS_STORAGE_KEY) || '[]');
+            } catch (error) {
+                console.error('[ERROR] Не удалось получить сохранённые слова', error);
+                return [];
+            }
+        }
+
+        function saveStoredLearnedWords(words) {
+            localStorage.setItem(WORDS_STORAGE_KEY, JSON.stringify(words));
+        }
+
+        function getCurrentTextKey() {
+            if (!currentStoryId) {
+                return null;
+            }
+
+            return `${selectedLevel}-${selectedCategory}-${currentStoryId}`;
+        }
+
+        function updateCurrentStoryWordSet() {
+            const wordElements = document.querySelectorAll('#koreanContent .korean-word');
+            currentStoryWordSet = new Set(Array.from(wordElements).map(el => el.textContent.trim()));
+        }
+
+        function getWordsForCurrentText() {
+            const allWords = getStoredLearnedWords();
+            const textKey = getCurrentTextKey();
+
+            if (!textKey) {
+                return [];
+            }
+
+            const filtered = [];
+            let needsUpdate = false;
+
+            allWords.forEach(word => {
+                if (word.textKey) {
+                    if (word.textKey === textKey) {
+                        filtered.push(word);
+                    }
+                } else if (currentStoryWordSet.has(word.korean)) {
+                    word.textKey = textKey;
+                    filtered.push(word);
+                    needsUpdate = true;
+                }
+            });
+
+            if (needsUpdate) {
+                saveStoredLearnedWords(allWords);
+            }
+
+            return filtered;
+        }
+
+        function updateLearnedWordsCache() {
+            learnedWords = getWordsForCurrentText();
+        }
+
+        function isWordInCurrentText(koreanWord) {
+            return currentStoryWordSet.has(koreanWord);
+        }
+
+        window.getCurrentTextKey = getCurrentTextKey;
+        window.isWordInCurrentText = isWordInCurrentText;
+        window.getWordsForCurrentText = () => learnedWords.map(word => ({ ...word }));
 
         // ВОССТАНОВЛЕННАЯ база данных текстов
         const storyDatabase = {
@@ -1680,9 +1751,17 @@
             const texts = getCurrentTexts();
             
             if (texts.length === 0) {
+                currentStoryId = null;
+                currentStoryWordSet = new Set();
+                learnedWords = [];
+                localStorage.removeItem('koreanCurrentTextKey');
+                if (typeof updateVocabButton === 'function') {
+                    updateVocabButton();
+                }
+
                 document.getElementById('storyTitle').textContent = 'Тексты скоро появятся';
                 document.getElementById('storySubtitle').textContent = '곧 올 예정';
-                document.getElementById('koreanContent').innerHTML = 
+                document.getElementById('koreanContent').innerHTML =
                     '<span style="color: #666;">Тексты для этой категории пока добавляются. Попробуйте другую категорию!</span>';
                 document.getElementById('translationText').textContent =
                     'Скоро здесь появятся интересные истории!';
@@ -1707,8 +1786,7 @@
             }
             
             const story = texts[currentTextIndex];
-
-            learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
+            currentStoryId = story.id;
 
             // Update story info
             document.getElementById('storyTitle').textContent = story.title;
@@ -1716,6 +1794,15 @@
             document.getElementById('koreanContent').innerHTML = story.korean;
             document.getElementById('translationText').textContent = story.translation;
             document.getElementById('translationHeaderText').textContent = defaultTranslationHeaderMessage;
+
+            updateCurrentStoryWordSet();
+            updateLearnedWordsCache();
+            const currentTextKey = getCurrentTextKey();
+            if (currentTextKey) {
+                localStorage.setItem('koreanCurrentTextKey', currentTextKey);
+            } else {
+                localStorage.removeItem('koreanCurrentTextKey');
+            }
 
             currentWordToLearn = null;
             const learnWordBtn = document.getElementById('learnWordBtn');
@@ -1812,9 +1899,13 @@
             
             // Store current quiz
             currentQuiz = story.quiz || [];
-            
+
             updateTextCounter();
             setupWordInteractions();
+
+            if (typeof updateVocabButton === 'function') {
+                updateVocabButton();
+            }
         }
 
         function setupWordInteractions() {
@@ -1840,7 +1931,7 @@
                         learnWordBtn.style.display = 'inline-flex';
                         learnWordBtn.dataset.currentWord = wordText;
 
-                        learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
+                        updateLearnedWordsCache();
                         const alreadyLearned = learnedWords.some(w => w.korean === wordText);
 
                         if (alreadyLearned) {
@@ -1898,7 +1989,8 @@
                 return;
             }
 
-            learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
+            updateLearnedWordsCache();
+            const textKey = getCurrentTextKey();
             const alreadyLearned = learnedWords.some(w => w.korean === currentWordToLearn.korean);
 
             if (alreadyLearned) {
@@ -1908,8 +2000,27 @@
                 return;
             }
 
-            learnedWords.push(currentWordToLearn);
-            localStorage.setItem('koreanLearnedWords', JSON.stringify(learnedWords));
+            const storedWords = getStoredLearnedWords();
+            const existingIndex = storedWords.findIndex(word =>
+                word.korean === currentWordToLearn.korean &&
+                (word.textKey === textKey || !word.textKey)
+            );
+
+            const wordToSave = {
+                korean: currentWordToLearn.korean,
+                translation: currentWordToLearn.translation,
+                pronunciation: currentWordToLearn.pronunciation,
+                textKey: textKey || null
+            };
+
+            if (existingIndex !== -1) {
+                storedWords[existingIndex] = { ...storedWords[existingIndex], ...wordToSave };
+            } else {
+                storedWords.push(wordToSave);
+            }
+
+            saveStoredLearnedWords(storedWords);
+            updateLearnedWordsCache();
 
             learnWordBtn.textContent = '✓ Добавлено';
             learnWordBtn.classList.add('added');
@@ -2103,8 +2214,9 @@
 
         function loadVocab() {
             const vocabGrid = document.getElementById('vocabGrid');
+            updateLearnedWordsCache();
             let html = '';
-            
+
             learnedWords.slice(-12).forEach(word => {
                 html += `
                     <div class="vocab-card">
@@ -2132,11 +2244,11 @@
             const vocabBtn = document.getElementById('vocabBtn');
             
             if (vocabLearningVisible) {
-                // Завантажити слова з тексту
+                // Загрузить слова из текущего текста
                 vocabLearning.loadWordsFromText();
                 
                 section.style.display = 'block';
-                // Сховати інший контент
+                // Скрыть остальной контент
                 koreanContent.style.display = 'none';
                 translationSection.style.display = 'none';
                 quizSection.style.display = 'none';
@@ -2146,18 +2258,18 @@
                 quizVisible = false;
                 vocabVisible = false;
                 
-                // Оновити кнопки
-                vocabBtn.innerHTML = '<span>❌</span> Закрити';
+                // Обновить кнопки
+                vocabBtn.innerHTML = '<span>❌</span> Закрыть';
                 vocabBtn.classList.add('active');
                 
                 document.getElementById('quizBtn').classList.remove('active');
                 document.getElementById('quizBtn').innerHTML = '<span>🧠</span> Тест';
             } else {
                 section.style.display = 'none';
-                // Показати корейський текст назад
+                // Показать корейский текст назад
                 koreanContent.style.display = 'block';
                 
-                // Скинути кнопку
+                // Сбросить кнопку
                 vocabBtn.innerHTML = '<span>📚</span> Учить слова';
                 vocabBtn.classList.remove('active');
             }
@@ -2297,15 +2409,18 @@
             }
             
             // Підрахунок вивчених слів
-            const learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
-            const wordsCount = learnedWords.length;
-            
+            let wordsCount = 0;
+            if (typeof window !== 'undefined' && typeof window.getWordsForCurrentText === 'function') {
+                const wordsForText = window.getWordsForCurrentText();
+                wordsCount = Array.isArray(wordsForText) ? wordsForText.length : 0;
+            }
+
             // Зберігаємо прогрес
             ProgressTracker.markTextCompleted(level, category, textId, finalScore, wordsCount);
             
             console.log('[+] Progress saved:', {level, category, textId, score: finalScore, words: wordsCount});
             
-            // Показати вітання
+        // Показать поздравление
             showCompletionCelebration(finalScore);
         }
 
