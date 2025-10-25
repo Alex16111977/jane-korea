@@ -503,6 +503,7 @@ const vocabLearning = new VocabularyLearning();
 // === ФУНКЦИЯ ОБНОВЛЕНИЯ КНОПКИ "УЧИТЬ СЛОВА" ===
 function updateVocabButton() {
     const vocabBtn = document.getElementById('vocabBtn');
+    const savedWordsBtn = document.getElementById('savedWordsBtn');
     if (!vocabBtn) {
         return;
     }
@@ -529,11 +530,27 @@ function updateVocabButton() {
         words = [];
     }
 
-    if (Array.isArray(words) && words.length > 0) {
+    const hasWords = Array.isArray(words) && words.length > 0;
+
+    if (hasWords) {
         vocabBtn.style.display = 'flex';
         vocabBtn.innerHTML = '<span>📚</span> Учить слова';
+        if (savedWordsBtn) {
+            savedWordsBtn.disabled = false;
+            savedWordsBtn.style.display = 'flex';
+        }
     } else {
         vocabBtn.style.display = 'none';
+        if (savedWordsBtn) {
+            savedWordsBtn.disabled = true;
+            savedWordsBtn.style.display = 'flex';
+            savedWordsBtn.classList.remove('active');
+            savedWordsBtn.innerHTML = '<span>🗂️</span> Мои слова';
+            const vocabSection = document.getElementById('vocabSection');
+            if (vocabSection) {
+                vocabSection.style.display = 'none';
+            }
+        }
     }
 }
 
