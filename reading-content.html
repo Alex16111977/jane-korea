@@ -8,6 +8,7 @@
     <script src="js/progress-tracker.js"></script>
     <!-- Level 3 texts -->
     <script src="level-3-texts.js"></script>
+    <script src="js/level3-sentence-segments.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         
@@ -1973,6 +1974,63 @@
             return html.replace(/<br\s*\/?>(\s*)/gi, ' $1');
         }
 
+        function expandSentenceWordSpans() {
+            const container = document.getElementById('koreanContent');
+            if (!container) {
+                return;
+            }
+
+            const sentenceMap = window.LEVEL3_SENTENCE_SEGMENTS || {};
+            const spans = Array.from(container.querySelectorAll('.korean-word'));
+
+            spans.forEach(span => {
+                const text = (span.textContent || '').trim();
+                if (!text || !/\s/.test(text)) {
+                    return;
+                }
+
+                const translationAttr = span.dataset.translation || '';
+                const segments = sentenceMap[text] || (
+                    translationAttr.length > 40
+                        ? text.split(/\s+/).map(token => ({ text: token }))
+                        : null
+                );
+
+                if (!segments || segments.length === 0) {
+                    return;
+                }
+
+                const fragment = document.createDocumentFragment();
+
+                segments.forEach((segment, index) => {
+                    if (!segment || !segment.text) {
+                        return;
+                    }
+
+                    const newSpan = document.createElement('span');
+                    newSpan.className = 'korean-word';
+                    newSpan.textContent = segment.text;
+
+                    if (segment.translation) {
+                        newSpan.dataset.translation = segment.translation;
+                    }
+
+                    fragment.appendChild(newSpan);
+
+                    const needsSpace =
+                        index < segments.length - 1 &&
+                        !/[.,!?]/.test(segment.text.slice(-1)) &&
+                        !segment.text.endsWith(' ');
+
+                    if (needsSpace) {
+                        fragment.appendChild(document.createTextNode(' '));
+                    }
+                });
+
+                span.replaceWith(fragment);
+            });
+        }
+
         function loadCurrentText() {
             const texts = getCurrentTexts();
             
@@ -2018,6 +2076,7 @@
             document.getElementById('storyTitle').textContent = story.title;
             document.getElementById('storySubtitle').textContent = story.subtitle;
             document.getElementById('koreanContent').innerHTML = sanitizeKoreanContent(story.korean);
+            expandSentenceWordSpans();
             document.getElementById('translationText').textContent = story.translation;
             document.getElementById('translationHeaderText').textContent = defaultTranslationHeaderMessage;
 
