@@ -1954,6 +1954,14 @@
             document.getElementById('textCounter').textContent = `${currentTextIndex + 1}/${texts.length}`;
         }
 
+        function sanitizeKoreanContent(html) {
+            if (!html) {
+                return '';
+            }
+
+            return html.replace(/<br\s*\/?>(\s*)/gi, ' $1');
+        }
+
         function loadCurrentText() {
             const texts = getCurrentTexts();
             
@@ -1998,7 +2006,7 @@
             // Update story info
             document.getElementById('storyTitle').textContent = story.title;
             document.getElementById('storySubtitle').textContent = story.subtitle;
-            document.getElementById('koreanContent').innerHTML = story.korean;
+            document.getElementById('koreanContent').innerHTML = sanitizeKoreanContent(story.korean);
             document.getElementById('translationText').textContent = story.translation;
             document.getElementById('translationHeaderText').textContent = defaultTranslationHeaderMessage;
 
