@@ -1981,20 +1981,38 @@
             }
 
             const sentenceMap = window.LEVEL3_SENTENCE_SEGMENTS || {};
+
+            if (!window.__LEVEL3_NORMALIZED_SEGMENTS__) {
+                window.__LEVEL3_NORMALIZED_SEGMENTS__ = Object.entries(sentenceMap).reduce((acc, [key, value]) => {
+                    const normalizedKey = key.replace(/\s+/g, ' ').trim();
+                    acc[normalizedKey] = value;
+                    return acc;
+                }, {});
+            }
+
+            const normalizedMap = window.__LEVEL3_NORMALIZED_SEGMENTS__;
             const spans = Array.from(container.querySelectorAll('.korean-word'));
 
             spans.forEach(span => {
                 const text = (span.textContent || '').trim();
-                if (!text || !/\s/.test(text)) {
+                if (!text) {
                     return;
                 }
 
+                const hasWhitespace = /\s/.test(text);
                 const translationAttr = span.dataset.translation || '';
-                const segments = sentenceMap[text] || (
-                    translationAttr.length > 40
+
+                if (!hasWhitespace && translationAttr && translationAttr.length <= 40) {
+                    return;
+                }
+
+                const normalizedText = text.replace(/\s+/g, ' ').trim();
+                const segments =
+                    sentenceMap[text] ||
+                    normalizedMap[normalizedText] ||
+                    (translationAttr.length > 40
                         ? text.split(/\s+/).map(token => ({ text: token }))
-                        : null
-                );
+                        : null);
 
                 if (!segments || segments.length === 0) {
                     return;
@@ -2013,6 +2031,8 @@
 
                     if (segment.translation) {
                         newSpan.dataset.translation = segment.translation;
+                    } else if (translationAttr && translationAttr.length <= 40) {
+                        newSpan.dataset.translation = translationAttr;
                     }
 
                     fragment.appendChild(newSpan);
