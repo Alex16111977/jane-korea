@@ -1983,6 +1983,10 @@
         }
 
         function expandSentenceWordSpans() {
+            if (typeof selectedLevel === 'undefined' || selectedLevel !== 3) {
+                return;
+            }
+
             const container = document.getElementById('koreanContent');
             if (!container) {
                 return;
@@ -2023,6 +2027,15 @@
                         : null);
 
                 if (!segments || segments.length === 0) {
+                    return;
+                }
+
+                const usesFallbackSegmentation =
+                    translationAttr &&
+                    translationAttr.length > 40 &&
+                    segments.every(segment => !segment.translation);
+
+                if (usesFallbackSegmentation) {
                     return;
                 }
 
