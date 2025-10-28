@@ -357,8 +357,224 @@ const level4Texts = {
             }
         ],
         
-        travel: [],
-        food: []
+        travel: [
+            {
+                id: 'travel-1',
+                title: "Экспедиция по крепости Хвасон",
+                subtitle: "수원 화성 성곽 기행",
+                korean: `<span class="korean-word" data-translation="прошлой весной" data-pronunciation="지난 봄 [jinan bom]">지난 봄</span> <span class="korean-word" data-translation="я" data-pronunciation="저는 [jeoneun]">저는</span> <span class="korean-word" data-translation="изучающего архитектуру" data-pronunciation="건축을 공부하는 [geonchugeul gongbuhaneun]">건축을 공부하는</span> <span class="korean-word" data-translation="друга" data-pronunciation="친구와 [chingugwa]">친구와</span> <span class="korean-word" data-translation="вместе" data-pronunciation="함께 [hamkke]">함께</span> <span class="korean-word" data-translation="крепость Хвасон в Сувоне" data-pronunciation="수원 화성을 [Suwon Hwaseongeul]">수원 화성을</span> <span class="korean-word" data-translation="вдоль" data-pronunciation="따라 [ttara]">따라</span> <span class="korean-word" data-translation="пеший исследовательский поход" data-pronunciation="걷는 답사를 [geodneun damsareul]">걷는 답사를</span> <span class="korean-word" data-translation="совершил" data-pronunciation="떠났어요 [tteonasseoyo]">떠났어요</span>.
+
+<span class="korean-word" data-translation="со стен крепости" data-pronunciation="성곽 위에서 [seonggwak wieseo]">성곽 위에서</span> <span class="korean-word" data-translation="смотрящие вниз улочки" data-pronunciation="내려다보이는 골목마다 [naeryeodaboineun golmokmada]">내려다보이는 골목마다</span> <span class="korean-word" data-translation="эпохи Чосон" data-pronunciation="조선 시대 [Joseon sidae]">조선 시대</span> <span class="korean-word" data-translation="оборонительная система" data-pronunciation="방어 시스템이 [bang-eo siseutemi]">방어 시스템이</span> <span class="korean-word" data-translation="как есть" data-pronunciation="그대로 [geudaero]">그대로</span> <span class="korean-word" data-translation="сохранилась" data-pronunciation="남아 있어서 [nam-a isseoseo]">남아 있어서</span> <span class="korean-word" data-translation="восхищение" data-pronunciation="감탄이 [gamtani]">감탄이</span> <span class="korean-word" data-translation="вырывалось" data-pronunciation="나왔어요 [nawasseoyo]">나왔어요</span>.
+
+<span class="korean-word" data-translation="утром" data-pronunciation="오전에는 [ojeoneneun]">오전에는</span> <span class="korean-word" data-translation="от ворот Чананмун" data-pronunciation="장안문에서 [Janganmun-eseo]">장안문에서</span> <span class="korean-word" data-translation="стартовав" data-pronunciation="출발해 [chulbalhae]">출발해</span> <span class="korean-word" data-translation="до башни Сободон" data-pronunciation="서북공심돈까지 [seobuk gongsimdonkkaji]">서북공심돈까지</span> <span class="korean-word" data-translation="медленно" data-pronunciation="천천히 [cheoncheonhi]">천천히</span> <span class="korean-word" data-translation="двигались" data-pronunciation="이동하며 [idonghamyeo]">이동하며</span> <span class="korean-word" data-translation="гидa объяснения" data-pronunciation="안내사의 설명을 [annaesa-ui seolmyeongeul]">안내사의 설명을</span> <span class="korean-word" data-translation="слушали" data-pronunciation="들었고 [deureotgo]">들었고</span>, <span class="korean-word" data-translation="днём" data-pronunciation="오후에는 [ohueneun]">오후에는</span> <span class="korean-word" data-translation="к рынку Пальдальмун" data-pronunciation="팔달문 시장으로 [Paldalmun sijangeuro]">팔달문 시장으로</span> <span class="korean-word" data-translation="спустились" data-pronunciation="내려가 [naeryeoga]">내려가</span> <span class="korean-word" data-translation="местными рекомендованный" data-pronunciation="지역 주민이 추천한 [jiyeok jumin-i chuchanhan]">지역 주민이 추천한</span> <span class="korean-word" data-translation="кальгуксу" data-pronunciation="칼국수와 [kalguksuwa]">칼국수와</span> <span class="korean-word" data-translation="улицу жареной курицы" data-pronunciation="통닭 골목을 [tongdak golmogeul]">통닭 골목을</span> <span class="korean-word" data-translation="испытали" data-pronunciation="체험했어요 [cheheomhaesseoyo]">체험했어요</span>.
+
+<span class="korean-word" data-translation="когда наступил вечер" data-pronunciation="저녁이 되자 [jeonyeogi doeja]">저녁이 되자</span> <span class="korean-word" data-translation="подсветка крепости" data-pronunciation="성곽 조명이 [seonggwak jomyeongi]">성곽 조명이</span> <span class="korean-word" data-translation="загорелась" data-pronunciation="켜지며 [kyeojimyeo]">켜지며</span> <span class="korean-word" data-translation="город" data-pronunciation="도시가 [dosiga]">도시가</span> <span class="korean-word" data-translation="ещё более" data-pronunciation="한층 [hancheung]">한층</span> <span class="korean-word" data-translation="тихим стал" data-pronunciation="고요해졌고 [goyohaejyeotgo]">고요해졌고</span>, <span class="korean-word" data-translation="мы" data-pronunciation="우리는 [urineun]">우리는</span> <span class="korean-word" data-translation="в центре традиционных домов" data-pronunciation="한옥체험관에서 [hanok cheheomgwan-eseo]">한옥체험관에서</span> <span class="korean-word" data-translation="проходивший" data-pronunciation="열린 [yeollin]">열린</span> <span class="korean-word" data-translation="мастер-класс по традиционным инструментам" data-pronunciation="전통 악기 워크숍에 [jeontong akgi wok-seushobe]">전통 악기 워크숍에</span> <span class="korean-word" data-translation="участвуя" data-pronunciation="참여하며 [chamyeohamyeo]">참여하며</span> <span class="korean-word" data-translation="день завершили" data-pronunciation="하루를 마무리했어요 [harureul mamurihesseoyo]">하루를 마무리했어요</span>.`,
+                translation: "Прошлой весной мы с другом-архитектором прошли пешком крепость Хвасон в Сувоне, восхищаясь сохранившейся оборонительной системой. Утром слушали гида по пути от Чананмуна до башни Собукконсимдон, а днём дегустировали кальгуксу и жареную курицу на рынке Пальдальмун. Вечером нас впечатлила подсветка крепости и мастер-класс по традиционным инструментам в ханоке.",
+                image: "images/level3-travel.svg",
+                quiz: [
+                    {
+                        question: "누구와 답사를 떠났어요? (С кем отправился на экспедицию?)",
+                        options: ["혼자서", "가족과", "건축을 공부하는 친구와", "회사 동료와"],
+                        correct: 2
+                    },
+                    {
+                        question: "성곽 위에서 어떤 감정을 느꼈어요? (Какое чувство испытал на крепости?)",
+                        options: ["지루함", "감탄", "불안", "피곤함"],
+                        correct: 1
+                    },
+                    {
+                        question: "오후에는 어디로 내려갔어요? (Куда спустились днём?)",
+                        options: ["한옥 박물관", "팔달문 시장", "시청", "기차역"],
+                        correct: 1
+                    },
+                    {
+                        question: "저녁에는 무엇을 했어요? (Что делали вечером?)",
+                        options: ["불꽃놀이를 봤어요", "전통 악기 워크숍에 참여했어요", "야간 등반을 했어요", "온천에 갔어요"],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                id: 'travel-2',
+                title: "Кофейный фестиваль в Канныне",
+                subtitle: "강릉 커피 축제 여행",
+                korean: `<span class="korean-word" data-translation="на рассветном поезде KTX" data-pronunciation="새벽 KTX로 [saebyeok KTX-ro]">새벽 KTX로</span> <span class="korean-word" data-translation="Сеул покинув" data-pronunciation="서울을 출발해 [seoureul chulbalhae]">서울을 출발해</span> <span class="korean-word" data-translation="в Кангнынской станции" data-pronunciation="강릉역에 [Gangneung-yeoge]">강릉역에</span> <span class="korean-word" data-translation="добрался" data-pronunciation="도착하니 [dochakhani]">도착하니</span> <span class="korean-word" data-translation="морской туман" data-pronunciation="바다 안개가 [bada angaega]">바다 안개가</span> <span class="korean-word" data-translation="ещё оставался" data-pronunciation="아직 남아 있었어요 [ajik nama isseosseoyo]">아직 남아 있었어요</span>.
+
+<span class="korean-word" data-translation="после рассвета на пляже Кёнпо" data-pronunciation="경포해변에서 해돋이를 본 뒤 [Gyeongpo haebyeon-eseo haedodireul bon dwi]">경포해변에서 해돋이를 본 뒤</span> <span class="korean-word" data-translation="в музее кофе" data-pronunciation="커피박물관에서 [keopi bangmulgwan-eseo]">커피박물관에서</span> <span class="korean-word" data-translation="обжарку зёрен показывающий" data-pronunciation="원두를 볶는 시연을 [wondu-reul bokneun siyeoneul]">원두를 볶는 시연을</span> <span class="korean-word" data-translation="пережил" data-pronunciation="체험하고 [cheheomhago]">체험하고</span>, <span class="korean-word" data-translation="с владельцем небольшой ростерии" data-pronunciation="소규모 로스터리 대표와 [sogyumo rosteori daepyowa]">소규모 로스터리 대표와</span> <span class="korean-word" data-translation="устойчивые сделки" data-pronunciation="지속 가능한 거래에 대해 [jisok ganeunghan georae-e daehae]">지속 가능한 거래에 대해</span> <span class="korean-word" data-translation="интервью провёл" data-pronunciation="인터뷰했어요 [inteobyuhaesseoyo]">인터뷰했어요</span>.
+
+<span class="korean-word" data-translation="днём" data-pronunciation="오후에는 [ohueneun]">오후에는</span> <span class="korean-word" data-translation="на кофейной улице пляжа Аньмок" data-pronunciation="안목해변 커피거리에서 [Anmok haebyeon keopi georieseo]">안목해변 커피거리에서</span> <span class="korean-word" data-translation="разнообразные дрипы" data-pronunciation="각양각색의 드립을 [gak-yanggakssege deuribeul]">각양각색의 드립을</span> <span class="korean-word" data-translation="сравнительно дегустируя" data-pronunciation="비교 시음하며 [bigyo sieumhamyeo]">비교 시음하며</span> <span class="korean-word" data-translation="ароматические заметки" data-pronunciation="향미 노트를 [hyangmi noteureul]">향미 노트를</span> <span class="korean-word" data-translation="записывал" data-pronunciation="작성했고 [jakseonghaetgo]">작성했고</span>, <span class="korean-word" data-translation="вечером" data-pronunciation="저녁에는 [jeonyeogeneun]">저녁에는</span> <span class="korean-word" data-translation="на классе по сочетанию" data-pronunciation="페어링 클래스를 [paeoring keullaeseureul]">페어링 클래스를</span> <span class="korean-word" data-translation="послушал" data-pronunciation="들으며 [deureumyeo]">들으며</span> <span class="korean-word" data-translation="каннынские ханква" data-pronunciation="강릉 한과와 [Gangneung hangwawa]">강릉 한과와</span> <span class="korean-word" data-translation="моносорт" data-pronunciation="싱글 오리진을 [single origin-eul]">싱글 오리진을</span> <span class="korean-word" data-translation="вместе пробовал" data-pronunciation="함께 맛봤어요 [hamkke matbwasseoyo]">함께 맛봤어요</span>.`,
+                translation: "На рассветном поезде KTX я прибыл в Каннын, где ещё держался морской туман. После рассвета на пляже Кёнпо посетил музей кофе, увидел обжарку зёрен и поговорил с владельцем ростерии об устойчивой торговле. Днём дегустировал разные методы заваривания на кофейной улице Аньмок, а вечером пробовал ханква с моносортным кофе на классе по фудпейрингу.",
+                image: "images/level3-travel.svg",
+                quiz: [
+                    {
+                        question: "어떻게 강릉에 도착했어요? (Как добрался до Каннына?)",
+                        options: ["버스로", "비행기로", "KTX로", "자동차로"],
+                        correct: 2
+                    },
+                    {
+                        question: "오전에는 어떤 체험을 했어요? (Какой опыт получил утром?)",
+                        options: ["한옥 투어", "커피박물관에서 원두 볶는 시연을 봤어요", "스키를 탔어요", "서핑을 했어요"],
+                        correct: 1
+                    },
+                    {
+                        question: "안목해변 커피거리에서 무엇을 했어요? (Что делал на кофейной улице Аньмок?)",
+                        options: ["사진만 찍었어요", "비교 시음을 하며 향미 노트를 작성했어요", "기념품을 샀어요", "공연을 봤어요"],
+                        correct: 1
+                    },
+                    {
+                        question: "저녁 클래스에서 무엇을 함께 맛봤어요? (Что пробовали на вечернем классе?)",
+                        options: ["생선구이", "강릉 한과와 싱글 오리진", "초코 케이크", "막국수"],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                id: 'travel-3',
+                title: "Экомаршрут вдоль Намхангана",
+                subtitle: "남한강 생태 트레일",
+                korean: `<span class="korean-word" data-translation="каждые выходные" data-pronunciation="주말마다 [jumalmada]">주말마다</span> <span class="korean-word" data-translation="проводящийся" data-pronunciation="운영되는 [unyeongdoeneun]">운영되는</span> <span class="korean-word" data-translation="экологический велосипедный тур по Намхангану" data-pronunciation="남한강 생태 자전거 투어에 [namhangang saengtae jajeongeo tueoe]">남한강 생태 자전거 투어에</span> <span class="korean-word" data-translation="участвовал" data-pronunciation="참여해 [chamyeohae]">참여해</span> <span class="korean-word" data-translation="медленно" data-pronunciation="천천히 [cheoncheonhi]">천천히</span> <span class="korean-word" data-translation="по набережной" data-pronunciation="강둑을 따라 [gangdugeul ttara]">강둑을 따라</span> <span class="korean-word" data-translation="двигался" data-pronunciation="이동했어요 [idonghaesseoyo]">이동했어요</span>.
+
+<span class="korean-word" data-translation="экскурсовод" data-pronunciation="해설사는 [haeseolsaneun]">해설사는</span> <span class="korean-word" data-translation="каждую зону мигрирующих птиц" data-pronunciation="철새 보호 구역마다 [cheolsse boho guyeokmada]">철새 보호 구역마다</span> <span class="korean-word" data-translation="телескоп" data-pronunciation="망원경을 [mangwongyeongeul]">망원경을</span> <span class="korean-word" data-translation="устанавливал" data-pronunciation="설치해 주었고 [seolchhae ju-eotgo]">설치해 주었고</span>, <span class="korean-word" data-translation="мы" data-pronunciation="우리는 [urineun]">우리는</span> <span class="korean-word" data-translation="рабочий лист" data-pronunciation="기록지를 [girok-jireul]">기록지를</span> <span class="korean-word" data-translation="смотрели" data-pronunciation="보며 [bomy eo]">보며</span> <span class="korean-word" data-translation="названия птиц" data-pronunciation="관찰한 새의 이름과 [gwancharhan saeui ireumgwa]">관찰한 새의 이름과</span> <span class="korean-word" data-translation="маршруты миграции" data-pronunciation="이동 경로를 [idong gyeongroreul]">이동 경로를</span> <span class="korean-word" data-translation="отмечали" data-pronunciation="표시했어요 [pyosihesseoyo]">표시했어요</span>.
+
+<span class="korean-word" data-translation="на обед" data-pronunciation="점심에는 [jeomshimeneun]">점심에는</span> <span class="korean-word" data-translation="кооперативный локал-фуд кафе" data-pronunciation="협동조합이 운영하는 로컬 푸드 카페에서 [hyeopdongjoapi unyeonghaneun lokal pudeu kapeeseo]">협동조합이 운영하는 로컬 푸드 카페에서</span> <span class="korean-word" data-translation="сезонный овощной сет" data-pronunciation="제철 채소 정식을 [jecheol chaeso jeongsigeul]">제철 채소 정식을</span> <span class="korean-word" data-translation="вкусил" data-pronunciation="맛보고 [matbogo]">맛보고</span>, <span class="korean-word" data-translation="днём" data-pronunciation="오후에는 [ohueneun]">오후에는</span> <span class="korean-word" data-translation="ферму" data-pronunciation="농장 체험을 [nongjang cheheomeul]">농장 체험을</span> <span class="korean-word" data-translation="продолжая" data-pronunciation="이어가며 [ieogamyeo]">이어가며</span> <span class="korean-word" data-translation="проект углеродной нейтральности" data-pronunciation="탄소중립 프로젝트를 [tanso jungnip peurojekteureul]">탄소중립 프로젝트를</span> <span class="korean-word" data-translation="представили" data-pronunciation="소개했어요 [sogaehaesseoyo]">소개했어요</span>.
+
+<span class="korean-word" data-translation="завершая тур" data-pronunciation="투어를 마치며 [tu-eoreul machimyeo]">투어를 마치며</span> <span class="korean-word" data-translation="с участниками" data-pronunciation="참가자들과 [chamgajadeulgwa]">참가자들과</span> <span class="korean-word" data-translation="обмен мнениями" data-pronunciation="피드백을 [pideubaegeul]">피드백을</span> <span class="korean-word" data-translation="делились" data-pronunciation="나누고 [nanugo]">나누고</span> <span class="korean-word" data-translation="следующего месяца" data-pronunciation="다음 달 [daeum dal]">다음 달</span> <span class="korean-word" data-translation="мониторинг" data-pronunciation="모니터링 일정에도 [moniteoring iljeong-edo]">모니터링 일정에도</span> <span class="korean-word" data-translation="вместе участвовать" data-pronunciation="함께하기로 [hamkkehagiro]">함께하기로</span> <span class="korean-word" data-translation="пообещали" data-pronunciation="약속했어요 [yaksokhaesseoyo]">약속했어요</span>.`,
+                translation: "Я присоединился к экологическому велотуру вдоль Намхангана и неторопливо ехал по набережной. Экскурсовод ставил телескопы в зонах перелётных птиц, а мы отмечали виды и маршруты в рабочем листе. На обед попробовали сезонное меню в кооперативном кафе и продолжили на ферме, где рассказали о проекте углеродной нейтральности. В конце тура обменялись отзывами и договорились участвовать в следующем мониторинге.",
+                image: "images/level3-travel.svg",
+                quiz: [
+                    {
+                        question: "어떤 교통수단으로 이동했어요? (На чём передвигались во время тура?)",
+                        options: ["도보로", "자전거로", "버스로", "배로"],
+                        correct: 1
+                    },
+                    {
+                        question: "해설사는 무엇을 설치해 주었어요? (Что устанавливал экскурсовод?)",
+                        options: ["텐트", "망원경", "스피커", "조명"],
+                        correct: 1
+                    },
+                    {
+                        question: "점심에는 어디에서 식사했어요? (Где обедали?)",
+                        options: ["호텔", "협동조합 로컬 푸드 카페", "기차역", "시장"],
+                        correct: 1
+                    },
+                    {
+                        question: "투어가 끝날 때 무엇을 약속했어요? (О чём договорились в конце тура?)",
+                        options: ["다음 달 모니터링에 함께하기로 했어요", "다시 여행하지 않기로 했어요", "사진을 공유하지 않기로 했어요", "기념품을 사기로 했어요"],
+                        correct: 0
+                    }
+                ]
+            }
+        ],
+        food: [
+            {
+                id: 'food-1',
+                title: "Гастрономический тур по Чонджу",
+                subtitle: "전주 미식 투어",
+                korean: `<span class="korean-word" data-translation="едва прибыл на станцию Чонджу" data-pronunciation="전주역에 도착하자마자 [Jeonju-yeoge dochakhajamaja]">전주역에 도착하자마자</span> <span class="korean-word" data-translation="с гастрономическим гидом" data-pronunciation="미식 가이드와 [misik gaideuwa]">미식 가이드와</span> <span class="korean-word" data-translation="встретился" data-pronunciation="합류해 [hamryuhae]">합류해</span> <span class="korean-word" data-translation="о переулках и ингредиентах" data-pronunciation="골목길 역사와 식재료 이야기를 [golmokgil yeoksa wa sikjaeryo iyagireul]">골목길 역사와 식재료 이야기를</span> <span class="korean-word" data-translation="услышал" data-pronunciation="들었어요 [deureosseoyo]">들었어요</span>.
+
+<span class="korean-word" data-translation="в обед" data-pronunciation="점심에는 [jeomshimeneun]">점심에는</span> <span class="korean-word" data-translation="мастер пибимпапа" data-pronunciation="전주비빔밥 장인에게서 [Jeonju bibimbap janginegeseo]">전주비빔밥 장인에게서</span> <span class="korean-word" data-translation="как чистить овощи" data-pronunciation="나물 손질법을 [namul sonjilbeobeul]">나물 손질법을</span> <span class="korean-word" data-translation="учился" data-pronunciation="배우고 [baeugo]">배우고</span>, <span class="korean-word" data-translation="днём" data-pronunciation="오후에는 [ohueneun]">오후에는</span> <span class="korean-word" data-translation="в винокурне макколли" data-pronunciation="막걸리 양조장에서 [makgeolli yangjojange seo]">막걸리 양조장에서</span> <span class="korean-word" data-translation="брожение нурука" data-pronunciation="누룩 발효 과정을 [nuruk balhyo gwajeongeul]">누룩 발효 과정을</span> <span class="korean-word" data-translation="пережил" data-pronunciation="체험했어요 [cheheomhaesseoyo]">체험했어요</span>.
+
+<span class="korean-word" data-translation="вечером" data-pronunciation="저녁에는 [jeonyeogeneun]">저녁에는</span> <span class="korean-word" data-translation="на ночной рынок Наму" data-pronunciation="남부시장 야시장으로 [Nambu sijang yasiya ng-euro]">남부시장 야시장으로</span> <span class="korean-word" data-translation="переместились" data-pronunciation="이동해 [idonghae]">이동해</span> <span class="korean-word" data-translation="молодые шефы" data-pronunciation="청년 셰프들이 [cheongnyeon shyepeudeuri]">청년 셰프들이</span> <span class="korean-word" data-translation="созданный фьюжн" data-pronunciation="만든 퓨전 전주 떡갈비와 [mandeun pyujeon Jeonju tteokgalbiwa]">만든 퓨전 전주 떡갈비와</span> <span class="korean-word" data-translation="десерт якква" data-pronunciation="약과 디저트를 [yakkwa dijeoteureul]">약과 디저트를</span> <span class="korean-word" data-translation="пробовал" data-pronunciation="맛봤어요 [matbwasseoyo]">맛봤어요</span>.
+
+<span class="korean-word" data-translation="завершая день" data-pronunciation="일정을 마무리하며 [iljeongeul mamurihamyeo]">일정을 마무리하며</span> <span class="korean-word" data-translation="с местными шефами" data-pronunciation="지역 셰프들과 [jiyeok shyepeudeulgwa]">지역 셰프들과</span> <span class="korean-word" data-translation="справедливое распределение ингредиентов" data-pronunciation="공정한 식재료 유통에 대한 [gongjeonghan sikjaeryo yutonge dae han]">공정한 식재료 유통에 대한</span> <span class="korean-word" data-translation="круглый стол" data-pronunciation="좌담에도 [jwadam-edo]">좌담에도</span> <span class="korean-word" data-translation="участвовал" data-pronunciation="참여했어요 [chamyeohaesseoyo]">참여했어요</span>.`,
+                translation: "Сразу после прибытия в Чонджу я встретился с гидом, который рассказал о переулках и местных продуктах. Днём учился у мастера пибимпапа и наблюдал брожение в винокурне макколли. Вечером пробовал фьюжн блюда на ночном рынке и обсуждал с шефами честные цепочки поставок.",
+                image: "images/level3-food.svg",
+                quiz: [
+                    {
+                        question: "전주에서 누구와 투어를 시작했어요? (С кем начался тур в Чонджу?)",
+                        options: ["친구와", "미식 가이드와", "가족과", "혼자"],
+                        correct: 1
+                    },
+                    {
+                        question: "점심에는 무엇을 배웠어요? (Чему научился в обед?)",
+                        options: ["막걸리 담그기", "나물 손질법", "김치 담그기", "과일 고르는 법"],
+                        correct: 1
+                    },
+                    {
+                        question: "저녁에는 어디를 방문했어요? (Куда отправились вечером?)",
+                        options: ["한옥마을", "남부시장 야시장", "박물관", "대학"],
+                        correct: 1
+                    },
+                    {
+                        question: "마지막 활동은 무엇이었어요? (Какое было заключительное занятие?)",
+                        options: ["요리 대회", "좌담 참여", "공연 관람", "자전거 타기"],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                id: 'food-2',
+                title: "Вегетарианский ханчжонщик",
+                subtitle: "사찰식 한정식 체험",
+                korean: `<span class="korean-word" data-translation="в пригородном храме" data-pronunciation="서울 근교 사찰에서 [Seoul geungyo sachareseo]">서울 근교 사찰에서</span> <span class="korean-word" data-translation="прошедшая" data-pronunciation="진행된 [jinhaengdoen]">진행된</span> <span class="korean-word" data-translation="программа храмовой трапезы" data-pronunciation="사찰식 한정식 프로그램에 [sachalsik hanjeongsik peurogeurame]">사찰식 한정식 프로그램에</span> <span class="korean-word" data-translation="участвовал" data-pronunciation="참가해 [chamga hae]">참가해</span> <span class="korean-word" data-translation="утреннюю медитацию" data-pronunciation="새벽 참선을 [saebyeok chamseoneul]">새벽 참선을</span> <span class="korean-word" data-translation="завершив" data-pronunciation="마친 뒤 [machin dwi]">마친 뒤</span> <span class="korean-word" data-translation="на кухню" data-pronunciation="주방으로 [jubang-euro]">주방으로</span> <span class="korean-word" data-translation="направился" data-pronunciation="향했어요 [hyanghaesseoyo]">향했어요</span>.
+
+<span class="korean-word" data-translation="монах-наставник" data-pronunciation="수행 스님은 [suhaeng seunimeun]">수행 스님은</span> <span class="korean-word" data-translation="горные травы и ферментированные соусы" data-pronunciation="산나물과 발효 장을 [sannamul gwa balhyo jang-eul]">산나물과 발효 장을</span> <span class="korean-word" data-translation="центром" data-pronunciation="중심으로 [jungsimeuro]">중심으로</span> <span class="korean-word" data-translation="сезонный стол" data-pronunciation="한 계절 밥상을 [han gyejeol bapsangeul]">한 계절 밥상을</span> <span class="korean-word" data-translation="представил" data-pronunciation="소개하며 [sogaehamyeo]">소개하며</span> <span class="korean-word" data-translation="связь еды и практики" data-pronunciation="음식과 수행의 연결 [eumsikgwa suhaeng-ui yeongyeol]">음식과 수행의 연결</span> <span class="korean-word" data-translation="философию" data-pronunciation="철학을 [cheolhageul]">철학을</span> <span class="korean-word" data-translation="объяснил" data-pronunciation="설명했어요 [seolmyeonghaesseoyo]">설명했어요</span>.
+
+<span class="korean-word" data-translation="мы сами" data-pronunciation="우리는 직접 [urineun jikjeop]">우리는 직접</span> <span class="korean-word" data-translation="тофу прессовали" data-pronunciation="두부를 눌러 만들고 [dubu-reul nulleo mandeulgo]">두부를 눌러 만들고</span>, <span class="korean-word" data-translation="в масле периллы тушёную редьку" data-pronunciation="들기름으로 조린 무청과 [deulgireumeuro jorin mucheonggwa]">들기름으로 조린 무청과</span> <span class="korean-word" data-translation="жареные пецнии" data-pronunciation="쑥갓전을 [ssukgajjeoneul]">쑥갓전을</span> <span class="korean-word" data-translation="приготовили" data-pronunciation="차렸어요 [charyeosseoyo]">차렸어요</span>.
+
+<span class="korean-word" data-translation="после трапезы" data-pronunciation="식사 후에는 [siksa hueneun]">식사 후에는</span> <span class="korean-word" data-translation="минимизацию пищевых отходов" data-pronunciation="음식물 쓰레기 최소화를 [eumsikmul sseuregi choesohwareul]">음식물 쓰레기 최소화를</span> <span class="korean-word" data-translation="для" data-pronunciation="위한 [wihan]">위한</span> <span class="korean-word" data-translation="раздельный сбор" data-pronunciation="분리배출법을 [bunribaechulbeobeul]">분리배출법을</span> <span class="korean-word" data-translation="практиковали" data-pronunciation="실습하며 [silsseubhamyeo]">실습하며</span> <span class="korean-word" data-translation="устойчивую культуру питания" data-pronunciation="지속 가능한 식문화를 [jisok ganeunghan sikmunhwareul]">지속 가능한 식문화를</span> <span class="korean-word" data-translation="вновь осмыслили" data-pronunciation="되새겼어요 [doeswigyeosseoyo]">되새겼어요</span>.`,
+                translation: "Я посетил программу храмовой трапезы под Сеулом: после утренней медитации мы отправились на кухню. Наставник рассказал о сезонных травах и ферментированных соусах, связывая еду с практикой. Мы сами прессовали тофу, готовили блюда из зелени и учились сортировать отходы, чтобы поддерживать устойчивую культуру питания.",
+                image: "images/level3-food.svg",
+                quiz: [
+                    {
+                        question: "프로그램은 어디에서 진행됐어요? (Где проходила программа?)",
+                        options: ["도심 카페", "서울 근교 사찰", "해변 리조트", "백화점"],
+                        correct: 1
+                    },
+                    {
+                        question: "수행 스님은 무엇을 설명했어요? (Что объяснил монах-наставник?)",
+                        options: ["사찰 예절", "음식과 수행의 연결 철학", "불교 미술", "차 만들기"],
+                        correct: 1
+                    },
+                    {
+                        question: "참가자들이 직접 만든 음식은 무엇이에요? (Какое блюдо готовили сами участники?)",
+                        options: ["불고기", "두부와 쑥갓전", "해물파전", "김밥"],
+                        correct: 1
+                    },
+                    {
+                        question: "식사 후에는 어떤 실습을 했어요? (Какую практику выполняли после трапезы?)",
+                        options: ["꽃꽂이", "분리배출법", "서예", "명상"],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                id: 'food-3',
+                title: "Фудтех в сеульском стартапе",
+                subtitle: "서울 푸드테크 연구소",
+                korean: `<span class="korean-word" data-translation="в первый день" data-pronunciation="첫날 [cheonnal]">첫날</span> <span class="korean-word" data-translation="как интерн в исследовательской лаборатории фудтеха в Сонсудоне" data-pronunciation="성수동 푸드테크 연구소 인턴으로 [Seongsudong pudeute ke yeonguso inteoneuro]">성수동 푸드테크 연구소 인턴으로</span> <span class="korean-word" data-translation="присоединившись" data-pronunciation="합류한 [hamryuhan]">합류한</span> <span class="korean-word" data-translation="я" data-pronunciation="저는 [jeoneun]">저는</span> <span class="korean-word" data-translation="инструктаж по безопасности" data-pronunciation="실험실 안전 교육과 [siheomsil anjeon gyoyukwa]">실험실 안전 교육과</span> <span class="korean-word" data-translation="тур по стерильным процессам" data-pronunciation="무균 공정 투어를 [mugyun gongjeong tueoreul]">무균 공정 투어를</span> <span class="korean-word" data-translation="получил" data-pronunciation="받았어요 [badasseoyo]">받았어요</span>.
+
+<span class="korean-word" data-translation="исследователи" data-pronunciation="연구원들은 [yeonguwondeureun]">연구원들은</span> <span class="korean-word" data-translation="баланс питательных веществ" data-pronunciation="영양 균형을 [yeongyang gyunhyeongeul]">영양 균형을</span> <span class="korean-word" data-translation="регулирующий" data-pronunciation="조정하는 [jojeonghaneun]">조정하는</span> <span class="korean-word" data-translation="алгоритм" data-pronunciation="알고리즘을 [algojimeul]">알고리즘을</span> <span class="korean-word" data-translation="показали" data-pronunciation="시연해 주었고 [siyeon hae ju-eotgo]">시연해 주었고</span>, <span class="korean-word" data-translation="я" data-pronunciation="저는 [jeoneun]">저는</span> <span class="korean-word" data-translation="сенсорами собранные" data-pronunciation="센서가 수집한 [senseeoga sujiphan]">센서가 수집한</span> <span class="korean-word" data-translation="данные о вкусе" data-pronunciation="맛 데이터를 [mat deiteoreul]">맛 데이터를</span> <span class="korean-word" data-translation="визуализировал" data-pronunciation="시각화 작업을 [sigakhwa jageobeul]">시각화 작업을</span> <span class="korean-word" data-translation="ответственность взял" data-pronunciation="담당했어요 [damdanghaesseoyo]">담당했어요</span>.
+
+<span class="korean-word" data-translation="за обедом" data-pronunciation="점심에는 [jeomshimeneun]">점심에는</span> <span class="korean-word" data-translation="растительные белки" data-pronunciation="식물성 단백질 [singmulseong danbaekjil]">식물성 단백질</span> <span class="korean-word" data-translation="стартер продукт" data-pronunciation="스타터 제품을 [seutateo jae pumeul]">스타터 제품을</span> <span class="korean-word" data-translation="дегустируя" data-pronunciation="시식하며 [sisikhamyeo]">시식하며</span> <span class="korean-word" data-translation="обсуждение" data-pronunciation="피드백을 [pideubaegeul]">피드백을</span> <span class="korean-word" data-translation="провели" data-pronunciation="토론했고 [toronhaetgo]">토론했고</span>, <span class="korean-word" data-translation="днём" data-pronunciation="오후에는 [ohueneun]">오후에는</span> <span class="korean-word" data-translation="партнёр стартапа" data-pronunciation="스타트업 파트너와 [seutateueop pateuneowa]">스타트업 파트너와</span> <span class="korean-word" data-translation="сотрудничавший" data-pronunciation="협업하는 [hyeobeobhaneun]">협업하는</span> <span class="korean-word" data-translation="робот-шеф" data-pronunciation="로봇 조리 테스트를 [robot jori teseuteureul]">로봇 조리 테스트를</span> <span class="korean-word" data-translation="наблюдал" data-pronunciation="관찰했어요 [gwanchalhaesseoyo]">관찰했어요</span>.
+
+<span class="korean-word" data-translation="к концу дня" data-pronunciation="하루가 끝날 무렵 [haruga kkeutnal muryeop]">하루가 끝날 무렵</span> <span class="korean-word" data-translation="прототип продукта" data-pronunciation="프로토타입 시제품을 [peurototap sise-pumeul]">프로토타입 시제품을</span> <span class="korean-word" data-translation="оценивающая" data-pronunciation="평가하는 [pyeonggahaneun]">평가하는</span> <span class="korean-word" data-translation="панель" data-pronunciation="패널 미팅에 [paeneol miting-e]">패널 미팅에</span> <span class="korean-word" data-translation="участвовал" data-pronunciation="참여해 [chamyeohae]">참여해</span> <span class="korean-word" data-translation="будущую стратегию запуска" data-pronunciation="향후 출시 전략을 [hyanghu chulsi jeonlyageul]">향후 출시 전략을</span> <span class="korean-word" data-translation="записал" data-pronunciation="메모했어요 [memohaesseoyo]">메모했어요</span>.`,
+                translation: "В первый день стажировки в сеульской фудтех-лаборатории я прошёл инструктаж по безопасности и познакомился со стерильными линиями. Исследователи показали алгоритм балансировки питательных веществ для культивируемого мяса, а я визуализировал данные вкусовых датчиков. За обедом дегустировали растительные прототипы, после чего наблюдали тесты с роботом-шефом и обсуждали стратегию запуска на панельной встрече.",
+                image: "images/level3-food.svg",
+                quiz: [
+                    {
+                        question: "첫날 어떤 교육을 받았어요? (Какой инструктаж прошёл в первый день?)",
+                        options: ["마케팅 교육", "실험실 안전 교육", "회계 교육", "서비스 교육"],
+                        correct: 1
+                    },
+                    {
+                        question: "연구원들이 시연한 것은 무엇이에요? (Что продемонстрировали исследователи?)",
+                        options: ["커피 추출", "영양 균형 조정 알고리즘", "3D 프린팅", "포장 디자인"],
+                        correct: 1
+                    },
+                    {
+                        question: "오후에는 어떤 테스트를 관찰했어요? (Какой тест наблюдали днём?)",
+                        options: ["로봇 조리 테스트", "드론 배송", "VR 체험", "재무 분석"],
+                        correct: 0
+                    },
+                    {
+                        question: "하루가 끝날 무렵 무엇을 했어요? (Что делали в конце дня?)",
+                        options: ["프로토타입 패널 미팅에 참여했어요", "주방 청소를 했어요", "영화 촬영을 했어요", "휴식을 취했어요"],
+                        correct: 0
+                    }
+                ]
+            }
+        ]
     }
 };
 
