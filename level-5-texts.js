@@ -1,4 +1,4 @@
-window.level5Texts = {
+const level5Texts = {
     personal: [
         {
             id: 'personal-1',
