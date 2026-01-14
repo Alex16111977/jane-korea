@@ -131,6 +131,7 @@ function updateAuthUI(user) {
     const userInfo = document.getElementById('user-info');
     const signInBtn = document.getElementById('google-signin-btn');
     const signOutBtn = document.getElementById('signout-btn');
+    const profileBtn = document.getElementById('profile-btn');
     const userAvatar = document.getElementById('user-avatar');
     const userName = document.getElementById('user-name');
     const syncStatus = document.getElementById('sync-status');
@@ -142,6 +143,7 @@ function updateAuthUI(user) {
         if (signInBtn) signInBtn.style.display = 'none';
         if (userInfo) userInfo.style.display = 'flex';
         if (signOutBtn) signOutBtn.style.display = 'inline-block';
+        if (profileBtn) profileBtn.style.display = 'inline-block';
 
         if (userAvatar) {
             userAvatar.src = user.photoURL || 'https://www.gravatar.com/avatar/?d=mp';
@@ -151,7 +153,7 @@ function updateAuthUI(user) {
             userName.textContent = user.displayName || user.email;
         }
         if (syncStatus) {
-            syncStatus.textContent = 'Данные синхронизируются';
+            syncStatus.textContent = 'Синхронизировано';
             syncStatus.className = 'sync-status synced';
         }
     } else {
@@ -159,6 +161,7 @@ function updateAuthUI(user) {
         if (signInBtn) signInBtn.style.display = 'inline-flex';
         if (userInfo) userInfo.style.display = 'none';
         if (signOutBtn) signOutBtn.style.display = 'none';
+        if (profileBtn) profileBtn.style.display = 'none';
 
         if (syncStatus) {
             syncStatus.textContent = 'Данные сохраняются локально';
