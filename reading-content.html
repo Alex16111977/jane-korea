@@ -1349,6 +1349,15 @@
 
         function saveStoredLearnedWords(words) {
             localStorage.setItem(WORDS_STORAGE_KEY, JSON.stringify(words));
+
+            // Синхронизируем с облаком если авторизован
+            if (window.FirebaseSync && window.FirebaseAuth?.isLoggedIn()) {
+                window.FirebaseSync.saveWordsToCloud(words)
+                    .then(success => {
+                        if (success) console.log('[OK] Words synced to cloud');
+                    })
+                    .catch(err => console.error('[ERR] Words cloud sync failed:', err));
+            }
         }
 
         function escapeHtmlAttribute(value) {
@@ -3488,5 +3497,15 @@
     
     <!-- Vocabulary Learning Script -->
     <script src="vocab-learning.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <!-- Firebase модули -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-sync.js"></script>
+    <script src="js/firebase-auth.js"></script>
 </body>
 </html>
