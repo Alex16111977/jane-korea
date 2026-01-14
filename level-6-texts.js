@@ -37,6 +37,40 @@ const level6Texts = {
                 { question: "묵묵히 일하면 어떻게 됩니까? (Что происходит при усердной работе?)", options: ["피로해진다", "언젠가 인정받게 된다", "실패한다", "포기하게 된다"], correct: 1 },
                 { question: "핵심 덕목으로 언급된 것은? (Какая добродетель упомянута?)", options: ["용기", "지혜", "인내", "겸손"], correct: 2 }
             ]
+        },
+        {
+            id: 'personal-3',
+            title: "Искусство старения: мудрость зрелых лет",
+            subtitle: "노년의 지혜와 아름다운 늙음",
+            korean: `<p><span class="korean-word" data-translation="когда человек стареет" data-pronunciation="사람이 나이 들어가노라면 [sarami nai deureоganorаmyeon]">사람이 나이 들어가노라면</span> <span class="korean-word" data-translation="тело слабеет" data-pronunciation="육체는 쇠약해지거니와 [yukcheneun soeyakhaejigеoniwa]">육체는 쇠약해지거니와</span> <span class="korean-word" data-translation="душа напротив" data-pronunciation="정신은 오히려 [jeongsineun ohiryeo]">정신은 오히려</span> <span class="korean-word" data-translation="может стать богаче" data-pronunciation="더욱 풍요로워질 수 있는 바입니다 [deouk pungyorowojil su inneun baimnida]">더욱 풍요로워질 수 있는 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="если задуматься о старости" data-pronunciation="노년을 생각할진대 [nonyeoneul saenggakhalchindae]">노년을 생각할진대</span> <span class="korean-word" data-translation="не только потери есть" data-pronunciation="상실만 있는 것이 아니라 [sangsirman inneun geosi anira]">상실만 있는 것이 아니라</span> <span class="korean-word" data-translation="и приобретения" data-pronunciation="얻는 것도 [eotneun geotdo]">얻는 것도</span> <span class="korean-word" data-translation="многочисленны" data-pronunciation="많은 바이니 [maneun baini]">많은 바이니</span> <span class="korean-word" data-translation="в этом мудрость" data-pronunciation="여기에 지혜가 있습니다 [yeogie jihyega itseumnida]">여기에 지혜가 있습니다</span>.</p>
+<p><span class="korean-word" data-translation="пока жизнь продолжается" data-pronunciation="삶이 계속되는 한 [sarmi gyesokdoeneun han]">삶이 계속되는 한</span> <span class="korean-word" data-translation="не только прошлое вспоминаешь" data-pronunciation="과거를 회상할뿐더러 [gwageoreul hoesanghalppundeoreo]">과거를 회상할뿐더러</span> <span class="korean-word" data-translation="и будущее мечтаешь" data-pronunciation="미래도 꿈꿀 수 있으니 [miraedo kkumkkul su isseuni]">미래도 꿈꿀 수 있으니</span> <span class="korean-word" data-translation="это и есть" data-pronunciation="이것이야말로 [igeosiyamallo]">이것이야말로</span> <span class="korean-word" data-translation="красота человеческого существования" data-pronunciation="인간 존재의 아름다움입니다 [ingan jоnjaeui areumdaumimnida]">인간 존재의 아름다움입니다</span>.</p>
+<p><span class="korean-word" data-translation="умение стареть красиво" data-pronunciation="아름답게 늙는다는 것은 [areumdapke neungneundaneun geoseun]">아름답게 늙는다는 것은</span> <span class="korean-word" data-translation="жизнь прожить с достоинством" data-pronunciation="삶을 품위 있게 마무리하는 것이라 [sarmeul pumwi itge mamurihaneun geosira]">삶을 품위 있게 마무리하는 것이라</span> <span class="korean-word" data-translation="полагаю" data-pronunciation="여깁니다 [yeogipnida]">여깁니다</span>.</p>`,
+            translation: "Когда человек стареет, тело слабеет, но душа может стать ещё богаче. Размышляя о старости, понимаешь, что в ней есть не только потери, но и многочисленные приобретения — в этом мудрость. Пока жизнь продолжается, можно не только вспоминать прошлое, но и мечтать о будущем — это и есть красота человеческого существования. Умение стареть красиво — значит прожить жизнь достойно.",
+            image: "",
+            quiz: [
+                { question: "나이 들면 정신은 어떻게 됩니까? (Что происходит с духом при старении?)", options: ["쇠약해진다", "변하지 않는다", "더욱 풍요로워질 수 있다", "사라진다"], correct: 2 },
+                { question: "노년에 무엇을 얻습니까? (Что приобретаешь в старости?)", options: ["상실만", "얻는 것도 많다", "아무것도 없다", "재산만"], correct: 1 },
+                { question: "삶이 계속되는 한 무엇을 할 수 있습니까? (Что можно делать, пока жизнь продолжается?)", options: ["과거만 회상", "미래도 꿈꾸기", "아무것도 못함", "일만 함"], correct: 1 },
+                { question: "아름답게 늙는다는 것은 무엇입니까? (Что значит стареть красиво?)", options: ["외모 유지", "삶을 품위 있게 마무리", "돈을 모음", "운동함"], correct: 1 }
+            ]
+        },
+        {
+            id: 'personal-4',
+            title: "Одиночество как путь к себе",
+            subtitle: "고독의 가치와 자아 성찰",
+            korean: `<p><span class="korean-word" data-translation="в современном мире" data-pronunciation="현대 세계에서 [hyeondae segyeeseo]">현대 세계에서</span> <span class="korean-word" data-translation="одиночество" data-pronunciation="고독은 [godоgeun]">고독은</span> <span class="korean-word" data-translation="часто воспринимается негативно, однако" data-pronunciation="흔히 부정적으로 여겨지거니와 [heunhi bujеongjeоgeuro yeоgyeojigеoniwa]">흔히 부정적으로 여겨지거니와</span> <span class="korean-word" data-translation="на самом деле" data-pronunciation="실은 [sireun]">실은</span> <span class="korean-word" data-translation="великая ценность" data-pronunciation="큰 가치를 지닌 바입니다 [keun gachireul jinin baimnida]">큰 가치를 지닌 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="когда остаёшься наедине с собой" data-pronunciation="홀로 자신과 마주하노라면 [hollo jasigwa majuhanorаmyeon]">홀로 자신과 마주하노라면</span> <span class="korean-word" data-translation="не только страхи появляются" data-pronunciation="두려움이 생길뿐더러 [duryеoumi saenggilppundeoreo]">두려움이 생길뿐더러</span> <span class="korean-word" data-translation="и глубокое понимание" data-pronunciation="깊은 통찰도 [gipeun tongchaldo]">깊은 통찰도</span> <span class="korean-word" data-translation="рождается" data-pronunciation="얻게 되니 [eotke doeni]">얻게 되니</span> <span class="korean-word" data-translation="это и есть" data-pronunciation="이것이야말로 [igeosiyamallo]">이것이야말로</span> <span class="korean-word" data-translation="путь к самопознанию" data-pronunciation="자아 발견의 길입니다 [jaa balgyeonui gilimnida]">자아 발견의 길입니다</span>.</p>
+<p><span class="korean-word" data-translation="если задуматься о смысле одиночества" data-pronunciation="고독의 의미를 생각할진대 [godogui uimireul saenggakhalchindae]">고독의 의미를 생각할진대</span> <span class="korean-word" data-translation="великие мыслители" data-pronunciation="위대한 사상가들이야말로 [widaehan sasanggadeuriуamallo]">위대한 사상가들이야말로</span> <span class="korean-word" data-translation="через одиночество" data-pronunciation="고독을 통해 [godоgeul tonghae]">고독을 통해</span> <span class="korean-word" data-translation="истины достигли" data-pronunciation="진리에 도달한 바입니다 [jillie dodаlhan baimnida]">진리에 도달한 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="пока человек способен к размышлению" data-pronunciation="사유할 수 있는 한 [sayuhal su inneun han]">사유할 수 있는 한</span> <span class="korean-word" data-translation="одиночество" data-pronunciation="고독은 [godоgeun]">고독은</span> <span class="korean-word" data-translation="друг, а не враг" data-pronunciation="적이 아닌 벗이라 [jeogi anin beosira]">적이 아닌 벗이라</span> <span class="korean-word" data-translation="утверждаю" data-pronunciation="하겠습니다 [hagetseumnida]">하겠습니다</span>.</p>`,
+            translation: "В современном мире одиночество часто воспринимается негативно, однако на самом деле оно имеет великую ценность. Оставаясь наедине с собой, не только испытываешь страх, но и обретаешь глубокое понимание — это путь к самопознанию. Размышляя о смысле одиночества, понимаешь, что великие мыслители именно через одиночество достигли истины. Пока человек способен к размышлению, одиночество — друг, а не враг.",
+            image: "",
+            quiz: [
+                { question: "현대 세계에서 고독은 어떻게 여겨집니까? (Как воспринимается одиночество?)", options: ["긍정적으로", "부정적으로", "중립적으로", "무관심하게"], correct: 1 },
+                { question: "홀로 자신과 마주하면 무엇을 얻습니까? (Что получаешь наедине с собой?)", options: ["두려움만", "통찰만", "두려움과 통찰", "아무것도"], correct: 2 },
+                { question: "위대한 사상가들은 어떻게 진리에 도달했습니까? (Как мыслители достигли истины?)", options: ["돈으로", "고독을 통해", "권력으로", "유명세로"], correct: 1 },
+                { question: "고독은 무엇이라 했습니까? (Чем назвали одиночество?)", options: ["적", "벗", "장애물", "질병"], correct: 1 }
+            ]
         }
     ],
     stories: [
@@ -72,6 +106,40 @@ const level6Texts = {
                 { question: "작품에 무엇이 담겨 있습니까? (Что заключено в произведениях?)", options: ["기량만", "혼만", "기량과 혼", "재료만"], correct: 2 },
                 { question: "물질적 가치보다 무엇이 진정한 가치입니까? (Что ценнее материального?)", options: ["명예", "권력", "정신적 유산", "돈"], correct: 2 },
                 { question: "참된 불멸이란 무엇입니까? (Что есть истинное бессмертие?)", options: ["육체의 보존", "재산의 축적", "정신이 영원히 사는 것", "유명해지는 것"], correct: 2 }
+            ]
+        },
+        {
+            id: 'stories-3',
+            title: "Письмо из прошлого",
+            subtitle: "과거에서 온 편지",
+            korean: `<p><span class="korean-word" data-translation="разбирая старые вещи" data-pronunciation="오래된 물건들을 정리하노라면 [oraedoen mulgeondereul jeongnirhanorаmyeon]">오래된 물건들을 정리하노라면</span> <span class="korean-word" data-translation="неожиданно" data-pronunciation="뜻밖에도 [tteutbakkedo]">뜻밖에도</span> <span class="korean-word" data-translation="письма покойной матери" data-pronunciation="돌아가신 어머니의 편지를 [doragasin eomeoniui pyeonjireul]">돌아가신 어머니의 편지를</span> <span class="korean-word" data-translation="обнаружил" data-pronunciation="발견하게 된 바입니다 [balgyeonhage doen baimnida]">발견하게 된 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="читая выцветшие строки" data-pronunciation="바랜 글씨를 읽노라면 [baraen geulsshireul ingnorаmyeon]">바랜 글씨를 읽노라면</span> <span class="korean-word" data-translation="не только слёзы текут" data-pronunciation="눈물이 흐를뿐더러 [nunmuri heurеulppundeoreo]">눈물이 흐를뿐더러</span> <span class="korean-word" data-translation="и сердце согревается" data-pronunciation="마음도 따뜻해지거니와 [maeumdo ttatteuthаejigеoniwa]">마음도 따뜻해지거니와</span> <span class="korean-word" data-translation="любовь матери" data-pronunciation="어머니의 사랑이 [eomeoniui sarangi]">어머니의 사랑이</span> <span class="korean-word" data-translation="ощущается вновь" data-pronunciation="다시금 느껴집니다 [dasigeum neukkyеojipnida]">다시금 느껴집니다</span>.</p>
+<p><span class="korean-word" data-translation="если задуматься о времени" data-pronunciation="시간의 의미를 생각할진대 [siganui uimireul saenggakhalchindae]">시간의 의미를 생각할진대</span> <span class="korean-word" data-translation="истинная любовь" data-pronunciation="진정한 사랑이야말로 [jinjeonghan sarangiyamallo]">진정한 사랑이야말로</span> <span class="korean-word" data-translation="время превосходит" data-pronunciation="시간을 초월하는 바입니다 [siganeul chowolhaneun baimnida]">시간을 초월하는 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="пока память жива" data-pronunciation="기억이 살아 있는 한 [gieogi sara inneun han]">기억이 살아 있는 한</span> <span class="korean-word" data-translation="ушедшие" data-pronunciation="떠난 이들은 [tteonan ideureun]">떠난 이들은</span> <span class="korean-word" data-translation="не исчезают навсегда" data-pronunciation="영원히 사라지지 않으니 [yeongwonhi sarajiji anheuni]">영원히 사라지지 않으니</span> <span class="korean-word" data-translation="это утешение" data-pronunciation="이것이 위로입니다 [igeosi wiroimnida]">이것이 위로입니다</span>.</p>`,
+            translation: "Разбирая старые вещи, неожиданно обнаружил письма покойной матери. Читая выцветшие строки, не только слёзы текут, но и сердце согревается — любовь матери ощущается вновь. Размышляя о смысле времени, понимаешь, что истинная любовь превосходит время. Пока память жива, ушедшие не исчезают навсегда — в этом утешение.",
+            image: "",
+            quiz: [
+                { question: "무엇을 정리하다가 편지를 발견했습니까? (Что разбирал, когда нашёл письмо?)", options: ["새 물건", "오래된 물건", "책", "옷"], correct: 1 },
+                { question: "편지를 읽으면 어떻게 됩니까? (Что происходит при чтении письма?)", options: ["눈물만 흐름", "마음만 따뜻해짐", "눈물과 따뜻함", "아무 감정 없음"], correct: 2 },
+                { question: "진정한 사랑은 무엇을 초월합니까? (Что превосходит истинная любовь?)", options: ["공간", "시간", "물질", "권력"], correct: 1 },
+                { question: "기억이 살아 있으면 떠난 이들은 어떻게 됩니까? (Что происходит с ушедшими при живой памяти?)", options: ["완전히 사라짐", "영원히 사라지지 않음", "잊혀짐", "미움받음"], correct: 1 }
+            ]
+        },
+        {
+            id: 'stories-4',
+            title: "Встреча на перекрёстке судеб",
+            subtitle: "운명의 교차로에서",
+            korean: `<p><span class="korean-word" data-translation="жизнь порой" data-pronunciation="삶이란 때로는 [sarmiran ttaeroneun]">삶이란 때로는</span> <span class="korean-word" data-translation="удивительные встречи" data-pronunciation="놀라운 만남을 [nollaun mannameul]">놀라운 만남을</span> <span class="korean-word" data-translation="преподносит" data-pronunciation="선사하는 바이니 [seonsahaneun baini]">선사하는 바이니</span> <span class="korean-word" data-translation="это и называют судьбой" data-pronunciation="이를 운명이라 하겠습니다 [ireul unmyeongira hagetseumnida]">이를 운명이라 하겠습니다</span>.</p>
+<p><span class="korean-word" data-translation="когда вспоминаю ту встречу" data-pronunciation="그 만남을 떠올리노라면 [geu mannameul tteoollinorаmyeon]">그 만남을 떠올리노라면</span> <span class="korean-word" data-translation="не только благодарность чувствую" data-pronunciation="감사함을 느낄뿐더러 [gamsahameul neukkilppundeoreo]">감사함을 느낄뿐더러</span> <span class="korean-word" data-translation="и трепет" data-pronunciation="경이로움도 [gyeongiloumdo]">경이로움도</span> <span class="korean-word" data-translation="испытываю" data-pronunciation="느끼게 되거니와 [neukkkige doegеoniwa]">느끼게 되거니와</span> <span class="korean-word" data-translation="это изменило мою жизнь" data-pronunciation="그것이 제 삶을 바꾼 바입니다 [geugeosi je sarmeul bakkun baimnida]">그것이 제 삶을 바꾼 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="если задуматься о случайности" data-pronunciation="우연의 의미를 생각할진대 [uyeonui uimireul saenggakhalchindae]">우연의 의미를 생각할진대</span> <span class="korean-word" data-translation="случайных встреч не бывает" data-pronunciation="우연한 만남이란 없는 바이니 [uyeonhan mannamiran eomneun baini]">우연한 만남이란 없는 바이니</span> <span class="korean-word" data-translation="всё предопределено" data-pronunciation="모든 것이 필연이라 [modeun geosi piryeonira]">모든 것이 필연이라</span> <span class="korean-word" data-translation="верю" data-pronunciation="믿습니다 [mitseumnida]">믿습니다</span>.</p>
+<p><span class="korean-word" data-translation="пока мы живы" data-pronunciation="우리가 살아 있는 한 [uriga sara inneun han]">우리가 살아 있는 한</span> <span class="korean-word" data-translation="встречи и расставания" data-pronunciation="만남과 이별은 [mannamgwa ibyeoreun]">만남과 이별은</span> <span class="korean-word" data-translation="будут продолжаться" data-pronunciation="계속될 바이니 [gyesokdoel baini]">계속될 바이니</span> <span class="korean-word" data-translation="каждую встречу" data-pronunciation="매 만남을 [mae mannameul]">매 만남을</span> <span class="korean-word" data-translation="следует ценить" data-pronunciation="소중히 여겨야 합니다 [sojunghi yeоgyeoya hamnida]">소중히 여겨야 합니다</span>.</p>`,
+            translation: "Жизнь порой преподносит удивительные встречи — это и называют судьбой. Вспоминая ту встречу, не только чувствую благодарность, но и трепет — она изменила мою жизнь. Размышляя о случайности, верю, что случайных встреч не бывает — всё предопределено. Пока мы живы, встречи и расставания будут продолжаться, поэтому каждую встречу следует ценить.",
+            image: "",
+            quiz: [
+                { question: "삶이 선사하는 것은 무엇입니까? (Что преподносит жизнь?)", options: ["돈", "놀라운 만남", "권력", "명예"], correct: 1 },
+                { question: "그 만남을 떠올리면 무엇을 느낍니까? (Что чувствуешь при воспоминании?)", options: ["감사함만", "경이로움만", "감사함과 경이로움", "분노"], correct: 2 },
+                { question: "우연한 만남에 대해 어떻게 생각합니까? (Что думаете о случайных встречах?)", options: ["존재한다", "존재하지 않는다", "중요하지 않다", "피해야 한다"], correct: 1 },
+                { question: "매 만남을 어떻게 해야 합니까? (Как относиться к каждой встрече?)", options: ["무시", "소중히 여김", "피함", "잊음"], correct: 1 }
             ]
         }
     ],
@@ -109,6 +177,40 @@ const level6Texts = {
                 { question: "옛 도자기에서 무엇을 발견합니까? (Что обнаруживается в старой керамике?)", options: ["결함만", "불완전함 속의 완전함", "실용성만", "현대성"], correct: 1 },
                 { question: "이 예술이 계승되려면 무엇이 필요합니까? (Что нужно для передачи искусства?)", options: ["돈", "아름다움의 존중", "정부 지원만", "외국의 인정"], correct: 1 }
             ]
+        },
+        {
+            id: 'culture-3',
+            title: "Корейская музыка: от пхансори до K-pop",
+            subtitle: "판소리에서 K-pop까지",
+            korean: `<p><span class="korean-word" data-translation="корейская музыкальная традиция" data-pronunciation="한국 음악 전통은 [hanguk еumak jeontоngeun]">한국 음악 전통은</span> <span class="korean-word" data-translation="не только древние корни имеет" data-pronunciation="유구한 뿌리를 지녔을뿐더러 [yagunan ppurirul jinyеotseulppundeoreo]">유구한 뿌리를 지녔을뿐더러</span> <span class="korean-word" data-translation="и в современности" data-pronunciation="현대에도 [hyeondaedo]">현대에도</span> <span class="korean-word" data-translation="развивается" data-pronunciation="발전을 거듭하는 바입니다 [baljеoneul geodeuphaneun baimnida]">발전을 거듭하는 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="когда слушаешь пхансори" data-pronunciation="판소리를 듣노라면 [pansorireul deungnorаmyeon]">판소리를 듣노라면</span> <span class="korean-word" data-translation="голос певца" data-pronunciation="창자의 목소리가 [changraui moksoriga]">창자의 목소리가</span> <span class="korean-word" data-translation="не только ушам приятен" data-pronunciation="귀를 즐겁게 할뿐더러 [gwireul jeulgeopke halppundeoreo]">귀를 즐겁게 할뿐더러</span> <span class="korean-word" data-translation="и душу потрясает" data-pronunciation="영혼까지 울리거니와 [yeоnghonkkaji ulligеoniwa]">영혼까지 울리거니와</span> <span class="korean-word" data-translation="это уникальное искусство" data-pronunciation="이것이야말로 독특한 예술입니다 [igеosiyamallo doktukan yesurimmida]">이것이야말로 독특한 예술입니다</span>.</p>
+<p><span class="korean-word" data-translation="если задуматься о K-pop" data-pronunciation="K-pop을 생각할진대 [K-pop-eul saenggakhalchindae]">K-pop을 생각할진대</span> <span class="korean-word" data-translation="традиционная эстетика" data-pronunciation="전통적 감수성과 [jeontongjeok gamsuseonggwa]">전통적 감수성과</span> <span class="korean-word" data-translation="современные технологии" data-pronunciation="현대적 기술의 [hyeondaejeok gisurui]">현대적 기술의</span> <span class="korean-word" data-translation="слияние" data-pronunciation="융합이야말로 [yunghapiyamallo]">융합이야말로</span> <span class="korean-word" data-translation="секрет успеха" data-pronunciation="성공의 비결인 바입니다 [sеonggongui bigyеorin baimnida]">성공의 비결인 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="пока музыка существует" data-pronunciation="음악이 존재하는 한 [еumagi jonjaehaneun han]">음악이 존재하는 한</span> <span class="korean-word" data-translation="народ" data-pronunciation="민족은 [minjоgeun]">민족은</span> <span class="korean-word" data-translation="будет жить" data-pronunciation="살아 있을 바이니 [sara isseul baini]">살아 있을 바이니</span> <span class="korean-word" data-translation="музыка — душа культуры" data-pronunciation="음악은 문화의 영혼입니다 [еumageun munhwaui yeоnghoninmida]">음악은 문화의 영혼입니다</span>.</p>`,
+            translation: "Корейская музыкальная традиция имеет не только глубокие корни, но и продолжает развиваться в современности. Слушая пхансори, голос певца не только радует слух, но и потрясает душу — это уникальное искусство. Размышляя о K-pop, понимаешь, что слияние традиционной эстетики и современных технологий — секрет успеха. Пока существует музыка, народ будет жить — музыка есть душа культуры.",
+            image: "",
+            quiz: [
+                { question: "한국 음악 전통은 어떻습니까? (Какова корейская музыкальная традиция?)", options: ["현대에만 존재", "유구한 뿌리와 현대적 발전", "외국에서 유래", "쇠퇴 중"], correct: 1 },
+                { question: "판소리를 들으면 어떻게 됩니까? (Что происходит при слушании пхансори?)", options: ["귀만 즐거움", "영혼까지 울림", "지루함", "화남"], correct: 1 },
+                { question: "K-pop의 성공 비결은 무엇입니까? (Секрет успеха K-pop?)", options: ["돈", "전통과 현대의 융합", "외국인 프로듀서", "정부 지원"], correct: 1 },
+                { question: "음악은 문화에서 무엇입니까? (Чем является музыка в культуре?)", options: ["장식", "영혼", "부담", "오락만"], correct: 1 }
+            ]
+        },
+        {
+            id: 'culture-4',
+            title: "Конфуцианские ценности в современной Корее",
+            subtitle: "현대 한국의 유교적 가치",
+            korean: `<p><span class="korean-word" data-translation="конфуцианство" data-pronunciation="유교는 [yugyoneun]">유교는</span> <span class="korean-word" data-translation="не только древнее учение" data-pronunciation="고대의 가르침일뿐더러 [godaeui gareuchimilppundeoreo]">고대의 가르침일뿐더러</span> <span class="korean-word" data-translation="и в современном обществе" data-pronunciation="현대 사회에서도 [hyeondae sahoesеodo]">현대 사회에서도</span> <span class="korean-word" data-translation="оказывает влияние" data-pronunciation="영향력을 발휘하는 바입니다 [yeоnghyangryeogeul balhwihaneun baimnida]">영향력을 발휘하는 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="если наблюдать за корейским обществом" data-pronunciation="한국 사회를 살피노라면 [hanguk sahoereul salpinorаmyeon]">한국 사회를 살피노라면</span> <span class="korean-word" data-translation="уважение к старшим" data-pronunciation="어른 공경이 [eoreun gonggyeongi]">어른 공경이</span> <span class="korean-word" data-translation="не только традиция" data-pronunciation="전통일뿐더러 [jeontоngilppundeoreo]">전통일뿐더러</span> <span class="korean-word" data-translation="и повседневная практика" data-pronunciation="일상적 실천이기도 하거니와 [ilsangjeok silcheonigido hagеoniwa]">일상적 실천이기도 하거니와</span> <span class="korean-word" data-translation="это основа общества" data-pronunciation="이것이 사회의 근간입니다 [igeosi sahoiui geungan-imnida]">이것이 사회의 근간입니다</span>.</p>
+<p><span class="korean-word" data-translation="если задуматься об образовании" data-pronunciation="교육열을 생각할진대 [gyoyugyeoreul saenggakhalchindae]">교육열을 생각할진대</span> <span class="korean-word" data-translation="учёность издревле" data-pronunciation="학문이야말로 예로부터 [hangmuniyamallo yerоbuteo]">학문이야말로 예로부터</span> <span class="korean-word" data-translation="высшей ценностью почиталась" data-pronunciation="최고의 가치로 여겨진 바이니 [choigoui gachiro yeоgyeojin baini]">최고의 가치로 여겨진 바이니</span> <span class="korean-word" data-translation="современная страсть к образованию" data-pronunciation="현대의 교육열은 [hyeondaeui gyoyugyeoreun]">현대의 교육열은</span> <span class="korean-word" data-translation="оттуда берёт начало" data-pronunciation="여기에서 비롯됩니다 [yeogieseo birotdoemnida]">여기에서 비롯됩니다</span>.</p>
+<p><span class="korean-word" data-translation="пока эти ценности живы" data-pronunciation="이런 가치가 살아 있는 한 [ireon gachiga sara inneun han]">이런 가치가 살아 있는 한</span> <span class="korean-word" data-translation="корейское общество" data-pronunciation="한국 사회는 [hanguk sahoneun]">한국 사회는</span> <span class="korean-word" data-translation="сохранит свою идентичность" data-pronunciation="정체성을 유지할 바입니다 [jeongchеseongeul yujihal baimnida]">정체성을 유지할 바입니다</span>.</p>`,
+            translation: "Конфуцианство — не только древнее учение, но и оказывает влияние на современное общество. Наблюдая за корейским обществом, видишь, что уважение к старшим — не только традиция, но и повседневная практика, составляющая основу общества. Размышляя о страсти к образованию, понимаешь, что учёность издревле почиталась высшей ценностью — отсюда современная страсть к образованию. Пока эти ценности живы, корейское общество сохранит свою идентичность.",
+            image: "",
+            quiz: [
+                { question: "유교는 현대 사회에서 어떻습니까? (Каково конфуцианство в современном обществе?)", options: ["사라짐", "영향력 발휘", "무관함", "적대시됨"], correct: 1 },
+                { question: "어른 공경은 무엇입니까? (Чем является уважение к старшим?)", options: ["전통만", "일상적 실천도", "구식", "불필요함"], correct: 1 },
+                { question: "현대의 교육열은 어디에서 비롯됩니까? (Откуда страсть к образованию?)", options: ["서양에서", "유교적 가치에서", "정부에서", "기업에서"], correct: 1 },
+                { question: "이런 가치가 살아 있으면 무엇을 유지합니까? (Что сохраняется при живых ценностях?)", options: ["돈", "정체성", "인구", "영토"], correct: 1 }
+            ]
         }
     ],
     science: [
@@ -144,6 +246,40 @@ const level6Texts = {
                 { question: "질병 치료는 무엇입니까? (Что такое лечение болезней?)", options: ["축복만", "책임만", "축복이자 책임", "저주"], correct: 2 },
                 { question: "유전적 향상에서 무엇이 어렵습니까? (Что трудно в генетическом улучшении?)", options: ["비용 지불", "치료와 개선의 구분", "동의 얻기", "기술 습득"], correct: 1 },
                 { question: "윤리적 논쟁을 위해 무엇이 필요합니까? (Что нужно для этических дебатов?)", options: ["독재", "사회적 합의", "무관심", "금지"], correct: 1 }
+            ]
+        },
+        {
+            id: 'science-3',
+            title: "Искусственный интеллект и человечность",
+            subtitle: "인공지능과 인간성의 본질",
+            korean: `<p><span class="korean-word" data-translation="с развитием ИИ" data-pronunciation="인공지능이 발전하노라면 [ingongjineungi balcheonhanorаmyeon]">인공지능이 발전하노라면</span> <span class="korean-word" data-translation="не только удобство приносит" data-pronunciation="편리함을 가져올뿐더러 [pyеollihameul gajyeoolppundeoreo]">편리함을 가져올뿐더러</span> <span class="korean-word" data-translation="и угрозу" data-pronunciation="위협도 [wihyeopdo]">위협도</span> <span class="korean-word" data-translation="несёт с собой" data-pronunciation="수반하는 바이니 [subanhanеun baini]">수반하는 바이니</span> <span class="korean-word" data-translation="это парадокс технологии" data-pronunciation="이것이 기술의 역설입니다 [igeosi gisurui yeokseorimнida]">이것이 기술의 역설입니다</span>.</p>
+<p><span class="korean-word" data-translation="если задуматься о человечности" data-pronunciation="인간성의 본질을 생각할진대 [inganseongui bonjireul saenggakhalchindae]">인간성의 본질을 생각할진대</span> <span class="korean-word" data-translation="именно чувства" data-pronunciation="감정이야말로 [gamjeongiyamallo]">감정이야말로</span> <span class="korean-word" data-translation="нас отличают от машин" data-pronunciation="우리를 기계와 구분 짓는 바입니다 [urireul gigyewa gubun jinneun baimnida]">우리를 기계와 구분 짓는 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="машина может" data-pronunciation="기계가 [gigyega]">기계가</span> <span class="korean-word" data-translation="вычислять, однако" data-pronunciation="계산은 잘하거니와 [gyesaneun jalhagеoniwa]">계산은 잘하거니와</span> <span class="korean-word" data-translation="любить" data-pronunciation="사랑하는 것은 [saranghaneun geoseun]">사랑하는 것은</span> <span class="korean-word" data-translation="не способна" data-pronunciation="불가능한 바입니다 [bulganeunghan baimnida]">불가능한 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="пока человек способен любить" data-pronunciation="인간이 사랑할 수 있는 한 [ingani saranghal su inneun han]">인간이 사랑할 수 있는 한</span> <span class="korean-word" data-translation="мы не будем заменены" data-pronunciation="우리는 대체되지 않을 바이니 [urineun daechedoeji anheul baini]">우리는 대체되지 않을 바이니</span> <span class="korean-word" data-translation="в этом надежда" data-pronunciation="여기에 희망이 있습니다 [yeogie huimangi itseumnida]">여기에 희망이 있습니다</span>.</p>`,
+            translation: "С развитием ИИ приходит не только удобство, но и угроза — это парадокс технологии. Размышляя о сущности человечности, понимаешь, что именно чувства отличают нас от машин. Машина может вычислять, но любить не способна. Пока человек способен любить, мы не будем заменены — в этом надежда.",
+            image: "",
+            quiz: [
+                { question: "인공지능 발전은 무엇을 가져옵니까? (Что приносит развитие ИИ?)", options: ["편리함만", "위협만", "편리함과 위협", "아무것도"], correct: 2 },
+                { question: "인간성의 본질은 무엇입니까? (В чём сущность человечности?)", options: ["계산 능력", "감정", "기억력", "속도"], correct: 1 },
+                { question: "기계가 못하는 것은 무엇입니까? (Что не может машина?)", options: ["계산", "사랑", "저장", "검색"], correct: 1 },
+                { question: "인간이 대체되지 않으려면 무엇이 필요합니까? (Что нужно, чтобы не быть заменённым?)", options: ["돈", "사랑할 수 있는 능력", "권력", "기술"], correct: 1 }
+            ]
+        },
+        {
+            id: 'science-4',
+            title: "Космические исследования и место человека во Вселенной",
+            subtitle: "우주 탐사와 인간의 자리",
+            korean: `<p><span class="korean-word" data-translation="когда смотришь на звёзды" data-pronunciation="별들을 바라보노라면 [byeoldеureul barabonorаmyeon]">별들을 바라보노라면</span> <span class="korean-word" data-translation="не только красоту видишь" data-pronunciation="아름다움을 느낄뿐더러 [areumdaumeul neukkilppundeoreo]">아름다움을 느낄뿐더러</span> <span class="korean-word" data-translation="и ничтожность человека" data-pronunciation="인간의 미미함도 [inganui mimihаmdo]">인간의 미미함도</span> <span class="korean-word" data-translation="осознаёшь" data-pronunciation="깨닫게 되거니와 [kkaedatke doegеoniwa]">깨닫게 되거니와</span> <span class="korean-word" data-translation="это смирение" data-pronunciation="이것이 겸손입니다 [igeosi gyеоmsonimmida]">이것이 겸손입니다</span>.</p>
+<p><span class="korean-word" data-translation="если задуматься о космосе" data-pronunciation="우주를 생각할진대 [ujureul saenggakhalchindae]">우주를 생각할진대</span> <span class="korean-word" data-translation="бесконечность" data-pronunciation="무한함이야말로 [muhanhamiyamallo]">무한함이야말로</span> <span class="korean-word" data-translation="поражает воображение" data-pronunciation="상상을 초월하는 바입니다 [sangsangeul chowolhaneun baimnida]">상상을 초월하는 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="однако человек" data-pronunciation="그러나 인간은 [geureona inganeun]">그러나 인간은</span> <span class="korean-word" data-translation="хоть и мал" data-pronunciation="미미하거니와 [mimihagеoniwa]">미미하거니와</span> <span class="korean-word" data-translation="способен созерцать космос" data-pronunciation="우주를 관조할 수 있으니 [ujureul gwanjohal su isseuni]">우주를 관조할 수 있으니</span> <span class="korean-word" data-translation="в этом величие" data-pronunciation="여기에 위대함이 있습니다 [yeogie widaehamI itseumnida]">여기에 위대함이 있습니다</span>.</p>
+<p><span class="korean-word" data-translation="пока человечество мечтает" data-pronunciation="인류가 꿈꾸는 한 [illyuga kkumkkuneun han]">인류가 꿈꾸는 한</span> <span class="korean-word" data-translation="космические исследования" data-pronunciation="우주 탐사는 [uju tamsaneun]">우주 탐사는</span> <span class="korean-word" data-translation="будут продолжаться" data-pronunciation="계속될 바입니다 [gyesokdoel baimnida]">계속될 바입니다</span>.</p>`,
+            translation: "Глядя на звёзды, не только видишь красоту, но и осознаёшь ничтожность человека — это смирение. Размышляя о космосе, понимаешь, что бесконечность поражает воображение. Однако человек, хоть и мал, способен созерцать космос — в этом величие. Пока человечество мечтает, космические исследования будут продолжаться.",
+            image: "",
+            quiz: [
+                { question: "별을 보면 무엇을 깨닫습니까? (Что осознаёшь, глядя на звёзды?)", options: ["인간의 위대함만", "인간의 미미함", "아무것도", "부자가 됨"], correct: 1 },
+                { question: "우주의 특성은 무엇입니까? (Каково свойство космоса?)", options: ["유한함", "무한함", "작음", "단순함"], correct: 1 },
+                { question: "인간의 위대함은 무엇입니까? (В чём величие человека?)", options: ["힘", "우주를 관조할 수 있음", "속도", "크기"], correct: 1 },
+                { question: "우주 탐사가 계속되려면 무엇이 필요합니까? (Что нужно для продолжения исследований?)", options: ["돈만", "인류의 꿈", "정부만", "전쟁"], correct: 1 }
             ]
         }
     ],
@@ -181,6 +317,40 @@ const level6Texts = {
                 { question: "한반도의 미래에서 DMZ는 무엇이 됩니까? (Чем станет DMZ в будущем?)", options: ["전쟁터", "평화의 시발점", "관광지만", "폐허"], correct: 1 },
                 { question: "분단이 지속되면 DMZ는 어떤 장소입니까? (Каким местом остаётся DMZ?)", options: ["즐거운 곳", "경각심을 일깨우는 곳", "무의미한 곳", "위험한 곳만"], correct: 1 }
             ]
+        },
+        {
+            id: 'travel-3',
+            title: "По следам корейских королей",
+            subtitle: "조선 왕들의 발자취를 따라",
+            korean: `<p><span class="korean-word" data-translation="путешествуя по королевским дворцам" data-pronunciation="조선의 궁궐들을 돌아보노라면 [joseonui gunggweldеureul dorabonorаmyeon]">조선의 궁궐들을 돌아보노라면</span> <span class="korean-word" data-translation="не только архитектуру видишь" data-pronunciation="건축미를 감상할뿐더러 [geonchukmirul gamsanghalppundeoreo]">건축미를 감상할뿐더러</span> <span class="korean-word" data-translation="и историю ощущаешь" data-pronunciation="역사를 느끼게 되거니와 [yeoksareul neukkige doegеoniwa]">역사를 느끼게 되거니와</span> <span class="korean-word" data-translation="это уникальный опыт" data-pronunciation="이것이야말로 특별한 경험입니다 [igeosiyamallo teukbyeolhan gyeongheomimnida]">이것이야말로 특별한 경험입니다</span>.</p>
+<p><span class="korean-word" data-translation="если задуматься о королях" data-pronunciation="왕들의 삶을 생각할진대 [wangdeului sarmeul saenggakhalchindae]">왕들의 삶을 생각할진대</span> <span class="korean-word" data-translation="величие и одиночество" data-pronunciation="영광과 고독이야말로 [yeong-gwang-gwa godogiyamallo]">영광과 고독이야말로</span> <span class="korean-word" data-translation="их судьба" data-pronunciation="그들의 운명이었던 바입니다 [geudeului unmyeongi-eotdeon baimnida]">그들의 운명이었던 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="дворец Кёнбоккун" data-pronunciation="경복궁의 근정전 앞에 서면 [gyeongbokgungui geunjeongjeоn ape seomyeon]">경복궁의 근정전 앞에 서면</span> <span class="korean-word" data-translation="не только величие чувствуешь" data-pronunciation="위엄을 느낄뿐더러 [wieоmeul neukkilppundeoreo]">위엄을 느낄뿐더러</span> <span class="korean-word" data-translation="и бремя власти" data-pronunciation="권력의 무게도 [gwollyeogui mugedо]">권력의 무게도</span> <span class="korean-word" data-translation="ощущаешь" data-pronunciation="느끼게 됩니다 [neukkige doemnida]">느끼게 됩니다</span>.</p>
+<p><span class="korean-word" data-translation="пока эти дворцы стоят" data-pronunciation="이 궁궐들이 서 있는 한 [i gunggweldeuri seo inneun han]">이 궁궐들이 서 있는 한</span> <span class="korean-word" data-translation="история" data-pronunciation="역사는 [yeoksaneun]">역사는</span> <span class="korean-word" data-translation="живёт" data-pronunciation="살아 숨 쉴 바입니다 [sara sum shwil baimnida]">살아 숨 쉴 바입니다</span>.</p>`,
+            translation: "Путешествуя по королевским дворцам Чосон, не только любуешься архитектурой, но и ощущаешь историю — это уникальный опыт. Размышляя о жизни королей, понимаешь, что величие и одиночество были их судьбой. Стоя перед тронным залом Кёнбоккуна, не только чувствуешь величие, но и ощущаешь бремя власти. Пока стоят эти дворцы, история живёт.",
+            image: "",
+            quiz: [
+                { question: "궁궐을 돌아보면 무엇을 느낍니까? (Что чувствуешь, посещая дворцы?)", options: ["건축미만", "역사도", "지루함", "아무것도"], correct: 1 },
+                { question: "왕들의 운명은 무엇이었습니까? (Какова была судьба королей?)", options: ["영광만", "고독만", "영광과 고독", "평범함"], correct: 2 },
+                { question: "근정전 앞에 서면 무엇을 느낍니까? (Что чувствуешь у тронного зала?)", options: ["위엄만", "권력의 무게도", "무관심", "피로"], correct: 1 },
+                { question: "궁궐이 서 있으면 무엇이 살아 있습니까? (Что живёт, пока стоят дворцы?)", options: ["관광객", "역사", "왕", "군인"], correct: 1 }
+            ]
+        },
+        {
+            id: 'travel-4',
+            title: "Горные тропы: путь к просветлению",
+            subtitle: "산길을 걸으며 깨달음을 얻다",
+            korean: `<p><span class="korean-word" data-translation="поднимаясь в горы" data-pronunciation="산을 오르노라면 [saneul oreunorаmyeon]">산을 오르노라면</span> <span class="korean-word" data-translation="не только тело закаляется" data-pronunciation="몸이 단련될뿐더러 [momi dallyeondoelppundeoreo]">몸이 단련될뿐더러</span> <span class="korean-word" data-translation="и дух укрепляется" data-pronunciation="정신도 강해지거니와 [jeongshindo ganghaejigеoniwa]">정신도 강해지거니와</span> <span class="korean-word" data-translation="это путь самосовершенствования" data-pronunciation="이것이야말로 수양의 길입니다 [igeosiyamallo suyangui girimnida]">이것이야말로 수양의 길입니다</span>.</p>
+<p><span class="korean-word" data-translation="если задуматься о горном пути" data-pronunciation="산길의 의미를 생각할진대 [sangilui uimireul saenggakhalchindae]">산길의 의미를 생각할진대</span> <span class="korean-word" data-translation="каждый шаг" data-pronunciation="한 걸음 한 걸음이야말로 [han georeom han georeomiyamallo]">한 걸음 한 걸음이야말로</span> <span class="korean-word" data-translation="медитация в движении" data-pronunciation="움직이는 명상인 바입니다 [umjigineun myeongsangin baimnida]">움직이는 명상인 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="достигнув вершины" data-pronunciation="정상에 오르면 [jeongsange oreumyeon]">정상에 오르면</span> <span class="korean-word" data-translation="не только вид открывается" data-pronunciation="경치가 눈앞에 펼쳐질뿐더러 [gyeongchiga nunape pyeolchyeojilppundeoreo]">경치가 눈앞에 펼쳐질뿐더러</span> <span class="korean-word" data-translation="и понимание приходит" data-pronunciation="깨달음도 찾아오거니와 [kkaedareumdo chajaogeoniwa]">깨달음도 찾아오거니와</span> <span class="korean-word" data-translation="это награда" data-pronunciation="이것이 보상입니다 [igeosi bosangimnida]">이것이 보상입니다</span>.</p>
+<p><span class="korean-word" data-translation="пока горы существуют" data-pronunciation="산이 존재하는 한 [sani jonjaehaneun han]">산이 존재하는 한</span> <span class="korean-word" data-translation="люди будут подниматься" data-pronunciation="사람들은 오를 바이니 [saramdeureun oreul baini]">사람들은 오를 바이니</span> <span class="korean-word" data-translation="в этом вечность" data-pronunciation="여기에 영원이 있습니다 [yeogie yeоngwoni itseumnida]">여기에 영원이 있습니다</span>.</p>`,
+            translation: "Поднимаясь в горы, не только закаляешь тело, но и укрепляешь дух — это путь самосовершенствования. Размышляя о смысле горного пути, понимаешь, что каждый шаг — медитация в движении. Достигнув вершины, не только любуешься видом, но и обретаешь понимание — это награда. Пока существуют горы, люди будут подниматься — в этом вечность.",
+            image: "",
+            quiz: [
+                { question: "산을 오르면 무엇이 됩니까? (Что происходит при восхождении?)", options: ["몸만 단련", "정신도 강해짐", "피로만", "아무것도"], correct: 1 },
+                { question: "산길의 한 걸음은 무엇입니까? (Чем является каждый шаг?)", options: ["운동", "움직이는 명상", "낭비", "고통"], correct: 1 },
+                { question: "정상에 오르면 무엇을 얻습니까? (Что получаешь на вершине?)", options: ["경치만", "깨달음도", "피로만", "아무것도"], correct: 1 },
+                { question: "산이 존재하면 무엇이 있습니까? (Что есть, пока существуют горы?)", options: ["위험", "영원", "고통", "불편"], correct: 1 }
+            ]
         }
     ],
     food: [
@@ -216,6 +386,40 @@ const level6Texts = {
                 { question: "봄에는 무엇을 먹습니까? (Что едят весной?)", options: ["저장 음식", "새순", "수확물", "채소"], correct: 1 },
                 { question: "계절을 따르면 무엇을 얻습니까? (Что получаешь, следуя сезонам?)", options: ["건강과 자연 존중", "부", "명예", "권력"], correct: 0 },
                 { question: "계절과 음식의 관계는 무엇입니까? (Каковы отношения сезона и еды?)", options: ["무관함", "삶의 지혜", "불편함", "필요악"], correct: 1 }
+            ]
+        },
+        {
+            id: 'food-3',
+            title: "Искусство кимчи: наследие поколений",
+            subtitle: "김치의 예술과 세대의 유산",
+            korean: `<p><span class="korean-word" data-translation="кимчи" data-pronunciation="김치는 [gimchineun]">김치는</span> <span class="korean-word" data-translation="не просто гарнир" data-pronunciation="단순한 반찬일뿐더러 [dansunhan banchanilppundeoreo]">단순한 반찬일뿐더러</span> <span class="korean-word" data-translation="корейская идентичность" data-pronunciation="한국인의 정체성이기도 하거니와 [hanguginui jeongchesеongigido hagеoniwa]">한국인의 정체성이기도 하거니와</span> <span class="korean-word" data-translation="мудрость предков" data-pronunciation="선조들의 지혜가 [seonjoдeului jihyega]">선조들의 지혜가</span> <span class="korean-word" data-translation="воплощена в нём" data-pronunciation="담긴 바입니다 [damgin baimnida]">담긴 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="наблюдая за приготовлением кимчи" data-pronunciation="김장하는 모습을 지켜보노라면 [gimjanghaneun moseubeul jikyebonorаmyeon]">김장하는 모습을 지켜보노라면</span> <span class="korean-word" data-translation="не только технику видишь" data-pronunciation="기술을 볼뿐더러 [gisureul bolppundeoreo]">기술을 볼뿐더러</span> <span class="korean-word" data-translation="и любовь семьи" data-pronunciation="가족의 사랑도 [gajogui sarangdo]">가족의 사랑도</span> <span class="korean-word" data-translation="ощущаешь" data-pronunciation="느끼게 되거니와 [neukkige doegеoniwa]">느끼게 되거니와</span> <span class="korean-word" data-translation="это передача традиций" data-pronunciation="이것이 전통의 계승입니다 [igeosi jeontongui gyeseungimnida]">이것이 전통의 계승입니다</span>.</p>
+<p><span class="korean-word" data-translation="если задуматься о кимчи" data-pronunciation="김치의 의미를 생각할진대 [gimchiui uimireul saenggakhalchindae]">김치의 의미를 생각할진대</span> <span class="korean-word" data-translation="ферментация" data-pronunciation="발효야말로 [balhyoyamallo]">발효야말로</span> <span class="korean-word" data-translation="чудо природы" data-pronunciation="자연의 기적인 바입니다 [jayeonui gijeоgin baimnida]">자연의 기적인 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="пока корейцы существуют" data-pronunciation="한국인이 존재하는 한 [hangugini jonjaehaneun han]">한국인이 존재하는 한</span> <span class="korean-word" data-translation="кимчи" data-pronunciation="김치는 [gimchineun]">김치는</span> <span class="korean-word" data-translation="будет жить" data-pronunciation="살아 있을 바입니다 [sara isseul baimnida]">살아 있을 바입니다</span>.</p>`,
+            translation: "Кимчи — не просто гарнир, но и корейская идентичность, в которой воплощена мудрость предков. Наблюдая за приготовлением кимчи, не только видишь технику, но и ощущаешь любовь семьи — это передача традиций. Размышляя о смысле кимчи, понимаешь, что ферментация — чудо природы. Пока существуют корейцы, кимчи будет жить.",
+            image: "",
+            quiz: [
+                { question: "김치는 무엇입니까? (Что такое кимчи?)", options: ["반찬만", "정체성이기도 함", "외국 음식", "현대 발명"], correct: 1 },
+                { question: "김장을 지켜보면 무엇을 느낍니까? (Что чувствуешь при наблюдении за кимджаном?)", options: ["기술만", "가족의 사랑도", "지루함", "배고픔만"], correct: 1 },
+                { question: "발효는 무엇입니까? (Чем является ферментация?)", options: ["화학 반응만", "자연의 기적", "인공적인 것", "위험한 것"], correct: 1 },
+                { question: "김치가 살아 있으려면 무엇이 필요합니까? (Что нужно для жизни кимчи?)", options: ["냉장고", "한국인의 존재", "공장", "수출"], correct: 1 }
+            ]
+        },
+        {
+            id: 'food-4',
+            title: "Храмовая кухня: еда как духовная практика",
+            subtitle: "사찰 음식: 음식을 통한 수행",
+            korean: `<p><span class="korean-word" data-translation="храмовая кухня" data-pronunciation="사찰 음식은 [sachal eumsigeun]">사찰 음식은</span> <span class="korean-word" data-translation="не только вегетарианство" data-pronunciation="채식일뿐더러 [chaesigilppundeoreo]">채식일뿐더러</span> <span class="korean-word" data-translation="и духовная практика" data-pronunciation="수행이기도 하거니와 [suhaengigido hagеoniwa]">수행이기도 하거니와</span> <span class="korean-word" data-translation="это буддийская мудрость" data-pronunciation="불교의 지혜가 담긴 바입니다 [bulgyoui jihyega damgin baimnida]">불교의 지혜가 담긴 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="пробуя храмовую еду" data-pronunciation="사찰 음식을 맛보노라면 [sachal eumsigeul matbonorаmyeon]">사찰 음식을 맛보노라면</span> <span class="korean-word" data-translation="не только вкус ощущаешь" data-pronunciation="맛만 느끼는 것이 아니라 [matman neukkineun geosi anira]">맛만 느끼는 것이 아니라</span> <span class="korean-word" data-translation="и покой обретаешь" data-pronunciation="마음의 평화도 얻게 되거니와 [maeumui pyeonghwado eotke doegеoniwa]">마음의 평화도 얻게 되거니와</span> <span class="korean-word" data-translation="это исцеление" data-pronunciation="이것이 치유입니다 [igeosi chiyuimnida]">이것이 치유입니다</span>.</p>
+<p><span class="korean-word" data-translation="если задуматься о еде" data-pronunciation="음식의 본질을 생각할진대 [eumsigui bonjireul saenggakhalchindae]">음식의 본질을 생각할진대</span> <span class="korean-word" data-translation="осознанное питание" data-pronunciation="마음 챙김이야말로 [maeum chaengkimiyamallo]">마음 챙김이야말로</span> <span class="korean-word" data-translation="ключ к здоровью" data-pronunciation="건강의 열쇠인 바입니다 [geongangui yeolsoein baimnida]">건강의 열쇠인 바입니다</span>.</p>
+<p><span class="korean-word" data-translation="пока храмы существуют" data-pronunciation="사찰이 존재하는 한 [sachali jonjaehaneun han]">사찰이 존재하는 한</span> <span class="korean-word" data-translation="эта мудрость" data-pronunciation="이 지혜는 [i jihyeneun]">이 지혜는</span> <span class="korean-word" data-translation="будет передаваться" data-pronunciation="전해질 바입니다 [jeonhaejil baimnida]">전해질 바입니다</span>.</p>`,
+            translation: "Храмовая кухня — не только вегетарианство, но и духовная практика, в которой заключена буддийская мудрость. Пробуя храмовую еду, не только ощущаешь вкус, но и обретаешь покой — это исцеление. Размышляя о сущности еды, понимаешь, что осознанное питание — ключ к здоровью. Пока существуют храмы, эта мудрость будет передаваться.",
+            image: "",
+            quiz: [
+                { question: "사찰 음식은 무엇입니까? (Что такое храмовая еда?)", options: ["채식만", "수행이기도 함", "고기 요리", "패스트푸드"], correct: 1 },
+                { question: "사찰 음식을 맛보면 무엇을 얻습니까? (Что получаешь от храмовой еды?)", options: ["맛만", "마음의 평화도", "배부름만", "아무것도"], correct: 1 },
+                { question: "건강의 열쇠는 무엇입니까? (Что ключ к здоровью?)", options: ["많이 먹기", "마음 챙김", "빨리 먹기", "비싼 음식"], correct: 1 },
+                { question: "이 지혜가 전해지려면 무엇이 필요합니까? (Что нужно для передачи мудрости?)", options: ["돈", "사찰의 존재", "정부", "수출"], correct: 1 }
             ]
         }
     ]
