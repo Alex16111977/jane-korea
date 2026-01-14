@@ -1,6 +1,6 @@
 /**
  * Jane Korea - Progress Tracking System
- * Версия: 1.0
+ * Версия: 2.0 (с поддержкой Firebase)
  * Дата: 2025-10-09
  */
 
@@ -12,7 +12,7 @@ function initProgress() {
     if (existing) {
         return JSON.parse(existing);
     }
-    
+
     const initial = {
         completedTexts: {},
         completedLessons: {},
@@ -28,15 +28,25 @@ function initProgress() {
         },
         achievements: []
     };
-    
+
     saveProgress(initial);
     return initial;
 }
 
-// Сохранить прогресс
+// Сохранить прогресс (локально + облако)
 function saveProgress(progress) {
+    // Сохраняем локально
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-    console.log('[OK] Progress saved');
+    console.log('[OK] Progress saved locally');
+
+    // Синхронизируем с облаком если авторизован
+    if (window.FirebaseSync && window.FirebaseAuth?.isLoggedIn()) {
+        window.FirebaseSync.saveProgressToCloud(progress)
+            .then(success => {
+                if (success) console.log('[OK] Progress synced to cloud');
+            })
+            .catch(err => console.error('[ERR] Cloud sync failed:', err));
+    }
 }
 
 // Получить прогресс
