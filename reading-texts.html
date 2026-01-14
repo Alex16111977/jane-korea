@@ -1696,17 +1696,24 @@
             const levelParam = urlParams.get('level');
             const categoryParam = urlParams.get('category');
 
-            if (levelParam) {
+            // Игнорируем "null" как строку
+            if (levelParam && levelParam !== 'null') {
                 const parsedLevel = parseInt(levelParam, 10);
 
-                if (!isNaN(parsedLevel)) {
+                if (!isNaN(parsedLevel) && parsedLevel >= 1 && parsedLevel <= 6) {
                     selectLevel(parsedLevel, { skipHistory: true });
 
-                    if (categoryParam) {
+                    if (categoryParam && categoryParam !== 'null') {
                         selectCategory(categoryParam, { skipHistory: true });
                         console.log(`Восстановлено: Уровень ${selectedLevel}, Категория ${selectedCategory}`);
                     }
+                } else {
+                    // Невалидный уровень - очищаем URL
+                    window.history.replaceState({}, '', window.location.pathname);
                 }
+            } else if (levelParam === 'null' || categoryParam === 'null') {
+                // Очищаем URL от null параметров
+                window.history.replaceState({}, '', window.location.pathname);
             }
         }
 
