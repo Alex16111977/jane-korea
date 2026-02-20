@@ -243,6 +243,12 @@
             color: white;
             border-color: #4caf50;
             box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4);
+            cursor: pointer;
+        }
+
+        .step.completed:hover {
+            transform: scale(1.08);
+            filter: brightness(1.1);
         }
 
         .levels-grid {
@@ -651,9 +657,9 @@
         <div id="progressDashboard"></div>
 
         <div class="step-indicator">
-            <div class="step active" id="step1">1. Выбор уровня</div>
-            <div class="step" id="step2">2. Категория текстов</div>
-            <div class="step" id="step3">3. Выбор текста</div>
+            <div class="step active" id="step1" onclick="onStepClick(1)">1. Выбор уровня</div>
+            <div class="step" id="step2" onclick="onStepClick(2)">2. Категория текстов</div>
+            <div class="step" id="step3" onclick="onStepClick(3)">3. Выбор текста</div>
             <div class="step" id="step4">4. Чтение</div>
         </div>
 
@@ -1515,21 +1521,46 @@
             }
         }
 
+        function pluralizeTexts(n) {
+            const mod10 = n % 10;
+            const mod100 = n % 100;
+            if (mod100 >= 11 && mod100 <= 19) return `${n} текстов`;
+            if (mod10 === 1) return `${n} текст`;
+            if (mod10 >= 2 && mod10 <= 4) return `${n} текста`;
+            return `${n} текстов`;
+        }
+
         function updateCategoryCounts(level) {
             const levelData = textsDatabase[level] || {};
-            
-            document.getElementById('personalCount').textContent = 
-                `${(levelData.personal || []).length} текстов`;
-            document.getElementById('storiesCount').textContent = 
-                `${(levelData.stories || []).length} текстов`;
-            document.getElementById('cultureCount').textContent = 
-                `${(levelData.culture || []).length} текстов`;
-            document.getElementById('scienceCount').textContent = 
-                `${(levelData.science || []).length} текстов`;
-            document.getElementById('travelCount').textContent = 
-                `${(levelData.travel || []).length} текста`;
-            document.getElementById('foodCount').textContent = 
-                `${(levelData.food || []).length} текстов`;
+            const progress = (typeof ProgressTracker !== 'undefined') ? ProgressTracker.get() : null;
+            const categories = ['personal', 'stories', 'culture', 'science', 'travel', 'food'];
+            const countIds = {
+                personal: 'personalCount',
+                stories: 'storiesCount',
+                culture: 'cultureCount',
+                science: 'scienceCount',
+                travel: 'travelCount',
+                food: 'foodCount'
+            };
+
+            categories.forEach(cat => {
+                const texts = levelData[cat] || [];
+                const total = texts.length;
+                let completed = 0;
+                if (progress) {
+                    completed = texts.filter(t =>
+                        progress.completedTexts[`${level}-${cat}-${t.id}`]
+                    ).length;
+                }
+                const el = document.getElementById(countIds[cat]);
+                if (el) {
+                    if (completed > 0) {
+                        el.textContent = `${completed}/${total} пройдено`;
+                    } else {
+                        el.textContent = pluralizeTexts(total);
+                    }
+                }
+            });
         }
 
         function selectCategory(category, options = {}) {
@@ -1737,6 +1768,23 @@
             });
         }
         
+        function onStepClick(stepNum) {
+            const step = document.getElementById(`step${stepNum}`);
+            if (!step || !step.classList.contains('completed')) return;
+
+            if (stepNum === 1) {
+                goBackToLevels();
+            } else if (stepNum === 2) {
+                goBackToCategories();
+            } else if (stepNum === 3) {
+                // Already on texts page or navigate to it
+                const textsPageActive = document.getElementById('textsPage').classList.contains('active');
+                if (!textsPageActive && selectedLevel && selectedCategory) {
+                    selectCategory(selectedCategory, { skipHistory: true });
+                }
+            }
+        }
+
         function goBackToCategories() {
             document.getElementById('step3').classList.remove('active');
             document.getElementById('step2').classList.add('active');

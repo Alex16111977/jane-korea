@@ -16,11 +16,30 @@
             margin-bottom: 30px;
             border-radius: 20px;
         }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border-radius: 15px;
+            padding: 20px 25px;
+            margin: 30px 20px 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #E91E63;
+        }
+        .section-header:first-of-type { margin-top: 10px; }
+        .section-info h2 { font-size: 1.4em; color: #333; margin-bottom: 4px; }
+        .section-info p { font-size: 0.9em; color: #888; margin: 0; }
+        .section-progress { text-align: center; min-width: 70px; }
+        .section-progress .progress-count { font-size: 1.3em; font-weight: 700; color: #E91E63; }
+        .section-progress .progress-label { font-size: 0.75em; color: #aaa; display: block; }
+        .section-progress-bar { width: 100%; height: 4px; background: #e9ecef; border-radius: 2px; margin-top: 6px; overflow: hidden; }
+        .section-progress-bar .fill { height: 100%; background: #E91E63; border-radius: 2px; transition: width 0.5s ease; }
         .lesson-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            padding: 20px;
+            padding: 0 20px 20px;
         }
         .lesson-item {
             background: white;
@@ -29,10 +48,25 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border-left: 5px solid #E91E63;
             transition: all 0.3s ease;
+            position: relative;
         }
-        .lesson-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        .lesson-item:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .lesson-item.completed { border-left-color: #AD1457; background: linear-gradient(135deg, rgba(233,30,99,0.04) 0%, white 100%); }
+        .completion-badge {
+            position: absolute; top: 10px; right: 10px; width: 28px; height: 28px;
+            background: #E91E63; color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: bold; box-shadow: 0 2px 6px rgba(233,30,99,0.4);
+        }
+        .lesson-difficulty { display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; margin-left: 10px; }
+        .grammar { background: #e3f2fd; color: #1976d2; }
+        .modal { background: #fff3e0; color: #f57c00; }
+        .irregular { background: #fce4ec; color: #c62828; }
+        .advanced { background: #f3e5f5; color: #7b1fa2; }
+        @media (max-width: 768px) {
+            .section-header { margin: 20px 10px 10px; padding: 15px 18px; }
+            .section-info h2 { font-size: 1.2em; }
+            .lesson-grid { padding: 0 10px 15px; }
         }
     </style>
 </head>
@@ -45,166 +79,235 @@
             <a href="../lessons.html" style="color: white; text-decoration: underline; position: relative; z-index: 100; display: inline-block; padding: 10px; cursor: pointer; font-size: 1.1em; font-weight: bold; background: rgba(255,255,255,0.1); border-radius: 5px; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">← Назад к выбору уровней</a>
         </div>
 
-        <div class="lesson-grid">
-            <div class="lesson-item">
-                <h3>🤝 Урок 1: Помогающие действия</h3>
+        <!-- Блок 1: Модальность и возможности -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>💪 Модальность и возможности</h2>
+                <p>Могу, должен, хочу, разрешено, запрещено</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="modal-count">0/9</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="modal-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-modal">
+            <div class="lesson-item" data-lesson="level5_lesson_01_helping">
+                <h3>🤝 Урок 1: Помогающие действия <span class="lesson-difficulty modal">Модальность</span></h3>
                 <p>아/어 주다 - делать что-то для кого-то</p>
                 <a href="../lesson_61_helping_actions/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>📋 Урок 2: Обязанности</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_02_obligation">
+                <h3>📋 Урок 2: Обязанности <span class="lesson-difficulty modal">Модальность</span></h3>
                 <p>아/어야 하다 - "должен", "нужно"</p>
                 <a href="../lesson_62_obligation/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>💪 Урок 3: Способности</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_03_ability">
+                <h3>💪 Урок 3: Способности <span class="lesson-difficulty modal">Модальность</span></h3>
                 <p>을/ㄹ 수 있다 - "могу", "умею"</p>
                 <a href="../lesson_63_ability/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🤔 Урок 4: Условные намерения</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_04_intention">
+                <h3>🤔 Урок 4: Условные намерения <span class="lesson-difficulty modal">Модальность</span></h3>
                 <p>려고 하다 - планы и намерения</p>
                 <a href="../lesson_64_conditional_intention/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>⬇️ Урок 5: Минимальное условие</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_05_minimum">
+                <h3>⬇️ Урок 5: Минимальное условие <span class="lesson-difficulty modal">Модальность</span></h3>
                 <p>기만 하면 - "достаточно только"</p>
                 <a href="../lesson_65_minimum_condition/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>✅ Урок 6: Разрешение</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_06_permission">
+                <h3>✅ Урок 6: Разрешение <span class="lesson-difficulty modal">Модальность</span></h3>
                 <p>아/어도 되다 - "можно", разрешение</p>
                 <a href="../lesson_66_permission/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>❌ Урок 7: Запрет (продвинутый)</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_07_prohibition">
+                <h3>❌ Урок 7: Запрет (продвинутый) <span class="lesson-difficulty modal">Модальность</span></h3>
                 <p>으면 안 되다 - "нельзя", строгий запрет</p>
                 <a href="../lesson_67_prohibition/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🚫 Урок 8: Неспособность 지 못하다</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_08_inability">
+                <h3>🚫 Урок 8: Неспособность 지 못하다 <span class="lesson-difficulty modal">Модальность</span></h3>
                 <p>Невозможность выполнить действие</p>
                 <a href="../lesson_68_inability_ji_moshada/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🎯 Урок 9: Намерения и обещания</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_09_promise">
+                <h3>🎯 Урок 9: Намерения и обещания <span class="lesson-difficulty modal">Модальность</span></h3>
                 <p>겠다 - твердые намерения и обещания</p>
                 <a href="../lesson_69_intention_promise/index.html" class="lesson-link">Изучить →</a>
             </div>
+        </div>
 
-            <div class="lesson-item">
-                <h3>🔄 Урок 10: Попытки и опыт</h3>
+        <!-- Блок 2: Грамматика и неправильные глаголы -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>📖 Грамматика и глаголы</h2>
+                <p>Опыт, источник, будущее, неправильные глаголы</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="grammar-count">0/6</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="grammar-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-grammar">
+            <div class="lesson-item" data-lesson="level5_lesson_10_trying">
+                <h3>🔄 Урок 10: Попытки и опыт <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>아/어 보다 - "попробовать", опыт</p>
                 <a href="../lesson_70_trying_experience/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>👥 Урок 11: От кого</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_11_from_whom">
+                <h3>👥 Урок 11: От кого <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>한테서/에게서 - источник действия</p>
                 <a href="../lesson_71_from_whom/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>⏭️ Урок 12: Будущие намерения</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_12_future">
+                <h3>⏭️ Урок 12: Будущие намерения <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>을/ㄹ 예정이다 - запланированные действия</p>
                 <a href="../lesson_72_future_intention/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>💭 Урок 13: Предположения</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_13_supposition">
+                <h3>💭 Урок 13: Предположения <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>을/ㄹ 것이다 - логические предположения</p>
                 <a href="../lesson_73_supposition/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🔤 Урок 14: Неправильные глаголы ㅂ</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_14_irregular_b">
+                <h3>🔤 Урок 14: Неправильные глаголы ㅂ <span class="lesson-difficulty irregular">Неправильные</span></h3>
                 <p>Особенности спряжения глаголов на ㅂ</p>
                 <a href="../lesson_74_irregular_bieup/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🔤 Урок 15: Неправильные глаголы ㄷ</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_15_irregular_d">
+                <h3>🔤 Урок 15: Неправильные глаголы ㄷ <span class="lesson-difficulty irregular">Неправильные</span></h3>
                 <p>Особенности спряжения глаголов на ㄷ</p>
                 <a href="../lesson_75_irregular_digeut/index.html" class="lesson-link">Изучить →</a>
             </div>
+        </div>
 
-            <div class="lesson-item">
-                <h3>🏢 Урок 16: Бизнес-корейский</h3>
+        <!-- Блок 3: Продвинутые стили -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>🎭 Продвинутые стили речи</h2>
+                <p>Бизнес, литература, газетный стиль, диалекты</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="advanced-count">0/9</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="advanced-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-advanced">
+            <div class="lesson-item" data-lesson="level5_lesson_16_business">
+                <h3>🏢 Урок 16: Бизнес-корейский <span class="lesson-difficulty advanced">Стиль</span></h3>
                 <p>Деловая лексика, переговоры, официальная переписка</p>
                 <a href="business_korean/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🎭 Урок 17: Высокие формы вежливости</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_17_honorifics">
+                <h3>🎭 Урок 17: Высокие формы вежливости <span class="lesson-difficulty advanced">Стиль</span></h3>
                 <p>존댓말 - формальный и сверхвежливый стиль</p>
                 <a href="high_honorifics/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>📰 Урок 18: Газетный стиль</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_18_newspaper">
+                <h3>📰 Урок 18: Газетный стиль <span class="lesson-difficulty advanced">Стиль</span></h3>
                 <p>Сложные конструкции для новостей и официальных текстов</p>
                 <a href="newspaper_style/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🔗 Урок 19: Причинно-следственные связи</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_19_causality">
+                <h3>🔗 Урок 19: Причинно-следственные связи <span class="lesson-difficulty advanced">Стиль</span></h3>
                 <p>기 때문에, 으므로 - сложные причинные конструкции</p>
                 <a href="causality/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>⚖️ Урок 20: Противопоставления и уступки</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_20_contrasts">
+                <h3>⚖️ Урок 20: Противопоставления и уступки <span class="lesson-difficulty advanced">Стиль</span></h3>
                 <p>에도 불구하고, 음에도 - сложные противительные конструкции</p>
                 <a href="contrasts/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>📚 Урок 21: Литературный корейский</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_21_literary">
+                <h3>📚 Урок 21: Литературный корейский <span class="lesson-difficulty advanced">Стиль</span></h3>
                 <p>Поэтическая лексика, архаичные формы, классическая литература</p>
                 <a href="literary_korean/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🗺️ Урок 22: Диалекты и региональная речь</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_22_dialects">
+                <h3>🗺️ Урок 22: Диалекты и региональная речь <span class="lesson-difficulty advanced">Стиль</span></h3>
                 <p>Особенности региональных говоров Кореи</p>
                 <a href="dialects/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🧠 Урок 23: Психология и эмоции</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_23_psychology">
+                <h3>🧠 Урок 23: Психология и эмоции <span class="lesson-difficulty advanced">Стиль</span></h3>
                 <p>Сложная эмоциональная лексика и психологические термины</p>
                 <a href="psychology/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🏛️ Урок 24: Академический корейский</h3>
+            <div class="lesson-item" data-lesson="level5_lesson_24_academic">
+                <h3>🏛️ Урок 24: Академический корейский <span class="lesson-difficulty advanced">Стиль</span></h3>
                 <p>Научная терминология, исследовательская лексика</p>
                 <a href="academic_korean/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-
         </div>
     </div>
 
+    <script src="../js/progress-tracker.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const lessons = document.querySelectorAll('.lesson-item');
-            lessons.forEach((lesson, index) => {
+            var lessons = document.querySelectorAll('.lesson-item');
+            lessons.forEach(function(lesson, index) {
                 lesson.style.opacity = '0';
                 lesson.style.transform = 'translateY(20px)';
-                setTimeout(() => {
+                setTimeout(function() {
                     lesson.style.transition = 'all 0.5s ease';
                     lesson.style.opacity = '1';
                     lesson.style.transform = 'translateY(0)';
-                }, index * 100);
+                }, index * 80);
+            });
+
+            try {
+                if (window.ProgressTracker) {
+                    var progress = ProgressTracker.get();
+                    if (progress && progress.completedLessons) {
+                        var sections = {
+                            modal: { el: 'modal', total: 9, done: 0 },
+                            grammar: { el: 'grammar', total: 6, done: 0 },
+                            advanced: { el: 'advanced', total: 9, done: 0 }
+                        };
+                        lessons.forEach(function(card) {
+                            var lessonId = card.getAttribute('data-lesson');
+                            if (!lessonId) return;
+                            if (!!progress.completedLessons[lessonId]) {
+                                card.classList.add('completed');
+                                var badge = document.createElement('div');
+                                badge.className = 'completion-badge';
+                                badge.textContent = '\u2713';
+                                card.appendChild(badge);
+                                var grid = card.closest('.lesson-grid');
+                                if (grid) {
+                                    if (grid.id === 'grid-modal') sections.modal.done++;
+                                    else if (grid.id === 'grid-grammar') sections.grammar.done++;
+                                    else if (grid.id === 'grid-advanced') sections.advanced.done++;
+                                }
+                            }
+                        });
+                        Object.keys(sections).forEach(function(key) {
+                            var s = sections[key];
+                            var countEl = document.getElementById(s.el + '-count');
+                            var barEl = document.getElementById(s.el + '-bar');
+                            if (countEl) countEl.textContent = s.done + '/' + s.total;
+                            if (barEl) barEl.style.width = Math.round((s.done / s.total) * 100) + '%';
+                        });
+                        console.log('[OK] Level 5 progress loaded');
+                    }
+                }
+            } catch(e) { console.log('[ERROR] Progress loading failed:', e); }
+
+            lessons.forEach(function(card) {
+                var link = card.querySelector('.lesson-link');
+                if (link) {
+                    link.addEventListener('click', function() {
+                        var lessonId = card.getAttribute('data-lesson');
+                        if (lessonId && window.ProgressTracker) {
+                            try { ProgressTracker.markLessonCompleted(lessonId); console.log('[+] Marked lesson:', lessonId); }
+                            catch(e) { console.log('[ERROR] Could not mark lesson:', e); }
+                        }
+                    });
+                }
             });
         });
     </script>

@@ -171,6 +171,12 @@
             text-align: left;
         }
 
+        .korean-content br {
+            display: block;
+            content: '';
+            margin-bottom: 10px;
+        }
+
         .korean-word {
             display: inline;
             cursor: pointer;
@@ -188,6 +194,31 @@
         .korean-word.clicked {
             background: #c8e6c9;
             color: #388e3c;
+        }
+
+        .korean-word.active {
+            background: #fff3cd;
+            color: #856404;
+            box-shadow: 0 0 0 2px #ffc107;
+            border-radius: 3px;
+        }
+
+        .korean-word .word-romanization {
+            display: none;
+            font-size: 10px;
+            color: #999;
+            line-height: 1.2;
+        }
+
+        .korean-content.show-romanization .korean-word {
+            display: inline-block;
+            text-align: center;
+            vertical-align: top;
+            margin: 0 1px 4px;
+        }
+
+        .korean-content.show-romanization .korean-word .word-romanization {
+            display: block;
         }
 
         .translation-section {
@@ -472,6 +503,79 @@
             animation: pulse 2s infinite;
         }
 
+        .text-navigation {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .nav-btn {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .nav-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-btn.primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .nav-btn.primary:hover {
+            background: #5a6fd6;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .audio-progress {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 0 20px;
+        }
+
+        .audio-progress-track {
+            flex: 1;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .audio-time {
+            font-size: 12px;
+            color: #666;
+            white-space: nowrap;
+            min-width: 80px;
+            text-align: right;
+        }
+
         @keyframes pulse {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.7; }
@@ -623,9 +727,22 @@
                 <button class="control-btn" onclick="toggleVocabLearning()" id="vocabBtn">
                     <span>📚</span> Учить слова
                 </button>
+                <button class="control-btn" onclick="toggleTransliteration()" id="translitBtn">
+                    <span>🔤</span> Романизация
+                </button>
                 <button class="control-btn secondary" onclick="playAudio()">
                     <span>🔊</span> Аудио
                 </button>
+            </div>
+            <div class="audio-progress" id="audioProgress" style="display: none;">
+                <div class="audio-progress-track" id="audioProgressTrack">
+                    <div class="audio-progress-bar" id="audioProgressBar"></div>
+                </div>
+                <span class="audio-time" id="audioTime">0:00 / 0:00</span>
+            </div>
+            <div class="text-navigation">
+                <button class="nav-btn" onclick="goToPrevText()" id="prevTextBtn">← Предыдущий</button>
+                <button class="nav-btn primary" onclick="goToNextText()" id="nextTextBtn">Следующий →</button>
             </div>
         </div>
     </div>
@@ -642,6 +759,7 @@
         let translationVisible = false;
         let quizVisible = false;
         let vocabLearningVisible = false;
+        let transliterationVisible = false;
         let learnedWords = [];
         let currentWordToLearn = null;
         let currentStoryId = null;
@@ -2535,6 +2653,24 @@
             return html.replace(/<br\s*\/?>(\s*)/gi, ' $1');
         }
 
+        function addSentenceBreaks() {
+            const container = document.getElementById('koreanContent');
+            if (!container) return;
+
+            const words = container.querySelectorAll('.korean-word');
+            words.forEach(word => {
+                const text = word.textContent.trim();
+                if (/[.?!。？！]$/.test(text)) {
+                    const nextSibling = word.nextSibling;
+                    if (nextSibling && nextSibling.nodeType === Node.TEXT_NODE && nextSibling.textContent.trim() === '') {
+                        nextSibling.remove();
+                    }
+                    const br = document.createElement('br');
+                    word.parentNode.insertBefore(br, word.nextSibling);
+                }
+            });
+        }
+
         function expandSentenceWordSpans() {
             if (typeof selectedLevel === 'undefined' || selectedLevel !== 3) {
                 return;
@@ -2671,6 +2807,7 @@
             document.getElementById('storySubtitle').textContent = story.subtitle;
             document.getElementById('koreanContent').innerHTML = sanitizeKoreanContent(story.korean);
             expandSentenceWordSpans();
+            addSentenceBreaks();
             document.getElementById('translationText').textContent = story.translation;
             document.getElementById('translationHeaderText').textContent = defaultTranslationHeaderMessage;
 
@@ -2857,10 +2994,8 @@
                         }
                     }
 
-                    wordElement.classList.add('clicked');
-                    setTimeout(() => {
-                        wordElement.classList.remove('clicked');
-                    }, 1000);
+                    document.querySelectorAll('.korean-word.active').forEach(w => w.classList.remove('active'));
+                    wordElement.classList.add('active');
                 });
             });
         }
@@ -3051,7 +3186,7 @@
         function toggleTranslation() {
             translationVisible = !translationVisible;
             const section = document.getElementById('translationSection');
-            
+
             if (translationVisible) {
                 section.classList.add('show');
             } else {
@@ -3059,35 +3194,47 @@
             }
         }
 
+        function toggleTransliteration() {
+            transliterationVisible = !transliterationVisible;
+            const content = document.getElementById('koreanContent');
+            const btn = document.getElementById('translitBtn');
+
+            if (transliterationVisible) {
+                content.classList.add('show-romanization');
+                btn.classList.add('active');
+                // Create romanization spans if not yet created
+                content.querySelectorAll('.korean-word').forEach(word => {
+                    if (!word.querySelector('.word-romanization')) {
+                        const pron = word.dataset.pronunciation || '';
+                        if (pron) {
+                            const span = document.createElement('span');
+                            span.className = 'word-romanization';
+                            span.textContent = pron;
+                            word.appendChild(span);
+                        }
+                    }
+                });
+            } else {
+                content.classList.remove('show-romanization');
+                btn.classList.remove('active');
+            }
+        }
+
         function toggleQuiz() {
             quizVisible = !quizVisible;
             const section = document.getElementById('quizSection');
-            const koreanContent = document.getElementById('koreanContent');
-            const translationSection = document.getElementById('translationSection');
             const quizBtn = document.getElementById('quizBtn');
-            
+
             if (quizVisible && currentQuiz.length > 0) {
-                // Reset quiz state
                 currentQuestionIndex = 0;
                 quizAnswers = [];
                 loadQuiz();
                 section.style.display = 'block';
-                // Hide Korean text and translation while quiz is active
-                koreanContent.style.display = 'none';
-                translationSection.style.display = 'none';
-                translationVisible = false;
-                // Update button
                 quizBtn.innerHTML = '<span>❌</span> Закрыть тест';
                 quizBtn.classList.add('active');
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else {
                 section.style.display = 'none';
-                // Show Korean text back
-                koreanContent.style.display = 'block';
-                // Keep translation section hidden unless it was manually shown
-                if (translationVisible) {
-                    translationSection.classList.add('show');
-                }
-                // Reset button
                 quizBtn.innerHTML = '<span>🧠</span> Тест';
                 quizBtn.classList.remove('active');
             }
@@ -3249,14 +3396,10 @@
         function toggleVocabLearning() {
             vocabLearningVisible = !vocabLearningVisible;
             const section = document.getElementById('vocabLearningSection');
-            const koreanContent = document.getElementById('koreanContent');
-            const translationSection = document.getElementById('translationSection');
-            const quizSection = document.getElementById('quizSection');
             const vocabSection = document.getElementById('vocabSection');
             const vocabBtn = document.getElementById('vocabBtn');
-            const quizBtn = document.getElementById('quizBtn');
 
-            if (!section || !koreanContent || !translationSection || !quizSection || !vocabBtn) {
+            if (!section || !vocabBtn) {
                 return;
             }
 
@@ -3278,34 +3421,13 @@
                     vocabSection.style.display = 'block';
                 }
 
-                koreanContent.style.display = 'none';
-                translationSection.style.display = 'none';
-                quizSection.style.display = 'none';
-
-                translationVisible = false;
-                quizVisible = false;
-
                 vocabBtn.innerHTML = '<span>❌</span> Закрыть';
                 vocabBtn.classList.add('active');
-
-                if (quizBtn) {
-                    quizBtn.classList.remove('active');
-                    quizBtn.innerHTML = '<span>🧠</span> Тест';
-                }
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else {
                 section.style.display = 'none';
                 if (vocabSection) {
                     vocabSection.style.display = 'none';
-                }
-
-                koreanContent.style.display = 'block';
-
-                if (translationVisible) {
-                    translationSection.style.display = 'block';
-                    translationSection.classList.add('show');
-                } else {
-                    translationSection.style.display = 'none';
-                    translationSection.classList.remove('show');
                 }
 
                 vocabBtn.classList.remove('active');
@@ -3324,53 +3446,91 @@
         // Подготовка данных для синхронизации аудио (автоматическое распределение)
 
 
+        function formatAudioTime(seconds) {
+            if (!isFinite(seconds)) return '0:00';
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${m}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function showAudioProgress() {
+            const el = document.getElementById('audioProgress');
+            if (el) el.style.display = 'flex';
+        }
+
+        function hideAudioProgress() {
+            const el = document.getElementById('audioProgress');
+            if (el) el.style.display = 'none';
+            const bar = document.getElementById('audioProgressBar');
+            if (bar) bar.style.width = '0%';
+            const time = document.getElementById('audioTime');
+            if (time) time.textContent = '0:00 / 0:00';
+        }
+
+        function setupAudioProgressClick() {
+            const track = document.getElementById('audioProgressTrack');
+            if (!track) return;
+            track.addEventListener('click', (e) => {
+                if (!currentAudio || !isFinite(currentAudio.duration)) return;
+                const rect = track.getBoundingClientRect();
+                const ratio = (e.clientX - rect.left) / rect.width;
+                currentAudio.currentTime = ratio * currentAudio.duration;
+            });
+        }
+
         async function playAudio() {
             const btn = event.target.closest('.control-btn');
             const originalText = btn.innerHTML;
-            
+
             try {
-                // Получаем ID текущего текста
                 const texts = getCurrentTexts();
                 if (texts.length === 0) return;
-                
+
                 const currentStory = texts[currentTextIndex];
                 const audioFileName = `${selectedLevel}-${selectedCategory}-${currentStory.id}.mp3`;
                 const audioPath = `audio/${audioFileName}`;
-                
-                // Останавливаем предыдущее аудио если есть
+
                 if (currentAudio) {
                     currentAudio.pause();
                     currentAudio.currentTime = 0;
                 }
-                
+
                 btn.innerHTML = '<span>🔊</span> Загружаю...';
                 btn.disabled = true;
                 btn.classList.add('loading');
-                
-                // Создаем новое аудио
+
                 currentAudio = new Audio(audioPath);
-                
-                // Обработка событий
+
                 currentAudio.oncanplaythrough = () => {
                     btn.innerHTML = '<span>⏸️</span> Остановить';
                     btn.classList.remove('loading');
                     btn.classList.add('playing');
                     btn.disabled = false;
+                    showAudioProgress();
                 };
-                
+
+                currentAudio.ontimeupdate = () => {
+                    if (!currentAudio || !isFinite(currentAudio.duration)) return;
+                    const pct = (currentAudio.currentTime / currentAudio.duration) * 100;
+                    const bar = document.getElementById('audioProgressBar');
+                    const time = document.getElementById('audioTime');
+                    if (bar) bar.style.width = pct + '%';
+                    if (time) time.textContent = `${formatAudioTime(currentAudio.currentTime)} / ${formatAudioTime(currentAudio.duration)}`;
+                };
+
                 currentAudio.onended = () => {
                     btn.innerHTML = originalText;
                     btn.disabled = false;
                     btn.classList.remove('playing', 'loading');
                     btn.onclick = playAudio;
                     currentAudio = null;
+                    hideAudioProgress();
                 };
-                
+
                 currentAudio.onerror = () => {
                     throw new Error(`Аудио файл не найден: ${audioFileName}`);
                 };
-                
-                // Функционал паузы/воспроизведения
+
                 btn.onclick = (e) => {
                     e.preventDefault();
                     if (currentAudio.paused) {
@@ -3383,16 +3543,16 @@
                         btn.classList.remove('playing');
                     }
                 };
-                
-                // Начинаем воспроизведение
+
                 await currentAudio.play();
-                
+
             } catch (error) {
                 console.error('Ошибка воспроизведения:', error);
                 btn.innerHTML = '<span>⚠️</span> Нет аудио';
                 btn.classList.remove('loading', 'playing');
                 currentAudio = null;
-                
+                hideAudioProgress();
+
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                     btn.disabled = false;
@@ -3425,6 +3585,31 @@
             }
         });
 
+        // === TEXT NAVIGATION ===
+        function goToNextText() {
+            const texts = getCurrentTexts();
+            if (currentTextIndex < texts.length - 1) {
+                const nextText = texts[currentTextIndex + 1];
+                window.location.href = `reading-content.html?level=${selectedLevel}&category=${selectedCategory}&textId=${nextText.id}`;
+            }
+        }
+
+        function goToPrevText() {
+            const texts = getCurrentTexts();
+            if (currentTextIndex > 0) {
+                const prevText = texts[currentTextIndex - 1];
+                window.location.href = `reading-content.html?level=${selectedLevel}&category=${selectedCategory}&textId=${prevText.id}`;
+            }
+        }
+
+        function updateNavigationButtons() {
+            const texts = getCurrentTexts();
+            const prevBtn = document.getElementById('prevTextBtn');
+            const nextBtn = document.getElementById('nextTextBtn');
+            if (prevBtn) prevBtn.disabled = currentTextIndex <= 0;
+            if (nextBtn) nextBtn.disabled = currentTextIndex >= texts.length - 1;
+        }
+
         // === PROGRESS TRACKING INTEGRATION ===
 
         // Инициализация при загрузке
@@ -3434,6 +3619,8 @@
             updatePageInfo();
             updateBackButton();
             loadCurrentText();
+            updateNavigationButtons();
+            setupAudioProgressClick();
             if (typeof updateVocabButton === 'function') {
                 updateVocabButton();
             }

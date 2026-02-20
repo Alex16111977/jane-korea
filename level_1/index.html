@@ -16,11 +16,63 @@
             margin-bottom: 30px;
             border-radius: 20px;
         }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border-radius: 15px;
+            padding: 20px 25px;
+            margin: 30px 20px 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #4CAF50;
+        }
+        .section-header:first-of-type {
+            margin-top: 10px;
+        }
+        .section-info h2 {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        .section-info p {
+            font-size: 0.9em;
+            color: #888;
+            margin: 0;
+        }
+        .section-progress {
+            text-align: center;
+            min-width: 70px;
+        }
+        .section-progress .progress-count {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #4CAF50;
+        }
+        .section-progress .progress-label {
+            font-size: 0.75em;
+            color: #aaa;
+            display: block;
+        }
+        .section-progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+        .section-progress-bar .fill {
+            height: 100%;
+            background: #4CAF50;
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
         .lesson-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            padding: 20px;
+            padding: 0 20px 20px;
         }
         .lesson-item {
             background: white;
@@ -29,10 +81,31 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border-left: 5px solid #4CAF50;
             transition: all 0.3s ease;
+            position: relative;
         }
         .lesson-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .lesson-item.completed {
+            border-left-color: #2e7d32;
+            background: linear-gradient(135deg, rgba(76,175,80,0.04) 0%, white 100%);
+        }
+        .completion-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 28px;
+            height: 28px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(76,175,80,0.4);
         }
         .lesson-difficulty {
             display: inline-block;
@@ -45,6 +118,14 @@
         .medium { background: #fff3e0; color: #f57c00; }
         .vocabulary { background: #f3e5f5; color: #7b1fa2; }
         .grammar { background: #e3f2fd; color: #1976d2; }
+        @media (max-width: 768px) {
+            .section-header {
+                margin: 20px 10px 10px;
+                padding: 15px 18px;
+            }
+            .section-info h2 { font-size: 1.2em; }
+            .lesson-grid { padding: 0 10px 15px; }
+        }
     </style>
 </head>
 <body>
@@ -56,119 +137,195 @@
             <a href="../lessons.html" style="color: white; text-decoration: underline; position: relative; z-index: 100; display: inline-block; padding: 10px; cursor: pointer; font-size: 1.1em; font-weight: bold; background: rgba(255,255,255,0.1); border-radius: 5px; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">← Назад к выбору уровней</a>
         </div>
 
-        <div class="lesson-grid">
-            <div class="lesson-item">
+        <!-- Блок 1: Основы -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>🎓 Основы</h2>
+                <p>Алфавит, базовые фразы и первая грамматика</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="basics-count">0/6</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="basics-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-basics">
+            <div class="lesson-item" data-lesson="lesson_01_korea">
                 <h3>📖 Урок 1: Знакомство с Кореей <span class="lesson-difficulty easy">Легко</span></h3>
                 <p>История, культура и письменность Кореи. Первое знакомство со страной.</p>
                 <a href="../lesson_01_korea/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="lesson_02_alphabet">
                 <h3>🔤 Урок 2: Алфавит хангыль <span class="lesson-difficulty medium">Важно</span></h3>
                 <p>Корейские буквы и правила чтения. Основа всего обучения!</p>
                 <a href="../lesson_02_alphabet/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="lesson_03_greetings">
                 <h3>👋 Урок 3: Приветствие <span class="lesson-difficulty easy">Легко</span></h3>
                 <p>Базовые фразы приветствия и знакомства. Первые слова по-корейски!</p>
                 <a href="../lesson_03_greetings/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="lesson_04_numbers">
                 <h3>🔢 Урок 4: Числа <span class="lesson-difficulty medium">Важно</span></h3>
                 <p>Корейские и китайско-корейские числа. Две системы счета!</p>
                 <a href="../lesson_04_numbers/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="lesson_05_family">
                 <h3>👨‍👩‍👧‍👦 Урок 5: Семья <span class="lesson-difficulty vocabulary">Слова</span></h3>
                 <p>Названия членов семьи: 엄마, 아빠, 형, 누나, 언니, 오빠...</p>
                 <a href="../lesson_05_family/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="lesson_06_grammar">
                 <h3>📝 Урок 6: Грамматика <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>Основы корейской грамматики и структура предложений</p>
                 <a href="../lesson_06_grammar/index.html" class="lesson-link">Изучить →</a>
             </div>
+        </div>
 
-            <div class="lesson-item">
-                <h3>🌈 Урок 7: Цвета <span class="lesson-difficulty vocabulary">Слова</span></h3>
-                <p>Основные цвета: 빨간색, 파란색, 노란색, 초록색, 흰색, 검은색...</p>
-                <a href="../vocabulary/colors/index.html" class="lesson-link">Изучить →</a>
+        <!-- Блок 2: Грамматика -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>📖 Грамматика</h2>
+                <p>Структура предложений и формы вежливости</p>
             </div>
-
-            <div class="lesson-item">
-                <h3>👤 Урок 8: Части тела <span class="lesson-difficulty vocabulary">Слова</span></h3>
-                <p>Основные части тела: 머리, 눈, 코, 입, 손, 발, 다리...</p>
-                <a href="../vocabulary/body/index.html" class="lesson-link">Изучить →</a>
+            <div class="section-progress">
+                <span class="progress-count" id="grammar-count">0/6</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="grammar-bar" style="width:0%"></div></div>
             </div>
-
-            <div class="lesson-item">
+        </div>
+        <div class="lesson-grid" id="grid-grammar">
+            <div class="lesson-item" data-lesson="lesson_07_verb_tenses">
                 <h3>🕰️ Урок 9: Времена глаголов <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>Основы спряжения глаголов и временные формы</p>
                 <a href="../lesson_07_verb_tenses/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="lesson_10_copula">
                 <h3>🔗 Урок 10: Связка 이다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>Глагол-связка "быть" в корейском языке - базовая грамматика</p>
                 <a href="../lesson_10_copula/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="lesson_11_informal_copula">
                 <h3>💬 Урок 11: Неформальная связка <span class="lesson-difficulty easy">Разговор</span></h3>
                 <p>Неформальные формы глагола-связки для друзей: 이야/야</p>
                 <a href="../lesson_11_informal_copula/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="lesson_12_formal_copula">
                 <h3>🎩 Урок 12: Формальная связка <span class="lesson-difficulty medium">Вежливость</span></h3>
                 <p>Формальные и вежливые формы связки для взрослых: 입니다/예요</p>
                 <a href="../lesson_12_formal_copula/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="lesson_13_copula_negation">
                 <h3>❌ Урок 13: Отрицание связки <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>Отрицательные формы глагола "быть" - "это не..." 아니다</p>
                 <a href="../lesson_13_copula_negation/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="lesson_14_demonstratives">
                 <h3>👆 Урок 14: Указательные слова <span class="lesson-difficulty vocabulary">Базовые слова</span></h3>
                 <p>이/그/저 - этот, тот, вон тот. Очень нужные слова!</p>
                 <a href="../lesson_14_demonstratives/index.html" class="lesson-link">Изучить →</a>
             </div>
+        </div>
 
-            <div class="lesson-item">
+        <!-- Блок 3: Лексика -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>📚 Лексика</h2>
+                <p>Словарный запас по темам</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="vocab-count">0/13</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="vocab-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-vocab">
+            <div class="lesson-item" data-lesson="vocabulary_colors">
+                <h3>🌈 Урок 7: Цвета <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Основные цвета: 빨간색, 파란색, 노란색, 초록색, 흰색, 검은색...</p>
+                <a href="../vocabulary/colors/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="vocabulary_body">
+                <h3>👤 Урок 8: Части тела <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Основные части тела: 머리, 눈, 코, 입, 손, 발, 다리...</p>
+                <a href="../vocabulary/body/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="vocabulary_adjectives">
                 <h3>🌟 Урок 15: Прилагательные <span class="lesson-difficulty vocabulary">Описания</span></h3>
                 <p>Описательные слова: 크다 (большой), 작다 (маленький), 예쁘다 (красивый), 좋다 (хороший)...</p>
                 <a href="../vocabulary/adjectives/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="vocabulary_verbs">
                 <h3>🏃 Урок 16: Действия (глаголы) <span class="lesson-difficulty vocabulary">Действия</span></h3>
                 <p>Основные действия: 가다 (идти), 오다 (приходить), 먹다 (есть), 마시다 (пить), 보다 (смотреть)...</p>
                 <a href="../vocabulary/verbs/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="vocabulary_professions">
                 <h3>💼 Урок 17: Профессии <span class="lesson-difficulty vocabulary">Работа</span></h3>
                 <p>Названия профессий: 선생님 (учитель), 의사 (врач), 학생 (студент), 회사원 (офисный работник)...</p>
                 <a href="../vocabulary/professions/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="vocabulary_house">
                 <h3>🏠 Урок 18: Дом и мебель <span class="lesson-difficulty vocabulary">Быт</span></h3>
                 <p>Предметы в доме: 집 (дом), 방 (комната), 침대 (кровать), 의자 (стул), 테이블 (стол)...</p>
                 <a href="../vocabulary/house/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
+            <div class="lesson-item" data-lesson="vocabulary_school">
                 <h3>📚 Урок 19: В школе <span class="lesson-difficulty vocabulary">Учеба</span></h3>
                 <p>Школьные предметы и принадлежности: 책 (книга), 연필 (карандаш), 펜 (ручка), 공부 (учеба)...</p>
                 <a href="../vocabulary/school/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="vocabulary_countries">
+                <h3>🌍 Урок 20: Страны и национальности <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Названия стран и народов: 한국, 러시아, 일본, 미국, 중국...</p>
+                <a href="../vocabulary/countries/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="vocabulary_basicfood">
+                <h3>🍎 Урок 21: Еда и напитки <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Базовые продукты и напитки: 사과, 물, 밥, 빵, 우유, 커피...</p>
+                <a href="../vocabulary/basicfood/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="vocabulary_seasons">
+                <h3>🌦️ Урок 22: Времена года и месяцы <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Сезоны и месяцы: 봄, 여름, 가을, 겨울, 1월-12월...</p>
+                <a href="../vocabulary/seasons/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="vocabulary_transport">
+                <h3>🚗 Урок 23: Транспорт <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Виды транспорта: 버스, 지하철, 택시, 자동차, 비행기...</p>
+                <a href="../vocabulary/transport/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="vocabulary_daystime">
+                <h3>🔢 Урок 24: Дни недели и время <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Дни и время суток: 월요일, 아침, 점심, 저녁, 오전, 오후...</p>
+                <a href="../vocabulary/daystime/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="vocabulary_questions">
+                <h3>❓ Урок 25: Вопросительные слова <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Как задавать вопросы: 뭐, 누구, 어디, 언제, 왜, 어떻게...</p>
+                <a href="../vocabulary/questions/index.html" class="lesson-link">Изучить →</a>
             </div>
         </div>
 
@@ -186,8 +343,10 @@
         </div>
     </div>
 
+    <script src="../js/progress-tracker.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Анимация карточек
             const lessons = document.querySelectorAll('.lesson-item');
             lessons.forEach((lesson, index) => {
                 lesson.style.opacity = '0';
@@ -196,7 +355,75 @@
                     lesson.style.transition = 'all 0.5s ease';
                     lesson.style.opacity = '1';
                     lesson.style.transform = 'translateY(0)';
-                }, index * 100);
+                }, index * 80);
+            });
+
+            // Прогресс-индикаторы
+            try {
+                if (window.ProgressTracker) {
+                    var progress = ProgressTracker.get();
+                    if (progress && progress.completedLessons) {
+                        var sections = {
+                            basics: { el: 'basics', total: 6, done: 0 },
+                            grammar: { el: 'grammar', total: 6, done: 0 },
+                            vocab: { el: 'vocab', total: 13, done: 0 }
+                        };
+
+                        lessons.forEach(function(card) {
+                            var lessonId = card.getAttribute('data-lesson');
+                            if (!lessonId) return;
+
+                            var isCompleted = !!progress.completedLessons[lessonId];
+                            if (isCompleted) {
+                                card.classList.add('completed');
+                                var badge = document.createElement('div');
+                                badge.className = 'completion-badge';
+                                badge.textContent = '\u2713';
+                                card.appendChild(badge);
+
+                                // Определяем секцию
+                                var grid = card.closest('.lesson-grid');
+                                if (grid) {
+                                    var gridId = grid.id;
+                                    if (gridId === 'grid-basics') sections.basics.done++;
+                                    else if (gridId === 'grid-grammar') sections.grammar.done++;
+                                    else if (gridId === 'grid-vocab') sections.vocab.done++;
+                                }
+                            }
+                        });
+
+                        // Обновляем счётчики секций
+                        Object.keys(sections).forEach(function(key) {
+                            var s = sections[key];
+                            var countEl = document.getElementById(s.el + '-count');
+                            var barEl = document.getElementById(s.el + '-bar');
+                            if (countEl) countEl.textContent = s.done + '/' + s.total;
+                            if (barEl) barEl.style.width = Math.round((s.done / s.total) * 100) + '%';
+                        });
+
+                        console.log('[OK] Level 1 progress loaded');
+                    }
+                }
+            } catch(e) {
+                console.log('[ERROR] Progress loading failed:', e);
+            }
+
+            // Отмечаем урок при клике
+            lessons.forEach(function(card) {
+                var link = card.querySelector('.lesson-link');
+                if (link) {
+                    link.addEventListener('click', function() {
+                        var lessonId = card.getAttribute('data-lesson');
+                        if (lessonId && window.ProgressTracker) {
+                            try {
+                                ProgressTracker.markLessonCompleted(lessonId);
+                                console.log('[+] Marked lesson:', lessonId);
+                            } catch(e) {
+                                console.log('[ERROR] Could not mark lesson:', e);
+                            }
+                        }
+                    });
+                }
             });
         });
     </script>

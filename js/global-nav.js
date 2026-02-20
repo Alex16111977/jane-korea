@@ -43,7 +43,8 @@
             'blackpink-culture-learning.html': 'kpop',
             'blackpink-members-learning.html': 'kpop',
             'blackpink-songs.html': 'kpop',
-            'boombayah-video.html': 'kpop'
+            'boombayah-video.html': 'kpop',
+            'group-bts.html': 'kpop'
         };
 
         if (pageMap[pageName]) return pageMap[pageName];
@@ -190,6 +191,12 @@
         { t: 'Словарь: В школе 학교에서', u: 'vocabulary/school/index.html', k: 'школа учёба' },
         { t: 'Словарь: Действия 동사', u: 'vocabulary/verbs/index.html', k: 'глаголы действия' },
         { t: 'Словарь: Погода 날씨', u: 'vocabulary/weather/index.html', k: 'погода' },
+        { t: 'Словарь: Страны и национальности 나라', u: 'vocabulary/countries/index.html', k: 'страны национальности' },
+        { t: 'Словарь: Еда и напитки 음식과 음료', u: 'vocabulary/basicfood/index.html', k: 'еда напитки фрукты' },
+        { t: 'Словарь: Времена года и месяцы 계절', u: 'vocabulary/seasons/index.html', k: 'времена сезоны месяцы' },
+        { t: 'Словарь: Транспорт 교통', u: 'vocabulary/transport/index.html', k: 'транспорт автобус метро' },
+        { t: 'Словарь: Дни недели и время 요일', u: 'vocabulary/daystime/index.html', k: 'дни недели время' },
+        { t: 'Словарь: Вопросительные слова 의문사', u: 'vocabulary/questions/index.html', k: 'вопросы вопросительные' },
 
         // K-POP
         { t: 'K-POP: Учим корейский через музыку', u: 'kpop-learning.html', k: 'kpop музыка' },
@@ -200,6 +207,7 @@
         { t: 'Участницы BLACKPINK', u: 'blackpink-members-learning.html', k: 'blackpink участницы' },
         { t: 'BLACKPINK Songs 2016', u: 'blackpink-songs.html', k: 'blackpink songs 2016' },
         { t: 'BOOMBAYAH Music Video', u: 'boombayah-video.html', k: 'boombayah видео' },
+        { t: 'BTS 방탄소년단', u: 'group-bts.html', k: 'bts бтс бантан bangtan' },
 
         // Тексты по уровням и категориям
         { t: 'Тексты для чтения', u: 'reading-texts.html', k: 'тексты чтение reading' },

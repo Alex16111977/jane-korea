@@ -73,8 +73,10 @@ function renderProgressDashboard(containerId) {
                 <h4>🏆 Достижения</h4>
                 <div class="badges">
                     ${achievements.map(a => `
-                        <div class="badge ${a.earned ? 'earned' : 'locked'}">
-                            ${a.icon} ${a.title}
+                        <div class="badge ${a.earned ? 'earned' : 'locked'} ${a.category}">
+                            <span class="badge-icon">${a.icon}</span>
+                            <span class="badge-title">${a.title}</span>
+                            <span class="badge-progress">${a.progressText}</span>
                         </div>
                     `).join('')}
                 </div>
@@ -101,37 +103,49 @@ function checkAllAchievements(progress) {
             id: 'first_text',
             icon: '🥇',
             title: 'Первый текст',
-            earned: totalTexts >= 1
+            earned: totalTexts >= 1,
+            category: 'texts',
+            progressText: `${Math.min(totalTexts, 1)}/1`
         },
         {
             id: 'text_master_5',
             icon: '📚',
             title: '5 текстов',
-            earned: totalTexts >= 5
+            earned: totalTexts >= 5,
+            category: 'texts',
+            progressText: `${Math.min(totalTexts, 5)}/5`
         },
         {
             id: 'perfect_quiz',
             icon: '💯',
             title: 'Идеальный результат',
-            earned: hasPerfectScore
+            earned: hasPerfectScore,
+            category: 'quiz',
+            progressText: hasPerfectScore ? '100%' : '—'
         },
         {
             id: 'streak_7',
             icon: '🔥',
             title: 'Недельная серия',
-            earned: streak >= 7
+            earned: streak >= 7,
+            category: 'streak',
+            progressText: `${Math.min(streak, 7)}/7`
         },
         {
             id: 'grammar_guru_10',
             icon: '📝',
             title: '10 уроков',
-            earned: totalLessons >= 10
+            earned: totalLessons >= 10,
+            category: 'grammar',
+            progressText: `${Math.min(totalLessons, 10)}/10`
         },
         {
             id: 'text_master_10',
             icon: '🎓',
             title: '10 текстов',
-            earned: totalTexts >= 10
+            earned: totalTexts >= 10,
+            category: 'texts',
+            progressText: `${Math.min(totalTexts, 10)}/10`
         }
     ];
 }

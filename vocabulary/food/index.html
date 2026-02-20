@@ -228,6 +228,28 @@
         .flashcard.flipped {
             transform: rotateY(180deg);
         }
+
+        .search-bar {
+            background: rgba(255,255,255,0.95);
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .search-bar input {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-bar input:focus {
+            border-color: #999;
+        }
     </style>
 </head>
 <body>
@@ -252,6 +274,9 @@
             <div class="progress-fill" id="progress"></div>
         </div>
         
+        <div class="search-bar">
+            <input type="text" id="vocabSearch" placeholder="🔍 Поиск слова..." oninput="filterVocabulary()">
+        </div>
         <div id="vocabulary-section">
             <div class="vocabulary-grid" id="vocabularyGrid">
                 <!-- Будет заполнено JS -->
@@ -318,6 +343,15 @@
         let correctAnswers = 0;
         let totalQuestions = 0;
         
+        function filterVocabulary() {
+            const query = document.getElementById('vocabSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.word-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
         function loadVocabulary() {
             const grid = document.getElementById('vocabularyGrid');
             grid.innerHTML = '';

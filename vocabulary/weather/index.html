@@ -383,6 +383,33 @@
             background: linear-gradient(90deg, #FF9800, #FF5722);
             border-radius: 20px 20px 0 0;
         }
+
+        .search-bar {
+            max-width: 500px;
+            margin: 0 auto 30px;
+            padding: 0 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .search-bar input:focus {
+            border-color: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.25);
+        }
     </style>
 </head>
 <body>
@@ -433,6 +460,11 @@
             <div class="progress-fill" id="progress"></div>
         </div>
         
+
+        <div class="search-bar">
+            <input type="text" id="vocabSearch" placeholder="🔍 Поиск слова..." oninput="filterVocabulary()">
+        </div>
+
         <div id="vocabulary-section">
             <div class="vocabulary-grid" id="vocabularyGrid">
                 <!-- Будет заполнено JS -->
@@ -512,6 +544,15 @@
     </div>
 
     <script>
+
+        function filterVocabulary() {
+            const query = document.getElementById('vocabSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.weather-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
         const vocabulary = [
             {
                 korean: '날씨', 

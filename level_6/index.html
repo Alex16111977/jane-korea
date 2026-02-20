@@ -16,11 +16,39 @@
             margin-bottom: 30px;
             border-radius: 20px;
         }
+        .master-note {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 0 20px 20px;
+            text-align: center;
+            color: #333;
+            font-weight: bold;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border-radius: 15px;
+            padding: 20px 25px;
+            margin: 30px 20px 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #F44336;
+        }
+        .section-header:first-of-type { margin-top: 10px; }
+        .section-info h2 { font-size: 1.4em; color: #333; margin-bottom: 4px; }
+        .section-info p { font-size: 0.9em; color: #888; margin: 0; }
+        .section-progress { text-align: center; min-width: 70px; }
+        .section-progress .progress-count { font-size: 1.3em; font-weight: 700; color: #F44336; }
+        .section-progress .progress-label { font-size: 0.75em; color: #aaa; display: block; }
+        .section-progress-bar { width: 100%; height: 4px; background: #e9ecef; border-radius: 2px; margin-top: 6px; overflow: hidden; }
+        .section-progress-bar .fill { height: 100%; background: #F44336; border-radius: 2px; transition: width 0.5s ease; }
         .lesson-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            padding: 20px;
+            padding: 0 20px 20px;
         }
         .lesson-item {
             background: white;
@@ -29,34 +57,25 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border-left: 5px solid #F44336;
             transition: all 0.3s ease;
+            position: relative;
         }
-        .lesson-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        .lesson-item:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .lesson-item.completed { border-left-color: #B71C1C; background: linear-gradient(135deg, rgba(244,67,54,0.04) 0%, white 100%); }
+        .completion-badge {
+            position: absolute; top: 10px; right: 10px; width: 28px; height: 28px;
+            background: #F44336; color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: bold; box-shadow: 0 2px 6px rgba(244,67,54,0.4);
         }
-        .lesson-link {
-            background: linear-gradient(45deg, #F44336, #9C27B0);
-            color: white;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 25px;
-            display: inline-block;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-        .lesson-link:hover {
-            background: linear-gradient(45deg, #D32F2F, #8E24AA);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .master-note {
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            text-align: center;
-            color: #333;
-            font-weight: bold;
+        .lesson-difficulty { display: inline-block; padding: 4px 8px; border-radius: 12px; font-size: 0.8em; margin-left: 10px; }
+        .irregular { background: #fce4ec; color: #c62828; }
+        .grammar { background: #e3f2fd; color: #1976d2; }
+        .mastery { background: #f3e5f5; color: #7b1fa2; }
+        @media (max-width: 768px) {
+            .section-header { margin: 20px 10px 10px; padding: 15px 18px; }
+            .section-info h2 { font-size: 1.2em; }
+            .lesson-grid { padding: 0 10px 15px; }
+            .master-note { margin: 0 10px 15px; }
         }
     </style>
 </head>
@@ -74,101 +93,128 @@
             <br>Эти уроки приблизят вас к уровню носителя языка
         </div>
 
-        <div class="lesson-grid">
-            <div class="lesson-item">
-                <h3>🔤 Урок 1: Неправильные глаголы ㅅ</h3>
+        <!-- Блок 1: Неправильные глаголы -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>🔤 Неправильные глаголы</h2>
+                <p>Особые формы спряжения</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="irregular-count">0/4</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="irregular-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-irregular">
+            <div class="lesson-item" data-lesson="level6_lesson_01_siot">
+                <h3>🔤 Урок 1: Неправильные глаголы ㅅ <span class="lesson-difficulty irregular">Неправильные</span></h3>
                 <p>Особенности спряжения глаголов на ㅅ</p>
                 <a href="../lesson_76_irregular_siot/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🔤 Урок 2: Неправильные глаголы ㅡ</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_02_eu">
+                <h3>🔤 Урок 2: Неправильные глаголы ㅡ <span class="lesson-difficulty irregular">Неправильные</span></h3>
                 <p>Глаголы с выпадающим ㅡ</p>
                 <a href="../lesson_77_irregular_eu/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🔤 Урок 3: Неправильные глаголы ㅎ</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_03_hieut">
+                <h3>🔤 Урок 3: Неправильные глаголы ㅎ <span class="lesson-difficulty irregular">Неправильные</span></h3>
                 <p>Особенности глаголов на ㅎ</p>
                 <a href="../lesson_78_irregular_hieut/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🔤 Урок 4: Неправильные глаголы ㄹ</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_04_rieul">
+                <h3>🔤 Урок 4: Неправильные глаголы ㄹ <span class="lesson-difficulty irregular">Неправильные</span></h3>
                 <p>Глаголы с выпадающим ㄹ</p>
                 <a href="../lesson_79_irregular_rieul/index.html" class="lesson-link">Изучить →</a>
             </div>
+        </div>
 
-            <div class="lesson-item">
-                <h3>👑 Урок 5: Продвинутое владение</h3>
+        <!-- Блок 2: Продвинутая грамматика -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>📖 Продвинутая грамматика</h2>
+                <p>Сложные конструкции и выражения</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="grammar-count">0/7</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="grammar-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-grammar">
+            <div class="lesson-item" data-lesson="level6_lesson_05_possession">
+                <h3>👑 Урок 5: Продвинутое владение <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>Сложные случаи притяжательности</p>
                 <a href="../lesson_80_possession_advanced/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>📊 Урок 6: Сравнительные конструкции</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_06_comparative">
+                <h3>📊 Урок 6: Сравнительные конструкции <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>보다 - сравнения и превосходная степень</p>
                 <a href="../lesson_81_comparative_constructions/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🔗 Урок 7: Причина и следствие</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_07_reason">
+                <h3>🔗 Урок 7: Причина и следствие <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>기 때문에 - сложные причинные связи</p>
                 <a href="../lesson_82_reason_consequence/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🔄 Урок 8: Пассивные конструкции</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_08_passive">
+                <h3>🔄 Урок 8: Пассивные конструкции <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>이/히/리/기 - страдательный залог</p>
                 <a href="../lesson_83_passive_constructions/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>✨ Урок 9: Конструкции 는 대로</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_09_daero">
+                <h3>✨ Урок 9: Конструкции 는 대로 <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>"Как только", "по мере того как"</p>
                 <a href="../_old_beginner/lesson_84_constructions_neun_daero/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>❓ Урок 10: Условное 다면</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_10_damyeon">
+                <h3>❓ Урок 10: Условное 다면 <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>Сложные условные предложения</p>
                 <a href="../_old_beginner/lesson_85_conditional_damyeon/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>⏰ Урок 11: Временные конструкции</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_11_time">
+                <h3>⏰ Урок 11: Временные конструкции <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>Сложные временные отношения в предложении</p>
                 <a href="../_old_beginner/lesson_86_time_constructions/index.html" class="lesson-link">Изучить →</a>
             </div>
+        </div>
 
-            <div class="lesson-item">
-                <h3>📚 Урок 12: Академическая лексика</h3>
+        <!-- Блок 3: Мастерская лексика -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>🎭 Мастерская лексика</h2>
+                <p>Академический, деловой и литературный стили</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="mastery-count">0/5</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="mastery-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-mastery">
+            <div class="lesson-item" data-lesson="level6_lesson_12_academic">
+                <h3>📚 Урок 12: Академическая лексика <span class="lesson-difficulty mastery">Мастерство</span></h3>
                 <p>Научные термины, анализ, объективность</p>
-                <a href="lesson_academic_vocabulary/index.html" class="lesson-link">🎓 Изучить академический корейский</a>
+                <a href="lesson_academic_vocabulary/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🎭 Урок 13: Идиомы и фразеологизмы</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_13_idioms">
+                <h3>🎭 Урок 13: Идиомы и фразеологизмы <span class="lesson-difficulty mastery">Мастерство</span></h3>
                 <p>Образные выражения корейского языка</p>
-                <a href="lesson_idioms/index.html" class="lesson-link">✨ Освоить идиомы</a>
+                <a href="lesson_idioms/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🏢 Урок 14: Деловая лексика</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_14_business">
+                <h3>🏢 Урок 14: Деловая лексика <span class="lesson-difficulty mastery">Мастерство</span></h3>
                 <p>Бизнес-термины, переговоры, инвестиции</p>
-                <a href="lesson_business_vocabulary/index.html" class="lesson-link">💼 Изучить деловой корейский</a>
+                <a href="lesson_business_vocabulary/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>📖 Урок 15: Литературные выражения</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_15_literary">
+                <h3>📖 Урок 15: Литературные выражения <span class="lesson-difficulty mastery">Мастерство</span></h3>
                 <p>Высокий стиль, поэтическая лексика</p>
-                <a href="lesson_literary_expressions/index.html" class="lesson-link">🌸 Постичь литературный стиль</a>
+                <a href="lesson_literary_expressions/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🌍 Урок 16: Социальные темы</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_16_social">
+                <h3>🌍 Урок 16: Социальные темы <span class="lesson-difficulty mastery">Мастерство</span></h3>
                 <p>Общество, политика, культура</p>
-                <a href="lesson_social_topics/index.html" class="lesson-link">🗣️ Обсуждать важные темы</a>
+                <a href="lesson_social_topics/index.html" class="lesson-link">Изучить →</a>
             </div>
         </div>
 
@@ -178,17 +224,69 @@
         </div>
     </div>
 
+    <script src="../js/progress-tracker.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const lessons = document.querySelectorAll('.lesson-item');
-            lessons.forEach((lesson, index) => {
+            var lessons = document.querySelectorAll('.lesson-item');
+            lessons.forEach(function(lesson, index) {
                 lesson.style.opacity = '0';
                 lesson.style.transform = 'translateY(20px)';
-                setTimeout(() => {
+                setTimeout(function() {
                     lesson.style.transition = 'all 0.5s ease';
                     lesson.style.opacity = '1';
                     lesson.style.transform = 'translateY(0)';
-                }, index * 100);
+                }, index * 80);
+            });
+
+            try {
+                if (window.ProgressTracker) {
+                    var progress = ProgressTracker.get();
+                    if (progress && progress.completedLessons) {
+                        var sections = {
+                            irregular: { el: 'irregular', total: 4, done: 0 },
+                            grammar: { el: 'grammar', total: 7, done: 0 },
+                            mastery: { el: 'mastery', total: 5, done: 0 }
+                        };
+                        lessons.forEach(function(card) {
+                            var lessonId = card.getAttribute('data-lesson');
+                            if (!lessonId) return;
+                            if (!!progress.completedLessons[lessonId]) {
+                                card.classList.add('completed');
+                                var badge = document.createElement('div');
+                                badge.className = 'completion-badge';
+                                badge.textContent = '\u2713';
+                                card.appendChild(badge);
+                                var grid = card.closest('.lesson-grid');
+                                if (grid) {
+                                    if (grid.id === 'grid-irregular') sections.irregular.done++;
+                                    else if (grid.id === 'grid-grammar') sections.grammar.done++;
+                                    else if (grid.id === 'grid-mastery') sections.mastery.done++;
+                                }
+                            }
+                        });
+                        Object.keys(sections).forEach(function(key) {
+                            var s = sections[key];
+                            var countEl = document.getElementById(s.el + '-count');
+                            var barEl = document.getElementById(s.el + '-bar');
+                            if (countEl) countEl.textContent = s.done + '/' + s.total;
+                            if (barEl) barEl.style.width = Math.round((s.done / s.total) * 100) + '%';
+                        });
+                        console.log('[OK] Level 6 progress loaded');
+                    }
+                }
+            } catch(e) { console.log('[ERROR] Progress loading failed:', e); }
+
+            lessons.forEach(function(card) {
+                var link = card.querySelector('.lesson-link');
+                if (link) {
+                    link.addEventListener('click', function() {
+                        var lessonId = card.getAttribute('data-lesson');
+                        if (lessonId && window.ProgressTracker) {
+                            try { ProgressTracker.markLessonCompleted(lessonId); console.log('[+] Marked lesson:', lessonId); }
+                            catch(e) { console.log('[ERROR] Could not mark lesson:', e); }
+                        }
+                    });
+                }
             });
         });
     </script>
