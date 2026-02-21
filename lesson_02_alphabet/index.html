@@ -666,7 +666,37 @@
             }
 
         }
-    </style>
+    
+
+        body::after {
+            content: '🔤';
+            position: fixed;
+            top: 13%;
+            right: 5%;
+            font-size: 105px;
+            opacity: 0.04;
+            animation: floatSlow 9s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container::after {
+            content: '✍️';
+            position: fixed;
+            bottom: 9%;
+            left: 4%;
+            font-size: 90px;
+            opacity: 0.04;
+            animation: floatSlow 12s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(-5deg); }
+        }
+</style>
 </head>
 <body>
     <div class="container">
@@ -1230,9 +1260,61 @@
             </a>
         </div>
 
-    </div>
+    
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+</div>
 
+        <script src="../js/progress-tracker.js"></script>
     <script>
+        // Кнопка завершения урока
+        var LESSON_ID = 'lesson_02_alphabet';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        // Проверяем статус при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+<script>
         let clickedLetters = 0;
         const totalLetters = document.querySelectorAll('.letter-card').length;
         let quizQuestions = [
@@ -1380,6 +1462,8 @@
             }
         });
     </script>
-<script src="../js/global-nav.js"></script>
+<script src="../js/dictionary.js"></script>
+    <script src="../js/dictionary-inject.js"></script>
+    <script src="../js/global-nav.js"></script>
 </body>
 </html>

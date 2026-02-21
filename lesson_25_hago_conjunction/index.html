@@ -11,9 +11,44 @@
             font-family: 'Noto Sans KR', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(255,255,255,0.02) 50px, rgba(255,255,255,0.02) 51px),
+                linear-gradient(135deg, #6c5ce7 0%, #a29bfe 50%, #a29bfe 100%);
+            position: relative;
+            overflow-x: hidden;
             min-height: 100vh;
             color: #333;
+        }
+
+        body::before {
+            content: '🤝';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 110px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '➕';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 95px;
+            opacity: 0.04;
+            animation: floatSlow 13s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(3deg); }
         }
 
         .container {
@@ -517,7 +552,61 @@
                 <a href="../level_3/index.html">📚 3급 수업</a>
             </div>
         </div>
-    </div>
-<script src="../js/global-nav.js"></script>
+    
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+</div>
+    <script src="../js/progress-tracker.js"></script>
+    <script>
+        // Кнопка завершения урока
+        var LESSON_ID = 'lesson_25_hago_conjunction';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        // Проверяем статус при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+<script src="../js/dictionary.js"></script>
+    <script src="../js/dictionary-inject.js"></script>
+    <script src="../js/global-nav.js"></script>
 </body>
 </html>

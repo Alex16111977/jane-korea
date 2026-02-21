@@ -197,6 +197,10 @@
         { t: 'Словарь: Транспорт 교통', u: 'vocabulary/transport/index.html', k: 'транспорт автобус метро' },
         { t: 'Словарь: Дни недели и время 요일', u: 'vocabulary/daystime/index.html', k: 'дни недели время' },
         { t: 'Словарь: Вопросительные слова 의문사', u: 'vocabulary/questions/index.html', k: 'вопросы вопросительные' },
+        { t: 'Словарь: Союзы 접속사', u: 'vocabulary/conjunctions/index.html', k: 'союзы и но поэтому грамматика' },
+        { t: 'Словарь: Город и места 도시', u: 'vocabulary/city/index.html', k: 'город места больница школа парк кафе' },
+        { t: 'Словарь: Хобби 취미', u: 'vocabulary/hobbies/index.html', k: 'хобби увлечения свободное время музыка спорт' },
+        { t: 'Словарь: Деньги и покупки 돈', u: 'vocabulary/money/index.html', k: 'деньги покупки цена дорого дешево вон' },
 
         // K-POP
         { t: 'K-POP: Учим корейский через музыку', u: 'kpop-learning.html', k: 'kpop музыка' },

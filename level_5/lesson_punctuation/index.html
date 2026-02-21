@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Корейская пунктуация</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '.';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 200px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+            font-weight: bold;
+            color: white;
+        }
+
+        body::after {
+            content: ',';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 200px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+            font-weight: bold;
+            color: white;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #E91E63;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #F06292;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .description {
+            font-size: 1.05em;
+            color: #666;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #E91E63;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #F06292;
+            padding-bottom: 10px;
+        }
+
+        .content-section h3 {
+            color: #AD1457;
+            margin-top: 25px;
+        }
+
+        .content-section p {
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .punct-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .punct-card {
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .punct-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-period {
+            background: linear-gradient(135deg, #E91E63, #AD1457);
+        }
+
+        .card-comma {
+            background: linear-gradient(135deg, #F06292, #E91E63);
+        }
+
+        .card-question {
+            background: linear-gradient(135deg, #EC407A, #C2185B);
+        }
+
+        .card-exclamation {
+            background: linear-gradient(135deg, #F48FB1, #E91E63);
+        }
+
+        .card-quotes {
+            background: linear-gradient(135deg, #AD1457, #880E4F);
+        }
+
+        .card-brackets {
+            background: linear-gradient(135deg, #C2185B, #AD1457);
+        }
+
+        .punct-symbol {
+            font-size: 4em;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .card-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .card-description {
+            font-size: 1.05em;
+            margin: 10px 0;
+            opacity: 0.9;
+        }
+
+        .card-example {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .korean-verb {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .verb-translation {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #AD1457, #E91E63);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 100px 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-row.three-col {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.05em;
+        }
+
+        .table-cell.korean {
+            color: #E91E63;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #fce4ec;
+            font-weight: bold;
+            color: #880E4F;
+        }
+
+        .table-cell.symbol {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #E91E63;
+        }
+
+        .sentence-structure {
+            background: linear-gradient(135deg, #F06292, #E91E63);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .structure-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .structure-example {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.85em;
+            color: #fce4ec;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .info-box {
+            background: #fce4ec;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #E91E63;
+        }
+
+        .info-box h3 {
+            color: #AD1457;
+            margin-top: 0;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #EC407A, #E91E63);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #ffeb3b;
+            margin-bottom: 8px;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #F8BBD0, #F48FB1);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .practice-section h3 {
+            color: #880E4F;
+            font-size: 1.5em;
+            margin-top: 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #E91E63;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .option:hover {
+            background: #F06292;
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: #4caf50;
+        }
+
+        .option.wrong {
+            background: #f44336;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct {
+            background: #d5f5d5;
+            color: #27ae60;
+            display: block;
+        }
+
+        .result.wrong {
+            background: #fdd5d5;
+            color: #e74c3c;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .punct-grid { grid-template-columns: 1fr; }
+            .table-row, .table-row.three-col { grid-template-columns: 1fr; gap: 2px; }
+            .options { flex-direction: column; align-items: center; }
+            .content-section { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_5/index.html">← 5급 Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>Корейская пунктуация</h1>
+            <div class="korean-title">한국어 문장 부호: знаки препинания в корейском языке</div>
+            <div class="description">Кавычки, точки, запятые, скобки и их особенности</div>
+        </header>
+
+        <!-- Секция 1: Введение -->
+        <div class="content-section">
+            <h2>Пунктуация в корейском языке</h2>
+            <p>Корейская пунктуация (문장 부호, [munjang buho]) во многом похожа на западную, но имеет ряд важных отличий. Современный корейский использует как западные, так и традиционные восточноазиатские знаки препинания.</p>
+            <p>Знание пунктуации необходимо для:</p>
+            <ul style="line-height: 2; font-size: 1.05em;">
+                <li>Правильного написания текстов</li>
+                <li>Чтения официальных документов и литературы</li>
+                <li>Понимания газетных статей и научных работ</li>
+                <li>Сдачи экзамена TOPIK на высокий уровень</li>
+            </ul>
+        </div>
+
+        <!-- Секция 2: Основные знаки -->
+        <div class="content-section">
+            <h2>Основные знаки препинания</h2>
+
+            <div class="punct-grid">
+                <div class="punct-card card-period">
+                    <div class="punct-symbol">.</div>
+                    <div class="card-title">마침표 [machimpyo]<br>Точка</div>
+                    <div class="card-description">
+                        Ставится в конце повествовательного и побудительного предложения.
+                    </div>
+                    <div class="card-example">
+                        <div class="korean-verb">오늘 날씨가 좋습니다.</div>
+                        <div class="verb-translation">Сегодня хорошая погода.</div>
+                    </div>
+                    <div class="card-example">
+                        <div class="korean-verb">내일 다시 만나요.</div>
+                        <div class="verb-translation">Встретимся завтра.</div>
+                    </div>
+                </div>
+
+                <div class="punct-card card-comma">
+                    <div class="punct-symbol">,</div>
+                    <div class="card-title">쉼표 [swimpyo]<br>Запятая</div>
+                    <div class="card-description">
+                        Разделяет однородные члены, вводные слова, части сложного предложения.
+                    </div>
+                    <div class="card-example">
+                        <div class="korean-verb">사과, 바나나, 포도를 샀어요.</div>
+                        <div class="verb-translation">Купил яблоки, бананы, виноград.</div>
+                    </div>
+                    <div class="card-example">
+                        <div class="korean-verb">그러나, 문제가 있었어요.</div>
+                        <div class="verb-translation">Однако была проблема.</div>
+                    </div>
+                </div>
+
+                <div class="punct-card card-question">
+                    <div class="punct-symbol">?</div>
+                    <div class="card-title">물음표 [mureumpyo]<br>Вопросительный знак</div>
+                    <div class="card-description">
+                        Ставится в конце вопросительного предложения.
+                    </div>
+                    <div class="card-example">
+                        <div class="korean-verb">이름이 뭐예요?</div>
+                        <div class="verb-translation">Как вас зовут?</div>
+                    </div>
+                </div>
+
+                <div class="punct-card card-exclamation">
+                    <div class="punct-symbol">!</div>
+                    <div class="card-title">느낌표 [neukkimpyo]<br>Восклицательный знак</div>
+                    <div class="card-description">
+                        Выражает сильные эмоции: радость, удивление, приказ.
+                    </div>
+                    <div class="card-example">
+                        <div class="korean-verb">정말 감사합니다!</div>
+                        <div class="verb-translation">Большое спасибо!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 3: Кавычки -->
+        <div class="content-section">
+            <h2>Кавычки в корейском</h2>
+            <p>Это одна из самых отличительных особенностей корейской пунктуации. В корейском используются <strong>несколько видов</strong> кавычек:</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Типы кавычек</div>
+                <div class="table-row">
+                    <div class="table-cell header">Знак</div>
+                    <div class="table-cell header">Название</div>
+                    <div class="table-cell header">Использование</div>
+                    <div class="table-cell header">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell symbol">" "</div>
+                    <div class="table-cell">큰따옴표 [keunttaompyo]<br>Двойные кавычки</div>
+                    <div class="table-cell">Прямая речь, цитаты</div>
+                    <div class="table-cell korean">"안녕하세요"라고 했어요.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell symbol">' '</div>
+                    <div class="table-cell">작은따옴표 [jageunttaompyo]<br>Одинарные кавычки</div>
+                    <div class="table-cell">Цитата внутри цитаты, выделение</div>
+                    <div class="table-cell korean">'한류'라는 말을 아세요?</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell symbol">「 」</div>
+                    <div class="table-cell">낫표 [natpyo]<br>Угловые кавычки</div>
+                    <div class="table-cell">Книги, статьи, произведения (аналог " ")</div>
+                    <div class="table-cell korean">「해리 포터」를 읽었어요.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell symbol">『 』</div>
+                    <div class="table-cell">겹낫표 [gyeopnatpyo]<br>Двойные угловые</div>
+                    <div class="table-cell">Название книги, журнала, газеты</div>
+                    <div class="table-cell korean">『조선일보』에서 봤어요.</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>Важно!</h3>
+                <p>В современном корейском всё чаще используются западные кавычки " " и ' ' вместо традиционных「 」и『 』. Однако в официальных документах, учебниках и литературе угловые кавычки по-прежнему широко распространены. На TOPIK знание обоих вариантов обязательно.</p>
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Примеры использования кавычек</div>
+                <div class="structure-example">
+                    <div class="korean-text">"나는 학생입니다"라고 말했어요.</div>
+                    <div class="translation">Сказал: "Я студент."</div>
+                    <div class="grammar-note">큰따옴표 -- прямая речь</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">그는 '천재'라는 별명이 있어요.</div>
+                    <div class="translation">У него есть прозвище "гений".</div>
+                    <div class="grammar-note">작은따옴표 -- выделение слова</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">「어린 왕자」는 유명한 소설이에요.</div>
+                    <div class="translation">"Маленький принц" -- известный роман.</div>
+                    <div class="grammar-note">낫표 -- название произведения</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">『동아일보』에 기사가 실렸어요.</div>
+                    <div class="translation">Статья была опубликована в "Тонъа ильбо".</div>
+                    <div class="grammar-note">겹낫표 -- название газеты</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 4: Скобки -->
+        <div class="content-section">
+            <h2>Скобки и тире</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Скобки и дополнительные знаки</div>
+                <div class="table-row">
+                    <div class="table-cell header">Знак</div>
+                    <div class="table-cell header">Название</div>
+                    <div class="table-cell header">Использование</div>
+                    <div class="table-cell header">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell symbol">( )</div>
+                    <div class="table-cell">소괄호 [sogwalho]<br>Круглые скобки</div>
+                    <div class="table-cell">Пояснения, дополнительная информация</div>
+                    <div class="table-cell korean">한국(대한민국)은 아시아에 있어요.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell symbol">[ ]</div>
+                    <div class="table-cell">대괄호 [daegwalho]<br>Квадратные скобки</div>
+                    <div class="table-cell">Произношение, примечания редактора</div>
+                    <div class="table-cell korean">읽다 [익따]</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell symbol">{ }</div>
+                    <div class="table-cell">중괄호 [junggwalho]<br>Фигурные скобки</div>
+                    <div class="table-cell">Группировка (редко, в научных текстах)</div>
+                    <div class="table-cell korean">{가, 나, 다}</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell symbol">--</div>
+                    <div class="table-cell">줄표 [julpyo]<br>Тире</div>
+                    <div class="table-cell">Пояснения, диапазон, пауза</div>
+                    <div class="table-cell korean">서울--부산 고속열차</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell symbol">...</div>
+                    <div class="table-cell">줄임표 [jurimpyo]<br>Многоточие</div>
+                    <div class="table-cell">Незавершённость, пауза, пропуск</div>
+                    <div class="table-cell korean">글쎄요...</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>Квадратные скобки для произношения</h3>
+                <p>В корейских словарях и учебниках произношение часто указывается в квадратных скобках. Это особенно важно из-за множества звуковых изменений:<br><br>
+                <strong>읽다</strong> [익따] -- читать (ㄹ не произносится, ㄷ удваивается)<br>
+                <strong>같이</strong> [가치] -- вместе (звуковое изменение ㅌ+이 -> 치)<br>
+                <strong>독립</strong> [동닙] -- независимость (назализация)</p>
+            </div>
+        </div>
+
+        <!-- Секция 5: Особенности -->
+        <div class="content-section">
+            <h2>Особенности корейской пунктуации</h2>
+
+            <h3>1. Точка в конце предложения</h3>
+            <div class="info-box">
+                <p>В корейском точка ставится <strong>не всегда</strong>. В неформальной переписке (мессенджеры, SMS) корейцы часто опускают точку. Более того, точка в конце сообщения может восприниматься как <strong>холодность или недовольство</strong>!<br><br>
+                <strong>네.</strong> -- Да. (может звучать холодно)<br>
+                <strong>네</strong> -- Да (нейтрально)<br>
+                <strong>네~</strong> -- Да~ (дружелюбно)</p>
+            </div>
+
+            <h3>2. Тильда (~) в корейском</h3>
+            <div class="info-box">
+                <p>Знак <strong>~</strong> (물결표, [mulgyeolpyo]) очень популярен в неформальной корейской письменности. Он добавляет дружелюбный, мягкий тон:<br><br>
+                <strong>안녕하세요~</strong> -- Здравствуйте~ (тепло, дружелюбно)<br>
+                <strong>감사합니다~</strong> -- Спасибо~ (с улыбкой)<br>
+                <strong>내일 봐요~</strong> -- До завтра~ (приветливо)</p>
+            </div>
+
+            <h3>3. Точка по-середине (가운뎃점)</h3>
+            <div class="info-box">
+                <p>Знак <strong>.</strong> (средняя точка, 가운뎃점 [gaundaetjeom]) используется для разделения равнозначных элементов:<br><br>
+                <strong>한국.일본.중국</strong> -- Корея, Япония, Китай (перечисление стран)<br>
+                Однако в современном корейском чаще используют запятую.</p>
+            </div>
+
+            <h3>4. Запятая и перечисление</h3>
+            <div class="sentence-structure">
+                <div class="structure-title">Запятая в корейском vs русском</div>
+                <div class="structure-example">
+                    <div class="korean-text">사과, 바나나, 포도를 샀어요.</div>
+                    <div class="translation">Купил яблоки, бананы, виноград.</div>
+                    <div class="grammar-note">Запятая между однородными членами -- как в русском</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">비가 와서, 집에 있었어요.</div>
+                    <div class="translation">Шёл дождь, поэтому был дома.</div>
+                    <div class="grammar-note">Запятая при причинно-следственной связи (необязательна)</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">그러나 그는 포기하지 않았다.</div>
+                    <div class="translation">Однако он не сдался.</div>
+                    <div class="grammar-note">После союза запятая часто опускается (отличие от русского!)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 6: Сводная таблица -->
+        <div class="content-section">
+            <h2>Сводная таблица всех знаков</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Все знаки препинания корейского языка</div>
+                <div class="table-row three-col">
+                    <div class="table-cell header">Знак</div>
+                    <div class="table-cell header">Корейское название</div>
+                    <div class="table-cell header">Русское название</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">.</div>
+                    <div class="table-cell korean">마침표 [machimpyo]</div>
+                    <div class="table-cell">Точка</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">,</div>
+                    <div class="table-cell korean">쉼표 [swimpyo]</div>
+                    <div class="table-cell">Запятая</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">?</div>
+                    <div class="table-cell korean">물음표 [mureumpyo]</div>
+                    <div class="table-cell">Вопросительный знак</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">!</div>
+                    <div class="table-cell korean">느낌표 [neukkimpyo]</div>
+                    <div class="table-cell">Восклицательный знак</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">" "</div>
+                    <div class="table-cell korean">큰따옴표 [keunttaompyo]</div>
+                    <div class="table-cell">Двойные кавычки</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">' '</div>
+                    <div class="table-cell korean">작은따옴표 [jageunttaompyo]</div>
+                    <div class="table-cell">Одинарные кавычки</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">「 」</div>
+                    <div class="table-cell korean">낫표 [natpyo]</div>
+                    <div class="table-cell">Угловые кавычки</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">『 』</div>
+                    <div class="table-cell korean">겹낫표 [gyeopnatpyo]</div>
+                    <div class="table-cell">Двойные угловые кавычки</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">( )</div>
+                    <div class="table-cell korean">소괄호 [sogwalho]</div>
+                    <div class="table-cell">Круглые скобки</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">[ ]</div>
+                    <div class="table-cell korean">대괄호 [daegwalho]</div>
+                    <div class="table-cell">Квадратные скобки</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">--</div>
+                    <div class="table-cell korean">줄표 [julpyo]</div>
+                    <div class="table-cell">Тире</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">...</div>
+                    <div class="table-cell korean">줄임표 [jurimpyo]</div>
+                    <div class="table-cell">Многоточие</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell symbol">~</div>
+                    <div class="table-cell korean">물결표 [mulgyeolpyo]</div>
+                    <div class="table-cell">Тильда</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 7: Текст с пунктуацией -->
+        <div class="content-section">
+            <h2>Практика чтения: текст с пунктуацией</h2>
+            <div class="dialogue-box">
+                <div style="font-size: 1.2em; font-weight: bold; margin-bottom: 15px; text-align: center;">Газетная статья (фрагмент)</div>
+                <div class="dialogue-line">
+                    <div class="korean-text" style="font-size: 1.15em; line-height: 1.8;">서울시(市)는 오늘 기자회견에서 "2026년까지 대중교통을 전면 개편하겠다"고 발표했다. 이번 계획에는 버스, 지하철, 자전거 등 다양한 교통수단이 포함되어 있다. 시장은 "시민 여러분의 편의를 최우선으로 하겠습니다"라고 말했다.</div>
+                    <div class="translation" style="margin-top: 15px;">Администрация Сеула на сегодняшней пресс-конференции объявила: "К 2026 году полностью реформируем общественный транспорт." В план входят автобусы, метро, велосипеды и другие виды транспорта. Мэр заявил: "Удобство граждан будет главным приоритетом."</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>Что можно заметить в этом тексте:</h3>
+                <p>
+                1. <strong>( )</strong> -- пояснение ханчи: 서울시(市)<br>
+                2. <strong>" "</strong> -- прямая речь: "2026년까지..."<br>
+                3. <strong>,</strong> -- перечисление: 버스, 지하철, 자전거<br>
+                4. <strong>.</strong> -- конец каждого предложения<br>
+                5. <strong>등</strong> (и т.д.) -- вместо многоточия в перечислении
+                </p>
+            </div>
+        </div>
+
+        <!-- Практика -->
+        <div class="practice-section">
+            <h3>Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. Как называется точка по-корейски?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">쉼표</button>
+                    <button class="option" data-correct="true">마침표</button>
+                    <button class="option" data-correct="false">물음표</button>
+                    <button class="option" data-correct="false">느낌표</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. Какие кавычки используются для названий газет и книг?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">" " (큰따옴표)</button>
+                    <button class="option" data-correct="false">' ' (작은따옴표)</button>
+                    <button class="option" data-correct="false">「 」(낫표)</button>
+                    <button class="option" data-correct="true">『 』(겹낫표)</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Для чего используется тильда (~) в корейских сообщениях?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Вопросительный тон</button>
+                    <button class="option" data-correct="true">Дружелюбный, мягкий тон</button>
+                    <button class="option" data-correct="false">Злость</button>
+                    <button class="option" data-correct="false">Формальность</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. Как называется запятая по-корейски?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">마침표</button>
+                    <button class="option" data-correct="false">줄표</button>
+                    <button class="option" data-correct="true">쉼표</button>
+                    <button class="option" data-correct="false">낫표</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. Квадратные скобки [ ] в корейском словаре обозначают:</div>
+                <div class="options">
+                    <button class="option" data-correct="true">Произношение</button>
+                    <button class="option" data-correct="false">Прямую речь</button>
+                    <button class="option" data-correct="false">Название книги</button>
+                    <button class="option" data-correct="false">Пояснение</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. Точка в конце сообщения в мессенджере может восприниматься как:</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Дружелюбие</button>
+                    <button class="option" data-correct="true">Холодность или недовольство</button>
+                    <button class="option" data-correct="false">Формальность</button>
+                    <button class="option" data-correct="false">Радость</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <!-- Заключение -->
+        <div class="content-section">
+            <h2>Заключение</h2>
+            <div style="background: linear-gradient(135deg, #AD1457, #E91E63); color: white; padding: 25px; border-radius: 15px; margin: 20px 0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Основные знаки</strong><br>
+                        . , ? !<br>
+                        <em>Как в русском</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Кавычки</strong><br>
+                        " " ' '「」『』<br>
+                        <em>4 типа!</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Неформальные</strong><br>
+                        ~ (тильда)<br>
+                        <em>Дружелюбный тон</em>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; font-size: 1.1em;">Теперь вы знаете все знаки препинания корейского языка и их особенности!</p>
+        </div>
+
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #E91E63, #AD1457);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(233,30,99,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level5_lesson_punctuation';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+                        var isCorrect = this.dataset.correct === 'true';
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

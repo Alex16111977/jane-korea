@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 18: Неопределённость — 글쎄요, 아마도, 모르겠어요</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #1565C0;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #2196F3;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .description {
+            font-size: 1.05em;
+            color: #666;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #1565C0;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #2196F3;
+            padding-bottom: 10px;
+        }
+
+        .expression-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .expr-card {
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .expr-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .expr-card-1 { background: linear-gradient(135deg, #2196F3, #1565C0); }
+        .expr-card-2 { background: linear-gradient(135deg, #42A5F5, #1E88E5); }
+        .expr-card-3 { background: linear-gradient(135deg, #1976D2, #0D47A1); }
+
+        .expr-title {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .expr-pronunciation {
+            font-size: 0.95em;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .expr-meaning {
+            font-size: 1.2em;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .expr-example {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .korean-verb {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .verb-translation {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #1565C0, #2196F3);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .table-cell.korean {
+            color: #1565C0;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #42A5F5, #2196F3);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #ffeb3b;
+            margin-bottom: 8px;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.8em;
+            color: #bbdefb;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .question-forms {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #2196F3;
+        }
+
+        .sentence-structure {
+            background: linear-gradient(135deg, #42A5F5, #1E88E5);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .structure-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .structure-example {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #90CAF9, #64B5F6);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #1565C0;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .option:hover {
+            background: #2196F3;
+            transform: translateY(-2px);
+        }
+
+        .option.correct { background: #27ae60; }
+        .option.wrong { background: #e74c3c; }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+
+        @media (max-width: 768px) {
+            .expression-cards { grid-template-columns: 1fr; }
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .options { flex-direction: column; align-items: center; }
+            .header h1 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_2/index.html">← 2급 Все уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>Урок 18: Неопределённость</h1>
+            <div class="korean-title">불확실한 표현 [bulhwaksilhan pyohyeon]</div>
+            <div class="description">Как выразить сомнение, незнание и неуверенность на корейском</div>
+        </header>
+
+        <div class="content-section">
+            <h2>Три ключевых выражения</h2>
+            <p>Корейцы очень часто используют выражения неопределённости в повседневной речи. Это считается проявлением вежливости -- не давать категоричных ответов.</p>
+
+            <div class="expression-cards">
+                <div class="expr-card expr-card-1">
+                    <div class="expr-title">글쎄요</div>
+                    <div class="expr-pronunciation">[geulsseyo]</div>
+                    <div class="expr-meaning">Хмм... / Ну... / Не знаю...</div>
+                    <div class="expr-example">
+                        <div class="korean-verb">글쎄요, 잘 모르겠어요.</div>
+                        <div class="verb-translation">Хм, не знаю точно.</div>
+                    </div>
+                    <div class="expr-example">
+                        <div class="korean-verb">글쎄요... 좀 생각해 볼게요.</div>
+                        <div class="verb-translation">Ну... Подумаю немного.</div>
+                    </div>
+                </div>
+
+                <div class="expr-card expr-card-2">
+                    <div class="expr-title">아마(도)</div>
+                    <div class="expr-pronunciation">[ama(do)]</div>
+                    <div class="expr-meaning">Наверное / Возможно / Скорее всего</div>
+                    <div class="expr-example">
+                        <div class="korean-verb">아마 내일 비가 올 거예요.</div>
+                        <div class="verb-translation">Наверное, завтра будет дождь.</div>
+                    </div>
+                    <div class="expr-example">
+                        <div class="korean-verb">아마도 맞을 거예요.</div>
+                        <div class="verb-translation">Возможно, это правильно.</div>
+                    </div>
+                </div>
+
+                <div class="expr-card expr-card-3">
+                    <div class="expr-title">모르겠어요</div>
+                    <div class="expr-pronunciation">[moreugesseoyo]</div>
+                    <div class="expr-meaning">Не знаю / Не уверен(а)</div>
+                    <div class="expr-example">
+                        <div class="korean-verb">잘 모르겠어요.</div>
+                        <div class="verb-translation">Хорошо не знаю. (Не уверен.)</div>
+                    </div>
+                    <div class="expr-example">
+                        <div class="korean-verb">어떻게 해야 할지 모르겠어요.</div>
+                        <div class="verb-translation">Не знаю, что делать.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>글쎄요 — подробно</h2>
+            <p><strong>글쎄요</strong> [geulsseyo] -- это слово-заполнитель, аналог русских "хм...", "ну..." или "как бы...". Используется, когда вы не уверены в ответе или хотите показать сомнение.</p>
+
+            <div class="question-forms">
+                <h3>Когда использовать:</h3>
+                <p>-- Когда не знаете точного ответа</p>
+                <p>-- Когда не хотите давать прямой ответ (вежливость!)</p>
+                <p>-- Когда думаете перед ответом</p>
+                <p>-- Когда мягко не соглашаетесь</p>
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Примеры в контексте</div>
+
+                <div class="structure-example">
+                    <div class="korean-text">A: 이 영화 재미있어요?</div>
+                    <div class="translation">Этот фильм интересный?</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">B: 글쎄요... 좀 지루해요.</div>
+                    <div class="translation">Ну... Немного скучный. (мягкое несогласие)</div>
+                </div>
+
+                <div class="structure-example" style="margin-top: 20px;">
+                    <div class="korean-text">A: 내일 시간 있어요?</div>
+                    <div class="translation">У вас завтра есть время?</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">B: 글쎄요, 아직 모르겠어요.</div>
+                    <div class="translation">Хм, пока не знаю.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>아마(도) — подробно</h2>
+            <p><strong>아마</strong> [ama] или <strong>아마도</strong> [amado] -- это наречие, означающее "наверное", "возможно". 도 добавляет лёгкое усиление неопределённости.</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Примеры с 아마(도)</div>
+                <div class="table-row">
+                    <div class="table-cell header">Корейский</div>
+                    <div class="table-cell header">Произношение</div>
+                    <div class="table-cell header">Перевод</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">아마 괜찮을 거예요</div>
+                    <div class="table-cell">[ama gwaenchanheul geoyeyo]</div>
+                    <div class="table-cell">Наверное, будет нормально</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">아마도 늦을 거예요</div>
+                    <div class="table-cell">[amado neujeul geoyeyo]</div>
+                    <div class="table-cell">Возможно, опоздаю</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">아마 한국 사람일 거예요</div>
+                    <div class="table-cell">[ama hanguk sarami geoyeyo]</div>
+                    <div class="table-cell">Наверное, кореец</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">아마 맛있을 거예요</div>
+                    <div class="table-cell">[ama masisseu geoyeyo]</div>
+                    <div class="table-cell">Наверное, будет вкусно</div>
+                </div>
+            </div>
+
+            <div class="question-forms">
+                <h3>Позиция в предложении:</h3>
+                <p><strong>아마(도)</strong> обычно ставится в начале предложения или перед глаголом/прилагательным.</p>
+                <p>Часто сочетается с конструкцией <strong>-(으)ㄹ 거예요</strong> (предположение о будущем).</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>모르겠어요 — подробно</h2>
+            <p><strong>모르겠어요</strong> [moreugesseoyo] образовано от глагола <strong>모르다</strong> (не знать) + <strong>-겠-</strong> (модальный суффикс неуверенности) + <strong>-어요</strong> (вежливое окончание).</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Формы "не знаю"</div>
+                <div class="table-row">
+                    <div class="table-cell header">Форма</div>
+                    <div class="table-cell header">Произношение</div>
+                    <div class="table-cell header">Использование</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">몰라요</div>
+                    <div class="table-cell">[mollayo]</div>
+                    <div class="table-cell">Не знаю (прямо, просто)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">모르겠어요</div>
+                    <div class="table-cell">[moreugesseoyo]</div>
+                    <div class="table-cell">Не знаю (мягче, вежливее)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">잘 모르겠어요</div>
+                    <div class="table-cell">[jal moreugesseoyo]</div>
+                    <div class="table-cell">Не очень хорошо знаю (ещё мягче)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">잘 모르겠습니다</div>
+                    <div class="table-cell">[jal moreugesseumnida]</div>
+                    <div class="table-cell">Не знаю (формально)</div>
+                </div>
+            </div>
+
+            <div class="question-forms">
+                <h3>Разница между 몰라요 и 모르겠어요:</h3>
+                <p><strong>몰라요</strong> -- прямое "не знаю". Может звучать резко.</p>
+                <p><strong>모르겠어요</strong> -- более мягкое, выражает неуверенность. Рекомендуется в вежливом общении.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Другие выражения неопределённости</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Полезные фразы</div>
+                <div class="table-row">
+                    <div class="table-cell header">Корейский</div>
+                    <div class="table-cell header">Произношение</div>
+                    <div class="table-cell header">Перевод</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">확실하지 않아요</div>
+                    <div class="table-cell">[hwaksilhaji anayo]</div>
+                    <div class="table-cell">Не уверен(а)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">그런 것 같아요</div>
+                    <div class="table-cell">[geureon geot gatayo]</div>
+                    <div class="table-cell">Кажется, так / Похоже на то</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">아닌 것 같아요</div>
+                    <div class="table-cell">[anin geot gatayo]</div>
+                    <div class="table-cell">Кажется, нет / Вроде бы нет</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">그럴 수도 있어요</div>
+                    <div class="table-cell">[geureol sudo isseoyo]</div>
+                    <div class="table-cell">Может быть / Возможно</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Диалог: Обсуждение планов</h2>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">지현:</div>
+                    <div class="korean-text">주말에 뭐 할 거예요?</div>
+                    <div class="translation">Что будете делать на выходных?</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">글쎄요... 아직 모르겠어요.</div>
+                    <div class="translation">Хм... Пока не знаю.</div>
+                    <div class="grammar-note">글쎄요 + 모르겠어요 -- двойная неопределённость</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">지현:</div>
+                    <div class="korean-text">같이 영화 볼래요?</div>
+                    <div class="translation">Хотите вместе посмотреть фильм?</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">아마 괜찮을 것 같아요. 시간이 되면 연락할게요.</div>
+                    <div class="translation">Наверное, нормально. Если будет время, свяжусь.</div>
+                    <div class="grammar-note">아마 + 것 같아요 -- мягкое предположение</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">지현:</div>
+                    <div class="korean-text">토요일이 좋을까요, 일요일이 좋을까요?</div>
+                    <div class="translation">Суббота лучше или воскресенье?</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">글쎄요... 아마도 일요일이 나을 것 같아요.</div>
+                    <div class="translation">Ну... Наверное, воскресенье лучше.</div>
+                    <div class="grammar-note">글쎄요 + 아마도 + 것 같아요 -- максимальная мягкость</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Культурная заметка</h2>
+
+            <div style="background: linear-gradient(135deg, #1565C0, #2196F3); color: white; padding: 25px; border-radius: 15px; margin: 20px 0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Почему корейцы избегают прямых ответов?</strong><br><br>
+                        В корейской культуре прямой отказ ("нет") считается грубым. Вместо этого используют мягкие выражения неопределённости. "Глссеё..." часто означает скрытое "нет".
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Как понять настоящий смысл?</strong><br><br>
+                        -- "글쎄요..." -- вероятно, нет<br>
+                        -- "좀 생각해 볼게요" (подумаю) -- скорее нет<br>
+                        -- "아마 괜찮을 거예요" -- скорее да<br>
+                        -- Обращайте внимание на интонацию!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <h3>Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. Вас спрашивают о планах, но вы не знаете. Что сказать?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">네, 알겠어요.</button>
+                    <button class="option" data-correct="true">글쎄요, 아직 모르겠어요.</button>
+                    <button class="option" data-correct="false">아니요, 싫어요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. Вы думаете, что завтра, наверное, будет хорошая погода. Как сказать?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">아마 내일 날씨가 좋을 거예요.</button>
+                    <button class="option" data-correct="false">내일 날씨가 좋아요.</button>
+                    <button class="option" data-correct="false">글쎄요, 날씨가 싫어요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Какое выражение более вежливое для "не знаю"?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">몰라요</button>
+                    <button class="option" data-correct="true">잘 모르겠어요</button>
+                    <button class="option" data-correct="false">몰라</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. Вам предлагают пойти в ресторан, но вы не уверены. Как мягко ответить?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">아니요! 안 갈 거예요.</button>
+                    <button class="option" data-correct="false">네, 가요!</button>
+                    <button class="option" data-correct="true">글쎄요... 아마 괜찮을 것 같아요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. Что значит "그런 것 같아요"?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Точно так!</button>
+                    <button class="option" data-correct="false">Нет, не так.</button>
+                    <button class="option" data-correct="true">Кажется, так. / Похоже на то.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #2196F3, #1565C0);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(33,150,243,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level2_lesson_uncertainty';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#1565C0';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#1565C0';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+
+                        var isCorrect = this.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+
+            console.log('[OK] Lesson loaded: level2_lesson_uncertainty');
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

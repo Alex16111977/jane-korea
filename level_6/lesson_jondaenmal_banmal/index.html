@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: 존댓말 vs 반말 — Полная система вежливости</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #F44336;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #E53935;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .description {
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #F44336;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #F44336;
+            padding-bottom: 10px;
+        }
+
+        .content-section h3 {
+            color: #D32F2F;
+            margin-top: 25px;
+        }
+
+        .content-section p {
+            font-size: 1.05em;
+            line-height: 1.7;
+            margin: 12px 0;
+        }
+
+        .level-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .level-card {
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .level-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .level-highest { background: linear-gradient(135deg, #880E4F, #AD1457); }
+        .level-formal-high { background: linear-gradient(135deg, #B71C1C, #C62828); }
+        .level-formal { background: linear-gradient(135deg, #D32F2F, #E53935); }
+        .level-polite { background: linear-gradient(135deg, #F44336, #EF5350); }
+        .level-familiar { background: linear-gradient(135deg, #E57373, #EF9A9A); color: #333; }
+        .level-casual { background: linear-gradient(135deg, #FFCDD2, #FFEBEE); color: #333; }
+        .level-lowest { background: linear-gradient(135deg, #FCE4EC, #FFF3E0); color: #333; }
+
+        .level-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .level-card-title {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .level-card-badge {
+            background: rgba(255,255,255,0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .level-card-example {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .level-card-example .korean-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .level-card-example .translation {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .level-card-context {
+            margin-top: 12px;
+            font-size: 0.95em;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .sentence-structure {
+            background: linear-gradient(135deg, #F44336, #D32F2F);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .structure-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .structure-example {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .structure-example .korean-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .structure-example .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .structure-example .grammar-note {
+            font-size: 0.85em;
+            color: #FFCDD2;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #C62828, #F44336);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.05em;
+        }
+
+        .table-cell.korean {
+            color: #F44336;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #EF5350, #F44336);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #FFD54F;
+            margin-bottom: 8px;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.8em;
+            color: #FFCDD2;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .question-forms {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #F44336;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #FFCDD2, #EF9A9A);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #F44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .option:hover {
+            background: #E53935;
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: #27ae60;
+        }
+
+        .option.wrong {
+            background: #e74c3c;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct {
+            background: #d5f5d5;
+            color: #27ae60;
+            display: block;
+        }
+
+        .result.wrong {
+            background: #fdd5d5;
+            color: #e74c3c;
+            display: block;
+        }
+
+        .switch-rules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .switch-rule {
+            background: linear-gradient(135deg, #FFEBEE, #FCE4EC);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #F44336;
+        }
+
+        .switch-rule h4 {
+            color: #C62828;
+            margin-top: 0;
+        }
+
+        @media (max-width: 768px) {
+            .level-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 2px;
+            }
+
+            .options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .switch-rules {
+                grid-template-columns: 1fr;
+            }
+
+            .level-card-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../index.html">6급 Все уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>Урок: 존댓말 vs 반말</h1>
+            <div class="korean-title">존댓말 [jondaenmal] vs 반말 [banmal] - Полная система вежливости</div>
+            <div class="description">7 уровней вежливости корейского языка, нюансы переключения и социальный контекст</div>
+        </header>
+
+        <div class="content-section">
+            <h2>Система вежливости в корейском</h2>
+            <p>Корейский язык обладает одной из самых сложных систем вежливости в мире. Каждое предложение обязательно содержит маркер отношения говорящего к слушающему.</p>
+            <p><strong>존댓말</strong> [jondaenmal] - вежливая речь (буквально: "почтительные слова"). <strong>반말</strong> [banmal] - неформальная речь (буквально: "половина слов", т.е. сокращённая форма без вежливых окончаний).</p>
+            <p>Выбор уровня зависит от <strong>возраста</strong>, <strong>социального статуса</strong>, <strong>степени близости</strong> и <strong>ситуации общения</strong>.</p>
+
+            <div class="question-forms">
+                <h3>Два измерения вежливости</h3>
+                <p><strong>1. Формальность</strong> (격식 [gyeoksik]) - определяется ситуацией: официальная встреча, презентация, армия vs. дружеская беседа.</p>
+                <p><strong>2. Почтительность</strong> (높임 [nopim]) - определяется отношением к собеседнику: старше/младше, начальник/подчинённый.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>7 уровней вежливости (높임법)</h2>
+            <p>Корейская грамматика традиционно выделяет 7 уровней речи (7 종결어미). На практике активно используются 4 из них, остальные встречаются в литературе и исторических текстах.</p>
+
+            <div class="level-cards">
+                <div class="level-card level-highest">
+                    <div class="level-card-header">
+                        <div class="level-card-title">1. 하소서체 [hasoseoche]</div>
+                        <div class="level-card-badge">Наивысший</div>
+                    </div>
+                    <p>Самый высокий уровень почтения. Используется при обращении к королю, в молитвах, в исторических дорамах.</p>
+                    <div class="level-card-example">
+                        <div class="korean-text">부디 용서하여 주옵소서.</div>
+                        <div class="translation">Прошу Вас покорнейше простить. [budi yongseohayeo juopseoseo]</div>
+                    </div>
+                    <div class="level-card-context">Контекст: дворцовая речь, религиозные тексты, исторические драмы</div>
+                </div>
+
+                <div class="level-card level-formal-high">
+                    <div class="level-card-header">
+                        <div class="level-card-title">2. 합쇼체 [hapshoche]</div>
+                        <div class="level-card-badge">Формальный вежливый</div>
+                    </div>
+                    <p>Формальная вежливая речь. Окончания: <strong>-습니다/-ㅂ니다</strong> (утверждение), <strong>-습니까/-ㅂ니까</strong> (вопрос).</p>
+                    <div class="level-card-example">
+                        <div class="korean-text">감사합니다. 잘 먹겠습니다.</div>
+                        <div class="translation">Спасибо. Я буду хорошо есть (приятного аппетита). [gamsahamnida. jal meokgesseumnida]</div>
+                    </div>
+                    <div class="level-card-context">Контекст: новости, армия, деловые переговоры, обслуживание клиентов, публичные выступления</div>
+                </div>
+
+                <div class="level-card level-formal">
+                    <div class="level-card-header">
+                        <div class="level-card-title">3. 하오체 [haoche]</div>
+                        <div class="level-card-badge">Формальный нейтральный</div>
+                    </div>
+                    <p>Устаревшая форма. Иногда встречается у пожилых людей или в литературе. Окончание: <strong>-오/-소</strong>.</p>
+                    <div class="level-card-example">
+                        <div class="korean-text">여기 앉으시오.</div>
+                        <div class="translation">Присаживайтесь здесь. [yeogi anjeumsio]</div>
+                    </div>
+                    <div class="level-card-context">Контекст: старшее поколение, военные приказы, литература</div>
+                </div>
+
+                <div class="level-card level-polite">
+                    <div class="level-card-header">
+                        <div class="level-card-title">4. 해요체 [haeyoche]</div>
+                        <div class="level-card-badge">Неформальный вежливый</div>
+                    </div>
+                    <p>Самая универсальная форма. Окончание: <strong>-아요/-어요/-해요</strong>. Подходит почти для любой ситуации.</p>
+                    <div class="level-card-example">
+                        <div class="korean-text">어디 가요? 저도 같이 가요.</div>
+                        <div class="translation">Куда идёте? Я тоже пойду с вами. [eodi gayo? jeodo gachi gayo]</div>
+                    </div>
+                    <div class="level-card-context">Контекст: повседневное общение, магазины, общение с незнакомыми, коллеги</div>
+                </div>
+
+                <div class="level-card level-familiar">
+                    <div class="level-card-header">
+                        <div class="level-card-title">5. 하게체 [hagече]</div>
+                        <div class="level-card-badge">Фамильярный</div>
+                    </div>
+                    <p>Используется старшими по отношению к младшим (но не близким). Окончание: <strong>-네/-게</strong>.</p>
+                    <div class="level-card-example">
+                        <div class="korean-text">자네, 요즘 어떻게 지내나?</div>
+                        <div class="translation">Ну, как ты поживаешь в последнее время? [jane, yojeum eotteoke jinaena?]</div>
+                    </div>
+                    <div class="level-card-context">Контекст: профессор к студенту, тесть к зятю, старший коллега к младшему</div>
+                </div>
+
+                <div class="level-card level-casual">
+                    <div class="level-card-header">
+                        <div class="level-card-title">6. 해체 [haeche] (반말)</div>
+                        <div class="level-card-badge">Неформальный</div>
+                    </div>
+                    <p>Неформальная речь между близкими людьми одного возраста. Окончание: <strong>-아/-어/-해</strong> (без 요).</p>
+                    <div class="level-card-example">
+                        <div class="korean-text">뭐 해? 밥 먹었어?</div>
+                        <div class="translation">Чем занимаешься? Ел(а)? [mwo hae? bap meogeosseo?]</div>
+                    </div>
+                    <div class="level-card-context">Контекст: близкие друзья, ровесники, пары, между детьми</div>
+                </div>
+
+                <div class="level-card level-lowest">
+                    <div class="level-card-header">
+                        <div class="level-card-title">7. 해라체 [haerache]</div>
+                        <div class="level-card-badge">Простой/письменный</div>
+                    </div>
+                    <p>Базовая форма. В устной речи - от взрослых к маленьким детям. В письменной - газеты, книги, научные статьи. Окончания: <strong>-다/-니/-라</strong>.</p>
+                    <div class="level-card-example">
+                        <div class="korean-text">한국의 경제는 빠르게 성장하고 있다.</div>
+                        <div class="translation">Экономика Кореи быстро растёт. [hangugui gyeongjeneun ppareuge seongjang-hago itda]</div>
+                    </div>
+                    <div class="level-card-context">Контекст: газеты, учебники, научные статьи, обращение к маленьким детям</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Сравнение уровней на примере "есть"</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">
+                    Глагол 먹다 [meokda] (есть) на разных уровнях
+                </div>
+                <div class="table-row">
+                    <div class="table-cell header">Уровень</div>
+                    <div class="table-cell header">Утверждение</div>
+                    <div class="table-cell header">Вопрос</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">합쇼체 (формальный)</div>
+                    <div class="table-cell korean">먹습니다</div>
+                    <div class="table-cell korean">먹습니까?</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">해요체 (вежливый)</div>
+                    <div class="table-cell korean">먹어요</div>
+                    <div class="table-cell korean">먹어요?</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">해체 (반말)</div>
+                    <div class="table-cell korean">먹어</div>
+                    <div class="table-cell korean">먹어?</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">해라체 (письменный)</div>
+                    <div class="table-cell korean">먹는다</div>
+                    <div class="table-cell korean">먹느냐?</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Правила переключения уровней</h2>
+            <p>Переключение между 존댓말 и 반말 - это тонкий социальный процесс с чёткими правилами.</p>
+
+            <div class="switch-rules">
+                <div class="switch-rule">
+                    <h4>Переход на 반말 (말을 놓다)</h4>
+                    <p>Предложение перейти на "ты": <strong>"말 놓을까요?"</strong> [mal noeulkkayo?] или <strong>"편하게 말해요"</strong> [pyeonhage malhaeyo]. Всегда инициирует старший по возрасту.</p>
+                </div>
+                <div class="switch-rule">
+                    <h4>Возраст решает</h4>
+                    <p>Если разница в возрасте 1-2 года, ровесники могут быстро перейти на 반말. Разница более 3 лет - младший использует 존댓말, пока старший не предложит иначе.</p>
+                </div>
+                <div class="switch-rule">
+                    <h4>Контекстное переключение</h4>
+                    <p>Друзья могут использовать 반말 наедине, но переключаться на 존댓말 при посторонних или в рабочей обстановке.</p>
+                </div>
+                <div class="switch-rule">
+                    <h4>Ошибки опасны</h4>
+                    <p>Использование 반말 к старшему - серьёзное оскорбление. Это может разрушить отношения. В сомнительной ситуации всегда используйте 존댓말.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Диалог: Переключение стилей</h2>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">지수 (25 лет):</div>
+                    <div class="korean-text">혹시 몇 살이세요?</div>
+                    <div class="translation">Простите, сколько вам лет? [hoksi myeot sariseyo?]</div>
+                    <div class="grammar-note">해요체 - вежливый вопрос незнакомцу</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">현우 (25 лет):</div>
+                    <div class="korean-text">저는 25살이에요. 지수 씨는요?</div>
+                    <div class="translation">Мне 25. А вам? [jeoneun seumuldaseot sarieyo. jisu ssineunyo?]</div>
+                    <div class="grammar-note">해요체 - ещё не знают друг друга</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지수:</div>
+                    <div class="korean-text">저도 25살이에요! 그럼 우리 말 놓을까요?</div>
+                    <div class="translation">Мне тоже 25! Тогда, может, перейдём на "ты"? [jeodo seumuldaseot sarieyo! geureom uri mal noeulkkayo?]</div>
+                    <div class="grammar-note">Предложение перейти на 반말 - ровесники</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">현우:</div>
+                    <div class="korean-text">좋아! 그래, 반말 하자. 나는 현우야.</div>
+                    <div class="translation">Отлично! Давай на "ты". Я Хёну. [joa! geurae, banmal haja. naneun hyeonuya.]</div>
+                    <div class="grammar-note">해체 (반말) - согласие, переход на неформальный стиль</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지수:</div>
+                    <div class="korean-text">나는 지수야. 반가워!</div>
+                    <div class="translation">Я Джису. Приятно познакомиться! [naneun jisuya. bangawo!]</div>
+                    <div class="grammar-note">반말 - дружеская манера после договорённости</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Особые случаи и нюансы</h2>
+
+            <div class="question-forms">
+                <h3>Хонорифик 시 [si]</h3>
+                <p>Суффикс <strong>-(으)시-</strong> добавляется к глаголу для выражения почтения к субъекту действия. Это отдельная система от уровней речи.</p>
+                <p>Пример: 선생님이 오셨습니다 [seonsaengnimi osyeosseumnida] - Учитель пришёл (с почтением к учителю).</p>
+                <p>Можно комбинировать с любым уровнем речи: 아버지가 오셨어 [abeojiga osyeosseo] - Папа пришёл (반말, но с почтением к папе).</p>
+            </div>
+
+            <div class="question-forms">
+                <h3>Специальные слова почтения (높임말)</h3>
+                <p>Некоторые слова имеют вежливые варианты:</p>
+                <p><strong>먹다</strong> [meokda] (есть) -> <strong>드시다</strong> [deusida] / <strong>잡수시다</strong> [japsusida]</p>
+                <p><strong>자다</strong> [jada] (спать) -> <strong>주무시다</strong> [jumusida]</p>
+                <p><strong>있다</strong> [itda] (быть) -> <strong>계시다</strong> [gyesida]</p>
+                <p><strong>말하다</strong> [malhada] (говорить) -> <strong>말씀하시다</strong> [malsseumhasida]</p>
+            </div>
+
+            <div class="question-forms">
+                <h3>Скрытая грубость (숨은 반말)</h3>
+                <p>Иногда люди используют формально вежливые слова с грубым тоном. Это называется <strong>존댓말 반말</strong> - когда форма вежливая, но интонация и контекст выражают неуважение.</p>
+                <p>Пример: "네, 알겠습니다" [ne, algesseumnida] с раздражённым тоном = формально вежливо, но на деле грубо.</p>
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <h3>Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. Какой уровень вежливости используется в новостях и на официальных встречах?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">해요체</button>
+                    <button class="option" data-correct="true">합쇼체</button>
+                    <button class="option" data-correct="false">해체</button>
+                    <button class="option" data-correct="false">하게체</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. Как попросить перейти на "ты" по-корейски?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">존댓말 해 주세요</button>
+                    <button class="option" data-correct="true">말 놓을까요?</button>
+                    <button class="option" data-correct="false">반말 하십시오</button>
+                    <button class="option" data-correct="false">높임말 쓰세요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Вы пришли на собеседование. Какой уровень вежливости использовать?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">해체 (반말)</button>
+                    <button class="option" data-correct="false">하게체</button>
+                    <button class="option" data-correct="true">합쇼체</button>
+                    <button class="option" data-correct="false">해라체</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. Какое вежливое слово заменяет 먹다 (есть)?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">계시다</button>
+                    <button class="option" data-correct="false">주무시다</button>
+                    <button class="option" data-correct="true">드시다</button>
+                    <button class="option" data-correct="false">말씀하시다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. 해라체 чаще всего используется в:</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Разговоре с другом</button>
+                    <button class="option" data-correct="false">Деловой встрече</button>
+                    <button class="option" data-correct="true">Газетах и книгах</button>
+                    <button class="option" data-correct="false">Молитвах</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. Кто инициирует переход на 반말?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Младший по возрасту</button>
+                    <button class="option" data-correct="true">Старший по возрасту или оба при одном возрасте</button>
+                    <button class="option" data-correct="false">Кто угодно</button>
+                    <button class="option" data-correct="false">Только начальник</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Заключение</h2>
+            <p>Система вежливости - это сердце корейского языка. Правильный выбор уровня речи показывает вашу культурную грамотность и уважение к собеседнику.</p>
+
+            <div style="background: linear-gradient(135deg, #C62828, #F44336); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; text-align: center;">
+                <h3 style="margin-top: 0;">Краткий обзор</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>합쇼체</strong><br>
+                        -습니다/-ㅂ니다<br>
+                        <em>Формальный вежливый</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>해요체</strong><br>
+                        -아요/-어요<br>
+                        <em>Неформальный вежливый</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>해체 (반말)</strong><br>
+                        -아/-어<br>
+                        <em>Неформальный (друзья)</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>해라체</strong><br>
+                        -다/-니<br>
+                        <em>Письменный/базовый</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #F44336, #D32F2F);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(244,67,54,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level6_lesson_jondaenmal_banmal';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#B71C1C';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#B71C1C';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+
+                        var isCorrect = this.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = '정답! Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = '틀렸어요. Неправильно. Попробуйте ещё раз!';
+
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>
