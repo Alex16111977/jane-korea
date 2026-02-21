@@ -190,6 +190,33 @@
             translation: '.number-value',
             pronunciation: '.number-romanization'
         },
+        // === Phrase situation cards (phrases.html) ===
+        {
+            container: '.phrase-situation-card',
+            korean: '.phrase-korean',
+            translation: '.phrase-translation',
+            pronunciation: '.phrase-romanization'
+        },
+        // === Grammar lesson cards (form-card, cnt-card) ===
+        {
+            container: '.form-card',
+            korean: '.form-title',
+            translation: '.form-pattern',
+            pronunciation: null
+        },
+        {
+            container: '.cnt-card',
+            korean: '.cnt-symbol',
+            translation: '.cnt-meaning',
+            pronunciation: '.cnt-pronunciation'
+        },
+        // === Time vocabulary with non-standard classes ===
+        {
+            container: '.time-card:has(.korean-time)',
+            korean: '.korean-time',
+            translation: '.time-translation',
+            pronunciation: null
+        },
         // === Level 6 idioms (vocab-card with korean-idiom) ===
         {
             container: '.vocab-card:has(.korean-idiom)',

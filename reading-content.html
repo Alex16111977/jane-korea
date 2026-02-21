@@ -543,6 +543,37 @@
             cursor: not-allowed;
         }
 
+        .mark-read-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border: none;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-family: inherit;
+            box-shadow: 0 3px 10px rgba(76,175,80,0.3);
+        }
+
+        .mark-read-btn:hover {
+            background: linear-gradient(135deg, #43A047, #388E3C);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(76,175,80,0.4);
+        }
+
+        .mark-read-btn.completed {
+            background: #2e7d32;
+            cursor: default;
+            opacity: 0.85;
+            box-shadow: none;
+        }
+
+        .mark-read-btn.completed:hover {
+            transform: none;
+        }
+
         .audio-progress {
             display: flex;
             align-items: center;
@@ -743,6 +774,7 @@
             </div>
             <div class="text-navigation">
                 <button class="nav-btn" onclick="goToPrevText()" id="prevTextBtn">← Предыдущий</button>
+                <button class="mark-read-btn" onclick="markTextRead()" id="markReadBtn">📖 Прочитано</button>
                 <button class="nav-btn primary" onclick="goToNextText()" id="nextTextBtn">Следующий →</button>
             </div>
         </div>
@@ -2923,6 +2955,11 @@
             if (typeof updateVocabButton === 'function') {
                 updateVocabButton();
             }
+
+            // Обновить кнопку "Прочитано"
+            if (typeof updateMarkReadButton === 'function') {
+                updateMarkReadButton();
+            }
         }
 
         function setupWordInteractions() {
@@ -3326,6 +3363,9 @@
             // === PROGRESS TRACKING ===
             // Сохраняем прогресс после завершения теста
             saveTextProgress(percentage);
+            if (typeof updateMarkReadButton === 'function') {
+                updateMarkReadButton();
+            }
             
             let resultMessage = '';
             let resultColor = '';
@@ -3679,6 +3719,60 @@
             }
 
             alert(message);
+        }
+
+        // Кнопка "Прочитано" — отмечает текст прочитанным без прохождения теста
+        function markTextRead() {
+            var btn = document.getElementById('markReadBtn');
+            if (!btn || btn.classList.contains('completed')) return;
+
+            var level = selectedLevel;
+            var category = selectedCategory;
+            var textId = getCurrentTextId();
+
+            if (!level || !category || !textId) {
+                console.log('[!] Cannot mark read: missing params', {level, category, textId});
+                return;
+            }
+
+            ProgressTracker.markTextCompleted(level, category, textId, 0, 0);
+
+            btn.textContent = '✓ Прочитано';
+            btn.classList.add('completed');
+            btn.disabled = true;
+            console.log('[OK] Text marked as read:', level + '-' + category + '-' + textId);
+        }
+
+        function getCurrentTextId() {
+            var texts = getCurrentTexts();
+            if (texts.length === 0 || currentTextIndex >= texts.length) return null;
+            return texts[currentTextIndex].id;
+        }
+
+        function updateMarkReadButton() {
+            var btn = document.getElementById('markReadBtn');
+            if (!btn) return;
+
+            var level = selectedLevel;
+            var category = selectedCategory;
+            var textId = getCurrentTextId();
+
+            if (!level || !category || !textId) {
+                btn.textContent = '📖 Прочитано';
+                btn.classList.remove('completed');
+                btn.disabled = false;
+                return;
+            }
+
+            if (ProgressTracker.isTextCompleted(level, category, textId)) {
+                btn.textContent = '✓ Прочитано';
+                btn.classList.add('completed');
+                btn.disabled = true;
+            } else {
+                btn.textContent = '📖 Прочитано';
+                btn.classList.remove('completed');
+                btn.disabled = false;
+            }
         }
 
         console.log('[OK] Progress integration loaded');

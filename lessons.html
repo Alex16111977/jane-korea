@@ -459,79 +459,113 @@
             markCompletedLessons();
         });
 
-        // Маркировка завершенных уроков (уровней)
+        // ID всех уроков каждого уровня (из data-lesson атрибутов level_N/index.html)
+        var levelLessonsMap = {
+            'level_1': [
+                'lesson_01_korea','lesson_02_alphabet','lesson_03_greetings','lesson_04_numbers','lesson_05_family','lesson_06_grammar',
+                'lesson_10_copula','lesson_11_informal_copula','lesson_12_formal_copula','lesson_13_copula_negation',
+                'lesson_14_demonstratives','lesson_15_demonstratives_practice',
+                'level1_lesson_sov_order','level1_lesson_topic_particle','level1_lesson_subject_particle','level1_lesson_pronouns','level1_lesson_place_prepositions',
+                'vocabulary_colors','vocabulary_body','vocabulary_adjectives','vocabulary_verbs','vocabulary_professions',
+                'vocabulary_house','vocabulary_school','vocabulary_countries','vocabulary_basicfood','vocabulary_seasons',
+                'vocabulary_transport','vocabulary_daystime','vocabulary_questions','vocabulary_conjunctions','vocabulary_city','vocabulary_hobbies','vocabulary_clothes','vocabulary_money'
+            ],
+            'level_2': [
+                'level2_lesson_01_grammar','level2_lesson_03_politeness','level2_lesson_04_negation','level2_lesson_09_adj_conjugation',
+                'level2_lesson_02_verb_tenses','level2_lesson_05_location_verbs','level2_lesson_06_verb_conjugation',
+                'level2_lesson_07_informal_verbs','level2_lesson_08_formal_verbs','level2_lesson_10_past_tense','level2_lesson_11_future_tense',
+                'level2_lesson_12_accusative','level2_lesson_13_direction','level2_lesson_14_time','level2_lesson_15_want',
+                'level2_lesson_topic_vs_subject','level2_lesson_ida_questions','level2_lesson_uncertainty','level2_lesson_requests','level2_lesson_counters',
+                'level2_vocab_time','level2_vocab_food','level2_vocab_emotions'
+            ],
+            'level_3': [
+                'level3_lesson_02_location','level3_lesson_07_dative','level3_lesson_08_possessive','level3_lesson_13_also','level3_lesson_14_only',
+                'level3_lesson_10_hago','level3_lesson_11_particles','level3_lesson_12_go',
+                'level3_lesson_ability','level3_lesson_comparative','level3_lesson_instrumental','level3_lesson_sequence','level3_lesson_contrast',
+                'level3_lesson_topic_subject_deep','level3_lesson_because_aseo','level3_lesson_not_but_anira','level3_lesson_numbers_units',
+                'level3_vocab_weather','level3_vocab_animals','level3_vocab_clothes'
+            ],
+            'level_4': [
+                'level4_irregular_bieup','level4_irregular_digeut','level4_irregular_siot','level4_irregular_eu','level4_irregular_hieut','level4_irregular_rieul',
+                'level4_lesson_02_simultaneous','level4_lesson_03_after','level4_lesson_05_before','level4_lesson_06_after_formal',
+                'level4_lesson_04_conditional','level4_lesson_permission','level4_lesson_01_prohibition',
+                'level4_lesson_09_purpose','level4_lesson_10_honorific','level4_lesson_12_choice_ina','level4_lesson_13_choice_geona','level4_lesson_14_suggestion',
+                'level4_lesson_passive','level4_lesson_nominalization','level4_lesson_indirect_speech','level4_lesson_causative',
+                'level4_vocab_technology','level4_vocab_culture','level4_vocab_health'
+            ],
+            'level_5': [
+                'level5_lesson_01_helping','level5_lesson_02_obligation','level5_lesson_05_minimum','level5_lesson_08_inability','level5_lesson_09_promise',
+                'level5_lesson_15_speculation','level5_lesson_10_trying','level5_lesson_11_from_whom','level5_lesson_12_future',
+                'level5_lesson_reason','level5_lesson_possession','level5_lesson_causative_passive_full','level5_lesson_rhetorical','level5_lesson_narrative_style','level5_lesson_punctuation',
+                'level5_lesson_16_business','level5_lesson_17_honorifics','level5_lesson_18_newspaper','level5_lesson_19_causality','level5_lesson_20_contrasts',
+                'level5_vocab_business','level5_vocab_society','level5_vocab_ecology'
+            ],
+            'level_6': [
+                'level6_lesson_09_daero','level6_lesson_10_damyeon','level6_lesson_11_time',
+                'level6_lesson_sajaseongeo','level6_lesson_jondaenmal_banmal','level6_lesson_rhetoric','level6_lesson_homonyms',
+                'level6_lesson_literary','level6_lesson_dialects','level6_lesson_psychology','level6_lesson_academic',
+                'level6_lesson_12_academic','level6_lesson_13_idioms','level6_lesson_14_business','level6_lesson_15_literary','level6_lesson_16_social'
+            ]
+        };
+
+        // Галочка на уровне появляется ТОЛЬКО когда ВСЕ уроки внутри уровня пройдены
         function markCompletedLessons() {
-            const progress = ProgressTracker.get();
-            console.log('[OK] Marking completed lessons');
-            
-            document.querySelectorAll('.level-card').forEach(card => {
-                const button = card.querySelector('.start-btn');
+            var progress = ProgressTracker.get();
+            console.log('[OK] Checking level completion');
+
+            document.querySelectorAll('.level-card').forEach(function(card) {
+                var button = card.querySelector('.start-btn');
                 if (!button) return;
-                
-                const onclick = button.getAttribute('onclick');
+
+                var onclick = button.getAttribute('onclick');
                 if (!onclick) return;
-                
-                // Извлекаем levelId из onclick="navigateToLevel('level_1', event)"
-                const match = onclick.match(/navigateToLevel\('([^']+)'/);
+
+                var match = onclick.match(/navigateToLevel\('([^']+)'/);
                 if (!match) return;
-                
-                const levelId = match[1];
-                
-                if (progress.completedLessons[levelId]) {
-                    // Уровень завершен — НЕ перезаписываем background, чтобы сохранить фоновую картинку
+
+                var levelId = match[1];
+                var lessons = levelLessonsMap[levelId];
+                if (!lessons || lessons.length === 0) return;
+
+                // Считаем пройденные уроки
+                var completedCount = 0;
+                lessons.forEach(function(lessonId) {
+                    if (progress.completedLessons[lessonId]) {
+                        completedCount++;
+                    }
+                });
+
+                var totalCount = lessons.length;
+
+                // Показываем прогресс уровня
+                var levelContent = card.querySelector('.level-content');
+                if (levelContent && completedCount > 0) {
+                    var progressInfo = document.createElement('div');
+                    progressInfo.style.cssText = 'margin-top: 8px; position: relative; z-index: 1;';
+                    progressInfo.innerHTML = '<div style="font-size: 0.85em; color: #666; margin-bottom: 5px; font-weight: 500;">Пройдено: ' + completedCount + ' / ' + totalCount + '</div>' +
+                        '<div style="background: #e0e0e0; border-radius: 10px; height: 6px; overflow: hidden;">' +
+                        '<div style="background: ' + (completedCount === totalCount ? '#4caf50' : '#667eea') + '; height: 100%; border-radius: 10px; width: ' + Math.round((completedCount / totalCount) * 100) + '%; transition: width 0.5s ease;"></div>' +
+                        '</div>';
+                    levelContent.appendChild(progressInfo);
+                }
+
+                // Галочка только если ВСЕ уроки пройдены
+                if (completedCount === totalCount) {
                     card.style.borderLeft = '6px solid #4caf50';
-                    
-                    // Добавляем галочку
-                    const badge = document.createElement('div');
+
+                    var badge = document.createElement('div');
                     badge.className = 'completion-badge';
-                    badge.style.cssText = `
-                        position: absolute;
-                        top: 15px;
-                        right: 15px;
-                        background: #4caf50;
-                        color: white;
-                        width: 35px;
-                        height: 35px;
-                        border-radius: 50%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        font-weight: bold;
-                        font-size: 18px;
-                        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
-                        z-index: 10;
-                    `;
-                    badge.innerHTML = '✓';
+                    badge.style.cssText = 'position:absolute;top:15px;right:15px;background:#4caf50;color:white;width:35px;height:35px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;box-shadow:0 2px 8px rgba(76,175,80,0.4);z-index:10;';
+                    badge.innerHTML = '&#10003;';
                     card.style.position = 'relative';
                     card.insertBefore(badge, card.firstChild);
-                    
-                    // Информация о просмотрах
-                    const revisited = progress.completedLessons[levelId].revisited || 0;
-                    if (revisited > 0) {
-                        const revisitInfo = document.createElement('div');
-                        revisitInfo.style.cssText = `
-                            font-size: 0.85em;
-                            color: #4caf50;
-                            margin-top: 8px;
-                            font-weight: 500;
-                            position: relative;
-                            z-index: 1;
-                        `;
-                        revisitInfo.innerHTML = `Просмотрено: ${revisited + 1} раз`;
-                        const levelContent = card.querySelector('.level-content');
-                        if (levelContent) {
-                            levelContent.appendChild(revisitInfo);
-                        }
-                    }
-                    
-                    console.log('[+] Marked level:', levelId);
+
+                    console.log('[+] Level fully completed:', levelId);
                 }
             });
-            
-            console.log('[OK] Levels marked');
-        }
 
-        // Уровни отмечаются только кнопкой завершения внутри уроков
+            console.log('[OK] Level completion checked');
+        }
     </script>
 
     <!-- Firebase SDK -->

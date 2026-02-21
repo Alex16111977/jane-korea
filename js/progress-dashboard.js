@@ -17,8 +17,6 @@ function renderProgressDashboard(containerId) {
     const totalTexts = Object.keys(progress.completedTexts).length;
     const totalLessons = Object.keys(progress.completedLessons).length;
     const streak = progress.stats.currentStreak || 0;
-    const studyTime = Math.floor(progress.stats.studyTimeMinutes || 0);
-    
     // Проверка достижений
     const achievements = checkAllAchievements(progress);
     
@@ -60,12 +58,6 @@ function renderProgressDashboard(containerId) {
                     <div class="stat-label">Дней подряд</div>
                 </div>
                 
-                <!-- Время обучения -->
-                <div class="stat-card">
-                    <div class="stat-icon">⏱️</div>
-                    <div class="stat-value">${studyTime}</div>
-                    <div class="stat-label">Минут обучения</div>
-                </div>
             </div>
             
             <!-- Достижения -->

@@ -1211,11 +1211,16 @@
             if (EX[word]) return EX[word];
 
             // 2. Снять частицы (은/는/이/가/을/를/도/에/에서/으로/의/와/과 и т.д.)
-            var particles = ['에서는', '에서도', '으로는', '에서', '으로', '이나', '에는', '에도', '과는', '와는', '은', '는', '이', '가', '을', '를', '도', '에', '의', '와', '과', '로'];
+            var particles = ['이야말로', '에서의', '에서는', '에서도', '으로는', '으로의', '에게는', '에게서', '부터는', '까지는', '에서', '으로', '이나', '에는', '에도', '과는', '와는', '에게', '한테', '들은', '들이', '들의', '들을', '들과', '들도', '부터', '까지', '마다', '은', '는', '이', '가', '을', '를', '도', '에', '의', '와', '과', '로'];
             for (var p = 0; p < particles.length; p++) {
                 if (word.length > particles[p].length && word.endsWith(particles[p])) {
                     var base = word.slice(0, -particles[p].length);
-                    if (base.length >= 1 && EX[base]) return EX[base];
+                    // Допускаем любую основу (даже 1 символ), если она есть в словаре
+                    if (base.length >= 1) {
+                        if (EX[base]) return EX[base];
+                        if (EX[base + '다']) return EX[base + '다'];
+                        if (EX[base + '하다']) return EX[base + '하다'];
+                    }
                 }
             }
 
@@ -1225,19 +1230,31 @@
             // 4. Снять окончания и искать основу + 다/하다
             var suffixes = [
                 '을 거예요', '을 수 있어요', '어야 해요', '아야 해요',
+                // Формальные формы (합쇼체)
+                '했습니다', '았습니다', '었습니다', '겠습니다',
+                '하셨어요', '으셨어요', '셨어요',
+                '하십니다', '으십니다', '십니다',
+                '되었습니다', '되었어요',
+                '됐습니다', '됐어요',
+                // Неформальные прошедшие/настоящие
                 '었어요', '았어요', '했어요', '겠어요', '워요',
                 '여요', '해요', '돼요', '래요',
                 '어요', '아요',
-                '습니다', '입니다', '됩니다',
+                '습니다', '입니다', '됩니다', '합니다', '입니다',
                 '는다', '은다',
+                // Причины/связки
                 '해서', '어서', '아서',
                 '하고', '해도', '하면', '하지', '하는', '하게', '하니',
-                '었다', '았다', '했다',
+                '했다', '었다', '았다',
+                // Предположение/вопрос
+                '을까요', '을래요', '나요',
+                // Условие
                 '으면', '면',
-                '지만',
-                '는', '은', '을', 'ㄹ',
+                '지만', '더라도', '더니',
+                // Соединительные/причастия
+                '는', '은', '을',
                 '고', '며', '지',
-                '한', '해', '히',
+                '한', '해',
                 '어', '아'
             ];
 
@@ -1245,7 +1262,9 @@
                 var s = suffixes[i];
                 if (word.length > s.length && word.endsWith(s)) {
                     var stem = word.slice(0, -s.length);
-                    if (stem.length < 1) continue;
+                    // Для длинных суффиксов (2+) допускаем основу в 1 символ, для коротких — минимум 2
+                    var minStem = s.length >= 2 ? 1 : 2;
+                    if (stem.length < minStem) continue;
                     if (EX[stem + '다']) return EX[stem + '다'];
                     if (EX[stem + '하다']) return EX[stem + '하다'];
                     if (EX[stem + '이다']) return EX[stem + '이다'];
@@ -1295,7 +1314,7 @@
             }
 
             // 7. Для 하다-глаголов: 공부해요 → 공부 + 하다
-            var hadaSuffixes = ['해요', '했어요', '해서', '하고', '하면', '하지', '하는', '하게', '합니다', '했다', '해도', '해'];
+            var hadaSuffixes = ['했습니다', '하셨어요', '하십니다', '하겠어요', '해야 해요', '하셨다', '했어요', '합니다', '해요', '해서', '하고', '하면', '하지', '하는', '하게', '하며', '하니', '했다', '해도', '해'];
             for (var j = 0; j < hadaSuffixes.length; j++) {
                 var hs = hadaSuffixes[j];
                 if (word.length > hs.length && word.endsWith(hs)) {
@@ -1307,25 +1326,52 @@
                 }
             }
 
-            // 8. Составные конструкции: разбить по пробелам и искать первое слово
+            // 8. Составные конструкции: разбить по пробелам и искать КАЖДОЕ слово
             if (word.includes(' ')) {
                 var parts = word.split(' ');
-                var firstWord = parts[0];
-                var res = findWordExample(firstWord);
-                if (res) return res;
+                for (var pw = 0; pw < parts.length; pw++) {
+                    if (parts[pw].length >= 2) {
+                        var res = findWordExample(parts[pw]);
+                        if (res) return res;
+                    }
+                }
             }
 
-            // 9. Частичное совпадение по началу слова
-            var keys = Object.keys(EX);
-            for (var k = 0; k < keys.length; k++) {
-                if (word.length >= 2 && keys[k].length >= 2) {
-                    var minLen = Math.min(word.length, keys[k].length);
-                    var common = 0;
-                    for (var c = 0; c < minLen; c++) {
-                        if (word[c] === keys[k][c]) common++; else break;
+            // 9. Двойное снятие: сначала частицы, потом суффиксы (걸렸어요→걸리다, 만났어요→만나다)
+            for (var pp = 0; pp < particles.length; pp++) {
+                if (word.length > particles[pp].length && word.endsWith(particles[pp])) {
+                    var base2 = word.slice(0, -particles[pp].length);
+                    if (base2.length >= 2) {
+                        // Попробуем снять суффикс с оставшейся основы
+                        for (var ss = 0; ss < suffixes.length; ss++) {
+                            var sf = suffixes[ss];
+                            if (base2.length > sf.length && base2.endsWith(sf)) {
+                                var stem2 = base2.slice(0, -sf.length);
+                                if (stem2.length < 1) continue;
+                                if (EX[stem2 + '다']) return EX[stem2 + '다'];
+                                if (EX[stem2 + '하다']) return EX[stem2 + '하다'];
+                                if (EX[stem2]) return EX[stem2];
+                            }
+                        }
+                        if (EX[base2 + '다']) return EX[base2 + '다'];
                     }
-                    if (common >= 2 && Math.abs(word.length - keys[k].length) <= 3) {
-                        return EX[keys[k]];
+                }
+            }
+
+            // 10. Частичное совпадение по началу слова (СТРОГО: 4+ общих символов, разница длины <= 1)
+            // Только для длинных слов, чтобы не путать разные короткие слова
+            if (word.length >= 4) {
+                var keys = Object.keys(EX);
+                for (var k = 0; k < keys.length; k++) {
+                    if (keys[k].length >= 4) {
+                        var minLen = Math.min(word.length, keys[k].length);
+                        var common = 0;
+                        for (var c = 0; c < minLen; c++) {
+                            if (word[c] === keys[k][c]) common++; else break;
+                        }
+                        if (common >= 4 && Math.abs(word.length - keys[k].length) <= 1) {
+                            return EX[keys[k]];
+                        }
                     }
                 }
             }

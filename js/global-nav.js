@@ -44,7 +44,9 @@
             'blackpink-members-learning.html': 'kpop',
             'blackpink-songs.html': 'kpop',
             'boombayah-video.html': 'kpop',
-            'group-bts.html': 'kpop'
+            'group-bts.html': 'kpop',
+            'phrases.html': 'phrases',
+            'games.html': 'games'
         };
 
         if (pageMap[pageName]) return pageMap[pageName];
@@ -98,6 +100,8 @@
         { t: 'Все уроки грамматики', u: 'lessons.html', k: 'уроки грамматика lessons' },
         { t: 'Мой профиль и прогресс', u: 'profile.html', k: 'профиль прогресс статистика profile' },
         { t: 'Практика слов', u: 'vocabulary-learning.html', k: 'словарь слова vocabulary' },
+        { t: 'Разговорные фразы', u: 'phrases.html', k: 'фразы разговорные phrases кафе такси врач магазин аэропорт отель ресторан ситуации' },
+        { t: 'Мини-игры', u: 'games.html', k: 'игры games memory пары виселица слово собери угадай' },
 
         // Уроки (53 root)
         { t: 'Урок 1: Знакомство с Кореей', u: 'lesson_01_korea/index.html', k: 'корея знакомство 1' },
