@@ -44,6 +44,10 @@
             'blackpink-members-learning.html': 'kpop',
             'blackpink-songs.html': 'kpop',
             'boombayah-video.html': 'kpop',
+            'song-boombayah.html': 'kpop',
+            'song-whistle.html': 'kpop',
+            'song-playing-with-fire.html': 'kpop',
+            'song-ddu-du.html': 'kpop',
             'group-bts.html': 'kpop',
             'phrases.html': 'phrases',
             'games.html': 'games'
