@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогрессив -고 있다 — действие прямо сейчас</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #1565C0;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #2196F3;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .description {
+            font-size: 1.05em;
+            color: #666;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #1565C0;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #2196F3;
+            padding-bottom: 10px;
+        }
+
+        .grammar-rule {
+            background: linear-gradient(135deg, #43a047, #2e7d32);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .grammar-rule .rule-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .grammar-rule .rule-formula {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 15px 0;
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .grammar-rule .rule-note {
+            font-size: 0.95em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .example-box {
+            background: #f5f7ff;
+            border-left: 5px solid #2196F3;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 15px 0;
+        }
+
+        .example-box .korean-text {
+            font-size: 1.3em;
+            color: #1565C0;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .example-box .translation {
+            font-size: 1em;
+            color: #555;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #1565C0, #2196F3);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-row.four-cols {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .table-cell.korean {
+            color: #1565C0;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #42A5F5, #2196F3);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #ffeb3b;
+            margin-bottom: 8px;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.8em;
+            color: #bbdefb;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .question-forms {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #2196F3;
+        }
+
+        .sentence-structure {
+            background: linear-gradient(135deg, #42A5F5, #1E88E5);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .structure-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .structure-example {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .word-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .word-part {
+            background: rgba(255,255,255,0.3);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .korean-word {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .word-meaning {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        .warning-box h3 {
+            color: #e65100;
+            margin-top: 0;
+        }
+
+        .compare-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .compare-item {
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .compare-item.habitual {
+            background: linear-gradient(135deg, #90CAF9, #64B5F6);
+            color: white;
+        }
+
+        .compare-item.progressive {
+            background: linear-gradient(135deg, #2196F3, #1565C0);
+            color: white;
+        }
+
+        .compare-item .compare-label {
+            font-size: 0.9em;
+            opacity: 0.85;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .compare-item .compare-korean {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .compare-item .compare-translation {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .table-row.four-cols { grid-template-columns: 1fr; }
+            .compare-block { grid-template-columns: 1fr; }
+            .word-breakdown { flex-direction: column; align-items: center; }
+            .header h1 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_2/index.html">← 2급 Все уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>Прогрессив -고 있다</h1>
+            <div class="korean-title">진행형 -고 있다 [jinhaenghyeong -go itda]</div>
+            <div class="description">Как сказать, что действие происходит прямо сейчас -- я сейчас ем, он сейчас читает</div>
+        </header>
+
+        <!-- Section 1: Что такое прогрессив? -->
+        <div class="content-section">
+            <h2>1. Что такое прогрессив?</h2>
+            <p>Конструкция <strong>-고 있다</strong> -- это корейский аналог английского <strong>-ing</strong> (Present Continuous). Она показывает, что действие <strong>происходит прямо сейчас</strong>, в момент речи.</p>
+
+            <div class="grammar-rule">
+                <div class="rule-title">Правило образования</div>
+                <div class="rule-formula">동사 어간 + 고 있다</div>
+                <div class="rule-note">Основа глагола + 고 있다 (без изменений основы!)</div>
+            </div>
+
+            <p>Это одна из самых простых грамматических конструкций: нужно просто убрать <strong>-다</strong> от словарной формы глагола и добавить <strong>-고 있다</strong>. Основа глагола никак не изменяется.</p>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Примеры образования</div>
+                <div class="word-breakdown">
+                    <div class="word-part">
+                        <div class="korean-word">먹다</div>
+                        <div class="word-meaning">есть</div>
+                    </div>
+                    <div class="word-part" style="display: flex; align-items: center; font-size: 1.5em;">--></div>
+                    <div class="word-part">
+                        <div class="korean-word">먹고 있다</div>
+                        <div class="word-meaning">есть (сейчас)</div>
+                    </div>
+                </div>
+                <div class="word-breakdown">
+                    <div class="word-part">
+                        <div class="korean-word">읽다</div>
+                        <div class="word-meaning">читать</div>
+                    </div>
+                    <div class="word-part" style="display: flex; align-items: center; font-size: 1.5em;">--></div>
+                    <div class="word-part">
+                        <div class="korean-word">읽고 있다</div>
+                        <div class="word-meaning">читать (сейчас)</div>
+                    </div>
+                </div>
+                <div class="word-breakdown">
+                    <div class="word-part">
+                        <div class="korean-word">가다</div>
+                        <div class="word-meaning">идти</div>
+                    </div>
+                    <div class="word-part" style="display: flex; align-items: center; font-size: 1.5em;">--></div>
+                    <div class="word-part">
+                        <div class="korean-word">가고 있다</div>
+                        <div class="word-meaning">идти (сейчас)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Спряжение по уровням вежливости -->
+        <div class="content-section">
+            <h2>2. Спряжение по уровням вежливости</h2>
+            <p>Как и все корейские глаголы, <strong>-고 있다</strong> спрягается по уровням вежливости. Изменяется только окончание <strong>있다</strong>.</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Формы -고 있다 (на примере 먹다 -- есть)</div>
+                <div class="table-row four-cols">
+                    <div class="table-cell header">Форма</div>
+                    <div class="table-cell header">Правило</div>
+                    <div class="table-cell header">Пример</div>
+                    <div class="table-cell header">Перевод</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">Формальная</div>
+                    <div class="table-cell korean">-고 있습니다</div>
+                    <div class="table-cell korean">먹고 있습니다</div>
+                    <div class="table-cell">ем сейчас (офиц.)</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">Вежливая</div>
+                    <div class="table-cell korean">-고 있어요</div>
+                    <div class="table-cell korean">먹고 있어요</div>
+                    <div class="table-cell">ем сейчас</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">Неформальная</div>
+                    <div class="table-cell korean">-고 있어</div>
+                    <div class="table-cell korean">먹고 있어</div>
+                    <div class="table-cell">ем сейчас (разг.)</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">Прошедшее</div>
+                    <div class="table-cell korean">-고 있었어요</div>
+                    <div class="table-cell korean">먹고 있었어요</div>
+                    <div class="table-cell">ел в тот момент</div>
+                </div>
+            </div>
+
+            <div class="question-forms">
+                <h3>Вопросительная форма</h3>
+                <p>Для вопроса достаточно изменить интонацию (повысить в конце):</p>
+                <p><strong>먹고 있어요?</strong> -- Ты сейчас ешь?</p>
+                <p><strong>뭐 하고 있어요?</strong> -- Что ты сейчас делаешь?</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Примеры -->
+        <div class="content-section">
+            <h2>3. Примеры в предложениях</h2>
+
+            <div class="example-box">
+                <div class="korean-text">저는 지금 밥을 먹고 있어요.</div>
+                <div class="translation">Я сейчас ем.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">친구가 전화하고 있어요.</div>
+                <div class="translation">Друг звонит по телефону.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">아이들이 공원에서 놀고 있어요.</div>
+                <div class="translation">Дети играют в парке.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">비가 오고 있어요.</div>
+                <div class="translation">Идёт дождь.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">엄마가 요리하고 있어요.</div>
+                <div class="translation">Мама готовит.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">학생들이 공부하고 있어요.</div>
+                <div class="translation">Студенты учатся.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">아빠가 신문을 읽고 있어요.</div>
+                <div class="translation">Папа читает газету.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">언니가 음악을 듣고 있어요.</div>
+                <div class="translation">Старшая сестра слушает музыку.</div>
+            </div>
+        </div>
+
+        <!-- Section 4: 고 있다 vs настоящее время -->
+        <div class="content-section">
+            <h2>4. -고 있다 vs простое настоящее время</h2>
+            <p>В чём разница между <strong>먹어요</strong> и <strong>먹고 있어요</strong>? Простое настоящее время описывает привычные или регулярные действия, а <strong>-고 있다</strong> -- действие, которое происходит <strong>прямо сейчас</strong>.</p>
+
+            <div class="compare-block">
+                <div class="compare-item habitual">
+                    <div class="compare-label">Простое настоящее (привычка)</div>
+                    <div class="compare-korean">저는 매일 운동해요.</div>
+                    <div class="compare-translation">Я каждый день занимаюсь спортом.</div>
+                </div>
+                <div class="compare-item progressive">
+                    <div class="compare-label">Прогрессив (прямо сейчас)</div>
+                    <div class="compare-korean">저는 지금 운동하고 있어요.</div>
+                    <div class="compare-translation">Я сейчас занимаюсь спортом.</div>
+                </div>
+            </div>
+
+            <div class="compare-block">
+                <div class="compare-item habitual">
+                    <div class="compare-label">Простое настоящее (привычка)</div>
+                    <div class="compare-korean">저는 한국어를 공부해요.</div>
+                    <div class="compare-translation">Я учу корейский. (вообще)</div>
+                </div>
+                <div class="compare-item progressive">
+                    <div class="compare-label">Прогрессив (прямо сейчас)</div>
+                    <div class="compare-korean">저는 지금 한국어를 공부하고 있어요.</div>
+                    <div class="compare-translation">Я сейчас учу корейский. (в данный момент)</div>
+                </div>
+            </div>
+
+            <div class="compare-block">
+                <div class="compare-item habitual">
+                    <div class="compare-label">Простое настоящее (привычка)</div>
+                    <div class="compare-korean">저는 아침에 커피를 마셔요.</div>
+                    <div class="compare-translation">Я пью кофе по утрам. (обычно)</div>
+                </div>
+                <div class="compare-item progressive">
+                    <div class="compare-label">Прогрессив (прямо сейчас)</div>
+                    <div class="compare-korean">저는 지금 커피를 마시고 있어요.</div>
+                    <div class="compare-translation">Я сейчас пью кофе. (прямо сейчас)</div>
+                </div>
+            </div>
+
+            <div class="question-forms">
+                <h3>Подсказка</h3>
+                <p>Слово <strong>지금</strong> [jigeum] = "сейчас" часто используется вместе с <strong>-고 있다</strong>, чтобы подчеркнуть, что действие происходит в данный момент.</p>
+            </div>
+        </div>
+
+        <!-- Section 5: Глаголы, которые НЕ используют 고 있다 -->
+        <div class="content-section">
+            <h2>5. Глаголы, которые НЕ используют -고 있다</h2>
+            <p>Как и в английском (нельзя сказать "I am knowing"), некоторые корейские глаголы <strong>не могут</strong> использоваться с <strong>-고 있다</strong>. Это глаголы состояния, а не действия.</p>
+
+            <div class="warning-box">
+                <h3>Нельзя использовать с -고 있다:</h3>
+                <p><strong>알다</strong> [alda] -- знать (нельзя: 알고 있다 в значении "познаю прямо сейчас")</p>
+                <p><strong>있다</strong> [itda] -- быть, находиться</p>
+                <p><strong>없다</strong> [eopda] -- не быть, отсутствовать</p>
+                <p><strong>좋아하다</strong> [joahada] -- нравиться (состояние, а не процесс)</p>
+            </div>
+
+            <div class="question-forms">
+                <h3>Исключение: 알고 있다</h3>
+                <p>Форма <strong>알고 있다</strong> существует, но означает не "познаю прямо сейчас", а <strong>"знаю (уже)"</strong> -- результат действия. Это особый случай, где -고 있다 выражает состояние как результат.</p>
+                <p>Пример: <strong>저는 그 사실을 알고 있어요.</strong> -- Я знаю этот факт. (состояние)</p>
+            </div>
+        </div>
+
+        <!-- Section 6: Мини-диалоги -->
+        <div class="content-section">
+            <h2>6. Мини-диалоги</h2>
+
+            <div class="dialogue-box">
+                <div style="text-align: center; font-weight: bold; font-size: 1.1em; margin-bottom: 15px;">Диалог 1: По телефону</div>
+                <div class="dialogue-line">
+                    <div class="speaker">A:</div>
+                    <div class="korean-text">지금 뭐 하고 있어요?</div>
+                    <div class="translation">Что сейчас делаете?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">B:</div>
+                    <div class="korean-text">TV를 보고 있어요.</div>
+                    <div class="translation">Смотрю ТВ.</div>
+                    <div class="grammar-note">보다 (смотреть) + 고 있어요 = смотрю прямо сейчас</div>
+                </div>
+            </div>
+
+            <div class="dialogue-box">
+                <div style="text-align: center; font-weight: bold; font-size: 1.1em; margin-bottom: 15px;">Диалог 2: Ищем Минсу</div>
+                <div class="dialogue-line">
+                    <div class="speaker">A:</div>
+                    <div class="korean-text">민수 씨가 어디에 있어요?</div>
+                    <div class="translation">Где Минсу?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">B:</div>
+                    <div class="korean-text">도서관에서 공부하고 있어요.</div>
+                    <div class="translation">Учится в библиотеке.</div>
+                    <div class="grammar-note">공부하다 (учиться) + 고 있어요 = учится прямо сейчас</div>
+                </div>
+            </div>
+
+            <div class="dialogue-box">
+                <div style="text-align: center; font-weight: bold; font-size: 1.1em; margin-bottom: 15px;">Диалог 3: Шум за стеной</div>
+                <div class="dialogue-line">
+                    <div class="speaker">A:</div>
+                    <div class="korean-text">왜 이렇게 시끄러워요?</div>
+                    <div class="translation">Почему так шумно?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">B:</div>
+                    <div class="korean-text">옆집에서 공사하고 있어요.</div>
+                    <div class="translation">В соседнем доме идёт ремонт.</div>
+                    <div class="grammar-note">공사하다 (делать ремонт/стройку) + 고 있어요</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #2196F3, #1565C0);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(33,150,243,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level2_lesson_progressive';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#1565C0';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#1565C0';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+
+            console.log('[OK] Lesson loaded: level2_lesson_progressive');
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>
