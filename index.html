@@ -148,17 +148,20 @@
                 <h2>✨ Рекомендовано для вас</h2>
                 <div class="korean-subtitle">당신을 위한 추천</div>
                 <div class="recommendations-grid" id="recommendations-grid">
-                    <div class="recommendation-card skeleton">
-                        <div class="skeleton-icon"></div>
-                        <div class="skeleton-text"></div>
+                    <div class="recommendation-card" onclick="window.location.href='reading-texts.html?level=1'">
+                        <div class="rec-icon">📚</div>
+                        <div class="rec-title">Текст для вашего уровня</div>
+                        <div class="rec-description">Попробуйте текст уровня 1급</div>
                     </div>
-                    <div class="recommendation-card skeleton">
-                        <div class="skeleton-icon"></div>
-                        <div class="skeleton-text"></div>
+                    <div class="recommendation-card" onclick="window.location.href='lesson_01/index.html'">
+                        <div class="rec-icon">🔤</div>
+                        <div class="rec-title">Изучите алфавит</div>
+                        <div class="rec-description">Начните с основ корейского алфавита</div>
                     </div>
-                    <div class="recommendation-card skeleton">
-                        <div class="skeleton-icon"></div>
-                        <div class="skeleton-text"></div>
+                    <div class="recommendation-card" onclick="window.location.href='kpop-learning.html'">
+                        <div class="rec-icon">🎵</div>
+                        <div class="rec-title">Учите с K-POP</div>
+                        <div class="rec-description">Изучайте корейский через любимую музыку</div>
                     </div>
                 </div>
             </div>
@@ -167,13 +170,12 @@
             <div class="recent-activity-section">
                 <h2>📚 Последнее, что вы изучали</h2>
                 <div class="activity-list" id="activity-list">
-                    <div class="activity-item skeleton">
-                        <div class="skeleton-dot"></div>
-                        <div class="skeleton-text"></div>
-                    </div>
-                    <div class="activity-item skeleton">
-                        <div class="skeleton-dot"></div>
-                        <div class="skeleton-text"></div>
+                    <div class="activity-item">
+                        <div class="activity-icon">📝</div>
+                        <div class="activity-text">
+                            <div class="activity-title">Вы ещё ничего не изучали</div>
+                            <div class="activity-time">Начните прямо сейчас!</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -550,13 +552,17 @@
                 opacity: 0.9;
             }
             .streak-badge {
-                background: rgba(255,255,255,0.2);
-                padding: 10px 20px;
+                background: rgba(255,255,255,0.15);
+                padding: 8px 16px;
                 border-radius: 20px;
                 display: flex;
                 align-items: center;
                 gap: 8px;
                 margin-left: auto;
+                pointer-events: none;
+                user-select: none;
+                font-size: 0.9em;
+                opacity: 0.9;
             }
             .streak-fire {
                 font-size: 1.5em;
@@ -1504,14 +1510,14 @@
                 if (notificationsContainer) notificationsContainer.classList.add('show');
                 if (navProgressLink) navProgressLink.classList.add('show');
 
-                // Обновляем персональные данные
-                updateGreeting(user);
-                updateQuickStats();
-                updateDailyGoal();
-                updateWordOfDay();
-                loadRecommendations();
-                loadRecentActivity();
-                checkNewAchievements();
+                // Обновляем персональные данные (каждый вызов изолирован от ошибок)
+                try { updateGreeting(user); } catch(e) { console.log('[ERROR] updateGreeting:', e); }
+                try { updateQuickStats(); } catch(e) { console.log('[ERROR] updateQuickStats:', e); }
+                try { updateDailyGoal(); } catch(e) { console.log('[ERROR] updateDailyGoal:', e); }
+                try { updateWordOfDay(); } catch(e) { console.log('[ERROR] updateWordOfDay:', e); }
+                try { loadRecommendations(); } catch(e) { console.log('[ERROR] loadRecommendations:', e); }
+                try { loadRecentActivity(); } catch(e) { console.log('[ERROR] loadRecentActivity:', e); }
+                try { checkNewAchievements(); } catch(e) { console.log('[ERROR] checkNewAchievements:', e); }
 
             } else {
                 // Скрываем контент для авторизованных
@@ -1529,11 +1535,22 @@
             const name = user.displayName ? user.displayName.split(' ')[0] : 'Пользователь';
             document.getElementById('greeting-name').textContent = name;
 
-            const progress = window.ProgressTracker ? window.ProgressTracker.get() : null;
-            if (progress && progress.stats) {
-                const streak = progress.stats.currentStreak || 0;
-                document.getElementById('streak-days').textContent = streak;
-                document.getElementById('streak-count').textContent = streak + ' ' + getDayWord(streak) + ' подряд!';
+            let progress = window.ProgressTracker ? window.ProgressTracker.get() : null;
+            if (!progress) {
+                try {
+                    const raw = localStorage.getItem('janeKoreaProgress');
+                    if (raw) progress = JSON.parse(raw);
+                } catch(e) {}
+            }
+            const stats = (progress && progress.stats) ? progress.stats : {};
+            const streak = stats.currentStreak || 0;
+            document.getElementById('streak-days').textContent = streak;
+            document.getElementById('streak-count').textContent = streak + ' ' + getDayWord(streak) + ' подряд!';
+
+            // Скрываем badge при стрике 0
+            const badge = document.getElementById('streak-badge');
+            if (badge) {
+                badge.style.display = streak > 0 ? 'flex' : 'none';
             }
         }
 

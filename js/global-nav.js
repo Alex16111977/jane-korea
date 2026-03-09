@@ -50,7 +50,9 @@
             'song-ddu-du.html': 'kpop',
             'group-bts.html': 'kpop',
             'phrases.html': 'phrases',
-            'games.html': 'games'
+            'games.html': 'games',
+            'kpop-fan-phrases.html': 'kpop',
+            'korean-trends.html': 'index'
         };
 
         if (pageMap[pageName]) return pageMap[pageName];

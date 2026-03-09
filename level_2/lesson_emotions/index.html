@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Эмоции и чувства — 2급 Корейский</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; margin: 0; padding: 0; background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%), linear-gradient(135deg, #2196F3 0%, #1565C0 100%); min-height: 100vh; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 25px; font-size: 0.95em; transition: all 0.3s ease; backdrop-filter: blur(5px); }
+        .navigation a:hover { background: rgba(255,255,255,0.3); }
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 2.2em; color: #2c3e50; margin-bottom: 10px; }
+        .korean-title { font-size: 1.3em; color: #1565C0; margin-bottom: 10px; }
+        .description { color: #666; font-size: 1.05em; }
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2c3e50; margin-bottom: 20px; font-size: 1.5em; }
+        .word-card { background: linear-gradient(135deg, #2196F3, #42A5F5); color: white; padding: 20px; border-radius: 15px; margin: 10px 0; }
+        .word-korean { font-size: 1.8em; font-weight: 700; }
+        .word-romanization { font-size: 0.95em; opacity: 0.9; margin: 5px 0; }
+        .word-meaning { font-size: 1.1em; }
+        .grammar-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0; }
+        .grammar-table th { background: #1565C0; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+        .dialogue-box { background: linear-gradient(135deg, #2196F3, #42A5F5); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; }
+        .tip-box { background: #e3f2fd; border-left: 4px solid #2196F3; padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0; }
+        .tip-box strong { color: #1565C0; }
+        .practice-section { background: linear-gradient(135deg, #BBDEFB, #90CAF9); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .practice-section h2 { color: #1565C0; margin-bottom: 20px; font-size: 1.5em; }
+        .exercise { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .option { background: #1565C0; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1em; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; transition: all 0.3s ease; }
+        .option:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(21,101,192,0.4); }
+        .option.correct { background: #2e7d32; }
+        .option.wrong { background: #f44336; }
+        .result { margin-top: 10px; padding: 12px; border-radius: 10px; text-align: center; font-weight: 500; display: none; }
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+        .complete-btn { background: linear-gradient(135deg, #2196F3, #42A5F5); color: white; border: none; padding: 18px 50px; border-radius: 30px; font-size: 1.15em; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; box-shadow: 0 8px 25px rgba(21,101,192,0.3); }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(21,101,192,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .words-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin: 20px 0; }
+        .emotion-positive { background: linear-gradient(135deg, #2196F3, #42A5F5); }
+        .emotion-negative { background: linear-gradient(135deg, #5c6bc0, #3949ab); }
+        .grammar-pattern { background: #e8f4fd; border: 2px solid #2196F3; border-radius: 12px; padding: 20px; margin: 15px 0; }
+        .grammar-pattern .pattern-title { font-size: 1.1em; font-weight: 700; color: #1565C0; margin-bottom: 10px; }
+        .grammar-row { display: flex; align-items: center; gap: 15px; padding: 10px 0; border-bottom: 1px solid #e0e0e0; flex-wrap: wrap; }
+        .grammar-row:last-child { border-bottom: none; }
+        .grammar-base { font-size: 1.2em; font-weight: 700; color: #1565C0; min-width: 120px; }
+        .grammar-form { font-size: 1.2em; color: #2c3e50; min-width: 100px; }
+        .grammar-meaning { color: #666; font-size: 0.95em; }
+        .complete-section { text-align: center; padding: 30px; }
+        @media (max-width: 768px) { .header h1 { font-size: 1.6em; } .content-section { padding: 25px; } .options { flex-direction: column; } .grammar-row { flex-direction: column; align-items: flex-start; gap: 5px; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navigation">
+        <a href="../../level_2/index.html">← 2급 Уроки</a>
+        <a href="../../lessons.html">Все уровни</a>
+    </div>
+
+    <div class="header">
+        <h1>Эмоции и чувства</h1>
+        <div class="korean-title">감정과 느낌 — Урок 2급</div>
+        <div class="description">Научитесь выражать свои чувства и эмоции на корейском языке. Освойте позитивные и негативные состояния, а также грамматическую конструкцию для их описания.</div>
+    </div>
+
+    <!-- Секция 1: Позитивные эмоции -->
+    <div class="content-section">
+        <h2>1. Позитивные эмоции (긍정적인 감정)</h2>
+        <p style="color:#666; margin-bottom:20px;">Слова для выражения положительных состояний. Обратите внимание: в корейском эмоции чаще всего выражаются прилагательными-глаголами.</p>
+        <div class="words-grid">
+            <div class="word-card emotion-positive">
+                <div class="word-korean">행복하다</div>
+                <div class="word-romanization">[haengbokhada]</div>
+                <div class="word-meaning">быть счастливым</div>
+            </div>
+            <div class="word-card emotion-positive">
+                <div class="word-korean">기쁘다</div>
+                <div class="word-romanization">[gippeuda]</div>
+                <div class="word-meaning">быть радостным</div>
+            </div>
+            <div class="word-card emotion-positive">
+                <div class="word-korean">즐겁다</div>
+                <div class="word-romanization">[jeulgeopda]</div>
+                <div class="word-meaning">быть весёлым, получать удовольствие</div>
+            </div>
+            <div class="word-card emotion-positive">
+                <div class="word-korean">설레다</div>
+                <div class="word-romanization">[seolleda]</div>
+                <div class="word-meaning">волноваться от предвкушения, трепетать</div>
+            </div>
+            <div class="word-card emotion-positive">
+                <div class="word-korean">편하다</div>
+                <div class="word-romanization">[pyeonhada]</div>
+                <div class="word-meaning">быть спокойным, комфортным</div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <strong>Заметка:</strong> 설레다 — особое корейское слово, которое трудно перевести одним словом. Это приятное волнение в ожидании чего-то хорошего: первого свидания, путешествия, подарка.
+        </div>
+    </div>
+
+    <!-- Секция 2: Негативные эмоции -->
+    <div class="content-section">
+        <h2>2. Негативные эмоции (부정적인 감정)</h2>
+        <p style="color:#666; margin-bottom:20px;">Слова для выражения отрицательных состояний и переживаний.</p>
+        <div class="words-grid">
+            <div class="word-card emotion-negative">
+                <div class="word-korean">슬프다</div>
+                <div class="word-romanization">[seulpeuda]</div>
+                <div class="word-meaning">быть грустным, печальным</div>
+            </div>
+            <div class="word-card emotion-negative">
+                <div class="word-korean">화가 나다</div>
+                <div class="word-romanization">[hwaga nada]</div>
+                <div class="word-meaning">злиться, быть рассерженным</div>
+            </div>
+            <div class="word-card emotion-negative">
+                <div class="word-korean">피곤하다</div>
+                <div class="word-romanization">[pigonhada]</div>
+                <div class="word-meaning">быть уставшим</div>
+            </div>
+            <div class="word-card emotion-negative">
+                <div class="word-korean">외롭다</div>
+                <div class="word-romanization">[oeropda]</div>
+                <div class="word-meaning">быть одиноким</div>
+            </div>
+            <div class="word-card emotion-negative">
+                <div class="word-korean">걱정되다</div>
+                <div class="word-romanization">[geokjeongdoeda]</div>
+                <div class="word-meaning">беспокоиться, волноваться</div>
+            </div>
+            <div class="word-card emotion-negative">
+                <div class="word-korean">무섭다</div>
+                <div class="word-romanization">[museopda]</div>
+                <div class="word-meaning">быть страшным, бояться</div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <strong>Внимание:</strong> 화가 나다 дословно — «злость выходит/поднимается». Это устойчивое выражение: 화 (злость) + 가 (субъектный показатель) + 나다 (выходить, возникать). Не путайте с 화나다 (одно слово — то же значение, разговорная форма).
+        </div>
+    </div>
+
+    <!-- Секция 3: Грамматика ~아/어요 -->
+    <div class="content-section">
+        <h2>3. Грамматика: описание эмоций в форме ~아/어요</h2>
+        <p style="color:#666; margin-bottom:20px;">Для выражения эмоций в настоящем времени (вежливая разговорная форма) используется окончание <strong>~아요 / ~어요</strong>. Выбор зависит от последней гласной в корне слова.</p>
+
+        <div class="grammar-pattern">
+            <div class="pattern-title">Правило: последняя гласная корня</div>
+            <p style="color:#555; margin: 0 0 10px;">Если последняя гласная ㅏ или ㅗ → добавляем <strong>-아요</strong><br>Во всех остальных случаях → добавляем <strong>-어요</strong></p>
+        </div>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th>Словарная форма</th>
+                    <th>Корень</th>
+                    <th>Вежливая форма (~아/어요)</th>
+                    <th>Перевод</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>행복하다</td>
+                    <td>행복하-</td>
+                    <td><strong>행복해요</strong></td>
+                    <td>я счастлив(-а)</td>
+                </tr>
+                <tr>
+                    <td>슬프다</td>
+                    <td>슬프-</td>
+                    <td><strong>슬퍼요</strong></td>
+                    <td>мне грустно</td>
+                </tr>
+                <tr>
+                    <td>피곤하다</td>
+                    <td>피곤하-</td>
+                    <td><strong>피곤해요</strong></td>
+                    <td>я устал(-а)</td>
+                </tr>
+                <tr>
+                    <td>화가 나다</td>
+                    <td>나-</td>
+                    <td><strong>화가 나요</strong></td>
+                    <td>я злюсь</td>
+                </tr>
+                <tr>
+                    <td>기쁘다</td>
+                    <td>기쁘-</td>
+                    <td><strong>기뻐요</strong></td>
+                    <td>я рад(-а)</td>
+                </tr>
+                <tr>
+                    <td>외롭다</td>
+                    <td>외롭-</td>
+                    <td><strong>외로워요</strong></td>
+                    <td>мне одиноко</td>
+                </tr>
+                <tr>
+                    <td>무섭다</td>
+                    <td>무섭-</td>
+                    <td><strong>무서워요</strong></td>
+                    <td>мне страшно</td>
+                </tr>
+                <tr>
+                    <td>설레다</td>
+                    <td>설레-</td>
+                    <td><strong>설레요</strong></td>
+                    <td>я взволнован(-а) (приятно)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="tip-box">
+            <strong>Нерегулярные глаголы на ㅂ:</strong> 외롭다 → 외로워요, 무섭다 → 무서워요, 즐겁다 → 즐거워요. Финаль ㅂ перед гласной превращается в 우. Это нерегулярное спряжение ㅂ-неправильных глаголов — очень распространённое явление в корейском!
+        </div>
+    </div>
+
+    <!-- Секция 4: Диалог -->
+    <div class="content-section">
+        <h2>4. Диалог: 오늘 기분이 어때요? (Как ты сегодня?)</h2>
+        <p style="color:#666; margin-bottom:20px;">Прочитайте диалог между двумя друзьями — Миной (미나) и Джуном (준).</p>
+
+        <div class="dialogue-box">
+            <div class="dialogue-line">
+                <div class="speaker">미나:</div>
+                <div>준 씨, 오늘 기분이 어때요?</div>
+                <div class="translation">Джун, как ты сегодня себя чувствуешь?</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">준:</div>
+                <div>조금 피곤해요. 어제 늦게 잤거든요.</div>
+                <div class="translation">Немного устал. Я вчера лёг поздно.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">미나:</div>
+                <div>그래요? 왜요? 무슨 일 있었어요?</div>
+                <div class="translation">Правда? Почему? Что-то случилось?</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">준:</div>
+                <div>내일 중요한 발표가 있어서 걱정돼요. 준비가 잘 됐는지 모르겠어요.</div>
+                <div class="translation">Завтра важная презентация, поэтому беспокоюсь. Не знаю, хорошо ли я подготовился.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">미나:</div>
+                <div>너무 걱정하지 마세요! 준 씨는 항상 잘 해요. 저는 준 씨가 잘 할 것 같아요.</div>
+                <div class="translation">Не волнуйтесь слишком! Вы всегда хорошо справляетесь. Мне кажется, вы справитесь.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">준:</div>
+                <div>고마워요, 미나 씨. 그 말 들으니까 기분이 좀 나아졌어요.</div>
+                <div class="translation">Спасибо, Мина. Услышав это, мне стало немного лучше.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">미나:</div>
+                <div>오늘 저녁에 같이 밥 먹을까요? 기분 전환이 될 거예요!</div>
+                <div class="translation">Может, поедим вместе сегодня вечером? Это поднимет настроение!</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">준:</div>
+                <div>좋아요! 그러면 저도 기분이 설레요.</div>
+                <div class="translation">Хорошо! Тогда я уже в предвкушении.</div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <strong>기분 vs. 감정 — в чём разница?</strong><br><br>
+            <strong>기분 (기분 [gibun])</strong> — настроение в конкретный момент, сиюминутное состояние. «Как ты себя чувствуешь прямо сейчас?» — 기분이 어때요?<br><br>
+            <strong>감정 (감정 [gamjeong])</strong> — эмоция как понятие, более глубокое и длительное чувство. Используется в психологических контекстах или при описании эмоций в целом.<br><br>
+            Пример: 기분이 좋아요 (сейчас хорошее настроение) vs. 사랑은 강한 감정이에요 (любовь — сильная эмоция).
+        </div>
+    </div>
+
+    <!-- Секция практики -->
+    <div class="practice-section">
+        <h2>Упражнения</h2>
+
+        <div class="exercise" id="ex1">
+            <div class="question">1. Как будет «мне грустно» в вежливой форме?</div>
+            <div class="options">
+                <button class="option" data-correct="false">슬프아요</button>
+                <button class="option" data-correct="true">슬퍼요</button>
+                <button class="option" data-correct="false">슬프요</button>
+                <button class="option" data-correct="false">슬픈요</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex2">
+            <div class="question">2. Какое слово означает «волноваться от предвкушения» (приятное ожидание)?</div>
+            <div class="options">
+                <button class="option" data-correct="false">걱정되다</button>
+                <button class="option" data-correct="false">무섭다</button>
+                <button class="option" data-correct="true">설레다</button>
+                <button class="option" data-correct="false">피곤하다</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex3">
+            <div class="question">3. 외롭다 в вежливой форме (~아/어요) — это:</div>
+            <div class="options">
+                <button class="option" data-correct="false">외롭아요</button>
+                <button class="option" data-correct="false">외롭어요</button>
+                <button class="option" data-correct="true">외로워요</button>
+                <button class="option" data-correct="false">외롭해요</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex4">
+            <div class="question">4. Как спросить «как у тебя настроение / как ты себя чувствуешь?» на корейском?</div>
+            <div class="options">
+                <button class="option" data-correct="false">감정이 어때요?</button>
+                <button class="option" data-correct="true">기분이 어때요?</button>
+                <button class="option" data-correct="false">느낌이 어때요?</button>
+                <button class="option" data-correct="false">마음이 어때요?</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex5">
+            <div class="question">5. «Я злюсь» — выберите правильный вариант:</div>
+            <div class="options">
+                <button class="option" data-correct="false">화가 있어요</button>
+                <button class="option" data-correct="false">화해요</button>
+                <button class="option" data-correct="true">화가 나요</button>
+                <button class="option" data-correct="false">화가 해요</button>
+            </div>
+            <div class="result"></div>
+        </div>
+    </div>
+
+    <div class="complete-section">
+        <button class="complete-btn" id="completeLessonBtn" onclick="completeLesson()">Отметить урок как пройденный</button>
+    </div>
+</div>
+
+<script src="../../js/progress-tracker.js"></script>
+<script>
+    var LESSON_ID = 'level2_lesson_emotions';
+    function completeLesson() {
+        if (window.ProgressTracker) {
+            ProgressTracker.markLessonCompleted(LESSON_ID);
+            var btn = document.getElementById('completeLessonBtn');
+            btn.textContent = 'Пройдено!';
+            btn.style.background = '#1565C0';
+            btn.disabled = true;
+            console.log('[OK] Lesson completed:', LESSON_ID);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.ProgressTracker) {
+            var progress = ProgressTracker.get();
+            if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                var btn = document.getElementById('completeLessonBtn');
+                if (btn) { btn.textContent = 'Пройдено!'; btn.style.background = '#1565C0'; btn.disabled = true; }
+            }
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.exercise').forEach(function(exercise) {
+            exercise.querySelectorAll('.option').forEach(function(option) {
+                option.addEventListener('click', function() {
+                    var opts = exercise.querySelectorAll('.option');
+                    opts.forEach(function(o) { o.classList.remove('correct', 'wrong'); });
+                    var result = exercise.querySelector('.result');
+                    if (this.dataset.correct === 'true') {
+                        this.classList.add('correct');
+                        result.className = 'result correct';
+                        result.textContent = 'Правильно!';
+                    } else {
+                        this.classList.add('wrong');
+                        result.className = 'result wrong';
+                        result.textContent = 'Неправильно. Попробуйте ещё раз!';
+                        opts.forEach(function(o) { if (o.dataset.correct === 'true') o.classList.add('correct'); });
+                    }
+                    result.style.display = 'block';
+                });
+            });
+        });
+        document.querySelectorAll('.content-section').forEach(function(s, i) {
+            s.style.opacity = '0';
+            s.style.transform = 'translateY(30px)';
+            setTimeout(function() {
+                s.style.transition = 'all 0.6s ease';
+                s.style.opacity = '1';
+                s.style.transform = 'translateY(0)';
+            }, i * 200);
+        });
+        console.log('[OK] Lesson loaded:', LESSON_ID);
+    });
+</script>
+<script src="../../js/global-nav.js"></script>
+</body>
+</html>

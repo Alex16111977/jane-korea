@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Телефонные разговоры — 전화 통화</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #FF9800 0%, #E65100 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: 'tel';
+            font-weight: 900;
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 110px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+            letter-spacing: -5px;
+        }
+
+        body::after {
+            content: '📞';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #E65100;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #FF9800;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .description {
+            font-size: 1.05em;
+            color: #666;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #E65100;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #FF9800;
+            padding-bottom: 10px;
+        }
+
+        .content-section h3 {
+            color: #F57C00;
+            font-size: 1.4em;
+        }
+
+        .content-section p {
+            font-size: 1.05em;
+            line-height: 1.7;
+        }
+
+        .phrase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .phrase-card {
+            background: linear-gradient(135deg, #FF9800, #E65100);
+            color: white;
+            padding: 22px;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .phrase-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .phrase-korean {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .phrase-romaji {
+            font-size: 0.9em;
+            opacity: 0.85;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .phrase-meaning {
+            font-size: 1.05em;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .grammar-block {
+            background: linear-gradient(135deg, #FFA726, #FF9800);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .grammar-block h3 {
+            color: white;
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+
+        .grammar-pattern {
+            background: rgba(255,255,255,0.25);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.4em;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .example-box {
+            background: #fff3e0;
+            border-left: 5px solid #FF9800;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .example-box .korean-text {
+            font-size: 1.3em;
+            color: #E65100;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .example-box .translation {
+            color: #555;
+            font-size: 1.05em;
+        }
+
+        .example-box .note {
+            color: #888;
+            font-size: 0.9em;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #FFA726, #FF9800);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .dialogue-line {
+            margin: 12px 0;
+            padding: 14px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #fff3e0;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+        }
+
+        .korean-text {
+            font-size: 1.25em;
+            margin-bottom: 4px;
+        }
+
+        .translation {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.82em;
+            color: #ffe0b2;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .tip-box {
+            background: #fff3e0;
+            border-left: 5px solid #FF9800;
+            padding: 20px;
+            border-radius: 0 15px 15px 0;
+            margin: 20px 0;
+        }
+
+        .tip-box strong {
+            color: #E65100;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #E65100, #FF9800);
+            color: white;
+            padding: 18px 20px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 13px 15px;
+            font-size: 1.05em;
+        }
+
+        .table-cell.korean {
+            color: #E65100;
+            font-weight: bold;
+        }
+
+        .table-cell.header-cell {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #FFE0B2, #FFCC80);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .practice-section h2 {
+            color: #E65100;
+            margin-top: 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 22px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .question {
+            font-size: 1.15em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #E65100;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.05em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .option:hover {
+            background: #FF9800;
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: #4caf50;
+        }
+
+        .option.wrong {
+            background: #f44336;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 14px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct {
+            background: #d5f5d5;
+            color: #27ae60;
+            display: block;
+        }
+
+        .result.wrong {
+            background: #fdd5d5;
+            color: #e74c3c;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .phrase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 2px;
+            }
+
+            .options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_3/index.html">← 3급 Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>Урок: Телефонные разговоры</h1>
+            <div class="korean-title">전화 통화 — 여보세요!</div>
+            <div class="description">Как говорить по телефону по-корейски: приветствия, просьбы, типичные фразы</div>
+        </header>
+
+        <!-- Раздел 1: Приветствия по телефону -->
+        <div class="content-section">
+            <h2>1. Приветствия и формулы телефонного разговора</h2>
+            <p>Телефонные разговоры по-корейски имеют свои устойчивые формулы. Они отличаются от обычного приветствия при встрече лично.</p>
+
+            <div class="phrase-grid">
+                <div class="phrase-card">
+                    <div class="phrase-korean">여보세요</div>
+                    <div class="phrase-romaji">[yeoboseyo]</div>
+                    <div class="phrase-meaning">Алло (только по телефону!)</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">저 ~인데요</div>
+                    <div class="phrase-romaji">[jeo ~indeyo]</div>
+                    <div class="phrase-meaning">Это ~ (говорит) — представление себя</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">거기 ~이지요?</div>
+                    <div class="phrase-romaji">[geogi ~ijiyo]</div>
+                    <div class="phrase-meaning">Это ~, правда? — уточнение номера</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">바꿔 주세요</div>
+                    <div class="phrase-romaji">[bakkwo juseyo]</div>
+                    <div class="phrase-meaning">Переключите, пожалуйста (на другого)</div>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">여보세요, 거기 한국식당이지요?</div>
+                <div class="translation">Алло, это ресторан корейской кухни, правда?</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">저 김민준인데요. 박지수 씨 좀 바꿔 주세요.</div>
+                <div class="translation">Это Ким Минджун. Переключите, пожалуйста, на Пак Чису.</div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Важно:</strong> 여보세요 используется ТОЛЬКО по телефону. При встрече лично говорят 안녕하세요. Никогда не путайте эти два приветствия!
+            </div>
+        </div>
+
+        <!-- Раздел 2: Грамматика для телефона -->
+        <div class="content-section">
+            <h2>2. Телефонная грамматика</h2>
+            <p>Два ключевых грамматических паттерна, которые особенно часто встречаются в телефонных разговорах:</p>
+
+            <div class="grammar-block">
+                <h3>Паттерн 1: ~는데요 — мягкое объяснение</h3>
+                <div class="grammar-pattern">глагол/прилагательное + 는데요</div>
+                <p>Окончание ~는데요 смягчает высказывание, звучит вежливо и немного незавершённо — как будто оставляете пространство для ответа собеседника.</p>
+                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 10px 0;">
+                    <strong>예약하고 싶은데요.</strong> [yeyakago sipeundeyo]<br>
+                    Я хотел бы сделать резервацию. (мягко, вежливо)
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 10px 0;">
+                    <strong>지금 바쁜데요.</strong> [jigeum bappeundeyo]<br>
+                    Я сейчас занят. (вежливо объясняю ситуацию)
+                </div>
+            </div>
+
+            <div class="grammar-block" style="background: linear-gradient(135deg, #FB8C00, #E65100);">
+                <h3>Паттерн 2: ~(으)ㄹ 수 있을까요? — очень вежливая просьба</h3>
+                <div class="grammar-pattern">основа глагола + (으)ㄹ 수 있을까요?</div>
+                <p>Самая вежливая форма просьбы — буквально "Смогли бы вы...?" Используется при обращении к незнакомым людям, в официальных ситуациях, по телефону.</p>
+                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 10px 0;">
+                    <strong>예약할 수 있을까요?</strong> [yeyakal su isseulkkayo]<br>
+                    Могу я сделать бронь? / Можно забронировать?
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 10px 0;">
+                    <strong>다시 한번 말해 주실 수 있을까요?</strong> [dasi hanbeon malhae jusil su isseulkkayo]<br>
+                    Не могли бы вы повторить ещё раз?
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Сравните уровни вежливости:</strong><br>
+                말해요 (говорите) → 말해 주세요 (скажите, пожалуйста) → 말해 주시겠어요? (не могли бы вы сказать?) → 말해 주실 수 있을까요? (не могли бы вы, пожалуйста, сказать?) — самый вежливый
+            </div>
+        </div>
+
+        <!-- Раздел 3: Полный диалог -->
+        <div class="content-section">
+            <h2>3. Полный телефонный диалог — бронирование ресторана</h2>
+            <p>Разберём реальный диалог: звонок в ресторан, чтобы забронировать столик.</p>
+
+            <div class="dialogue-box">
+                <h3>전화 예약 다이얼로그 — Диалог бронирования по телефону</h3>
+
+                <div class="dialogue-line">
+                    <div class="speaker">직원 (Сотрудник):</div>
+                    <div class="korean-text">여보세요, 한식당입니다.</div>
+                    <div class="translation">Алло, ресторан корейской кухни.</div>
+                    <div class="grammar-note">입니다 — официальный стиль при представлении</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">손님 (Гость):</div>
+                    <div class="korean-text">여보세요, 거기 한식당이지요?</div>
+                    <div class="translation">Алло, это ресторан корейской кухни, правда?</div>
+                    <div class="grammar-note">이지요? — уточняющий вопрос, ищем подтверждение</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">네, 맞습니다. 무엇을 도와드릴까요?</div>
+                    <div class="translation">Да, всё верно. Чем могу помочь?</div>
+                    <div class="grammar-note">도와드릴까요? — вежливое предложение помощи</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">손님:</div>
+                    <div class="korean-text">예약하고 싶은데요.</div>
+                    <div class="translation">Я хотел бы сделать бронирование.</div>
+                    <div class="grammar-note">싶은데요 — желание, выраженное мягко через ~는데요</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">네, 몇 분이세요?</div>
+                    <div class="translation">Конечно, на сколько человек?</div>
+                    <div class="grammar-note">몇 분 — вежливый счёт людей (分 = человек, вежл.)</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">손님:</div>
+                    <div class="korean-text">네 명이요.</div>
+                    <div class="translation">Четыре человека.</div>
+                    <div class="grammar-note">네 명 — обычный счёт; 이요 — вежливый ответ</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">언제요?</div>
+                    <div class="translation">Когда?</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">손님:</div>
+                    <div class="korean-text">토요일 저녁 7시에요.</div>
+                    <div class="translation">В субботу вечером, в семь часов.</div>
+                    <div class="grammar-note">토요일 = суббота, 저녁 = вечер, 7시 = 7 часов</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">알겠습니다. 예약됐습니다.</div>
+                    <div class="translation">Понял. Бронирование подтверждено.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Раздел 4: Типичные фразы -->
+        <div class="content-section">
+            <h2>4. Незаменимые телефонные фразы</h2>
+            <p>Эти фразы нужно знать наизусть — они встречаются в каждом телефонном разговоре.</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Ключевые телефонные фразы</div>
+                <div class="table-row">
+                    <div class="table-cell header-cell">Корейский</div>
+                    <div class="table-cell header-cell">Произношение</div>
+                    <div class="table-cell header-cell">Значение</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">잠깐만요</div>
+                    <div class="table-cell">[jamkkanmanyo]</div>
+                    <div class="table-cell">Подождите немного</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">다시 한번 말해 주세요</div>
+                    <div class="table-cell">[dasi hanbeon malhae juseyo]</div>
+                    <div class="table-cell">Повторите, пожалуйста</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">전화 잘못 거셨어요</div>
+                    <div class="table-cell">[jeonhwa jalmot geosyeosseoyo]</div>
+                    <div class="table-cell">Вы ошиблись номером</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">끊지 마세요</div>
+                    <div class="table-cell">[kkeunchi maseyo]</div>
+                    <div class="table-cell">Не кладите трубку</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">메시지 남겨 드릴까요?</div>
+                    <div class="table-cell">[mesiji namgyeo deurilkkayo]</div>
+                    <div class="table-cell">Передать сообщение?</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">나중에 다시 전화할게요</div>
+                    <div class="table-cell">[najunge dasi jeonhwahalgeyo]</div>
+                    <div class="table-cell">Перезвоню позже</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">지금 자리를 비웠어요</div>
+                    <div class="table-cell">[jigeum jarireul biwosseoyo]</div>
+                    <div class="table-cell">Сейчас его/её нет на месте</div>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">A: 박 부장님 계세요? — Директор Пак на месте?</div>
+                <div class="translation">B: 죄송한데요, 지금 자리를 비웠어요. 메시지 남겨 드릴까요?</div>
+                <div class="note">Извините, его сейчас нет на месте. Передать сообщение?</div>
+            </div>
+        </div>
+
+        <!-- Раздел 5: Упражнения -->
+        <div class="practice-section">
+            <h2>Практические упражнения</h2>
+
+            <div class="exercise">
+                <div class="question">1. Вы звоните и хотите сказать "Алло, это ресторан, правда?" Какая фраза правильная?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">안녕하세요, 거기 식당이지요?</button>
+                    <button class="option" data-correct="true">여보세요, 거기 식당이지요?</button>
+                    <button class="option" data-correct="false">안녕히 계세요, 거기 식당이지요?</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. Вам нужно вежливо попросить повторить. Какая фраза самая вежливая?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">다시 말해요.</button>
+                    <button class="option" data-correct="false">다시 말해 주세요.</button>
+                    <button class="option" data-correct="true">다시 한번 말해 주실 수 있을까요?</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Позвонивший — не тот человек, нужно сообщить об ошибке. Что говорите?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">끊지 마세요.</button>
+                    <button class="option" data-correct="true">전화 잘못 거셨어요.</button>
+                    <button class="option" data-correct="false">잠깐만요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. Вы хотите мягко сказать "Хочу сделать бронирование". Какое окончание использовать?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">예약하고 싶어요.</button>
+                    <button class="option" data-correct="true">예약하고 싶은데요.</button>
+                    <button class="option" data-correct="false">예약하겠어요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. Вас попросят немного подождать. Что скажет собеседник?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">끊지 마세요.</button>
+                    <button class="option" data-correct="false">바꿔 주세요.</button>
+                    <button class="option" data-correct="true">잠깐만요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Итого: что мы изучили</h2>
+            <div style="background: linear-gradient(135deg, #E65100, #FF9800); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; text-align: center;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>여보세요</strong><br>
+                        <em>Алло — только по телефону</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>~는데요</strong><br>
+                        <em>Мягкое вежливое объяснение</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>~을 수 있을까요?</strong><br>
+                        <em>Очень вежливая просьба</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>잠깐만요</strong><br>
+                        <em>Подождите немного</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #FF9800, #E65100);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(255,152,0,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level3_lesson_phone_talk';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#E65100';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            } else {
+                console.log('[ERROR] ProgressTracker not found');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#E65100';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var exercises = document.querySelectorAll('.exercise');
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+
+                        var isCorrect = this.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

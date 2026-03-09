@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K-pop Fan Phrases | Jane Korea</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                        linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.35);
+            transform: translateY(-1px);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin: 0 0 10px 0;
+        }
+
+        .korean-title {
+            font-size: 1.3em;
+            color: #764ba2;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .header-desc {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.6;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .content-section h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85em;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .phrase-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 12px 0;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .phrase-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+        }
+
+        .phrase-korean {
+            font-size: 1.6em;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .phrase-romanization {
+            font-size: 0.9em;
+            opacity: 0.85;
+            margin: 5px 0;
+            font-style: italic;
+        }
+
+        .phrase-meaning {
+            font-size: 1em;
+            margin-top: 5px;
+        }
+
+        .phrase-context {
+            font-size: 0.85em;
+            opacity: 0.7;
+            margin-top: 8px;
+            font-style: italic;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 8px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .vocab-card {
+            background: #f8f4ff;
+            border: 2px solid #e1d5f0;
+            border-radius: 15px;
+            padding: 18px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .vocab-card:hover {
+            border-color: #764ba2;
+            box-shadow: 0 4px 15px rgba(118,75,162,0.15);
+        }
+
+        .vocab-korean {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: #4527a0;
+        }
+
+        .vocab-romanization {
+            font-size: 0.85em;
+            color: #888;
+            margin: 3px 0;
+        }
+
+        .vocab-meaning {
+            font-size: 0.95em;
+            color: #444;
+            margin-top: 6px;
+        }
+
+        .vocab-etymology {
+            font-size: 0.82em;
+            color: #999;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .tip-box {
+            background: #ede7f6;
+            border-left: 4px solid #764ba2;
+            padding: 20px;
+            border-radius: 0 15px 15px 0;
+            margin: 20px 0;
+        }
+
+        .tip-box strong {
+            color: #4527a0;
+        }
+
+        .fanchant-demo {
+            background: #2c3e50;
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 15px 0;
+            font-family: 'Noto Sans KR', monospace;
+        }
+
+        .fanchant-demo .song-line {
+            color: #aaa;
+            font-size: 0.9em;
+            margin: 8px 0 2px 0;
+        }
+
+        .fanchant-demo .chant-line {
+            color: #667eea;
+            font-size: 1.1em;
+            font-weight: 700;
+            margin: 2px 0 8px 0;
+        }
+
+        .fanchant-label {
+            display: inline-block;
+            font-size: 0.7em;
+            background: #667eea;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 8px;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .sns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .sns-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .sns-card:hover {
+            border-color: #764ba2;
+            box-shadow: 0 4px 15px rgba(118,75,162,0.15);
+        }
+
+        .sns-symbol {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #4527a0;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .sns-meaning {
+            font-size: 0.85em;
+            color: #555;
+        }
+
+        .concert-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .concert-list li {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            transition: transform 0.2s ease;
+        }
+
+        .concert-list li:hover {
+            transform: translateX(5px);
+        }
+
+        .concert-korean {
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .concert-romaji {
+            font-size: 0.85em;
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        .concert-translation {
+            font-size: 0.95em;
+            margin-top: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .content-section { padding: 25px; }
+            .category-grid { grid-template-columns: 1fr; }
+            .sns-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navigation">
+            <a href="index.html">← Главная</a>
+            <a href="kpop-learning.html">K-POP</a>
+            <a href="korean-trends.html">Мемы и тренды</a>
+        </nav>
+
+        <div class="header">
+            <div class="korean-title">케이팝 팬 표현 모음</div>
+            <h1>K-pop Fan Phrases</h1>
+            <p class="header-desc">
+                Фразы, обращения и слова, которые должен знать каждый K-pop фанат.
+                Кликайте на карточки, чтобы запомнить!
+            </p>
+        </div>
+
+        <!-- Section 1: Семейные обращения -->
+        <div class="content-section">
+            <h2><span class="section-icon">1</span> Семейные обращения (가족 호칭)</h2>
+
+            <div class="tip-box">
+                <strong>Почему фанаты называют айдолов «братом» или «сестрой»?</strong><br>
+                В корейской культуре обращение к старшим по возрасту через семейные термины — это норма.
+                Это не значит буквальное родство: это выражение тепла, близости и уважения. Фанаты используют
+                эти слова, чтобы ощутить личную связь с артистом.
+            </div>
+
+            <div class="category-grid">
+                <div class="vocab-card">
+                    <div class="vocab-korean">오빠</div>
+                    <div class="vocab-romanization">[oppa]</div>
+                    <div class="vocab-meaning">Старший брат — так девушка обращается к старшему по возрасту мужчине. Самое популярное фанатское обращение к мужчинам-айдолам.</div>
+                    <div class="vocab-etymology">오빠 사랑해요! — Оппа, я тебя люблю!</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">언니</div>
+                    <div class="vocab-romanization">[eonni]</div>
+                    <div class="vocab-meaning">Старшая сестра — так девушка обращается к старшей по возрасту девушке. Фанаты-девушки говорят так женщинам-айдолам.</div>
+                    <div class="vocab-etymology">언니처럼 되고 싶어요 — Хочу быть как ты, ённи</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">누나</div>
+                    <div class="vocab-romanization">[nuna]</div>
+                    <div class="vocab-meaning">Старшая сестра — так парень называет девушку старше себя. Используют фанаты-парни для женщин-айдолов.</div>
+                    <div class="vocab-etymology">누나 팬 — нуна-фан (фан-парень, влюблённый в айдола)</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">형</div>
+                    <div class="vocab-romanization">[hyeong]</div>
+                    <div class="vocab-meaning">Старший брат — так парень обращается к старшему мужчине. Используется между членами группы, а также фанатами-парнями.</div>
+                    <div class="vocab-etymology">형, 멋있어요! — Хён, ты крутой!</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">막내</div>
+                    <div class="vocab-romanization">[maknae]</div>
+                    <div class="vocab-meaning">Самый младший участник группы. Часто окружён особой заботой остальных членов. «Голден маknae» — если младший ещё и самый талантливый.</div>
+                    <div class="vocab-etymology">막 (самый) + 내 (маленький/последний)</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">선배</div>
+                    <div class="vocab-romanization">[seonbae]</div>
+                    <div class="vocab-meaning">Старший/предшественник — более опытный артист или дебютировавший раньше. Младшие айдолы обязательно уважают сонбэ.</div>
+                    <div class="vocab-etymology">후배 [hubae] — младший/последователь (антоним)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Фразы для концертов и фанмитингов -->
+        <div class="content-section">
+            <h2><span class="section-icon">2</span> Фразы для концертов и фансайнов (콘서트 & 팬싸 표현)</h2>
+
+            <div class="tip-box">
+                <strong>Совет:</strong> На фансайнах (팬사인회) у вас обычно есть всего 30–60 секунд с айдолом.
+                Заготовьте 1–2 фразы заранее и потренируйтесь произносить их вслух!
+            </div>
+
+            <ul class="concert-list">
+                <li>
+                    <span class="concert-korean">사랑해요!</span>
+                    <span class="concert-romaji">[saranghaeyo]</span>
+                    <span class="concert-translation">Я вас люблю! — универсальное признание, подходит для любого айдола</span>
+                </li>
+                <li>
+                    <span class="concert-korean">보고 싶었어요</span>
+                    <span class="concert-romaji">[bogo sipeosseoyo]</span>
+                    <span class="concert-translation">Я скучал(а) по вам — скажите это после долгого перерыва или между альбомами</span>
+                </li>
+                <li>
+                    <span class="concert-korean">최고예요!</span>
+                    <span class="concert-romaji">[choegoyeyo]</span>
+                    <span class="concert-translation">Вы лучшие! — чётко и понятно; работает для всей группы или одного участника</span>
+                </li>
+                <li>
+                    <span class="concert-korean">파이팅!</span>
+                    <span class="concert-romaji">[paiting]</span>
+                    <span class="concert-translation">Fighting! — удачи, держитесь! Крик поддержки перед выступлением или трудным периодом</span>
+                </li>
+                <li>
+                    <span class="concert-korean">앵콜!</span>
+                    <span class="concert-romaji">[aengkol]</span>
+                    <span class="concert-translation">Encore! — кричат после финального выступления, требуя продолжения концерта</span>
+                </li>
+                <li>
+                    <span class="concert-korean">생일 축하해요!</span>
+                    <span class="concert-romaji">[saengil chukahaeyo]</span>
+                    <span class="concert-translation">С днём рождения! — обязательная фраза на дни рождения айдолов (생일 = день рождения, 축하 = поздравление)</span>
+                </li>
+                <li>
+                    <span class="concert-korean">한국에 또 와 주세요</span>
+                    <span class="concert-romaji">[hanguge tto wa juseyo]</span>
+                    <span class="concert-translation">Приезжайте в Корею ещё раз! — говорят иностранные фанаты, выражая желание видеть артиста снова</span>
+                </li>
+                <li>
+                    <span class="concert-korean">건강 챙기세요</span>
+                    <span class="concert-romaji">[geongang chaenggi seyo]</span>
+                    <span class="concert-translation">Берегите своё здоровье — трогательная фраза заботы, айдолы это очень ценят</span>
+                </li>
+                <li>
+                    <span class="concert-korean">행복하세요</span>
+                    <span class="concert-romaji">[haengbokhaseyo]</span>
+                    <span class="concert-translation">Будьте счастливы — искреннее пожелание, особенно уместное на фансайне</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Section 3: Словарь фан-культуры -->
+        <div class="content-section">
+            <h2><span class="section-icon">3</span> Словарь фан-культуры (팬덤 용어)</h2>
+
+            <div class="category-grid">
+                <div class="vocab-card">
+                    <div class="vocab-korean">덕질</div>
+                    <div class="vocab-romanization">[deokjil]</div>
+                    <div class="vocab-meaning">Фанатская активность — коллекционирование, стриминг, посещение мероприятий. «Заниматься дöкчиль» = быть активным фанатом.</div>
+                    <div class="vocab-etymology">от 오덕후 (otaku) + 질 (суффикс деятельности)</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">입덕</div>
+                    <div class="vocab-romanization">[ipdeok]</div>
+                    <div class="vocab-meaning">«Войти в фандом» — момент, когда человек становится фанатом группы или айдола. «입덕 계기» — то, что тебя зацепило.</div>
+                    <div class="vocab-etymology">입 (войти) + 덕 (сокр. от 덕후, фан)</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">탈덕</div>
+                    <div class="vocab-romanization">[taldeok]</div>
+                    <div class="vocab-meaning">«Выйти из фандома» — перестать быть активным фанатом. Не всегда навсегда — иногда просто снижение активности.</div>
+                    <div class="vocab-etymology">탈 (выйти) + 덕 (фан)</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">최애</div>
+                    <div class="vocab-romanization">[choeae]</div>
+                    <div class="vocab-meaning">Ultimate bias — самый любимый айдол или участник. Если вы в группе, у вас почти наверняка есть свой 최애.</div>
+                    <div class="vocab-etymology">최 (최고 = наивысший) + 애 (애인/любовь)</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">올콘</div>
+                    <div class="vocab-romanization">[olkon]</div>
+                    <div class="vocab-meaning">All-concert — посещение ВСЕХ концертов тура или серии. «올콘 성공!» — выражение гордости после похода на все шоу.</div>
+                    <div class="vocab-etymology">all + 콘서트 (concert)</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">총공</div>
+                    <div class="vocab-romanization">[chonggong]</div>
+                    <div class="vocab-meaning">Mass attack — организованная кампания по стримингу, покупке альбома или голосованию. Фандомы координируют «총공» для поднятия чартов.</div>
+                    <div class="vocab-etymology">총 (тотальный/массовый) + 공격 (атака)</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">응원봉</div>
+                    <div class="vocab-romanization">[eungwonbong]</div>
+                    <div class="vocab-meaning">Лайтстик — официальный светящийся стик фандома. У каждой группы уникальный дизайн. Коллекционный предмет для настоящего фаната.</div>
+                    <div class="vocab-etymology">응원 (поддержка) + 봉 (палочка/жезл)</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">팬싸</div>
+                    <div class="vocab-romanization">[paenssa]</div>
+                    <div class="vocab-meaning">Фансайн — мероприятие, где фаны встречаются с айдолами: живое или онлайн. За участие обычно нужно купить альбом и выиграть лотерею.</div>
+                    <div class="vocab-etymology">팬 (fan) + 사인회 (автограф-сессия)</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">직캠</div>
+                    <div class="vocab-romanization">[jikcam]</div>
+                    <div class="vocab-meaning">Fancam — видео с концерта, снятое фанатом на одного конкретного участника. Профессиональные прямые съёмки стали отдельным жанром.</div>
+                    <div class="vocab-etymology">직접 (напрямую) + 캠 (camera)</div>
+                </div>
+
+                <div class="vocab-card">
+                    <div class="vocab-korean">포카</div>
+                    <div class="vocab-romanization">[poka]</div>
+                    <div class="vocab-meaning">Фотокарточка — коллекционная карточка с фото айдола из альбома. Торговля и обмен포카 — отдельная культура внутри фандомов.</div>
+                    <div class="vocab-etymology">포토카드 → 포카</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Фанчанты -->
+        <div class="content-section">
+            <h2><span class="section-icon">4</span> Фанчанты — основы (응원법)</h2>
+
+            <div class="tip-box">
+                <strong>응원법 [eungwonbeop]</strong> — буквально «метод поддержки». Это заранее подготовленные кричалки,
+                которые фандом выкрикивает синхронно во время песни. Каждая группа и каждая песня имеет свой уникальный чант.
+            </div>
+
+            <h3 style="color: #4527a0;">Как читать гайды по фанчантам</h3>
+            <p style="color: #555; line-height: 1.7;">
+                Гайды обычно публикуются перед концертами. Они показывают: текст песни серым —
+                и выделенные слова/паузы синим или красным, куда вставляются кричалки. Главное правило:
+                <strong>кричать чётко, в ритм</strong>, не перекрикивать артистов.
+            </p>
+
+            <div class="fanchant-demo">
+                <div style="color: #667eea; font-weight: 700; margin-bottom: 15px; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px;">
+                    Пример структуры фанчанта
+                </div>
+                <div class="song-line">♪ 나는 달려가고 싶어 — (поёт артист)</div>
+                <div class="chant-line">OT7! <span class="fanchant-label">фандом кричит</span></div>
+                <div class="song-line">♪ 그 빛을 향해서 — (поёт артист)</div>
+                <div class="chant-line">방탄! <span class="fanchant-label">имя группы</span></div>
+                <div class="song-line">♪ 김남준! 김석진! 민윤기! — (называют членов)</div>
+                <div class="chant-line">정호석! 박지민! 김태형! 전정국! <span class="fanchant-label">продолжение</span></div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Важно:</strong> Называние имён членов группы (멤버 이름 호명) — ключевая часть чантов.
+                Корейский порядок: сначала фамилия, потом имя. Например, 김남준 [Kim Nam-jun] = RM из BTS.
+                Выучите полные имена участников вашей группы — это первый шаг к фанчанту!
+            </div>
+
+            <h3 style="color: #4527a0;">Полезные фанчант-слова</h3>
+            <div class="category-grid">
+                <div class="vocab-card">
+                    <div class="vocab-korean">다 같이!</div>
+                    <div class="vocab-romanization">[da gachi]</div>
+                    <div class="vocab-meaning">Все вместе! — призыв к единому кричанию</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-korean">크게!</div>
+                    <div class="vocab-romanization">[keuge]</div>
+                    <div class="vocab-meaning">Громче! — призыв усилить голос</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-korean">천천히</div>
+                    <div class="vocab-romanization">[cheoncheonhi]</div>
+                    <div class="vocab-meaning">Медленнее — ориентир темпа в медленных частях</div>
+                </div>
+                <div class="vocab-card">
+                    <div class="vocab-korean">박수!</div>
+                    <div class="vocab-romanization">[baksu]</div>
+                    <div class="vocab-meaning">Аплодисменты! — хлопать в ладоши по команде</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 5: SNS-корейский -->
+        <div class="content-section">
+            <h2><span class="section-icon">5</span> Корейский в социальных сетях (SNS 언어)</h2>
+
+            <p style="color: #555; line-height: 1.7; margin-top: 0;">
+                K-pop фанаты общаются в Weverse, Twitter/X, Bubble и других платформах.
+                Знание этих сокращений и выражений поможет вам читать посты айдолов и общаться с корейскими фанатами.
+            </p>
+
+            <div class="sns-grid">
+                <div class="sns-card">
+                    <span class="sns-symbol">ㅋㅋㅋ</span>
+                    <div class="sns-meaning">Смех — аналог «хаха». Чем больше ㅋ, тем смешнее. ㅋㅋㅋㅋㅋ = умираю со смеху</div>
+                </div>
+                <div class="sns-card">
+                    <span class="sns-symbol">ㅠㅠ</span>
+                    <div class="sns-meaning">Плач — слёзы текут вниз. ㅜㅜ — то же самое. Используется при грусти или умилении</div>
+                </div>
+                <div class="sns-card">
+                    <span class="sns-symbol">대박</span>
+                    <div class="sns-meaning">[daebak] — Невероятно! Потрясающе! Эквивалент «вот это да!». Самое универсальное слово восторга</div>
+                </div>
+                <div class="sns-card">
+                    <span class="sns-symbol">헐</span>
+                    <div class="sns-meaning">[heol] — OMG, «не может быть». Выражение лёгкого шока или удивления. Очень разговорное</div>
+                </div>
+                <div class="sns-card">
+                    <span class="sns-symbol">실화?</span>
+                    <div class="sns-meaning">[silhwa?] — Это реально? За правду? от 실제 이야기 (реальная история). Используют при шокирующих новостях</div>
+                </div>
+                <div class="sns-card">
+                    <span class="sns-symbol">미쳤어</span>
+                    <div class="sns-meaning">[michyeosseo] — Сумасшедший/ая (комплимент!) «Это безумно круто». Про выступления, внешность, вокал</div>
+                </div>
+                <div class="sns-card">
+                    <span class="sns-symbol">ㅇㅇ</span>
+                    <div class="sns-meaning">Да/угу — сокращение от 응 [eung], неформальное «ага». Очень часто в чатах</div>
+                </div>
+                <div class="sns-card">
+                    <span class="sns-symbol">ㄴㄴ</span>
+                    <div class="sns-meaning">Нет/не надо — от 노노 [nono]. Отказ или несогласие в неформальном контексте</div>
+                </div>
+                <div class="sns-card">
+                    <span class="sns-symbol">갓</span>
+                    <div class="sns-meaning">[gat] — God, «богоподобный». Ставят перед именем: 갓지민 = бог Чимин. Высшая похвала</div>
+                </div>
+                <div class="sns-card">
+                    <span class="sns-symbol">심쿵</span>
+                    <div class="sns-meaning">[simkung] — Сердце пропустило удар. От 심장 (сердце) + 쿵 (бум). Реакция на что-то очень милое</div>
+                </div>
+                <div class="sns-card">
+                    <span class="sns-symbol">존예</span>
+                    <div class="sns-meaning">[jonje] — Невероятно красивый/ая. Очень разговорное и неформальное слово восхищения внешностью</div>
+                </div>
+                <div class="sns-card">
+                    <span class="sns-symbol">빠르다</span>
+                    <div class="sns-meaning">[ppareuda] — Быстро! Часто пишут, когда айдол неожиданно появляется в соцсетях: 알림 빠르다 = уведомление пришло быстро</div>
+                </div>
+            </div>
+
+            <div class="tip-box" style="margin-top: 20px;">
+                <strong>Weverse & Bubble:</strong> Если айдол пишет вам на Bubble, ответьте просто: <strong>감사해요 [gamsahaeyo]</strong> — «спасибо» или
+                <strong>너무 좋아요 [neomu joayo]</strong> — «очень нравится». Айдолы читают сообщения фанатов и ценят даже короткие тёплые ответы.
+            </div>
+        </div>
+
+    </div>
+
+    <script src="js/global-nav.js"></script>
+    <script>
+        console.log('[OK] kpop-fan-phrases.html loaded');
+    </script>
+</body>
+</html>
