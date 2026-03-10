@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Корейская культура - 한국 문화</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== HEADER ===== */
+        .page-header {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .page-header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .page-header .korean-subtitle {
+            font-size: 1.8em;
+            color: #764ba2;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .page-header .description {
+            font-size: 1.1em;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== BACK LINK ===== */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* ===== ARTICLE CARDS ===== */
+        .article-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .article-card:hover {
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .article-card[data-theme="nunchi"] { border-left: 4px solid #5c6bc0; }
+        .article-card[data-theme="han"] { border-left: 4px solid #e53935; }
+        .article-card[data-theme="table"] { border-left: 4px solid #43a047; }
+        .article-card[data-theme="age"] { border-left: 4px solid #fb8c00; }
+        .article-card[data-theme="confucius"] { border-left: 4px solid #8e24aa; }
+        .article-card[data-theme="ppalli"] { border-left: 4px solid #fdd835; }
+        .article-card[data-theme="jeong"] { border-left: 4px solid #ec407a; }
+        .article-card[data-theme="names"] { border-left: 4px solid #26a69a; }
+
+        /* ===== CARD HEADER (collapsed) ===== */
+        .article-header {
+            padding: 25px 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: background 0.3s ease;
+            user-select: none;
+        }
+
+        .article-header:hover {
+            background: #f8f9fa;
+        }
+
+        .article-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .article-card[data-theme="nunchi"] .article-icon { background: linear-gradient(135deg, #5c6bc0, #7986cb); }
+        .article-card[data-theme="han"] .article-icon { background: linear-gradient(135deg, #e53935, #ef5350); }
+        .article-card[data-theme="table"] .article-icon { background: linear-gradient(135deg, #43a047, #66bb6a); }
+        .article-card[data-theme="age"] .article-icon { background: linear-gradient(135deg, #fb8c00, #ffa726); }
+        .article-card[data-theme="confucius"] .article-icon { background: linear-gradient(135deg, #8e24aa, #ab47bc); }
+        .article-card[data-theme="ppalli"] .article-icon { background: linear-gradient(135deg, #f9a825, #fdd835); }
+        .article-card[data-theme="jeong"] .article-icon { background: linear-gradient(135deg, #ec407a, #f06292); }
+        .article-card[data-theme="names"] .article-icon { background: linear-gradient(135deg, #26a69a, #4db6ac); }
+
+        .article-header-text {
+            flex: 1;
+        }
+
+        .article-korean-term {
+            font-size: 2em;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 2px;
+        }
+
+        .article-card[data-theme="nunchi"] .article-korean-term { color: #5c6bc0; }
+        .article-card[data-theme="han"] .article-korean-term { color: #e53935; }
+        .article-card[data-theme="table"] .article-korean-term { color: #43a047; }
+        .article-card[data-theme="age"] .article-korean-term { color: #fb8c00; }
+        .article-card[data-theme="confucius"] .article-korean-term { color: #8e24aa; }
+        .article-card[data-theme="ppalli"] .article-korean-term { color: #f9a825; }
+        .article-card[data-theme="jeong"] .article-korean-term { color: #ec407a; }
+        .article-card[data-theme="names"] .article-korean-term { color: #26a69a; }
+
+        .article-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 6px;
+        }
+
+        .article-preview {
+            font-size: 0.95em;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        .expand-indicator {
+            font-size: 20px;
+            color: #aaa;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            font-weight: 700;
+        }
+
+        .article-card.expanded .expand-indicator {
+            transform: rotate(180deg);
+        }
+
+        /* ===== CARD BODY (expanded) ===== */
+        .article-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .article-card.expanded .article-body {
+            max-height: 3000px;
+        }
+
+        .article-content {
+            padding: 0 30px 30px;
+        }
+
+        .article-content p {
+            margin-bottom: 16px;
+            font-size: 1em;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        /* ===== PHRASES SECTION ===== */
+        .phrases-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        .phrases-title {
+            font-weight: 700;
+            font-size: 1em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .phrase-item {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .phrase-item:last-child {
+            border-bottom: none;
+        }
+
+        .phrase-korean {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 160px;
+        }
+
+        .phrase-translation {
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        /* ===== RELATED LINK ===== */
+        .related-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-size: 0.9em;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .article-card[data-theme="nunchi"] .related-link { background: #e8eaf6; color: #5c6bc0; }
+        .article-card[data-theme="han"] .related-link { background: #ffebee; color: #e53935; }
+        .article-card[data-theme="table"] .related-link { background: #e8f5e9; color: #43a047; }
+        .article-card[data-theme="age"] .related-link { background: #fff3e0; color: #fb8c00; }
+        .article-card[data-theme="confucius"] .related-link { background: #f3e5f5; color: #8e24aa; }
+        .article-card[data-theme="ppalli"] .related-link { background: #fffde7; color: #f57f17; }
+        .article-card[data-theme="jeong"] .related-link { background: #fce4ec; color: #ec407a; }
+        .article-card[data-theme="names"] .related-link { background: #e0f2f1; color: #26a69a; }
+
+        .related-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* ===== TOGGLE BUTTON ===== */
+        .toggle-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            background: #667eea;
+            color: white;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .toggle-btn:hover {
+            background: #5a6fd6;
+            transform: translateY(-1px);
+        }
+
+        /* ===== KOREAN WORD TOOLTIP ===== */
+        .korean-word {
+            display: inline;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 3px;
+            padding: 2px 1px;
+            position: relative;
+        }
+
+        .korean-word:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .korean-word.clicked {
+            background: #c8e6c9;
+            color: #388e3c;
+        }
+
+        .word-tooltip {
+            position: fixed;
+            background: #2c3e50;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            max-width: 300px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            line-height: 1.5;
+        }
+
+        .word-tooltip.visible {
+            opacity: 1;
+        }
+
+        .word-tooltip .tooltip-korean {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .word-tooltip .tooltip-pronunciation {
+            font-size: 12px;
+            color: #adb5bd;
+            margin-bottom: 4px;
+        }
+
+        .word-tooltip .tooltip-translation {
+            font-size: 13px;
+            color: #e9ecef;
+        }
+
+        /* ===== FOOTER ===== */
+        .page-footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+        }
+
+        .page-footer a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .page-footer a:hover {
+            color: white;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 10px;
+            }
+
+            .page-header {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+
+            .page-header h1 {
+                font-size: 1.8em;
+            }
+
+            .page-header .korean-subtitle {
+                font-size: 1.4em;
+            }
+
+            .article-header {
+                padding: 18px 20px;
+                gap: 14px;
+            }
+
+            .article-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 20px;
+            }
+
+            .article-korean-term {
+                font-size: 1.5em;
+            }
+
+            .article-title {
+                font-size: 1.05em;
+            }
+
+            .article-preview {
+                font-size: 0.88em;
+            }
+
+            .article-content {
+                padding: 0 20px 20px;
+            }
+
+            .phrase-item {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .phrase-korean {
+                min-width: auto;
+            }
+
+            .article-card {
+                border-radius: 15px;
+            }
+
+            .phrases-section {
+                padding: 15px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+
+    <a href="index.html" class="back-link">← На главную</a>
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h1>Корейская культура</h1>
+        <div class="korean-subtitle">한국 문화</div>
+        <p class="description">Понимание культуры — ключ к настоящему владению языком</p>
+    </div>
+
+    <!-- ARTICLE 1: 눈치 -->
+    <div class="article-card" data-theme="nunchi">
+        <div class="article-header" onclick="toggleArticle(this)">
+            <div class="article-icon">👀</div>
+            <div class="article-header-text">
+                <div class="article-korean-term">눈치</div>
+                <div class="article-title">Нунчи — искусство чтения атмосферы</div>
+                <div class="article-preview">Способность мгновенно считывать настроение окружающих и действовать соответственно — одно из важнейших качеств в корейском обществе.</div>
+            </div>
+            <div class="expand-indicator">▼</div>
+        </div>
+        <div class="article-body">
+            <div class="article-content">
+                <p><span class="korean-word" data-translation="нунчи, чтение атмосферы" data-pronunciation="눈치 [nunchi]">눈치</span> — это невидимый, но невероятно важный социальный навык, который корейцы воспитывают с самого детства. Дословно это слово можно перевести как «мерка глаз», но его настоящий смысл гораздо глубже: это способность моментально считывать атмосферу в помещении, улавливать невысказанные эмоции людей и подстраивать своё поведение так, чтобы никому не было некомфортно. В корейской культуре человек с хорошим нунчи вызывает искреннее уважение, тогда как отсутствие этого навыка считается серьёзным социальным недостатком.</p>
+
+                <p>На практике нунчи проявляется повсюду. На деловой встрече сотрудник с развитым нунчи замечает, что начальник напряжён, и не станет поднимать спорную тему именно сейчас. За семейным ужином младший член семьи видит, что бокал старшего пуст, и немедленно наполняет его, не дожидаясь просьбы. В компании друзей человек с нунчи чувствует, что кому-то из группы неуютно, и мягко переводит разговор на более комфортную тему. Это не просто вежливость — это постоянная настройка на эмоциональное состояние окружающих.</p>
+
+                <p>Интересно, что нунчи в Корее воспринимается не как врождённый талант, а как навык, который можно и нужно развивать. Родители с раннего возраста учат детей наблюдать за реакцией окружающих: «Посмотри на лицо учителя, как ты думаешь, он доволен?» В школе дети быстро учатся распознавать, когда можно шутить, а когда нужно быть серьёзным. Корейская поговорка гласит: «Если у тебя есть <span class="korean-word" data-translation="нунчи, чтение атмосферы" data-pronunciation="눈치 [nunchi]">눈치</span>, ты можешь съесть даже креветку из чужой тарелки» — то есть мастерство считывания обстановки открывает самые неожиданные возможности.</p>
+
+                <p>Для изучающих корейский язык понимание нунчи критически важно. Даже если вы грамматически правильно построите предложение, но скажете его в неподходящий момент или неподходящему человеку, вы рискуете вызвать неловкость. Корейцы очень ценят иностранцев, которые демонстрируют хотя бы базовое понимание этого концепта: замечают, когда собеседнику некомфортно, не настаивают на прямом ответе, если человек уходит от темы, и умеют читать между строк.</p>
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Полезные выражения:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="быстро считывать атмосферу" data-pronunciation="눈치가 빠르다 [nunchiga ppareuda]">눈치가 빠르다</span></span>
+                        <span class="phrase-translation">— быстро считывать атмосферу (комплимент)</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="не чувствовать атмосферу" data-pronunciation="눈치가 없다 [nunchiga eopda]">눈치가 없다</span></span>
+                        <span class="phrase-translation">— не чувствовать атмосферу (критика)</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="наблюдать за реакцией" data-pronunciation="눈치를 보다 [nunchireul boda]">눈치를 보다</span></span>
+                        <span class="phrase-translation">— наблюдать за реакцией, осторожничать</span>
+                    </div>
+                </div>
+
+                <a href="lesson_08_politeness/" class="related-link">Урок: Вежливость в корейском →</a>
+
+                <br><br>
+                <button class="toggle-btn" onclick="toggleArticle(this.closest('.article-card').querySelector('.article-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTICLE 2: 한 -->
+    <div class="article-card" data-theme="han">
+        <div class="article-header" onclick="toggleArticle(this)">
+            <div class="article-icon">💔</div>
+            <div class="article-header-text">
+                <div class="article-korean-term">한</div>
+                <div class="article-title">Хан — глубокая корейская печаль</div>
+                <div class="article-preview">Уникальное чувство коллективной скорби и неразрешённой боли, которое пронизывает всю корейскую культуру — от музыки до кинематографа.</div>
+            </div>
+            <div class="expand-indicator">▼</div>
+        </div>
+        <div class="article-body">
+            <div class="article-content">
+                <p><span class="korean-word" data-translation="хан, глубокая печаль/скорбь" data-pronunciation="한 [han]">한</span> — одно из тех корейских слов, которые невозможно перевести одним словом ни на один другой язык. Это сложное эмоциональное состояние, сочетающее в себе глубокую печаль, неразрешённую обиду, тоску по утраченному и при этом стойкость перед лицом несправедливости. Корейцы часто говорят, что <span class="korean-word" data-translation="хан, глубокая печаль/скорбь" data-pronunciation="한 [han]">한</span> — это то, что делает их народ уникальным, это эмоциональный код, заложенный в самой корейской душе.</p>
+
+                <p>Исторические корни хана уходят в столетия иностранных вторжений, колониального гнёта и внутренних потрясений, через которые прошла Корея. Японская оккупация, разделение полуострова, Корейская война, разлучённые семьи, которые не могут увидеть друг друга на протяжении десятилетий — всё это породило коллективное чувство боли, передающееся из поколения в поколение. Но хан — это не просто грусть или депрессия. Это скорее глубокое осознание несправедливости, которая не была исправлена, боль, которая не нашла разрешения.</p>
+
+                <p>Хан пронизывает всю корейскую культуру и искусство. Традиционная музыка <span class="korean-word" data-translation="панссори, корейский оперный жанр" data-pronunciation="판소리 [pansori]">판소리</span> полна надрывных, протяжных нот, которые передают это чувство. Корейские дорамы так часто заставляют зрителей плакать именно потому, что сценаристы виртуозно работают с темой хана — неразделённая любовь, разлучённые судьбой люди, жертва ради близких. Даже современная K-POP музыка нередко обращается к темам боли и потери, хотя и облекает их в яркую обёртку.</p>
+
+                <p>Важно понимать, что хан — это не пассивное страдание. В корейской культуре существует понятие <span class="korean-word" data-translation="разрешение обиды/боли" data-pronunciation="한풀이 [hanpuri]">한풀이</span> — процесс «развязывания» хана, его преодоления. Это может происходить через искусство, через коллективное переживание горя, через достижения и упорный труд. Многие корейцы считают, что именно хан стал движущей силой стремительного экономического развития страны — так называемого «Чуда на реке Хан»: боль и обида трансформировались в невероятную энергию созидания.</p>
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Полезные выражения:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="накопить обиду/боль" data-pronunciation="한이 맺히다 [hani maethida]">한이 맺히다</span></span>
+                        <span class="phrase-translation">— накопить обиду, затаить глубокую боль</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="разрешение обиды/боли" data-pronunciation="한풀이 [hanpuri]">한풀이</span></span>
+                        <span class="phrase-translation">— разрешение обиды, «развязывание» боли</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="быть полным обиды/скорби" data-pronunciation="한스럽다 [hanseureopda]">한스럽다</span></span>
+                        <span class="phrase-translation">— быть полным обиды и скорби</span>
+                    </div>
+                </div>
+
+                <br>
+                <button class="toggle-btn" onclick="toggleArticle(this.closest('.article-card').querySelector('.article-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTICLE 3: Этикет за столом -->
+    <div class="article-card" data-theme="table">
+        <div class="article-header" onclick="toggleArticle(this)">
+            <div class="article-icon">🍽</div>
+            <div class="article-header-text">
+                <div class="article-korean-term">식사 예절</div>
+                <div class="article-title">Корейский этикет за столом</div>
+                <div class="article-preview">Совместная трапеза в Корее — это целый ритуал с множеством неписаных правил, от порядка начала еды до способа держать палочки.</div>
+            </div>
+            <div class="expand-indicator">▼</div>
+        </div>
+        <div class="article-body">
+            <div class="article-content">
+                <p>Еда в Корее — это гораздо больше, чем просто приём пищи. Это социальный ритуал, способ укрепления связей между людьми и одна из главных форм проявления уважения. Корейский стол отличается от европейского: вместо индивидуальных порций здесь принято делиться общими блюдами — <span class="korean-word" data-translation="закуски, гарниры" data-pronunciation="반찬 [banchan]">반찬</span> (многочисленные закуски) стоят в центре стола, и каждый берёт из общих тарелок. Этот обычай сам по себе отражает корейскую ценность общности и единения.</p>
+
+                <p>Одно из ключевых правил корейского застольного этикета — никогда не начинать есть раньше старшего за столом. Нужно дождаться, пока самый старший человек поднимет <span class="korean-word" data-translation="ложка" data-pronunciation="숟가락 [sutgarak]">숟가락</span> (ложку) или <span class="korean-word" data-translation="палочки для еды" data-pronunciation="젓가락 [jeotgarak]">젓가락</span> (палочки), и только тогда начинать трапезу. Перед едой принято произносить <span class="korean-word" data-translation="Спасибо за еду (перед едой)" data-pronunciation="잘 먹겠습니다 [jal meokgesseumnida]">잘 먹겠습니다</span> — фразу, выражающую благодарность за приготовленную еду. После трапезы обязательно говорят <span class="korean-word" data-translation="Спасибо, было вкусно (после еды)" data-pronunciation="잘 먹었습니다 [jal meogeosseumnida]">잘 먹었습니다</span>.</p>
+
+                <p>Отдельная тема — правила, связанные с напитками. В Корее считается невежливым наливать напиток самому себе. Вы наливаете соседу, а он наливает вам — это проявление заботы и внимания друг к другу. Если напиток наливает старший, младший должен принять бокал двумя руками и, отпивая, слегка отвернуться в сторону — прямой контакт глаз со старшим во время питья считается неуважительным. Во время тоста принято говорить <span class="korean-word" data-translation="Тост! За здоровье!" data-pronunciation="건배 [geonbae]">건배</span>, а бокал младшего должен быть ниже бокала старшего при чоканье.</p>
+
+                <p>Есть и другие важные нюансы: палочки нельзя втыкать вертикально в рис — это напоминает погребальный ритуал. Ложку и палочки не следует класть на чашку с рисом. Когда хозяин говорит <span class="korean-word" data-translation="Ешьте побольше" data-pronunciation="많이 드세요 [mani deuseyo]">많이 드세요</span> (ешьте побольше), это выражение искренней заботы, и отказ может обидеть. Громкое чавканье, в отличие от западной культуры, не считается невежливым — наоборот, это может восприниматься как знак того, что еда вкусная.</p>
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Полезные выражения:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Спасибо за еду (перед едой)" data-pronunciation="잘 먹겠습니다 [jal meokgesseumnida]">잘 먹겠습니다</span></span>
+                        <span class="phrase-translation">— Приятного аппетита / Спасибо за еду (перед едой)</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Спасибо, было вкусно (после еды)" data-pronunciation="잘 먹었습니다 [jal meogeosseumnida]">잘 먹었습니다</span></span>
+                        <span class="phrase-translation">— Спасибо, было вкусно (после еды)</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Ешьте побольше" data-pronunciation="많이 드세요 [mani deuseyo]">많이 드세요</span></span>
+                        <span class="phrase-translation">— Ешьте побольше (выражение гостеприимства)</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Тост! За здоровье!" data-pronunciation="건배 [geonbae]">건배!</span></span>
+                        <span class="phrase-translation">— Тост! За здоровье!</span>
+                    </div>
+                </div>
+
+                <br>
+                <button class="toggle-btn" onclick="toggleArticle(this.closest('.article-card').querySelector('.article-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTICLE 4: 나이 -->
+    <div class="article-card" data-theme="age">
+        <div class="article-header" onclick="toggleArticle(this)">
+            <div class="article-icon">👴</div>
+            <div class="article-header-text">
+                <div class="article-korean-term">나이</div>
+                <div class="article-title">Возрастная иерархия в Корее</div>
+                <div class="article-preview">В Корее возраст определяет практически все: как вы обращаетесь к человеку, какой уровень вежливости используете и даже кто первым начинает есть.</div>
+            </div>
+            <div class="expand-indicator">▼</div>
+        </div>
+        <div class="article-body">
+            <div class="article-content">
+                <p>В западной культуре спрашивать возраст собеседника при первой встрече считается бестактным. В Корее же это совершенно нормально и даже необходимо. Один из первых вопросов при знакомстве — <span class="korean-word" data-translation="Сколько вам лет?" data-pronunciation="몇 살이에요? [myeot sarieyo?]">몇 살이에요?</span> или в более вежливой форме: <span class="korean-word" data-translation="Как насчёт вашего возраста? (вежливо)" data-pronunciation="나이가 어떻게 되세요? [naiga eotteoke doeseyo?]">나이가 어떻게 되세요?</span> И это не любопытство — это практическая необходимость. Зная возраст собеседника, кореец понимает, какой уровень языка использовать и как правильно выстроить отношения.</p>
+
+                <p>До недавнего времени в Корее действовала уникальная система подсчёта возраста — так называемый «корейский возраст» (<span class="korean-word" data-translation="корейский возраст" data-pronunciation="한국 나이 [hanguk nai]">한국 나이</span>). Ребёнок рождался уже «в возрасте одного года», а каждый Новый год все корейцы становились на год старше одновременно, независимо от фактической даты рождения. Таким образом, малыш, родившийся в декабре, в январе следующего года уже считался двухлетним! С 2023 года Корея официально перешла на международную систему подсчёта, но в быту корейский возраст по-прежнему широко используется.</p>
+
+                <p>Возрастная иерархия пронизывает весь корейский язык. Существует два основных уровня речи: <span class="korean-word" data-translation="вежливая/формальная речь" data-pronunciation="존댓말 [jondaenmal]">존댓말</span> (вежливая, формальная речь) и <span class="korean-word" data-translation="неформальная/фамильярная речь" data-pronunciation="반말 [banmal]">반말</span> (неформальная, фамильярная речь). Использование <span class="korean-word" data-translation="неформальная/фамильярная речь" data-pronunciation="반말 [banmal]">반말</span> к старшему по возрасту воспринимается как грубое оскорбление, даже если разница в возрасте составляет всего один год. Переход с формальной речи на неформальную — это важный шаг в отношениях, который обычно инициирует старший фразой «Давай перейдём на ты».</p>
+
+                <p>Отдельная система обращений основана именно на возрасте и поле. Младший мужчина обращается к старшему мужчине <span class="korean-word" data-translation="старший брат (для мужчин)" data-pronunciation="형 [hyeong]">형</span>, а младшая женщина к старшему мужчине — <span class="korean-word" data-translation="старший брат (для женщин)" data-pronunciation="오빠 [oppa]">오빠</span>. К старшей женщине младший мужчина обращается <span class="korean-word" data-translation="старшая сестра (для мужчин)" data-pronunciation="누나 [nuna]">누나</span>, а младшая женщина — <span class="korean-word" data-translation="старшая сестра (для женщин)" data-pronunciation="언니 [eonni]">언니</span>. Эти обращения используются повсеместно, даже если люди не являются родственниками — достаточно быть просто знакомыми или друзьями с разницей в возрасте.</p>
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Полезные выражения:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Сколько вам лет?" data-pronunciation="몇 살이에요? [myeot sarieyo?]">몇 살이에요?</span></span>
+                        <span class="phrase-translation">— Сколько вам лет? (нейтрально)</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Как насчёт вашего возраста? (вежливо)" data-pronunciation="나이가 어떻게 되세요? [naiga eotteoke doeseyo?]">나이가 어떻게 되세요?</span></span>
+                        <span class="phrase-translation">— Как ваш возраст? (вежливая форма)</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="старший брат (для мужчин) / старший брат (для женщин) / старшая сестра (для мужчин) / старшая сестра (для женщин)" data-pronunciation="형/오빠/누나/언니 [hyeong/oppa/nuna/eonni]">형 / 오빠 / 누나 / 언니</span></span>
+                        <span class="phrase-translation">— обращения к старшим (зависят от пола говорящего и адресата)</span>
+                    </div>
+                </div>
+
+                <br>
+                <button class="toggle-btn" onclick="toggleArticle(this.closest('.article-card').querySelector('.article-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTICLE 5: Конфуцианские ценности -->
+    <div class="article-card" data-theme="confucius">
+        <div class="article-header" onclick="toggleArticle(this)">
+            <div class="article-icon">📚</div>
+            <div class="article-header-text">
+                <div class="article-korean-term">유교</div>
+                <div class="article-title">Конфуцианство в современной Корее</div>
+                <div class="article-preview">Несмотря на стремительную модернизацию, конфуцианские ценности по-прежнему глубоко влияют на корейское общество — от семейных отношений до корпоративной культуры.</div>
+            </div>
+            <div class="expand-indicator">▼</div>
+        </div>
+        <div class="article-body">
+            <div class="article-content">
+                <p><span class="korean-word" data-translation="конфуцианство" data-pronunciation="유교 [yugyo]">유교</span> (конфуцианство) пришло в Корею из Китая более тысячи лет назад и настолько глубоко проникло в ткань общества, что многие корейцы даже не осознают, насколько сильно их повседневное поведение определяется конфуцианскими принципами. Корея, пожалуй, является самой конфуцианской страной в мире — даже более, чем сам Китай, где коммунистическая революция существенно подорвала традиционные ценности. В Корее же конфуцианские нормы пережили все исторические потрясения и продолжают формировать общество.</p>
+
+                <p>Центральное место в конфуцианской системе ценностей занимает <span class="korean-word" data-translation="сыновняя/дочерняя почтительность" data-pronunciation="효도 [hyodo]">효도</span> — сыновняя почтительность, то есть глубокое уважение и забота о родителях. В Корее это не абстрактная добродетель, а конкретные действия: взрослые дети регулярно навещают родителей, финансово поддерживают их, советуются с ними по важным решениям. Даже успешный бизнесмен в возрасте пятидесяти лет будет послушно выслушивать наставления своей восьмидесятилетней матери. Отправить пожилого родителя в дом престарелых по-прежнему считается постыдным поступком, хотя ситуация постепенно меняется.</p>
+
+                <p>Образование — ещё одна сфера, где конфуцианское влияние ощущается особенно остро. Конфуций считал, что учение — это путь к совершенствованию личности и гармонии в обществе. Современная Корея довела этот принцип до предела: образование стало настоящей национальной одержимостью. Корейские школьники учатся до позднего вечера, посещают <span class="korean-word" data-translation="частная академия, репетиторский центр" data-pronunciation="학원 [hagwon]">학원</span> (частные академии) после основной школы, а подготовка к вступительным экзаменам в университет (<span class="korean-word" data-translation="единый вступительный экзамен" data-pronunciation="수능 [suneung]">수능</span>) становится событием национального масштаба: в день экзамена даже авиарейсы переносят, чтобы шум самолётов не мешал абитуриентам.</p>
+
+                <p>Конфуцианство также определяет принцип социальной гармонии — стремление избегать открытых конфликтов и поддерживать мир в коллективе. Кореец скорее промолчит и сгладит ситуацию, чем вступит в открытую конфронтацию. Понятие <span class="korean-word" data-translation="быть вежливым" data-pronunciation="예의 바르다 [yeui bareuda]">예의 바르다</span> (быть вежливым) и <span class="korean-word" data-translation="здороваться, кланяться" data-pronunciation="인사하다 [insahada]">인사하다</span> (приветствовать с поклоном) — не просто формальности, а проявление глубокого уважения к собеседнику и поддержание общественного порядка.</p>
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Полезные выражения:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="проявлять почтение к родителям" data-pronunciation="효도하다 [hyodohada]">효도하다</span></span>
+                        <span class="phrase-translation">— проявлять почтение к родителям, заботиться о них</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="быть вежливым" data-pronunciation="예의 바르다 [yeui bareuda]">예의 바르다</span></span>
+                        <span class="phrase-translation">— быть вежливым, обладать хорошими манерами</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="здороваться, кланяться" data-pronunciation="인사하다 [insahada]">인사하다</span></span>
+                        <span class="phrase-translation">— здороваться, приветствовать с поклоном</span>
+                    </div>
+                </div>
+
+                <br>
+                <button class="toggle-btn" onclick="toggleArticle(this.closest('.article-card').querySelector('.article-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTICLE 6: 빨리빨리 -->
+    <div class="article-card" data-theme="ppalli">
+        <div class="article-header" onclick="toggleArticle(this)">
+            <div class="article-icon">⚡</div>
+            <div class="article-header-text">
+                <div class="article-korean-term">빨리빨리</div>
+                <div class="article-title">Быстро-быстро — культура скорости</div>
+                <div class="article-preview">Самый быстрый интернет, доставка еды за 30 минут, метро каждые 2 минуты — Корея живёт в режиме «быстрее, ещё быстрее».</div>
+            </div>
+            <div class="expand-indicator">▼</div>
+        </div>
+        <div class="article-body">
+            <div class="article-content">
+                <p><span class="korean-word" data-translation="Быстрее! Быстрее!" data-pronunciation="빨리 빨리 [ppalli ppalli]">빨리 빨리</span> — эти два слова, пожалуй, лучше всего описывают ритм жизни современной Кореи. Дословно они переводятся как «быстро, быстро», но за ними стоит целая культурная парадигма, определяющая темп жизни более пятидесяти миллионов человек. Корея — страна, которая за несколько десятилетий превратилась из одной из беднейших стран мира в технологического гиганта, и этот стремительный рост был бы невозможен без «ппалли-ппалли» — культуры, где скорость и эффективность возведены в абсолют.</p>
+
+                <p>Проявления этой культуры видны повсюду. Корейский интернет — один из самых быстрых в мире. Доставка еды через приложения занимает в среднем тридцать минут, а в крупных городах можно получить заказ и за пятнадцать. Интернет-покупки доставляют на следующий день, а часто и в тот же — существует даже <span class="korean-word" data-translation="рассветная доставка (к утру следующего дня)" data-pronunciation="새벽 배송 [saebyeok baesong]">새벽 배송</span> (рассветная доставка): заказываете вечером — товар уже у двери к шести утра. В ресторанах кнопка вызова официанта стоит на каждом столе, а ожидание дольше пяти минут воспринимается как неприемлемое.</p>
+
+                <p>Культура скорости имеет и обратную сторону. Корея лидирует среди развитых стран по количеству рабочих часов. Слово <span class="korean-word" data-translation="спешить, быть срочным" data-pronunciation="급하다 [geupada]">급하다</span> (срочно, спешно) звучит постоянно — в офисе, в школе, в повседневных разговорах. Давление постоянной спешки приводит к высокому уровню стресса, что является серьёзной социальной проблемой. Корейцы шутят, что даже в лифте они нажимают кнопку закрытия дверей, не дожидаясь автоматического срабатывания, — настолько глубоко в них сидит привычка торопиться.</p>
+
+                <p>Тем не менее, для иностранцев культура «ппалли-ппалли» имеет много приятных сторон: невероятно удобная инфраструктура, молниеносный сервис и ощущение того, что в Корее всё работает как часы. Фраза <span class="korean-word" data-translation="Поторопитесь" data-pronunciation="서두르세요 [seodureuseyo]">서두르세요</span> (поторопитесь) звучит не как грубость, а как естественная часть коммуникации в стране, где время — самый ценный ресурс.</p>
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Полезные выражения:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Быстрее! Быстрее!" data-pronunciation="빨리 빨리! [ppalli ppalli!]">빨리 빨리!</span></span>
+                        <span class="phrase-translation">— Быстрее! Быстрее!</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Поторопитесь" data-pronunciation="서두르세요 [seodureuseyo]">서두르세요</span></span>
+                        <span class="phrase-translation">— Поторопитесь (вежливая форма)</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="спешить, быть срочным" data-pronunciation="급하다 [geupada]">급하다</span></span>
+                        <span class="phrase-translation">— спешить, быть срочным</span>
+                    </div>
+                </div>
+
+                <br>
+                <button class="toggle-btn" onclick="toggleArticle(this.closest('.article-card').querySelector('.article-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTICLE 7: 정 -->
+    <div class="article-card" data-theme="jeong">
+        <div class="article-header" onclick="toggleArticle(this)">
+            <div class="article-icon">💕</div>
+            <div class="article-header-text">
+                <div class="article-korean-term">정</div>
+                <div class="article-title">Чон — глубокая привязанность</div>
+                <div class="article-preview">Особая эмоциональная связь, которая выходит за рамки дружбы и любви — чон возникает со временем и делает отношения по-настоящему глубокими.</div>
+            </div>
+            <div class="expand-indicator">▼</div>
+        </div>
+        <div class="article-body">
+            <div class="article-content">
+                <p><span class="korean-word" data-translation="чон, глубокая привязанность/эмоциональная связь" data-pronunciation="정 [jeong]">정</span> — это одно из самых красивых и сложных понятий корейской культуры. Его невозможно перевести одним словом: это не любовь в романтическом смысле, не дружба в привычном понимании, не привязанность, хотя включает в себя всё перечисленное. <span class="korean-word" data-translation="чон, глубокая привязанность/эмоциональная связь" data-pronunciation="정 [jeong]">정</span> — это глубокая эмоциональная связь, которая формируется через совместный опыт, через время, проведённое вместе, через разделённые радости и горести. Это тёплое чувство привязанности, которое со временем становится только крепче.</p>
+
+                <p>Корейцы говорят <span class="korean-word" data-translation="привязаться, проникнуться чувствами" data-pronunciation="정이 들다 [jeongi deulda]">정이 들다</span> (привязаться) — и это процесс, который нельзя ускорить. Чон возникает между коллегами, которые годами работают вместе и знают привычки друг друга. Он формируется между соседями, которые десятилетиями живут рядом и молча помогают друг другу. Чон связывает однокурсников, прошедших через тяжёлые экзамены вместе. Даже к любимому ресторанчику или старому району, в котором вырос, кореец может испытывать чон — эту щемящую, тёплую привязанность.</p>
+
+                <p>Одно из главных проявлений чон — корейская культура «делиться едой». Когда кореец заказывает кофе, он часто купит ещё один для коллеги — не потому что его просили, а потому что чон подсказывает: «этот человек мне не безразличен». Мама, которая звонит взрослому ребёнку и говорит «я приготовила <span class="korean-word" data-translation="кимчи, квашеная капуста по-корейски" data-pronunciation="김치 [gimchi]">김치</span>, приезжай заберёшь» — это тоже чон. Водитель такси, который отказывается брать плату с пожилого пассажира — чон. Это чувство, которое выражается в действиях, а не в словах.</p>
+
+                <p>Про человека, который легко проникается чувствами к окружающим и всегда готов помочь, корейцы с уважением скажут: <span class="korean-word" data-translation="быть душевным человеком, иметь много чон" data-pronunciation="정이 많다 [jeongi manta]">정이 많다</span> — «в нём много чон». А когда отношения портятся настолько, что тёплые чувства исчезают, говорят <span class="korean-word" data-translation="потерять привязанность" data-pronunciation="정 떨어진다 [jeong tteoreojinda]">정 떨어진다</span> — «чон отпадает». Для корейцев потеря чон — это болезненный процесс, потому что эта связь формировалась годами и её невозможно просто восстановить.</p>
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Полезные выражения:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="привязаться, проникнуться чувствами" data-pronunciation="정이 들다 [jeongi deulda]">정이 들다</span></span>
+                        <span class="phrase-translation">— привязаться, проникнуться чувствами</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="быть душевным человеком" data-pronunciation="정이 많다 [jeongi manta]">정이 많다</span></span>
+                        <span class="phrase-translation">— быть душевным, тёплым человеком</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="потерять привязанность" data-pronunciation="정 떨어진다 [jeong tteoreojinda]">정 떨어진다</span></span>
+                        <span class="phrase-translation">— потерять привязанность, разочароваться</span>
+                    </div>
+                </div>
+
+                <br>
+                <button class="toggle-btn" onclick="toggleArticle(this.closest('.article-card').querySelector('.article-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ARTICLE 8: Система имён -->
+    <div class="article-card" data-theme="names">
+        <div class="article-header" onclick="toggleArticle(this)">
+            <div class="article-icon">📛</div>
+            <div class="article-header-text">
+                <div class="article-korean-term">이름</div>
+                <div class="article-title">Корейские имена и обращения</div>
+                <div class="article-preview">Почему большинство корейцев — Ким, Ли или Пак? Как правильно обращаться к собеседнику и почему нельзя звать старших по имени?</div>
+            </div>
+            <div class="expand-indicator">▼</div>
+        </div>
+        <div class="article-body">
+            <div class="article-content">
+                <p>Корейское имя состоит из фамилии (<span class="korean-word" data-translation="фамилия" data-pronunciation="성 [seong]">성</span>) и личного имени (<span class="korean-word" data-translation="имя" data-pronunciation="이름 [ireum]">이름</span>), причём фамилия всегда стоит первой. Большинство корейских имён — трёхсложные: один слог фамилии и два слога имени. Например, в имени <span class="korean-word" data-translation="(корейское имя)" data-pronunciation="김민수 [Gim Minsu]">김민수</span> фамилия — <span class="korean-word" data-translation="Ким (фамилия)" data-pronunciation="김 [Gim]">김</span> (Ким), а личное имя — <span class="korean-word" data-translation="Минсу (имя)" data-pronunciation="민수 [Minsu]">민수</span> (Минсу). Удивительно, но всего три фамилии — Ким, Ли и Пак — охватывают почти половину населения страны. Всего же в Корее используется около 280 фамилий, тогда как в России их десятки тысяч.</p>
+
+                <p>Такое малое количество фамилий объясняется исторически: в древности фамилии носила только аристократия, а простые люди их не имели. Когда в конце XIX века каждому корейцу потребовалось иметь фамилию, многие взяли себе престижные аристократические — Ким, Ли, Пак. Однако не все Кимы являются родственниками: каждая фамилия делится на <span class="korean-word" data-translation="клановые корни, место происхождения рода" data-pronunciation="본관 [bongwan]">본관</span> — клановые ветви, привязанные к определённому региону. Например, «Кимхэ Ким» и «Кённджу Ким» — разные кланы, и брак между однофамильцами из одного клана долгое время был запрещён.</p>
+
+                <p>Система обращений в Корее — настоящее минное поле для иностранцев. Звать человека просто по имени можно только если он младше вас или ваш близкий ровесник, с которым вы перешли на неформальное общение. К знакомым и малознакомым людям принято обращаться по фамилии с добавлением суффикса <span class="korean-word" data-translation="вежливый суффикс (к имени)" data-pronunciation="씨 [ssi]">씨</span> (например, «Ким-сси»), к людям более высокого статуса — <span class="korean-word" data-translation="уважительный суффикс" data-pronunciation="님 [nim]">님</span>. Учителей и преподавателей называют <span class="korean-word" data-translation="учитель (уважительное обращение)" data-pronunciation="선생님 [seonsaengnim]">선생님</span>, причём это обращение используется шире, чем просто «учитель» — так могут обратиться к врачу, адвокату, писателю или любому уважаемому специалисту.</p>
+
+                <p>Для изучающих корейский язык важно запомнить: если вы хотите спросить имя собеседника вежливо, используйте <span class="korean-word" data-translation="Как вас зовут? (вежливо)" data-pronunciation="성함이 어떻게 되세요? [seonghami eotteoke doeseyo?]">성함이 어떻게 되세요?</span> — здесь <span class="korean-word" data-translation="имя (вежливо)" data-pronunciation="성함 [seongham]">성함</span> является уважительной формой слова «имя». В неформальной обстановке с ровесниками подойдёт <span class="korean-word" data-translation="Как тебя зовут?" data-pronunciation="이름이 뭐예요? [ireumi mwoyeyo?]">이름이 뭐예요?</span> Никогда не называйте по имени человека старше вас или выше по статусу — это считается крайне невежливым. Лучше использовать должность или обращение: <span class="korean-word" data-translation="учитель Ким" data-pronunciation="김 선생님 [Gim seonsaengnim]">김 선생님</span> (учитель Ким), <span class="korean-word" data-translation="директор (обращение по должности)" data-pronunciation="사장님 [sajangnim]">사장님</span> (директор) и так далее.</p>
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Полезные выражения:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Как вас зовут? (вежливо)" data-pronunciation="성함이 어떻게 되세요? [seonghami eotteoke doeseyo?]">성함이 어떻게 되세요?</span></span>
+                        <span class="phrase-translation">— Как вас зовут? (вежливая форма)</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Как тебя зовут?" data-pronunciation="이름이 뭐예요? [ireumi mwoyeyo?]">이름이 뭐예요?</span></span>
+                        <span class="phrase-translation">— Как тебя зовут? (нейтрально)</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-korean"><span class="korean-word" data-translation="учитель Ким" data-pronunciation="김 선생님 [Gim seonsaengnim]">김 선생님</span></span>
+                        <span class="phrase-translation">— учитель Ким (уважительное обращение)</span>
+                    </div>
+                </div>
+
+                <br>
+                <button class="toggle-btn" onclick="toggleArticle(this.closest('.article-card').querySelector('.article-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="page-footer">
+        <a href="index.html">Jane Korea</a> — Изучение корейского языка
+    </div>
+
+</div>
+
+<!-- Tooltip element -->
+<div class="word-tooltip" id="wordTooltip"></div>
+
+<script src="js/progress-tracker.js"></script>
+<script src="js/global-nav.js"></script>
+<script>
+    // ===== TOGGLE ARTICLES =====
+    function toggleArticle(headerEl) {
+        var card = headerEl.closest('.article-card');
+        if (!card) return;
+
+        var wasExpanded = card.classList.contains('expanded');
+
+        if (wasExpanded) {
+            card.classList.remove('expanded');
+        } else {
+            card.classList.add('expanded');
+        }
+    }
+
+    // ===== WORD TOOLTIP =====
+    (function() {
+        var tooltip = document.getElementById('wordTooltip');
+        var allWords = document.querySelectorAll('.korean-word');
+
+        allWords.forEach(function(word) {
+            word.addEventListener('click', function(e) {
+                e.stopPropagation();
+
+                var koreanText = this.textContent.trim();
+                var translation = this.dataset.translation || '';
+                var pronunciation = this.dataset.pronunciation || '';
+
+                // Remove previous active state
+                document.querySelectorAll('.korean-word.clicked').forEach(function(w) {
+                    w.classList.remove('clicked');
+                });
+                this.classList.add('clicked');
+
+                // Build tooltip content
+                tooltip.innerHTML =
+                    '<div class="tooltip-korean">' + koreanText + '</div>' +
+                    (pronunciation ? '<div class="tooltip-pronunciation">' + pronunciation + '</div>' : '') +
+                    '<div class="tooltip-translation">' + translation + '</div>';
+
+                // Position tooltip
+                var rect = this.getBoundingClientRect();
+                var tooltipWidth = 250;
+                var left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
+                var top = rect.top - 10;
+
+                // Keep within viewport
+                if (left < 10) left = 10;
+                if (left + tooltipWidth > window.innerWidth - 10) {
+                    left = window.innerWidth - tooltipWidth - 10;
+                }
+
+                tooltip.style.left = left + 'px';
+                tooltip.style.width = tooltipWidth + 'px';
+                tooltip.style.top = 'auto';
+                tooltip.style.bottom = (window.innerHeight - top) + 'px';
+
+                tooltip.classList.add('visible');
+            });
+        });
+
+        // Hide tooltip on click outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('korean-word')) {
+                tooltip.classList.remove('visible');
+                document.querySelectorAll('.korean-word.clicked').forEach(function(w) {
+                    w.classList.remove('clicked');
+                });
+            }
+        });
+    })();
+
+    console.log('[OK] Korean Culture page loaded');
+</script>
+
+</body>
+</html>

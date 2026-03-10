@@ -52,7 +52,12 @@
             'phrases.html': 'phrases',
             'games.html': 'games',
             'kpop-fan-phrases.html': 'kpop',
-            'korean-trends.html': 'index'
+            'korean-trends.html': 'index',
+            'daily-korean.html': 'index',
+            'handwriting.html': 'index',
+            'korean-culture.html': 'index',
+            'challenge.html': 'index',
+            'diary.html': 'profile'
         };
 
         if (pageMap[pageName]) return pageMap[pageName];
@@ -107,7 +112,12 @@
         { t: 'Мой профиль и прогресс', u: 'profile.html', k: 'профиль прогресс статистика profile' },
         { t: 'Практика слов', u: 'vocabulary-learning.html', k: 'словарь слова vocabulary' },
         { t: 'Разговорные фразы', u: 'phrases.html', k: 'фразы разговорные phrases кафе такси врач магазин аэропорт отель ресторан ситуации' },
-        { t: 'Мини-игры', u: 'games.html', k: 'игры games memory пары виселица слово собери угадай' },
+        { t: 'Мини-игры', u: 'games.html', k: 'игры games memory пары виселица слово собери угадай диктант диалог перевод' },
+        { t: 'Корейский на каждый день', u: 'daily-korean.html', k: 'диалоги каждый день ситуации разговор daily кофе метро врач ресторан магазин банк почта' },
+        { t: 'Корейский письменный', u: 'handwriting.html', k: 'письмо хангыль почерк штрихи рукописный handwriting canvas писать' },
+        { t: 'Корейская культура', u: 'korean-culture.html', k: 'культура нунчи хан традиции общество culture этикет возраст конфуцианство' },
+        { t: 'Челлендж 30 дней', u: 'challenge.html', k: 'челлендж вызов 30 дней challenge план обучения мотивация' },
+        { t: 'Мой дневник на корейском', u: 'diary.html', k: 'дневник записи diary писать текст практика журнал' },
 
         // Уроки (53 root)
         { t: 'Урок 1: Знакомство с Кореей', u: 'lesson_01_korea/index.html', k: 'корея знакомство 1' },

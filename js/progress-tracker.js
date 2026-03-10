@@ -17,10 +17,12 @@ function initProgress() {
         completedTexts: {},
         completedLessons: {},
         completedKpop: {},
+        completedDialogues: {},
         stats: {
             totalTexts: 0,
             totalLessons: 0,
             totalKpop: 0,
+            totalDialogues: 0,
             currentStreak: 0,
             longestStreak: 0,
             lastActivityDate: null,
@@ -96,6 +98,26 @@ function markLessonCompleted(lessonId) {
     return progress;
 }
 
+// Отметить диалог как пройденный
+function markDialogueCompleted(categoryId, dialogueId) {
+    const progress = getProgress();
+    if (!progress.completedDialogues) progress.completedDialogues = {};
+    const key = categoryId + '/' + dialogueId;
+
+    progress.completedDialogues[key] = {
+        completed: true,
+        completedAt: new Date().toISOString()
+    };
+
+    if (!progress.stats.totalDialogues) progress.stats.totalDialogues = 0;
+    progress.stats.totalDialogues = Object.keys(progress.completedDialogues).length;
+    updateStreak(progress);
+
+    saveProgress(progress);
+    console.log('[+] Dialogue completed:', key);
+    return progress;
+}
+
 // Обновить серию дней
 function updateStreak(progress) {
     const today = new Date().toDateString();
@@ -154,6 +176,7 @@ window.ProgressTracker = {
     save: saveProgress,
     markTextCompleted,
     markLessonCompleted,
+    markDialogueCompleted,
     isTextCompleted,
     isLessonCompleted,
     resetProgress

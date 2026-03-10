@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Корейский на каждый день - Jane Korea</title>
+    <link href="css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
+            background-size: 300% 100%;
+            animation: gradientShift 4s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .page-header h1 {
+            font-size: 2.4em;
+            font-weight: 900;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .page-header .subtitle-kr {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .page-header .description {
+            font-size: 1.05em;
+            color: #666;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+
+        .progress-counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+
+        .progress-counter .count {
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        /* ===== CATEGORY TABS ===== */
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 5px;
+            margin-bottom: 25px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 25px;
+            border: 2px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+            flex-shrink: 0;
+        }
+
+        .category-tab:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.6);
+            transform: translateY(-2px);
+        }
+
+        .category-tab.active {
+            background: white;
+            border-color: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+
+        .category-tab .tab-icon {
+            font-size: 1.3em;
+        }
+
+        /* ===== CULTURAL NOTE ===== */
+        .cultural-note {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .cultural-note-label {
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #999;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .cultural-note-text {
+            font-size: 0.95em;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        /* ===== DIALOGUE CARDS ===== */
+        .dialogue-card {
+            background: white;
+            border-radius: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .dialogue-card:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dialogue-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 25px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            user-select: none;
+        }
+
+        .dialogue-header:hover {
+            background: #f8f9ff;
+        }
+
+        .dialogue-title-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .dialogue-title {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .dialogue-title-kr {
+            font-size: 0.9em;
+            color: #888;
+            font-weight: 400;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .difficulty-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+
+        .difficulty-badge .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .difficulty-badge.easy {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+        .difficulty-badge.easy .dot { background: #4caf50; }
+
+        .difficulty-badge.medium {
+            background: #fff3e0;
+            color: #e65100;
+        }
+        .difficulty-badge.medium .dot { background: #ff9800; }
+
+        .difficulty-badge.hard {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .difficulty-badge.hard .dot { background: #f44336; }
+
+        .expand-icon {
+            font-size: 1.2em;
+            color: #bbb;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 12px;
+        }
+
+        .dialogue-card.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .dialogue-header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .completed-badge {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .dialogue-card.completed .completed-badge {
+            display: inline-flex;
+        }
+
+        /* ===== DIALOGUE BODY ===== */
+        .dialogue-body {
+            display: none;
+            padding: 0 25px 25px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .dialogue-card.expanded .dialogue-body {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== CHAT BUBBLES ===== */
+        .chat-area {
+            background: #f0f2f5;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .chat-line {
+            display: flex;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+
+        .chat-line:last-child {
+            margin-bottom: 0;
+        }
+
+        .chat-line.customer {
+            justify-content: flex-start;
+        }
+
+        .chat-line.staff {
+            justify-content: flex-end;
+        }
+
+        .chat-bubble-wrap {
+            max-width: 75%;
+        }
+
+        .speaker-label {
+            font-size: 0.75em;
+            font-weight: 700;
+            color: #888;
+            margin-bottom: 4px;
+            padding: 0 8px;
+        }
+
+        .chat-line.staff .speaker-label {
+            text-align: right;
+        }
+
+        .chat-bubble {
+            padding: 14px 18px;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .chat-line.customer .chat-bubble {
+            background: white;
+            border-radius: 16px 16px 16px 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .chat-line.staff .chat-bubble {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 16px 16px 4px 16px;
+            box-shadow: 0 2px 8px rgba(102,126,234,0.3);
+        }
+
+        .bubble-korean {
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .bubble-translation {
+            font-size: 0.85em;
+            opacity: 0.7;
+            border-top: 1px solid rgba(0,0,0,0.06);
+            padding-top: 6px;
+            margin-top: 4px;
+        }
+
+        .chat-line.staff .bubble-translation {
+            border-top-color: rgba(255,255,255,0.2);
+        }
+
+        .bubble-grammar-note {
+            font-size: 0.78em;
+            font-style: italic;
+            color: #999;
+            margin-top: 6px;
+        }
+
+        .chat-line.staff .bubble-grammar-note {
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* ===== KOREAN WORD TOOLTIP ===== */
+        .korean-word {
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+            border-radius: 3px;
+            padding: 0 2px;
+            position: relative;
+        }
+
+        .korean-word:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .chat-line.staff .korean-word:hover {
+            background: rgba(255,255,255,0.25);
+            color: white;
+        }
+
+        .word-tooltip {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 10px;
+            font-size: 0.82em;
+            white-space: nowrap;
+            max-width: 250px;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .word-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #333;
+        }
+
+        .word-tooltip.visible {
+            opacity: 1;
+        }
+
+        .tooltip-translation {
+            font-weight: 600;
+            display: block;
+        }
+
+        .tooltip-pronunciation {
+            font-size: 0.9em;
+            opacity: 0.8;
+            display: block;
+        }
+
+        /* ===== ACTION BUTTONS ===== */
+        .dialogue-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 25px;
+            border: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .action-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .listen-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .listen-btn:hover {
+            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+        }
+
+        .listen-btn.playing {
+            background: linear-gradient(135deg, #f44336, #e91e63);
+            animation: pulse 1.5s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(244,67,54,0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(244,67,54,0); }
+        }
+
+        .grammar-toggle-btn {
+            background: #f0f2f5;
+            color: #555;
+        }
+
+        .grammar-toggle-btn:hover {
+            background: #e3e5e8;
+        }
+
+        .grammar-toggle-btn.active {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .phrases-toggle-btn {
+            background: #f0f2f5;
+            color: #555;
+        }
+
+        .phrases-toggle-btn:hover {
+            background: #e3e5e8;
+        }
+
+        .phrases-toggle-btn.active {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .complete-btn {
+            background: #e8f5e9;
+            color: #2e7d32;
+            margin-left: auto;
+        }
+
+        .complete-btn:hover {
+            background: #4caf50;
+            color: white;
+            box-shadow: 0 8px 25px rgba(76,175,80,0.4);
+        }
+
+        .complete-btn.is-completed {
+            background: #4caf50;
+            color: white;
+            cursor: default;
+        }
+
+        .complete-btn.is-completed:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* ===== GRAMMAR BREAKDOWN ===== */
+        .grammar-section,
+        .phrases-section {
+            display: none;
+            margin-top: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .grammar-section.visible,
+        .phrases-section.visible {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1em;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .grammar-card {
+            background: #f8f9ff;
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .grammar-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .grammar-pattern {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .grammar-meaning {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .grammar-examples {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .grammar-example {
+            font-size: 0.85em;
+            color: #777;
+            padding-left: 12px;
+            position: relative;
+        }
+
+        .grammar-example::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #bbb;
+        }
+
+        /* ===== USEFUL PHRASES ===== */
+        .phrase-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #fff9f0;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .phrase-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .phrase-korean {
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .phrase-translation {
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        /* ===== NO DATA STATE ===== */
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .no-data-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .no-data-text {
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 10px;
+            }
+
+            .page-header {
+                padding: 25px 20px;
+                margin-top: 15px;
+                margin-bottom: 15px;
+                border-radius: 16px;
+            }
+
+            .page-header h1 {
+                font-size: 1.7em;
+            }
+
+            .page-header .subtitle-kr {
+                font-size: 1.2em;
+            }
+
+            .page-header .description {
+                font-size: 0.9em;
+            }
+
+            .category-tabs {
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+
+            .category-tab {
+                padding: 10px 16px;
+                font-size: 0.85em;
+            }
+
+            .dialogue-header {
+                padding: 15px 18px;
+            }
+
+            .dialogue-title {
+                font-size: 0.95em;
+            }
+
+            .dialogue-body {
+                padding: 0 18px 18px;
+            }
+
+            .chat-area {
+                padding: 14px;
+            }
+
+            .chat-bubble-wrap {
+                max-width: 85%;
+            }
+
+            .bubble-korean {
+                font-size: 1em;
+            }
+
+            .dialogue-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                justify-content: center;
+            }
+
+            .complete-btn {
+                margin-left: 0;
+            }
+
+            .dialogue-title-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .phrase-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .cultural-note {
+                padding: 15px 18px;
+            }
+
+            .grammar-card {
+                padding: 14px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.4em;
+            }
+
+            .page-header .subtitle-kr {
+                font-size: 1em;
+            }
+
+            .progress-counter {
+                font-size: 0.85em;
+                padding: 8px 18px;
+            }
+
+            .category-tab {
+                padding: 8px 14px;
+                font-size: 0.8em;
+            }
+
+            .dialogue-header-right {
+                gap: 6px;
+            }
+
+            .difficulty-badge {
+                font-size: 0.7em;
+                padding: 3px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>Корейский на каждый день</h1>
+        <div class="subtitle-kr">매일 한국어</div>
+        <p class="description">
+            Практические диалоги для реальных ситуаций. Учитесь общаться в кофейнях, магазинах, ресторанах и других местах Кореи.
+        </p>
+        <div class="progress-counter">
+            Изучено <span class="count" id="progress-completed">0</span> из <span class="count" id="progress-total">0</span> диалогов
+        </div>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs" id="category-tabs"></div>
+
+    <!-- Content Area -->
+    <div id="content-area"></div>
+</div>
+
+<script src="js/daily-dialogues-data.js"></script>
+<script src="js/progress-tracker.js"></script>
+<script src="js/global-nav.js"></script>
+
+<script>
+(function() {
+    'use strict';
+
+    // =============================================
+    // STATE
+    // =============================================
+    var activeCategoryIndex = 0;
+    var currentSpeech = null;
+    var activeTooltip = null;
+
+    // =============================================
+    // DATA ACCESS
+    // =============================================
+    function getData() {
+        if (window.DailyDialoguesData && window.DailyDialoguesData.categories) {
+            return window.DailyDialoguesData.categories;
+        }
+        return [];
+    }
+
+    function getCompletedDialogues() {
+        var progress = typeof getProgress === 'function' ? getProgress() : {};
+        if (!progress.completedDialogues) {
+            progress.completedDialogues = {};
+        }
+        return progress.completedDialogues;
+    }
+
+    function markDialogueCompleted(categoryId, dialogueId) {
+        var progress = typeof getProgress === 'function' ? getProgress() : {};
+        if (!progress.completedDialogues) {
+            progress.completedDialogues = {};
+        }
+        var key = categoryId + '/' + dialogueId;
+        progress.completedDialogues[key] = {
+            completed: true,
+            completedAt: new Date().toISOString()
+        };
+        if (typeof saveProgress === 'function') {
+            saveProgress(progress);
+        }
+        return progress;
+    }
+
+    function isDialogueCompleted(categoryId, dialogueId) {
+        var completed = getCompletedDialogues();
+        var key = categoryId + '/' + dialogueId;
+        return !!completed[key];
+    }
+
+    // =============================================
+    // PROGRESS COUNTER
+    // =============================================
+    function updateProgressCounter() {
+        var categories = getData();
+        var total = 0;
+        var done = 0;
+        var completed = getCompletedDialogues();
+
+        categories.forEach(function(cat) {
+            if (cat.dialogues) {
+                cat.dialogues.forEach(function(dlg) {
+                    total++;
+                    var key = cat.id + '/' + dlg.id;
+                    if (completed[key]) done++;
+                });
+            }
+        });
+
+        var elCompleted = document.getElementById('progress-completed');
+        var elTotal = document.getElementById('progress-total');
+        if (elCompleted) elCompleted.textContent = done;
+        if (elTotal) elTotal.textContent = total;
+    }
+
+    // =============================================
+    // CATEGORY TABS
+    // =============================================
+    function renderTabs() {
+        var categories = getData();
+        var container = document.getElementById('category-tabs');
+        if (!container || categories.length === 0) return;
+
+        var html = '';
+        categories.forEach(function(cat, i) {
+            var activeClass = i === activeCategoryIndex ? ' active' : '';
+            var style = '';
+            if (i === activeCategoryIndex && cat.color) {
+                style = ' style="color: ' + cat.color + ';"';
+            }
+            html += '<button class="category-tab' + activeClass + '"' + style + ' data-index="' + i + '">';
+            html += '<span class="tab-icon">' + (cat.icon || '') + '</span>';
+            html += '<span>' + (cat.title || '') + '</span>';
+            html += '</button>';
+        });
+
+        container.innerHTML = html;
+
+        // Bind clicks
+        var tabs = container.querySelectorAll('.category-tab');
+        tabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                var idx = parseInt(this.getAttribute('data-index'), 10);
+                activeCategoryIndex = idx;
+                renderTabs();
+                renderContent();
+            });
+        });
+    }
+
+    // =============================================
+    // CONTENT RENDERING
+    // =============================================
+    function getDifficultyLabel(diff) {
+        var map = { easy: 'Легко', medium: 'Средне', hard: 'Сложно' };
+        return map[diff] || diff || '';
+    }
+
+    function renderContent() {
+        var categories = getData();
+        var container = document.getElementById('content-area');
+        if (!container) return;
+
+        if (categories.length === 0) {
+            container.innerHTML = '<div class="no-data"><div class="no-data-icon">📚</div><div class="no-data-text">Данные загружаются...</div></div>';
+            return;
+        }
+
+        var cat = categories[activeCategoryIndex];
+        if (!cat) return;
+
+        var html = '';
+
+        // Cultural note
+        if (cat.culturalNote) {
+            html += '<div class="cultural-note" style="border-left-color: ' + (cat.color || '#667eea') + ';">';
+            html += '<div class="cultural-note-label">Культурная заметка</div>';
+            html += '<div class="cultural-note-text">' + cat.culturalNote + '</div>';
+            html += '</div>';
+        }
+
+        // Dialogue cards
+        if (cat.dialogues && cat.dialogues.length > 0) {
+            cat.dialogues.forEach(function(dlg, dIdx) {
+                var completedClass = isDialogueCompleted(cat.id, dlg.id) ? ' completed' : '';
+                var difficulty = dlg.difficulty || 'easy';
+
+                html += '<div class="dialogue-card' + completedClass + '" data-cat="' + cat.id + '" data-dlg="' + dlg.id + '" data-index="' + dIdx + '">';
+
+                // Header
+                html += '<div class="dialogue-header" onclick="window.__dailyToggleCard(this)">';
+                html += '<div class="dialogue-title-group">';
+                html += '<span class="dialogue-title">' + (dlg.title || '') + '</span>';
+                html += '<span class="dialogue-title-kr">' + (dlg.titleKr || '') + '</span>';
+                html += '</div>';
+                html += '<div class="dialogue-header-right">';
+                html += '<span class="completed-badge">[OK] Изучено</span>';
+                html += '<span class="difficulty-badge ' + difficulty + '"><span class="dot"></span>' + getDifficultyLabel(difficulty) + '</span>';
+                html += '<span class="expand-icon">&#9660;</span>';
+                html += '</div>';
+                html += '</div>';
+
+                // Body
+                html += '<div class="dialogue-body">';
+
+                // Chat area
+                html += '<div class="chat-area">';
+                if (dlg.lines && dlg.lines.length > 0) {
+                    dlg.lines.forEach(function(line, lineIdx) {
+                        var isStaff = lineIdx % 2 !== 0;
+                        var lineClass = isStaff ? 'staff' : 'customer';
+
+                        html += '<div class="chat-line ' + lineClass + '">';
+                        html += '<div class="chat-bubble-wrap">';
+                        html += '<div class="speaker-label">' + (line.speakerRu || line.speaker || '') + ' (' + (line.speaker || '') + ')</div>';
+                        html += '<div class="chat-bubble">';
+                        html += '<div class="bubble-korean">' + (line.korean || '') + '</div>';
+                        html += '<div class="bubble-translation">' + (line.translation || '') + '</div>';
+                        if (line.grammarNote) {
+                            html += '<div class="bubble-grammar-note">' + line.grammarNote + '</div>';
+                        }
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                    });
+                }
+                html += '</div>';
+
+                // Action buttons
+                html += '<div class="dialogue-actions">';
+                html += '<button class="action-btn listen-btn" data-cat-index="' + activeCategoryIndex + '" data-dlg-index="' + dIdx + '" onclick="window.__dailyListen(this)">&#9654; Прослушать</button>';
+                html += '<button class="action-btn grammar-toggle-btn" onclick="window.__dailyToggleGrammar(this)">&#128218; Грамматика</button>';
+                html += '<button class="action-btn phrases-toggle-btn" onclick="window.__dailyTogglePhrases(this)">&#128172; Фразы</button>';
+
+                var completeBtnClass = isDialogueCompleted(cat.id, dlg.id) ? ' is-completed' : '';
+                var completeBtnText = isDialogueCompleted(cat.id, dlg.id) ? '[OK] Изучено' : 'Изучено';
+                html += '<button class="action-btn complete-btn' + completeBtnClass + '" data-cat="' + cat.id + '" data-dlg="' + dlg.id + '" onclick="window.__dailyComplete(this)">' + completeBtnText + '</button>';
+                html += '</div>';
+
+                // Grammar section
+                if (dlg.grammarBreakdown && dlg.grammarBreakdown.length > 0) {
+                    html += '<div class="grammar-section">';
+                    html += '<div class="section-title">&#128218; Разбор грамматики</div>';
+                    dlg.grammarBreakdown.forEach(function(gb) {
+                        html += '<div class="grammar-card">';
+                        html += '<div class="grammar-pattern">' + (gb.pattern || '') + '</div>';
+                        html += '<div class="grammar-meaning">' + (gb.meaning || '') + '</div>';
+                        if (gb.examples && gb.examples.length > 0) {
+                            html += '<div class="grammar-examples">';
+                            gb.examples.forEach(function(ex) {
+                                html += '<div class="grammar-example">' + ex + '</div>';
+                            });
+                            html += '</div>';
+                        }
+                        html += '</div>';
+                    });
+                    html += '</div>';
+                }
+
+                // Useful phrases section
+                if (dlg.usefulPhrases && dlg.usefulPhrases.length > 0) {
+                    html += '<div class="phrases-section">';
+                    html += '<div class="section-title">&#128172; Полезные фразы</div>';
+                    dlg.usefulPhrases.forEach(function(ph) {
+                        html += '<div class="phrase-item">';
+                        html += '<span class="phrase-korean">' + (ph.korean || '') + '</span>';
+                        html += '<span class="phrase-translation">' + (ph.translation || '') + '</span>';
+                        html += '</div>';
+                    });
+                    html += '</div>';
+                }
+
+                html += '</div>'; // dialogue-body
+                html += '</div>'; // dialogue-card
+            });
+        }
+
+        container.innerHTML = html;
+
+        // Bind tooltips for korean words
+        bindKoreanWordTooltips();
+    }
+
+    // =============================================
+    // TOGGLE CARD
+    // =============================================
+    window.__dailyToggleCard = function(headerEl) {
+        var card = headerEl.closest('.dialogue-card');
+        if (!card) return;
+        card.classList.toggle('expanded');
+    };
+
+    // =============================================
+    // LISTEN (Speech Synthesis)
+    // =============================================
+    window.__dailyListen = function(btn) {
+        // Stop if already playing
+        if (currentSpeech) {
+            window.speechSynthesis.cancel();
+            currentSpeech = null;
+            btn.classList.remove('playing');
+            btn.innerHTML = '&#9654; Прослушать';
+            return;
+        }
+
+        var catIndex = parseInt(btn.getAttribute('data-cat-index'), 10);
+        var dlgIndex = parseInt(btn.getAttribute('data-dlg-index'), 10);
+        var categories = getData();
+        var cat = categories[catIndex];
+        if (!cat || !cat.dialogues || !cat.dialogues[dlgIndex]) return;
+        var dlg = cat.dialogues[dlgIndex];
+        if (!dlg.lines || dlg.lines.length === 0) return;
+
+        btn.classList.add('playing');
+        btn.innerHTML = '&#9724; Остановить';
+
+        // Extract Korean text from HTML spans
+        var tempDiv = document.createElement('div');
+        var koreanTexts = dlg.lines.map(function(line) {
+            tempDiv.innerHTML = line.korean || '';
+            return tempDiv.textContent || tempDiv.innerText || '';
+        });
+
+        var index = 0;
+        currentSpeech = true;
+
+        function speakNext() {
+            if (index >= koreanTexts.length || !currentSpeech) {
+                currentSpeech = null;
+                btn.classList.remove('playing');
+                btn.innerHTML = '&#9654; Прослушать';
+                return;
+            }
+
+            var utterance = new SpeechSynthesisUtterance(koreanTexts[index]);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.8;
+            utterance.onend = function() {
+                index++;
+                setTimeout(speakNext, 400);
+            };
+            utterance.onerror = function() {
+                index++;
+                setTimeout(speakNext, 200);
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        speakNext();
+    };
+
+    // =============================================
+    // TOGGLE GRAMMAR
+    // =============================================
+    window.__dailyToggleGrammar = function(btn) {
+        var body = btn.closest('.dialogue-body');
+        if (!body) return;
+        var section = body.querySelector('.grammar-section');
+        if (!section) return;
+
+        var isVisible = section.classList.contains('visible');
+        section.classList.toggle('visible');
+        btn.classList.toggle('active');
+    };
+
+    // =============================================
+    // TOGGLE PHRASES
+    // =============================================
+    window.__dailyTogglePhrases = function(btn) {
+        var body = btn.closest('.dialogue-body');
+        if (!body) return;
+        var section = body.querySelector('.phrases-section');
+        if (!section) return;
+
+        section.classList.toggle('visible');
+        btn.classList.toggle('active');
+    };
+
+    // =============================================
+    // COMPLETE DIALOGUE
+    // =============================================
+    window.__dailyComplete = function(btn) {
+        if (btn.classList.contains('is-completed')) return;
+
+        var catId = btn.getAttribute('data-cat');
+        var dlgId = btn.getAttribute('data-dlg');
+        markDialogueCompleted(catId, dlgId);
+
+        btn.classList.add('is-completed');
+        btn.textContent = '[OK] Изучено';
+
+        // Mark card
+        var card = btn.closest('.dialogue-card');
+        if (card) card.classList.add('completed');
+
+        updateProgressCounter();
+        console.log('[+] Dialogue completed:', catId + '/' + dlgId);
+    };
+
+    // =============================================
+    // KOREAN WORD TOOLTIPS
+    // =============================================
+    function bindKoreanWordTooltips() {
+        var words = document.querySelectorAll('#content-area .korean-word');
+        words.forEach(function(word) {
+            word.addEventListener('mouseenter', showTooltip);
+            word.addEventListener('mouseleave', hideTooltip);
+            word.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (activeTooltip && activeTooltip.parentElement === this) {
+                    hideTooltip.call(this);
+                } else {
+                    showTooltip.call(this);
+                }
+            });
+        });
+    }
+
+    function showTooltip() {
+        hideAllTooltips();
+
+        var translation = this.getAttribute('data-translation');
+        var pronunciation = this.getAttribute('data-pronunciation');
+        if (!translation && !pronunciation) return;
+
+        var tooltip = document.createElement('div');
+        tooltip.className = 'word-tooltip';
+
+        var html = '';
+        if (translation) {
+            html += '<span class="tooltip-translation">' + translation + '</span>';
+        }
+        if (pronunciation) {
+            html += '<span class="tooltip-pronunciation">' + pronunciation + '</span>';
+        }
+        tooltip.innerHTML = html;
+
+        this.style.position = 'relative';
+        this.appendChild(tooltip);
+        activeTooltip = tooltip;
+
+        // Force reflow then show
+        tooltip.offsetHeight;
+        tooltip.classList.add('visible');
+
+        // Adjust if goes off-screen
+        var rect = tooltip.getBoundingClientRect();
+        if (rect.left < 5) {
+            tooltip.style.left = '0';
+            tooltip.style.transform = 'none';
+        } else if (rect.right > window.innerWidth - 5) {
+            tooltip.style.left = 'auto';
+            tooltip.style.right = '0';
+            tooltip.style.transform = 'none';
+        }
+    }
+
+    function hideTooltip() {
+        var tooltip = this.querySelector('.word-tooltip');
+        if (tooltip) {
+            tooltip.remove();
+            if (activeTooltip === tooltip) activeTooltip = null;
+        }
+    }
+
+    function hideAllTooltips() {
+        var tooltips = document.querySelectorAll('.word-tooltip');
+        tooltips.forEach(function(t) { t.remove(); });
+        activeTooltip = null;
+    }
+
+    // Close tooltips on outside click
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.korean-word')) {
+            hideAllTooltips();
+        }
+    });
+
+    // =============================================
+    // INIT
+    // =============================================
+    function init() {
+        renderTabs();
+        renderContent();
+        updateProgressCounter();
+        console.log('[OK] Daily Korean page loaded');
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+})();
+</script>
+
+</body>
+</html>

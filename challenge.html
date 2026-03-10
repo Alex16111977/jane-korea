@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Челлендж 30 дней - Jane Korea</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        /* ==================== HEADER ==================== */
+        .challenge-header {
+            background: #fff;
+            border-radius: 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 40px 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .challenge-header h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .challenge-header .korean-subtitle {
+            font-size: 1.3rem;
+            color: #764ba2;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .challenge-header .description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 24px;
+        }
+
+        /* ==================== PROGRESS BAR ==================== */
+        .progress-section {
+            margin-bottom: 10px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-track {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+            min-width: 0;
+        }
+
+        /* ==================== CONTROLS ==================== */
+        .controls {
+            max-width: 900px;
+            margin: 16px auto;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            font-size: 1.15rem;
+            padding: 16px 40px;
+            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+        }
+
+        .btn-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.5);
+        }
+
+        .btn-restart {
+            background: #ff7043;
+            color: #fff;
+            font-size: 0.9rem;
+            padding: 10px 22px;
+        }
+
+        .btn-restart:hover {
+            background: #f4511e;
+        }
+
+        .btn-again {
+            background: linear-gradient(135deg, #43a047, #66bb6a);
+            color: #fff;
+            font-size: 1.1rem;
+            padding: 14px 36px;
+            box-shadow: 0 6px 20px rgba(67,160,71,0.4);
+        }
+
+        .btn-again:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(67,160,71,0.5);
+        }
+
+        .completion-msg {
+            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 14px;
+            color: #2e7d32;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        /* ==================== CALENDAR GRID ==================== */
+        .calendar-container {
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+        }
+
+        .day-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 8px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            cursor: default;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .day-card .day-number {
+            font-size: 0.8rem;
+            color: #999;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .day-card .day-icon {
+            font-size: 1.6rem;
+            margin-bottom: 4px;
+        }
+
+        .day-card .day-title {
+            font-size: 0.75rem;
+            color: #555;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+
+        /* --- Locked --- */
+        .day-card.locked {
+            opacity: 0.45;
+            background: #eee;
+        }
+
+        .day-card.locked .day-icon {
+            filter: grayscale(1);
+        }
+
+        /* --- Available --- */
+        .day-card.available {
+            border: 2px solid #667eea;
+            cursor: pointer;
+        }
+
+        .day-card.available:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.25);
+        }
+
+        /* --- Current --- */
+        .day-card.current {
+            border: 2px solid #764ba2;
+            cursor: pointer;
+            animation: pulseCard 2s infinite;
+        }
+
+        @keyframes pulseCard {
+            0% { box-shadow: 0 4px 15px rgba(118,75,162,0.15); }
+            50% { box-shadow: 0 4px 25px rgba(118,75,162,0.45); }
+            100% { box-shadow: 0 4px 15px rgba(118,75,162,0.15); }
+        }
+
+        /* --- Completed --- */
+        .day-card.completed {
+            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+            border: 2px solid #66bb6a;
+            cursor: pointer;
+        }
+
+        .day-card.completed .day-number {
+            color: #2e7d32;
+        }
+
+        .day-card.completed .day-title {
+            color: #2e7d32;
+        }
+
+        .day-card.completed::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            right: 8px;
+            width: 18px;
+            height: 18px;
+            background: #43a047;
+            border-radius: 50%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+            background-size: 12px;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* ==================== DAY DETAIL PANEL ==================== */
+        .day-detail {
+            max-width: 900px;
+            margin: 16px auto;
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .day-detail.visible {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .day-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .day-detail-header .title-group h2 {
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .day-detail-header .title-group .kr {
+            font-size: 1rem;
+            color: #764ba2;
+            font-weight: 500;
+        }
+
+        .btn-close-detail {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #999;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn-close-detail:hover {
+            background: #f0f0f0;
+            color: #555;
+        }
+
+        /* --- Task list --- */
+        .task-list {
+            list-style: none;
+            margin-bottom: 24px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
+        .task-checkbox {
+            width: 22px;
+            height: 22px;
+            margin-top: 2px;
+            accent-color: #667eea;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-content .task-desc {
+            font-size: 0.95rem;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .task-content .task-link {
+            display: inline-block;
+            margin-top: 4px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .task-content .task-link:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .task-item.task-done .task-desc {
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .btn-complete-day {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-family: inherit;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-complete-day:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .btn-complete-day:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+        }
+
+        /* ==================== CELEBRATION MODAL ==================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 460px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalPop 0.4s ease;
+        }
+
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-content .trophy {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .modal-content h2 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .modal-content .congrats-kr {
+            color: #764ba2;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+
+        .modal-content p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .modal-stats {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin: 20px 0;
+        }
+
+        .modal-stat {
+            text-align: center;
+        }
+
+        .modal-stat .stat-val {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .modal-stat .stat-label {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .btn-modal-close {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-modal-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+        }
+
+        /* --- Confetti CSS animation --- */
+        .confetti-container {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: -20px;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(500px) rotate(720deg); opacity: 0; }
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                padding-bottom: 100px;
+            }
+
+            .challenge-header {
+                padding: 24px 16px;
+                border-radius: 16px;
+            }
+
+            .challenge-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .calendar-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .day-card {
+                min-height: 100px;
+                padding: 10px 6px;
+                border-radius: 12px;
+            }
+
+            .day-card .day-icon {
+                font-size: 1.3rem;
+            }
+
+            .day-card .day-title {
+                font-size: 0.7rem;
+            }
+
+            .day-detail {
+                padding: 20px 16px;
+                border-radius: 16px;
+            }
+
+            .modal-content {
+                padding: 28px 20px;
+            }
+
+            .modal-stats {
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================== HEADER ==================== -->
+<div class="challenge-header" id="challengeHeader">
+    <h1>Челлендж 30 дней</h1>
+    <div class="korean-subtitle">30일 챌린지</div>
+    <p class="description">
+        Изучайте корейский каждый день! Выполняйте 3 задания ежедневно, чтобы продвинуться от алфавита к свободному общению.
+        Каждый день разблокируется после выполнения предыдущего.
+    </p>
+    <div class="progress-section">
+        <div class="progress-label">
+            <span id="progressText">0 / 30 дней</span>
+            <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ==================== CONTROLS ==================== -->
+<div class="controls" id="controls"></div>
+
+<!-- ==================== CALENDAR ==================== -->
+<div class="calendar-container">
+    <div class="calendar-grid" id="calendarGrid"></div>
+</div>
+
+<!-- ==================== DAY DETAIL ==================== -->
+<div class="day-detail" id="dayDetail"></div>
+
+<!-- ==================== CELEBRATION MODAL ==================== -->
+<div class="modal-overlay" id="celebrationModal">
+    <div class="modal-content">
+        <div class="confetti-container" id="confettiBox"></div>
+        <div class="trophy">🏆</div>
+        <h2>Поздравляем!</h2>
+        <div class="congrats-kr">축하합니다!</div>
+        <p>Вы прошли 30-дневный челлендж по изучению корейского языка!</p>
+        <div class="modal-stats">
+            <div class="modal-stat">
+                <div class="stat-val" id="modalDays">30</div>
+                <div class="stat-label">дней</div>
+            </div>
+            <div class="modal-stat">
+                <div class="stat-val" id="modalTasks">90</div>
+                <div class="stat-label">заданий</div>
+            </div>
+            <div class="modal-stat">
+                <div class="stat-val" id="modalHours">15</div>
+                <div class="stat-label">часов</div>
+            </div>
+        </div>
+        <button class="btn-modal-close" onclick="closeCelebration()">Отлично!</button>
+    </div>
+</div>
+
+<!-- ==================== SCRIPTS ==================== -->
+<script src="js/progress-tracker.js"></script>
+<script src="js/global-nav.js"></script>
+
+<script>
+(function() {
+    'use strict';
+
+    // =============================================
+    // 30 DAYS DATA
+    // =============================================
+    var challengeData = [
+        {
+            day: 1,
+            title: 'Старт! Алфавит',
+            titleKr: '시작! 한글',
+            icon: '🔤',
+            tasks: [
+                { desc: 'Пройдите урок по корейскому алфавиту (гласные)', link: 'lesson_02_alphabet/index.html', linkText: 'Урок: Алфавит' },
+                { desc: 'Выучите 5 базовых гласных: ㅏ (а), ㅓ (о), ㅗ (о), ㅜ (у), ㅡ (ы)', link: null, linkText: null },
+                { desc: 'Напишите каждую гласную 10 раз на бумаге для запоминания', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 2,
+            title: 'Согласные',
+            titleKr: '자음',
+            icon: '🅱',
+            tasks: [
+                { desc: 'Пройдите урок по алфавиту (раздел согласных)', link: 'lesson_02_alphabet/index.html', linkText: 'Урок: Алфавит' },
+                { desc: 'Выучите 5 согласных: ㄱ (г/к), ㄴ (н), ㄷ (д/т), ㄹ (р/л), ㅁ (м)', link: null, linkText: null },
+                { desc: 'Потренируйтесь писать согласные и составлять слоги', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 3,
+            title: 'Первые слова',
+            titleKr: '첫 단어',
+            icon: '📝',
+            tasks: [
+                { desc: 'Выучите 10 базовых слов: 물 (вода), 밥 (рис), 집 (дом), 사람 (человек), 나 (я), 너 (ты), 좋다 (хороший), 크다 (большой), 하나 (один), 이것 (это)', link: null, linkText: null },
+                { desc: 'Потренируйте слова с карточками в разделе словаря', link: 'vocabulary-learning.html', linkText: 'Словарь' },
+                { desc: 'Напишите каждое слово 5 раз и произнесите вслух', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 4,
+            title: 'Приветствия',
+            titleKr: '인사',
+            icon: '👋',
+            tasks: [
+                { desc: 'Пройдите урок по приветствиям и базовым фразам', link: 'lesson_03_greetings/index.html', linkText: 'Урок: Приветствия' },
+                { desc: 'Выучите фразы: 안녕하세요, 감사합니다, 죄송합니다, 네, 아니요', link: null, linkText: null },
+                { desc: 'Потренируйте произношение, повторяя каждую фразу 5 раз вслух', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 5,
+            title: 'Числа',
+            titleKr: '숫자',
+            icon: '🔢',
+            tasks: [
+                { desc: 'Пройдите урок по корейским числам', link: 'lesson_04_numbers/index.html', linkText: 'Урок: Числа' },
+                { desc: 'Выучите числа от 1 до 10: 하나, 둘, 셋, 넷, 다섯, 여섯, 일곱, 여덟, 아홉, 열', link: null, linkText: null },
+                { desc: 'Посчитайте предметы вокруг себя по-корейски', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 6,
+            title: 'Представление',
+            titleKr: '자기소개',
+            icon: '🙋',
+            tasks: [
+                { desc: 'Пройдите вводный урок о Корее и базовых понятиях', link: 'lesson_01_korea/index.html', linkText: 'Урок: О Корее' },
+                { desc: 'Напишите самопредставление на корейском: имя, страна, возраст', link: null, linkText: null },
+                { desc: 'Прочитайте текст начального уровня в разделе чтения', link: 'reading-texts.html', linkText: 'Тексты для чтения' }
+            ]
+        },
+        {
+            day: 7,
+            title: 'Ревизия',
+            titleKr: '복습',
+            icon: '🔄',
+            tasks: [
+                { desc: 'Повторите все слова, выученные за первую неделю (минимум 30 слов)', link: 'vocabulary-learning.html', linkText: 'Словарь' },
+                { desc: 'Сыграйте в мини-игры для закрепления материала', link: 'games.html', linkText: 'Игры' },
+                { desc: 'Проверьте себя: напишите 10 слов по памяти и проверьте', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 8,
+            title: 'В кафе',
+            titleKr: '카페에서',
+            icon: '☕',
+            tasks: [
+                { desc: 'Изучите диалог в кафе на странице ежедневного корейского', link: 'daily-korean.html', linkText: 'Ежедневный корейский' },
+                { desc: 'Выучите слова: 커피 (кофе), 차 (чай), 주세요 (дайте пожалуйста), 얼마예요 (сколько стоит), 메뉴 (меню)', link: null, linkText: null },
+                { desc: 'Разыграйте диалог заказа в кафе, говоря обе роли вслух', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 9,
+            title: 'Частицы',
+            titleKr: '조사',
+            icon: '🧩',
+            tasks: [
+                { desc: 'Пройдите урок по корейским частицам (은/는, 이/가, 을/를)', link: 'lesson_05_family/index.html', linkText: 'Урок: Частицы и семья' },
+                { desc: 'Потренируйтесь подставлять частицы в предложения', link: null, linkText: null },
+                { desc: 'Составьте 5 предложений с правильными частицами', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 10,
+            title: 'Время',
+            titleKr: '시간',
+            icon: '⏰',
+            tasks: [
+                { desc: 'Выучите слова времени: 오늘 (сегодня), 내일 (завтра), 어제 (вчера), 아침 (утро), 저녁 (вечер)', link: null, linkText: null },
+                { desc: 'Пройдите урок по грамматике (основы предложений)', link: 'lesson_06_grammar/index.html', linkText: 'Урок: Грамматика' },
+                { desc: 'Потренируйтесь называть текущее время по-корейски', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 11,
+            title: 'Семья',
+            titleKr: '가족',
+            icon: '👨‍👩‍👧‍👦',
+            tasks: [
+                { desc: 'Пройдите урок по теме семьи', link: 'lesson_05_family/index.html', linkText: 'Урок: Семья' },
+                { desc: 'Выучите: 어머니 (мама), 아버지 (папа), 형/오빠 (брат), 누나/언니 (сестра), 가족 (семья)', link: null, linkText: null },
+                { desc: 'Опишите свою семью на корейском (3-5 предложений)', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 12,
+            title: 'Вежливость',
+            titleKr: '존댓말',
+            icon: '🎩',
+            tasks: [
+                { desc: 'Пройдите урок по вежливой речи', link: 'lesson_08_politeness/index.html', linkText: 'Урок: Вежливость' },
+                { desc: 'Потренируйте вежливые формы глаголов: 해요, 가요, 먹어요, 마셔요', link: null, linkText: null },
+                { desc: 'Сравните вежливую и неформальную речь: напишите 5 пар предложений', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 13,
+            title: 'Еда',
+            titleKr: '음식',
+            icon: '🍜',
+            tasks: [
+                { desc: 'Выучите слова о еде: 김치 (кимчи), 비빔밥 (пибимпап), 불고기 (пульгоги), 떡볶이 (ттокпокки), 맛있다 (вкусно)', link: null, linkText: null },
+                { desc: 'Изучите диалог в ресторане на странице ежедневного корейского', link: 'daily-korean.html', linkText: 'Ежедневный корейский' },
+                { desc: 'Разыграйте диалог заказа еды в ресторане вслух', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 14,
+            title: 'Ревизия',
+            titleKr: '복습',
+            icon: '🔄',
+            tasks: [
+                { desc: 'Повторите все слова и грамматику второй недели', link: 'vocabulary-learning.html', linkText: 'Словарь' },
+                { desc: 'Пройдите мини-игры на скорость', link: 'games.html', linkText: 'Игры' },
+                { desc: 'Пройдите тест: составьте 10 предложений по памяти и проверьте', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 15,
+            title: 'Прошедшее время',
+            titleKr: '과거',
+            icon: '⏪',
+            tasks: [
+                { desc: 'Пройдите урок по прошедшему времени глаголов', link: 'lesson_27_past_tense/index.html', linkText: 'Урок: Прошедшее время' },
+                { desc: 'Потренируйтесь: 갔어요 (ходил), 먹었어요 (ел), 했어요 (делал), 봤어요 (видел)', link: null, linkText: null },
+                { desc: 'Напишите короткую запись в дневнике о вчерашнем дне на корейском', link: 'diary.html', linkText: 'Дневник' }
+            ]
+        },
+        {
+            day: 16,
+            title: 'Транспорт',
+            titleKr: '교통',
+            icon: '🚇',
+            tasks: [
+                { desc: 'Выучите слова: 버스 (автобус), 지하철 (метро), 택시 (такси), 역 (станция), 어디 (где)', link: null, linkText: null },
+                { desc: 'Изучите диалог о транспорте в ежедневном корейском', link: 'daily-korean.html', linkText: 'Ежедневный корейский' },
+                { desc: 'Потренируйтесь объяснять дорогу: 오른쪽 (направо), 왼쪽 (налево), 직진 (прямо)', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 17,
+            title: 'Покупки',
+            titleKr: '쇼핑',
+            icon: '🛍',
+            tasks: [
+                { desc: 'Выучите слова: 가게 (магазин), 싸다 (дешевый), 비싸다 (дорогой), 사다 (покупать), 돈 (деньги)', link: null, linkText: null },
+                { desc: 'Изучите диалог в магазине в ежедневном корейском', link: 'daily-korean.html', linkText: 'Ежедневный корейский' },
+                { desc: 'Потренируйте числа: сколько стоит? 이거 얼마예요? Составьте 5 диалогов', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 18,
+            title: 'Погода',
+            titleKr: '날씨',
+            icon: '🌤',
+            tasks: [
+                { desc: 'Выучите слова: 날씨 (погода), 덥다 (жарко), 춥다 (холодно), 비 (дождь), 눈 (снег)', link: null, linkText: null },
+                { desc: 'Опишите сегодняшнюю погоду на корейском (3-5 предложений)', link: null, linkText: null },
+                { desc: 'Прослушайте и повторите: 오늘 날씨가 좋아요 (сегодня хорошая погода) 5 раз', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 19,
+            title: 'Хобби',
+            titleKr: '취미',
+            icon: '🎨',
+            tasks: [
+                { desc: 'Выучите слова: 취미 (хобби), 운동 (спорт), 영화 (фильм), 음악 (музыка), 읽다 (читать)', link: null, linkText: null },
+                { desc: 'Опишите свои хобби на корейском: 제 취미는 ... 입니다', link: null, linkText: null },
+                { desc: 'Прочитайте текст о хобби в разделе чтения', link: 'reading-texts.html', linkText: 'Тексты для чтения' }
+            ]
+        },
+        {
+            day: 20,
+            title: 'Культура',
+            titleKr: '문화',
+            icon: '🏯',
+            tasks: [
+                { desc: 'Прочитайте статью о корейской культуре на странице культуры', link: 'korean-culture.html', linkText: 'Корейская культура' },
+                { desc: 'Выучите культурные фразы: 잘 먹겠습니다 (приятного аппетита), 잘 먹었습니다 (спасибо за еду), 수고하세요 (удачи в работе)', link: null, linkText: null },
+                { desc: 'Запишите 3 интересных факта о корейской культуре, которые вы узнали', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 21,
+            title: 'Ревизия',
+            titleKr: '복습',
+            icon: '🔄',
+            tasks: [
+                { desc: 'Повторите материал третьей недели: грамматику, слова, диалоги', link: 'vocabulary-learning.html', linkText: 'Словарь' },
+                { desc: 'Пройдите игру-конструктор диалогов', link: 'games.html', linkText: 'Игры' },
+                { desc: 'Комплексный тест: напишите рассказ о себе на 10 предложений на корейском', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 22,
+            title: 'Будущее время',
+            titleKr: '미래',
+            icon: '⏩',
+            tasks: [
+                { desc: 'Пройдите урок по будущему времени', link: 'lesson_30_future_tense/index.html', linkText: 'Урок: Будущее время' },
+                { desc: 'Составьте планы на корейском: 내일 ... 할 거예요 (завтра я буду ...)', link: null, linkText: null },
+                { desc: 'Напишите 5 целей на корейском языке, используя будущее время', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 23,
+            title: 'Здоровье',
+            titleKr: '건강',
+            icon: '🏥',
+            tasks: [
+                { desc: 'Выучите слова: 머리 (голова), 배 (живот), 아프다 (болеть), 약 (лекарство), 병원 (больница)', link: null, linkText: null },
+                { desc: 'Изучите диалог у врача в ежедневном корейском', link: 'daily-korean.html', linkText: 'Ежедневный корейский' },
+                { desc: 'Потренируйтесь описывать симптомы: 머리가 아파요, 배가 아파요', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 24,
+            title: 'Эмоции',
+            titleKr: '감정',
+            icon: '😊',
+            tasks: [
+                { desc: 'Выучите слова: 기쁘다 (радостный), 슬프다 (грустный), 화나다 (злиться), 행복하다 (счастливый), 피곤하다 (уставший)', link: null, linkText: null },
+                { desc: 'Выразите свои чувства на корейском: 오늘 기분이 ... (сегодня настроение ...)', link: null, linkText: null },
+                { desc: 'Напишите запись в дневнике на корейском о своих эмоциях за день', link: 'diary.html', linkText: 'Дневник' }
+            ]
+        },
+        {
+            day: 25,
+            title: 'K-POP',
+            titleKr: '케이팝',
+            icon: '🎵',
+            tasks: [
+                { desc: 'Изучите K-POP раздел и выберите одну песню для изучения', link: 'kpop-learning.html', linkText: 'K-POP обучение' },
+                { desc: 'Выучите 5 фраз из выбранной песни и их перевод', link: null, linkText: null },
+                { desc: 'Попробуйте подпевать, следя за текстом на корейском', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 26,
+            title: 'Просьбы',
+            titleKr: '부탁',
+            icon: '🙏',
+            tasks: [
+                { desc: 'Изучите грамматику просьб и предложений', link: 'lesson_59_suggestion_eulkayo/index.html', linkText: 'Урок: Предложения' },
+                { desc: 'Потренируйте вежливые просьбы: ... 해 주세요, ... 해 주시겠어요?', link: null, linkText: null },
+                { desc: 'Разыграйте 3 ситуации, в которых нужно попросить о помощи по-корейски', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 27,
+            title: 'Сравнение',
+            titleKr: '비교',
+            icon: '⚖',
+            tasks: [
+                { desc: 'Пройдите урок по сравнительным конструкциям', link: 'lesson_81_comparative_constructions/index.html', linkText: 'Урок: Сравнения' },
+                { desc: 'Сравните предметы: А보다 Б가 더 ... (Б больше/лучше чем А)', link: null, linkText: null },
+                { desc: 'Опишите 5 различий между двумя предметами на корейском', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 28,
+            title: 'Ревизия',
+            titleKr: '복습',
+            icon: '🔄',
+            tasks: [
+                { desc: 'Повторите материал четвёртой недели', link: 'vocabulary-learning.html', linkText: 'Словарь' },
+                { desc: 'Пройдите все мини-игры для комплексного повторения', link: 'games.html', linkText: 'Игры' },
+                { desc: 'Полный тест: напишите письмо другу на корейском (10+ предложений)', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 29,
+            title: 'Письмо',
+            titleKr: '편지',
+            icon: '✉',
+            tasks: [
+                { desc: 'Потренируйтесь писать корейские буквы от руки на странице рукописи', link: 'handwriting.html', linkText: 'Рукопись' },
+                { desc: 'Напишите короткое письмо на корейском (приветствие, рассказ о себе, пожелание)', link: null, linkText: null },
+                { desc: 'Потренируйте каллиграфию: напишите пословицу 가는 말이 고우면 오는 말이 곱다', link: null, linkText: null }
+            ]
+        },
+        {
+            day: 30,
+            title: 'Финал!',
+            titleKr: '완성!',
+            icon: '🎉',
+            tasks: [
+                { desc: 'Комплексное повторение: пройдитесь по всем темам и проверьте знания', link: 'vocabulary-learning.html', linkText: 'Словарь' },
+                { desc: 'Запишите себя на аудио/видео, говоря по-корейски 1-2 минуты о себе', link: null, linkText: null },
+                { desc: 'Отпразднуйте! Вы прошли 30-дневный челлендж по корейскому языку!', link: null, linkText: null }
+            ]
+        }
+    ];
+
+    // =============================================
+    // STATE
+    // =============================================
+    var selectedDay = null;
+
+    function getChallengeState() {
+        var progress = window.ProgressTracker.get();
+        if (!progress.challenge30) {
+            progress.challenge30 = {
+                startDate: null,
+                currentDay: 0,
+                completedDays: {},
+                isActive: false,
+                completedChallenge: false
+            };
+            window.ProgressTracker.save(progress);
+        }
+        return progress;
+    }
+
+    // =============================================
+    // RENDER
+    // =============================================
+    function render() {
+        var progress = getChallengeState();
+        var ch = progress.challenge30;
+        var completedCount = Object.keys(ch.completedDays).length;
+
+        renderProgress(completedCount);
+        renderControls(ch, completedCount);
+        renderCalendar(ch);
+        if (selectedDay !== null) {
+            renderDayDetail(selectedDay, ch);
+        }
+    }
+
+    function renderProgress(completed) {
+        var pct = Math.round((completed / 30) * 100);
+        document.getElementById('progressText').textContent = completed + ' / 30 дней';
+        document.getElementById('progressPercent').textContent = pct + '%';
+        document.getElementById('progressFill').style.width = pct + '%';
+    }
+
+    function renderControls(ch, completedCount) {
+        var el = document.getElementById('controls');
+
+        if (!ch.isActive && !ch.completedChallenge) {
+            el.innerHTML = '<button class="btn btn-start" onclick="startChallenge()">Начать челлендж</button>';
+        } else if (ch.completedChallenge) {
+            el.innerHTML =
+                '<div class="completion-msg">Вы успешно завершили 30-дневный челлендж! 축하합니다!</div>' +
+                '<button class="btn btn-again" onclick="restartChallenge()">Пройти заново</button>';
+        } else {
+            el.innerHTML = '<button class="btn btn-restart" onclick="restartChallenge()">Перезапустить челлендж</button>';
+        }
+    }
+
+    function renderCalendar(ch) {
+        var grid = document.getElementById('calendarGrid');
+        grid.innerHTML = '';
+
+        for (var i = 0; i < 30; i++) {
+            var dayNum = i + 1;
+            var data = challengeData[i];
+            var state = getDayState(dayNum, ch);
+
+            var card = document.createElement('div');
+            card.className = 'day-card ' + state;
+            card.setAttribute('data-day', dayNum);
+
+            card.innerHTML =
+                '<div class="day-number">День ' + dayNum + '</div>' +
+                '<div class="day-icon">' + data.icon + '</div>' +
+                '<div class="day-title">' + data.title + '</div>';
+
+            if (state === 'available' || state === 'current' || state === 'completed') {
+                card.addEventListener('click', (function(d) {
+                    return function() { selectDay(d); };
+                })(dayNum));
+            }
+
+            grid.appendChild(card);
+        }
+    }
+
+    function getDayState(dayNum, ch) {
+        if (!ch.isActive && !ch.completedChallenge) return 'locked';
+
+        if (ch.completedDays[dayNum]) return 'completed';
+
+        var prevCompleted = dayNum === 1 || !!ch.completedDays[dayNum - 1];
+        if (!prevCompleted) return 'locked';
+
+        if (ch.currentDay === dayNum || (ch.currentDay < dayNum && prevCompleted && !ch.completedDays[dayNum])) {
+            // Find the actual current day (first non-completed available)
+            var firstAvailable = 1;
+            for (var d = 1; d <= 30; d++) {
+                if (!ch.completedDays[d]) {
+                    firstAvailable = d;
+                    break;
+                }
+            }
+            return dayNum === firstAvailable ? 'current' : 'available';
+        }
+
+        return 'available';
+    }
+
+    function selectDay(dayNum) {
+        var progress = getChallengeState();
+        var ch = progress.challenge30;
+        var state = getDayState(dayNum, ch);
+
+        if (state === 'locked') return;
+
+        selectedDay = dayNum;
+        renderDayDetail(dayNum, ch);
+
+        var detail = document.getElementById('dayDetail');
+        detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function renderDayDetail(dayNum, ch) {
+        var detail = document.getElementById('dayDetail');
+        var data = challengeData[dayNum - 1];
+        var dayProgress = ch.completedDays[dayNum];
+        var isDayCompleted = !!dayProgress;
+
+        var taskStates = { task0: false, task1: false, task2: false };
+        if (dayProgress && dayProgress.tasks) {
+            taskStates.task0 = !!dayProgress.tasks.task1;
+            taskStates.task1 = !!dayProgress.tasks.task2;
+            taskStates.task2 = !!dayProgress.tasks.task3;
+        }
+
+        // Read from temp state if day not yet completed
+        if (!isDayCompleted && window._tempTasks && window._tempTasks['day' + dayNum]) {
+            var t = window._tempTasks['day' + dayNum];
+            taskStates.task0 = !!t.task0;
+            taskStates.task1 = !!t.task1;
+            taskStates.task2 = !!t.task2;
+        }
+
+        var html = '';
+        html += '<div class="day-detail-header">';
+        html += '<div class="title-group">';
+        html += '<h2>День ' + dayNum + ': ' + data.title + '</h2>';
+        html += '<div class="kr">' + data.titleKr + '</div>';
+        html += '</div>';
+        html += '<button class="btn-close-detail" onclick="closeDetail()" title="Закрыть">&#10005;</button>';
+        html += '</div>';
+
+        html += '<ul class="task-list">';
+        for (var i = 0; i < 3; i++) {
+            var task = data.tasks[i];
+            var checked = taskStates['task' + i];
+            var doneClass = checked ? ' task-done' : '';
+            var checkedAttr = checked ? ' checked' : '';
+            var disabledAttr = isDayCompleted ? ' disabled' : '';
+
+            html += '<li class="task-item' + doneClass + '">';
+            html += '<input type="checkbox" class="task-checkbox" data-task="' + i + '" data-day="' + dayNum + '"' + checkedAttr + disabledAttr + ' onchange="toggleTask(this)">';
+            html += '<div class="task-content">';
+            html += '<div class="task-desc">' + task.desc + '</div>';
+            if (task.link) {
+                html += '<a class="task-link" href="' + task.link + '">' + task.linkText + ' &rarr;</a>';
+            }
+            html += '</div>';
+            html += '</li>';
+        }
+        html += '</ul>';
+
+        if (!isDayCompleted) {
+            var allChecked = taskStates.task0 && taskStates.task1 && taskStates.task2;
+            var disBtn = allChecked ? '' : ' disabled';
+            html += '<button class="btn-complete-day" id="btnCompleteDay" onclick="completeDay(' + dayNum + ')"' + disBtn + '>Завершить день ' + dayNum + '</button>';
+        } else {
+            html += '<div style="text-align:center;color:#43a047;font-weight:500;padding:12px 0;">День завершён!</div>';
+        }
+
+        detail.innerHTML = html;
+        detail.classList.add('visible');
+    }
+
+    // =============================================
+    // ACTIONS
+    // =============================================
+    window._tempTasks = {};
+
+    window.toggleTask = function(checkbox) {
+        var dayNum = parseInt(checkbox.getAttribute('data-day'));
+        var taskIdx = parseInt(checkbox.getAttribute('data-task'));
+
+        if (!window._tempTasks['day' + dayNum]) {
+            window._tempTasks['day' + dayNum] = { task0: false, task1: false, task2: false };
+        }
+        window._tempTasks['day' + dayNum]['task' + taskIdx] = checkbox.checked;
+
+        // Update task-done class
+        var item = checkbox.closest('.task-item');
+        if (checkbox.checked) {
+            item.classList.add('task-done');
+        } else {
+            item.classList.remove('task-done');
+        }
+
+        // Update complete button
+        var t = window._tempTasks['day' + dayNum];
+        var allChecked = t.task0 && t.task1 && t.task2;
+        var btn = document.getElementById('btnCompleteDay');
+        if (btn) {
+            btn.disabled = !allChecked;
+        }
+    };
+
+    window.completeDay = function(dayNum) {
+        var progress = getChallengeState();
+        var ch = progress.challenge30;
+
+        ch.completedDays[dayNum] = {
+            completedAt: new Date().toISOString(),
+            tasks: { task1: true, task2: true, task3: true }
+        };
+
+        // Advance current day
+        if (dayNum < 30) {
+            ch.currentDay = dayNum + 1;
+        }
+
+        // Check if all 30 days done
+        var completedCount = Object.keys(ch.completedDays).length;
+        if (completedCount >= 30) {
+            ch.completedChallenge = true;
+            if (!progress.achievements) progress.achievements = [];
+            if (progress.achievements.indexOf('challenge_30_days') === -1) {
+                progress.achievements.push('challenge_30_days');
+            }
+        }
+
+        window.ProgressTracker.save(progress);
+
+        // Clean temp
+        delete window._tempTasks['day' + dayNum];
+
+        // Re-render
+        render();
+
+        // Show celebration if all done
+        if (ch.completedChallenge) {
+            showCelebration(completedCount);
+        }
+
+        console.log('[+] Challenge day ' + dayNum + ' completed');
+    };
+
+    window.startChallenge = function() {
+        var progress = getChallengeState();
+        progress.challenge30.startDate = new Date().toISOString();
+        progress.challenge30.currentDay = 1;
+        progress.challenge30.completedDays = {};
+        progress.challenge30.isActive = true;
+        progress.challenge30.completedChallenge = false;
+        window.ProgressTracker.save(progress);
+        selectedDay = null;
+        document.getElementById('dayDetail').classList.remove('visible');
+        render();
+        console.log('[OK] Challenge started');
+    };
+
+    window.restartChallenge = function() {
+        if (!confirm('Вы уверены? Весь прогресс челленджа будет сброшен!')) return;
+        var progress = getChallengeState();
+        progress.challenge30 = {
+            startDate: new Date().toISOString(),
+            currentDay: 1,
+            completedDays: {},
+            isActive: true,
+            completedChallenge: false
+        };
+        window.ProgressTracker.save(progress);
+        window._tempTasks = {};
+        selectedDay = null;
+        document.getElementById('dayDetail').classList.remove('visible');
+        render();
+        console.log('[OK] Challenge restarted');
+    };
+
+    window.closeDetail = function() {
+        selectedDay = null;
+        document.getElementById('dayDetail').classList.remove('visible');
+    };
+
+    // =============================================
+    // CELEBRATION
+    // =============================================
+    function showCelebration(completedCount) {
+        var modal = document.getElementById('celebrationModal');
+        modal.classList.add('visible');
+
+        document.getElementById('modalDays').textContent = completedCount;
+        document.getElementById('modalTasks').textContent = completedCount * 3;
+
+        var hours = Math.round(completedCount * 0.5);
+        document.getElementById('modalHours').textContent = hours;
+
+        spawnConfetti();
+    }
+
+    window.closeCelebration = function() {
+        document.getElementById('celebrationModal').classList.remove('visible');
+        document.getElementById('confettiBox').innerHTML = '';
+    };
+
+    function spawnConfetti() {
+        var box = document.getElementById('confettiBox');
+        box.innerHTML = '';
+        var colors = ['#667eea', '#764ba2', '#f44336', '#ff9800', '#4caf50', '#2196f3', '#e91e63', '#ffeb3b'];
+
+        for (var i = 0; i < 40; i++) {
+            var piece = document.createElement('div');
+            piece.className = 'confetti-piece';
+            var color = colors[Math.floor(Math.random() * colors.length)];
+            var left = Math.random() * 100;
+            var size = 6 + Math.random() * 8;
+            var dur = 1.5 + Math.random() * 2;
+            var delay = Math.random() * 1.5;
+            var shape = Math.random() > 0.5 ? '50%' : '2px';
+
+            piece.style.cssText =
+                'left:' + left + '%;' +
+                'width:' + size + 'px;' +
+                'height:' + size + 'px;' +
+                'background:' + color + ';' +
+                'border-radius:' + shape + ';' +
+                'animation-duration:' + dur + 's;' +
+                'animation-delay:' + delay + 's;';
+
+            box.appendChild(piece);
+        }
+    }
+
+    // =============================================
+    // INIT
+    // =============================================
+    render();
+    console.log('[OK] Challenge page loaded');
+
+})();
+</script>
+
+</body>
+</html>
