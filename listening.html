@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Аудирование - Jane Korea</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        /* ==================== HEADER ==================== */
+        .listening-header {
+            background: #fff;
+            border-radius: 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 40px 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .listening-header h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .listening-header .korean-subtitle {
+            font-size: 1.3rem;
+            color: #764ba2;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .listening-header .description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 24px;
+        }
+
+        /* ==================== PROGRESS BAR ==================== */
+        .progress-section {
+            margin-bottom: 10px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 6px;
+        }
+
+        .progress-bar-outer {
+            background: #eee;
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-inner {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+        }
+
+        /* ==================== TABS ==================== */
+        .level-tabs {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin: 20px auto;
+            max-width: 900px;
+            flex-wrap: wrap;
+        }
+
+        .level-tab {
+            padding: 12px 24px;
+            border: 2px solid rgba(102,126,234,0.3);
+            background: rgba(255,255,255,0.9);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 1em;
+            color: #555;
+        }
+
+        .level-tab:hover {
+            border-color: #667eea;
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102,126,234,0.2);
+        }
+
+        .level-tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+        }
+
+        /* ==================== LEVEL SECTIONS ==================== */
+        .level-section {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .level-section.active {
+            display: block;
+        }
+
+        /* ==================== LEVEL PROGRESS ==================== */
+        .level-progress {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .level-progress-info {
+            flex: 1;
+        }
+
+        .level-progress-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .level-progress-bar {
+            background: #eee;
+            border-radius: 8px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .level-progress-fill {
+            height: 100%;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+        }
+
+        .level-progress-score {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .level-progress-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        /* ==================== SPEED CONTROL ==================== */
+        .speed-control {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .speed-label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .speed-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .speed-btn {
+            padding: 8px 16px;
+            border: 2px solid #e0e0e0;
+            background: #fff;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #555;
+            transition: all 0.3s ease;
+        }
+
+        .speed-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .speed-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border-color: transparent;
+        }
+
+        /* ==================== EXERCISE CARD ==================== */
+        .exercise-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .exercise-card.completed {
+            opacity: 0.7;
+        }
+
+        .exercise-card.current {
+            box-shadow: 0 8px 30px rgba(102,126,234,0.2);
+            border: 2px solid rgba(102,126,234,0.3);
+        }
+
+        .exercise-number {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        /* ==================== PLAY BUTTONS ==================== */
+        .play-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+        }
+
+        .play-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+        }
+
+        .play-btn:active {
+            transform: translateY(0);
+        }
+
+        .play-btn .play-icon {
+            font-size: 1.2rem;
+        }
+
+        .replay-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 20px;
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 8px;
+            margin-bottom: 8px;
+        }
+
+        .replay-btn:hover {
+            background: rgba(102,126,234,0.1);
+        }
+
+        .play-area {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* ==================== OPTIONS GRID ==================== */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .option-btn {
+            padding: 14px 16px;
+            background: #fff;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .option-btn:hover:not(.disabled) {
+            border-color: #667eea;
+            background: #f5f7ff;
+            transform: translateY(-1px);
+        }
+
+        .option-btn.correct {
+            border-color: #4caf50;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .option-btn.wrong {
+            border-color: #f44336;
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .option-btn.disabled {
+            cursor: default;
+            opacity: 0.8;
+        }
+
+        /* ==================== FEEDBACK ==================== */
+        .feedback {
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            min-height: 24px;
+            margin-top: 8px;
+        }
+
+        .feedback.correct-feedback {
+            color: #4caf50;
+        }
+
+        .feedback.wrong-feedback {
+            color: #f44336;
+        }
+
+        /* ==================== DIALOGUE BOX ==================== */
+        .dialogue-question {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .dialogue-question-kr {
+            font-size: 1.05rem;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .dialogue-question-ru {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* ==================== RESULTS ==================== */
+        .results-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            display: none;
+        }
+
+        .results-card.visible {
+            display: block;
+        }
+
+        .results-score {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .results-text {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .results-message {
+            font-size: 0.95rem;
+            color: #888;
+            margin-bottom: 24px;
+        }
+
+        .results-best {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 20px;
+        }
+
+        .retry-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102,126,234,0.4);
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                padding-bottom: 100px;
+            }
+
+            .listening-header {
+                padding: 24px 16px;
+                border-radius: 16px;
+                margin: 10px auto;
+            }
+
+            .listening-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .listening-header .korean-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .level-tabs {
+                margin: 12px auto;
+            }
+
+            .level-tab {
+                padding: 10px 18px;
+                font-size: 0.9em;
+            }
+
+            .exercise-card {
+                padding: 16px;
+                border-radius: 12px;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .option-btn {
+                padding: 12px 14px;
+                font-size: 0.9rem;
+            }
+
+            .play-btn {
+                padding: 12px 24px;
+                font-size: 0.95rem;
+            }
+
+            .speed-control {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 14px 16px;
+            }
+
+            .level-progress {
+                padding: 14px 16px;
+                gap: 12px;
+            }
+
+            .results-score {
+                font-size: 2.2rem;
+            }
+
+            .dialogue-question {
+                padding: 12px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== HEADER ==================== -->
+    <div class="listening-header">
+        <h1>Аудирование</h1>
+        <div class="korean-subtitle">듣기 연습</div>
+        <p class="description">Тренируй восприятие корейской речи на слух — от отдельных слов до полных диалогов</p>
+
+        <div class="progress-section">
+            <div class="progress-label">
+                <span>Общий прогресс</span>
+                <span id="total-progress-text">0 / 37 упражнений</span>
+            </div>
+            <div class="progress-bar-outer">
+                <div class="progress-bar-inner" id="total-progress-bar" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TABS ==================== -->
+    <div class="level-tabs">
+        <button class="level-tab active" onclick="switchTab('beginner')" id="tab-beginner">Начальный (단어)</button>
+        <button class="level-tab" onclick="switchTab('intermediate')" id="tab-intermediate">Средний (문장)</button>
+        <button class="level-tab" onclick="switchTab('advanced')" id="tab-advanced">Продвинутый (대화)</button>
+    </div>
+
+    <!-- ==================== BEGINNER SECTION ==================== -->
+    <div class="level-section active" id="section-beginner">
+        <div class="level-progress">
+            <div class="level-progress-info">
+                <div class="level-progress-title">Начальный уровень — Слова</div>
+                <div class="level-progress-bar">
+                    <div class="level-progress-fill" id="beginner-progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="level-progress-score" id="beginner-progress-score">0 / 15</div>
+            </div>
+            <div class="level-progress-badge" id="beginner-badge">0</div>
+        </div>
+
+        <div class="speed-control">
+            <span class="speed-label">Скорость речи:</span>
+            <div class="speed-buttons">
+                <button class="speed-btn" onclick="setSpeed(0.6)" id="speed-slow">Медленно</button>
+                <button class="speed-btn active" onclick="setSpeed(0.8)" id="speed-normal">Обычно</button>
+                <button class="speed-btn" onclick="setSpeed(1.0)" id="speed-fast">Быстро</button>
+            </div>
+        </div>
+
+        <div id="beginner-exercises"></div>
+
+        <div class="results-card" id="results-beginner">
+            <div class="results-score" id="results-beginner-score">0%</div>
+            <div class="results-text" id="results-beginner-text">0 из 15 правильных</div>
+            <div class="results-message" id="results-beginner-message"></div>
+            <div class="results-best" id="results-beginner-best"></div>
+            <button class="retry-btn" onclick="retryLevel('beginner')">Попробовать снова</button>
+        </div>
+    </div>
+
+    <!-- ==================== INTERMEDIATE SECTION ==================== -->
+    <div class="level-section" id="section-intermediate">
+        <div class="level-progress">
+            <div class="level-progress-info">
+                <div class="level-progress-title">Средний уровень — Предложения</div>
+                <div class="level-progress-bar">
+                    <div class="level-progress-fill" id="intermediate-progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="level-progress-score" id="intermediate-progress-score">0 / 12</div>
+            </div>
+            <div class="level-progress-badge" id="intermediate-badge">0</div>
+        </div>
+
+        <div class="speed-control">
+            <span class="speed-label">Скорость речи:</span>
+            <div class="speed-buttons">
+                <button class="speed-btn" onclick="setSpeed(0.6)" id="speed-slow-2">Медленно</button>
+                <button class="speed-btn active" onclick="setSpeed(0.8)" id="speed-normal-2">Обычно</button>
+                <button class="speed-btn" onclick="setSpeed(1.0)" id="speed-fast-2">Быстро</button>
+            </div>
+        </div>
+
+        <div id="intermediate-exercises"></div>
+
+        <div class="results-card" id="results-intermediate">
+            <div class="results-score" id="results-intermediate-score">0%</div>
+            <div class="results-text" id="results-intermediate-text">0 из 12 правильных</div>
+            <div class="results-message" id="results-intermediate-message"></div>
+            <div class="results-best" id="results-intermediate-best"></div>
+            <button class="retry-btn" onclick="retryLevel('intermediate')">Попробовать снова</button>
+        </div>
+    </div>
+
+    <!-- ==================== ADVANCED SECTION ==================== -->
+    <div class="level-section" id="section-advanced">
+        <div class="level-progress">
+            <div class="level-progress-info">
+                <div class="level-progress-title">Продвинутый уровень — Диалоги</div>
+                <div class="level-progress-bar">
+                    <div class="level-progress-fill" id="advanced-progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="level-progress-score" id="advanced-progress-score">0 / 10</div>
+            </div>
+            <div class="level-progress-badge" id="advanced-badge">0</div>
+        </div>
+
+        <div class="speed-control">
+            <span class="speed-label">Скорость речи:</span>
+            <div class="speed-buttons">
+                <button class="speed-btn" onclick="setSpeed(0.6)" id="speed-slow-3">Медленно</button>
+                <button class="speed-btn active" onclick="setSpeed(0.8)" id="speed-normal-3">Обычно</button>
+                <button class="speed-btn" onclick="setSpeed(1.0)" id="speed-fast-3">Быстро</button>
+            </div>
+        </div>
+
+        <div id="advanced-exercises"></div>
+
+        <div class="results-card" id="results-advanced">
+            <div class="results-score" id="results-advanced-score">0%</div>
+            <div class="results-text" id="results-advanced-text">0 из 10 правильных</div>
+            <div class="results-message" id="results-advanced-message"></div>
+            <div class="results-best" id="results-advanced-best"></div>
+            <button class="retry-btn" onclick="retryLevel('advanced')">Попробовать снова</button>
+        </div>
+    </div>
+
+    <!-- ==================== SCRIPTS ==================== -->
+    <script src="js/progress-tracker.js"></script>
+    <script src="js/global-nav.js"></script>
+    <script>
+    (function() {
+        'use strict';
+
+        // =============================================
+        // EXERCISE DATA
+        // =============================================
+        var BEGINNER_EXERCISES = [
+            { korean: '사과', options: ['Яблоко', 'Банан', 'Апельсин', 'Груша'], correct: 0 },
+            { korean: '학교', options: ['Больница', 'Школа', 'Банк', 'Магазин'], correct: 1 },
+            { korean: '가족', options: ['Друзья', 'Работа', 'Семья', 'Путешествие'], correct: 2 },
+            { korean: '날씨', options: ['Еда', 'Время', 'Погода', 'Место'], correct: 2 },
+            { korean: '전화', options: ['Телефон', 'Компьютер', 'Телевизор', 'Радио'], correct: 0 },
+            { korean: '음식', options: ['Напиток', 'Еда', 'Одежда', 'Обувь'], correct: 1 },
+            { korean: '공부', options: ['Работа', 'Отдых', 'Учёба', 'Спорт'], correct: 2 },
+            { korean: '병원', options: ['Школа', 'Больница', 'Аптека', 'Ресторан'], correct: 1 },
+            { korean: '여행', options: ['Покупки', 'Работа', 'Учёба', 'Путешествие'], correct: 3 },
+            { korean: '친구', options: ['Родитель', 'Учитель', 'Друг', 'Сосед'], correct: 2 },
+            { korean: '시간', options: ['Деньги', 'Время', 'Место', 'Работа'], correct: 1 },
+            { korean: '물', options: ['Молоко', 'Сок', 'Чай', 'Вода'], correct: 3 },
+            { korean: '책', options: ['Книга', 'Тетрадь', 'Ручка', 'Карандаш'], correct: 0 },
+            { korean: '노래', options: ['Танец', 'Песня', 'Музыка', 'Фильм'], correct: 1 },
+            { korean: '생일', options: ['Праздник', 'Выходной', 'День рождения', 'Юбилей'], correct: 2 }
+        ];
+
+        var INTERMEDIATE_EXERCISES = [
+            { korean: '오늘 날씨가 좋아요', options: ['Сегодня холодно', 'Сегодня хорошая погода', 'Завтра будет дождь', 'Вчера было жарко'], correct: 1 },
+            { korean: '저는 학생이에요', options: ['Я учитель', 'Я студент', 'Я врач', 'Я работник'], correct: 1 },
+            { korean: '커피 한 잔 주세요', options: ['Дайте чай', 'Дайте воду', 'Дайте кофе', 'Дайте сок'], correct: 2 },
+            { korean: '어디에서 왔어요?', options: ['Куда идёте?', 'Откуда вы?', 'Где живёте?', 'Когда приехали?'], correct: 1 },
+            { korean: '한국어를 공부해요', options: ['Учу японский', 'Учу английский', 'Учу корейский', 'Учу китайский'], correct: 2 },
+            { korean: '내일 시험이 있어요', options: ['Завтра выходной', 'Завтра экзамен', 'Завтра каникулы', 'Завтра праздник'], correct: 1 },
+            { korean: '이 음식이 맛있어요', options: ['Эта еда дорогая', 'Эта еда острая', 'Эта еда вкусная', 'Эта еда холодная'], correct: 2 },
+            { korean: '지하철역이 어디에 있어요?', options: ['Где автобус?', 'Где станция метро?', 'Где аэропорт?', 'Где вокзал?'], correct: 1 },
+            { korean: '주말에 영화를 봤어요', options: ['Смотрел кино в выходные', 'Читал книгу вечером', 'Гулял в парке', 'Ходил в магазин'], correct: 0 },
+            { korean: '감기에 걸렸어요', options: ['Я устал', 'Я простудился', 'Я голоден', 'У меня аллергия'], correct: 1 },
+            { korean: '생일 축하합니다', options: ['С Новым годом', 'Поздравляю с праздником', 'С днём рождения', 'Добро пожаловать'], correct: 2 },
+            { korean: '약속 시간에 늦었어요', options: ['Пришёл вовремя', 'Опоздал на встречу', 'Отменил встречу', 'Забыл о встрече'], correct: 1 }
+        ];
+
+        var ADVANCED_EXERCISES = [
+            {
+                dialogue: [
+                    { speaker: 'A', text: '이번 주말에 뭐 할 거예요?' },
+                    { speaker: 'B', text: '친구랑 같이 등산하려고 해요.' }
+                ],
+                question: 'B는 주말에 무엇을 할 계획이에요?',
+                questionRu: 'Что B планирует делать в выходные?',
+                options: ['Пойти в кино', 'Поехать на море', 'Пойти в горы с другом', 'Остаться дома'],
+                correct: 2
+            },
+            {
+                dialogue: [
+                    { speaker: 'A', text: '이 근처에 은행이 있어요?' },
+                    { speaker: 'B', text: '네, 저기 편의점 옆에 있어요.' }
+                ],
+                question: '은행은 어디에 있어요?',
+                questionRu: 'Где находится банк?',
+                options: ['Напротив школы', 'Рядом с магазином', 'Рядом с супермаркетом', 'В торговом центре'],
+                correct: 1
+            },
+            {
+                dialogue: [
+                    { speaker: 'A', text: '왜 이렇게 피곤해 보여요?' },
+                    { speaker: 'B', text: '어젯밤에 잠을 못 잤어요. 시험 때문에 걱정돼서요.' }
+                ],
+                question: 'B는 왜 피곤해요?',
+                questionRu: 'Почему B устал(а)?',
+                options: ['Много работал', 'Не спал из-за экзамена', 'Болел', 'Занимался спортом'],
+                correct: 1
+            },
+            {
+                dialogue: [
+                    { speaker: 'A', text: '주문하시겠어요?' },
+                    { speaker: 'B', text: '비빔밥 하나하고 된장찌개 하나 주세요.' }
+                ],
+                question: 'B는 무엇을 주문했어요?',
+                questionRu: 'Что заказал B?',
+                options: ['Кимчи и рис', 'Бибимбап и суп тенджан', 'Пиццу и колу', 'Самгёпсаль и соджу'],
+                correct: 1
+            },
+            {
+                dialogue: [
+                    { speaker: 'A', text: '서울에서 부산까지 얼마나 걸려요?' },
+                    { speaker: 'B', text: 'KTX로 약 2시간 반 정도 걸려요.' }
+                ],
+                question: 'KTX로 서울에서 부산까지 얼마나 걸려요?',
+                questionRu: 'Сколько времени на KTX из Сеула в Пусан?',
+                options: ['1 час', '2.5 часа', '4 часа', '5 часов'],
+                correct: 1
+            },
+            {
+                dialogue: [
+                    { speaker: 'A', text: '이 옷 다른 색 있어요?' },
+                    { speaker: 'B', text: '네, 검은색하고 흰색이 있어요.' }
+                ],
+                question: '이 옷은 어떤 색이 있어요?',
+                questionRu: 'Какие цвета есть?',
+                options: ['Красный и синий', 'Чёрный и белый', 'Зелёный и жёлтый', 'Розовый и голубой'],
+                correct: 1
+            },
+            {
+                dialogue: [
+                    { speaker: 'A', text: '한국에 온 지 얼마나 됐어요?' },
+                    { speaker: 'B', text: '6개월 됐어요. 처음에는 힘들었지만 지금은 많이 적응했어요.' }
+                ],
+                question: 'B는 한국에 온 지 얼마나 됐어요?',
+                questionRu: 'Как давно B в Корее?',
+                options: ['3 месяца', '6 месяцев', '1 год', '2 года'],
+                correct: 1
+            },
+            {
+                dialogue: [
+                    { speaker: 'A', text: '감기약 있어요?' },
+                    { speaker: 'B', text: '네, 증상이 어떠세요? 기침이 나세요, 콧물이 나세요?' }
+                ],
+                question: 'A는 어디에 있어요?',
+                questionRu: 'Где находится A?',
+                options: ['В больнице', 'В аптеке', 'В магазине', 'Дома'],
+                correct: 1
+            },
+            {
+                dialogue: [
+                    { speaker: 'A', text: '이 영화 재미있어요?' },
+                    { speaker: 'B', text: '네, 정말 감동적이에요. 마지막에 울었어요.' }
+                ],
+                question: 'B는 영화를 어떻게 생각해요?',
+                questionRu: 'Как B оценивает фильм?',
+                options: ['Скучный', 'Страшный', 'Трогательный', 'Смешной'],
+                correct: 2
+            },
+            {
+                dialogue: [
+                    { speaker: 'A', text: '택시비가 얼마예요?' },
+                    { speaker: 'B', text: '여기서 강남역까지 약 15,000원 정도 나올 거예요.' }
+                ],
+                question: '택시비가 얼마예요?',
+                questionRu: 'Сколько стоит такси?',
+                options: ['5,000 вон', '10,000 вон', '15,000 вон', '20,000 вон'],
+                correct: 2
+            }
+        ];
+
+        // =============================================
+        // STATE
+        // =============================================
+        var LISTENING_KEY = 'janeKoreaListening';
+        var currentSpeechRate = 0.8;
+        var state = {
+            beginner: { answers: [], score: 0, completed: false, current: 0 },
+            intermediate: { answers: [], score: 0, completed: false, current: 0 },
+            advanced: { answers: [], score: 0, completed: false, current: 0 }
+        };
+
+        // =============================================
+        // SPEECH SYNTHESIS
+        // =============================================
+        function speakKorean(text, rate) {
+            if (!window.speechSynthesis) {
+                console.log('[ERROR] Web Speech API not supported');
+                return;
+            }
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR';
+            u.rate = rate || currentSpeechRate;
+            window.speechSynthesis.speak(u);
+        }
+
+        function speakDialogue(dialogue, rate) {
+            if (!window.speechSynthesis) {
+                console.log('[ERROR] Web Speech API not supported');
+                return;
+            }
+            window.speechSynthesis.cancel();
+
+            var firstLine = new SpeechSynthesisUtterance(dialogue[0].text);
+            firstLine.lang = 'ko-KR';
+            firstLine.rate = rate || currentSpeechRate;
+
+            firstLine.onend = function() {
+                setTimeout(function() {
+                    var secondLine = new SpeechSynthesisUtterance(dialogue[1].text);
+                    secondLine.lang = 'ko-KR';
+                    secondLine.rate = rate || currentSpeechRate;
+                    window.speechSynthesis.speak(secondLine);
+                }, 800);
+            };
+
+            window.speechSynthesis.speak(firstLine);
+        }
+
+        // =============================================
+        // SPEED CONTROL
+        // =============================================
+        function setSpeed(rate) {
+            currentSpeechRate = rate;
+            var allSpeedBtns = document.querySelectorAll('.speed-btn');
+            for (var i = 0; i < allSpeedBtns.length; i++) {
+                allSpeedBtns[i].classList.remove('active');
+            }
+            var rateMap = { 0.6: 'slow', 0.8: 'normal', 1.0: 'fast' };
+            var suffix = rateMap[rate] || 'normal';
+            var targets = document.querySelectorAll('[id^="speed-' + suffix + '"]');
+            for (var j = 0; j < targets.length; j++) {
+                targets[j].classList.add('active');
+            }
+            console.log('[OK] Speech rate set to ' + rate);
+        }
+        window.setSpeed = setSpeed;
+
+        // =============================================
+        // TAB SWITCHING
+        // =============================================
+        function switchTab(tabName) {
+            var tabs = document.querySelectorAll('.level-tab');
+            var sections = document.querySelectorAll('.level-section');
+
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            for (var j = 0; j < sections.length; j++) {
+                sections[j].classList.remove('active');
+            }
+
+            document.getElementById('tab-' + tabName).classList.add('active');
+            document.getElementById('section-' + tabName).classList.add('active');
+        }
+        window.switchTab = switchTab;
+
+        // =============================================
+        // PLAY EXERCISE
+        // =============================================
+        function playExercise(level, index) {
+            if (level === 'beginner') {
+                speakKorean(BEGINNER_EXERCISES[index].korean, currentSpeechRate);
+            } else if (level === 'intermediate') {
+                speakKorean(INTERMEDIATE_EXERCISES[index].korean, currentSpeechRate);
+            } else if (level === 'advanced') {
+                speakDialogue(ADVANCED_EXERCISES[index].dialogue, currentSpeechRate);
+            }
+        }
+        window.playExercise = playExercise;
+
+        // =============================================
+        // CHECK ANSWER
+        // =============================================
+        function checkAnswer(level, index, selected) {
+            var exercises;
+            if (level === 'beginner') exercises = BEGINNER_EXERCISES;
+            else if (level === 'intermediate') exercises = INTERMEDIATE_EXERCISES;
+            else exercises = ADVANCED_EXERCISES;
+
+            var exercise = exercises[index];
+            var correctIdx = exercise.correct;
+            var isCorrect = selected === correctIdx;
+
+            // Prevent double answers
+            if (state[level].answers[index] !== undefined) return;
+            state[level].answers[index] = selected;
+
+            if (isCorrect) {
+                state[level].score++;
+            }
+
+            // Update UI
+            var card = document.getElementById('exercise-' + level + '-' + index);
+            var options = card.querySelectorAll('.option-btn');
+            var feedback = card.querySelector('.feedback');
+
+            for (var i = 0; i < options.length; i++) {
+                options[i].classList.add('disabled');
+                if (i === correctIdx) {
+                    options[i].classList.add('correct');
+                }
+                if (i === selected && !isCorrect) {
+                    options[i].classList.add('wrong');
+                }
+            }
+
+            if (isCorrect) {
+                feedback.textContent = 'Правильно!';
+                feedback.className = 'feedback correct-feedback';
+            } else {
+                feedback.textContent = 'Неправильно. Правильный ответ: ' + exercise.options[correctIdx];
+                feedback.className = 'feedback wrong-feedback';
+            }
+
+            card.classList.add('completed');
+
+            // Update progress
+            updateLevelProgress(level);
+
+            // Check if level complete
+            var answeredCount = 0;
+            for (var j = 0; j < state[level].answers.length; j++) {
+                if (state[level].answers[j] !== undefined) answeredCount++;
+            }
+
+            if (answeredCount === exercises.length) {
+                state[level].completed = true;
+                showResults(level);
+                saveScores();
+            } else {
+                // Auto-advance to next unanswered
+                setTimeout(function() {
+                    var nextIndex = -1;
+                    for (var k = index + 1; k < exercises.length; k++) {
+                        if (state[level].answers[k] === undefined) {
+                            nextIndex = k;
+                            break;
+                        }
+                    }
+                    if (nextIndex === -1) {
+                        for (var m = 0; m < index; m++) {
+                            if (state[level].answers[m] === undefined) {
+                                nextIndex = m;
+                                break;
+                            }
+                        }
+                    }
+                    if (nextIndex !== -1) {
+                        highlightCurrentExercise(level, nextIndex);
+                        var nextCard = document.getElementById('exercise-' + level + '-' + nextIndex);
+                        if (nextCard) {
+                            nextCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }
+                }, 2000);
+            }
+
+            updateTotalProgress();
+        }
+        window.checkAnswer = checkAnswer;
+
+        // =============================================
+        // HIGHLIGHT CURRENT
+        // =============================================
+        function highlightCurrentExercise(level, index) {
+            var cards = document.querySelectorAll('#section-' + level + ' .exercise-card');
+            for (var i = 0; i < cards.length; i++) {
+                cards[i].classList.remove('current');
+            }
+            var currentCard = document.getElementById('exercise-' + level + '-' + index);
+            if (currentCard && !currentCard.classList.contains('completed')) {
+                currentCard.classList.add('current');
+            }
+            state[level].current = index;
+        }
+
+        // =============================================
+        // UPDATE PROGRESS
+        // =============================================
+        function updateLevelProgress(level) {
+            var exercises;
+            if (level === 'beginner') exercises = BEGINNER_EXERCISES;
+            else if (level === 'intermediate') exercises = INTERMEDIATE_EXERCISES;
+            else exercises = ADVANCED_EXERCISES;
+
+            var answered = 0;
+            for (var i = 0; i < state[level].answers.length; i++) {
+                if (state[level].answers[i] !== undefined) answered++;
+            }
+
+            var total = exercises.length;
+            var pct = Math.round((answered / total) * 100);
+
+            document.getElementById(level + '-progress-bar').style.width = pct + '%';
+            document.getElementById(level + '-progress-score').textContent = answered + ' / ' + total;
+            document.getElementById(level + '-badge').textContent = state[level].score;
+        }
+
+        function updateTotalProgress() {
+            var totalAnswered = 0;
+            var totalExercises = BEGINNER_EXERCISES.length + INTERMEDIATE_EXERCISES.length + ADVANCED_EXERCISES.length;
+
+            var levels = ['beginner', 'intermediate', 'advanced'];
+            for (var i = 0; i < levels.length; i++) {
+                for (var j = 0; j < state[levels[i]].answers.length; j++) {
+                    if (state[levels[i]].answers[j] !== undefined) totalAnswered++;
+                }
+            }
+
+            var pct = Math.round((totalAnswered / totalExercises) * 100);
+            document.getElementById('total-progress-bar').style.width = pct + '%';
+            document.getElementById('total-progress-text').textContent = totalAnswered + ' / ' + totalExercises + ' упражнений';
+        }
+
+        // =============================================
+        // SHOW RESULTS
+        // =============================================
+        function showResults(level) {
+            var exercises;
+            if (level === 'beginner') exercises = BEGINNER_EXERCISES;
+            else if (level === 'intermediate') exercises = INTERMEDIATE_EXERCISES;
+            else exercises = ADVANCED_EXERCISES;
+
+            var total = exercises.length;
+            var score = state[level].score;
+            var pct = Math.round((score / total) * 100);
+
+            document.getElementById('results-' + level + '-score').textContent = pct + '%';
+            document.getElementById('results-' + level + '-text').textContent = score + ' из ' + total + ' правильных';
+
+            var message = '';
+            if (pct === 100) message = 'Отличный результат! Вы прекрасно понимаете корейскую речь!';
+            else if (pct >= 80) message = 'Очень хорошо! Продолжайте практиковать!';
+            else if (pct >= 60) message = 'Неплохо! Попробуйте снова для лучшего результата.';
+            else if (pct >= 40) message = 'Есть над чем поработать. Не сдавайтесь!';
+            else message = 'Рекомендуем начать с изучения базовой лексики.';
+
+            document.getElementById('results-' + level + '-message').textContent = message;
+
+            // Show best score
+            var saved = loadScores();
+            if (saved[level] && saved[level].score !== undefined) {
+                var bestPct = Math.round((saved[level].score / saved[level].total) * 100);
+                document.getElementById('results-' + level + '-best').textContent = 'Лучший результат: ' + bestPct + '%';
+            }
+
+            document.getElementById('results-' + level).classList.add('visible');
+        }
+
+        // =============================================
+        // SAVE / LOAD SCORES
+        // =============================================
+        function loadScores() {
+            try {
+                var raw = localStorage.getItem(LISTENING_KEY);
+                return raw ? JSON.parse(raw) : {};
+            } catch (e) {
+                console.log('[ERROR] Failed to load listening scores');
+                return {};
+            }
+        }
+
+        function saveScores() {
+            try {
+                var saved = loadScores();
+                var levels = ['beginner', 'intermediate', 'advanced'];
+                var exerciseCounts = {
+                    beginner: BEGINNER_EXERCISES.length,
+                    intermediate: INTERMEDIATE_EXERCISES.length,
+                    advanced: ADVANCED_EXERCISES.length
+                };
+
+                for (var i = 0; i < levels.length; i++) {
+                    var lvl = levels[i];
+                    if (state[lvl].completed) {
+                        var currentScore = state[lvl].score;
+                        var total = exerciseCounts[lvl];
+
+                        if (!saved[lvl] || currentScore > saved[lvl].score) {
+                            saved[lvl] = { score: currentScore, total: total };
+                        }
+                    }
+                }
+
+                localStorage.setItem(LISTENING_KEY, JSON.stringify(saved));
+                console.log('[OK] Listening scores saved');
+            } catch (e) {
+                console.log('[ERROR] Failed to save listening scores');
+            }
+        }
+
+        // =============================================
+        // RETRY LEVEL
+        // =============================================
+        function retryLevel(level) {
+            state[level] = { answers: [], score: 0, completed: false, current: 0 };
+
+            document.getElementById('results-' + level).classList.remove('visible');
+
+            renderExercises(level);
+            updateLevelProgress(level);
+            updateTotalProgress();
+
+            var section = document.getElementById('section-' + level);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        window.retryLevel = retryLevel;
+
+        // =============================================
+        // RENDER EXERCISES
+        // =============================================
+        function renderBeginnerIntermediate(level, exercises) {
+            var container = document.getElementById(level + '-exercises');
+            var html = '';
+
+            for (var i = 0; i < exercises.length; i++) {
+                var ex = exercises[i];
+                var isCurrent = i === 0 ? ' current' : '';
+
+                html += '<div class="exercise-card' + isCurrent + '" id="exercise-' + level + '-' + i + '">';
+                html += '<div class="exercise-number">' + (i + 1) + ' / ' + exercises.length + '</div>';
+                html += '<div class="play-area">';
+                html += '<button class="play-btn" onclick="playExercise(\'' + level + '\', ' + i + ')">';
+                html += '<span class="play-icon">&#128264;</span> Прослушать</button>';
+                html += '<button class="replay-btn" onclick="playExercise(\'' + level + '\', ' + i + ')">&#128260; Ещё раз</button>';
+                html += '</div>';
+                html += '<div class="options-grid">';
+                for (var j = 0; j < ex.options.length; j++) {
+                    html += '<button class="option-btn" onclick="checkAnswer(\'' + level + '\', ' + i + ', ' + j + ')">' + ex.options[j] + '</button>';
+                }
+                html += '</div>';
+                html += '<div class="feedback"></div>';
+                html += '</div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderAdvanced() {
+            var container = document.getElementById('advanced-exercises');
+            var html = '';
+
+            for (var i = 0; i < ADVANCED_EXERCISES.length; i++) {
+                var ex = ADVANCED_EXERCISES[i];
+                var isCurrent = i === 0 ? ' current' : '';
+
+                html += '<div class="exercise-card' + isCurrent + '" id="exercise-advanced-' + i + '">';
+                html += '<div class="exercise-number">' + (i + 1) + ' / ' + ADVANCED_EXERCISES.length + '</div>';
+                html += '<div class="play-area">';
+                html += '<button class="play-btn" onclick="playExercise(\'advanced\', ' + i + ')">';
+                html += '<span class="play-icon">&#128264;</span> Прослушать диалог</button>';
+                html += '<button class="replay-btn" onclick="playExercise(\'advanced\', ' + i + ')">&#128260; Ещё раз</button>';
+                html += '</div>';
+                html += '<div class="dialogue-question">';
+                html += '<div class="dialogue-question-kr">' + ex.question + '</div>';
+                html += '<div class="dialogue-question-ru">' + ex.questionRu + '</div>';
+                html += '</div>';
+                html += '<div class="options-grid">';
+                for (var j = 0; j < ex.options.length; j++) {
+                    html += '<button class="option-btn" onclick="checkAnswer(\'advanced\', ' + i + ', ' + j + ')">' + ex.options[j] + '</button>';
+                }
+                html += '</div>';
+                html += '<div class="feedback"></div>';
+                html += '</div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderExercises(level) {
+            if (level === 'beginner') {
+                renderBeginnerIntermediate('beginner', BEGINNER_EXERCISES);
+            } else if (level === 'intermediate') {
+                renderBeginnerIntermediate('intermediate', INTERMEDIATE_EXERCISES);
+            } else if (level === 'advanced') {
+                renderAdvanced();
+            }
+        }
+
+        // =============================================
+        // INIT
+        // =============================================
+        function init() {
+            // Initialize answer arrays
+            state.beginner.answers = new Array(BEGINNER_EXERCISES.length);
+            state.intermediate.answers = new Array(INTERMEDIATE_EXERCISES.length);
+            state.advanced.answers = new Array(ADVANCED_EXERCISES.length);
+
+            // Render all exercises
+            renderExercises('beginner');
+            renderExercises('intermediate');
+            renderExercises('advanced');
+
+            // Load saved best scores and show in badges
+            var saved = loadScores();
+            var levels = ['beginner', 'intermediate', 'advanced'];
+            for (var i = 0; i < levels.length; i++) {
+                if (saved[levels[i]]) {
+                    var bestEl = document.getElementById('results-' + levels[i] + '-best');
+                    if (bestEl) {
+                        var bestPct = Math.round((saved[levels[i]].score / saved[levels[i]].total) * 100);
+                        bestEl.textContent = 'Лучший результат: ' + bestPct + '%';
+                    }
+                }
+            }
+
+            updateTotalProgress();
+
+            console.log('[OK] Listening page loaded');
+            console.log('[OK] Beginner: ' + BEGINNER_EXERCISES.length + ' exercises');
+            console.log('[OK] Intermediate: ' + INTERMEDIATE_EXERCISES.length + ' exercises');
+            console.log('[OK] Advanced: ' + ADVANCED_EXERCISES.length + ' exercises');
+        }
+
+        // Run init when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+    })();
+    </script>
+</body>
+</html>

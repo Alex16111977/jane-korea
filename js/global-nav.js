@@ -57,7 +57,9 @@
             'handwriting.html': 'index',
             'korean-culture.html': 'index',
             'challenge.html': 'index',
-            'diary.html': 'profile'
+            'diary.html': 'profile',
+            'dramas.html': 'index',
+            'listening.html': 'index'
         };
 
         if (pageMap[pageName]) return pageMap[pageName];
@@ -118,6 +120,13 @@
         { t: 'Корейская культура', u: 'korean-culture.html', k: 'культура нунчи хан традиции общество culture этикет возраст конфуцианство' },
         { t: 'Челлендж 30 дней', u: 'challenge.html', k: 'челлендж вызов 30 дней challenge план обучения мотивация' },
         { t: 'Мой дневник на корейском', u: 'diary.html', k: 'дневник записи diary писать текст практика журнал' },
+        { t: 'Учи корейский по дорамам', u: 'dramas.html', k: 'дорамы сериалы kdrama фразы фильмы drama' },
+        { t: 'Аудирование', u: 'listening.html', k: 'аудирование слушание listening слух восприятие речь' },
+        { t: 'Урок 90: Подготовка к TOPIK', u: 'lesson_90_topik_prep/index.html', k: 'topik экзамен подготовка тест' },
+        { t: 'Урок 91: Написание эссе', u: 'lesson_91_essay_writing/index.html', k: 'эссе сочинение письмо writing' },
+        { t: 'Урок 92: Традиции и праздники', u: 'lesson_92_traditions/index.html', k: 'традиции праздники соллаль чусок ханбок' },
+        { t: 'Урок 93: Большие числа и деньги', u: 'lesson_93_large_numbers/index.html', k: 'числа деньги воны цены' },
+        { t: 'Урок 94: Медицина и аптека', u: 'lesson_94_medicine/index.html', k: 'медицина аптека врач больница лекарства' },
 
         // Уроки (53 root)
         { t: 'Урок 1: Знакомство с Кореей', u: 'lesson_01_korea/index.html', k: 'корея знакомство 1' },

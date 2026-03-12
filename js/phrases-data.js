@@ -665,6 +665,419 @@ window.PhrasesData = {
             }
         }
 
+        ,
+
+        // =====================================================
+        // 7. На почте
+        // =====================================================
+        {
+            id: 'post-office',
+            icon: '\uD83D\uDCEE',
+            title: 'На почте',
+            titleKr: '우체국에서',
+            color: '#00695C',
+            description: 'Отправка посылок, писем, почтовые услуги',
+            phrases: [
+                {
+                    korean: '이 소포를 보내고 싶어요',
+                    romanization: 'i soporeul bonaego sipeoyo',
+                    translation: 'Я хочу отправить эту посылку',
+                    note: 'Сопо (소포) = посылка'
+                },
+                {
+                    korean: '러시아까지 얼마예요?',
+                    romanization: 'reosiakkaji eolmayeyo?',
+                    translation: 'Сколько стоит до России?',
+                    note: 'Укажите страну назначения'
+                },
+                {
+                    korean: '빠른 우편으로 보내 주세요',
+                    romanization: 'ppareun upyeoneuro bonae juseyo',
+                    translation: 'Отправьте экспресс-почтой',
+                    note: 'Ппарын упхён (빠른 우편) = экспресс-почта'
+                },
+                {
+                    korean: '며칠 정도 걸려요?',
+                    romanization: 'myeochil jeongdo geollyeoyo?',
+                    translation: 'Сколько дней займёт?',
+                    note: 'Спрашивайте о сроках доставки'
+                },
+                {
+                    korean: '등기우편으로 보내 주세요',
+                    romanization: 'deunggiupyeoneuro bonae juseyo',
+                    translation: 'Отправьте заказным письмом',
+                    note: 'Тынги (등기) = заказное, с отслеживанием'
+                },
+                {
+                    korean: '우표를 사고 싶어요',
+                    romanization: 'upyoreul sago sipeoyo',
+                    translation: 'Хочу купить марки',
+                    note: 'Упхё (우표) = почтовая марка'
+                },
+                {
+                    korean: '운송장 번호를 알려 주세요',
+                    romanization: 'unsongjang beonhoreul allyeo juseyo',
+                    translation: 'Скажите номер отслеживания',
+                    note: 'Унсонджан (운송장) = накладная/трек-номер'
+                },
+                {
+                    korean: '깨지기 쉬운 물건이에요',
+                    romanization: 'kkaejigi swiun mulgeonieyeo',
+                    translation: 'Это хрупкая вещь',
+                    note: 'Предупредите о хрупкости содержимого'
+                },
+                {
+                    korean: '무게를 재 주세요',
+                    romanization: 'mugereul jae juseyo',
+                    translation: 'Взвесьте, пожалуйста',
+                    note: 'Муге (무게) = вес'
+                },
+                {
+                    korean: '국제 택배를 보내려고요',
+                    romanization: 'gukje taekbaereul bonaeryeogoyo',
+                    translation: 'Хочу отправить международную посылку',
+                    note: 'Кукче тэкпэ (국제 택배) = международная курьерская доставка'
+                },
+                {
+                    korean: '보험을 들고 싶어요',
+                    romanization: 'boheomeul deulgo sipeoyo',
+                    translation: 'Хочу застраховать',
+                    note: 'Похом (보험) = страховка на посылку'
+                },
+                {
+                    korean: '상자가 필요해요',
+                    romanization: 'sangjaga piryohaeyo',
+                    translation: 'Мне нужна коробка',
+                    note: 'Санджа (상자) = коробка. В корейских почтовых отделениях можно купить коробки'
+                }
+            ],
+            dialogue: {
+                title: 'Мини-диалог: отправка посылки в Россию',
+                lines: [
+                    { speaker: '손님', korean: '안녕하세요. 이 소포를 러시아에 보내고 싶어요.', translation: 'Здравствуйте. Хочу отправить эту посылку в Россию.' },
+                    { speaker: '직원', korean: '네. 무게를 재 볼게요. 2.5킬로그램이에요.', translation: 'Хорошо. Давайте взвесим. 2.5 килограмма.' },
+                    { speaker: '직원', korean: '일반 우편은 25,000원, 빠른 우편은 45,000원이에요.', translation: 'Обычная почта — 25 000 вон, экспресс — 45 000 вон.' },
+                    { speaker: '손님', korean: '일반 우편으로 할게요. 며칠 걸려요?', translation: 'Обычной почтой. Сколько дней?' },
+                    { speaker: '직원', korean: '보통 2주 정도 걸립니다.', translation: 'Обычно около 2 недель.' },
+                    { speaker: '손님', korean: '운송장 번호 좀 주세요.', translation: 'Дайте трек-номер, пожалуйста.' },
+                    { speaker: '직원', korean: '네, 여기 영수증에 적혀 있어요. 온라인으로 추적할 수 있어요.', translation: 'Да, вот на чеке. Можно отследить онлайн.' }
+                ]
+            }
+        },
+
+        // =====================================================
+        // 8. В банке
+        // =====================================================
+        {
+            id: 'bank',
+            icon: '\uD83C\uDFE6',
+            title: 'В банке',
+            titleKr: '은행에서',
+            color: '#1565C0',
+            description: 'Обмен валют, счета, переводы',
+            phrases: [
+                {
+                    korean: '환전하고 싶어요',
+                    romanization: 'hwanjeonhago sipeoyo',
+                    translation: 'Хочу обменять валюту',
+                    note: 'Хванджон (환전) = обмен валюты'
+                },
+                {
+                    korean: '오늘 환율이 어떻게 돼요?',
+                    romanization: 'oneul hwanyuri eotteoke dwaeyo?',
+                    translation: 'Какой сегодня курс обмена?',
+                    note: 'Хваньюль (환율) = обменный курс'
+                },
+                {
+                    korean: '달러를 원으로 바꾸고 싶어요',
+                    romanization: 'dalleoreul woneuro bakkugo sipeoyo',
+                    translation: 'Хочу обменять доллары на воны',
+                    note: 'Паккуда (바꾸다) = обменять'
+                },
+                {
+                    korean: '계좌를 개설하고 싶어요',
+                    romanization: 'gyejwareul gaeseolhago sipeoyo',
+                    translation: 'Хочу открыть счёт',
+                    note: 'Кеджва кэсоль (계좌 개설) = открытие счёта'
+                },
+                {
+                    korean: '여권이 필요해요?',
+                    romanization: 'yeogwoni piryohaeyo?',
+                    translation: 'Нужен паспорт?',
+                    note: 'Ёгвон (여권) = заграничный паспорт'
+                },
+                {
+                    korean: 'ATM이 어디에 있어요?',
+                    romanization: 'ATMi eodie isseoyo?',
+                    translation: 'Где банкомат?',
+                    note: 'В Корее банкоматы есть в магазинах CU, GS25'
+                },
+                {
+                    korean: '해외 송금을 하려고요',
+                    romanization: 'haeoe songgeumuel haryeogoyo',
+                    translation: 'Хочу сделать международный перевод',
+                    note: 'Хэве сонгым (해외 송금) = международный денежный перевод'
+                },
+                {
+                    korean: '수수료가 얼마예요?',
+                    romanization: 'susuryoga eolmayeyo?',
+                    translation: 'Какая комиссия?',
+                    note: 'Сусурё (수수료) = комиссия/сбор'
+                },
+                {
+                    korean: '잔액을 확인하고 싶어요',
+                    romanization: 'janaegeul hwaginhago sipeoyo',
+                    translation: 'Хочу проверить баланс',
+                    note: 'Чанэк (잔액) = остаток на счёте'
+                },
+                {
+                    korean: '통장을 만들어 주세요',
+                    romanization: 'tongjangeul mandeureo juseyo',
+                    translation: 'Сделайте, пожалуйста, сберкнижку',
+                    note: 'Тонджан (통장) = сберкнижка (до сих пор популярны в Корее)'
+                },
+                {
+                    korean: '카드를 분실했어요',
+                    romanization: 'kadeureul bunsilhaesseoyo',
+                    translation: 'Я потерял карту',
+                    note: 'Пунсиль (분실) = потеря. Срочно блокируйте карту!'
+                },
+                {
+                    korean: '이체하고 싶어요',
+                    romanization: 'ichehago sipeoyo',
+                    translation: 'Хочу сделать перевод',
+                    note: 'Иче (이체) = банковский перевод внутри Кореи'
+                },
+                {
+                    korean: '소액으로 바꿔 주세요',
+                    romanization: 'soaegeuro bakkwo juseyo',
+                    translation: 'Разменяйте на мелкие купюры',
+                    note: 'Соэк (소액) = мелкие деньги'
+                }
+            ],
+            dialogue: {
+                title: 'Мини-диалог: обмен валюты',
+                lines: [
+                    { speaker: '손님', korean: '안녕하세요. 환전하고 싶어요.', translation: 'Здравствуйте. Хочу обменять валюту.' },
+                    { speaker: '직원', korean: '어떤 통화를 바꾸시겠어요?', translation: 'Какую валюту хотите обменять?' },
+                    { speaker: '손님', korean: '달러 500불을 원으로 바꿔 주세요.', translation: '500 долларов на воны, пожалуйста.' },
+                    { speaker: '직원', korean: '오늘 환율은 1달러에 1,320원입니다.', translation: 'Сегодня курс: 1 доллар = 1320 вон.' },
+                    { speaker: '직원', korean: '수수료 포함해서 655,000원입니다.', translation: 'С комиссией получается 655 000 вон.' },
+                    { speaker: '손님', korean: '네, 좋아요. 만 원짜리로 주세요.', translation: 'Хорошо. Купюрами по 10 000 вон.' },
+                    { speaker: '직원', korean: '여권 좀 보여 주세요.', translation: 'Покажите паспорт, пожалуйста.' }
+                ]
+            }
+        },
+
+        // =====================================================
+        // 9. В университете
+        // =====================================================
+        {
+            id: 'university',
+            icon: '\uD83C\uDF93',
+            title: 'В университете',
+            titleKr: '대학교에서',
+            color: '#6A1B9A',
+            description: 'Учёба, занятия, студенческая жизнь',
+            phrases: [
+                {
+                    korean: '수강 신청은 어떻게 해요?',
+                    romanization: 'sugang sincheoneun eotteoke haeyo?',
+                    translation: 'Как записаться на курс?',
+                    note: 'Суган синчхон (수강 신청) = регистрация на курс'
+                },
+                {
+                    korean: '이번 학기에 뭐 들어요?',
+                    romanization: 'ibeon hakgie mwo deureoyo?',
+                    translation: 'Что берёте в этом семестре?',
+                    note: 'Хакки (학기) = семестр'
+                },
+                {
+                    korean: '교수님 연구실이 어디예요?',
+                    romanization: 'gyosunim yeongusiri eodiyeyo?',
+                    translation: 'Где кабинет профессора?',
+                    note: 'Кёсуним (교수님) = профессор (вежливо). Ёнгусиль (연구실) = кабинет/лаборатория'
+                },
+                {
+                    korean: '도서관은 몇 시까지 해요?',
+                    romanization: 'doseogwaneun myeot sikkaji haeyo?',
+                    translation: 'До скольки работает библиотека?',
+                    note: 'Тосогван (도서관) = библиотека'
+                },
+                {
+                    korean: '과제 마감이 언제예요?',
+                    romanization: 'gwaje magami eonjeveyo?',
+                    translation: 'Когда дедлайн задания?',
+                    note: 'Кваджэ (과제) = задание, магам (마감) = дедлайн'
+                },
+                {
+                    korean: '시험 범위가 어디까지예요?',
+                    romanization: 'siheom beomwiga eodikkajiyeyo?',
+                    translation: 'Какой объём материала на экзамене?',
+                    note: 'Пхомви (범위) = диапазон/объём'
+                },
+                {
+                    korean: '학식이 싸고 맛있어요',
+                    romanization: 'haksigi ssago masisseoyo',
+                    translation: 'Студенческая столовая дешёвая и вкусная',
+                    note: 'Хаксик (학식) = студенческая еда/столовая'
+                },
+                {
+                    korean: '기숙사에 살아요?',
+                    romanization: 'gisuksae sarayo?',
+                    translation: 'Вы живёте в общежитии?',
+                    note: 'Кисукса (기숙사) = общежитие'
+                },
+                {
+                    korean: '출석을 부르겠습니다',
+                    romanization: 'chulseok bureugessseumnida',
+                    translation: 'Буду отмечать посещаемость',
+                    note: 'Чхульсок (출석) = посещаемость/присутствие'
+                },
+                {
+                    korean: '교환 학생이에요',
+                    romanization: 'gyohwan haksaengieyo',
+                    translation: 'Я студент по обмену',
+                    note: 'Кёхван хаксэн (교환 학생) = студент по обмену'
+                },
+                {
+                    korean: '전공이 뭐예요?',
+                    romanization: 'jeongongi mwoyeyo?',
+                    translation: 'Какая у вас специальность?',
+                    note: 'Чонгон (전공) = специальность/major'
+                },
+                {
+                    korean: '학점이 몇 점이에요?',
+                    romanization: 'hakjeomi myeot jeomieyo?',
+                    translation: 'Какой у вас средний балл?',
+                    note: 'Хакчом (학점) = кредиты/оценки. GPA в Корее обычно из 4.5'
+                },
+                {
+                    korean: '동아리에 가입하고 싶어요',
+                    romanization: 'dongariae gaiphago sipeoyo',
+                    translation: 'Хочу вступить в клуб',
+                    note: 'Тонари (동아리) = студенческий клуб/кружок'
+                }
+            ],
+            dialogue: {
+                title: 'Мини-диалог: регистрация на курсы',
+                lines: [
+                    { speaker: '학생 A', korean: '이번 학기에 뭐 들어?', translation: 'Что берёшь в этом семестре?' },
+                    { speaker: '학생 B', korean: '한국어 수업이랑 역사 수업 들으려고. 너는?', translation: 'Хочу взять корейский и историю. А ты?' },
+                    { speaker: '학생 A', korean: '나도 한국어! 김 교수님 수업 들어?', translation: 'Я тоже корейский! У профессора Кима?' },
+                    { speaker: '학생 B', korean: '응, 월수금 10시 수업. 근데 수강 신청이 너무 빨리 마감돼.', translation: 'Да, пн-ср-пт в 10. Но регистрация закрывается очень быстро.' },
+                    { speaker: '학생 A', korean: '맞아. 인기 있는 수업은 1분 만에 꽉 차더라.', translation: 'Точно. Популярные курсы заполняются за минуту.' },
+                    { speaker: '학생 B', korean: '점심 같이 학식 먹으러 갈래?', translation: 'Пойдём вместе в столовую на обед?' },
+                    { speaker: '학생 A', korean: '좋아! 오늘 메뉴가 뭔지 봐야지.', translation: 'Давай! Надо посмотреть сегодняшнее меню.' }
+                ]
+            }
+        },
+
+        // =====================================================
+        // 10. На рынке Тондэмун
+        // =====================================================
+        {
+            id: 'dongdaemun',
+            icon: '\uD83C\uDFEA',
+            title: 'На рынке Тондэмун',
+            titleKr: '동대문 시장에서',
+            color: '#E65100',
+            description: 'Торговля, торг, одежда оптом',
+            phrases: [
+                {
+                    korean: '이거 얼마예요?',
+                    romanization: 'igeo eolmayeyo?',
+                    translation: 'Сколько это стоит?',
+                    note: 'Самый базовый вопрос на рынке'
+                },
+                {
+                    korean: '좀 깎아 주세요',
+                    romanization: 'jom kkakka juseyo',
+                    translation: 'Сделайте скидку',
+                    note: 'Ккакка (깎아) = снизить цену. Торг на рынке — нормальная практика!'
+                },
+                {
+                    korean: '너무 비싸요',
+                    romanization: 'neomu bissayo',
+                    translation: 'Слишком дорого',
+                    note: 'Говорите уверенно — продавцы привыкли торговаться'
+                },
+                {
+                    korean: '만 원에 해 주세요',
+                    romanization: 'man wone hae juseyo',
+                    translation: 'Сделайте за 10 000 вон',
+                    note: 'Предложите свою цену'
+                },
+                {
+                    korean: '두 개 사면 할인해 줄 수 있어요?',
+                    romanization: 'du gae samyeon halinhae jul su isseoyo?',
+                    translation: 'Если возьму два, скидка будет?',
+                    note: 'Тондэмун славится оптовыми ценами'
+                },
+                {
+                    korean: '다른 색 있어요?',
+                    romanization: 'dareun saek isseoyo?',
+                    translation: 'Другой цвет есть?',
+                    note: 'Сэк (색) = цвет'
+                },
+                {
+                    korean: '이거 입어 봐도 돼요?',
+                    romanization: 'igeo ibeo bwado dwaeyo?',
+                    translation: 'Можно это примерить?',
+                    note: 'Ибо пода (입어 보다) = примерить'
+                },
+                {
+                    korean: '사이즈가 좀 큰 것 같아요',
+                    romanization: 'saizeuga jom keun geot gatayo',
+                    translation: 'Размер кажется великоват',
+                    note: 'Кхын (큰) = большой, чагын (작은) = маленький'
+                },
+                {
+                    korean: '현금으로 하면 더 싸요?',
+                    romanization: 'hyeongeumeureo hamyeon deo ssayo?',
+                    translation: 'Наличными будет дешевле?',
+                    note: 'На рынках часто дают скидку за наличные'
+                },
+                {
+                    korean: '도매로 사고 싶어요',
+                    romanization: 'domaero sago sipeoyo',
+                    translation: 'Хочу купить оптом',
+                    note: 'Томэ (도매) = оптовая продажа. Тондэмун — центр оптовой торговли'
+                },
+                {
+                    korean: '원단은 몇 층에서 팔아요?',
+                    romanization: 'wondaneun myeot cheungeseo parayo?',
+                    translation: 'На каком этаже продают ткани?',
+                    note: 'Вондан (원단) = ткань/материал'
+                },
+                {
+                    korean: '교환이나 환불 가능해요?',
+                    romanization: 'gyohwanina hwanbul ganeunghaeyo?',
+                    translation: 'Обмен или возврат возможен?',
+                    note: 'Кёхван (교환) = обмен, хванбуль (환불) = возврат денег'
+                },
+                {
+                    korean: '카드 돼요?',
+                    romanization: 'kadeu dwaeyo?',
+                    translation: 'Картой можно?',
+                    note: 'Короткая форма. Не все торговцы принимают карты'
+                }
+            ],
+            dialogue: {
+                title: 'Мини-диалог: торг на рынке',
+                lines: [
+                    { speaker: '손님', korean: '이 자켓 얼마예요?', translation: 'Сколько стоит эта куртка?' },
+                    { speaker: '사장님', korean: '그거 3만 원이에요.', translation: 'Это 30 000 вон.' },
+                    { speaker: '손님', korean: '너무 비싸요. 좀 깎아 주세요.', translation: 'Слишком дорого. Сделайте скидку.' },
+                    { speaker: '사장님', korean: '음... 2만 5천 원에 해 줄게요.', translation: 'Хм... Давам за 25 000 вон.' },
+                    { speaker: '손님', korean: '두 개 사면 4만 원에 해 주세요.', translation: 'Если возьму два, сделайте за 40 000 вон.' },
+                    { speaker: '사장님', korean: '에이, 그건 너무 싸요. 4만 5천 원이요.', translation: 'Ну, это слишком дёшево. 45 000 вон.' },
+                    { speaker: '손님', korean: '좋아요! 현금으로 할게요.', translation: 'Хорошо! Заплачу наличными.' },
+                    { speaker: '사장님', korean: '감사합니다! 또 오세요~', translation: 'Спасибо! Приходите ещё~' }
+                ]
+            }
+        }
+
     ] // конец массива situations
 };
 
