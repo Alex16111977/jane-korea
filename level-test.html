@@ -256,6 +256,48 @@
             body::before { font-size: 80px; }
             body::after { font-size: 70px; }
         }
+        /* Recommendations */
+        .recommendations {
+            margin-top: 25px;
+            text-align: left;
+        }
+        .recommendations h3 {
+            font-size: 1.1em;
+            margin-bottom: 12px;
+        }
+        .rec-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: #f8f5ff;
+            border: 2px solid #e8eaf6;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #333;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+        .rec-link:hover {
+            background: #ede7f6;
+            border-color: #b39ddb;
+            transform: translateX(5px);
+        }
+        .rec-icon {
+            font-size: 1.3em;
+        }
+        .rec-info {
+            flex: 1;
+        }
+        .rec-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .rec-cat {
+            font-size: 0.85em;
+            color: #999;
+        }
+
         .hidden { display: none !important; }
     </style>
 </head>
@@ -317,6 +359,7 @@
                 <button class="result-btn secondary" onclick="startTest()">Пройти заново</button>
                 <a href="placement-test.html" class="result-btn outline">Пройти общий тест</a>
             </div>
+            <div id="recommendationsBlock" class="recommendations hidden"></div>
             <div class="review-section">
                 <button class="review-toggle" id="reviewToggle" onclick="toggleReview()">Показать ответы</button>
                 <div id="reviewList" class="review-list"></div>
@@ -440,6 +483,115 @@
                 { cat: 'Причина', q: '<span class="korean">교통사고<u>로 인해</u> 길이 막혔다</span> — 로 인해:', opts: ['несмотря на', 'вследствие, из-за', 'помимо', 'ради'], c: 1 },
                 { cat: 'Стиль', q: 'Какой стиль: <span class="korean">~(으)ㄹ 것으로 보인다</span>?', opts: ['разговорный', 'официальный/газетный', 'детский', 'сленг'], c: 1 },
                 { cat: 'Понимание', q: '<span class="korean">그는 성공<u>은커녕</u> 시작도 못 했다</span> — 은커녕:', opts: ['благодаря', 'не говоря уж о... (даже не)', 'ради', 'помимо'], c: 1 }
+            ]
+        }
+    };
+
+    // === LESSON RECOMMENDATIONS ===
+    var LESSON_RECOMMENDATIONS = {
+        1: {
+            'Чтение': [
+                { name: 'Алфавит хангыль', url: 'lesson_02_alphabet/index.html' },
+                { name: 'Правила произношения', url: 'level_1/lesson_pronunciation/index.html' }
+            ],
+            'Лексика': [
+                { name: 'Семья', url: 'lesson_05_family/index.html' },
+                { name: 'Еда и напитки', url: 'vocabulary/basicfood/index.html' },
+                { name: 'Числа', url: 'lesson_04_numbers/index.html' }
+            ],
+            'Фразы': [
+                { name: 'Приветствие', url: 'lesson_03_greetings/index.html' }
+            ],
+            'Культура': [
+                { name: 'Знакомство с Кореей', url: 'lesson_01_korea/index.html' }
+            ]
+        },
+        2: {
+            'Грамматика': [
+                { name: 'Основы грамматики', url: 'lesson_06_grammar/index.html' },
+                { name: 'Порядок слов SOV', url: 'level_1/lesson_sov_order/index.html' }
+            ],
+            'Частицы': [
+                { name: 'Частица темы 은/는', url: 'level_1/lesson_topic_particle/index.html' },
+                { name: 'Частица подлежащего 이/가', url: 'level_1/lesson_subject_particle/index.html' }
+            ],
+            'Глаголы': [
+                { name: 'Времена глаголов', url: 'lesson_07_verb_tenses/index.html' }
+            ],
+            'Связка': [
+                { name: 'Связка 이에요/예요', url: 'lesson_10_copula/index.html' },
+                { name: 'Неформальная связка', url: 'lesson_11_informal_copula/index.html' }
+            ],
+            'Отрицание': [
+                { name: 'Отрицание связки', url: 'lesson_13_copula_negation/index.html' }
+            ],
+            'Лексика': [
+                { name: 'Вопросительные слова', url: 'vocabulary/questions/index.html' }
+            ]
+        },
+        3: {
+            'Частицы': [
+                { name: 'Частица места 에서', url: 'lesson_22_particles_review/index.html' }
+            ],
+            'Желание': [
+                { name: 'Желание -고 싶다', url: 'lesson_30_want/index.html' }
+            ],
+            'Причина': [
+                { name: 'Причина -아/어서', url: 'lesson_27_because/index.html' }
+            ],
+            'Соединение': [
+                { name: 'Союзы', url: 'vocabulary/conjunctions/index.html' }
+            ],
+            'Счётные слова': [
+                { name: 'Числа и счётные слова', url: 'lesson_04_numbers/index.html' }
+            ],
+            'Понимание': [
+                { name: 'Тексты уровня 3', url: 'reading-texts.html?level=3' }
+            ]
+        },
+        4: {
+            'Запрет': [
+                { name: 'Запреты и разрешения', url: 'lesson_50_prohibitions/index.html' }
+            ],
+            'Одновременность': [
+                { name: 'Одновременные действия', url: 'lesson_51_simultaneous/index.html' }
+            ],
+            'Время': [
+                { name: 'Временные конструкции', url: 'lesson_53_time_expressions/index.html' }
+            ],
+            'Предположение': [
+                { name: 'Предположения', url: 'lesson_54_assumptions/index.html' }
+            ],
+            'Вежливость': [
+                { name: 'Формы вежливости', url: 'lesson_08_politeness/index.html' }
+            ],
+            'Контраст': [
+                { name: 'Контраст -지만', url: 'lesson_55_contrast/index.html' }
+            ]
+        },
+        5: {
+            'Способность': [
+                { name: 'Способность -(으)ㄹ 수 있다', url: 'lesson_61_ability/index.html' }
+            ],
+            'Обязанность': [
+                { name: 'Обязанность -아야 하다', url: 'lesson_62_obligation/index.html' }
+            ],
+            'Опыт': [
+                { name: 'Опыт -아 본 적이 있다', url: 'lesson_63_experience/index.html' }
+            ],
+            'Цитата': [
+                { name: 'Косвенная речь', url: 'lesson_70_indirect_speech/index.html' }
+            ]
+        },
+        6: {
+            'Уступка': [
+                { name: 'Уступительные конструкции', url: 'lesson_80_concession/index.html' }
+            ],
+            'Пассив': [
+                { name: 'Пассивные конструкции', url: 'lesson_83_passive_constructions/index.html' }
+            ],
+            'Стиль': [
+                { name: 'Написание эссе', url: 'lesson_91_essay_writing/index.html' }
             ]
         }
     };
@@ -633,6 +785,41 @@
             div.innerHTML = html;
             list.appendChild(div);
         });
+
+        // Build recommendations from wrong answers
+        var wrongCats = {};
+        answers.forEach(function(a) {
+            if (!a.isCorrect) {
+                wrongCats[a.cat] = (wrongCats[a.cat] || 0) + 1;
+            }
+        });
+
+        var recs = LESSON_RECOMMENDATIONS[currentLevel] || {};
+        var recHtml = '';
+        var recCount = 0;
+        Object.keys(wrongCats).forEach(function(cat) {
+            if (recs[cat]) {
+                recs[cat].forEach(function(lesson) {
+                    recHtml += '<a href="' + lesson.url + '" class="rec-link">' +
+                        '<span class="rec-icon">📖</span>' +
+                        '<span class="rec-info">' +
+                        '<span class="rec-name">' + lesson.name + '</span>' +
+                        '<span class="rec-cat">ошибки в: ' + cat + '</span>' +
+                        '</span>' +
+                        '<span style="color: #999;">→</span></a>';
+                    recCount++;
+                });
+            }
+        });
+
+        var recBlock = document.getElementById('recommendationsBlock');
+        if (recCount > 0 && pct < 90) {
+            recBlock.innerHTML = '<h3 style="color: ' + lvl.color2 + ';">📚 Рекомендуемые уроки:</h3>' + recHtml;
+            recBlock.classList.remove('hidden');
+            console.log('[+] Showing ' + recCount + ' lesson recommendations');
+        } else {
+            recBlock.classList.add('hidden');
+        }
 
         // Save
         var key = 'levelTestResult_' + currentLevel;

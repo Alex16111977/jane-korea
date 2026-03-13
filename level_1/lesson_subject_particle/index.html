@@ -408,6 +408,119 @@
             display: block;
         }
 
+        .audio-btn {
+            background: rgba(76,175,80,0.15);
+            border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            margin-left: 8px;
+            padding: 0;
+        }
+        .audio-btn:hover {
+            background: rgba(76,175,80,0.3);
+            transform: scale(1.1);
+        }
+
+        .sentence-builder { margin: 15px 0; }
+        .word-bank {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            min-height: 50px;
+            padding: 15px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 12px;
+            border: 2px dashed #ccc;
+        }
+        .drag-word {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        .drag-word:hover {
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+        .drop-zone {
+            min-height: 60px;
+            padding: 15px;
+            background: rgba(76, 175, 80, 0.08);
+            border: 2px dashed #4caf50;
+            border-radius: 12px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            transition: background 0.3s ease;
+        }
+        .drop-placeholder {
+            color: #999;
+            font-style: italic;
+        }
+        .builder-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .builder-result {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+        }
+        .builder-result.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+            display: block;
+        }
+        .builder-result.wrong {
+            background: #ffcdd2;
+            color: #c62828;
+            display: block;
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            gap: 15px;
+        }
+        .lesson-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #388e3c, #4caf50);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .lesson-nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
         @media (max-width: 768px) {
             .particle-cards {
                 grid-template-columns: 1fr;
@@ -430,6 +543,10 @@
 
             .header h1 {
                 font-size: 1.8em;
+            }
+
+            .lesson-nav {
+                flex-direction: column;
             }
         }
     </style>
@@ -509,7 +626,7 @@
                 <p style="text-align: center; opacity: 0.9;">Когда вы впервые упоминаете что-то или кого-то</p>
 
                 <div class="structure-example">
-                    <div class="korean-text">비가 와요. [biga wayo]</div>
+                    <div class="korean-text">비가 와요. [biga wayo] <button class="audio-btn" onclick="speakKorean('비가 와요.')">&#128266;</button></div>
                     <div class="translation">Дождь идёт. (Сообщаем новую информацию)</div>
                     <div class="word-breakdown">
                         <div class="word-part">
@@ -524,7 +641,7 @@
                 </div>
 
                 <div class="structure-example">
-                    <div class="korean-text">친구가 왔어요. [chinguga wasseoyo]</div>
+                    <div class="korean-text">친구가 왔어요. [chinguga wasseoyo] <button class="audio-btn" onclick="speakKorean('친구가 왔어요.')">&#128266;</button></div>
                     <div class="translation">Друг пришёл. (Сообщаем: именно друг пришёл)</div>
                     <div class="word-breakdown">
                         <div class="word-part">
@@ -544,7 +661,7 @@
                 <p style="text-align: center; opacity: 0.9;">Когда указываете, кто именно совершает действие</p>
 
                 <div class="structure-example">
-                    <div class="korean-text">누가 했어요? - 민수가 했어요.</div>
+                    <div class="korean-text">누가 했어요? - 민수가 했어요. <button class="audio-btn" onclick="speakKorean('누가 했어요? 민수가 했어요.')">&#128266;</button></div>
                     <div class="translation">Кто сделал? - Минсу сделал.</div>
                     <div class="word-breakdown">
                         <div class="word-part">
@@ -568,17 +685,17 @@
                 <p style="text-align: center; opacity: 0.9;">С прилагательными-описаниями</p>
 
                 <div class="structure-example">
-                    <div class="korean-text">꽃이 예뻐요. [kkochi yeppeoyo]</div>
+                    <div class="korean-text">꽃이 예뻐요. [kkochi yeppeoyo] <button class="audio-btn" onclick="speakKorean('꽃이 예뻐요.')">&#128266;</button></div>
                     <div class="translation">Цветок красивый.</div>
                 </div>
 
                 <div class="structure-example">
-                    <div class="korean-text">음식이 맛있어요. [eumsigi masisseoyo]</div>
+                    <div class="korean-text">음식이 맛있어요. [eumsigi masisseoyo] <button class="audio-btn" onclick="speakKorean('음식이 맛있어요.')">&#128266;</button></div>
                     <div class="translation">Еда вкусная.</div>
                 </div>
 
                 <div class="structure-example">
-                    <div class="korean-text">날씨가 좋아요. [nalssiga joayo]</div>
+                    <div class="korean-text">날씨가 좋아요. [nalssiga joayo] <button class="audio-btn" onclick="speakKorean('날씨가 좋아요.')">&#128266;</button></div>
                     <div class="translation">Погода хорошая.</div>
                 </div>
             </div>
@@ -675,31 +792,35 @@
             <div class="dialogue-box">
                 <div class="dialogue-line">
                     <div class="speaker">엄마 (мама):</div>
-                    <div class="korean-text">누가 케이크를 먹었어요? [nuga keikeureul meogeosseoyo?]</div>
+                    <div class="korean-text">누가 케이크를 먹었어요? [nuga keikeureul meogeosseoyo?] <button class="audio-btn" onclick="speakKorean('누가 케이크를 먹었어요?')">&#128266;</button></div>
                     <div class="translation">Кто съел торт?</div>
                     <div class="grammar-note">누가 = кто + 가 (вопрос о субъекте)</div>
                 </div>
 
                 <div class="dialogue-line">
                     <div class="speaker">수진:</div>
-                    <div class="korean-text">민수가 먹었어요! [minsuga meogeosseoyo!]</div>
+                    <div class="korean-text">민수가 먹었어요! [minsuga meogeosseoyo!] <button class="audio-btn" onclick="speakKorean('민수가 먹었어요!')">&#128266;</button></div>
                     <div class="translation">Минсу съел!</div>
                     <div class="grammar-note">민수 + 가 - именно Минсу (ответ на "кто?")</div>
                 </div>
 
                 <div class="dialogue-line">
                     <div class="speaker">민수:</div>
-                    <div class="korean-text">아니에요! 고양이가 먹었어요! [anieyo! goyangiga meogeosseoyo!]</div>
+                    <div class="korean-text">아니에요! 고양이가 먹었어요! [anieyo! goyangiga meogeosseoyo!] <button class="audio-btn" onclick="speakKorean('아니에요! 고양이가 먹었어요!')">&#128266;</button></div>
                     <div class="translation">Нет! Кошка съела!</div>
                     <div class="grammar-note">고양이 + 가 - именно кошка (перенаправление "кто?")</div>
                 </div>
 
                 <div class="dialogue-line">
                     <div class="speaker">엄마:</div>
-                    <div class="korean-text">고양이는 케이크를 안 먹어요! [goyangineun keikeureul an meogeoyo!]</div>
+                    <div class="korean-text">고양이는 케이크를 안 먹어요! [goyangineun keikeureul an meogeoyo!] <button class="audio-btn" onclick="speakKorean('고양이는 케이크를 안 먹어요!')">&#128266;</button></div>
                     <div class="translation">Кошка торт не ест!</div>
                     <div class="grammar-note">고양이 + 는 - "что касается кошки" (тема, контраст)</div>
                 </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="option" onclick="playDialogueSequence()" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 1.1em;">&#128266; Прослушать весь диалог</button>
             </div>
         </div>
 
@@ -795,6 +916,76 @@
                 </div>
                 <div class="result"></div>
             </div>
+
+            <div class="exercise">
+                <div class="question">6. Какую частицу поставить после 고양이 (кошка)? 고양이___ 자요. <button class="audio-btn" onclick="speakKorean('고양이가 자요')">&#128266;</button></div>
+                <div class="options">
+                    <button class="option" data-correct="true">가</button>
+                    <button class="option" data-correct="false">이</button>
+                    <button class="option" data-correct="false">는</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">7. "Звонок пришёл." Выберите правильный вариант: <button class="audio-btn" onclick="speakKorean('전화가 왔어요')">&#128266;</button></div>
+                <div class="options">
+                    <button class="option" data-correct="false">전화는 왔어요</button>
+                    <button class="option" data-correct="true">전화가 왔어요</button>
+                    <button class="option" data-correct="false">전화을 왔어요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">8. Какую частицу поставить после 시간 (время)? 시간___ 없어요 (Времени нет). <button class="audio-btn" onclick="speakKorean('시간이 없어요')">&#128266;</button></div>
+                <div class="options">
+                    <button class="option" data-correct="true">이</button>
+                    <button class="option" data-correct="false">가</button>
+                    <button class="option" data-correct="false">은</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <h3 style="margin-top: 30px;">Составь предложение</h3>
+
+            <div class="exercise" id="sb-1">
+                <h4>Составьте предложение: "Дождь идёт"</h4>
+                <div class="sentence-builder">
+                    <div class="word-bank">
+                        <div class="drag-word" data-word="와요">와요</div>
+                        <div class="drag-word" data-word="가">가</div>
+                        <div class="drag-word" data-word="비">비</div>
+                    </div>
+                    <div class="drop-zone" data-answer="비,가,와요">
+                        <span class="drop-placeholder">Нажмите на слова выше, чтобы составить предложение</span>
+                    </div>
+                    <div class="builder-controls">
+                        <button class="option" onclick="checkSentence('sb-1')" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 10px 25px; border-radius: 25px; cursor: pointer;">Проверить</button>
+                        <button class="option" onclick="resetSentence('sb-1')" style="background: #757575; color: white; border: none; padding: 10px 25px; border-radius: 25px; cursor: pointer;">Сбросить</button>
+                    </div>
+                    <div class="builder-result"></div>
+                </div>
+            </div>
+
+            <div class="exercise" id="sb-2">
+                <h4>Составьте предложение: "Друг пришёл"</h4>
+                <div class="sentence-builder">
+                    <div class="word-bank">
+                        <div class="drag-word" data-word="왔어요">왔어요</div>
+                        <div class="drag-word" data-word="친구">친구</div>
+                        <div class="drag-word" data-word="가">가</div>
+                    </div>
+                    <div class="drop-zone" data-answer="친구,가,왔어요">
+                        <span class="drop-placeholder">Нажмите на слова выше, чтобы составить предложение</span>
+                    </div>
+                    <div class="builder-controls">
+                        <button class="option" onclick="checkSentence('sb-2')" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 10px 25px; border-radius: 25px; cursor: pointer;">Проверить</button>
+                        <button class="option" onclick="resetSentence('sb-2')" style="background: #757575; color: white; border: none; padding: 10px 25px; border-radius: 25px; cursor: pointer;">Сбросить</button>
+                    </div>
+                    <div class="builder-result"></div>
+                </div>
+            </div>
         </div>
 
         <!-- Заключение -->
@@ -826,6 +1017,41 @@
             <p style="font-size: 1.2em; text-align: center; color: #2c3e50;">Практикуйте каждый день! 화이팅! [hwaiting!]</p>
         </div>
 
+        <div class="content-section">
+            <h2>📋 Запомни!</h2>
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px;">
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px;">
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>Согласная + 이</strong><br>
+                        학생 → 학생이<br>
+                        <em>Студент (подлежащее)</em>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>Гласная + 가</strong><br>
+                        나 → 내가<br>
+                        <em>Я (подлежащее)</em>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>Новая информация</strong><br>
+                        비가 와요<br>
+                        <em>Дождь идёт (новый факт)</em>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>은/는 vs 이/가</strong><br>
+                        은/는 = тема, контраст<br>
+                        이/가 = подлежащее, факт<br>
+                        <em>Разные функции!</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Навигация между уроками -->
+        <div class="lesson-nav">
+            <a href="../lesson_topic_particle/index.html">&#8592; Частица темы 은/는</a>
+            <a href="../lesson_pronouns/index.html">Местоимения &#8594;</a>
+        </div>
+
         <!-- Кнопка завершения урока -->
         <div style="text-align: center; margin: 40px 0; padding: 30px;">
             <button id="completeLessonBtn" onclick="completeLesson()" style="
@@ -845,6 +1071,113 @@
     </div>
 
     <script src="../../js/progress-tracker.js"></script>
+    <script>
+        // === Audio / TTS ===
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR';
+            u.rate = 0.7;
+            u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+            if (kv) u.voice = kv;
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence() {
+            var lines = [
+                '누가 케이크를 먹었어요?',
+                '민수가 먹었어요!',
+                '아니에요! 고양이가 먹었어요!',
+                '고양이는 케이크를 안 먹어요!'
+            ];
+            var i = 0;
+            function playNext() {
+                if (i >= lines.length) return;
+                var u = new SpeechSynthesisUtterance(lines[i]);
+                u.lang = 'ko-KR';
+                u.rate = 0.7;
+                u.pitch = 1.0;
+                var voices = window.speechSynthesis.getVoices();
+                var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+                if (kv) u.voice = kv;
+                u.onend = function() {
+                    i++;
+                    setTimeout(playNext, 600);
+                };
+                window.speechSynthesis.speak(u);
+            }
+            window.speechSynthesis.cancel();
+            playNext();
+        }
+
+        // === Sentence Builder ===
+        function initSentenceBuilders() {
+            var builders = document.querySelectorAll('.sentence-builder');
+            builders.forEach(function(builder) {
+                var bank = builder.querySelector('.word-bank');
+                var zone = builder.querySelector('.drop-zone');
+                var words = bank.querySelectorAll('.drag-word');
+
+                words.forEach(function(word) {
+                    word.addEventListener('click', function() {
+                        var placeholder = zone.querySelector('.drop-placeholder');
+                        if (placeholder) placeholder.remove();
+                        zone.appendChild(word);
+                    });
+                });
+
+                zone.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('drag-word')) {
+                        bank.appendChild(e.target);
+                        if (zone.querySelectorAll('.drag-word').length === 0) {
+                            zone.innerHTML = '<span class="drop-placeholder">Нажмите на слова выше, чтобы составить предложение</span>';
+                        }
+                    }
+                });
+            });
+        }
+
+        function checkSentence(builderId) {
+            var builder = document.getElementById(builderId);
+            var zone = builder.querySelector('.drop-zone');
+            var answer = zone.dataset.answer.split(',');
+            var placed = [];
+            zone.querySelectorAll('.drag-word').forEach(function(el) {
+                placed.push(el.dataset.word);
+            });
+            var result = builder.querySelector('.builder-result');
+            if (placed.length === 0) {
+                result.className = 'builder-result wrong';
+                result.textContent = 'Нажмите на слова, чтобы составить предложение!';
+                return;
+            }
+            var isCorrect = placed.length === answer.length && placed.every(function(w, i) { return w === answer[i]; });
+            if (isCorrect) {
+                result.className = 'builder-result correct';
+                result.textContent = '[OK] Правильно! ' + answer.join(' ');
+                speakKorean(answer.join(' '));
+            } else {
+                result.className = 'builder-result wrong';
+                result.textContent = '[ERROR] Неправильно. Правильный порядок: ' + answer.join(' ');
+            }
+        }
+
+        function resetSentence(builderId) {
+            var builder = document.getElementById(builderId);
+            var zone = builder.querySelector('.drop-zone');
+            var bank = builder.querySelector('.word-bank');
+            zone.querySelectorAll('.drag-word').forEach(function(w) { bank.appendChild(w); });
+            zone.innerHTML = '<span class="drop-placeholder">Нажмите на слова выше, чтобы составить предложение</span>';
+            builder.querySelector('.builder-result').className = 'builder-result';
+            builder.querySelector('.builder-result').textContent = '';
+        }
+    </script>
     <script>
         var LESSON_ID = 'level1_lesson_subject_particle';
 
@@ -884,8 +1217,10 @@
             exercises.forEach(function(exercise) {
                 var options = exercise.querySelectorAll('.option');
                 var result = exercise.querySelector('.result');
+                if (!result) return;
 
                 options.forEach(function(option) {
+                    if (option.dataset.correct === undefined) return;
                     option.addEventListener('click', function() {
                         options.forEach(function(opt) {
                             opt.classList.remove('correct', 'wrong');
@@ -913,6 +1248,8 @@
                     });
                 });
             });
+
+            initSentenceBuilders();
 
             var sections = document.querySelectorAll('.content-section');
             sections.forEach(function(section, index) {
