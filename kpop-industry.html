@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>K-POP Индустрия - Всё о K-POP</title>
+    <link href="css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== HERO ===== */
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px 50px;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5em;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.6em;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .hero-description {
+            font-size: 1.15em;
+            color: rgba(255,255,255,0.75);
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 1em;
+            margin-bottom: 20px;
+            padding: 8px 20px;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.15);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        /* ===== NAV TABS ===== */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 10px 24px;
+            border-radius: 25px;
+            border: 2px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: white;
+            color: #764ba2;
+            border-color: white;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.3);
+            font-weight: 700;
+        }
+
+        /* ===== SECTION BLOCK ===== */
+        .section-block {
+            background: rgba(255,255,255,0.95);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 35px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .section-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title .icon {
+            font-size: 1.1em;
+        }
+
+        .section-text {
+            font-size: 1.05em;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .section-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .korean-term {
+            display: inline;
+            color: #764ba2;
+            font-weight: 600;
+        }
+
+        .korean-small {
+            font-size: 0.85em;
+            color: #999;
+            font-weight: 400;
+        }
+
+        /* ===== AGENCY CARDS ===== */
+        .agencies-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .agency-card {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: white;
+            transition: all 0.4s ease;
+        }
+
+        .agency-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .agency-header {
+            padding: 30px 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agency-header::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -30%;
+            width: 60%;
+            height: 60%;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .agency-name {
+            font-size: 1.8em;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .agency-korean {
+            font-size: 1.1em;
+            color: rgba(255,255,255,0.85);
+            margin-top: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .agency-body {
+            padding: 25px;
+        }
+
+        .agency-info {
+            margin-bottom: 12px;
+        }
+
+        .agency-label {
+            font-size: 0.8em;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .agency-value {
+            font-size: 0.95em;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .agency-groups {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 5px;
+        }
+
+        .group-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.82em;
+            font-weight: 600;
+            color: white;
+        }
+
+        .agency-style {
+            margin-top: 15px;
+            padding: 14px 18px;
+            border-radius: 14px;
+            background: #f8f9fa;
+            font-size: 0.92em;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* ===== IDOL PATH ===== */
+        .idol-path {
+            display: flex;
+            gap: 0;
+            margin-top: 25px;
+            position: relative;
+        }
+
+        .path-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding: 0 10px;
+        }
+
+        .path-step::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            right: -2px;
+            width: calc(100% - 60px);
+            height: 3px;
+            background: linear-gradient(90deg, #764ba2, #ff6b9d);
+            z-index: 0;
+            left: calc(50% + 30px);
+        }
+
+        .path-step:last-child::after {
+            display: none;
+        }
+
+        .path-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6em;
+            margin: 0 auto 12px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .path-title {
+            font-size: 1em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 4px;
+        }
+
+        .path-korean {
+            font-size: 0.9em;
+            color: #764ba2;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .path-desc {
+            font-size: 0.85em;
+            color: #777;
+            line-height: 1.5;
+        }
+
+        /* ===== GLOSSARY ===== */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        .glossary-item {
+            display: flex;
+            gap: 14px;
+            padding: 16px 18px;
+            background: #f8f9fa;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            align-items: flex-start;
+        }
+
+        .glossary-item:hover {
+            background: #eef0ff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.06);
+        }
+
+        .glossary-eng {
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 1em;
+            white-space: nowrap;
+        }
+
+        .glossary-kr {
+            color: #764ba2;
+            font-size: 0.88em;
+            font-weight: 500;
+        }
+
+        .glossary-desc {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .agencies-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 40px 15px 30px;
+            }
+
+            .hero-section h1 {
+                font-size: 2.4em;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2em;
+            }
+
+            .section-block {
+                padding: 25px;
+                border-radius: 20px;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+
+            .idol-path {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .path-step::after {
+                display: none;
+            }
+
+            .path-step {
+                display: flex;
+                gap: 15px;
+                text-align: left;
+                align-items: flex-start;
+            }
+
+            .path-icon {
+                margin: 0;
+                flex-shrink: 0;
+            }
+
+            .glossary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                gap: 8px;
+            }
+
+            .nav-tab {
+                padding: 8px 16px;
+                font-size: 0.85em;
+            }
+
+            .main-container {
+                padding: 10px;
+            }
+
+            .agencies-grid {
+                gap: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+
+        <a href="kpop-learning.html" class="back-link">&larr; K-POP Learning</a>
+
+        <!-- HERO -->
+        <div class="hero-section">
+            <h1>K-POP Индустрия</h1>
+            <div class="hero-subtitle">케이팝 산업의 모든 것</div>
+            <p class="hero-description">Узнай, как устроена самая влиятельная музыкальная индустрия Азии: агентства, путь айдолов и термины K-POP мира</p>
+        </div>
+
+        <!-- NAV TABS -->
+        <div class="nav-tabs">
+            <a href="#about" class="nav-tab active" data-section="about">Что такое K-POP</a>
+            <a href="#agencies" class="nav-tab" data-section="agencies">Большая четвёрка</a>
+            <a href="#idol-path" class="nav-tab" data-section="idol-path">Путь айдола</a>
+            <a href="#glossary" class="nav-tab" data-section="glossary">Глоссарий</a>
+        </div>
+
+        <!-- ЧТО ТАКОЕ K-POP -->
+        <div class="section-block" id="about">
+            <h2 class="section-title">
+                <span class="icon">&#x1F3B6;</span>
+                Что такое K-POP индустрия
+            </h2>
+            <p class="section-text">
+                <span class="korean-term">케이팝 <span class="korean-small">[keipap]</span></span> &mdash; это не просто музыка. Это целая индустрия, которая объединяет музыку, хореографию, моду, визуальное искусство и маркетинг. K-POP стал глобальным культурным феноменом, который ежегодно приносит Южной Корее миллиарды долларов.
+            </p>
+            <p class="section-text">
+                Индустрия строится на системе <span class="korean-term">연예 기획사 <span class="korean-small">[yeonnye gihoeksa]</span></span> &mdash; развлекательных агентств. Они отбирают таланты, тренируют их годами и создают идеальные группы. Каждый элемент &mdash; от музыки до одежды на сцене &mdash; тщательно продуман.
+            </p>
+            <p class="section-text">
+                Термин <span class="korean-term">한류 <span class="korean-small">[hallyu]</span></span> &mdash; «корейская волна» &mdash; описывает распространение корейской поп-культуры по всему миру. Благодаря K-POP миллионы людей начали учить корейский язык, интересоваться корейской едой и культурой.
+            </p>
+        </div>
+
+        <!-- БОЛЬШАЯ ЧЕТВЁРКА -->
+        <div class="section-block" id="agencies">
+            <h2 class="section-title">
+                <span class="icon">&#x1F3E2;</span>
+                Большая четвёрка агентств
+            </h2>
+            <p class="section-text">
+                Четыре крупнейших развлекательных компании определяют облик K-POP. Каждая имеет уникальный подход к подготовке артистов и созданию музыки.
+            </p>
+
+            <div class="agencies-grid">
+
+                <!-- HYBE -->
+                <div class="agency-card">
+                    <div class="agency-header" style="background: linear-gradient(135deg, #6b4c9a, #9b59b6);">
+                        <div class="agency-name">HYBE</div>
+                        <div class="agency-korean">하이브</div>
+                    </div>
+                    <div class="agency-body">
+                        <div class="agency-info">
+                            <div class="agency-label">Основатель</div>
+                            <div class="agency-value">Пан Сихёк (방시혁) &mdash; основал Big Hit Entertainment в 2005 году, в 2021 переименовал в HYBE</div>
+                        </div>
+                        <div class="agency-info">
+                            <div class="agency-label">История</div>
+                            <div class="agency-value">Начинал как маленькое агентство. Успех BTS в 2017-2020 годах превратил компанию в крупнейшую K-POP корпорацию. Сегодня HYBE &mdash; холдинг с несколькими лейблами.</div>
+                        </div>
+                        <div class="agency-info">
+                            <div class="agency-label">Известные группы</div>
+                            <div class="agency-groups">
+                                <span class="group-badge" style="background: #6b4c9a;">BTS</span>
+                                <span class="group-badge" style="background: #8e44ad;">SEVENTEEN</span>
+                                <span class="group-badge" style="background: #5b2c8e;">TXT</span>
+                                <span class="group-badge" style="background: #4a9eff;">NewJeans</span>
+                                <span class="group-badge" style="background: #9b59b6;">ENHYPEN</span>
+                                <span class="group-badge" style="background: #7d3cad;">LE SSERAFIM</span>
+                            </div>
+                        </div>
+                        <div class="agency-style">
+                            <strong>Стиль:</strong> Глубокие концепции и сторителлинг, мультивселенные и связанные между собой истории. Акцент на самовыражении артистов и участии в создании музыки.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SM Entertainment -->
+                <div class="agency-card">
+                    <div class="agency-header" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
+                        <div class="agency-name">SM Entertainment</div>
+                        <div class="agency-korean">에스엠 엔터테인먼트</div>
+                    </div>
+                    <div class="agency-body">
+                        <div class="agency-info">
+                            <div class="agency-label">Основатель</div>
+                            <div class="agency-value">Ли Суман (이수만) &mdash; основал компанию в 1995 году, считается «отцом K-POP»</div>
+                        </div>
+                        <div class="agency-info">
+                            <div class="agency-label">История</div>
+                            <div class="agency-value">Первое агентство, создавшее систему подготовки айдолов. H.O.T. (1996) стали первой настоящей K-POP группой. SM задал стандарты для всей индустрии.</div>
+                        </div>
+                        <div class="agency-info">
+                            <div class="agency-label">Известные группы</div>
+                            <div class="agency-groups">
+                                <span class="group-badge" style="background: #e74c3c;">EXO</span>
+                                <span class="group-badge" style="background: #c0392b;">NCT</span>
+                                <span class="group-badge" style="background: #1a1a2e;">aespa</span>
+                                <span class="group-badge" style="background: #e91e8c;">Red Velvet</span>
+                                <span class="group-badge" style="background: #e74c3c;">Super Junior</span>
+                                <span class="group-badge" style="background: #d63031;">SHINee</span>
+                            </div>
+                        </div>
+                        <div class="agency-style">
+                            <strong>Стиль:</strong> Безупречная техника исполнения, сложные вокальные гармонии и экспериментальное звучание. Инновационные концепции (виртуальные миры aespa, мультигруппа NCT).
+                        </div>
+                    </div>
+                </div>
+
+                <!-- JYP Entertainment -->
+                <div class="agency-card">
+                    <div class="agency-header" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">
+                        <div class="agency-name">JYP Entertainment</div>
+                        <div class="agency-korean">제이와이피 엔터테인먼트</div>
+                    </div>
+                    <div class="agency-body">
+                        <div class="agency-info">
+                            <div class="agency-label">Основатель</div>
+                            <div class="agency-value">Пак Чинён (박진영) &mdash; основал в 1997 году. Сам успешный певец и продюсер</div>
+                        </div>
+                        <div class="agency-info">
+                            <div class="agency-label">История</div>
+                            <div class="agency-value">Создал «корейскую волну» в Японии с Rain и Wonder Girls. Известен выражением «JYP!» в начале песен. Компания славится дружелюбной атмосферой.</div>
+                        </div>
+                        <div class="agency-info">
+                            <div class="agency-label">Известные группы</div>
+                            <div class="agency-groups">
+                                <span class="group-badge" style="background: #27ae60;">TWICE</span>
+                                <span class="group-badge" style="background: #ff5722;">Stray Kids</span>
+                                <span class="group-badge" style="background: #2ecc71;">ITZY</span>
+                                <span class="group-badge" style="background: #16a085;">GOT7</span>
+                                <span class="group-badge" style="background: #1abc9c;">NMIXX</span>
+                                <span class="group-badge" style="background: #27ae60;">2PM</span>
+                            </div>
+                        </div>
+                        <div class="agency-style">
+                            <strong>Стиль:</strong> Запоминающиеся мелодии и «фишки» (point choreography). Естественный и дружелюбный имидж артистов. Акцент на живом исполнении и сценическом обаянии.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- YG Entertainment -->
+                <div class="agency-card">
+                    <div class="agency-header" style="background: linear-gradient(135deg, #2c3e50, #34495e);">
+                        <div class="agency-name">YG Entertainment</div>
+                        <div class="agency-korean">와이지 엔터테인먼트</div>
+                    </div>
+                    <div class="agency-body">
+                        <div class="agency-info">
+                            <div class="agency-label">Основатель</div>
+                            <div class="agency-value">Ян Хёнсок (양현석) &mdash; бывший участник Seo Taiji and Boys, основал в 1996 году</div>
+                        </div>
+                        <div class="agency-info">
+                            <div class="agency-label">История</div>
+                            <div class="agency-value">Создал уникальный «swag»-стиль K-POP. BIGBANG произвели революцию в индустрии. BLACKPINK стали самой популярной K-POP женской группой в мире.</div>
+                        </div>
+                        <div class="agency-info">
+                            <div class="agency-label">Известные группы</div>
+                            <div class="agency-groups">
+                                <span class="group-badge" style="background: #e91e8c;">BLACKPINK</span>
+                                <span class="group-badge" style="background: #2c3e50;">BIGBANG</span>
+                                <span class="group-badge" style="background: #34495e;">TREASURE</span>
+                                <span class="group-badge" style="background: #555;">WINNER</span>
+                                <span class="group-badge" style="background: #444;">iKON</span>
+                                <span class="group-badge" style="background: #34495e;">BABYMONSTER</span>
+                            </div>
+                        </div>
+                        <div class="agency-style">
+                            <strong>Стиль:</strong> Хип-хоп и R&B основа, «крутой» и бунтарский имидж. Артисты активно участвуют в написании текстов. Акцент на индивидуальности и стиле.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ПУТЬ АЙДОЛА -->
+        <div class="section-block" id="idol-path">
+            <h2 class="section-title">
+                <span class="icon">&#x2B50;</span>
+                Путь айдола
+            </h2>
+            <p class="section-text">
+                Стать K-POP айдолом &mdash; невероятно сложный путь. Из тысяч претендентов дебютируют единицы. Вот основные этапы:
+            </p>
+
+            <div class="idol-path">
+                <div class="path-step">
+                    <div class="path-icon" style="background: linear-gradient(135deg, #ff6b9d, #c44569);">&#x1F3A4;</div>
+                    <div>
+                        <div class="path-title">Отбор</div>
+                        <div class="path-korean">오디션 [odisyeon]</div>
+                        <div class="path-desc">Агентства проводят прослушивания по всему миру. Оценивают вокал, танец, внешность и харизму. Конкурс &mdash; от 1:500 до 1:10000.</div>
+                    </div>
+                </div>
+
+                <div class="path-step">
+                    <div class="path-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">&#x1F4AA;</div>
+                    <div>
+                        <div class="path-title">Стажёр</div>
+                        <div class="path-korean">연습생 [yeonseupssaeng]</div>
+                        <div class="path-desc">2-7 лет ежедневных тренировок: вокал, хореография, рэп, актёрское мастерство, иностранные языки. Регулярные оценки и отсев.</div>
+                    </div>
+                </div>
+
+                <div class="path-step">
+                    <div class="path-icon" style="background: linear-gradient(135deg, #f39c12, #e67e22);">&#x1F31F;</div>
+                    <div>
+                        <div class="path-title">Дебют</div>
+                        <div class="path-korean">데뷔 [debwi]</div>
+                        <div class="path-desc">Выпуск первого альбома или сингла. Первое выступление на музыкальном шоу. Момент, к которому шли годами &mdash; 데뷔일 становится важной датой.</div>
+                    </div>
+                </div>
+
+                <div class="path-step">
+                    <div class="path-icon" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">&#x1F3C6;</div>
+                    <div>
+                        <div class="path-title">Карьера</div>
+                        <div class="path-korean">활동 [hwaldong]</div>
+                        <div class="path-desc">Камбэки каждые 4-8 месяцев, концерты, фансайны, съёмки в шоу, рекламные контракты. Средний контракт &mdash; 7 лет (칠년계약).</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ГЛОССАРИЙ -->
+        <div class="section-block" id="glossary">
+            <h2 class="section-title">
+                <span class="icon">&#x1F4D6;</span>
+                Глоссарий K-POP терминов
+            </h2>
+            <p class="section-text">
+                Чтобы понимать мир K-POP, нужно знать его язык. Вот самые важные термины:
+            </p>
+
+            <div class="glossary-grid">
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Comeback</div>
+                        <div class="glossary-kr">컴백 [keombaek]</div>
+                    </div>
+                    <div class="glossary-desc">Выход нового альбома/сингла и начало промоушена. Не значит «возвращение» &mdash; это просто новый релиз.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Fansign</div>
+                        <div class="glossary-kr">팬사인회 [paensainhoe]</div>
+                    </div>
+                    <div class="glossary-desc">Мероприятие, где фанаты получают автографы и общаются с айдолами лично. Участие через покупку альбомов.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Lightstick</div>
+                        <div class="glossary-kr">응원봉 [eungwonbong]</div>
+                    </div>
+                    <div class="glossary-desc">Официальный светящийся аксессуар фандома. У каждой группы уникальный дизайн. Используется на концертах.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Sasaeng</div>
+                        <div class="glossary-kr">사생팬 [sasaengpaen]</div>
+                    </div>
+                    <div class="glossary-desc">Чрезмерно навязчивые фанаты, нарушающие личное пространство айдолов. В индустрии это серьёзная проблема.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Hallyu</div>
+                        <div class="glossary-kr">한류 [hallyu]</div>
+                    </div>
+                    <div class="glossary-desc">«Корейская волна» &mdash; глобальное распространение корейской культуры: музыка, дорамы, кино, еда, косметика.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Maknae</div>
+                        <div class="glossary-kr">막내 [mangnae]</div>
+                    </div>
+                    <div class="glossary-desc">Самый младший участник группы. В корейской культуре возраст очень важен, и макнэ занимает особое место.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Visual</div>
+                        <div class="glossary-kr">비주얼 [bijueol]</div>
+                    </div>
+                    <div class="glossary-desc">Участник группы, который считается самым привлекательным. Официальная роль &mdash; «лицо группы».</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Center</div>
+                        <div class="glossary-kr">센터 [senteo]</div>
+                    </div>
+                    <div class="glossary-desc">Участник, который стоит в центре формации на сцене. Обычно имеет наибольшее экранное время в клипах.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Bias</div>
+                        <div class="glossary-kr">최애 [choeae]</div>
+                    </div>
+                    <div class="glossary-desc">Любимый участник группы у фаната. «Bias wrecker» &mdash; другой участник, который тоже нравится.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Aegyo</div>
+                        <div class="glossary-kr">애교 [aegyo]</div>
+                    </div>
+                    <div class="glossary-desc">Милое, «кавайное» поведение: изменение голоса, жесты, мимика. Часть айдол-культуры, особенно на фансайнах.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">All-kill</div>
+                        <div class="glossary-kr">올킬 [olkil]</div>
+                    </div>
+                    <div class="glossary-desc">Когда песня занимает 1 место на всех крупных музыкальных чартах одновременно. Знак огромного успеха.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Music Show Win</div>
+                        <div class="glossary-kr">음악 방송 1위 [eumak bangsong ilwi]</div>
+                    </div>
+                    <div class="glossary-desc">Победа на еженедельных музыкальных шоу (Inkigayo, Music Bank, M Countdown). Важная веха для любой группы.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Daesang</div>
+                        <div class="glossary-kr">대상 [daesang]</div>
+                    </div>
+                    <div class="glossary-desc">Главный приз на K-POP церемониях награждения (MAMA, MMA, GDA). Самая престижная награда в K-POP.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Trainee</div>
+                        <div class="glossary-kr">연습생 [yeonseupssaeng]</div>
+                    </div>
+                    <div class="glossary-desc">Стажёр в агентстве, тренирующийся для будущего дебюта. Период стажировки &mdash; от нескольких месяцев до 10+ лет.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Selca</div>
+                        <div class="glossary-kr">셀카 [selka]</div>
+                    </div>
+                    <div class="glossary-desc">Селфи (сокращение от «self camera»). Айдолы постоянно выкладывают селка для общения с фанатами.</div>
+                </div>
+
+                <div class="glossary-item">
+                    <div>
+                        <div class="glossary-eng">Idol</div>
+                        <div class="glossary-kr">아이돌 [aidol]</div>
+                    </div>
+                    <div class="glossary-desc">K-POP артист, прошедший систему подготовки. Не просто певец &mdash; танцор, модель, ведущий и развлекатель в одном лице.</div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // === Smooth scroll for nav tabs ===
+        var tabs = document.querySelectorAll('.nav-tab');
+        tabs.forEach(function(tab) {
+            tab.addEventListener('click', function(e) {
+                e.preventDefault();
+                var sectionId = tab.getAttribute('data-section');
+                var section = document.getElementById(sectionId);
+                if (section) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                tabs.forEach(function(t) { t.classList.remove('active'); });
+                tab.classList.add('active');
+            });
+        });
+
+        // === Scroll spy for active tab ===
+        var sections = document.querySelectorAll('.section-block[id]');
+        window.addEventListener('scroll', function() {
+            var scrollPos = window.scrollY + 200;
+
+            sections.forEach(function(section) {
+                if (section.offsetTop <= scrollPos && (section.offsetTop + section.offsetHeight) > scrollPos) {
+                    var id = section.getAttribute('id');
+                    tabs.forEach(function(t) {
+                        t.classList.toggle('active', t.getAttribute('data-section') === id);
+                    });
+                }
+            });
+        });
+
+        // === Section appear animation ===
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('[OK] K-POP Industry page loaded');
+
+            var allSections = document.querySelectorAll('.section-block');
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            allSections.forEach(function(section) {
+                observer.observe(section);
+            });
+        });
+    })();
+    </script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <!-- Firebase modules -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-sync.js"></script>
+    <script src="js/firebase-auth.js"></script>
+
+    <!-- Global nav -->
+    <script src="js/global-nav.js"></script>
+</body>
+</html>

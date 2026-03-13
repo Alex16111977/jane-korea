@@ -52,6 +52,8 @@
             'phrases.html': 'phrases',
             'games.html': 'games',
             'kpop-fan-phrases.html': 'kpop',
+            'kpop-industry.html': 'kpop',
+            'kpop-song-learn.html': 'kpop',
             'korean-trends.html': 'index',
             'daily-korean.html': 'index',
             'handwriting.html': 'index',
