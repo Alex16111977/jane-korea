@@ -88,10 +88,98 @@
             font-weight: bold;
             margin-bottom: 5px;
         }
-        
+
         .translation {
             color: #666;
             font-size: 1.1em;
+        }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15);
+            border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%;
+            width: 36px; height: 36px;
+            font-size: 1.1em; cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .dialogue-play-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; border: none; padding: 12px 25px;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            margin: 15px auto; display: block;
+            transition: all 0.3s ease;
+        }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(102,126,234,0.4); }
+
+        .practice-section {
+            background: linear-gradient(135deg, #a8e6cf, #7fcdcd);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .option:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .option.correct { background: #27ae60; }
+        .option.wrong { background: #e74c3c; }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+
+        @media (max-width: 768px) {
+            .options { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
@@ -121,7 +209,7 @@
             </div>
             
             <div class="example-box">
-                <div class="korean-text">나는 사과를 먹어요</div>
+                <div class="korean-text">나는 사과를 먹어요 <button class="audio-btn" onclick="speakKorean('나는 사과를 먹어요')">🔊</button></div>
                 <div class="translation">Я яблоко ем (Я ем яблоко)</div>
                 <div style="margin-top: 10px; color: #999; font-size: 0.9em;">
                     나는 (я) + 사과를 (яблоко) + 먹어요 (ем)
@@ -140,12 +228,12 @@
             </div>
             
             <div class="example-box">
-                <div class="korean-text">학생이 공부해요</div>
+                <div class="korean-text">학생이 공부해요 <button class="audio-btn" onclick="speakKorean('학생이 공부해요')">🔊</button></div>
                 <div class="translation">Студент учится (именно студент)</div>
             </div>
             
             <div class="example-box">
-                <div class="korean-text">학생은 공부해요</div>
+                <div class="korean-text">학생은 공부해요 <button class="audio-btn" onclick="speakKorean('학생은 공부해요')">🔊</button></div>
                 <div class="translation">Студент учится (что касается студента)</div>
             </div>
             
@@ -155,7 +243,7 @@
             </div>
             
             <div class="example-box">
-                <div class="korean-text">책을 읽어요</div>
+                <div class="korean-text">책을 읽어요 <button class="audio-btn" onclick="speakKorean('책을 읽어요')">🔊</button></div>
                 <div class="translation">Книгу читаю</div>
             </div>
         </div>
@@ -189,29 +277,125 @@
             
             <div class="example-box">
                 <h4>Простое предложение:</h4>
-                <div class="korean-text">고양이가 자요</div>
+                <div class="korean-text">고양이가 자요 <button class="audio-btn" onclick="speakKorean('고양이가 자요')">🔊</button></div>
                 <div class="translation">Кошка спит</div>
             </div>
             
             <div class="example-box">
                 <h4>С объектом:</h4>
-                <div class="korean-text">저는 한국어를 배워요</div>
+                <div class="korean-text">저는 한국어를 배워요 <button class="audio-btn" onclick="speakKorean('저는 한국어를 배워요')">🔊</button></div>
                 <div class="translation">Я изучаю корейский язык</div>
             </div>
             
             <div class="example-box">
                 <h4>Сложное предложение:</h4>
-                <div class="korean-text">학생이 도서관에서 책을 읽어요</div>
+                <div class="korean-text">학생이 도서관에서 책을 읽어요 <button class="audio-btn" onclick="speakKorean('학생이 도서관에서 책을 읽어요')">🔊</button></div>
                 <div class="translation">Студент в библиотеке читает книгу</div>
             </div>
         </div>
 
         <div class="content-section">
-            <h2>✨ Заключение</h2>
-            <p style="font-size: 1.2em; text-align: center; color: #2c3e50;">
-                Запомните: <strong>SOV</strong> + частицы = основа корейского языка!<br>
-                화이팅! 💪
-            </p>
+            <h2>🎮 Упражнения</h2>
+
+            <div class="exercise">
+                <div class="question">1. Какой порядок слов в корейском предложении?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">SVO (Субъект-Глагол-Объект)</button>
+                    <button class="option" data-correct="true">SOV (Субъект-Объект-Глагол)</button>
+                    <button class="option" data-correct="false">VSO (Глагол-Субъект-Объект)</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. Какая частица показывает тему разговора?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">이/가</button>
+                    <button class="option" data-correct="true">은/는</button>
+                    <button class="option" data-correct="false">을/를</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Выберите правильное предложение: "Я читаю книгу"</div>
+                <div class="options">
+                    <button class="option" data-correct="false">나는 읽어요 책을</button>
+                    <button class="option" data-correct="true">나는 책을 읽어요</button>
+                    <button class="option" data-correct="false">책을 나는 읽어요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. После согласной ставится частица:</div>
+                <div class="options">
+                    <button class="option" data-correct="true">이 / 은 / 을</button>
+                    <button class="option" data-correct="false">가 / 는 / 를</button>
+                    <button class="option" data-correct="false">에 / 에서</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. 학생___ 공부해요 (студент учится — подчёркиваем "именно студент"). Какая частица?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">이</button>
+                    <button class="option" data-correct="false">은</button>
+                    <button class="option" data-correct="false">을</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. 사과___ 먹어요 (ем яблоко). Какая объектная частица?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">를</button>
+                    <button class="option" data-correct="false">을</button>
+                    <button class="option" data-correct="false">는</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">7. 책___ 읽어요 (читаю книгу). Какая частица нужна после 책 (согласная ㄱ)?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">를</button>
+                    <button class="option" data-correct="true">을</button>
+                    <button class="option" data-correct="false">이</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">8. Переведите: 고양이가 자요 <button class="audio-btn" onclick="speakKorean('고양이가 자요')">🔊</button></div>
+                <div class="options">
+                    <button class="option" data-correct="false">Собака ест</button>
+                    <button class="option" data-correct="true">Кошка спит</button>
+                    <button class="option" data-correct="false">Студент читает</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>📋 Запомни!</h2>
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px;">
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px;">
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>Порядок SOV</strong><br>나는 책을 읽어요<br><em>Я + книгу + читаю</em>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>Тема: 은/는</strong><br>학생은 공부해요<br><em>Что касается студента -- учится</em>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>Субъект: 이/가</strong><br>학생이 공부해요<br><em>Именно студент учится</em>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>Объект: 을/를</strong><br>책을 읽어요<br><em>Книгу читаю</em>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- Кнопка завершения урока -->
@@ -231,6 +415,48 @@
         ">Отметить урок как пройденный</button>
     </div>
 
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+            if (kv) u.voice = kv;
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function(){});
+        }
+
+        function playDialogueSequence(btn) {
+            var section = btn.closest('.content-section') || btn.parentElement;
+            var lines = section.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text') || l.querySelector('.dialogue-korean');
+                if (k) texts.push(k.textContent.replace(/🔊/g,'').trim());
+            });
+            if (!texts.length) return;
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.textContent = '⏸ Воспроизводится...';
+            function next() {
+                if (i >= texts.length) { btn.textContent = '🎭 Прослушать диалог'; return; }
+                lines[i].style.background = 'rgba(255,235,59,0.3)';
+                if (i > 0) lines[i-1].style.background = '';
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = i%2===0 ? 1.1 : 0.9;
+                var v = window.speechSynthesis.getVoices();
+                var kv = v.find(function(x){return x.lang.indexOf('ko')!==-1;});
+                if(kv) u.voice = kv;
+                u.onend = function() { lines[i].style.background = ''; i++; setTimeout(next,800); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+    </script>
     <script src="../../js/progress-tracker.js"></script>
     <script>
         var LESSON_ID = 'level2_lesson_01_grammar';
@@ -262,6 +488,33 @@
                     }
                 }
             }
+
+            var exercises = document.querySelectorAll('.exercise');
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) { opt.classList.remove('correct', 'wrong'); });
+                        var isCorrect = this.dataset.correct === 'true';
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') opt.classList.add('correct');
+                            });
+                        }
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            console.log('[OK] Lesson loaded: level2_lesson_01_grammar');
         });
     </script>
 <script src="../../js/global-nav.js"></script>
