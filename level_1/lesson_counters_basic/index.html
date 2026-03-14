@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Счётные слова — основы | 1급 Корейский язык</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #a8e6cf 0%, #dcedc8 50%, #dcedc8 100%);
+            min-height: 100vh; color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; top: 15%; right: 4%;
+            font-size: 115px; opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none; z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #388e3c; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #4caf50; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.05em; }
+        .header .lesson-number { font-size: 0.95em; color: #888; margin-bottom: 10px; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 { color: #388e3c; margin-top: 0; font-size: 1.8em; border-bottom: 3px solid #4caf50; padding-bottom: 10px; }
+
+        .grammar-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0;
+        }
+        .grammar-table th { background: #4caf50; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+
+        .example-card {
+            background: linear-gradient(135deg, #4caf50, #66bb6a); color: white;
+            padding: 20px; border-radius: 15px; margin: 12px 0;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+        }
+        .example-korean { font-size: 1.5em; font-weight: 700; }
+        .example-romanization { font-size: 0.9em; opacity: 0.85; margin-top: 4px; }
+        .example-meaning { font-size: 1em; opacity: 0.95; }
+        .example-info { flex: 1; min-width: 200px; }
+
+        .tip-box {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .counter-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px; margin: 20px 0;
+        }
+        .counter-card {
+            background: linear-gradient(135deg, #388e3c, #4caf50); color: white;
+            padding: 20px; border-radius: 15px; text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .counter-card:hover { transform: translateY(-5px); }
+        .counter-korean { font-size: 1.6em; font-weight: 700; }
+        .counter-romanization { font-size: 0.85em; opacity: 0.85; margin: 5px 0; }
+        .counter-meaning { font-size: 0.95em; }
+        .counter-example { font-size: 0.9em; opacity: 0.9; margin-top: 8px; background: rgba(255,255,255,0.15); padding: 8px; border-radius: 8px; }
+
+        .pattern-highlight {
+            background: #e8f5e9; border: 1px solid #4caf50; border-radius: 8px;
+            padding: 4px 10px; display: inline-block; font-weight: 600; color: #2e7d32; margin: 2px;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #388e3c, #4caf50); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .korean-text { font-size: 1.1em; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; font-style: italic; }
+        .dialogue-play-btn {
+            background: rgba(255,255,255,0.25); color: white; border: 2px solid rgba(255,255,255,0.4);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer;
+            font-size: 1em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.3s ease; margin-bottom: 15px;
+        }
+        .dialogue-play-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .audio-btn-light {
+            background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn-light:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .practice-section {
+            background: linear-gradient(135deg, #C8E6C9, #A5D6A7);
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .practice-section h2 { color: #1b5e20; margin-bottom: 20px; font-size: 1.5em; border-bottom: none; }
+
+        .exercise-item { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .exercise-question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .exercise-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .exercise-btn {
+            background: #4caf50; color: white; padding: 10px 20px; border: none;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .exercise-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .exercise-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .exercise-result { margin-top: 10px; padding: 10px; border-radius: 8px; font-weight: 600; }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049); color: white;
+            border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+        }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        .number-comparison {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;
+        }
+        .number-column {
+            background: linear-gradient(135deg, #43a047, #2e7d32); color: white;
+            padding: 25px; border-radius: 15px;
+        }
+        .number-column h3 { margin-top: 0; font-size: 1.2em; text-align: center; }
+        .number-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 12px; margin: 6px 0;
+            background: rgba(255,255,255,0.1); border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .content-section { padding: 25px; }
+            .exercise-options { flex-direction: column; }
+            .counter-grid { grid-template-columns: repeat(2, 1fr); }
+            .number-comparison { grid-template-columns: 1fr; }
+            .example-card { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_1/index.html">&#8592; 1&#44553; Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+            <a href="../lesson_question_sentences/index.html">&#8592; Урок 20</a>
+            <a href="../lesson_health_phrases/index.html">Урок 22 &#8594;</a>
+        </div>
+
+        <header class="header">
+            <div class="lesson-number">1&#44553; | Урок 21</div>
+            <h1>Счётные слова — основы</h1>
+            <div class="korean-title">수분류사 기초 [subunryusa gicho]</div>
+            <div class="description">Почему нельзя сказать "три книги" напрямую? Учимся считать по-корейски с помощью счётных слов</div>
+        </header>
+
+        <!-- Секция 1: Зачем нужны счётные слова -->
+        <div class="content-section">
+            <h2>1. Зачем нужны счётные слова?</h2>
+            <p>В русском мы говорим просто: <strong>"три книги"</strong>, <strong>"два студента"</strong>. В корейском между числом и предметом ставится специальное <strong>счётное слово</strong> (수분류사), которое зависит от типа предмета.</p>
+
+            <div class="tip-box">
+                <strong>Главная идея:</strong> Нельзя сказать "세 책" (три книги). Нужно: <strong>책 세 권</strong> = книга + три + [счётное слово для книг].
+                <button class="audio-btn" onclick="speakKorean('책 세 권')">&#128264;</button>
+            </div>
+
+            <p>Структура предложения:</p>
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px; margin: 15px 0; text-align: center; font-size: 1.2em;">
+                <span class="pattern-highlight" style="color: #2e7d32;">[существительное]</span>
+                + <span class="pattern-highlight" style="color: #2e7d32;">[число]</span>
+                + <span class="pattern-highlight" style="color: #2e7d32;">[счётное слово]</span>
+                <br><br>
+                <div style="font-size: 1.3em;">사과 세 개 = яблоко + три + [штуки]</div>
+                <button class="audio-btn-light" onclick="speakKorean('사과 세 개')">&#128264;</button>
+            </div>
+        </div>
+
+        <!-- Секция 2: Напоминание о числах -->
+        <div class="content-section">
+            <h2>2. Две системы чисел — напоминание</h2>
+            <p>В корейском есть <strong>две системы</strong> счёта. Со счётными словами чаще используются <strong>исконно корейские числа</strong>:</p>
+
+            <div class="number-comparison">
+                <div class="number-column">
+                    <h3>Исконно корейские (со счётными словами)</h3>
+                    <div class="number-item"><span>하나 [hana]</span> <span>1</span> <button class="audio-btn-light" onclick="speakKorean('하나')">&#128264;</button></div>
+                    <div class="number-item"><span>둘 [dul]</span> <span>2</span> <button class="audio-btn-light" onclick="speakKorean('둘')">&#128264;</button></div>
+                    <div class="number-item"><span>셋 [set]</span> <span>3</span> <button class="audio-btn-light" onclick="speakKorean('셋')">&#128264;</button></div>
+                    <div class="number-item"><span>넷 [net]</span> <span>4</span> <button class="audio-btn-light" onclick="speakKorean('넷')">&#128264;</button></div>
+                    <div class="number-item"><span>다섯 [daseot]</span> <span>5</span> <button class="audio-btn-light" onclick="speakKorean('다섯')">&#128264;</button></div>
+                    <div class="number-item"><span>여섯 [yeoseot]</span> <span>6</span> <button class="audio-btn-light" onclick="speakKorean('여섯')">&#128264;</button></div>
+                    <div class="number-item"><span>일곱 [ilgop]</span> <span>7</span> <button class="audio-btn-light" onclick="speakKorean('일곱')">&#128264;</button></div>
+                    <div class="number-item"><span>여덟 [yeodeol]</span> <span>8</span> <button class="audio-btn-light" onclick="speakKorean('여덟')">&#128264;</button></div>
+                    <div class="number-item"><span>아홉 [ahop]</span> <span>9</span> <button class="audio-btn-light" onclick="speakKorean('아홉')">&#128264;</button></div>
+                    <div class="number-item"><span>열 [yeol]</span> <span>10</span> <button class="audio-btn-light" onclick="speakKorean('열')">&#128264;</button></div>
+                </div>
+                <div class="number-column" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                    <h3>Сино-корейские (для возраста 살, этажей 층)</h3>
+                    <div class="number-item"><span>일 [il]</span> <span>1</span> <button class="audio-btn-light" onclick="speakKorean('일')">&#128264;</button></div>
+                    <div class="number-item"><span>이 [i]</span> <span>2</span> <button class="audio-btn-light" onclick="speakKorean('이')">&#128264;</button></div>
+                    <div class="number-item"><span>삼 [sam]</span> <span>3</span> <button class="audio-btn-light" onclick="speakKorean('삼')">&#128264;</button></div>
+                    <div class="number-item"><span>사 [sa]</span> <span>4</span> <button class="audio-btn-light" onclick="speakKorean('사')">&#128264;</button></div>
+                    <div class="number-item"><span>오 [o]</span> <span>5</span> <button class="audio-btn-light" onclick="speakKorean('오')">&#128264;</button></div>
+                    <div class="number-item"><span>육 [yuk]</span> <span>6</span> <button class="audio-btn-light" onclick="speakKorean('육')">&#128264;</button></div>
+                    <div class="number-item"><span>칠 [chil]</span> <span>7</span> <button class="audio-btn-light" onclick="speakKorean('칠')">&#128264;</button></div>
+                    <div class="number-item"><span>팔 [pal]</span> <span>8</span> <button class="audio-btn-light" onclick="speakKorean('팔')">&#128264;</button></div>
+                    <div class="number-item"><span>구 [gu]</span> <span>9</span> <button class="audio-btn-light" onclick="speakKorean('구')">&#128264;</button></div>
+                    <div class="number-item"><span>십 [sip]</span> <span>10</span> <button class="audio-btn-light" onclick="speakKorean('십')">&#128264;</button></div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Важно!</strong> Числа 1-4 перед счётным словом <strong>меняют форму</strong>:
+                하나 &#8594; <strong>한</strong>, 둘 &#8594; <strong>두</strong>, 셋 &#8594; <strong>세</strong>, 넷 &#8594; <strong>네</strong>.
+                Например: 한 개, 두 명, 세 권, 네 마리.
+            </div>
+        </div>
+
+        <!-- Секция 3: Топ-8 счётных слов -->
+        <div class="content-section">
+            <h2>3. Топ-8 счётных слов для начинающих</h2>
+
+            <div class="counter-grid">
+                <div class="counter-card">
+                    <div class="counter-korean">개 <button class="audio-btn-light" onclick="speakKorean('개')">&#128264;</button></div>
+                    <div class="counter-romanization">[gae]</div>
+                    <div class="counter-meaning">предметы (универсальный)</div>
+                    <div class="counter-example">사과 세 개 = 3 яблока <button class="audio-btn-light" onclick="speakKorean('사과 세 개')">&#128264;</button></div>
+                </div>
+                <div class="counter-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="counter-korean">명 / 사람 <button class="audio-btn-light" onclick="speakKorean('명')">&#128264;</button></div>
+                    <div class="counter-romanization">[myeong / saram]</div>
+                    <div class="counter-meaning">люди</div>
+                    <div class="counter-example">학생 두 명 = 2 студента <button class="audio-btn-light" onclick="speakKorean('학생 두 명')">&#128264;</button></div>
+                </div>
+                <div class="counter-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="counter-korean">권 <button class="audio-btn-light" onclick="speakKorean('권')">&#128264;</button></div>
+                    <div class="counter-romanization">[gwon]</div>
+                    <div class="counter-meaning">книги, тома</div>
+                    <div class="counter-example">책 한 권 = 1 книга <button class="audio-btn-light" onclick="speakKorean('책 한 권')">&#128264;</button></div>
+                </div>
+                <div class="counter-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                    <div class="counter-korean">마리 <button class="audio-btn-light" onclick="speakKorean('마리')">&#128264;</button></div>
+                    <div class="counter-romanization">[mari]</div>
+                    <div class="counter-meaning">животные</div>
+                    <div class="counter-example">고양이 세 마리 = 3 кошки <button class="audio-btn-light" onclick="speakKorean('고양이 세 마리')">&#128264;</button></div>
+                </div>
+                <div class="counter-card" style="background: linear-gradient(135deg, #4caf50, #388e3c);">
+                    <div class="counter-korean">잔 <button class="audio-btn-light" onclick="speakKorean('잔')">&#128264;</button></div>
+                    <div class="counter-romanization">[jan]</div>
+                    <div class="counter-meaning">чашки, стаканы</div>
+                    <div class="counter-example">커피 한 잔 = 1 кофе <button class="audio-btn-light" onclick="speakKorean('커피 한 잔')">&#128264;</button></div>
+                </div>
+                <div class="counter-card" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                    <div class="counter-korean">병 <button class="audio-btn-light" onclick="speakKorean('병')">&#128264;</button></div>
+                    <div class="counter-romanization">[byeong]</div>
+                    <div class="counter-meaning">бутылки</div>
+                    <div class="counter-example">물 두 병 = 2 бутылки воды <button class="audio-btn-light" onclick="speakKorean('물 두 병')">&#128264;</button></div>
+                </div>
+                <div class="counter-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="counter-korean">장 <button class="audio-btn-light" onclick="speakKorean('장')">&#128264;</button></div>
+                    <div class="counter-romanization">[jang]</div>
+                    <div class="counter-meaning">листы, плоские предметы</div>
+                    <div class="counter-example">종이 세 장 = 3 листа бумаги <button class="audio-btn-light" onclick="speakKorean('종이 세 장')">&#128264;</button></div>
+                </div>
+                <div class="counter-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="counter-korean">살 <button class="audio-btn-light" onclick="speakKorean('살')">&#128264;</button></div>
+                    <div class="counter-romanization">[sal]</div>
+                    <div class="counter-meaning">возраст (лет)</div>
+                    <div class="counter-example">열 살 = 10 лет <button class="audio-btn-light" onclick="speakKorean('열 살')">&#128264;</button></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 4: Примеры с аудио -->
+        <div class="content-section">
+            <h2>4. Примеры в предложениях</h2>
+            <p>Посмотрите, как счётные слова используются в реальных предложениях:</p>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">사과 다섯 개 주세요.</div>
+                    <div class="example-romanization">[sagwa daseot gae juseyo]</div>
+                    <div class="example-meaning">Дайте пять яблок, пожалуйста.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('사과 다섯 개 주세요')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">친구 세 명이 왔어요.</div>
+                    <div class="example-romanization">[chingu se myeongi wasseoyo]</div>
+                    <div class="example-meaning">Пришли три друга.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('친구 세 명이 왔어요')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">이 책 두 권 읽었어요.</div>
+                    <div class="example-romanization">[i chaek du gwon ilgeosseoyo]</div>
+                    <div class="example-meaning">Я прочитал(а) две этих книги.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('이 책 두 권 읽었어요')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">강아지 한 마리가 있어요.</div>
+                    <div class="example-romanization">[gangaji han mariga isseoyo]</div>
+                    <div class="example-meaning">У меня есть одна собака.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('강아지 한 마리가 있어요')">&#128264;</button>
+            </div>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">맥주 세 병 주세요.</div>
+                    <div class="example-romanization">[maekju se byeong juseyo]</div>
+                    <div class="example-meaning">Три бутылки пива, пожалуйста.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('맥주 세 병 주세요')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">종이 한 장만 주세요.</div>
+                    <div class="example-romanization">[jongi han jangman juseyo]</div>
+                    <div class="example-meaning">Дайте только один лист бумаги.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('종이 한 장만 주세요')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">저는 스물다섯 살이에요.</div>
+                    <div class="example-romanization">[jeoneun seumuldaseot sarieyo]</div>
+                    <div class="example-meaning">Мне 25 лет.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('저는 스물다섯 살이에요')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">물 한 잔 주세요.</div>
+                    <div class="example-romanization">[mul han jan juseyo]</div>
+                    <div class="example-meaning">Стакан воды, пожалуйста.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('물 한 잔 주세요')">&#128264;</button>
+            </div>
+        </div>
+
+        <!-- Секция 5: Таблица с формами -->
+        <div class="content-section">
+            <h2>5. Числа 1-5 со счётными словами</h2>
+            <p>Обратите внимание на укороченные формы чисел 1-4:</p>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Число</th>
+                        <th>+ 개 (штуки)</th>
+                        <th>+ 명 (люди)</th>
+                        <th>+ 잔 (чашки)</th>
+                        <th>+ 마리 (животные)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1</strong> (하나&#8594;한)</td>
+                        <td>한 개 <button class="audio-btn" onclick="speakKorean('한 개')">&#128264;</button></td>
+                        <td>한 명 <button class="audio-btn" onclick="speakKorean('한 명')">&#128264;</button></td>
+                        <td>한 잔 <button class="audio-btn" onclick="speakKorean('한 잔')">&#128264;</button></td>
+                        <td>한 마리 <button class="audio-btn" onclick="speakKorean('한 마리')">&#128264;</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>2</strong> (둘&#8594;두)</td>
+                        <td>두 개 <button class="audio-btn" onclick="speakKorean('두 개')">&#128264;</button></td>
+                        <td>두 명 <button class="audio-btn" onclick="speakKorean('두 명')">&#128264;</button></td>
+                        <td>두 잔 <button class="audio-btn" onclick="speakKorean('두 잔')">&#128264;</button></td>
+                        <td>두 마리 <button class="audio-btn" onclick="speakKorean('두 마리')">&#128264;</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>3</strong> (셋&#8594;세)</td>
+                        <td>세 개 <button class="audio-btn" onclick="speakKorean('세 개')">&#128264;</button></td>
+                        <td>세 명 <button class="audio-btn" onclick="speakKorean('세 명')">&#128264;</button></td>
+                        <td>세 잔 <button class="audio-btn" onclick="speakKorean('세 잔')">&#128264;</button></td>
+                        <td>세 마리 <button class="audio-btn" onclick="speakKorean('세 마리')">&#128264;</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>4</strong> (넷&#8594;네)</td>
+                        <td>네 개 <button class="audio-btn" onclick="speakKorean('네 개')">&#128264;</button></td>
+                        <td>네 명 <button class="audio-btn" onclick="speakKorean('네 명')">&#128264;</button></td>
+                        <td>네 잔 <button class="audio-btn" onclick="speakKorean('네 잔')">&#128264;</button></td>
+                        <td>네 마리 <button class="audio-btn" onclick="speakKorean('네 마리')">&#128264;</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>5</strong> (다섯)</td>
+                        <td>다섯 개 <button class="audio-btn" onclick="speakKorean('다섯 개')">&#128264;</button></td>
+                        <td>다섯 명 <button class="audio-btn" onclick="speakKorean('다섯 명')">&#128264;</button></td>
+                        <td>다섯 잔 <button class="audio-btn" onclick="speakKorean('다섯 잔')">&#128264;</button></td>
+                        <td>다섯 마리 <button class="audio-btn" onclick="speakKorean('다섯 마리')">&#128264;</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Секция 6: Мини-диалог -->
+        <div class="content-section">
+            <h2>6. Мини-диалог: в кафе</h2>
+            <p>Заказ в корейском кафе с использованием счётных слов:</p>
+
+            <div class="dialogue-box">
+                <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+                <div class="dialogue-line">
+                    <div class="speaker">직원 (Сотрудник):</div>
+                    <div class="korean-text">어서 오세요! 뭐 드릴까요?</div>
+                    <div class="translation">Добро пожаловать! Что вам предложить?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">손님 (Клиент):</div>
+                    <div class="korean-text">커피 두 잔 주세요.</div>
+                    <div class="translation">Два кофе, пожалуйста.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">네, 커피 두 잔이요. 케이크도 드릴까요?</div>
+                    <div class="translation">Да, два кофе. Хотите также кейк?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">손님:</div>
+                    <div class="korean-text">네, 케이크 한 개하고 쿠키 세 개 주세요.</div>
+                    <div class="translation">Да, один кейк и три печенья, пожалуйста.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">커피 두 잔, 케이크 한 개, 쿠키 세 개요. 만 이천 원이에요.</div>
+                    <div class="translation">Два кофе, один кейк, три печенья. 12 000 вон.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">손님:</div>
+                    <div class="korean-text">네, 여기요. 감사합니다!</div>
+                    <div class="translation">Да, вот. Спасибо!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 7: Упражнения -->
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-item">
+                <div class="exercise-question">1. Как сказать "3 яблока"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">사과 삼 개</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">사과 세 개</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">사과 셋 개</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">세 사과 개</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">2. Какое счётное слово для книг?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">개</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">장</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">권</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">명</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">3. "Два студента" по-корейски:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">학생 이 명</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">학생 둘 명</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">학생 두 명</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">두 학생 명</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">4. Какое счётное слово для животных?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">잔</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">마리</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">명</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">개</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">5. Как сказать "один кофе"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">커피 하나 잔</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">커피 일 잔</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">커피 한 잔</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">한 커피 잔</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">6. Переведите: "종이 네 장"</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">четыре книги</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">четыре бутылки</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">четыре листа бумаги</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">четыре человека</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">7. Как будет "две бутылки воды"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">물 이 병</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">물 두 병</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">물 둘 병</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">두 물 병</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">8. "Мне 10 лет" по-корейски:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">저는 십 살이에요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">저는 열 살이에요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">저는 열 명이에요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">저는 열 개이에요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+        </div>
+
+        <!-- Запомни блок -->
+        <div class="content-section">
+            <h2>&#128203; Запомни!</h2>
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>&#128300; Формула</strong><br>
+                        [сущ.] + [число] + [счётное слово]<br>
+                        <em>사과 세 개</em>
+                        <button class="audio-btn-light" onclick="speakKorean('사과 세 개')">&#128264;</button>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>&#128257; Укороченные формы</strong><br>
+                        하나&#8594;한, 둘&#8594;두<br>
+                        셋&#8594;세, 넷&#8594;네
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>&#127863; Топ счётные слова</strong><br>
+                        개 (штуки), 명 (люди)<br>
+                        권 (книги), 마리 (животные)
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>&#9749; Ключевая фраза</strong><br>
+                        커피 두 잔 주세요<br>
+                        <em>Два кофе, пожалуйста</em>
+                        <button class="audio-btn-light" onclick="speakKorean('커피 두 잔 주세요')">&#128264;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" class="complete-btn">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+            if (kv) u.voice = kv;
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.closest('.dialogue-box');
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text');
+                if (k) {
+                    var t = k.textContent.replace(/\[.*?\]/g, '').replace(/\uD83D\uDD0A/g, '').trim();
+                    if (t) texts.push(t);
+                }
+            });
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.innerHTML = '&#9208; Воспроизводится...';
+            btn.disabled = true;
+            function next() {
+                if (i >= texts.length) {
+                    btn.innerHTML = '&#127917; Прослушать диалог';
+                    btn.disabled = false;
+                    lines.forEach(function(l) { l.style.background = ''; });
+                    return;
+                }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(255,255,255,0.15)';
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                var v = window.speechSynthesis.getVoices();
+                var kv = v.find(function(x) { return x.lang.indexOf('ko') !== -1; });
+                if (kv) u.voice = kv;
+                u.onend = function() { i++; setTimeout(next, 400); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item');
+            var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) {
+                    if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; }
+                });
+            }
+        }
+    </script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_counters_basic';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

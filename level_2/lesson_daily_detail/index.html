@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Распорядок дня — подробно — 2급 Корейский</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; margin: 0; padding: 0; background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%), linear-gradient(135deg, #2196F3 0%, #1565C0 100%); min-height: 100vh; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 25px; font-size: 0.95em; transition: all 0.3s ease; backdrop-filter: blur(5px); }
+        .navigation a:hover { background: rgba(255,255,255,0.3); }
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 2.2em; color: #2c3e50; margin-bottom: 10px; }
+        .korean-title { font-size: 1.3em; color: #1565C0; margin-bottom: 10px; }
+        .description { color: #666; font-size: 1.05em; }
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2c3e50; margin-bottom: 20px; font-size: 1.5em; }
+        .word-card { background: linear-gradient(135deg, #2196F3, #42A5F5); color: white; padding: 20px; border-radius: 15px; margin: 10px 0; }
+        .word-korean { font-size: 1.8em; font-weight: 700; }
+        .word-romanization { font-size: 0.95em; opacity: 0.9; margin: 5px 0; }
+        .word-meaning { font-size: 1.1em; }
+        .word-example { font-size: 0.95em; opacity: 0.9; margin-top: 8px; font-style: italic; }
+        .grammar-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0; }
+        .grammar-table th { background: #1565C0; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+        .dialogue-box { background: linear-gradient(135deg, #2196F3, #42A5F5); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; }
+        .tip-box { background: #e3f2fd; border-left: 4px solid #2196F3; padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0; }
+        .tip-box strong { color: #1565C0; }
+        .practice-section { background: linear-gradient(135deg, #BBDEFB, #90CAF9); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .practice-section h2 { color: #1565C0; margin-bottom: 20px; font-size: 1.5em; }
+        .exercise { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .option { background: #1565C0; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1em; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; transition: all 0.3s ease; }
+        .option:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(21,101,192,0.4); }
+        .option.correct { background: #2e7d32; }
+        .option.wrong { background: #f44336; }
+        .result { margin-top: 10px; padding: 12px; border-radius: 10px; text-align: center; font-weight: 500; display: none; }
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+        .complete-btn { background: linear-gradient(135deg, #2196F3, #42A5F5); color: white; border: none; padding: 18px 50px; border-radius: 30px; font-size: 1.15em; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; box-shadow: 0 8px 25px rgba(21,101,192,0.3); }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(21,101,192,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .words-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin: 20px 0; }
+        .phrase-card { background: #e8f4fd; border: 2px solid #2196F3; border-radius: 12px; padding: 18px; margin: 10px 0; }
+        .phrase-korean { font-size: 1.3em; font-weight: 700; color: #1565C0; margin-bottom: 6px; }
+        .phrase-romanization { font-size: 0.9em; color: #555; margin-bottom: 6px; }
+        .phrase-meaning { color: #333; font-size: 1em; }
+        .time-morning { background: linear-gradient(135deg, #ffb74d, #ffa726); }
+        .time-day { background: linear-gradient(135deg, #42a5f5, #1e88e5); }
+        .time-evening { background: linear-gradient(135deg, #7e57c2, #5e35b1); }
+        .timeline-item { display: flex; align-items: flex-start; gap: 15px; padding: 15px; margin: 10px 0; background: white; border-radius: 12px; border-left: 5px solid #2196F3; box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
+        .timeline-time { font-size: 1.1em; font-weight: 700; color: #1565C0; min-width: 60px; }
+        .timeline-content { flex: 1; }
+        .timeline-korean { font-size: 1.2em; font-weight: 600; color: #2c3e50; margin-bottom: 4px; }
+        .timeline-meaning { font-size: 0.95em; color: #666; }
+        .complete-section { text-align: center; padding: 30px; }
+        .audio-btn {
+            background: rgba(76,175,80,0.15);
+            border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px;
+            font-size: 1.1em; cursor: pointer; transition: all 0.3s ease;
+            flex-shrink: 0; display: inline-flex; align-items: center;
+            justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .dialogue-play-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; border: none; padding: 12px 25px;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            margin: 15px auto; display: block; transition: all 0.3s ease;
+        }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(102,126,234,0.4); }
+
+        .remember-block {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            border: 2px solid #ff9800;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        .remember-block h2 {
+            color: #e65100;
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+        .remember-phrase {
+            background: rgba(230,81,0,0.08);
+            border: 1px solid rgba(230,81,0,0.2);
+            border-radius: 12px;
+            padding: 15px 18px;
+            margin: 10px 0;
+        }
+        .remember-phrase .rp-korean {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #e65100;
+            margin-bottom: 4px;
+        }
+        .remember-phrase .rp-meaning {
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .lesson-nav { display: flex; justify-content: space-between; margin-top: 20px; }
+        .lesson-nav a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 12px 24px; border-radius: 25px; font-size: 1em; transition: all 0.3s ease; backdrop-filter: blur(5px); }
+        .lesson-nav a:hover { background: rgba(255,255,255,0.3); }
+
+        @media (max-width: 768px) { .header h1 { font-size: 1.6em; } .content-section { padding: 25px; } .options { flex-direction: column; } .timeline-item { flex-direction: column; gap: 5px; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navigation">
+        <a href="../../level_2/index.html">&larr; 2&#44553; Уроки</a>
+        <a href="../../lessons.html">Все уровни</a>
+    </div>
+
+    <div class="header">
+        <h1>Распорядок дня &mdash; подробно</h1>
+        <div class="korean-title">하루 일과 &mdash; 자세히 &mdash; Урок 34</div>
+        <div class="description">Научитесь подробно описывать свой распорядок дня на корейском: утренние, дневные и вечерние действия с указанием времени. Освойте связующие конструкции для последовательности событий.</div>
+    </div>
+
+    <!-- Секция 1: Утро -->
+    <div class="content-section">
+        <h2>1. Утренний распорядок (아침 일과)</h2>
+        <p style="color:#666; margin-bottom:20px;">Типичные утренние действия с указанием времени. Время указывается с частицей 에.</p>
+
+        <div class="timeline-item" style="border-left-color: #ff9800;">
+            <div class="timeline-time">7:00</div>
+            <div class="timeline-content">
+                <div class="timeline-korean">일어나요 <button class="audio-btn" onclick="speakKorean('7시에 일어나요.')">&#128266;</button></div>
+                <div class="timeline-meaning">Встаю (7시에 일어나요 -- встаю в 7 часов)</div>
+            </div>
+        </div>
+        <div class="timeline-item" style="border-left-color: #ff9800;">
+            <div class="timeline-time">7:10</div>
+            <div class="timeline-content">
+                <div class="timeline-korean">세수를 해요 <button class="audio-btn" onclick="speakKorean('세수를 해요.')">&#128266;</button></div>
+                <div class="timeline-meaning">Умываюсь (буквально: "делаю умывание лица")</div>
+            </div>
+        </div>
+        <div class="timeline-item" style="border-left-color: #ff9800;">
+            <div class="timeline-time">7:30</div>
+            <div class="timeline-content">
+                <div class="timeline-korean">아침을 먹어요 <button class="audio-btn" onclick="speakKorean('아침을 먹어요.')">&#128266;</button></div>
+                <div class="timeline-meaning">Завтракаю (아침 식사를 해요 -- более формально)</div>
+            </div>
+        </div>
+        <div class="timeline-item" style="border-left-color: #ff9800;">
+            <div class="timeline-time">7:50</div>
+            <div class="timeline-content">
+                <div class="timeline-korean">옷을 입어요 <button class="audio-btn" onclick="speakKorean('옷을 입어요.')">&#128266;</button></div>
+                <div class="timeline-meaning">Одеваюсь (буквально: "надеваю одежду")</div>
+            </div>
+        </div>
+        <div class="timeline-item" style="border-left-color: #ff9800;">
+            <div class="timeline-time">8:00</div>
+            <div class="timeline-content">
+                <div class="timeline-korean">출발해요 <button class="audio-btn" onclick="speakKorean('8시에 출발해요.')">&#128266;</button></div>
+                <div class="timeline-meaning">Выхожу из дома (8시에 출발해요 -- выхожу в 8)</div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <strong>아침을 먹다 vs. 아침 식사를 하다:</strong> Оба выражения означают "завтракать". 아침을 먹다 (есть утро) -- более разговорное. 아침 식사를 하다 (делать утренний приём пищи) -- более формальное. То же самое: 점심을 먹다 (обедать), 저녁을 먹다 (ужинать).
+        </div>
+    </div>
+
+    <!-- Секция 2: День -->
+    <div class="content-section">
+        <h2>2. Дневные действия (낮 일과)</h2>
+        <p style="color:#666; margin-bottom:20px;">Что мы делаем в течение дня -- работа, учёба и обед.</p>
+
+        <div class="words-grid">
+            <div class="word-card time-day">
+                <div class="word-korean">출근하다 <button class="audio-btn" onclick="speakKorean('출근하다')">&#128266;</button></div>
+                <div class="word-romanization">[chulgeunhada]</div>
+                <div class="word-meaning">идти/ехать на работу</div>
+                <div class="word-example">9시에 출근해요. <button class="audio-btn" onclick="speakKorean('9시에 출근해요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card time-day">
+                <div class="word-korean">등교하다 <button class="audio-btn" onclick="speakKorean('등교하다')">&#128266;</button></div>
+                <div class="word-romanization">[deunggyohada]</div>
+                <div class="word-meaning">идти в школу/университет</div>
+                <div class="word-example">8시 반에 등교해요. <button class="audio-btn" onclick="speakKorean('8시 반에 등교해요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card time-day">
+                <div class="word-korean">점심을 먹다 <button class="audio-btn" onclick="speakKorean('점심을 먹다')">&#128266;</button></div>
+                <div class="word-romanization">[jeomsimeul meokda]</div>
+                <div class="word-meaning">обедать</div>
+                <div class="word-example">12시에 점심을 먹어요. <button class="audio-btn" onclick="speakKorean('12시에 점심을 먹어요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card time-day">
+                <div class="word-korean">회의하다 <button class="audio-btn" onclick="speakKorean('회의하다')">&#128266;</button></div>
+                <div class="word-romanization">[hoeuihada]</div>
+                <div class="word-meaning">проводить совещание</div>
+                <div class="word-example">오후에 회의해요. <button class="audio-btn" onclick="speakKorean('오후에 회의해요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card time-day">
+                <div class="word-korean">수업을 듣다 <button class="audio-btn" onclick="speakKorean('수업을 듣다')">&#128266;</button></div>
+                <div class="word-romanization">[sueobeul deutda]</div>
+                <div class="word-meaning">посещать занятия</div>
+                <div class="word-example">오전에 수업을 들어요. <button class="audio-btn" onclick="speakKorean('오전에 수업을 들어요.')">&#128266;</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Секция 3: Вечер -->
+    <div class="content-section">
+        <h2>3. Вечерний распорядок (저녁 일과)</h2>
+        <p style="color:#666; margin-bottom:20px;">Вечерние и ночные действия -- отдых, еда, хобби и сон.</p>
+
+        <div class="timeline-item" style="border-left-color: #7e57c2;">
+            <div class="timeline-time">18:00</div>
+            <div class="timeline-content">
+                <div class="timeline-korean">퇴근하다 <button class="audio-btn" onclick="speakKorean('6시에 퇴근해요.')">&#128266;</button></div>
+                <div class="timeline-meaning">Уходить с работы (6시에 퇴근해요 -- ухожу с работы в 6)</div>
+            </div>
+        </div>
+        <div class="timeline-item" style="border-left-color: #7e57c2;">
+            <div class="timeline-time">19:00</div>
+            <div class="timeline-content">
+                <div class="timeline-korean">저녁을 먹다 <button class="audio-btn" onclick="speakKorean('7시에 저녁을 먹어요.')">&#128266;</button></div>
+                <div class="timeline-meaning">Ужинать (7시에 저녁을 먹어요 -- ужинаю в 7)</div>
+            </div>
+        </div>
+        <div class="timeline-item" style="border-left-color: #7e57c2;">
+            <div class="timeline-time">20:00</div>
+            <div class="timeline-content">
+                <div class="timeline-korean">운동하다 <button class="audio-btn" onclick="speakKorean('8시에 운동해요.')">&#128266;</button></div>
+                <div class="timeline-meaning">Заниматься спортом (운동 -- спорт/упражнения)</div>
+            </div>
+        </div>
+        <div class="timeline-item" style="border-left-color: #7e57c2;">
+            <div class="timeline-time">21:00</div>
+            <div class="timeline-content">
+                <div class="timeline-korean">샤워를 하다 <button class="audio-btn" onclick="speakKorean('샤워를 해요.')">&#128266;</button></div>
+                <div class="timeline-meaning">Принимать душ</div>
+            </div>
+        </div>
+        <div class="timeline-item" style="border-left-color: #7e57c2;">
+            <div class="timeline-time">21:30</div>
+            <div class="timeline-content">
+                <div class="timeline-korean">드라마를 보다 <button class="audio-btn" onclick="speakKorean('드라마를 봐요.')">&#128266;</button></div>
+                <div class="timeline-meaning">Смотреть дораму</div>
+            </div>
+        </div>
+        <div class="timeline-item" style="border-left-color: #7e57c2;">
+            <div class="timeline-time">23:00</div>
+            <div class="timeline-content">
+                <div class="timeline-korean">자다 <button class="audio-btn" onclick="speakKorean('11시에 자요.')">&#128266;</button></div>
+                <div class="timeline-meaning">Ложиться спать (11시에 자요 -- ложусь в 11)</div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <strong>출근하다 / 퇴근하다 -- пара антонимов:</strong><br>
+            출근 = выход на работу (出勤), 퇴근 = уход с работы (退勤). Аналогично для школы: 등교하다 (идти в школу) / 하교하다 (уходить из школы). Запоминайте эти слова парами!
+        </div>
+    </div>
+
+    <!-- Секция 4: Связующие конструкции -->
+    <div class="content-section">
+        <h2>4. Связующие конструкции (연결 표현)</h2>
+        <p style="color:#666; margin-bottom:20px;">Как связать действия в последовательность -- "потом", "до того как", "после того как".</p>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th>Конструкция</th>
+                    <th>Значение</th>
+                    <th>Пример</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>그리고 나서</strong></td>
+                    <td>и потом, после этого</td>
+                    <td>아침을 먹고, 그리고 나서 출발해요. <button class="audio-btn" onclick="speakKorean('아침을 먹고, 그리고 나서 출발해요.')">&#128266;</button></td>
+                </tr>
+                <tr>
+                    <td><strong>-기 전에</strong></td>
+                    <td>до того как (перед)</td>
+                    <td>자기 전에 샤워를 해요. <button class="audio-btn" onclick="speakKorean('자기 전에 샤워를 해요.')">&#128266;</button></td>
+                </tr>
+                <tr>
+                    <td><strong>-(으)ㄴ 후에</strong></td>
+                    <td>после того как</td>
+                    <td>퇴근한 후에 운동해요. <button class="audio-btn" onclick="speakKorean('퇴근한 후에 운동해요.')">&#128266;</button></td>
+                </tr>
+                <tr>
+                    <td><strong>-고</strong></td>
+                    <td>и (перечисление)</td>
+                    <td>세수하고 아침을 먹어요. <button class="audio-btn" onclick="speakKorean('세수하고 아침을 먹어요.')">&#128266;</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="phrase-card">
+            <div class="phrase-korean">일어나서 세수하고 아침을 먹어요. <button class="audio-btn" onclick="speakKorean('일어나서 세수하고 아침을 먹어요.')">&#128266;</button></div>
+            <div class="phrase-romanization">[ireonaseo sesuago achimeul meogeoyo.]</div>
+            <div class="phrase-meaning">Встаю, умываюсь и завтракаю.</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase-korean">출근하기 전에 커피를 마셔요. <button class="audio-btn" onclick="speakKorean('출근하기 전에 커피를 마셔요.')">&#128266;</button></div>
+            <div class="phrase-romanization">[chulgeunhagi jeone keopireul masyeoyo.]</div>
+            <div class="phrase-meaning">Перед работой пью кофе.</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase-korean">저녁을 먹은 후에 드라마를 봐요. <button class="audio-btn" onclick="speakKorean('저녁을 먹은 후에 드라마를 봐요.')">&#128266;</button></div>
+            <div class="phrase-romanization">[jeonyeogeul meogeun hue deuramareul bwayo.]</div>
+            <div class="phrase-meaning">После ужина смотрю дораму.</div>
+        </div>
+
+        <div class="tip-box">
+            <strong>-기 전에 vs. -(으)ㄴ 후에:</strong><br>
+            Запомните: перед действием = основа глагола + 기 전에 (자기 전에 -- перед сном). После действия = основа глагола + (으)ㄴ 후에 (먹은 후에 -- после еды). -기 전에 всегда с основой глагола, а -(으)ㄴ 후에 -- с прошедшим причастием.
+        </div>
+    </div>
+
+    <!-- Секция 5: Диалог -->
+    <div class="content-section">
+        <h2>5. Диалог: сравнение распорядков</h2>
+        <p style="color:#666; margin-bottom:20px;">Минджи (민지) и Тэхён (태형) сравнивают свои ежедневные распорядки.</p>
+
+        <div class="dialogue-box">
+            <div class="dialogue-line">
+                <div class="speaker">민지:</div>
+                <div class="korean-text">태형 씨, 보통 몇 시에 일어나요? <button class="audio-btn" onclick="speakKorean('태형 씨, 보통 몇 시에 일어나요?')">&#128266;</button></div>
+                <div class="translation">Тэхён, во сколько вы обычно встаёте?</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">태형:</div>
+                <div class="korean-text">저는 6시 반에 일어나요. 일찍 일어나서 운동하고 출근해요. <button class="audio-btn" onclick="speakKorean('저는 6시 반에 일어나요. 일찍 일어나서 운동하고 출근해요.')">&#128266;</button></div>
+                <div class="translation">Я встаю в 6:30. Встаю рано, занимаюсь спортом и иду на работу.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">민지:</div>
+                <div class="korean-text">와, 부지런하시네요! 저는 8시에 일어나요. 아침도 잘 안 먹어요. <button class="audio-btn" onclick="speakKorean('와, 부지런하시네요! 저는 8시에 일어나요. 아침도 잘 안 먹어요.')">&#128266;</button></div>
+                <div class="translation">Ого, какой вы трудолюбивый! Я встаю в 8. И даже не завтракаю толком.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">태형:</div>
+                <div class="korean-text">아침은 꼭 먹어야 해요! 퇴근 후에는 보통 뭐 해요? <button class="audio-btn" onclick="speakKorean('아침은 꼭 먹어야 해요! 퇴근 후에는 보통 뭐 해요?')">&#128266;</button></div>
+                <div class="translation">Завтрак обязательно нужно есть! А после работы что обычно делаете?</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">민지:</div>
+                <div class="korean-text">퇴근한 후에 저녁을 먹고 드라마를 봐요. 자기 전에 한국어 공부도 해요. <button class="audio-btn" onclick="speakKorean('퇴근한 후에 저녁을 먹고 드라마를 봐요. 자기 전에 한국어 공부도 해요.')">&#128266;</button></div>
+                <div class="translation">После работы ужинаю и смотрю дорамы. Перед сном ещё учу корейский.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">태형:</div>
+                <div class="korean-text">좋은 습관이네요! 저도 자기 전에 책을 읽어요. 몇 시에 자요? <button class="audio-btn" onclick="speakKorean('좋은 습관이네요! 저도 자기 전에 책을 읽어요. 몇 시에 자요?')">&#128266;</button></div>
+                <div class="translation">Хорошая привычка! Я тоже читаю перед сном. Во сколько ложитесь?</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">민지:</div>
+                <div class="korean-text">보통 12시에 자요. 좀 늦게 자는 편이에요. <button class="audio-btn" onclick="speakKorean('보통 12시에 자요. 좀 늦게 자는 편이에요.')">&#128266;</button></div>
+                <div class="translation">Обычно в 12. Скорее поздно ложусь.</div>
+            </div>
+        </div>
+        <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+
+        <div class="tip-box">
+            <strong>보통 (обычно) -- ключевое наречие:</strong><br>
+            При описании распорядка дня часто используется 보통 (botong) -- "обычно, как правило". Другие полезные наречия: 항상 (всегда), 매일 (каждый день), 자주 (часто), 가끔 (иногда).
+        </div>
+    </div>
+
+    <!-- Упражнения -->
+    <div class="practice-section">
+        <h2>Упражнения</h2>
+
+        <div class="exercise" id="ex1">
+            <div class="question">1. "Умываюсь" по-корейски:</div>
+            <div class="options">
+                <button class="option" data-correct="false">옷을 입어요</button>
+                <button class="option" data-correct="true">세수를 해요</button>
+                <button class="option" data-correct="false">샤워를 해요</button>
+                <button class="option" data-correct="false">출발해요</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex2">
+            <div class="question">2. 퇴근하다 означает:</div>
+            <div class="options">
+                <button class="option" data-correct="false">идти на работу</button>
+                <button class="option" data-correct="true">уходить с работы</button>
+                <button class="option" data-correct="false">идти в школу</button>
+                <button class="option" data-correct="false">обедать</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex3">
+            <div class="question">3. Как сказать "перед сном"?</div>
+            <div class="options">
+                <button class="option" data-correct="false">잔 후에</button>
+                <button class="option" data-correct="false">자고 나서</button>
+                <button class="option" data-correct="true">자기 전에</button>
+                <button class="option" data-correct="false">자는 동안</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex4">
+            <div class="question">4. Переведите: "После ужина смотрю дораму"</div>
+            <div class="options">
+                <button class="option" data-correct="false">저녁을 먹기 전에 드라마를 봐요.</button>
+                <button class="option" data-correct="true">저녁을 먹은 후에 드라마를 봐요.</button>
+                <button class="option" data-correct="false">저녁을 먹고 싶어서 드라마를 봐요.</button>
+                <button class="option" data-correct="false">저녁에 드라마를 먹어요.</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex5">
+            <div class="question">5. Антоним 출근하다 (идти на работу):</div>
+            <div class="options">
+                <button class="option" data-correct="false">등교하다</button>
+                <button class="option" data-correct="true">퇴근하다</button>
+                <button class="option" data-correct="false">출발하다</button>
+                <button class="option" data-correct="false">일어나다</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex6">
+            <div class="question">6. "Встаю, умываюсь и завтракаю" -- выберите правильный вариант:</div>
+            <div class="options">
+                <button class="option" data-correct="true">일어나서 세수하고 아침을 먹어요.</button>
+                <button class="option" data-correct="false">일어나서 아침을 세수해요.</button>
+                <button class="option" data-correct="false">세수해서 일어나고 아침을 먹어요.</button>
+                <button class="option" data-correct="false">아침을 먹고 일어나서 세수해요.</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex7">
+            <div class="question">7. 그리고 나서 означает:</div>
+            <div class="options">
+                <button class="option" data-correct="false">перед этим</button>
+                <button class="option" data-correct="false">вместе с этим</button>
+                <button class="option" data-correct="true">и потом, после этого</button>
+                <button class="option" data-correct="false">вместо этого</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex8">
+            <div class="question">8. "Я обычно встаю в 7 часов" по-корейски:</div>
+            <div class="options">
+                <button class="option" data-correct="false">항상 7시에 자요.</button>
+                <button class="option" data-correct="false">매일 7시에 출근해요.</button>
+                <button class="option" data-correct="true">보통 7시에 일어나요.</button>
+                <button class="option" data-correct="false">가끔 7시에 일어나요.</button>
+            </div>
+            <div class="result"></div>
+        </div>
+    </div>
+
+    <!-- Блок Запомни -->
+    <div class="remember-block">
+        <h2>&#128203; Запомни!</h2>
+
+        <div class="remember-phrase">
+            <div class="rp-korean">일어나다 &rarr; 세수하다 &rarr; 먹다 &rarr; 출발하다 <button class="audio-btn" onclick="speakKorean('일어나다, 세수하다, 먹다, 출발하다')">&#128266;</button></div>
+            <div class="rp-meaning">Встать &rarr; умыться &rarr; поесть &rarr; выйти -- утренняя последовательность</div>
+        </div>
+
+        <div class="remember-phrase">
+            <div class="rp-korean">출근하다 / 퇴근하다 <button class="audio-btn" onclick="speakKorean('출근하다. 퇴근하다.')">&#128266;</button></div>
+            <div class="rp-meaning">Идти на работу / уходить с работы -- пара антонимов</div>
+        </div>
+
+        <div class="remember-phrase">
+            <div class="rp-korean">-기 전에 / -(으)ㄴ 후에 <button class="audio-btn" onclick="speakKorean('자기 전에. 먹은 후에.')">&#128266;</button></div>
+            <div class="rp-meaning">До (перед) / после -- связующие конструкции для последовательности</div>
+        </div>
+
+        <div class="remember-phrase">
+            <div class="rp-korean">그리고 나서 / -고 <button class="audio-btn" onclick="speakKorean('그리고 나서')">&#128266;</button></div>
+            <div class="rp-meaning">"И потом" / "и" -- для перечисления действий по порядку</div>
+        </div>
+
+        <div class="remember-phrase">
+            <div class="rp-korean">보통 / 매일 / 항상 <button class="audio-btn" onclick="speakKorean('보통. 매일. 항상.')">&#128266;</button></div>
+            <div class="rp-meaning">Обычно / каждый день / всегда -- наречия для распорядка</div>
+        </div>
+
+        <div style="margin-top: 15px; padding: 15px; background: rgba(230,81,0,0.1); border-radius: 10px;">
+            <strong>Совет:</strong> Попробуйте описать свой день по-корейски, используя 보통 и связки -고, -기 전에, -(으)ㄴ 후에. Начните с утра и дойдите до вечера!
+        </div>
+    </div>
+
+    <div class="complete-section">
+        <button class="complete-btn" id="completeLessonBtn" onclick="completeLesson()">Отметить урок как пройденный</button>
+    </div>
+
+    <div class="lesson-nav">
+        <a href="../lesson_education/index.html">&larr; Урок 33</a>
+        <a href="../../level_2/index.html">Все уроки 2&#44553; &rarr;</a>
+    </div>
+</div>
+
+<script src="../../js/progress-tracker.js"></script>
+<script>
+    function speakKorean(text) {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+        var voices = window.speechSynthesis.getVoices();
+        var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+        if (kv) u.voice = kv;
+        window.speechSynthesis.speak(u);
+    }
+    if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.addEventListener('voiceschanged', function(){});
+    }
+
+    function playDialogueSequence(btn) {
+        var section = btn.closest('.content-section') || btn.parentElement;
+        var lines = section.querySelectorAll('.dialogue-line');
+        var texts = [];
+        lines.forEach(function(l) {
+            var k = l.querySelector('.korean-text') || l.querySelector('.dialogue-korean');
+            if (k) texts.push(k.textContent.replace(/\u{1F50A}/gu,'').trim());
+        });
+        if (!texts.length) return;
+        window.speechSynthesis.cancel();
+        var i = 0;
+        btn.textContent = '\u23F8 \u0412\u043E\u0441\u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0441\u044F...';
+        function next() {
+            if (i >= texts.length) { btn.textContent = '\uD83C\uDFAD \u041F\u0440\u043E\u0441\u043B\u0443\u0448\u0430\u0442\u044C \u0434\u0438\u0430\u043B\u043E\u0433'; return; }
+            lines[i].style.background = 'rgba(255,235,59,0.3)';
+            if (i > 0) lines[i-1].style.background = '';
+            var u = new SpeechSynthesisUtterance(texts[i]);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = i%2===0 ? 1.1 : 0.9;
+            var v = window.speechSynthesis.getVoices();
+            var kv = v.find(function(x){return x.lang.indexOf('ko')!==-1;});
+            if(kv) u.voice = kv;
+            u.onend = function() { lines[i].style.background = ''; i++; setTimeout(next,800); };
+            window.speechSynthesis.speak(u);
+        }
+        next();
+    }
+
+    var LESSON_ID = 'level2_lesson_daily_detail';
+    function completeLesson() {
+        if (window.ProgressTracker) {
+            ProgressTracker.markLessonCompleted(LESSON_ID);
+            var btn = document.getElementById('completeLessonBtn');
+            btn.textContent = '\u041F\u0440\u043E\u0439\u0434\u0435\u043D\u043E!';
+            btn.style.background = '#1565C0';
+            btn.disabled = true;
+            console.log('[OK] Lesson completed:', LESSON_ID);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.ProgressTracker) {
+            var progress = ProgressTracker.get();
+            if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                var btn = document.getElementById('completeLessonBtn');
+                if (btn) { btn.textContent = '\u041F\u0440\u043E\u0439\u0434\u0435\u043D\u043E!'; btn.style.background = '#1565C0'; btn.disabled = true; }
+            }
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.exercise').forEach(function(exercise) {
+            exercise.querySelectorAll('.option').forEach(function(option) {
+                option.addEventListener('click', function() {
+                    var opts = exercise.querySelectorAll('.option');
+                    opts.forEach(function(o) { o.classList.remove('correct', 'wrong'); });
+                    var result = exercise.querySelector('.result');
+                    if (this.dataset.correct === 'true') {
+                        this.classList.add('correct');
+                        result.className = 'result correct';
+                        result.textContent = '[OK] \u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u043E!';
+                    } else {
+                        this.classList.add('wrong');
+                        result.className = 'result wrong';
+                        result.textContent = '[-] \u041D\u0435\u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u043E. \u041F\u043E\u043F\u0440\u043E\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437!';
+                        opts.forEach(function(o) { if (o.dataset.correct === 'true') o.classList.add('correct'); });
+                    }
+                    result.style.display = 'block';
+                });
+            });
+        });
+        document.querySelectorAll('.content-section').forEach(function(s, i) {
+            s.style.opacity = '0';
+            s.style.transform = 'translateY(30px)';
+            setTimeout(function() {
+                s.style.transition = 'all 0.6s ease';
+                s.style.opacity = '1';
+                s.style.transform = 'translateY(0)';
+            }, i * 200);
+        });
+        console.log('[OK] Lesson loaded:', LESSON_ID);
+    });
+</script>
+<script src="../../js/global-nav.js"></script>
+</body>
+</html>

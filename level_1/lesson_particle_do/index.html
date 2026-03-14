@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Частица 도 — тоже</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #a8e6cf 0%, #dcedc8 50%, #dcedc8 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #388e3c;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #4caf50;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .lesson-number {
+            font-size: 0.95em;
+            color: #888;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #388e3c;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #4caf50;
+            padding-bottom: 10px;
+        }
+
+        .example-card {
+            background: #f1f8e9;
+            border-left: 4px solid #4caf50;
+            border-radius: 12px;
+            padding: 18px 22px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .example-korean {
+            font-size: 1.35em;
+            font-weight: 700;
+            color: #2e7d32;
+        }
+
+        .example-roman {
+            font-size: 0.95em;
+            color: #777;
+        }
+
+        .example-translation {
+            font-size: 1.05em;
+            color: #555;
+            margin-left: auto;
+        }
+
+        .particle-highlight {
+            color: #d32f2f;
+            font-weight: 700;
+        }
+
+        .pattern-box {
+            background: linear-gradient(135deg, #4caf50, #388e3c);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: 700;
+            margin: 25px 0;
+            box-shadow: 0 10px 30px rgba(56,142,60,0.3);
+        }
+
+        .pattern-box .pattern-desc {
+            font-size: 0.65em;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #388e3c, #4caf50);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .table-cell.korean {
+            color: #388e3c;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #66bb6a, #4caf50);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #ffeb3b;
+            margin-bottom: 8px;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.8em;
+            color: #c8e6c9;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .exercise-item {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        .exercise-question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .exercise-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .exercise-btn {
+            background: #388e3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+        }
+
+        .exercise-btn:hover {
+            background: #4caf50;
+            transform: translateY(-2px);
+        }
+
+        .exercise-btn:disabled {
+            cursor: default;
+            transform: none;
+        }
+
+        .exercise-result {
+            margin-top: 12px;
+            font-weight: 600;
+            font-size: 1.05em;
+            min-height: 1.5em;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #a8e6cf, #7fcdcd);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15);
+            border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%;
+            width: 36px; height: 36px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            margin-left: 8px;
+            padding: 0;
+        }
+
+        .audio-btn:hover {
+            background: rgba(76,175,80,0.3);
+            transform: scale(1.1);
+        }
+
+        .info-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 18px;
+            border-radius: 0 12px 12px 0;
+            margin: 15px 0;
+            font-size: 1.05em;
+        }
+
+        .replace-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .replace-card {
+            background: linear-gradient(135deg, #81c784, #66bb6a);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .replace-card .before {
+            text-decoration: line-through;
+            opacity: 0.6;
+            font-size: 1.1em;
+        }
+
+        .replace-card .arrow {
+            font-size: 1.5em;
+            margin: 8px 0;
+        }
+
+        .replace-card .after {
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        .replace-card .meaning {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 8px;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 18px;
+            border-radius: 0 12px 12px 0;
+            margin: 15px 0;
+            font-size: 1.05em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.7em; }
+            .content-section { padding: 20px; }
+            .container { padding: 12px; }
+            .table-row { grid-template-columns: 1fr; }
+            .example-card { flex-direction: column; align-items: flex-start; }
+            .example-translation { margin-left: 0; }
+            .exercise-options { flex-direction: column; align-items: center; }
+            .exercise-btn { width: 80%; }
+            .replace-cards { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <div class="navigation">
+            <a href="../lesson_particle_e/index.html">&larr; Урок 18: Частица 에</a>
+            <a href="../index.html">Все уроки 1급</a>
+            <a href="../lesson_question_sentences/index.html">Урок 20: Вопросительные предложения &rarr;</a>
+        </div>
+
+        <div class="header">
+            <div class="lesson-number">Урок 19 &middot; 1급 (A1)</div>
+            <h1>Частица 도 &mdash; тоже</h1>
+            <div class="korean-title">조사 도 &mdash; ~도</div>
+        </div>
+
+        <!-- SECTION 1: Introduction -->
+        <div class="content-section">
+            <h2>1. Что такое 도?</h2>
+            <p>Частица <strong>도</strong> означает <strong>"тоже", "также"</strong>. Она добавляет ещё один элемент к уже известному.</p>
+
+            <div class="pattern-box">
+                [существительное] + 도
+                <div class="pattern-desc">Существительное + тоже</div>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">저<span class="particle-highlight">도</span> 학생이에요</span>
+                <button class="audio-btn" onclick="speakKorean('저도 학생이에요')">&#128266;</button>
+                <span class="example-roman">[jeodo haksaengieyo]</span>
+                <span class="example-translation">Я тоже студент</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">이것<span class="particle-highlight">도</span> 맛있어요</span>
+                <button class="audio-btn" onclick="speakKorean('이것도 맛있어요')">&#128266;</button>
+                <span class="example-roman">[igeotdo masisseoyo]</span>
+                <span class="example-translation">Это тоже вкусно</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">나<span class="particle-highlight">도</span> 가고 싶어요</span>
+                <button class="audio-btn" onclick="speakKorean('나도 가고 싶어요')">&#128266;</button>
+                <span class="example-roman">[nado gago sipeoyo]</span>
+                <span class="example-translation">Я тоже хочу пойти</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">한국어<span class="particle-highlight">도</span> 재미있어요</span>
+                <button class="audio-btn" onclick="speakKorean('한국어도 재미있어요')">&#128266;</button>
+                <span class="example-roman">[hangugeo-do jaemiisseoyo]</span>
+                <span class="example-translation">Корейский тоже интересный</span>
+            </div>
+        </div>
+
+        <!-- SECTION 2: Replaces particles -->
+        <div class="content-section">
+            <h2>2. 도 ЗАМЕНЯЕТ другие частицы</h2>
+            <p>Это самое важное правило! Частица <strong>도</strong> ставится <strong>ВМЕСТО</strong> частиц 은/는, 이/가, 을/를 &mdash; а не после них!</p>
+
+            <div class="warning-box">
+                <strong>НЕПРАВИЛЬНО:</strong> 저는도, 저가도, 사과를도<br>
+                <strong>ПРАВИЛЬНО:</strong> 저도, 사과도
+            </div>
+
+            <div class="replace-cards">
+                <div class="replace-card">
+                    <div class="before">저<strong>는</strong> 학생이에요</div>
+                    <div class="arrow">&darr;</div>
+                    <div class="after">저<span style="color:#ffeb3b;">도</span> 학생이에요</div>
+                    <div class="meaning">는 &rarr; 도</div>
+                    <button class="audio-btn" onclick="speakKorean('저도 학생이에요')" style="border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.15); margin-top:8px;">&#128266;</button>
+                </div>
+                <div class="replace-card">
+                    <div class="before">고양이<strong>가</strong> 있어요</div>
+                    <div class="arrow">&darr;</div>
+                    <div class="after">고양이<span style="color:#ffeb3b;">도</span> 있어요</div>
+                    <div class="meaning">가 &rarr; 도</div>
+                    <button class="audio-btn" onclick="speakKorean('고양이도 있어요')" style="border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.15); margin-top:8px;">&#128266;</button>
+                </div>
+                <div class="replace-card">
+                    <div class="before">사과<strong>를</strong> 먹어요</div>
+                    <div class="arrow">&darr;</div>
+                    <div class="after">사과<span style="color:#ffeb3b;">도</span> 먹어요</div>
+                    <div class="meaning">를 &rarr; 도</div>
+                    <button class="audio-btn" onclick="speakKorean('사과도 먹어요')" style="border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.15); margin-top:8px;">&#128266;</button>
+                </div>
+            </div>
+
+            <div class="comparison-table">
+                <div class="table-header">Какие частицы заменяет 도?</div>
+                <div class="table-row">
+                    <div class="table-cell header">Частица</div>
+                    <div class="table-cell header">Без 도</div>
+                    <div class="table-cell header">С 도</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">은/는 (тема)</div>
+                    <div class="table-cell korean">저<strong>는</strong> 한국 사람이에요
+                        <button class="audio-btn" onclick="speakKorean('저는 한국 사람이에요')">&#128266;</button>
+                    </div>
+                    <div class="table-cell korean">저<strong style="color:#d32f2f;">도</strong> 한국 사람이에요
+                        <button class="audio-btn" onclick="speakKorean('저도 한국 사람이에요')">&#128266;</button>
+                    </div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">이/가 (субъект)</div>
+                    <div class="table-cell korean">친구<strong>가</strong> 와요
+                        <button class="audio-btn" onclick="speakKorean('친구가 와요')">&#128266;</button>
+                    </div>
+                    <div class="table-cell korean">친구<strong style="color:#d32f2f;">도</strong> 와요
+                        <button class="audio-btn" onclick="speakKorean('친구도 와요')">&#128266;</button>
+                    </div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">을/를 (объект)</div>
+                    <div class="table-cell korean">커피<strong>를</strong> 마셔요
+                        <button class="audio-btn" onclick="speakKorean('커피를 마셔요')">&#128266;</button>
+                    </div>
+                    <div class="table-cell korean">커피<strong style="color:#d32f2f;">도</strong> 마셔요
+                        <button class="audio-btn" onclick="speakKorean('커피도 마셔요')">&#128266;</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>Но!</strong> С другими частицами (에, 에서, 으로 и т.д.) <strong>도</strong> ставится <strong>ПОСЛЕ</strong> них:<br>
+                학교<strong>에도</strong> 가요 (В школу тоже иду) &mdash; 에 сохраняется!
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">카페<span class="particle-highlight">에도</span> 가요</span>
+                <button class="audio-btn" onclick="speakKorean('카페에도 가요')">&#128266;</button>
+                <span class="example-roman">[kapeedo gayo]</span>
+                <span class="example-translation">В кафе тоже иду</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">학교<span class="particle-highlight">에서도</span> 공부해요</span>
+                <button class="audio-btn" onclick="speakKorean('학교에서도 공부해요')">&#128266;</button>
+                <span class="example-roman">[hakgyoeseodo gongbuhaeyo]</span>
+                <span class="example-translation">В школе тоже учусь</span>
+            </div>
+        </div>
+
+        <!-- SECTION 3: Common expressions -->
+        <div class="content-section">
+            <h2>3. Частые выражения с 도</h2>
+
+            <div class="example-card">
+                <span class="example-korean">나<span class="particle-highlight">도</span></span>
+                <button class="audio-btn" onclick="speakKorean('나도')">&#128266;</button>
+                <span class="example-roman">[nado]</span>
+                <span class="example-translation">Я тоже (неформально)</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">저<span class="particle-highlight">도</span></span>
+                <button class="audio-btn" onclick="speakKorean('저도')">&#128266;</button>
+                <span class="example-roman">[jeodo]</span>
+                <span class="example-translation">Я тоже (вежливо)</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">이것<span class="particle-highlight">도</span></span>
+                <button class="audio-btn" onclick="speakKorean('이것도')">&#128266;</button>
+                <span class="example-roman">[igeotdo]</span>
+                <span class="example-translation">Это тоже</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">그것<span class="particle-highlight">도</span></span>
+                <button class="audio-btn" onclick="speakKorean('그것도')">&#128266;</button>
+                <span class="example-roman">[geugeotdo]</span>
+                <span class="example-translation">То тоже</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">여기<span class="particle-highlight">도</span></span>
+                <button class="audio-btn" onclick="speakKorean('여기도')">&#128266;</button>
+                <span class="example-roman">[yeogido]</span>
+                <span class="example-translation">Здесь тоже</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">오늘<span class="particle-highlight">도</span></span>
+                <button class="audio-btn" onclick="speakKorean('오늘도')">&#128266;</button>
+                <span class="example-roman">[oneuldo]</span>
+                <span class="example-translation">Сегодня тоже</span>
+            </div>
+        </div>
+
+        <!-- SECTION 4: With negation -->
+        <div class="content-section">
+            <h2>4. 도 с отрицанием: "никто", "ничего"</h2>
+            <p>Когда <strong>도</strong> используется со словами 아무 (любой) + отрицание, получается значение "никто", "ничего":</p>
+
+            <div class="pattern-box">
+                아무 + 도 + 안/없다 = никто / ничего
+                <div class="pattern-desc">Неопределённое местоимение + 도 + отрицание</div>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean"><span class="particle-highlight">아무도</span> 없어요</span>
+                <button class="audio-btn" onclick="speakKorean('아무도 없어요')">&#128266;</button>
+                <span class="example-roman">[amudo eopseoyo]</span>
+                <span class="example-translation">Никого нет</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean"><span class="particle-highlight">아무것도</span> 안 먹었어요</span>
+                <button class="audio-btn" onclick="speakKorean('아무것도 안 먹었어요')">&#128266;</button>
+                <span class="example-roman">[amugeotdo an meogeosseoyo]</span>
+                <span class="example-translation">Ничего не ел</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean"><span class="particle-highlight">아무도</span> 안 왔어요</span>
+                <button class="audio-btn" onclick="speakKorean('아무도 안 왔어요')">&#128266;</button>
+                <span class="example-roman">[amudo an wasseoyo]</span>
+                <span class="example-translation">Никто не пришёл</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean"><span class="particle-highlight">아무것도</span> 없어요</span>
+                <button class="audio-btn" onclick="speakKorean('아무것도 없어요')">&#128266;</button>
+                <span class="example-roman">[amugeotdo eopseoyo]</span>
+                <span class="example-translation">Ничего нет</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean"><span class="particle-highlight">아무도</span> 모르겠어요</span>
+                <button class="audio-btn" onclick="speakKorean('아무도 모르겠어요')">&#128266;</button>
+                <span class="example-roman">[amudo moreugesseyo]</span>
+                <span class="example-translation">Никто не знает</span>
+            </div>
+
+            <div class="info-box">
+                <strong>Запомните:</strong> 아무도 / 아무것도 всегда используются с <strong>отрицанием</strong> (안, 없다, 모르다)!
+            </div>
+        </div>
+
+        <!-- SECTION 5: Multiple 도 -->
+        <div class="content-section">
+            <h2>5. Несколько 도 в одном предложении</h2>
+            <p>Можно использовать <strong>도</strong> несколько раз, чтобы сказать "и... и...":</p>
+
+            <div class="example-card">
+                <span class="example-korean">커피<span class="particle-highlight">도</span> 좋고 차<span class="particle-highlight">도</span> 좋아요</span>
+                <button class="audio-btn" onclick="speakKorean('커피도 좋고 차도 좋아요')">&#128266;</button>
+                <span class="example-roman">[keopido joko chado joayo]</span>
+                <span class="example-translation">И кофе хорошо, и чай хорошо</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">한국어<span class="particle-highlight">도</span> 일본어<span class="particle-highlight">도</span> 배워요</span>
+                <button class="audio-btn" onclick="speakKorean('한국어도 일본어도 배워요')">&#128266;</button>
+                <span class="example-roman">[hangugeodo ilboneodo baeweoyo]</span>
+                <span class="example-translation">Учу и корейский, и японский</span>
+            </div>
+
+            <div class="example-card">
+                <span class="example-korean">엄마<span class="particle-highlight">도</span> 아빠<span class="particle-highlight">도</span> 좋아해요</span>
+                <button class="audio-btn" onclick="speakKorean('엄마도 아빠도 좋아해요')">&#128266;</button>
+                <span class="example-roman">[eommado appado joahaeyo]</span>
+                <span class="example-translation">И маму, и папу люблю</span>
+            </div>
+        </div>
+
+        <!-- SECTION 6: Mini-dialogue -->
+        <div class="content-section">
+            <h2>6. Мини-диалог: Все любят одно и то же</h2>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">유미 (Юми):</div>
+                    <div class="korean-text">저는 한국 음식을 좋아해요.</div>
+                    <div class="translation">Я люблю корейскую еду.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">마이크 (Майк):</div>
+                    <div class="korean-text">저도 한국 음식을 좋아해요!</div>
+                    <div class="translation">Я тоже люблю корейскую еду!</div>
+                    <div class="grammar-note">저 + 도 = я тоже</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">유미:</div>
+                    <div class="korean-text">비빔밥을 좋아해요?</div>
+                    <div class="translation">Любите пибимпап?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">마이크:</div>
+                    <div class="korean-text">네! 비빔밥도 좋아하고 불고기도 좋아해요.</div>
+                    <div class="translation">Да! И пибимпап люблю, и пульгоги люблю.</div>
+                    <div class="grammar-note">비빔밥 + 도, 불고기 + 도 = и то, и то</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">유미:</div>
+                    <div class="korean-text">와, 저도요! 우리는 같아요.</div>
+                    <div class="translation">Ого, я тоже! Мы одинаковые.</div>
+                    <div class="grammar-note">저도요 = я тоже (краткая форма)</div>
+                </div>
+            </div>
+            <button class="audio-btn" onclick="playDialogueSequence(this)" style="width:auto; border-radius:25px; padding:12px 30px; font-size:1em; display:flex; align-items:center; gap:8px; margin:15px auto 0;">
+                &#128266; Прослушать диалог
+            </button>
+        </div>
+
+        <!-- SECTION 7: Exercises -->
+        <div class="content-section">
+            <h2>7. Упражнения</h2>
+            <p>Выберите правильный вариант.</p>
+
+            <div class="practice-section">
+
+                <div class="exercise-item">
+                    <p class="exercise-question">1. "Я тоже студент" &mdash; 저___ 학생이에요.</p>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">는</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">도</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">는도</button>
+                    </div>
+                    <p class="exercise-result"></p>
+                </div>
+
+                <div class="exercise-item">
+                    <p class="exercise-question">2. "Это тоже вкусно" &mdash; 이것___ 맛있어요.</p>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">이</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">도</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">이도</button>
+                    </div>
+                    <p class="exercise-result"></p>
+                </div>
+
+                <div class="exercise-item">
+                    <p class="exercise-question">3. "В кафе тоже иду" &mdash; 카페___ 가요.</p>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">에도</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">도</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">도에</button>
+                    </div>
+                    <p class="exercise-result"></p>
+                </div>
+
+                <div class="exercise-item">
+                    <p class="exercise-question">4. "Никого нет" &mdash; ___없어요.</p>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">아무도</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">아무가</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">누구도</button>
+                    </div>
+                    <p class="exercise-result"></p>
+                </div>
+
+                <div class="exercise-item">
+                    <p class="exercise-question">5. "Друг тоже пришёл" &mdash; 친구___ 왔어요.</p>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">가도</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">도</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">가</button>
+                    </div>
+                    <p class="exercise-result"></p>
+                </div>
+
+                <div class="exercise-item">
+                    <p class="exercise-question">6. "Ничего не ел" &mdash; ___ 안 먹었어요.</p>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">아무도</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">아무것도</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">아무</button>
+                    </div>
+                    <p class="exercise-result"></p>
+                </div>
+
+                <div class="exercise-item">
+                    <p class="exercise-question">7. "Кофе тоже пью" &mdash; 커피___ 마셔요.</p>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">를도</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">를</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">도</button>
+                    </div>
+                    <p class="exercise-result"></p>
+                </div>
+
+                <div class="exercise-item">
+                    <p class="exercise-question">8. "Сегодня тоже хорошая погода" &mdash; 오늘___ 날씨가 좋아요.</p>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">도</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">은도</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">에도</button>
+                    </div>
+                    <p class="exercise-result"></p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SECTION 8: Remember -->
+        <div class="content-section">
+            <h2>&#128203; Запомни!</h2>
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px;">
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px;">
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>도 = тоже</strong><br>저도 학생이에요<br><em>Я тоже студент</em>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>Заменяет 은/는, 이/가, 을/를</strong><br>저는 &rarr; 저도<br><em>НЕ 저는도!</em>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>После 에, 에서</strong><br>카페에도 가요<br><em>에 + 도 = 에도</em>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>아무도 + отрицание</strong><br>아무도 없어요<br><em>Никого нет</em>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>아무것도 + отрицание</strong><br>아무것도 안 먹어요<br><em>Ничего не ем</em>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                        <strong>И... и...</strong><br>커피도 차도 좋아요<br><em>И кофе, и чай нравятся</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completion -->
+        <div class="content-section" style="text-align:center;">
+            <h2>&#127881; Урок завершён!</h2>
+            <p>Вы изучили частицу 도 (тоже) и её правила использования. Отличная работа!</p>
+            <button id="completeLessonBtn" onclick="completeLesson()" style="background: linear-gradient(135deg, #4caf50, #388e3c); color: white; border: none; padding: 15px 40px; border-radius: 25px; font-size: 1.2em; cursor: pointer; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif;">
+                Отметить урок как пройденный
+            </button>
+            <p id="completion-msg" style="margin-top:15px; color:#4caf50; font-weight:bold; display:none;">Урок отмечен как пройденный!</p>
+        </div>
+
+        <div class="navigation" style="margin-top: 20px;">
+            <a href="../lesson_particle_e/index.html">&larr; Урок 18: Частица 에</a>
+            <a href="../index.html">Все уроки 1급</a>
+            <a href="../lesson_question_sentences/index.html">Урок 20: Вопросительные предложения &rarr;</a>
+        </div>
+
+    </div>
+
+    <script>
+        var LESSON_ID = 'level1_lesson_particle_do';
+
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+            if (kv) u.voice = kv;
+            window.speechSynthesis.speak(u);
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.previousElementSibling;
+            while (box && !box.classList.contains('dialogue-box')) {
+                box = box.previousElementSibling;
+            }
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var i = 0;
+            btn.disabled = true;
+            function playNext() {
+                if (i >= lines.length) { btn.disabled = false; return; }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(76,175,80,0.15)';
+                var text = lines[i].querySelector('.korean-text');
+                if (text) {
+                    var u = new SpeechSynthesisUtterance(text.textContent.trim());
+                    u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                    u.onend = function() { i++; setTimeout(playNext, 400); };
+                    window.speechSynthesis.speak(u);
+                } else { i++; setTimeout(playNext, 400); }
+            }
+            window.speechSynthesis.cancel();
+            playNext();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item');
+            var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!';
+                result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно. Попробуйте ещё раз.';
+                result.style.color = '#f44336';
+                buttons.forEach(function(b) {
+                    if (b.getAttribute('data-correct') === 'true') {
+                        b.style.background = '#4caf50'; b.style.color = 'white';
+                    }
+                });
+            }
+        }
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+            }
+            document.getElementById('completion-msg').style.display = 'block';
+            var btn = document.getElementById('completeLessonBtn');
+            btn.textContent = 'Пройдено!';
+            btn.style.background = '#2e7d32';
+            btn.style.cursor = 'default';
+            btn.disabled = true;
+            btn.style.opacity = '0.85';
+            console.log('[OK] Lesson completed: ' + LESSON_ID);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Характер и личность — 2급 Корейский</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; margin: 0; padding: 0; background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%), linear-gradient(135deg, #2196F3 0%, #1565C0 100%); min-height: 100vh; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 25px; font-size: 0.95em; transition: all 0.3s ease; backdrop-filter: blur(5px); }
+        .navigation a:hover { background: rgba(255,255,255,0.3); }
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 2.2em; color: #2c3e50; margin-bottom: 10px; }
+        .korean-title { font-size: 1.3em; color: #1565C0; margin-bottom: 10px; }
+        .description { color: #666; font-size: 1.05em; }
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2c3e50; margin-bottom: 20px; font-size: 1.5em; }
+        .word-card { background: linear-gradient(135deg, #2196F3, #42A5F5); color: white; padding: 20px; border-radius: 15px; margin: 10px 0; }
+        .word-korean { font-size: 1.8em; font-weight: 700; }
+        .word-romanization { font-size: 0.95em; opacity: 0.9; margin: 5px 0; }
+        .word-meaning { font-size: 1.1em; }
+        .word-example { font-size: 0.95em; opacity: 0.9; margin-top: 8px; font-style: italic; }
+        .grammar-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0; }
+        .grammar-table th { background: #1565C0; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+        .dialogue-box { background: linear-gradient(135deg, #2196F3, #42A5F5); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; }
+        .tip-box { background: #e3f2fd; border-left: 4px solid #2196F3; padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0; }
+        .tip-box strong { color: #1565C0; }
+        .practice-section { background: linear-gradient(135deg, #BBDEFB, #90CAF9); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .practice-section h2 { color: #1565C0; margin-bottom: 20px; font-size: 1.5em; }
+        .exercise { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .option { background: #1565C0; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1em; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; transition: all 0.3s ease; }
+        .option:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(21,101,192,0.4); }
+        .option.correct { background: #2e7d32; }
+        .option.wrong { background: #f44336; }
+        .result { margin-top: 10px; padding: 12px; border-radius: 10px; text-align: center; font-weight: 500; display: none; }
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+        .complete-btn { background: linear-gradient(135deg, #2196F3, #42A5F5); color: white; border: none; padding: 18px 50px; border-radius: 30px; font-size: 1.15em; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; box-shadow: 0 8px 25px rgba(21,101,192,0.3); }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(21,101,192,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .words-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin: 20px 0; }
+        .trait-positive { background: linear-gradient(135deg, #2196F3, #42A5F5); }
+        .trait-negative { background: linear-gradient(135deg, #5c6bc0, #3949ab); }
+        .trait-neutral { background: linear-gradient(135deg, #78909c, #546e7a); }
+        .phrase-card { background: #e8f4fd; border: 2px solid #2196F3; border-radius: 12px; padding: 18px; margin: 10px 0; }
+        .phrase-korean { font-size: 1.3em; font-weight: 700; color: #1565C0; margin-bottom: 6px; }
+        .phrase-romanization { font-size: 0.9em; color: #555; margin-bottom: 6px; }
+        .phrase-meaning { color: #333; font-size: 1em; }
+        .complete-section { text-align: center; padding: 30px; }
+        .audio-btn {
+            background: rgba(76,175,80,0.15);
+            border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px;
+            font-size: 1.1em; cursor: pointer; transition: all 0.3s ease;
+            flex-shrink: 0; display: inline-flex; align-items: center;
+            justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .dialogue-play-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; border: none; padding: 12px 25px;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            margin: 15px auto; display: block; transition: all 0.3s ease;
+        }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(102,126,234,0.4); }
+
+        .remember-block {
+            background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+            border: 2px solid #ff9800;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        .remember-block h2 {
+            color: #e65100;
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+        .remember-phrase {
+            background: rgba(230,81,0,0.08);
+            border: 1px solid rgba(230,81,0,0.2);
+            border-radius: 12px;
+            padding: 15px 18px;
+            margin: 10px 0;
+        }
+        .remember-phrase .rp-korean {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #e65100;
+            margin-bottom: 4px;
+        }
+        .remember-phrase .rp-meaning {
+            color: #555;
+            font-size: 0.95em;
+        }
+
+        .lesson-nav { display: flex; justify-content: space-between; margin-top: 20px; }
+        .lesson-nav a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 12px 24px; border-radius: 25px; font-size: 1em; transition: all 0.3s ease; backdrop-filter: blur(5px); }
+        .lesson-nav a:hover { background: rgba(255,255,255,0.3); }
+
+        @media (max-width: 768px) { .header h1 { font-size: 1.6em; } .content-section { padding: 25px; } .options { flex-direction: column; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navigation">
+        <a href="../../level_2/index.html">&larr; 2&#44553; Уроки</a>
+        <a href="../../lessons.html">Все уровни</a>
+    </div>
+
+    <div class="header">
+        <h1>Характер и личность</h1>
+        <div class="korean-title">성격과 인성 &mdash; Урок 32</div>
+        <div class="description">Научитесь описывать характер и личные качества людей на корейском языке. Освойте положительные, отрицательные и нейтральные черты характера, а также паттерн описания людей.</div>
+    </div>
+
+    <!-- Секция 1: Положительные черты -->
+    <div class="content-section">
+        <h2>1. Положительные черты характера (긍정적인 성격)</h2>
+        <p style="color:#666; margin-bottom:20px;">Слова для описания хороших качеств. Эти прилагательные используются в форме ~해요/~아요/~어요 при описании людей.</p>
+        <div class="words-grid">
+            <div class="word-card trait-positive">
+                <div class="word-korean">착하다 <button class="audio-btn" onclick="speakKorean('착하다')">&#128266;</button></div>
+                <div class="word-romanization">[chakada]</div>
+                <div class="word-meaning">добрый, добросердечный</div>
+                <div class="word-example">그 사람은 착해요. <button class="audio-btn" onclick="speakKorean('그 사람은 착해요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card trait-positive">
+                <div class="word-korean">친절하다 <button class="audio-btn" onclick="speakKorean('친절하다')">&#128266;</button></div>
+                <div class="word-romanization">[chinjeolhada]</div>
+                <div class="word-meaning">вежливый, добродушный</div>
+                <div class="word-example">선생님은 친절해요. <button class="audio-btn" onclick="speakKorean('선생님은 친절해요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card trait-positive">
+                <div class="word-korean">똑똑하다 <button class="audio-btn" onclick="speakKorean('똑똑하다')">&#128266;</button></div>
+                <div class="word-romanization">[ttokttokada]</div>
+                <div class="word-meaning">умный, сообразительный</div>
+                <div class="word-example">동생이 똑똑해요. <button class="audio-btn" onclick="speakKorean('동생이 똑똑해요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card trait-positive">
+                <div class="word-korean">성실하다 <button class="audio-btn" onclick="speakKorean('성실하다')">&#128266;</button></div>
+                <div class="word-romanization">[seongsilhada]</div>
+                <div class="word-meaning">добросовестный, ответственный</div>
+                <div class="word-example">그 학생은 성실해요. <button class="audio-btn" onclick="speakKorean('그 학생은 성실해요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card trait-positive">
+                <div class="word-korean">밝다 <button class="audio-btn" onclick="speakKorean('밝다')">&#128266;</button></div>
+                <div class="word-romanization">[bakda]</div>
+                <div class="word-meaning">жизнерадостный, светлый (о характере)</div>
+                <div class="word-example">성격이 밝아요. <button class="audio-btn" onclick="speakKorean('성격이 밝아요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card trait-positive">
+                <div class="word-korean">부지런하다 <button class="audio-btn" onclick="speakKorean('부지런하다')">&#128266;</button></div>
+                <div class="word-romanization">[bujireonhada]</div>
+                <div class="word-meaning">трудолюбивый, усердный</div>
+                <div class="word-example">우리 언니는 부지런해요. <button class="audio-btn" onclick="speakKorean('우리 언니는 부지런해요.')">&#128266;</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Секция 2: Отрицательные черты -->
+    <div class="content-section">
+        <h2>2. Отрицательные и нейтральные черты (부정적/중립적 성격)</h2>
+        <p style="color:#666; margin-bottom:20px;">Некоторые из этих слов могут восприниматься как нейтральные в зависимости от контекста.</p>
+        <div class="words-grid">
+            <div class="word-card trait-negative">
+                <div class="word-korean">게으르다 <button class="audio-btn" onclick="speakKorean('게으르다')">&#128266;</button></div>
+                <div class="word-romanization">[geeureuda]</div>
+                <div class="word-meaning">ленивый</div>
+                <div class="word-example">남동생은 게을러요. <button class="audio-btn" onclick="speakKorean('남동생은 게을러요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card trait-negative">
+                <div class="word-korean">시끄럽다 <button class="audio-btn" onclick="speakKorean('시끄럽다')">&#128266;</button></div>
+                <div class="word-romanization">[sikkeureopda]</div>
+                <div class="word-meaning">шумный, громкий</div>
+                <div class="word-example">그 아이는 시끄러워요. <button class="audio-btn" onclick="speakKorean('그 아이는 시끄러워요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card trait-negative">
+                <div class="word-korean">무섭다 <button class="audio-btn" onclick="speakKorean('무섭다')">&#128266;</button></div>
+                <div class="word-romanization">[museopda]</div>
+                <div class="word-meaning">страшный, суровый</div>
+                <div class="word-example">사장님은 무서워요. <button class="audio-btn" onclick="speakKorean('사장님은 무서워요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card trait-negative">
+                <div class="word-korean">욕심이 많다 <button class="audio-btn" onclick="speakKorean('욕심이 많다')">&#128266;</button></div>
+                <div class="word-romanization">[yoksimi manta]</div>
+                <div class="word-meaning">жадный, алчный</div>
+                <div class="word-example">그 사람은 욕심이 많아요. <button class="audio-btn" onclick="speakKorean('그 사람은 욕심이 많아요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card trait-neutral">
+                <div class="word-korean">조용하다 <button class="audio-btn" onclick="speakKorean('조용하다')">&#128266;</button></div>
+                <div class="word-romanization">[joyonghada]</div>
+                <div class="word-meaning">тихий, спокойный</div>
+                <div class="word-example">그 친구는 조용해요. <button class="audio-btn" onclick="speakKorean('그 친구는 조용해요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card trait-neutral">
+                <div class="word-korean">내성적이다 <button class="audio-btn" onclick="speakKorean('내성적이다')">&#128266;</button></div>
+                <div class="word-romanization">[naeseongjeogida]</div>
+                <div class="word-meaning">интровертный, замкнутый</div>
+                <div class="word-example">저는 내성적이에요. <button class="audio-btn" onclick="speakKorean('저는 내성적이에요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card trait-neutral">
+                <div class="word-korean">외향적이다 <button class="audio-btn" onclick="speakKorean('외향적이다')">&#128266;</button></div>
+                <div class="word-romanization">[oehyangjeogida]</div>
+                <div class="word-meaning">экстровертный, общительный</div>
+                <div class="word-example">언니는 외향적이에요. <button class="audio-btn" onclick="speakKorean('언니는 외향적이에요.')">&#128266;</button></div>
+            </div>
+            <div class="word-card trait-neutral">
+                <div class="word-korean">꼼꼼하다 <button class="audio-btn" onclick="speakKorean('꼼꼼하다')">&#128266;</button></div>
+                <div class="word-romanization">[kkomkkomhada]</div>
+                <div class="word-meaning">внимательный к деталям, дотошный</div>
+                <div class="word-example">그 직원은 꼼꼼해요. <button class="audio-btn" onclick="speakKorean('그 직원은 꼼꼼해요.')">&#128266;</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Секция 3: Паттерн описания -->
+    <div class="content-section">
+        <h2>3. Как описать характер (성격 표현)</h2>
+        <p style="color:#666; margin-bottom:20px;">Основной паттерн: <strong>[человек]은/는 + [прилагательное в форме ~해요/~아요/~어요]</strong></p>
+
+        <div class="phrase-card">
+            <div class="phrase-korean">성격이 어때요? <button class="audio-btn" onclick="speakKorean('성격이 어때요?')">&#128266;</button></div>
+            <div class="phrase-romanization">[seonggyeogi eottaeyo?]</div>
+            <div class="phrase-meaning">Какой у вас характер? / Какой он/она по характеру?</div>
+        </div>
+
+        <div class="phrase-card">
+            <div class="phrase-korean">어떤 사람이에요? <button class="audio-btn" onclick="speakKorean('어떤 사람이에요?')">&#128266;</button></div>
+            <div class="phrase-romanization">[eotteon saramieyo?]</div>
+            <div class="phrase-meaning">Какой это человек?</div>
+        </div>
+
+        <table class="grammar-table">
+            <thead>
+                <tr>
+                    <th>Человек</th>
+                    <th>Описание</th>
+                    <th>Перевод</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>친구</strong> (друг)</td>
+                    <td>친구는 착해요. <button class="audio-btn" onclick="speakKorean('친구는 착해요.')">&#128266;</button></td>
+                    <td>Мой друг добрый.</td>
+                </tr>
+                <tr>
+                    <td><strong>선생님</strong> (учитель)</td>
+                    <td>선생님은 친절해요. <button class="audio-btn" onclick="speakKorean('선생님은 친절해요.')">&#128266;</button></td>
+                    <td>Учитель добродушный.</td>
+                </tr>
+                <tr>
+                    <td><strong>동생</strong> (мл. брат/сестра)</td>
+                    <td>동생은 밝아요. <button class="audio-btn" onclick="speakKorean('동생은 밝아요.')">&#128266;</button></td>
+                    <td>Младший брат/сестра жизнерадостный(-ая).</td>
+                </tr>
+                <tr>
+                    <td><strong>사장님</strong> (босс)</td>
+                    <td>사장님은 꼼꼼해요. <button class="audio-btn" onclick="speakKorean('사장님은 꼼꼼해요.')">&#128266;</button></td>
+                    <td>Босс внимательный к деталям.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="tip-box">
+            <strong>은/는 vs. 이/가 при описании характера:</strong><br><br>
+            При описании характера чаще используется частица 은/는 (тема), потому что вы выделяете человека как тему разговора. Но когда описываете качество как новую информацию, используется 이/가: <em>성격이 좋아요</em> (характер хороший) -- здесь 성격 (характер) -- подлежащее, а не тема.
+        </div>
+    </div>
+
+    <!-- Секция 4: Диалог -->
+    <div class="content-section">
+        <h2>4. Диалог: описание друзей</h2>
+        <p style="color:#666; margin-bottom:20px;">Юна (유나) и Минхо (민호) обсуждают характер своих друзей и знакомых.</p>
+
+        <div class="dialogue-box">
+            <div class="dialogue-line">
+                <div class="speaker">유나:</div>
+                <div class="korean-text">민호 씨, 새로운 룸메이트는 어때요? 성격이 좋아요? <button class="audio-btn" onclick="speakKorean('민호 씨, 새로운 룸메이트는 어때요? 성격이 좋아요?')">&#128266;</button></div>
+                <div class="translation">Минхо, как новый сосед? Характер хороший?</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">민호:</div>
+                <div class="korean-text">네, 아주 착하고 친절해요. 그리고 성실해서 항상 열심히 공부해요. <button class="audio-btn" onclick="speakKorean('네, 아주 착하고 친절해요. 그리고 성실해서 항상 열심히 공부해요.')">&#128266;</button></div>
+                <div class="translation">Да, очень добрый и вежливый. И ещё добросовестный, всегда усердно учится.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">유나:</div>
+                <div class="korean-text">좋겠다! 성격은 외향적이에요, 내성적이에요? <button class="audio-btn" onclick="speakKorean('좋겠다! 성격은 외향적이에요, 내성적이에요?')">&#128266;</button></div>
+                <div class="translation">Здорово! А по характеру он экстраверт или интроверт?</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">민호:</div>
+                <div class="korean-text">좀 조용한 편이에요. 내성적이지만 같이 있으면 편해요. <button class="audio-btn" onclick="speakKorean('좀 조용한 편이에요. 내성적이지만 같이 있으면 편해요.')">&#128266;</button></div>
+                <div class="translation">Скорее тихий. Интроверт, но с ним комфортно.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">유나:</div>
+                <div class="korean-text">저는 외향적인 편이라서 시끄러운 사람은 좀 힘들어요. 조용한 사람이 좋아요! <button class="audio-btn" onclick="speakKorean('저는 외향적인 편이라서 시끄러운 사람은 좀 힘들어요. 조용한 사람이 좋아요!')">&#128266;</button></div>
+                <div class="translation">Я скорее экстраверт, поэтому с шумными людьми тяжело. Тихие люди -- это хорошо!</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">민호:</div>
+                <div class="korean-text">맞아요. 그리고 꼼꼼해서 집도 항상 깨끗해요. 좋은 룸메이트예요! <button class="audio-btn" onclick="speakKorean('맞아요. 그리고 꼼꼼해서 집도 항상 깨끗해요. 좋은 룸메이트예요!')">&#128266;</button></div>
+                <div class="translation">Точно. И ещё он аккуратный, дома всегда чисто. Хороший сосед!</div>
+            </div>
+        </div>
+        <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+
+        <div class="tip-box">
+            <strong>Конструкция ~(으)ㄴ 편이에요:</strong> Означает "скорее", "в некоторой степени". Используется, чтобы смягчить категоричность описания. <em>조용한 편이에요</em> -- "скорее тихий" (не утверждение, а мягкая характеристика). Очень часто используется при описании характера!
+        </div>
+    </div>
+
+    <!-- Упражнения -->
+    <div class="practice-section">
+        <h2>Упражнения</h2>
+
+        <div class="exercise" id="ex1">
+            <div class="question">1. Как сказать "добрый" по-корейски?</div>
+            <div class="options">
+                <button class="option" data-correct="true">착하다</button>
+                <button class="option" data-correct="false">똑똑하다</button>
+                <button class="option" data-correct="false">게으르다</button>
+                <button class="option" data-correct="false">조용하다</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex2">
+            <div class="question">2. 꼼꼼하다 означает:</div>
+            <div class="options">
+                <button class="option" data-correct="false">ленивый</button>
+                <button class="option" data-correct="false">шумный</button>
+                <button class="option" data-correct="true">внимательный к деталям</button>
+                <button class="option" data-correct="false">жизнерадостный</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex3">
+            <div class="question">3. Как спросить "Какой у вас характер?"</div>
+            <div class="options">
+                <button class="option" data-correct="false">성격이 뭐예요?</button>
+                <button class="option" data-correct="true">성격이 어때요?</button>
+                <button class="option" data-correct="false">성격이 어디예요?</button>
+                <button class="option" data-correct="false">성격이 누구예요?</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex4">
+            <div class="question">4. Выберите правильное предложение: "Учитель вежливый"</div>
+            <div class="options">
+                <button class="option" data-correct="false">선생님은 똑똑해요.</button>
+                <button class="option" data-correct="false">선생님은 착해요.</button>
+                <button class="option" data-correct="true">선생님은 친절해요.</button>
+                <button class="option" data-correct="false">선생님은 밝아요.</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex5">
+            <div class="question">5. Антоним 부지런하다 (трудолюбивый):</div>
+            <div class="options">
+                <button class="option" data-correct="false">조용하다</button>
+                <button class="option" data-correct="false">무섭다</button>
+                <button class="option" data-correct="true">게으르다</button>
+                <button class="option" data-correct="false">시끄럽다</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex6">
+            <div class="question">6. "Скорее тихий" (мягкая характеристика) по-корейски:</div>
+            <div class="options">
+                <button class="option" data-correct="false">조용해요.</button>
+                <button class="option" data-correct="true">조용한 편이에요.</button>
+                <button class="option" data-correct="false">조용합니다.</button>
+                <button class="option" data-correct="false">조용하지 않아요.</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex7">
+            <div class="question">7. 외향적이다 означает:</div>
+            <div class="options">
+                <button class="option" data-correct="false">интровертный</button>
+                <button class="option" data-correct="true">экстровертный</button>
+                <button class="option" data-correct="false">добросовестный</button>
+                <button class="option" data-correct="false">жадный</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex8">
+            <div class="question">8. Переведите: "Младший брат умный"</div>
+            <div class="options">
+                <button class="option" data-correct="false">동생은 착해요.</button>
+                <button class="option" data-correct="false">동생은 밝아요.</button>
+                <button class="option" data-correct="false">동생은 성실해요.</button>
+                <button class="option" data-correct="true">동생이 똑똑해요.</button>
+            </div>
+            <div class="result"></div>
+        </div>
+    </div>
+
+    <!-- Блок Запомни -->
+    <div class="remember-block">
+        <h2>&#128203; Запомни!</h2>
+
+        <div class="remember-phrase">
+            <div class="rp-korean">성격이 어때요? <button class="audio-btn" onclick="speakKorean('성격이 어때요?')">&#128266;</button></div>
+            <div class="rp-meaning">Какой у вас характер? -- главный вопрос для описания личности</div>
+        </div>
+
+        <div class="remember-phrase">
+            <div class="rp-korean">착하다 / 친절하다 <button class="audio-btn" onclick="speakKorean('착하다. 친절하다.')">&#128266;</button></div>
+            <div class="rp-meaning">Добрый / вежливый -- самые частые положительные черты</div>
+        </div>
+
+        <div class="remember-phrase">
+            <div class="rp-korean">내성적이다 / 외향적이다 <button class="audio-btn" onclick="speakKorean('내성적이다. 외향적이다.')">&#128266;</button></div>
+            <div class="rp-meaning">Интроверт / экстраверт -- пара для описания общительности</div>
+        </div>
+
+        <div class="remember-phrase">
+            <div class="rp-korean">~(으)ㄴ 편이에요 <button class="audio-btn" onclick="speakKorean('조용한 편이에요.')">&#128266;</button></div>
+            <div class="rp-meaning">"Скорее..." -- смягчение описания (조용한 편이에요 = скорее тихий)</div>
+        </div>
+
+        <div class="remember-phrase">
+            <div class="rp-korean">[사람]은/는 + [형용사]해요 <button class="audio-btn" onclick="speakKorean('친구는 착해요.')">&#128266;</button></div>
+            <div class="rp-meaning">Паттерн: [человек]은/는 + [прилагательное] -- базовая структура</div>
+        </div>
+
+        <div style="margin-top: 15px; padding: 15px; background: rgba(230,81,0,0.1); border-radius: 10px;">
+            <strong>Совет:</strong> В корейской культуре при описании человека часто используют мягкие формы (~편이에요), чтобы не звучать слишком категорично. Это проявление вежливости!
+        </div>
+    </div>
+
+    <div class="complete-section">
+        <button class="complete-btn" id="completeLessonBtn" onclick="completeLesson()">Отметить урок как пройденный</button>
+    </div>
+
+    <div class="lesson-nav">
+        <a href="../lesson_weather_talk/index.html">&larr; Урок 31</a>
+        <a href="../lesson_education/index.html">Урок 33 &rarr;</a>
+    </div>
+</div>
+
+<script src="../../js/progress-tracker.js"></script>
+<script>
+    function speakKorean(text) {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+        var voices = window.speechSynthesis.getVoices();
+        var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+        if (kv) u.voice = kv;
+        window.speechSynthesis.speak(u);
+    }
+    if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.addEventListener('voiceschanged', function(){});
+    }
+
+    function playDialogueSequence(btn) {
+        var section = btn.closest('.content-section') || btn.parentElement;
+        var lines = section.querySelectorAll('.dialogue-line');
+        var texts = [];
+        lines.forEach(function(l) {
+            var k = l.querySelector('.korean-text') || l.querySelector('.dialogue-korean');
+            if (k) texts.push(k.textContent.replace(/\u{1F50A}/gu,'').trim());
+        });
+        if (!texts.length) return;
+        window.speechSynthesis.cancel();
+        var i = 0;
+        btn.textContent = '\u23F8 \u0412\u043E\u0441\u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0441\u044F...';
+        function next() {
+            if (i >= texts.length) { btn.textContent = '\uD83C\uDFAD \u041F\u0440\u043E\u0441\u043B\u0443\u0448\u0430\u0442\u044C \u0434\u0438\u0430\u043B\u043E\u0433'; return; }
+            lines[i].style.background = 'rgba(255,235,59,0.3)';
+            if (i > 0) lines[i-1].style.background = '';
+            var u = new SpeechSynthesisUtterance(texts[i]);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = i%2===0 ? 1.1 : 0.9;
+            var v = window.speechSynthesis.getVoices();
+            var kv = v.find(function(x){return x.lang.indexOf('ko')!==-1;});
+            if(kv) u.voice = kv;
+            u.onend = function() { lines[i].style.background = ''; i++; setTimeout(next,800); };
+            window.speechSynthesis.speak(u);
+        }
+        next();
+    }
+
+    var LESSON_ID = 'level2_lesson_personality';
+    function completeLesson() {
+        if (window.ProgressTracker) {
+            ProgressTracker.markLessonCompleted(LESSON_ID);
+            var btn = document.getElementById('completeLessonBtn');
+            btn.textContent = '\u041F\u0440\u043E\u0439\u0434\u0435\u043D\u043E!';
+            btn.style.background = '#1565C0';
+            btn.disabled = true;
+            console.log('[OK] Lesson completed:', LESSON_ID);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.ProgressTracker) {
+            var progress = ProgressTracker.get();
+            if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                var btn = document.getElementById('completeLessonBtn');
+                if (btn) { btn.textContent = '\u041F\u0440\u043E\u0439\u0434\u0435\u043D\u043E!'; btn.style.background = '#1565C0'; btn.disabled = true; }
+            }
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.exercise').forEach(function(exercise) {
+            exercise.querySelectorAll('.option').forEach(function(option) {
+                option.addEventListener('click', function() {
+                    var opts = exercise.querySelectorAll('.option');
+                    opts.forEach(function(o) { o.classList.remove('correct', 'wrong'); });
+                    var result = exercise.querySelector('.result');
+                    if (this.dataset.correct === 'true') {
+                        this.classList.add('correct');
+                        result.className = 'result correct';
+                        result.textContent = '[OK] \u041F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u043E!';
+                    } else {
+                        this.classList.add('wrong');
+                        result.className = 'result wrong';
+                        result.textContent = '[-] \u041D\u0435\u043F\u0440\u0430\u0432\u0438\u043B\u044C\u043D\u043E. \u041F\u043E\u043F\u0440\u043E\u0431\u0443\u0439\u0442\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437!';
+                        opts.forEach(function(o) { if (o.dataset.correct === 'true') o.classList.add('correct'); });
+                    }
+                    result.style.display = 'block';
+                });
+            });
+        });
+        document.querySelectorAll('.content-section').forEach(function(s, i) {
+            s.style.opacity = '0';
+            s.style.transform = 'translateY(30px)';
+            setTimeout(function() {
+                s.style.transition = 'all 0.6s ease';
+                s.style.opacity = '1';
+                s.style.transform = 'translateY(0)';
+            }, i * 200);
+        });
+        console.log('[OK] Lesson loaded:', LESSON_ID);
+    });
+</script>
+<script src="../../js/global-nav.js"></script>
+</body>
+</html>

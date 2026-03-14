@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 23: -다가 — делал и вдруг</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #FF9800 0%, #E65100 100%);
+            position: relative; overflow-x: hidden; min-height: 100vh; color: #333;
+        }
+        body::before {
+            content: '다가'; position: fixed; top: 12%; right: 3%;
+            font-size: 90px; font-weight: 900; opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite; pointer-events: none; z-index: 0;
+        }
+        body::after {
+            content: '갑자기'; position: fixed; bottom: 10%; left: 2%;
+            font-size: 70px; font-weight: 900; opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse; pointer-events: none; z-index: 0;
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #E65100; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #FF9800; margin-bottom: 15px; font-weight: 500; }
+        .header .description { font-size: 1.05em; color: #666; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 { color: #E65100; margin-top: 0; font-size: 2em; border-bottom: 3px solid #FF9800; padding-bottom: 10px; }
+        .content-section h3 { color: #F57C00; font-size: 1.4em; }
+        .content-section p { font-size: 1.05em; line-height: 1.7; }
+
+        .example-box {
+            background: #fff3e0; border-left: 5px solid #FF9800;
+            padding: 18px; margin: 14px 0; border-radius: 0 12px 12px 0;
+        }
+        .example-box .korean-text { font-size: 1.25em; color: #E65100; font-weight: bold; margin-bottom: 4px; }
+        .example-box .translation { color: #555; font-size: 1.0em; }
+        .example-box .note { color: #888; font-size: 0.88em; margin-top: 5px; font-style: italic; }
+
+        .grammar-block {
+            background: linear-gradient(135deg, #FFA726, #FF9800);
+            color: white; padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .grammar-block h3 { color: white; margin-top: 0; font-size: 1.5em; }
+        .grammar-pattern {
+            background: rgba(255,255,255,0.25); padding: 15px; border-radius: 10px;
+            font-size: 1.4em; font-weight: bold; text-align: center; margin: 15px 0;
+        }
+        .grammar-example {
+            background: rgba(255,255,255,0.15); padding: 13px; border-radius: 8px; margin: 10px 0;
+        }
+        .grammar-example .kor { font-size: 1.25em; font-weight: bold; margin-bottom: 4px; }
+        .grammar-example .rom { font-size: 0.85em; opacity: 0.85; font-style: italic; }
+        .grammar-example .rus { font-size: 1em; margin-top: 4px; }
+
+        .comparison-table {
+            background: white; border-radius: 15px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12); margin: 20px 0;
+        }
+        .table-header {
+            background: linear-gradient(135deg, #E65100, #FF9800);
+            color: white; padding: 18px 20px; text-align: center; font-size: 1.2em; font-weight: bold;
+        }
+        .table-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: #e9ecef; }
+        .table-cell { background: white; padding: 12px 14px; font-size: 1.0em; }
+        .table-cell.korean { color: #E65100; font-weight: bold; }
+        .table-cell.header-cell { background: #f8f9fa; font-weight: bold; color: #495057; text-align: center; }
+
+        .tip-box {
+            background: #fff3e0; border-left: 5px solid #FF9800;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+        .tip-box strong { color: #E65100; }
+
+        .audio-btn {
+            background: rgba(255,152,0,0.15); border: 2px solid rgba(255,152,0,0.3);
+            border-radius: 50%; width: 36px; height: 36px;
+            font-size: 1.1em; cursor: pointer; transition: all 0.3s ease;
+            flex-shrink: 0; display: inline-flex; align-items: center;
+            justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(255,152,0,0.3); transform: scale(1.1); }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #FFA726, #FF9800);
+            color: white; padding: 25px; border-radius: 15px; margin: 25px 0;
+        }
+        .dialogue-line { margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: bold; color: #fff3e0; margin-bottom: 8px; }
+        .dialogue-play-btn {
+            background: linear-gradient(135deg, #FF9800, #E65100);
+            color: white; border: none; padding: 12px 25px;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            margin: 15px auto; display: block; transition: all 0.3s ease;
+        }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(255,152,0,0.4); }
+
+        .remember-block {
+            background: linear-gradient(135deg, #FF9800, #E65100);
+            color: white; padding: 30px; border-radius: 20px; margin: 30px 0;
+            box-shadow: 0 15px 40px rgba(255,152,0,0.3);
+        }
+        .remember-block h2 { color: white; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-top: 0; }
+        .remember-item { background: rgba(255,255,255,0.15); padding: 15px; border-radius: 12px; margin: 10px 0; }
+        .remember-item strong { color: #fff3e0; }
+
+        .exercise-item {
+            background: rgba(255,255,255,0.95); padding: 22px; border-radius: 12px;
+            margin: 20px 0; box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+        .exercise-question { font-size: 1.15em; color: #333; margin-bottom: 15px; font-weight: 500; }
+        .exercise-options { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        .exercise-btn {
+            background: #E65100; color: white; padding: 10px 20px;
+            border: none; border-radius: 25px; cursor: pointer; font-size: 1.05em;
+            transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif;
+        }
+        .exercise-btn:hover { background: #FF9800; transform: translateY(-2px); }
+        .exercise-btn:disabled { cursor: default; opacity: 0.85; }
+        .exercise-result { margin-top: 12px; font-weight: 600; text-align: center; min-height: 24px; }
+
+        .practice-section {
+            background: linear-gradient(135deg, #FFE0B2, #FFCC80);
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .practice-section h2 { color: #E65100; margin-top: 0; }
+
+        @media (max-width: 768px) {
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .exercise-options { flex-direction: column; align-items: center; }
+            .header h1 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_3/index.html">&larr; 3급 Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>Урок 23: -다가</h1>
+            <div class="korean-title">하다가 — делал и вдруг...</div>
+            <div class="description">Прерывание действия: "делал X, и тут произошло Y"</div>
+        </header>
+
+        <!-- Раздел 1: Основная конструкция -->
+        <div class="content-section">
+            <h2>1. Конструкция -다가: прерывание</h2>
+            <p>Грамматика <strong>-다가</strong> показывает, что одно действие было прервано другим. Вы делали что-то, и тут произошло нечто другое.</p>
+
+            <div class="grammar-block">
+                <h3>Образование</h3>
+                <div class="grammar-pattern">основа глагола + -다가</div>
+                <p>Присоединяется непосредственно к основе глагола (без изменений).</p>
+                <div class="grammar-example">
+                    <div class="kor">걷다가 넘어졌어요. <button class="audio-btn" onclick="speakKorean('걷다가 넘어졌어요')">&#x1F50A;</button></div>
+                    <div class="rom">[geotdaga neomeojyeosseoyo]</div>
+                    <div class="rus">Шёл и упал.</div>
+                </div>
+                <div class="grammar-example">
+                    <div class="kor">먹다가 전화가 왔어요. <button class="audio-btn" onclick="speakKorean('먹다가 전화가 왔어요')">&#x1F50A;</button></div>
+                    <div class="rom">[meokdaga jeonhwaga wasseoyo]</div>
+                    <div class="rus">Ел, и тут позвонили.</div>
+                </div>
+                <div class="grammar-example">
+                    <div class="kor">공부하다가 잠들었어요. <button class="audio-btn" onclick="speakKorean('공부하다가 잠들었어요')">&#x1F50A;</button></div>
+                    <div class="rom">[gongbuhadadaga jamdeureoisseoyo]</div>
+                    <div class="rus">Учился и заснул.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Ключевой смысл:</strong> первое действие ещё не завершилось, когда произошло второе. Это неожиданный перелом, прерывание.
+            </div>
+        </div>
+
+        <!-- Раздел 2: Примеры -->
+        <div class="content-section">
+            <h2>2. Больше примеров с -다가</h2>
+
+            <div class="example-box">
+                <div class="korean-text">책을 읽다가 눈이 아팠어요. <button class="audio-btn" onclick="speakKorean('책을 읽다가 눈이 아팠어요')">&#x1F50A;</button></div>
+                <div class="translation">Читал книгу, и заболели глаза.</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">영화를 보다가 울었어요. <button class="audio-btn" onclick="speakKorean('영화를 보다가 울었어요')">&#x1F50A;</button></div>
+                <div class="translation">Смотрел фильм и заплакал.</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">운전하다가 사고가 났어요. <button class="audio-btn" onclick="speakKorean('운전하다가 사고가 났어요')">&#x1F50A;</button></div>
+                <div class="translation">Ехал за рулём, и случилась авария.</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">요리하다가 손을 베었어요. <button class="audio-btn" onclick="speakKorean('요리하다가 손을 베었어요')">&#x1F50A;</button></div>
+                <div class="translation">Готовил и порезал руку.</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">수업을 듣다가 졸았어요. <button class="audio-btn" onclick="speakKorean('수업을 듣다가 졸았어요')">&#x1F50A;</button></div>
+                <div class="translation">Слушал урок и задремал.</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">달리다가 넘어졌어요. <button class="audio-btn" onclick="speakKorean('달리다가 넘어졌어요')">&#x1F50A;</button></div>
+                <div class="translation">Бежал и упал.</div>
+            </div>
+        </div>
+
+        <!-- Раздел 3: -았/었다가 -->
+        <div class="content-section">
+            <h2>3. Форма -았/었다가: сделал и отменил</h2>
+            <p>Если добавить прошедшее время перед 다가, получается <strong>-았/었다가</strong>. Это значит: сделал что-то, но потом изменил ситуацию (или вернул обратно).</p>
+
+            <div class="grammar-block">
+                <h3>-았/었다가 = сделал, но потом...</h3>
+                <div class="grammar-pattern">основа + -았/었다가</div>
+                <div class="grammar-example">
+                    <div class="kor">갔다가 왔어요. <button class="audio-btn" onclick="speakKorean('갔다가 왔어요')">&#x1F50A;</button></div>
+                    <div class="rom">[gatdaga wasseoyo]</div>
+                    <div class="rus">Сходил и вернулся.</div>
+                </div>
+                <div class="grammar-example">
+                    <div class="kor">앉았다가 일어났어요. <button class="audio-btn" onclick="speakKorean('앉았다가 일어났어요')">&#x1F50A;</button></div>
+                    <div class="rom">[anjatdaga ireonasseoyo]</div>
+                    <div class="rus">Сел и встал (сел, а потом встал).</div>
+                </div>
+                <div class="grammar-example">
+                    <div class="kor">샀다가 환불했어요. <button class="audio-btn" onclick="speakKorean('샀다가 환불했어요')">&#x1F50A;</button></div>
+                    <div class="rom">[satdaga hwanbulhaesseoyo]</div>
+                    <div class="rus">Купил и вернул (товар).</div>
+                </div>
+            </div>
+
+            <div class="comparison-table">
+                <div class="table-header">-다가 vs -았/었다가</div>
+                <div class="table-row">
+                    <div class="table-cell header-cell">-다가 (прерывание)</div>
+                    <div class="table-cell header-cell">-았/었다가 (смена действия)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">먹다가 전화 왔어요</div>
+                    <div class="table-cell korean">갔다가 왔어요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Ел, и тут позвонили (прерван)</div>
+                    <div class="table-cell">Сходил и вернулся (завершил + обратно)</div>
+                </div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">문을 열었다가 닫았어요. <button class="audio-btn" onclick="speakKorean('문을 열었다가 닫았어요')">&#x1F50A;</button></div>
+                <div class="translation">Открыл дверь и закрыл.</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">불을 켰다가 껐어요. <button class="audio-btn" onclick="speakKorean('불을 켰다가 껐어요')">&#x1F50A;</button></div>
+                <div class="translation">Включил свет и выключил.</div>
+            </div>
+        </div>
+
+        <!-- Раздел 4: Переключение действий -->
+        <div class="content-section">
+            <h2>4. -다가 для переключения между действиями</h2>
+            <p>-다가 также может означать, что вы переключились с одного действия на другое (не обязательно из-за неожиданности).</p>
+
+            <div class="example-box">
+                <div class="korean-text">공부하다가 게임을 했어요. <button class="audio-btn" onclick="speakKorean('공부하다가 게임을 했어요')">&#x1F50A;</button></div>
+                <div class="translation">Учился, а потом стал играть.</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">TV를 보다가 책을 읽었어요. <button class="audio-btn" onclick="speakKorean('TV를 보다가 책을 읽었어요')">&#x1F50A;</button></div>
+                <div class="translation">Смотрел ТВ, потом переключился на книгу.</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">커피를 마시다가 물로 바꿨어요. <button class="audio-btn" onclick="speakKorean('커피를 마시다가 물로 바꿨어요')">&#x1F50A;</button></div>
+                <div class="translation">Пил кофе, потом переключился на воду.</div>
+            </div>
+        </div>
+
+        <!-- Диалог -->
+        <div class="content-section">
+            <h2>5. Мини-диалог</h2>
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <span class="speaker">하나:</span>
+                    <span class="korean-text">왜 손에 반창고를 붙였어요? <button class="audio-btn" onclick="speakKorean('왜 손에 반창고를 붙였어요?')">&#x1F50A;</button></span>
+                    <span class="translation">Почему у тебя пластырь на руке?</span>
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">준서:</span>
+                    <span class="korean-text">요리하다가 칼로 손을 베었어요. <button class="audio-btn" onclick="speakKorean('요리하다가 칼로 손을 베었어요')">&#x1F50A;</button></span>
+                    <span class="translation">Готовил и порезал руку ножом.</span>
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">하나:</span>
+                    <span class="korean-text">아, 조심해야지! 뭘 만들다가 그랬어요? <button class="audio-btn" onclick="speakKorean('아, 조심해야지! 뭘 만들다가 그랬어요?')">&#x1F50A;</button></span>
+                    <span class="translation">Ох, будь осторожнее! Что готовил, когда это случилось?</span>
+                </div>
+                <div class="dialogue-line">
+                    <span class="speaker">준서:</span>
+                    <span class="korean-text">김치찌개를 만들다가요. 양파를 자르다가 베었어요. <button class="audio-btn" onclick="speakKorean('김치찌개를 만들다가요. 양파를 자르다가 베었어요.')">&#x1F50A;</button></span>
+                    <span class="translation">Кимчи-тиге. Резал лук и порезался.</span>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#x1F3AD; Прослушать диалог</button>
+        </div>
+
+        <!-- Упражнения -->
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-item">
+                <div class="exercise-question">1. "Шёл и упал" =</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">걷다가 넘어졌어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">걷고 넘어졌어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">걷어서 넘어졌어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">2. -다가 показывает:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">причину</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">прерывание действия</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">одновременность</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">3. "Сходил и вернулся" =</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">가다가 왔어요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">갔다가 왔어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">가고 왔어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">4. "Учился и заснул":</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">공부해서 잠들었어요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">공부하다가 잠들었어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">공부하고 잠들었어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">5. В чём разница -다가 и -았/었다가?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Нет разницы</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">-다가 = прерван, -았/었다가 = завершил и обратно</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">-았/었다가 = причина</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">6. "Смотрел фильм и заплакал" =</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">영화를 보다가 울었어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">영화를 봤다가 울었어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">영화를 보고 울었어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">7. "Открыл дверь и закрыл" (сделал и отменил):</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">문을 열다가 닫았어요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">문을 열었다가 닫았어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">문을 열고 닫았어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">8. "Ехал за рулём и случилась авария":</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">운전하다가 사고가 났어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">운전해서 사고가 났어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">운전했다가 사고가 났어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+        </div>
+
+        <!-- Запомни -->
+        <div class="remember-block">
+            <h2>Запомни!</h2>
+            <div class="remember-item">
+                <strong>-다가:</strong> основа + -다가 = "делал X, и вдруг Y" (прерывание или переключение)
+            </div>
+            <div class="remember-item">
+                <strong>-았/었다가:</strong> основа + прошедшее + -다가 = "сделал X, потом вернул/отменил" (갔다가 왔어요)
+            </div>
+            <div class="remember-item">
+                <strong>Субъект:</strong> обычно один и тот же субъект для обоих действий
+            </div>
+            <div class="remember-item">
+                <strong>Не путать с -고:</strong> -고 = "и потом" (последовательность), -다가 = прерывание, неожиданность
+            </div>
+            <div class="remember-item">
+                <strong>Частые слова:</strong> 넘어지다 (упасть), 잠들다 (заснуть), 울다 (заплакать), 웃다 (засмеяться)
+            </div>
+        </div>
+
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #FF9800, #E65100);
+                color: white; border: none; padding: 18px 40px;
+                font-size: 1.2em; font-weight: 600; border-radius: 30px;
+                cursor: pointer; transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(255,152,0,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level3_lesson_daga';
+
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+            if (kv) u.voice = kv;
+            window.speechSynthesis.speak(u);
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.previousElementSibling;
+            while (box && !box.classList.contains('dialogue-box')) box = box.previousElementSibling;
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var i = 0; btn.disabled = true;
+            function playNext() {
+                if (i >= lines.length) { btn.disabled = false; return; }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(255,152,0,0.15)';
+                var text = lines[i].querySelector('.korean-text');
+                if (text) {
+                    var u = new SpeechSynthesisUtterance(text.textContent.trim());
+                    u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                    u.onend = function() { i++; setTimeout(playNext, 400); };
+                    window.speechSynthesis.speak(u);
+                } else { i++; setTimeout(playNext, 400); }
+            }
+            window.speechSynthesis.cancel(); playNext();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item');
+            var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) { if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; } });
+            }
+        }
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#E65100';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            } else {
+                console.log('[ERROR] ProgressTracker not found');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#E65100';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+            if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+                window.speechSynthesis.addEventListener('voiceschanged', function() {});
+            }
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>
