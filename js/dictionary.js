@@ -81,6 +81,8 @@
         });
 
         saveAll(words);
+        if (window.SRS) { window.SRS.initWord(needle); }
+        if (window.DailyTasks) { window.DailyTasks.updateTask('learnWords'); }
         console.log('[+] Dictionary: added', needle);
         return true;
     }

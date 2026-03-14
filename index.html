@@ -91,17 +91,19 @@
                 </div>
             </div>
 
-            <!-- Дневная цель -->
-            <div class="daily-goal-block">
-                <div class="daily-goal-header">
-                    <span class="goal-icon">📊</span>
-                    <span class="goal-title">Ваша цель на сегодня</span>
+            <!-- Ежедневные задания -->
+            <div class="daily-tasks-block" id="dailyTasksBlock">
+                <div class="daily-tasks-header">
+                    <span class="tasks-title">Задания на сегодня</span>
+                    <span class="tasks-progress" id="tasksProgress">0/5</span>
                 </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar" id="daily-progress-bar" style="width: 0%"></div>
+                <div class="daily-tasks-list" id="dailyTasksList">
                 </div>
-                <div class="goal-stats">
-                    <span id="goal-progress-text">0% (0/5 уроков)</span>
+                <div class="daily-tasks-bar">
+                    <div class="daily-tasks-fill" id="dailyTasksFill" style="width: 0%"></div>
+                </div>
+                <div class="daily-tasks-celebration hidden" id="tasksCelebration">
+                    Все задания выполнены! Отличная работа!
                 </div>
             </div>
 
@@ -695,46 +697,128 @@
             }
 
             /* ========================================== */
-            /* ДНЕВНАЯ ЦЕЛЬ */
+            /* ЕЖЕДНЕВНЫЕ ЗАДАНИЯ */
             /* ========================================== */
-            .daily-goal-block {
+            .daily-tasks-block {
                 background: white;
-                border-radius: 20px;
-                padding: 25px;
-                margin-bottom: 20px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+                border-radius: 16px;
+                padding: 20px;
+                margin: 15px 0;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.08);
             }
-            .daily-goal-header {
+            .daily-tasks-header {
                 display: flex;
+                justify-content: space-between;
                 align-items: center;
-                gap: 10px;
                 margin-bottom: 15px;
             }
-            .goal-icon {
-                font-size: 1.5em;
-            }
-            .goal-title {
-                font-size: 1.2em;
+            .tasks-title {
+                font-size: 1.1em;
                 font-weight: 600;
                 color: #333;
             }
-            .progress-bar-container {
-                background: #e0e0e0;
+            .tasks-progress {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 4px 12px;
+                border-radius: 20px;
+                font-size: 0.85em;
+                font-weight: 600;
+            }
+            .daily-tasks-list {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+            .daily-task-item {
+                display: flex;
+                align-items: center;
+                padding: 10px 12px;
                 border-radius: 10px;
-                height: 20px;
+                background: #f8f9fa;
+                transition: all 0.3s ease;
+                gap: 10px;
+            }
+            .daily-task-item.completed {
+                background: rgba(76,175,80,0.1);
+            }
+            .task-check {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                border: 2px solid #ccc;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                font-size: 0.7em;
+                transition: all 0.3s ease;
+            }
+            .daily-task-item.completed .task-check {
+                background: #4caf50;
+                border-color: #4caf50;
+                color: white;
+            }
+            .task-info {
+                flex: 1;
+            }
+            .task-name {
+                font-size: 0.9em;
+                color: #333;
+            }
+            .daily-task-item.completed .task-name {
+                color: #888;
+                text-decoration: line-through;
+            }
+            .task-count {
+                font-size: 0.75em;
+                color: #999;
+            }
+            .task-link {
+                color: #667eea;
+                text-decoration: none;
+                font-size: 0.8em;
+                padding: 4px 10px;
+                border-radius: 15px;
+                background: rgba(102,126,234,0.1);
+                transition: all 0.3s ease;
+                white-space: nowrap;
+            }
+            .task-link:hover {
+                background: rgba(102,126,234,0.2);
+            }
+            .daily-task-item.completed .task-link {
+                display: none;
+            }
+            .daily-tasks-bar {
+                height: 6px;
+                background: #e0e0e0;
+                border-radius: 3px;
                 overflow: hidden;
             }
-            .progress-bar {
-                background: linear-gradient(90deg, #4caf50, #8bc34a);
+            .daily-tasks-fill {
                 height: 100%;
-                border-radius: 10px;
+                background: linear-gradient(90deg, #667eea, #764ba2);
+                border-radius: 3px;
                 transition: width 0.5s ease;
             }
-            .goal-stats {
-                margin-top: 10px;
-                text-align: right;
-                color: #666;
-                font-size: 14px;
+            .daily-tasks-celebration {
+                text-align: center;
+                padding: 12px;
+                margin-top: 12px;
+                background: linear-gradient(135deg, #4caf50, #66bb6a);
+                color: white;
+                border-radius: 10px;
+                font-weight: 600;
+                animation: fadeIn 0.5s ease;
+            }
+            .daily-tasks-celebration.hidden {
+                display: none;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
             }
 
             /* ========================================== */
@@ -1573,11 +1657,12 @@
                 // Обновляем персональные данные (каждый вызов изолирован от ошибок)
                 try { updateGreeting(user); } catch(e) { console.log('[ERROR] updateGreeting:', e); }
                 try { updateQuickStats(); } catch(e) { console.log('[ERROR] updateQuickStats:', e); }
-                try { updateDailyGoal(); } catch(e) { console.log('[ERROR] updateDailyGoal:', e); }
+                try { renderDailyTasks(); } catch(e) { console.log('[ERROR] renderDailyTasks:', e); }
                 try { updateWordOfDay(); } catch(e) { console.log('[ERROR] updateWordOfDay:', e); }
                 try { loadRecommendations(); } catch(e) { console.log('[ERROR] loadRecommendations:', e); }
                 try { loadRecentActivity(); } catch(e) { console.log('[ERROR] loadRecentActivity:', e); }
                 try { checkNewAchievements(); } catch(e) { console.log('[ERROR] checkNewAchievements:', e); }
+                try { checkNotifications(); } catch(e) { console.log('[ERROR] checkNotifications:', e); }
 
             } else {
                 // Скрываем контент для авторизованных
@@ -1642,25 +1727,82 @@
             }
         }
 
-        function updateDailyGoal() {
-            const progress = window.ProgressTracker ? window.ProgressTracker.get() : null;
-            const dailyGoal = 5; // 5 уроков в день
+        function renderDailyTasks() {
+            if (!window.DailyTasks) return;
+            var data = window.DailyTasks.getTasks();
+            var defs = window.DailyTasks.getDefinitions();
+            var stats = window.DailyTasks.getStats();
+            var list = document.getElementById('dailyTasksList');
+            if (!list) return;
 
-            let todayLessons = 0;
-            if (progress && progress.completedLessons) {
-                const today = new Date().toDateString();
-                Object.values(progress.completedLessons).forEach(lesson => {
-                    if (lesson.completedAt) {
-                        const lessonDate = new Date(lesson.completedAt).toDateString();
-                        if (lessonDate === today) todayLessons++;
+            var html = '';
+            defs.forEach(function(def) {
+                var task = data.tasks[def.id] || { current: 0, completed: false };
+                var isCompleted = task.completed;
+                html += '<div class="daily-task-item' + (isCompleted ? ' completed' : '') + '">' +
+                    '<div class="task-check">' + (isCompleted ? '[OK]' : '') + '</div>' +
+                    '<div class="task-info">' +
+                        '<div class="task-name">' + def.icon + ' ' + def.name + '</div>' +
+                        '<div class="task-count">' + task.current + '/' + def.target + '</div>' +
+                    '</div>' +
+                    '<a href="' + def.link + '" class="task-link">' + def.linkText + '</a>' +
+                    '</div>';
+            });
+            list.innerHTML = html;
+
+            var progress = document.getElementById('tasksProgress');
+            if (progress) progress.textContent = stats.completed + '/' + stats.total;
+
+            var fill = document.getElementById('dailyTasksFill');
+            if (fill) fill.style.width = stats.percentage + '%';
+
+            var celebration = document.getElementById('tasksCelebration');
+            if (celebration) {
+                if (data.allCompleted) {
+                    celebration.classList.remove('hidden');
+                } else {
+                    celebration.classList.add('hidden');
+                }
+            }
+        }
+
+        window.addEventListener('dailyTaskUpdated', function() {
+            renderDailyTasks();
+        });
+
+        function checkNotifications() {
+            if (!('Notification' in window)) return;
+            var pref = localStorage.getItem('janeKoreaNotifications');
+            if (pref === 'disabled') return;
+
+            if (Notification.permission === 'default') {
+                // Не спрашиваем сразу — покажем после первого действия
+                return;
+            }
+
+            if (Notification.permission === 'granted' && window.SRS) {
+                var stats = window.SRS.getStats();
+                if (stats.today > 0) {
+                    new Notification('Jane Korea', {
+                        body: 'Пора повторить ' + stats.today + ' слов!',
+                        icon: 'images/favicon.png'
+                    });
+                }
+            }
+        }
+
+        function requestNotificationPermission() {
+            if (!('Notification' in window)) return;
+            var pref = localStorage.getItem('janeKoreaNotifications');
+            if (pref === 'disabled') return;
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(function(permission) {
+                    if (permission === 'granted') {
+                        localStorage.setItem('janeKoreaNotifications', 'enabled');
+                        console.log('[OK] Notifications enabled');
                     }
                 });
             }
-
-            const percentage = Math.min(100, Math.round((todayLessons / dailyGoal) * 100));
-            document.getElementById('daily-progress-bar').style.width = percentage + '%';
-            document.getElementById('goal-progress-text').textContent =
-                percentage + '% (' + todayLessons + '/' + dailyGoal + ' уроков)';
         }
 
         function updateWordOfDay() {
@@ -1942,6 +2084,9 @@
             console.log('[OK] Phrase of the week rendered');
         })();
     </script>
+
+    <!-- Ежедневные задания -->
+    <script src="js/daily-tasks.js"></script>
 
     <!-- Подключаем JavaScript для K-POP функций -->
     <script src="js/kpop-functions.js"></script>

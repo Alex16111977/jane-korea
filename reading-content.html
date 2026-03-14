@@ -641,6 +641,30 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        .mic-btn {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 8px 16px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .mic-btn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(33,150,243,0.4); }
+        .mic-btn.listening { animation: pulse-mic 1s infinite; background: linear-gradient(135deg, #f44336, #e53935); }
+        @keyframes pulse-mic { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+        .speech-result-text {
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.9em;
+        }
     </style>
     <!-- Vocabulary Learning Styles -->
     <link rel="stylesheet" href="vocab-learning.css">
@@ -764,6 +788,9 @@
                 </button>
                 <button class="control-btn secondary" onclick="playAudio()">
                     <span>🔊</span> Аудио
+                </button>
+                <button class="speech-btn mic-btn" id="micBtn" onclick="startTextSpeechPractice()" title="Произнесите текст" style="display:none;">
+                    Произнеси
                 </button>
             </div>
             <div class="audio-progress" id="audioProgress" style="display: none;">
@@ -1780,6 +1807,19 @@
                                 correct: 2
                             }
                         ]
+                    },
+                    {
+                        id: 'stories-3',
+                        title: 'Новый друг в школе',
+                        subtitle: '학교에서 새 친구',
+                        korean: '<span class="korean-word" data-translation="сегодня" data-pronunciation="오늘 [oneul]">오늘</span> <span class="korean-word" data-translation="школа" data-pronunciation="학교 [hakgyo]">학교</span><span class="korean-word" data-translation="в, на (место)" data-pronunciation="에서 [eseo]">에서</span> <span class="korean-word" data-translation="новый" data-pronunciation="새 [sae]">새</span> <span class="korean-word" data-translation="друг" data-pronunciation="친구 [chingu]">친구</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="встретить" data-pronunciation="만났어요 [mannasseoyo]">만났어요</span>. <span class="korean-word" data-translation="имя" data-pronunciation="이름 [ireum]">이름</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="은 [eun]">은</span> <span class="korean-word" data-translation="Минхо (имя)" data-pronunciation="민호 [Minho]">민호</span><span class="korean-word" data-translation="есть, является" data-pronunciation="예요 [yeyo]">예요</span>. <span class="korean-word" data-translation="Минхо" data-pronunciation="민호 [Minho]">민호</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="Корея" data-pronunciation="한국 [hanguk]">한국</span> <span class="korean-word" data-translation="человек" data-pronunciation="사람 [saram]">사람</span><span class="korean-word" data-translation="есть, является" data-pronunciation="이에요 [ieyo]">이에요</span>. <span class="korean-word" data-translation="Минхо" data-pronunciation="민호 [Minho]">민호</span><span class="korean-word" data-translation="(частица подлежащего)" data-pronunciation="가 [ga]">가</span> <span class="korean-word" data-translation="спрашивать" data-pronunciation="물어봐요 [mureobbwayo]">물어봐요</span>: <span class="korean-word" data-translation="какая" data-pronunciation="어느 [eoneu]">어느</span> <span class="korean-word" data-translation="страна" data-pronunciation="나라 [nara]">나라</span> <span class="korean-word" data-translation="человек" data-pronunciation="사람 [saram]">사람</span><span class="korean-word" data-translation="есть, является" data-pronunciation="이에요 [ieyo]">이에요</span>? <span class="korean-word" data-translation="я (вежл.)" data-pronunciation="저 [jeo]">저</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="Украина" data-pronunciation="우크라이나 [ukeuraina]">우크라이나</span> <span class="korean-word" data-translation="человек" data-pronunciation="사람 [saram]">사람</span><span class="korean-word" data-translation="есть, является" data-pronunciation="이에요 [ieyo]">이에요</span>. <span class="korean-word" data-translation="мы" data-pronunciation="우리 [uri]">우리</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="вместе" data-pronunciation="같이 [gachi]">같이</span> <span class="korean-word" data-translation="обед" data-pronunciation="점심 [jeomsim]">점심</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="есть, кушать" data-pronunciation="먹었어요 [meogeosseoyo]">먹었어요</span>. <span class="korean-word" data-translation="Минхо" data-pronunciation="민호 [Minho]">민호</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="очень" data-pronunciation="아주 [aju]">아주</span> <span class="korean-word" data-translation="добрый, хороший" data-pronunciation="착해요 [chakhaeyo]">착해요</span>.',
+                        translation: 'Сегодня в школе встретил нового друга. Его зовут Минхо. Минхо — кореец. Минхо спрашивает: из какой вы страны? Я из Украины. Мы вместе пообедали. Минхо очень добрый.',
+                        quiz: [
+                            { question: '새 친구 이름이 뭐예요?', options: ['지호', '민호', '수진', '현우'], correct: 1 },
+                            { question: '민호는 어느 나라 사람이에요?', options: ['일본', '중국', '한국', '미국'], correct: 2 },
+                            { question: '같이 뭘 했어요?', options: ['공부했어요', '운동했어요', '점심을 먹었어요', '영화를 봤어요'], correct: 2 },
+                            { question: '민호는 어때요?', options: ['무서워요', '착해요', '바빠요', '슬퍼요'], correct: 1 }
+                        ]
                     }
                 ],
                 culture: [
@@ -2093,6 +2133,19 @@
                                 correct: 1
                             }
                         ]
+                    },
+                    {
+                        id: 'travel-4',
+                        title: 'Спрашиваем дорогу',
+                        subtitle: '길을 물어요',
+                        korean: '<span class="korean-word" data-translation="извините" data-pronunciation="저기요 [jeogiyo]">저기요</span>, <span class="korean-word" data-translation="метро" data-pronunciation="지하철 [jihacheol]">지하철</span> <span class="korean-word" data-translation="станция" data-pronunciation="역 [yeok]">역</span><span class="korean-word" data-translation="(частица подлежащего)" data-pronunciation="이 [i]">이</span> <span class="korean-word" data-translation="где" data-pronunciation="어디 [eodi]">어디</span><span class="korean-word" data-translation="в, на" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="есть, находится" data-pronunciation="있어요 [isseoyo]">있어요</span>? <span class="korean-word" data-translation="прямо" data-pronunciation="직진 [jikjin]">직진</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="делать (идите)" data-pronunciation="하세요 [haseyo]">하세요</span>. <span class="korean-word" data-translation="потом" data-pronunciation="그리고 [geurigo]">그리고</span> <span class="korean-word" data-translation="влево" data-pronunciation="왼쪽 [oenjjok]">왼쪽</span><span class="korean-word" data-translation="в (направление)" data-pronunciation="으로 [euro]">으로</span> <span class="korean-word" data-translation="повернуть" data-pronunciation="가세요 [gaseyo]">가세요</span>. <span class="korean-word" data-translation="метро" data-pronunciation="지하철 [jihacheol]">지하철</span> <span class="korean-word" data-translation="станция" data-pronunciation="역 [yeok]">역</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="은 [eun]">은</span> <span class="korean-word" data-translation="вправо" data-pronunciation="오른쪽 [oreunjjok]">오른쪽</span><span class="korean-word" data-translation="в, на" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="есть, находится" data-pronunciation="있어요 [isseoyo]">있어요</span>. <span class="korean-word" data-translation="далеко" data-pronunciation="멀어요 [meoreoyo]">멀어요</span>? <span class="korean-word" data-translation="нет" data-pronunciation="아니요 [aniyo]">아니요</span>, <span class="korean-word" data-translation="близко" data-pronunciation="가까워요 [gakkawoyo]">가까워요</span>. <span class="korean-word" data-translation="пешком" data-pronunciation="걸어서 [georeoseo]">걸어서</span> <span class="korean-word" data-translation="пять" data-pronunciation="오 [o]">오</span> <span class="korean-word" data-translation="минута" data-pronunciation="분 [bun]">분</span><span class="korean-word" data-translation="есть, является" data-pronunciation="이에요 [ieyo]">이에요</span>. <span class="korean-word" data-translation="спасибо" data-pronunciation="감사합니다 [gamsahamnida]">감사합니다</span>!',
+                        translation: 'Извините, где находится станция метро? Идите прямо. Потом поверните налево. Станция метро — справа. Далеко? Нет, близко. Пешком пять минут. Спасибо!',
+                        quiz: [
+                            { question: '뭘 찾아요?', options: ['버스 정류장', '지하철역', '카페', '학교'], correct: 1 },
+                            { question: '어디로 가세요?', options: ['오른쪽', '직진하고 왼쪽', '뒤로', '직진만'], correct: 1 },
+                            { question: '지하철역이 멀어요?', options: ['네, 멀어요', '아니요, 가까워요', '모르겠어요', '아주 멀어요'], correct: 1 },
+                            { question: '걸어서 몇 분이에요?', options: ['삼 분', '오 분', '십 분', '이십 분'], correct: 1 }
+                        ]
                     }
                 ],
                 food: [
@@ -2214,6 +2267,62 @@
                                 options: ["병원", "학교", "편의점", "도서관"],
                                 correct: 2
                             }
+                        ]
+                    },
+                    {
+                        id: 'food-5',
+                        title: 'В корейском кафе',
+                        subtitle: '한국 카페에서',
+                        korean: '<span class="korean-word" data-translation="я (вежл.)" data-pronunciation="저 [jeo]">저</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="кафе" data-pronunciation="카페 [kape]">카페</span><span class="korean-word" data-translation="в, на (направление)" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="приходить" data-pronunciation="왔어요 [wasseoyo]">왔어요</span>. <span class="korean-word" data-translation="меню" data-pronunciation="메뉴 [menyu]">메뉴</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="смотреть" data-pronunciation="봐요 [bwayo]">봐요</span>. <span class="korean-word" data-translation="аmериканo" data-pronunciation="아메리카노 [amerikano]">아메리카노</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="четыре тысячи" data-pronunciation="사천 [sacheon]">사천</span> <span class="korean-word" data-translation="вон (валюта)" data-pronunciation="원 [won]">원</span><span class="korean-word" data-translation="есть, является" data-pronunciation="이에요 [ieyo]">이에요</span>. <span class="korean-word" data-translation="латте" data-pronunciation="라떼 [latte]">라떼</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="пять тысяч" data-pronunciation="오천 [ocheon]">오천</span> <span class="korean-word" data-translation="вон" data-pronunciation="원 [won]">원</span><span class="korean-word" data-translation="есть, является" data-pronunciation="이에요 [ieyo]">이에요</span>. <span class="korean-word" data-translation="извините (для привлечения внимания)" data-pronunciation="저기요 [jeogiyo]">저기요</span>, <span class="korean-word" data-translation="латте" data-pronunciation="라떼 [latte]">라떼</span> <span class="korean-word" data-translation="один" data-pronunciation="하나 [hana]">하나</span> <span class="korean-word" data-translation="и" data-pronunciation="하고 [hago]">하고</span> <span class="korean-word" data-translation="кекс" data-pronunciation="케이크 [keikeu]">케이크</span> <span class="korean-word" data-translation="один" data-pronunciation="하나 [hana]">하나</span> <span class="korean-word" data-translation="пожалуйста (при заказе)" data-pronunciation="주세요 [juseyo]">주세요</span>. <span class="korean-word" data-translation="латте" data-pronunciation="라떼 [latte]">라떼</span><span class="korean-word" data-translation="(частица подлежащего)" data-pronunciation="가 [ga]">가</span> <span class="korean-word" data-translation="очень" data-pronunciation="아주 [aju]">아주</span> <span class="korean-word" data-translation="вкусный" data-pronunciation="맛있어요 [masisseoyo]">맛있어요</span>!',
+                        translation: 'Я пришёл в кафе. Смотрю меню. Американо стоит четыре тысячи вон. Латте — пять тысяч вон. Извините, один латте и один кекс, пожалуйста. Латте очень вкусный!',
+                        quiz: [
+                            { question: '아메리카노는 얼마예요?', options: ['삼천 원', '사천 원', '오천 원', '육천 원'], correct: 1 },
+                            { question: '뭘 주문해요?', options: ['아메리카노', '라떼하고 케이크', '차', '주스'], correct: 1 },
+                            { question: '라떼가 어때요?', options: ['비싸요', '맛없어요', '맛있어요', '차가워요'], correct: 2 },
+                            { question: '"주세요"는 무슨 뜻이에요?', options: ['감사합니다', '주문해요', '드세요', '부탁해요'], correct: 3 }
+                        ]
+                    }
+                ],
+                daily: [
+                    {
+                        id: 'daily-1',
+                        title: 'Мой обычный день',
+                        subtitle: '나의 하루',
+                        korean: '<span class="korean-word" data-translation="я (вежл.)" data-pronunciation="저 [jeo]">저</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="каждый день" data-pronunciation="매일 [maeil]">매일</span> <span class="korean-word" data-translation="утро" data-pronunciation="아침 [achim]">아침</span> <span class="korean-word" data-translation="семь" data-pronunciation="일곱 [ilgop]">일곱</span> <span class="korean-word" data-translation="час" data-pronunciation="시 [si]">시</span><span class="korean-word" data-translation="в, на (частица)" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="вставать" data-pronunciation="일어나요 [ireonayo]">일어나요</span>. <span class="korean-word" data-translation="лицо" data-pronunciation="얼굴 [eolgul]">얼굴</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="мыть" data-pronunciation="씻고 [ssitgo]">씻고</span> <span class="korean-word" data-translation="завтрак" data-pronunciation="아침밥 [achimbap]">아침밥</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="есть, кушать" data-pronunciation="먹어요 [meogeoyo]">먹어요</span>. <span class="korean-word" data-translation="восемь" data-pronunciation="여덟 [yeodeol]">여덟</span> <span class="korean-word" data-translation="час" data-pronunciation="시 [si]">시</span><span class="korean-word" data-translation="в, на" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="школа" data-pronunciation="학교 [hakgyo]">학교</span><span class="korean-word" data-translation="в, на (направление)" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="идти" data-pronunciation="가요 [gayo]">가요</span>. <span class="korean-word" data-translation="школа" data-pronunciation="학교 [hakgyo]">학교</span><span class="korean-word" data-translation="в, на (место)" data-pronunciation="에서 [eseo]">에서</span> <span class="korean-word" data-translation="корейский язык" data-pronunciation="한국어 [hangugeo]">한국어</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="учить, изучать" data-pronunciation="공부해요 [gongbuhaeyo]">공부해요</span>. <span class="korean-word" data-translation="вечер" data-pronunciation="저녁 [jeonyeok]">저녁</span><span class="korean-word" data-translation="в, на" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="дом" data-pronunciation="집 [jip]">집</span><span class="korean-word" data-translation="в, на (направление)" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="приходить" data-pronunciation="와요 [wayo]">와요</span>. <span class="korean-word" data-translation="ужин" data-pronunciation="저녁밥 [jeonyeokbap]">저녁밥</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="есть, кушать" data-pronunciation="먹고 [meokgo]">먹고</span> <span class="korean-word" data-translation="книга" data-pronunciation="책 [chaek]">책</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="читать" data-pronunciation="읽어요 [ilgeoyo]">읽어요</span>. <span class="korean-word" data-translation="десять" data-pronunciation="열 [yeol]">열</span> <span class="korean-word" data-translation="час" data-pronunciation="시 [si]">시</span><span class="korean-word" data-translation="в, на" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="спать" data-pronunciation="자요 [jayo]">자요</span>.',
+                        translation: 'Я каждый день встаю в семь часов утра. Умываюсь и завтракаю. В восемь часов иду в школу. В школе учу корейский язык. Вечером прихожу домой. Ужинаю и читаю книгу. В десять часов ложусь спать.',
+                        quiz: [
+                            { question: '몇 시에 일어나요?', options: ['여섯 시', '일곱 시', '여덟 시', '아홉 시'], correct: 1 },
+                            { question: '학교에서 뭘 해요?', options: ['영어를 공부해요', '한국어를 공부해요', '음악을 들어요', '운동해요'], correct: 1 },
+                            { question: '저녁에 뭘 해요?', options: ['TV를 봐요', '게임해요', '책을 읽어요', '운동해요'], correct: 2 },
+                            { question: '몇 시에 자요?', options: ['아홉 시', '열 시', '열한 시', '열두 시'], correct: 1 }
+                        ]
+                    },
+                    {
+                        id: 'daily-2',
+                        title: 'Мои выходные',
+                        subtitle: '나의 주말',
+                        korean: '<span class="korean-word" data-translation="выходные" data-pronunciation="주말 [jumal]">주말</span><span class="korean-word" data-translation="в, на" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="я (вежл.)" data-pronunciation="저 [jeo]">저</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="друг" data-pronunciation="친구 [chingu]">친구</span><span class="korean-word" data-translation="и, с (вместе)" data-pronunciation="와 [wa]">와</span> <span class="korean-word" data-translation="парк" data-pronunciation="공원 [gongwon]">공원</span><span class="korean-word" data-translation="в, на (направление)" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="идти" data-pronunciation="가요 [gayo]">가요</span>. <span class="korean-word" data-translation="погода" data-pronunciation="날씨 [nalssi]">날씨</span><span class="korean-word" data-translation="(частица подлежащего)" data-pronunciation="가 [ga]">가</span> <span class="korean-word" data-translation="хороший" data-pronunciation="좋아요 [joayo]">좋아요</span>. <span class="korean-word" data-translation="парк" data-pronunciation="공원 [gongwon]">공원</span><span class="korean-word" data-translation="в, на (место)" data-pronunciation="에서 [eseo]">에서</span> <span class="korean-word" data-translation="гулять" data-pronunciation="산책해요 [sanchaekhaeyo]">산책해요</span>. <span class="korean-word" data-translation="потом" data-pronunciation="그리고 [geurigo]">그리고</span> <span class="korean-word" data-translation="кафе" data-pronunciation="카페 [kape]">카페</span><span class="korean-word" data-translation="в, на (направление)" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="идти" data-pronunciation="가요 [gayo]">가요</span>. <span class="korean-word" data-translation="кофе" data-pronunciation="커피 [keopi]">커피</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="пить" data-pronunciation="마셔요 [masyeoyo]">마셔요</span>. <span class="korean-word" data-translation="кафе" data-pronunciation="카페 [kape]">카페</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="очень" data-pronunciation="아주 [aju]">아주</span> <span class="korean-word" data-translation="красивый, хороший" data-pronunciation="예뻐요 [yeppeoyo]">예뻐요</span>. <span class="korean-word" data-translation="вечер" data-pronunciation="저녁 [jeonyeok]">저녁</span><span class="korean-word" data-translation="в, на" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="фильм" data-pronunciation="영화 [yeonghwa]">영화</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="смотреть" data-pronunciation="봐요 [bwayo]">봐요</span>. <span class="korean-word" data-translation="выходные" data-pronunciation="주말 [jumal]">주말</span><span class="korean-word" data-translation="(частица подлежащего)" data-pronunciation="이 [i]">이</span> <span class="korean-word" data-translation="весело, интересно" data-pronunciation="재미있어요 [jaemiisseoyo]">재미있어요</span>!',
+                        translation: 'В выходные я с другом иду в парк. Погода хорошая. В парке гуляем. Потом идём в кафе. Пьём кофе. Кафе очень красивое. Вечером смотрим фильм. Выходные — весёлые!',
+                        quiz: [
+                            { question: '누구와 공원에 가요?', options: ['가족', '선생님', '친구', '혼자'], correct: 2 },
+                            { question: '날씨가 어때요?', options: ['추워요', '더워요', '좋아요', '나빠요'], correct: 2 },
+                            { question: '카페에서 뭘 마셔요?', options: ['차', '주스', '물', '커피'], correct: 3 },
+                            { question: '저녁에 뭘 해요?', options: ['책을 읽어요', '영화를 봐요', '운동해요', '자요'], correct: 1 }
+                        ]
+                    }
+                ],
+                hobbies: [
+                    {
+                        id: 'hobbies-1',
+                        title: 'Мои хобби',
+                        subtitle: '나의 취미',
+                        korean: '<span class="korean-word" data-translation="я (вежл.)" data-pronunciation="저 [jeo]">저</span><span class="korean-word" data-translation="(частица темы)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="хобби" data-pronunciation="취미 [chwimi]">취미</span><span class="korean-word" data-translation="(частица подлежащего)" data-pronunciation="가 [ga]">가</span> <span class="korean-word" data-translation="много" data-pronunciation="많아요 [manayo]">많아요</span>. <span class="korean-word" data-translation="музыка" data-pronunciation="음악 [eumak]">음악</span> <span class="korean-word" data-translation="слушать" data-pronunciation="듣기 [deutgi]">듣기</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="любить, нравиться" data-pronunciation="좋아해요 [joahaeyo]">좋아해요</span>. <span class="korean-word" data-translation="K-POP" data-pronunciation="케이팝 [keipap]">케이팝</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="очень" data-pronunciation="아주 [aju]">아주</span> <span class="korean-word" data-translation="любить" data-pronunciation="좋아해요 [joahaeyo]">좋아해요</span>. <span class="korean-word" data-translation="также, тоже" data-pronunciation="또 [tto]">또</span> <span class="korean-word" data-translation="книга" data-pronunciation="책 [chaek]">책</span> <span class="korean-word" data-translation="читать" data-pronunciation="읽기 [ilgi]">읽기</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="любить" data-pronunciation="좋아해요 [joahaeyo]">좋아해요</span>. <span class="korean-word" data-translation="выходные" data-pronunciation="주말 [jumal]">주말</span><span class="korean-word" data-translation="в, на" data-pronunciation="에 [e]">에</span> <span class="korean-word" data-translation="фотография" data-pronunciation="사진 [sajin]">사진</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="을 [eul]">을</span> <span class="korean-word" data-translation="фотографировать" data-pronunciation="찍어요 [jjigeoyo]">찍어요</span>. <span class="korean-word" data-translation="природа" data-pronunciation="자연 [jayeon]">자연</span> <span class="korean-word" data-translation="фотография" data-pronunciation="사진 [sajin]">사진</span><span class="korean-word" data-translation="(частица подлежащего)" data-pronunciation="이 [i]">이</span> <span class="korean-word" data-translation="самый" data-pronunciation="제일 [jeil]">제일</span> <span class="korean-word" data-translation="нравиться" data-pronunciation="좋아요 [joayo]">좋아요</span>. <span class="korean-word" data-translation="спорт" data-pronunciation="운동 [undong]">운동</span><span class="korean-word" data-translation="также, тоже" data-pronunciation="도 [do]">도</span> <span class="korean-word" data-translation="любить" data-pronunciation="좋아해요 [joahaeyo]">좋아해요</span>. <span class="korean-word" data-translation="бег" data-pronunciation="달리기 [dalligi]">달리기</span><span class="korean-word" data-translation="(частица дополнения)" data-pronunciation="를 [reul]">를</span> <span class="korean-word" data-translation="каждый день" data-pronunciation="매일 [maeil]">매일</span> <span class="korean-word" data-translation="делать" data-pronunciation="해요 [haeyo]">해요</span>.',
+                        translation: 'У меня много хобби. Люблю слушать музыку. Очень люблю K-POP. Ещё люблю читать книги. В выходные фотографирую. Больше всего нравятся фотографии природы. Спорт тоже люблю. Каждый день бегаю.',
+                        quiz: [
+                            { question: '어떤 음악을 좋아해요?', options: ['클래식', '재즈', '케이팝', '록'], correct: 2 },
+                            { question: '주말에 뭘 해요?', options: ['운동해요', '사진을 찍어요', '요리해요', '잠을 자요'], correct: 1 },
+                            { question: '어떤 사진을 제일 좋아해요?', options: ['음식 사진', '사람 사진', '자연 사진', '도시 사진'], correct: 2 },
+                            { question: '매일 뭘 해요?', options: ['수영', '달리기', '요가', '축구'], correct: 1 }
                         ]
                     }
                 ]
@@ -3012,7 +3121,9 @@
             phone: 'Общение',
             sports: 'Спорт',
             office: 'Работа',
-            shopping: 'Шопинг'
+            shopping: 'Шопинг',
+            daily: 'Повседневность',
+            hobbies: 'Хобби'
         };
 
         function getCurrentTexts() {
@@ -3260,6 +3371,12 @@
                 'food-2': { src: 'images/В корейском ресторане.jpg', alt: 'Korean Restaurant' },
                 'food-3': { src: 'images/Учусь готовить кимчи.jpg', alt: 'Making Kimchi' },
                 'food-4': { src: 'images/Корейские напитки.jpg', alt: 'Korean Drinks' },
+                'food-5': { src: 'images/korean-cafe.svg', alt: 'Korean cafe illustration' },
+                'daily-1': { src: 'images/daily-routine.svg', alt: 'Daily routine illustration' },
+                'daily-2': { src: 'images/weekend-park.svg', alt: 'Weekend in park illustration' },
+                'travel-4': { src: 'images/asking-directions.svg', alt: 'Asking directions illustration' },
+                'stories-3': { src: 'images/new-friend.svg', alt: 'New friend illustration' },
+                'hobbies-1': { src: 'images/hobbies.svg', alt: 'Hobbies illustration' },
                 '3-personal-1': { src: 'images/level3-personal.svg', alt: 'Level 3 career planning illustration' },
                 '3-personal-2': { src: 'images/level3-personal.svg', alt: 'Level 3 work-life balance illustration' },
                 '3-personal-3': { src: 'images/level3-personal.svg', alt: 'Level 3 future plans illustration' },
@@ -4029,6 +4146,7 @@
             if (typeof updateVocabButton === 'function') {
                 updateVocabButton();
             }
+            initMicButton();
         });
 
         // Функция сохранения прогресса после теста
@@ -4138,6 +4256,53 @@
             }
         }
 
+        function initMicButton() {
+            if (window.SpeechPractice && window.SpeechPractice.isSupported) {
+                var micBtn = document.getElementById('micBtn');
+                if (micBtn) micBtn.style.display = 'inline-flex';
+            }
+        }
+
+        function startTextSpeechPractice() {
+            var koreanText = document.querySelector('.korean-text-content');
+            if (!koreanText) return;
+            // Collect first sentence (up to first period)
+            var words = koreanText.querySelectorAll('.korean-word');
+            var sentence = '';
+            for (var i = 0; i < words.length && i < 10; i++) {
+                sentence += words[i].textContent;
+                if (words[i].textContent.indexOf('.') !== -1) break;
+            }
+            if (!sentence) return;
+
+            var btn = document.getElementById('micBtn');
+            btn.textContent = 'Слушаю...';
+            btn.classList.add('listening');
+
+            window.SpeechPractice.listen(sentence, function(result) {
+                btn.classList.remove('listening');
+                btn.textContent = 'Произнеси';
+
+                var resultArea = document.getElementById('speechResultText');
+                if (!resultArea) {
+                    resultArea = document.createElement('div');
+                    resultArea.id = 'speechResultText';
+                    btn.parentNode.appendChild(resultArea);
+                }
+
+                if (result.error) {
+                    resultArea.innerHTML = '<div class="speech-result-text" style="background:rgba(244,67,54,0.1);color:#d32f2f;">Ошибка: ' + (result.error === 'no-speech' ? 'Не слышу' : result.error) + '</div>';
+                    return;
+                }
+
+                var msg = window.SpeechPractice.getScoreMessage(result.score);
+                var bg = result.score >= 80 ? 'rgba(76,175,80,0.1)' : (result.score >= 50 ? 'rgba(255,193,7,0.1)' : 'rgba(244,67,54,0.1)');
+                resultArea.innerHTML = '<div class="speech-result-text" style="background:' + bg + ';">' +
+                    '<strong>' + result.score + '%</strong> — ' + msg.message +
+                    '<br><small>Вы: ' + result.transcript + '</small></div>';
+            });
+        }
+
         console.log('[OK] Progress integration loaded');
     </script>
     
@@ -4157,5 +4322,6 @@
     <script src="js/firebase-sync.js"></script>
     <script src="js/firebase-auth.js"></script>
     <script src="js/global-nav.js"></script>
+    <script src="js/speech-recognition.js"></script>
 </body>
 </html>

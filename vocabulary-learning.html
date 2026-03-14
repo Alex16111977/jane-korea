@@ -1096,6 +1096,70 @@
             font-size: 12px;
             color: #888;
         }
+
+        /* SRS БЕЙДЖ */
+        .srs-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #f44336;
+            color: white;
+            border-radius: 50%;
+            min-width: 20px;
+            height: 20px;
+            font-size: 0.7em;
+            font-weight: bold;
+            margin-left: 5px;
+            padding: 0 5px;
+        }
+        .srs-badge:empty {
+            display: none;
+        }
+
+        /* КНОПКА ПРОИЗНОШЕНИЯ */
+        .speech-btn {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .speech-btn:hover { transform: scale(1.05); box-shadow: 0 4px 15px rgba(33,150,243,0.4); }
+        .speech-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .speech-btn.listening {
+            animation: pulse-mic 1s infinite;
+            background: linear-gradient(135deg, #f44336, #e53935);
+        }
+        @keyframes pulse-mic {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .speech-result {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .speech-result.excellent { background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3); }
+        .speech-result.good { background: rgba(255,193,7,0.15); border: 2px solid rgba(255,193,7,0.3); }
+        .speech-result.retry { background: rgba(244,67,54,0.15); border: 2px solid rgba(244,67,54,0.3); }
+        .speech-score {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .speech-transcript {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
@@ -1112,7 +1176,7 @@
             <button class="tab" onclick="showTab('writing', this)">Написать</button>
             <button class="tab" onclick="showTab('sentences', this)">Предложения</button>
             <button class="tab" onclick="showTab('dictionary', this)">Мой словарь</button>
-            <button class="tab" onclick="showTab('srs', this)">Повторение</button>
+            <button class="tab" onclick="showTab('srs', this)">Повторение <span class="srs-badge" id="srsBadge"></span></button>
         </div>
 
         <!-- ВЫБОР СЛОВ -->
@@ -1176,6 +1240,7 @@
     <script src="js/srs.js"></script>
     <script src="js/dictionary.js"></script>
     <script src="js/word-examples.js"></script>
+    <script src="js/speech-recognition.js"></script>
 
     <script>
         // Получаем параметры из URL
@@ -1504,7 +1569,14 @@
                     '</div>' +
                 '</div>' +
                 '<div id="ratingArea"></div>' +
+                '<div id="speechSection" style="display:none;">' +
+                    '<button class="speech-btn" id="speechBtn" onclick="startSpeechPractice()">Произнеси</button>' +
+                    '<div id="speechResult"></div>' +
+                '</div>' +
                 '<div class="flashcard-hint">Переверните карточку, чтобы оценить</div>';
+
+            // Показываем кнопку произношения для текущего слова
+            showSpeechButton(word.korean);
         }
 
         function flipCard() {
@@ -1535,6 +1607,7 @@
             // Записываем в SRS
             if (window.SRS) {
                 window.SRS.reviewWord(word.korean, quality);
+                updateSRSBadge();
             }
 
             // Записываем результат
@@ -1569,6 +1642,9 @@
                         '<button style="background:#e0e0e0;color:#333;" onclick="showTab(\'srs\', document.querySelector(\'.tab:last-child\'))">К повторению</button>' +
                     '</div>' +
                 '</div>';
+
+            // Обновляем бейдж после завершения обзора
+            updateSRSBadge();
         }
 
         function restartHard() {
@@ -2008,8 +2084,70 @@
             initFlashcards(dueWords, 'srs');
         }
 
+        // SRS БЕЙДЖ
+        function updateSRSBadge() {
+            var badge = document.getElementById('srsBadge');
+            if (!badge || !window.SRS) return;
+            var stats = window.SRS.getStats();
+            badge.textContent = stats.today > 0 ? stats.today : '';
+        }
+
+        // ПРОИЗНОШЕНИЕ
+        var currentSpeechWord = '';
+
+        function showSpeechButton(koreanWord) {
+            if (!window.SpeechPractice || !window.SpeechPractice.isSupported) return;
+            currentSpeechWord = koreanWord;
+            var section = document.getElementById('speechSection');
+            if (section) {
+                section.style.display = 'block';
+                document.getElementById('speechResult').innerHTML = '';
+                var btn = document.getElementById('speechBtn');
+                btn.textContent = 'Произнеси';
+                btn.disabled = false;
+                btn.classList.remove('listening');
+            }
+        }
+
+        function startSpeechPractice() {
+            if (!currentSpeechWord) return;
+            var btn = document.getElementById('speechBtn');
+            btn.textContent = 'Слушаю...';
+            btn.classList.add('listening');
+            btn.disabled = true;
+
+            window.SpeechPractice.listen(currentSpeechWord, function(result) {
+                btn.classList.remove('listening');
+                btn.disabled = false;
+                btn.textContent = 'Произнеси';
+
+                var resultDiv = document.getElementById('speechResult');
+                if (result.error) {
+                    if (result.error === 'not-supported') {
+                        resultDiv.innerHTML = '<div class="speech-result retry">Распознавание речи доступно только в Chrome/Edge</div>';
+                    } else if (result.error === 'no-speech') {
+                        resultDiv.innerHTML = '<div class="speech-result retry">Не слышу. Говорите громче и четче.</div>';
+                    } else {
+                        resultDiv.innerHTML = '<div class="speech-result retry">Ошибка: ' + result.error + '. Попробуйте ещё раз.</div>';
+                    }
+                    return;
+                }
+
+                var msg = window.SpeechPractice.getScoreMessage(result.score);
+                var scoreClass = result.score >= 80 ? 'excellent' : (result.score >= 50 ? 'good' : 'retry');
+
+                resultDiv.innerHTML = '<div class="speech-result ' + scoreClass + '">' +
+                    '<div class="speech-score">' + result.score + '%</div>' +
+                    '<div>' + msg.message + '</div>' +
+                    '<div class="speech-transcript">Вы сказали: ' + result.transcript + '</div>' +
+                    '<div class="speech-transcript">Ожидалось: ' + result.expected + '</div>' +
+                    '</div>';
+            });
+        }
+
         // Инициализация
         displayWords();
+        updateSRSBadge();
     </script>
 
     <!-- Firebase SDK -->

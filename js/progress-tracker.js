@@ -72,6 +72,7 @@ function markTextCompleted(level, category, textId, quizScore, wordsLearned) {
     updateStreak(progress);
     
     saveProgress(progress);
+    if (window.DailyTasks) { window.DailyTasks.updateTask('readText'); }
     console.log('[+] Text completed:', key);
     return progress;
 }
@@ -94,6 +95,7 @@ function markLessonCompleted(lessonId) {
     updateStreak(progress);
     
     saveProgress(progress);
+    if (window.DailyTasks) { window.DailyTasks.updateTask('studyLesson'); }
     console.log('[+] Lesson completed:', lessonId);
     return progress;
 }
