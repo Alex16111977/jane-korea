@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>В транспорте | 1급 Корейский язык</title>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #a8e6cf 0%, #dcedc8 50%, #dcedc8 100%);
+            min-height: 100vh; color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; top: 15%; right: 4%;
+            font-size: 115px; opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none; z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #388e3c; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #4caf50; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.05em; }
+        .header .lesson-number { font-size: 0.95em; color: #888; margin-bottom: 10px; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 { color: #388e3c; margin-top: 0; font-size: 1.8em; border-bottom: 3px solid #4caf50; padding-bottom: 10px; }
+        .content-section h3 { color: #388e3c; }
+
+        .grammar-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0;
+        }
+        .grammar-table th { background: #4caf50; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+
+        .example-card {
+            background: linear-gradient(135deg, #4caf50, #66bb6a); color: white;
+            padding: 20px; border-radius: 15px; margin: 12px 0;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+        }
+        .example-korean { font-size: 1.5em; font-weight: 700; }
+        .example-romanization { font-size: 0.9em; opacity: 0.85; margin-top: 4px; }
+        .example-meaning { font-size: 1em; opacity: 0.95; }
+        .example-info { flex: 1; min-width: 200px; }
+
+        .tip-box {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #388e3c, #4caf50); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .korean-text { font-size: 1.1em; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; font-style: italic; }
+        .dialogue-play-btn {
+            background: rgba(255,255,255,0.25); color: white; border: 2px solid rgba(255,255,255,0.4);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer;
+            font-size: 1em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.3s ease; margin-bottom: 15px;
+        }
+        .dialogue-play-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .audio-btn-light {
+            background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn-light:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .practice-section {
+            background: linear-gradient(135deg, #C8E6C9, #A5D6A7);
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .practice-section h2 { color: #1b5e20; margin-bottom: 20px; font-size: 1.5em; border-bottom: none; }
+
+        .exercise-item { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .exercise-question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .exercise-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .exercise-btn {
+            background: #4caf50; color: white; padding: 10px 20px; border: none;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .exercise-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .exercise-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .exercise-result { margin-top: 10px; padding: 10px; border-radius: 8px; font-weight: 600; }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049); color: white;
+            border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+        }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        .route-map {
+            background: #f1f8e9; border-radius: 15px; padding: 25px; margin: 20px 0;
+            position: relative;
+        }
+        .route-step {
+            display: flex; align-items: center; gap: 15px; margin: 15px 0;
+            padding: 12px; background: white; border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative;
+        }
+        .route-step::before {
+            content: '';
+            position: absolute; left: 28px; top: 100%;
+            width: 3px; height: 15px; background: #4caf50;
+        }
+        .route-step:last-child::before { display: none; }
+        .step-number {
+            background: #4caf50; color: white; width: 36px; height: 36px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-weight: 700; flex-shrink: 0; font-size: 1.1em;
+        }
+        .step-content { flex: 1; }
+        .step-korean { font-weight: 600; font-size: 1.1em; color: #2e7d32; }
+        .step-translation { font-size: 0.9em; color: #666; margin-top: 3px; }
+
+        .remember-box {
+            background: linear-gradient(135deg, #2e7d32, #388e3c); color: white;
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .remember-box h2 { color: white; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-top: 0; }
+        .remember-item { margin: 12px 0; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .content-section { padding: 25px; }
+            .exercise-options { flex-direction: column; }
+            .example-card { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../index.html">&#8592; &#1053;&#1072;&#1079;&#1072;&#1076; &#1082; 1&#44553;</a>
+            <a href="../../lessons.html">&#1042;&#1089;&#1077; &#1091;&#1088;&#1086;&#1074;&#1085;&#1080;</a>
+        </div>
+
+        <header class="header">
+            <div class="lesson-number">1&#44553; | &#1044;&#1080;&#1072;&#1083;&#1086;&#1075;-&#1087;&#1088;&#1072;&#1082;&#1090;&#1080;&#1082;&#1072;</div>
+            <h1>&#1042; &#1090;&#1088;&#1072;&#1085;&#1089;&#1087;&#1086;&#1088;&#1090;&#1077;</h1>
+            <div class="korean-title">&#44368;&#53685; &#45824;&#54868; [gyotong daehwa]</div>
+            <div class="description">&#1059;&#1095;&#1080;&#1084;&#1089;&#1103; &#1089;&#1087;&#1088;&#1072;&#1096;&#1080;&#1074;&#1072;&#1090;&#1100; &#1076;&#1086;&#1088;&#1086;&#1075;&#1091;, &#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1100;&#1089;&#1103; &#1072;&#1074;&#1090;&#1086;&#1073;&#1091;&#1089;&#1086;&#1084;, &#1084;&#1077;&#1090;&#1088;&#1086; &#1080; &#1090;&#1072;&#1082;&#1089;&#1080; &#1074; &#1050;&#1086;&#1088;&#1077;&#1077;</div>
+        </header>
+
+        <!-- Section 1: Transport Vocabulary -->
+        <div class="content-section">
+            <h2>1. &#1058;&#1088;&#1072;&#1085;&#1089;&#1087;&#1086;&#1088;&#1090;&#1085;&#1072;&#1103; &#1083;&#1077;&#1082;&#1089;&#1080;&#1082;&#1072;</h2>
+            <p>&#1054;&#1089;&#1085;&#1086;&#1074;&#1085;&#1099;&#1077; &#1089;&#1083;&#1086;&#1074;&#1072;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1077; &#1074;&#1072;&#1084; &#1087;&#1086;&#1085;&#1072;&#1076;&#1086;&#1073;&#1103;&#1090;&#1089;&#1103; &#1074; &#1090;&#1088;&#1072;&#1085;&#1089;&#1087;&#1086;&#1088;&#1090;&#1077;:</p>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>&#54620;&#44397;&#50612;</th>
+                        <th>&#1055;&#1088;&#1086;&#1080;&#1079;&#1085;&#1086;&#1096;&#1077;&#1085;&#1080;&#1077;</th>
+                        <th>&#1055;&#1077;&#1088;&#1077;&#1074;&#1086;&#1076;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>&#48260;&#49828; <button class="audio-btn" onclick="speakKorean('&#48260;&#49828;')">&#128264;</button></td>
+                        <td>[beoseu]</td>
+                        <td>&#1072;&#1074;&#1090;&#1086;&#1073;&#1091;&#1089;</td>
+                    </tr>
+                    <tr>
+                        <td>&#48260;&#49828; &#51221;&#47448;&#51109; <button class="audio-btn" onclick="speakKorean('&#48260;&#49828; &#51221;&#47448;&#51109;')">&#128264;</button></td>
+                        <td>[beoseu jeongnyujang]</td>
+                        <td>&#1072;&#1074;&#1090;&#1086;&#1073;&#1091;&#1089;&#1085;&#1072;&#1103; &#1086;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072;</td>
+                    </tr>
+                    <tr>
+                        <td>&#51648;&#54616;&#52384; <button class="audio-btn" onclick="speakKorean('&#51648;&#54616;&#52384;')">&#128264;</button></td>
+                        <td>[jihacheol]</td>
+                        <td>&#1084;&#1077;&#1090;&#1088;&#1086;</td>
+                    </tr>
+                    <tr>
+                        <td>&#51648;&#54616;&#52384;&#50669; <button class="audio-btn" onclick="speakKorean('&#51648;&#54616;&#52384;&#50669;')">&#128264;</button></td>
+                        <td>[jihacheolyeok]</td>
+                        <td>&#1089;&#1090;&#1072;&#1085;&#1094;&#1080;&#1103; &#1084;&#1077;&#1090;&#1088;&#1086;</td>
+                    </tr>
+                    <tr>
+                        <td>&#53469;&#49884; <button class="audio-btn" onclick="speakKorean('&#53469;&#49884;')">&#128264;</button></td>
+                        <td>[taeksi]</td>
+                        <td>&#1090;&#1072;&#1082;&#1089;&#1080;</td>
+                    </tr>
+                    <tr>
+                        <td>&#50669; <button class="audio-btn" onclick="speakKorean('&#50669;')">&#128264;</button></td>
+                        <td>[yeok]</td>
+                        <td>&#1089;&#1090;&#1072;&#1085;&#1094;&#1080;&#1103;</td>
+                    </tr>
+                    <tr>
+                        <td>&#52636;&#44396; <button class="audio-btn" onclick="speakKorean('&#52636;&#44396;')">&#128264;</button></td>
+                        <td>[chulgu]</td>
+                        <td>&#1074;&#1099;&#1093;&#1086;&#1076;</td>
+                    </tr>
+                    <tr>
+                        <td>&#51077;&#44396; <button class="audio-btn" onclick="speakKorean('&#51077;&#44396;')">&#128264;</button></td>
+                        <td>[ipgu]</td>
+                        <td>&#1074;&#1093;&#1086;&#1076;</td>
+                    </tr>
+                    <tr>
+                        <td>&#54872;&#49849; <button class="audio-btn" onclick="speakKorean('&#54872;&#49849;')">&#128264;</button></td>
+                        <td>[hwanseung]</td>
+                        <td>&#1087;&#1077;&#1088;&#1077;&#1089;&#1072;&#1076;&#1082;&#1072;</td>
+                    </tr>
+                    <tr>
+                        <td>&#44368;&#53685;&#52852;&#46300; <button class="audio-btn" onclick="speakKorean('&#44368;&#53685;&#52852;&#46300;')">&#128264;</button></td>
+                        <td>[gyotong kadeu]</td>
+                        <td>&#1090;&#1088;&#1072;&#1085;&#1089;&#1087;&#1086;&#1088;&#1090;&#1085;&#1072;&#1103; &#1082;&#1072;&#1088;&#1090;&#1072;</td>
+                    </tr>
+                    <tr>
+                        <td>&#45432;&#49440; <button class="audio-btn" onclick="speakKorean('&#45432;&#49440;')">&#128264;</button></td>
+                        <td>[noseon]</td>
+                        <td>&#1084;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090; / &#1083;&#1080;&#1085;&#1080;&#1103;</td>
+                    </tr>
+                    <tr>
+                        <td>&#50836;&#44552; <button class="audio-btn" onclick="speakKorean('&#50836;&#44552;')">&#128264;</button></td>
+                        <td>[yogeum]</td>
+                        <td>&#1089;&#1090;&#1086;&#1080;&#1084;&#1086;&#1089;&#1090;&#1100; &#1087;&#1088;&#1086;&#1077;&#1079;&#1076;&#1072;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 2: Key Phrases -->
+        <div class="content-section">
+            <h2>2. &#1050;&#1083;&#1102;&#1095;&#1077;&#1074;&#1099;&#1077; &#1092;&#1088;&#1072;&#1079;&#1099;</h2>
+            <p>&#1060;&#1088;&#1072;&#1079;&#1099;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1077; &#1087;&#1086;&#1084;&#1086;&#1075;&#1091;&#1090; &#1074;&#1072;&#1084; &#1074; &#1090;&#1088;&#1072;&#1085;&#1089;&#1087;&#1086;&#1088;&#1090;&#1077;:</p>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">&#51060; &#48260;&#49828; OO&#50640; &#44032;&#50836;?</div>
+                    <div class="example-romanization">[i beoseu OO-e gayo?]</div>
+                    <div class="example-meaning">&#1069;&#1090;&#1086;&#1090; &#1072;&#1074;&#1090;&#1086;&#1073;&#1091;&#1089; &#1077;&#1076;&#1077;&#1090; &#1076;&#1086; OO?</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#51060; &#48260;&#49828; &#49436;&#50872;&#50669;&#50640; &#44032;&#50836;?')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">OO&#50669;&#50640;&#49436; &#45236;&#47140;&#50836;.</div>
+                    <div class="example-romanization">[OO-yeogeseo naeryeoyo]</div>
+                    <div class="example-meaning">&#1071; &#1074;&#1099;&#1093;&#1086;&#1078;&#1091; &#1085;&#1072; &#1089;&#1090;&#1072;&#1085;&#1094;&#1080;&#1080; OO.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#49436;&#50872;&#50669;&#50640;&#49436; &#45236;&#47140;&#50836;')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">&#50668;&#44592;&#49436; &#45236;&#47140; &#51452;&#49464;&#50836;.</div>
+                    <div class="example-romanization">[yeogiseo naeryeo juseyo]</div>
+                    <div class="example-meaning">&#1055;&#1086;&#1078;&#1072;&#1083;&#1091;&#1081;&#1089;&#1090;&#1072;, &#1074;&#1099;&#1089;&#1072;&#1076;&#1080;&#1090;&#1077; &#1084;&#1077;&#1085;&#1103; &#1079;&#1076;&#1077;&#1089;&#1100;.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#50668;&#44592;&#49436; &#45236;&#47140; &#51452;&#49464;&#50836;')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">&#50612;&#46356;&#50640;&#49436; &#44040;&#50500;&#53440;&#50836;?</div>
+                    <div class="example-romanization">[eodieseo garatayo?]</div>
+                    <div class="example-meaning">&#1043;&#1076;&#1077; &#1076;&#1077;&#1083;&#1072;&#1090;&#1100; &#1087;&#1077;&#1088;&#1077;&#1089;&#1072;&#1076;&#1082;&#1091;?</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#50612;&#46356;&#50640;&#49436; &#44040;&#50500;&#53440;&#50836;?')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                <div class="example-info">
+                    <div class="example-korean">&#47751; &#48264; &#48260;&#49828;&#50696;&#50836;?</div>
+                    <div class="example-romanization">[myeot beon beoseuyeyo?]</div>
+                    <div class="example-meaning">&#1050;&#1072;&#1082;&#1086;&#1081; &#1085;&#1086;&#1084;&#1077;&#1088; &#1072;&#1074;&#1090;&#1086;&#1073;&#1091;&#1089;&#1072;?</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#47751; &#48264; &#48260;&#49828;&#50696;&#50836;?')">&#128264;</button>
+            </div>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">OO&#44620;&#51648; &#50620;&#47560;&#50696;&#50836;?</div>
+                    <div class="example-romanization">[OO-kkaji eolmayeyo?]</div>
+                    <div class="example-meaning">&#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1089;&#1090;&#1086;&#1080;&#1090; &#1076;&#1086; OO?</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#49436;&#50872;&#50669;&#44620;&#51648; &#50620;&#47560;&#50696;&#50836;?')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">&#51060;&#51901;&#51004;&#47196; &#44032;&#49464;&#50836;.</div>
+                    <div class="example-romanization">[ijjogeuro gaseyo]</div>
+                    <div class="example-meaning">&#1048;&#1076;&#1080;&#1090;&#1077; &#1074; &#1101;&#1090;&#1091; &#1089;&#1090;&#1086;&#1088;&#1086;&#1085;&#1091;.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#51060;&#51901;&#51004;&#47196; &#44032;&#49464;&#50836;')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">&#51649;&#51652;&#54616;&#49464;&#50836;.</div>
+                    <div class="example-romanization">[jikjinhaseyo]</div>
+                    <div class="example-meaning">&#1048;&#1076;&#1080;&#1090;&#1077; &#1087;&#1088;&#1103;&#1084;&#1086;.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#51649;&#51652;&#54616;&#49464;&#50836;')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">&#50724;&#47480;&#51901;&#51004;&#47196; &#44032;&#49464;&#50836;.</div>
+                    <div class="example-romanization">[oreunjjogeuro gaseyo]</div>
+                    <div class="example-meaning">&#1048;&#1076;&#1080;&#1090;&#1077; &#1085;&#1072;&#1087;&#1088;&#1072;&#1074;&#1086;.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#50724;&#47480;&#51901;&#51004;&#47196; &#44032;&#49464;&#50836;')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                <div class="example-info">
+                    <div class="example-korean">&#50812;&#51901;&#51004;&#47196; &#44032;&#49464;&#50836;.</div>
+                    <div class="example-romanization">[oenjjogeuro gaseyo]</div>
+                    <div class="example-meaning">&#1048;&#1076;&#1080;&#1090;&#1077; &#1085;&#1072;&#1083;&#1077;&#1074;&#1086;.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#50812;&#51901;&#51004;&#47196; &#44032;&#49464;&#50836;')">&#128264;</button>
+            </div>
+
+            <div class="tip-box">
+                <strong>&#44032;&#49464;&#50836; vs &#44032;&#50836;:</strong> &#44032;&#49464;&#50836; &mdash; &#1074;&#1077;&#1078;&#1083;&#1080;&#1074;&#1072;&#1103; &#1087;&#1088;&#1086;&#1089;&#1100;&#1073;&#1072; (&#171;&#1080;&#1076;&#1080;&#1090;&#1077;, &#1087;&#1086;&#1078;&#1072;&#1083;&#1091;&#1081;&#1089;&#1090;&#1072;&#187;), &#44032;&#50836; &mdash; &#1087;&#1088;&#1086;&#1089;&#1090;&#1086; &#1082;&#1086;&#1085;&#1089;&#1090;&#1072;&#1090;&#1072;&#1094;&#1080;&#1103; &#1092;&#1072;&#1082;&#1090;&#1072; (&#171;&#1077;&#1076;&#1077;&#1090;/&#1080;&#1076;&#1105;&#1090;&#187;).
+                &#1055;&#1088;&#1086;&#1089;&#1080;&#1090;&#1077; &#1074;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;&#1103; &mdash; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1081;&#1090;&#1077; &#1074;&#1077;&#1078;&#1083;&#1080;&#1074;&#1091;&#1102; &#1092;&#1086;&#1088;&#1084;&#1091;: <strong>&#50668;&#44592;&#49436; &#45236;&#47140; &#51452;&#49464;&#50836;</strong>.
+            </div>
+        </div>
+
+        <!-- Section 3: Route Map -->
+        <div class="content-section">
+            <h2>3. &#1052;&#1080;&#1085;&#1080;-&#1084;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090;: &#1050;&#1072;&#1082; &#1076;&#1086;&#1073;&#1088;&#1072;&#1090;&#1100;&#1089;&#1103; &#1076;&#1086; &#1084;&#1077;&#1090;&#1088;&#1086;</h2>
+            <p>&#1055;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1100;&#1090;&#1077;, &#1095;&#1090;&#1086; &#1074;&#1099; &#1089;&#1087;&#1088;&#1072;&#1096;&#1080;&#1074;&#1072;&#1077;&#1090;&#1077; &#1076;&#1086;&#1088;&#1086;&#1075;&#1091; &#1076;&#1086; &#1089;&#1090;&#1072;&#1085;&#1094;&#1080;&#1080; &#1084;&#1077;&#1090;&#1088;&#1086;. &#1042;&#1086;&#1090; &#1087;&#1086;&#1096;&#1072;&#1075;&#1086;&#1074;&#1072;&#1103; &#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103;:</p>
+
+            <div class="route-map">
+                <div class="route-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <div class="step-korean">&#51649;&#51652;&#54616;&#49464;&#50836;. <button class="audio-btn" onclick="speakKorean('&#51649;&#51652;&#54616;&#49464;&#50836;')">&#128264;</button></div>
+                        <div class="step-translation">&#1048;&#1076;&#1080;&#1090;&#1077; &#1087;&#1088;&#1103;&#1084;&#1086;.</div>
+                    </div>
+                </div>
+                <div class="route-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <div class="step-korean">&#49888;&#54840;&#46321;&#50640;&#49436; &#50724;&#47480;&#51901;&#51004;&#47196; &#44032;&#49464;&#50836;. <button class="audio-btn" onclick="speakKorean('&#49888;&#54840;&#46321;&#50640;&#49436; &#50724;&#47480;&#51901;&#51004;&#47196; &#44032;&#49464;&#50836;')">&#128264;</button></div>
+                        <div class="step-translation">&#1053;&#1072; &#1089;&#1074;&#1077;&#1090;&#1086;&#1092;&#1086;&#1088;&#1077; &#1087;&#1086;&#1074;&#1077;&#1088;&#1085;&#1080;&#1090;&#1077; &#1085;&#1072;&#1087;&#1088;&#1072;&#1074;&#1086;.</div>
+                    </div>
+                </div>
+                <div class="route-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <div class="step-korean">&#51312;&#44552; &#45908; &#44032;&#49464;&#50836;. <button class="audio-btn" onclick="speakKorean('&#51312;&#44552; &#45908; &#44032;&#49464;&#50836;')">&#128264;</button></div>
+                        <div class="step-translation">&#1055;&#1088;&#1086;&#1081;&#1076;&#1080;&#1090;&#1077; &#1077;&#1097;&#1105; &#1085;&#1077;&#1084;&#1085;&#1086;&#1075;&#1086;.</div>
+                    </div>
+                </div>
+                <div class="route-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <div class="step-korean">&#50812;&#51901;&#50640; &#51648;&#54616;&#52384;&#50669;&#51060; &#51080;&#50612;&#50836;. <button class="audio-btn" onclick="speakKorean('&#50812;&#51901;&#50640; &#51648;&#54616;&#52384;&#50669;&#51060; &#51080;&#50612;&#50836;')">&#128264;</button></div>
+                        <div class="step-translation">&#1057;&#1083;&#1077;&#1074;&#1072; &#1073;&#1091;&#1076;&#1077;&#1090; &#1089;&#1090;&#1072;&#1085;&#1094;&#1080;&#1103; &#1084;&#1077;&#1090;&#1088;&#1086;.</div>
+                    </div>
+                </div>
+                <div class="route-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <div class="step-korean">3&#48264; &#52636;&#44396;&#47196; &#45208;&#44032;&#49464;&#50836;. <button class="audio-btn" onclick="speakKorean('3&#48264; &#52636;&#44396;&#47196; &#45208;&#44032;&#49464;&#50836;')">&#128264;</button></div>
+                        <div class="step-translation">&#1042;&#1099;&#1081;&#1076;&#1080;&#1090;&#1077; &#1095;&#1077;&#1088;&#1077;&#1079; &#1074;&#1099;&#1093;&#1086;&#1076; &#8470;3.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>&#49888;&#54840;&#46321; [sinhodeung]</strong> &mdash; &#1089;&#1074;&#1077;&#1090;&#1086;&#1092;&#1086;&#1088;. &#1042; &#1050;&#1086;&#1088;&#1077;&#1077; &#1086;&#1088;&#1080;&#1077;&#1085;&#1090;&#1080;&#1088;&#1099; &#1095;&#1072;&#1089;&#1090;&#1086; &#1076;&#1072;&#1102;&#1090; &#1087;&#1086; &#1089;&#1074;&#1077;&#1090;&#1086;&#1092;&#1086;&#1088;&#1072;&#1084;, &#1084;&#1072;&#1075;&#1072;&#1079;&#1080;&#1085;&#1072;&#1084; &#1080;&#1083;&#1080; &#1079;&#1076;&#1072;&#1085;&#1080;&#1103;&#1084;. &#1042;&#1099;&#1093;&#1086;&#1076;&#1099; &#1080;&#1079; &#1084;&#1077;&#1090;&#1088;&#1086; &#1087;&#1088;&#1086;&#1085;&#1091;&#1084;&#1077;&#1088;&#1086;&#1074;&#1072;&#1085;&#1099; &mdash; &#1101;&#1090;&#1086; &#1086;&#1095;&#1077;&#1085;&#1100; &#1091;&#1076;&#1086;&#1073;&#1085;&#1086;!
+            </div>
+        </div>
+
+        <!-- Section 4: Direction Words -->
+        <div class="content-section">
+            <h2>4. &#1057;&#1083;&#1086;&#1074;&#1072; &#1085;&#1072;&#1087;&#1088;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1103;</h2>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>&#54620;&#44397;&#50612;</th>
+                        <th>&#1055;&#1088;&#1086;&#1080;&#1079;&#1085;&#1086;&#1096;&#1077;&#1085;&#1080;&#1077;</th>
+                        <th>&#1055;&#1077;&#1088;&#1077;&#1074;&#1086;&#1076;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>&#50724;&#47480;&#51901; <button class="audio-btn" onclick="speakKorean('&#50724;&#47480;&#51901;')">&#128264;</button></td>
+                        <td>[oreunjjok]</td>
+                        <td>&#1087;&#1088;&#1072;&#1074;&#1086; / &#1087;&#1088;&#1072;&#1074;&#1072;&#1103; &#1089;&#1090;&#1086;&#1088;&#1086;&#1085;&#1072;</td>
+                    </tr>
+                    <tr>
+                        <td>&#50812;&#51901; <button class="audio-btn" onclick="speakKorean('&#50812;&#51901;')">&#128264;</button></td>
+                        <td>[oenjjok]</td>
+                        <td>&#1083;&#1077;&#1074;&#1086; / &#1083;&#1077;&#1074;&#1072;&#1103; &#1089;&#1090;&#1086;&#1088;&#1086;&#1085;&#1072;</td>
+                    </tr>
+                    <tr>
+                        <td>&#51649;&#51652; <button class="audio-btn" onclick="speakKorean('&#51649;&#51652;')">&#128264;</button></td>
+                        <td>[jikjin]</td>
+                        <td>&#1087;&#1088;&#1103;&#1084;&#1086;</td>
+                    </tr>
+                    <tr>
+                        <td>&#44148;&#45320;&#54200; <button class="audio-btn" onclick="speakKorean('&#44148;&#45320;&#54200;')">&#128264;</button></td>
+                        <td>[geonneopyeon]</td>
+                        <td>&#1085;&#1072;&#1087;&#1088;&#1086;&#1090;&#1080;&#1074;</td>
+                    </tr>
+                    <tr>
+                        <td>&#50526; <button class="audio-btn" onclick="speakKorean('&#50526;')">&#128264;</button></td>
+                        <td>[ap]</td>
+                        <td>&#1087;&#1077;&#1088;&#1077;&#1076; / &#1074;&#1087;&#1077;&#1088;&#1077;&#1076;&#1080;</td>
+                    </tr>
+                    <tr>
+                        <td>&#46244; <button class="audio-btn" onclick="speakKorean('&#46244;')">&#128264;</button></td>
+                        <td>[dwi]</td>
+                        <td>&#1089;&#1079;&#1072;&#1076;&#1080;</td>
+                    </tr>
+                    <tr>
+                        <td>&#44540;&#52376; <button class="audio-btn" onclick="speakKorean('&#44540;&#52376;')">&#128264;</button></td>
+                        <td>[geuncheo]</td>
+                        <td>&#1074;&#1073;&#1083;&#1080;&#1079;&#1080; / &#1088;&#1103;&#1076;&#1086;&#1084;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 5: Dialogue 1 - On a Bus -->
+        <div class="content-section">
+            <h2>5. &#1044;&#1080;&#1072;&#1083;&#1086;&#1075; 1: &#1042; &#1072;&#1074;&#1090;&#1086;&#1073;&#1091;&#1089;&#1077;</h2>
+            <p>&#1057;&#1080;&#1090;&#1091;&#1072;&#1094;&#1080;&#1103;: &#1042;&#1099; &#1089;&#1072;&#1076;&#1080;&#1090;&#1077;&#1089;&#1100; &#1074; &#1072;&#1074;&#1090;&#1086;&#1073;&#1091;&#1089; &#1080; &#1089;&#1087;&#1088;&#1072;&#1096;&#1080;&#1074;&#1072;&#1077;&#1090;&#1077; &#1074;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;&#1103;.</p>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">&#49849;&#44061; (&#1055;&#1072;&#1089;&#1089;&#1072;&#1078;&#1080;&#1088;):</div>
+                    <div class="korean-text">&#50504;&#45397;&#54616;&#49464;&#50836;! &#51060; &#48260;&#49828; &#49436;&#50872;&#50669;&#50640; &#44032;&#50836;?</div>
+                    <div class="translation">&#1047;&#1076;&#1088;&#1072;&#1074;&#1089;&#1090;&#1074;&#1091;&#1081;&#1090;&#1077;! &#1069;&#1090;&#1086;&#1090; &#1072;&#1074;&#1090;&#1086;&#1073;&#1091;&#1089; &#1077;&#1076;&#1077;&#1090; &#1076;&#1086; &#1057;&#1077;&#1091;&#1083;&#1100;&#1089;&#1082;&#1086;&#1075;&#1086; &#1074;&#1086;&#1082;&#1079;&#1072;&#1083;&#1072;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#44592;&#49324; (&#1042;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;&#1100;):</div>
+                    <div class="korean-text">&#45348;, &#44032;&#50836;. &#53440;&#49464;&#50836;.</div>
+                    <div class="translation">&#1044;&#1072;, &#1077;&#1076;&#1077;&#1090;. &#1057;&#1072;&#1076;&#1080;&#1090;&#1077;&#1089;&#1100;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#49849;&#44061;:</div>
+                    <div class="korean-text">&#49436;&#50872;&#50669;&#44620;&#51648; &#50620;&#47560;&#50696;&#50836;?</div>
+                    <div class="translation">&#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1089;&#1090;&#1086;&#1080;&#1090; &#1076;&#1086; &#1057;&#1077;&#1091;&#1083;&#1100;&#1089;&#1082;&#1086;&#1075;&#1086; &#1074;&#1086;&#1082;&#1079;&#1072;&#1083;&#1072;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#44592;&#49324;:</div>
+                    <div class="korean-text">&#52380;&#51060;&#48177;&#50896;&#51060;&#50640;&#50836;. &#44368;&#53685;&#52852;&#46300; &#51080;&#51004;&#49464;&#50836;?</div>
+                    <div class="translation">1200 &#1074;&#1086;&#1085;. &#1059; &#1074;&#1072;&#1089; &#1077;&#1089;&#1090;&#1100; &#1090;&#1088;&#1072;&#1085;&#1089;&#1087;&#1086;&#1088;&#1090;&#1085;&#1072;&#1103; &#1082;&#1072;&#1088;&#1090;&#1072;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#49849;&#44061;:</div>
+                    <div class="korean-text">&#45348;, &#51080;&#50612;&#50836;. &#44048;&#49324;&#54633;&#45768;&#45796;!</div>
+                    <div class="translation">&#1044;&#1072;, &#1077;&#1089;&#1090;&#1100;. &#1057;&#1087;&#1072;&#1089;&#1080;&#1073;&#1086;!</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#9654; &#1055;&#1088;&#1086;&#1089;&#1083;&#1091;&#1096;&#1072;&#1090;&#1100; &#1076;&#1080;&#1072;&#1083;&#1086;&#1075;</button>
+        </div>
+
+        <!-- Section 6: Dialogue 2 - At Subway Station -->
+        <div class="content-section">
+            <h2>6. &#1044;&#1080;&#1072;&#1083;&#1086;&#1075; 2: &#1053;&#1072; &#1089;&#1090;&#1072;&#1085;&#1094;&#1080;&#1080; &#1084;&#1077;&#1090;&#1088;&#1086;</h2>
+            <p>&#1057;&#1080;&#1090;&#1091;&#1072;&#1094;&#1080;&#1103;: &#1042;&#1099; &#1089;&#1087;&#1088;&#1072;&#1096;&#1080;&#1074;&#1072;&#1077;&#1090;&#1077; &#1087;&#1088;&#1086;&#1093;&#1086;&#1078;&#1077;&#1075;&#1086;, &#1082;&#1072;&#1082; &#1076;&#1086;&#1073;&#1088;&#1072;&#1090;&#1100;&#1089;&#1103; &#1076;&#1086; &#1085;&#1091;&#1078;&#1085;&#1086;&#1081; &#1089;&#1090;&#1072;&#1085;&#1094;&#1080;&#1080;.</p>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">&#50668;&#54665;&#44061; (&#1058;&#1091;&#1088;&#1080;&#1089;&#1090;):</div>
+                    <div class="korean-text">&#51200;&#44592;&#50836;, &#44053;&#45224;&#50669;&#50640; &#50612;&#46523;&#44172; &#44032;&#50836;?</div>
+                    <div class="translation">&#1048;&#1079;&#1074;&#1080;&#1085;&#1080;&#1090;&#1077;, &#1082;&#1072;&#1082; &#1076;&#1086;&#1073;&#1088;&#1072;&#1090;&#1100;&#1089;&#1103; &#1076;&#1086; &#1089;&#1090;&#1072;&#1085;&#1094;&#1080;&#1080; &#1050;&#1072;&#1085;&#1085;&#1072;&#1084;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#49884;&#48124; (&#1046;&#1080;&#1090;&#1077;&#1083;&#1100;):</div>
+                    <div class="korean-text">2&#54840;&#49440; &#53440;&#49464;&#50836;. &#49324;&#45817;&#50669;&#50640;&#49436; &#44040;&#50500;&#53440;&#49464;&#50836;.</div>
+                    <div class="translation">&#1057;&#1072;&#1076;&#1080;&#1090;&#1077;&#1089;&#1100; &#1085;&#1072; &#1083;&#1080;&#1085;&#1080;&#1102; 2. &#1055;&#1077;&#1088;&#1077;&#1089;&#1072;&#1076;&#1082;&#1072; &#1085;&#1072; &#1089;&#1090;&#1072;&#1085;&#1094;&#1080;&#1080; &#1057;&#1072;&#1076;&#1072;&#1085;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#50668;&#54665;&#44061;:</div>
+                    <div class="korean-text">&#49324;&#45817;&#50669;&#50640;&#49436; &#47751; &#54840;&#49440;&#51004;&#47196; &#44040;&#50500;&#53440;&#50836;?</div>
+                    <div class="translation">&#1053;&#1072; &#1082;&#1072;&#1082;&#1091;&#1102; &#1083;&#1080;&#1085;&#1080;&#1102; &#1087;&#1077;&#1088;&#1077;&#1089;&#1072;&#1078;&#1080;&#1074;&#1072;&#1090;&#1100;&#1089;&#1103; &#1085;&#1072; &#1089;&#1090;&#1072;&#1085;&#1094;&#1080;&#1080; &#1057;&#1072;&#1076;&#1072;&#1085;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#49884;&#48124;:</div>
+                    <div class="korean-text">4&#54840;&#49440;&#51004;&#47196; &#44040;&#50500;&#53440;&#49464;&#50836;. &#44053;&#45224; &#48169;&#54693;&#51004;&#47196; &#44032;&#49464;&#50836;.</div>
+                    <div class="translation">&#1055;&#1077;&#1088;&#1077;&#1089;&#1072;&#1076;&#1082;&#1072; &#1085;&#1072; &#1083;&#1080;&#1085;&#1080;&#1102; 4. &#1045;&#1079;&#1078;&#1072;&#1081;&#1090;&#1077; &#1074; &#1089;&#1090;&#1086;&#1088;&#1086;&#1085;&#1091; &#1050;&#1072;&#1085;&#1085;&#1072;&#1084;&#1072;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#50668;&#54665;&#44061;:</div>
+                    <div class="korean-text">&#44048;&#49324;&#54633;&#45768;&#45796;! &#47751; &#51221;&#44144;&#51109;&#51060;&#50640;&#50836;?</div>
+                    <div class="translation">&#1057;&#1087;&#1072;&#1089;&#1080;&#1073;&#1086;! &#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1086;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1086;&#1082;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#49884;&#48124;:</div>
+                    <div class="korean-text">&#49464; &#51221;&#44144;&#51109;&#51060;&#50640;&#50836;. &#44552;&#48169; &#46020;&#52265;&#54644;&#50836;.</div>
+                    <div class="translation">&#1058;&#1088;&#1080; &#1086;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1080;. &#1041;&#1099;&#1089;&#1090;&#1088;&#1086; &#1076;&#1086;&#1077;&#1076;&#1077;&#1090;&#1077;.</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#9654; &#1055;&#1088;&#1086;&#1089;&#1083;&#1091;&#1096;&#1072;&#1090;&#1100; &#1076;&#1080;&#1072;&#1083;&#1086;&#1075;</button>
+        </div>
+
+        <!-- Section 7: Dialogue 3 - In a Taxi -->
+        <div class="content-section">
+            <h2>7. &#1044;&#1080;&#1072;&#1083;&#1086;&#1075; 3: &#1042; &#1090;&#1072;&#1082;&#1089;&#1080;</h2>
+            <p>&#1057;&#1080;&#1090;&#1091;&#1072;&#1094;&#1080;&#1103;: &#1042;&#1099; &#1077;&#1076;&#1077;&#1090;&#1077; &#1074; &#1090;&#1072;&#1082;&#1089;&#1080; &#1076;&#1086; &#1086;&#1090;&#1077;&#1083;&#1103;.</p>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">&#49849;&#44061; (&#1055;&#1072;&#1089;&#1089;&#1072;&#1078;&#1080;&#1088;):</div>
+                    <div class="korean-text">&#50504;&#45397;&#54616;&#49464;&#50836;! &#47215;&#45936; &#54840;&#53588;&#44620;&#51648; &#44032; &#51452;&#49464;&#50836;.</div>
+                    <div class="translation">&#1047;&#1076;&#1088;&#1072;&#1074;&#1089;&#1090;&#1074;&#1091;&#1081;&#1090;&#1077;! &#1054;&#1090;&#1074;&#1077;&#1079;&#1080;&#1090;&#1077;, &#1087;&#1086;&#1078;&#1072;&#1083;&#1091;&#1081;&#1089;&#1090;&#1072;, &#1076;&#1086; &#1086;&#1090;&#1077;&#1083;&#1103; &#1051;&#1086;&#1090;&#1090;&#1077;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#44592;&#49324; (&#1042;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;&#1100;):</div>
+                    <div class="korean-text">&#45348;, &#50508;&#44192;&#49845;&#45768;&#45796;. &#47751; &#54840;&#51216;&#51060;&#50836;?</div>
+                    <div class="translation">&#1044;&#1072;, &#1087;&#1086;&#1085;&#1103;&#1083;. &#1050;&#1072;&#1082;&#1086;&#1081; &#1086;&#1090;&#1077;&#1083;&#1100;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#49849;&#44061;:</div>
+                    <div class="korean-text">&#47749;&#46041;&#50640; &#51080;&#45716; &#47215;&#45936; &#54840;&#53588;&#51060;&#50836;.</div>
+                    <div class="translation">&#1054;&#1090;&#1077;&#1083;&#1100; &#1051;&#1086;&#1090;&#1090;&#1077; &#1074; &#1052;&#1105;&#1085;&#1076;&#1086;&#1085;&#1077;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#44592;&#49324;:</div>
+                    <div class="korean-text">&#45348;, &#50557; 20&#48516; &#44152;&#47140;&#50836;.</div>
+                    <div class="translation">&#1044;&#1072;, &#1101;&#1090;&#1086; &#1087;&#1088;&#1080;&#1084;&#1077;&#1088;&#1085;&#1086; 20 &#1084;&#1080;&#1085;&#1091;&#1090;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#49849;&#44061;:</div>
+                    <div class="korean-text">&#50620;&#47560;&#50696;&#50836;?</div>
+                    <div class="translation">&#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1089;&#1090;&#1086;&#1080;&#1090;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#44592;&#49324;:</div>
+                    <div class="korean-text">&#48120;&#53552;&#44592;&#47196; &#44032;&#45768;&#44620; &#50557; &#47564;&#50724;&#52380;&#50896; &#51221;&#46020;&#50836;.</div>
+                    <div class="translation">&#1055;&#1086; &#1089;&#1095;&#1105;&#1090;&#1095;&#1080;&#1082;&#1091; &#1087;&#1088;&#1080;&#1084;&#1077;&#1088;&#1085;&#1086; 15 000 &#1074;&#1086;&#1085;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#49849;&#44061;:</div>
+                    <div class="korean-text">&#50668;&#44592;&#49436; &#45236;&#47140; &#51452;&#49464;&#50836;. &#44048;&#49324;&#54633;&#45768;&#45796;!</div>
+                    <div class="translation">&#1054;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1080;&#1090;&#1077; &#1079;&#1076;&#1077;&#1089;&#1100;, &#1087;&#1086;&#1078;&#1072;&#1083;&#1091;&#1081;&#1089;&#1090;&#1072;. &#1057;&#1087;&#1072;&#1089;&#1080;&#1073;&#1086;!</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#9654; &#1055;&#1088;&#1086;&#1089;&#1083;&#1091;&#1096;&#1072;&#1090;&#1100; &#1076;&#1080;&#1072;&#1083;&#1086;&#1075;</button>
+
+            <div class="tip-box">
+                <strong>&#48120;&#53552;&#44592; [mitheogi]</strong> &mdash; &#1089;&#1095;&#1105;&#1090;&#1095;&#1080;&#1082; &#1090;&#1072;&#1082;&#1089;&#1080;. &#1042; &#1082;&#1086;&#1088;&#1077;&#1081;&#1089;&#1082;&#1086;&#1084; &#1090;&#1072;&#1082;&#1089;&#1080; &#1074;&#1089;&#1077;&#1075;&#1076;&#1072; &#1077;&#1089;&#1090;&#1100; &#1089;&#1095;&#1105;&#1090;&#1095;&#1080;&#1082;. &#1041;&#1072;&#1079;&#1086;&#1074;&#1072;&#1103; &#1089;&#1090;&#1086;&#1080;&#1084;&#1086;&#1089;&#1090;&#1100; &mdash; &#1086;&#1082;&#1086;&#1083;&#1086; 4 800 &#1074;&#1086;&#1085;. &#1052;&#1086;&#1078;&#1085;&#1086; &#1087;&#1083;&#1072;&#1090;&#1080;&#1090;&#1100; &#1082;&#1072;&#1088;&#1090;&#1086;&#1081; &#1080;&#1083;&#1080; &#1090;&#1088;&#1072;&#1085;&#1089;&#1087;&#1086;&#1088;&#1090;&#1085;&#1086;&#1081; &#1082;&#1072;&#1088;&#1090;&#1086;&#1081;.
+            </div>
+        </div>
+
+        <!-- Section 8: Additional Useful Phrases -->
+        <div class="content-section">
+            <h2>8. &#1044;&#1086;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1099;&#1077; &#1092;&#1088;&#1072;&#1079;&#1099;</h2>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>&#54620;&#44397;&#50612;</th>
+                        <th>&#1055;&#1088;&#1086;&#1080;&#1079;&#1085;&#1086;&#1096;&#1077;&#1085;&#1080;&#1077;</th>
+                        <th>&#1055;&#1077;&#1088;&#1077;&#1074;&#1086;&#1076;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>&#51200;&#44592;&#50836;. <button class="audio-btn" onclick="speakKorean('&#51200;&#44592;&#50836;')">&#128264;</button></td>
+                        <td>[jeogiyo]</td>
+                        <td>&#1048;&#1079;&#1074;&#1080;&#1085;&#1080;&#1090;&#1077;! (&#1095;&#1090;&#1086;&#1073;&#1099; &#1087;&#1088;&#1080;&#1074;&#1083;&#1077;&#1095;&#1100; &#1074;&#1085;&#1080;&#1084;&#1072;&#1085;&#1080;&#1077;)</td>
+                    </tr>
+                    <tr>
+                        <td>&#50668;&#44592;&#44032; &#50612;&#46356;&#50696;&#50836;? <button class="audio-btn" onclick="speakKorean('&#50668;&#44592;&#44032; &#50612;&#46356;&#50696;&#50836;?')">&#128264;</button></td>
+                        <td>[yeogiga eodiyeyo?]</td>
+                        <td>&#1043;&#1076;&#1077; &#1101;&#1090;&#1086; (&#1084;&#1099; &#1089;&#1077;&#1081;&#1095;&#1072;&#1089;)?</td>
+                    </tr>
+                    <tr>
+                        <td>&#50620;&#47560;&#45208; &#44152;&#47140;&#50836;? <button class="audio-btn" onclick="speakKorean('&#50620;&#47560;&#45208; &#44152;&#47140;&#50836;?')">&#128264;</button></td>
+                        <td>[eolmana geollyeoyo?]</td>
+                        <td>&#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080; &#1101;&#1090;&#1086; &#1079;&#1072;&#1081;&#1084;&#1105;&#1090;?</td>
+                    </tr>
+                    <tr>
+                        <td>&#47751; &#51221;&#44144;&#51109;&#51060;&#50640;&#50836;? <button class="audio-btn" onclick="speakKorean('&#47751; &#51221;&#44144;&#51109;&#51060;&#50640;&#50836;?')">&#128264;</button></td>
+                        <td>[myeot jeonggeojangieyo?]</td>
+                        <td>&#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1086;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1086;&#1082;?</td>
+                    </tr>
+                    <tr>
+                        <td>&#45796;&#51020; &#50669;&#51060; &#50612;&#46356;&#50696;&#50836;? <button class="audio-btn" onclick="speakKorean('&#45796;&#51020; &#50669;&#51060; &#50612;&#46356;&#50696;&#50836;?')">&#128264;</button></td>
+                        <td>[daeum yeogi eodiyeyo?]</td>
+                        <td>&#1050;&#1072;&#1082;&#1072;&#1103; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1072;&#1103; &#1089;&#1090;&#1072;&#1085;&#1094;&#1080;&#1103;?</td>
+                    </tr>
+                    <tr>
+                        <td>&#44536;&#47564; &#44040;&#44172;&#50836;. <button class="audio-btn" onclick="speakKorean('&#44536;&#47564; &#44040;&#44172;&#50836;')">&#128264;</button></td>
+                        <td>[geuman galgeyo]</td>
+                        <td>&#1071; &#1074;&#1099;&#1081;&#1076;&#1091; (&#1079;&#1076;&#1077;&#1089;&#1100; &#1086;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1080;&#1090;&#1077;).</td>
+                    </tr>
+                    <tr>
+                        <td>&#44600;&#51012; &#51083;&#50632;&#50612;&#50836;. <button class="audio-btn" onclick="speakKorean('&#44600;&#51012; &#51083;&#50632;&#50612;&#50836;')">&#128264;</button></td>
+                        <td>[gireul ireosseoyo]</td>
+                        <td>&#1071; &#1079;&#1072;&#1073;&#1083;&#1091;&#1076;&#1080;&#1083;&#1089;&#1103;(-&#1072;&#1089;&#1100;).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 9: Exercises -->
+        <div class="content-section">
+            <h2>9. &#1059;&#1087;&#1088;&#1072;&#1078;&#1085;&#1077;&#1085;&#1080;&#1103;</h2>
+
+            <div class="practice-section">
+                <!-- Exercise 1 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">1. &#1050;&#1072;&#1082; &#1089;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100; &#171;&#1069;&#1090;&#1086;&#1090; &#1072;&#1074;&#1090;&#1086;&#1073;&#1091;&#1089; &#1077;&#1076;&#1077;&#1090; &#1076;&#1086; &#1057;&#1077;&#1091;&#1083;&#1100;&#1089;&#1082;&#1086;&#1075;&#1086; &#1074;&#1086;&#1082;&#1079;&#1072;&#1083;&#1072;?&#187;</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#51060; &#48260;&#49828; &#49436;&#50872;&#50669;&#50640; &#44032;&#50836;?</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#51060; &#48260;&#49828; &#49436;&#50872;&#50669;&#50640;&#49436; &#44032;&#50836;?</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#51060; &#53469;&#49884; &#49436;&#50872;&#50669;&#50640; &#44032;&#50836;?</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#51060; &#48260;&#49828; &#49436;&#50872;&#50669;&#51060; &#44032;&#50836;?</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">2. &#171;&#50668;&#44592;&#49436; &#45236;&#47140; &#51452;&#49464;&#50836;&#187; &#1086;&#1079;&#1085;&#1072;&#1095;&#1072;&#1077;&#1090;:</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1071; &#1093;&#1086;&#1095;&#1091; &#1089;&#1077;&#1089;&#1090;&#1100;</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#1042;&#1099;&#1089;&#1072;&#1076;&#1080;&#1090;&#1077; &#1084;&#1077;&#1085;&#1103; &#1079;&#1076;&#1077;&#1089;&#1100;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1043;&#1076;&#1077; &#1074;&#1099;&#1093;&#1086;&#1076;?</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1089;&#1090;&#1086;&#1080;&#1090;?</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 3 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">3. &#1050;&#1072;&#1082; &#1089;&#1087;&#1088;&#1086;&#1089;&#1080;&#1090;&#1100; &#171;&#1043;&#1076;&#1077; &#1076;&#1077;&#1083;&#1072;&#1090;&#1100; &#1087;&#1077;&#1088;&#1077;&#1089;&#1072;&#1076;&#1082;&#1091;?&#187;</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#50612;&#46356;&#50640; &#44032;&#50836;?</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#50612;&#46356;&#50640;&#49436; &#45236;&#47140;&#50836;?</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#50612;&#46356;&#50640;&#49436; &#44040;&#50500;&#53440;&#50836;?</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#50612;&#46356;&#50640;&#49436; &#53440;&#50836;?</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 4 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">4. &#171;&#54872;&#49849;&#187; &mdash; &#1101;&#1090;&#1086;:</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1074;&#1099;&#1093;&#1086;&#1076;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1074;&#1093;&#1086;&#1076;</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#1087;&#1077;&#1088;&#1077;&#1089;&#1072;&#1076;&#1082;&#1072;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1086;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072;</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 5 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">5. &#1042;&#1099; &#1093;&#1086;&#1090;&#1080;&#1090;&#1077; &#1091;&#1079;&#1085;&#1072;&#1090;&#1100; &#1089;&#1090;&#1086;&#1080;&#1084;&#1086;&#1089;&#1090;&#1100; &#1076;&#1086; &#1050;&#1072;&#1085;&#1085;&#1072;&#1084;&#1072;. &#1050;&#1072;&#1082; &#1089;&#1087;&#1088;&#1086;&#1089;&#1080;&#1090;&#1100;?</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#44053;&#45224;&#50640; &#50620;&#47560;&#50696;&#50836;?</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#44053;&#45224;&#44620;&#51648; &#50620;&#47560;&#50696;&#50836;?</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#44053;&#45224;&#50640;&#49436; &#50620;&#47560;&#50696;&#50836;?</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#44053;&#45224;&#51004;&#47196; &#50620;&#47560;&#50696;&#50836;?</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 6 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">6. &#1050;&#1072;&#1082; &#1089;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100; &#171;&#1048;&#1076;&#1080;&#1090;&#1077; &#1087;&#1088;&#1103;&#1084;&#1086;&#187;?</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#50724;&#47480;&#51901;&#51004;&#47196; &#44032;&#49464;&#50836;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#50812;&#51901;&#51004;&#47196; &#44032;&#49464;&#50836;</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#51649;&#51652;&#54616;&#49464;&#50836;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#51060;&#51901;&#51004;&#47196; &#44032;&#49464;&#50836;</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">7. &#171;&#51648;&#54616;&#52384;&#50669;&#187; &mdash; &#1101;&#1090;&#1086;:</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1072;&#1074;&#1090;&#1086;&#1073;&#1091;&#1089;&#1085;&#1072;&#1103; &#1086;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1082;&#1072;</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#1089;&#1090;&#1072;&#1085;&#1094;&#1080;&#1103; &#1084;&#1077;&#1090;&#1088;&#1086;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1089;&#1090;&#1086;&#1103;&#1085;&#1082;&#1072; &#1090;&#1072;&#1082;&#1089;&#1080;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1074;&#1086;&#1082;&#1079;&#1072;&#1083;</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">8. &#1042; &#1090;&#1072;&#1082;&#1089;&#1080; &#1074;&#1099; &#1093;&#1086;&#1090;&#1080;&#1090;&#1077; &#1074;&#1099;&#1081;&#1090;&#1080;. &#1063;&#1090;&#1086; &#1074;&#1099; &#1089;&#1082;&#1072;&#1078;&#1077;&#1090;&#1077; &#1074;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;&#1102;?</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#50668;&#44592;&#49436; &#44032;&#49464;&#50836;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#50668;&#44592;&#50640;&#49436; &#53440;&#49464;&#50836;</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#50668;&#44592;&#49436; &#45236;&#47140; &#51452;&#49464;&#50836;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#50668;&#44592;&#50640; &#44032;&#50836;</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Remember Block -->
+        <div class="remember-box">
+            <h2>&#1047;&#1072;&#1087;&#1086;&#1084;&#1085;&#1080;!</h2>
+            <div class="remember-item">
+                <strong>&#44368;&#53685;&#52852;&#46300; (T-money)</strong> &mdash; &#1091;&#1085;&#1080;&#1074;&#1077;&#1088;&#1089;&#1072;&#1083;&#1100;&#1085;&#1072;&#1103; &#1090;&#1088;&#1072;&#1085;&#1089;&#1087;&#1086;&#1088;&#1090;&#1085;&#1072;&#1103; &#1082;&#1072;&#1088;&#1090;&#1072; &#1074; &#1050;&#1086;&#1088;&#1077;&#1077;. &#1056;&#1072;&#1073;&#1086;&#1090;&#1072;&#1077;&#1090; &#1074; &#1072;&#1074;&#1090;&#1086;&#1073;&#1091;&#1089;&#1072;&#1093;, &#1084;&#1077;&#1090;&#1088;&#1086; &#1080; &#1090;&#1072;&#1082;&#1089;&#1080;. &#1055;&#1077;&#1088;&#1077;&#1089;&#1072;&#1076;&#1082;&#1072; &#1074; &#1090;&#1077;&#1095;&#1077;&#1085;&#1080;&#1077; 30 &#1084;&#1080;&#1085;&#1091;&#1090; &mdash; &#1073;&#1077;&#1089;&#1087;&#1083;&#1072;&#1090;&#1085;&#1086;!
+            </div>
+            <div class="remember-item">
+                <strong>&#54840;&#49440; [hoseon]</strong> &mdash; &#1083;&#1080;&#1085;&#1080;&#1103; &#1084;&#1077;&#1090;&#1088;&#1086;. &#1042; &#1057;&#1077;&#1091;&#1083;&#1077; 9 &#1086;&#1089;&#1085;&#1086;&#1074;&#1085;&#1099;&#1093; &#1083;&#1080;&#1085;&#1080;&#1081;, &#1082;&#1072;&#1078;&#1076;&#1072;&#1103; &#1080;&#1084;&#1077;&#1077;&#1090; &#1089;&#1074;&#1086;&#1081; &#1094;&#1074;&#1077;&#1090;: 1&#54840;&#49440; &mdash; &#1090;&#1105;&#1084;&#1085;&#1086;-&#1089;&#1080;&#1085;&#1103;&#1103;, 2&#54840;&#49440; &mdash; &#1079;&#1077;&#1083;&#1105;&#1085;&#1072;&#1103;, 3&#54840;&#49440; &mdash; &#1086;&#1088;&#1072;&#1085;&#1078;&#1077;&#1074;&#1072;&#1103;.
+            </div>
+            <div class="remember-item">
+                <strong>&#1042;&#1072;&#1078;&#1085;&#1099;&#1077; &#1095;&#1072;&#1089;&#1090;&#1080;&#1094;&#1099;:</strong> &#50640; (&#1085;&#1072;&#1087;&#1088;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1077; &#171;&#1082;&#1091;&#1076;&#1072;&#187;), &#50640;&#49436; (&#1084;&#1077;&#1089;&#1090;&#1086; &#1076;&#1077;&#1081;&#1089;&#1090;&#1074;&#1080;&#1103; &#171;&#1075;&#1076;&#1077;&#187;), &#44620;&#51648; (&#171;&#1076;&#1086;&#187;), (&#51004;)&#47196; (&#171;&#1074; &#1089;&#1090;&#1086;&#1088;&#1086;&#1085;&#1091;&#187;).
+            </div>
+            <div class="remember-item">
+                <strong>&#51200;&#44592;&#50836; [jeogiyo]</strong> &mdash; &#1091;&#1085;&#1080;&#1074;&#1077;&#1088;&#1089;&#1072;&#1083;&#1100;&#1085;&#1086;&#1077; &#1089;&#1083;&#1086;&#1074;&#1086; &#1076;&#1083;&#1103; &#1087;&#1088;&#1080;&#1074;&#1083;&#1077;&#1095;&#1077;&#1085;&#1080;&#1103; &#1074;&#1085;&#1080;&#1084;&#1072;&#1085;&#1080;&#1103;. &#1048;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1081;&#1090;&#1077; &#1074; &#1090;&#1088;&#1072;&#1085;&#1089;&#1087;&#1086;&#1088;&#1090;&#1077;, &#1084;&#1072;&#1075;&#1072;&#1079;&#1080;&#1085;&#1077;, &#1085;&#1072; &#1091;&#1083;&#1080;&#1094;&#1077;.
+            </div>
+        </div>
+
+        <!-- Complete Lesson Button -->
+        <div style="text-align: center; margin: 40px 0;">
+            <button class="complete-btn" id="completeLessonBtn" onclick="completeLesson()">&#1059;&#1088;&#1086;&#1082; &#1087;&#1088;&#1086;&#1081;&#1076;&#1077;&#1085;!</button>
+        </div>
+    </div>
+
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+            if (kv) u.voice = kv;
+            window.speechSynthesis.speak(u);
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.previousElementSibling;
+            while (box && !box.classList.contains('dialogue-box')) box = box.previousElementSibling;
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var i = 0; btn.disabled = true;
+            function playNext() {
+                if (i >= lines.length) { btn.disabled = false; return; }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(76,175,80,0.15)';
+                var text = lines[i].querySelector('.korean-text');
+                if (text) {
+                    var u = new SpeechSynthesisUtterance(text.textContent.trim());
+                    u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                    u.onend = function() { i++; setTimeout(playNext, 400); };
+                    window.speechSynthesis.speak(u);
+                } else { i++; setTimeout(playNext, 400); }
+            }
+            window.speechSynthesis.cancel(); playNext();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item');
+            var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) {
+                    if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; }
+                });
+            }
+        }
+    </script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_transport_dialogue';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>
