@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корейский vs Русский — логика языка | 1급 Корейский язык</title>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+            min-height: 100vh; color: #333;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #388e3c; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #4caf50; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.05em; }
+        .header .lesson-number { font-size: 0.95em; color: #888; margin-bottom: 10px; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 { color: #388e3c; margin-top: 0; font-size: 1.8em; border-bottom: 3px solid #4caf50; padding-bottom: 10px; }
+
+        .grammar-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0;
+        }
+        .grammar-table th { background: #4caf50; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+
+        .tip-box {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .warning-box {
+            background: #fff8e1; border-left: 4px solid #FFC107;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .compare-block {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+            border-radius: 15px; overflow: hidden; margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .compare-ru {
+            background: linear-gradient(135deg, #5c6bc0, #3949ab); color: white;
+            padding: 20px; text-align: center;
+        }
+        .compare-kr {
+            background: linear-gradient(135deg, #388e3c, #4caf50); color: white;
+            padding: 20px; text-align: center;
+        }
+        .compare-label { font-size: 0.85em; opacity: 0.8; margin-bottom: 8px; }
+        .compare-text { font-size: 1.2em; font-weight: 600; }
+        .compare-literal { font-size: 0.85em; opacity: 0.7; margin-top: 5px; font-style: italic; }
+
+        .difference-card {
+            background: linear-gradient(135deg, #388e3c, #4caf50); color: white;
+            padding: 25px; border-radius: 15px; margin: 15px 0;
+        }
+        .difference-title { font-size: 1.3em; font-weight: 700; margin-bottom: 10px; }
+        .difference-example {
+            background: rgba(255,255,255,0.15); padding: 12px; border-radius: 10px;
+            margin: 8px 0; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+        }
+        .diff-kr { font-size: 1.2em; font-weight: 600; }
+        .diff-arrow { opacity: 0.7; }
+        .diff-meaning { font-size: 0.95em; opacity: 0.9; }
+
+        .easy-list {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px; margin: 20px 0;
+        }
+        .easy-item {
+            background: linear-gradient(135deg, #43a047, #66bb6a); color: white;
+            padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 12px;
+        }
+        .easy-icon { font-size: 1.5em; }
+        .easy-text { font-size: 0.95em; }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #388e3c, #4caf50); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .korean-text { font-size: 1.1em; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; font-style: italic; }
+        .dialogue-play-btn {
+            background: rgba(255,255,255,0.25); color: white; border: 2px solid rgba(255,255,255,0.4);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer;
+            font-size: 1em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.3s ease; margin-bottom: 15px;
+        }
+        .dialogue-play-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .audio-btn-light {
+            background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn-light:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .practice-section {
+            background: linear-gradient(135deg, #C8E6C9, #A5D6A7);
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .practice-section h2 { color: #1b5e20; margin-bottom: 20px; font-size: 1.5em; border-bottom: none; }
+
+        .exercise-item { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .exercise-question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .exercise-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .exercise-btn {
+            background: #4caf50; color: white; padding: 10px 20px; border: none;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .exercise-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .exercise-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .exercise-result { margin-top: 10px; padding: 10px; border-radius: 8px; font-weight: 600; }
+
+        .word-order-demo {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 20px; margin: 10px 0; flex-wrap: wrap;
+        }
+        .word-block {
+            padding: 10px 18px; border-radius: 12px; font-weight: 600; font-size: 1.1em;
+            text-align: center; min-width: 60px;
+        }
+        .word-s { background: #e3f2fd; color: #1565c0; border: 2px solid #90caf9; }
+        .word-o { background: #fce4ec; color: #c62828; border: 2px solid #ef9a9a; }
+        .word-v { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+        .word-arrow { font-size: 1.3em; color: #888; }
+
+        .motivation-block {
+            background: linear-gradient(135deg, #2e7d32, #388e3c); color: white;
+            padding: 30px; border-radius: 15px; margin: 20px 0; text-align: center;
+        }
+        .motivation-block h3 { font-size: 1.5em; margin-bottom: 15px; }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049); color: white;
+            border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+        }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .content-section { padding: 25px; }
+            .exercise-options { flex-direction: column; }
+            .compare-block { grid-template-columns: 1fr; }
+            .easy-list { grid-template-columns: 1fr; }
+            .word-order-demo { gap: 5px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../index.html">&larr; Назад к 1급</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <div class="lesson-number">1급 | Теория</div>
+            <h1>Корейский vs Русский</h1>
+            <div class="korean-title">한국어와 러시아어 비교 [hangugeo-wa reosia-eo bigyo]</div>
+            <div class="description">Главные отличия корейского от русского языка. Понимание логики &mdash; ключ к быстрому обучению</div>
+        </header>
+
+        <!-- ====== СЕКЦИЯ 1: Нет рода ====== -->
+        <div class="content-section">
+            <h2>1. Нет рода!</h2>
+            <p>В русском языке три рода: мужской, женский, средний. В корейском рода <strong>нет вообще</strong>. Одно местоимение <strong>그</strong> значит и &laquo;он&raquo;, и &laquo;она&raquo;, и &laquo;оно&raquo;.</p>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Русский</th>
+                        <th>Корейский</th>
+                        <th>Примечание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Он</td>
+                        <td>그 [geu] <button class="audio-btn" onclick="speakKorean('그')">&#128264;</button></td>
+                        <td rowspan="3" style="background: #e8f5e9; color: #2e7d32; font-weight: 600;">Одно слово для всех!</td>
+                    </tr>
+                    <tr>
+                        <td>Она</td>
+                        <td>그 [geu] <button class="audio-btn" onclick="speakKorean('그')">&#128264;</button></td>
+                    </tr>
+                    <tr>
+                        <td>Оно</td>
+                        <td>그 [geu] <button class="audio-btn" onclick="speakKorean('그')">&#128264;</button></td>
+                    </tr>
+                    <tr>
+                        <td>Красивый стол</td>
+                        <td>예쁜 탁자 <button class="audio-btn" onclick="speakKorean('예쁜 탁자')">&#128264;</button></td>
+                        <td>Прилагательное не меняется</td>
+                    </tr>
+                    <tr>
+                        <td>Красивая девушка</td>
+                        <td>예쁜 여자 <button class="audio-btn" onclick="speakKorean('예쁜 여자')">&#128264;</button></td>
+                        <td>Та же форма 예쁜!</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Радуйтесь:</strong> Не нужно запоминать род каждого существительного! Не нужно менять окончания прилагательных. 예쁜 &mdash; &laquo;красивый/ая/ое&raquo; &mdash; одна форма для всего.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 2: Нет артиклей ====== -->
+        <div class="content-section">
+            <h2>2. Нет артиклей!</h2>
+            <p>В английском есть a/the, во французском le/la/un/une. В корейском, как и в русском, <strong>артиклей нет</strong>. Это вам будет знакомо!</p>
+
+            <div class="compare-block">
+                <div class="compare-ru">
+                    <div class="compare-label">Английский</div>
+                    <div class="compare-text"><strong>A</strong> book / <strong>The</strong> book</div>
+                </div>
+                <div class="compare-kr">
+                    <div class="compare-label">Корейский</div>
+                    <div class="compare-text">책 [chaek] <button class="audio-btn-light" onclick="speakKorean('책')">&#128264;</button></div>
+                    <div class="compare-literal">Просто &laquo;книга&raquo; &mdash; и всё!</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Плюс для русскоязычных:</strong> Вы уже привыкли жить без артиклей. В корейском та же логика &mdash; контекст определяет, &laquo;какая-то книга&raquo; или &laquo;та самая книга&raquo;.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 3: Порядок слов SOV ====== -->
+        <div class="content-section">
+            <h2>3. Глагол всегда в конце (SOV)</h2>
+            <p>В русском порядок слов относительно свободный (SVO): &laquo;Я ем яблоко&raquo;. В корейском порядок строгий: <strong>SOV</strong> &mdash; подлежащее, дополнение, глагол.</p>
+
+            <h3>Русский (SVO):</h3>
+            <div class="word-order-demo">
+                <div class="word-block word-s">Я (S)</div>
+                <div class="word-arrow">&rarr;</div>
+                <div class="word-block word-v">ем (V)</div>
+                <div class="word-arrow">&rarr;</div>
+                <div class="word-block word-o">яблоко (O)</div>
+            </div>
+
+            <h3>Корейский (SOV):</h3>
+            <div class="word-order-demo">
+                <div class="word-block word-s">나는 (S)</div>
+                <div class="word-arrow">&rarr;</div>
+                <div class="word-block word-o">사과를 (O)</div>
+                <div class="word-arrow">&rarr;</div>
+                <div class="word-block word-v">먹어요 (V)</div>
+                <button class="audio-btn" onclick="speakKorean('나는 사과를 먹어요')">&#128264;</button>
+            </div>
+
+            <div class="compare-block">
+                <div class="compare-ru">
+                    <div class="compare-label">Русский</div>
+                    <div class="compare-text">Я читаю книгу</div>
+                </div>
+                <div class="compare-kr">
+                    <div class="compare-label">Корейский</div>
+                    <div class="compare-text">나는 책을 읽어요 <button class="audio-btn-light" onclick="speakKorean('나는 책을 읽어요')">&#128264;</button></div>
+                    <div class="compare-literal">Я книгу читаю (дословно)</div>
+                </div>
+            </div>
+            <div class="compare-block">
+                <div class="compare-ru">
+                    <div class="compare-label">Русский</div>
+                    <div class="compare-text">Он смотрит фильм</div>
+                </div>
+                <div class="compare-kr">
+                    <div class="compare-label">Корейский</div>
+                    <div class="compare-text">그는 영화를 봐요 <button class="audio-btn-light" onclick="speakKorean('그는 영화를 봐요')">&#128264;</button></div>
+                    <div class="compare-literal">Он фильм смотрит (дословно)</div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>Главное правило:</strong> Глагол ВСЕГДА стоит в конце предложения! Это самое важное отличие. Привыкайте думать: &laquo;кто &mdash; что &mdash; делает&raquo;.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 4: Частицы вместо предлогов ====== -->
+        <div class="content-section">
+            <h2>4. Частицы вместо предлогов</h2>
+            <p>В русском предлоги стоят <strong>перед</strong> словом (&laquo;в школе&raquo;, &laquo;из дома&raquo;). В корейском частицы стоят <strong>после</strong> слова!</p>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Русский</th>
+                        <th>Корейский</th>
+                        <th>Дословно</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>в</strong> школе</td>
+                        <td>학교<strong>에서</strong> <button class="audio-btn" onclick="speakKorean('학교에서')">&#128264;</button></td>
+                        <td>школа-<em>в</em></td>
+                    </tr>
+                    <tr>
+                        <td><strong>из</strong> России</td>
+                        <td>러시아<strong>에서</strong> <button class="audio-btn" onclick="speakKorean('러시아에서')">&#128264;</button></td>
+                        <td>Россия-<em>из</em></td>
+                    </tr>
+                    <tr>
+                        <td><strong>в</strong> школу (направление)</td>
+                        <td>학교<strong>에</strong> <button class="audio-btn" onclick="speakKorean('학교에')">&#128264;</button></td>
+                        <td>школа-<em>в</em></td>
+                    </tr>
+                    <tr>
+                        <td>книг<strong>у</strong> (что?)</td>
+                        <td>책<strong>을</strong> <button class="audio-btn" onclick="speakKorean('책을')">&#128264;</button></td>
+                        <td>книга-<em>что</em></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Аналогия:</strong> Думайте о частицах как о &laquo;послелогах&raquo; &mdash; они как предлоги, но ставятся после слова. Слово + частица = одна конструкция.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 5: Формы вежливости ====== -->
+        <div class="content-section">
+            <h2>5. Формы вежливости</h2>
+            <p>В русском есть &laquo;ты&raquo; и &laquo;вы&raquo;. В корейском система вежливости <strong>гораздо сложнее</strong> &mdash; несколько уровней, и меняется не только обращение, но и <strong>сам глагол</strong>!</p>
+
+            <div class="difference-card">
+                <div class="difference-title">&laquo;Есть/кушать&raquo; &mdash; 3 уровня:</div>
+                <div class="difference-example">
+                    <span class="diff-kr">먹어 <button class="audio-btn-light" onclick="speakKorean('먹어')">&#128264;</button></span>
+                    <span class="diff-arrow">&rarr;</span>
+                    <span class="diff-meaning">Разговорный (друзьям, младшим)</span>
+                </div>
+                <div class="difference-example">
+                    <span class="diff-kr">먹어요 <button class="audio-btn-light" onclick="speakKorean('먹어요')">&#128264;</button></span>
+                    <span class="diff-arrow">&rarr;</span>
+                    <span class="diff-meaning">Вежливый (стандартный, на работе)</span>
+                </div>
+                <div class="difference-example">
+                    <span class="diff-kr">드세요 <button class="audio-btn-light" onclick="speakKorean('드세요')">&#128264;</button></span>
+                    <span class="diff-arrow">&rarr;</span>
+                    <span class="diff-meaning">Уважительный (старшим, клиентам)</span>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>Совет для начинающих:</strong> Начинайте с уровня <strong>-요 (вежливый)</strong>. Он подходит для 90% ситуаций. Не используйте разговорный стиль с незнакомыми людьми &mdash; это может обидеть!
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 6: Нет множественного числа ====== -->
+        <div class="content-section">
+            <h2>6. Нет множественного числа (обычно)</h2>
+            <p>В русском: яблоко &rarr; яблоки, книга &rarr; книги. В корейском одно слово значит и единственное, и множественное число:</p>
+
+            <div class="compare-block">
+                <div class="compare-ru">
+                    <div class="compare-label">Русский</div>
+                    <div class="compare-text">яблоко / яблоки</div>
+                </div>
+                <div class="compare-kr">
+                    <div class="compare-label">Корейский</div>
+                    <div class="compare-text">사과 <button class="audio-btn-light" onclick="speakKorean('사과')">&#128264;</button></div>
+                    <div class="compare-literal">Одно слово для всего!</div>
+                </div>
+            </div>
+            <div class="compare-block">
+                <div class="compare-ru">
+                    <div class="compare-label">Русский</div>
+                    <div class="compare-text">студент / студенты</div>
+                </div>
+                <div class="compare-kr">
+                    <div class="compare-label">Корейский</div>
+                    <div class="compare-text">학생 <button class="audio-btn-light" onclick="speakKorean('학생')">&#128264;</button></div>
+                    <div class="compare-literal">Контекст подскажет!</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Уточнение:</strong> Суффикс множественного числа -들 существует (학생<strong>들</strong> = студенты), но используется <strong>необязательно</strong>. Если из контекста понятно, что предметов несколько &mdash; его не ставят.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 7: Опускание подлежащего ====== -->
+        <div class="content-section">
+            <h2>7. Опускание подлежащего</h2>
+            <p>В русском мы часто говорим &laquo;я&raquo;: &laquo;Я иду&raquo;, &laquo;Я ем&raquo;. В корейском, если понятно из контекста, <strong>подлежащее не говорят</strong>:</p>
+
+            <div class="compare-block">
+                <div class="compare-ru">
+                    <div class="compare-label">Русский</div>
+                    <div class="compare-text"><strong>Я</strong> иду домой</div>
+                </div>
+                <div class="compare-kr">
+                    <div class="compare-label">Корейский</div>
+                    <div class="compare-text">집에 가요 <button class="audio-btn-light" onclick="speakKorean('집에 가요')">&#128264;</button></div>
+                    <div class="compare-literal">Дом-в иду (&laquo;я&raquo; опущено)</div>
+                </div>
+            </div>
+            <div class="compare-block">
+                <div class="compare-ru">
+                    <div class="compare-label">Русский</div>
+                    <div class="compare-text"><strong>Я</strong> хочу есть</div>
+                </div>
+                <div class="compare-kr">
+                    <div class="compare-label">Корейский</div>
+                    <div class="compare-text">배고파요 <button class="audio-btn-light" onclick="speakKorean('배고파요')">&#128264;</button></div>
+                    <div class="compare-literal">Голодно (&laquo;я&raquo; опущено)</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Естественный корейский:</strong> Чрезмерное использование &laquo;나는&raquo; (я) звучит неестественно. Корейцы опускают подлежащее, когда оно очевидно. Это как в русском &laquo;Пришёл домой&raquo; вместо &laquo;Я пришёл домой&raquo;.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 8: Счётные слова ====== -->
+        <div class="content-section">
+            <h2>8. Счётные слова</h2>
+            <p>В русском: &laquo;три книги&raquo;, &laquo;два студента&raquo;. В корейском между числом и предметом нужно <strong>специальное счётное слово</strong>:</p>
+
+            <div class="difference-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="difference-title">Нельзя: &laquo;три книги&raquo; &rarr; Нужно: &laquo;книга три тома&raquo;</div>
+                <div class="difference-example">
+                    <span class="diff-kr">책 세 권 <button class="audio-btn-light" onclick="speakKorean('책 세 권')">&#128264;</button></span>
+                    <span class="diff-arrow">&rarr;</span>
+                    <span class="diff-meaning">книга + три + [счётное слово для книг]</span>
+                </div>
+                <div class="difference-example">
+                    <span class="diff-kr">사과 두 개 <button class="audio-btn-light" onclick="speakKorean('사과 두 개')">&#128264;</button></span>
+                    <span class="diff-arrow">&rarr;</span>
+                    <span class="diff-meaning">яблоко + два + [штуки]</span>
+                </div>
+                <div class="difference-example">
+                    <span class="diff-kr">학생 세 명 <button class="audio-btn-light" onclick="speakKorean('학생 세 명')">&#128264;</button></span>
+                    <span class="diff-arrow">&rarr;</span>
+                    <span class="diff-meaning">студент + три + [для людей]</span>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>Аналогия:</strong> Это похоже на русское &laquo;два <strong>листа</strong> бумаги&raquo; или &laquo;три <strong>головы</strong> чеснока&raquo; &mdash; только в корейском так считают <strong>всё</strong>.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 9: Мотивация ====== -->
+        <div class="content-section">
+            <h2>9. Корейский проще, чем кажется!</h2>
+            <p>Да, корейский отличается от русского. Но в нём есть множество вещей, которые <strong>проще</strong>, чем в русском или английском:</p>
+
+            <div class="easy-list">
+                <div class="easy-item">
+                    <div class="easy-icon">&#128218;</div>
+                    <div class="easy-text"><strong>Алфавит за 1 день</strong> &mdash; хангыль логичен и создан специально для обучения</div>
+                </div>
+                <div class="easy-item">
+                    <div class="easy-icon">&#128100;</div>
+                    <div class="easy-text"><strong>Нет рода</strong> &mdash; не нужно запоминать род каждого слова</div>
+                </div>
+                <div class="easy-item">
+                    <div class="easy-icon">&#128196;</div>
+                    <div class="easy-text"><strong>Нет артиклей</strong> &mdash; как в русском, без a/the</div>
+                </div>
+                <div class="easy-item">
+                    <div class="easy-icon">&#128290;</div>
+                    <div class="easy-text"><strong>Простое спряжение</strong> &mdash; глагол не меняется по лицам и числам</div>
+                </div>
+                <div class="easy-item">
+                    <div class="easy-icon">&#128483;</div>
+                    <div class="easy-text"><strong>Произношение = написание</strong> &mdash; читается как пишется (почти всегда)</div>
+                </div>
+                <div class="easy-item">
+                    <div class="easy-icon">&#127468;</div>
+                    <div class="easy-text"><strong>Много заимствований</strong> &mdash; 커피 (кофе), 택시 (такси), 버스 (автобус)</div>
+                </div>
+            </div>
+
+            <div class="motivation-block">
+                <h3>&#128170; Вы уже знаете корейские слова!</h3>
+                <p style="font-size: 1.1em;">
+                    커피 = кофе <button class="audio-btn-light" onclick="speakKorean('커피')">&#128264;</button> &nbsp;|&nbsp;
+                    택시 = такси <button class="audio-btn-light" onclick="speakKorean('택시')">&#128264;</button> &nbsp;|&nbsp;
+                    버스 = автобус <button class="audio-btn-light" onclick="speakKorean('버스')">&#128264;</button><br><br>
+                    초콜릿 = шоколад <button class="audio-btn-light" onclick="speakKorean('초콜릿')">&#128264;</button> &nbsp;|&nbsp;
+                    카메라 = камера <button class="audio-btn-light" onclick="speakKorean('카메라')">&#128264;</button> &nbsp;|&nbsp;
+                    인터넷 = интернет <button class="audio-btn-light" onclick="speakKorean('인터넷')">&#128264;</button>
+                </p>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 10: Диалог 1 ====== -->
+        <div class="content-section">
+            <h2>10. Диалог: Разница в логике</h2>
+
+            <div class="dialogue-box">
+                <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+                <div class="dialogue-line">
+                    <div class="speaker">선생님 (Учитель):</div>
+                    <div class="korean-text">오늘 뭐 했어요?</div>
+                    <div class="translation">Что делали сегодня?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">학생 (Студент):</div>
+                    <div class="korean-text">한국어 공부했어요.</div>
+                    <div class="translation">Корейский изучал. (без &laquo;я&raquo;!)</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">선생님:</div>
+                    <div class="korean-text">좋아요! 책 읽었어요?</div>
+                    <div class="translation">Хорошо! Книгу читали?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">학생:</div>
+                    <div class="korean-text">네, 책 두 권 읽었어요.</div>
+                    <div class="translation">Да, две книги прочитал. (книга два тома прочитал)</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Заметьте:</strong> В диалоге нет ни одного &laquo;я&raquo; &mdash; и всё понятно! Глаголы стоят в конце каждого предложения. Счёт книг &mdash; через счётное слово 권.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 11: Диалог 2 ====== -->
+        <div class="content-section">
+            <h2>11. Диалог: В кафе</h2>
+
+            <div class="dialogue-box" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+                <div class="dialogue-line">
+                    <div class="speaker">손님 (Клиент):</div>
+                    <div class="korean-text">커피 한 잔 주세요.</div>
+                    <div class="translation">Один кофе, пожалуйста. (кофе одна чашка дайте)</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원 (Сотрудник):</div>
+                    <div class="korean-text">네, 뜨거운 커피요? 차가운 커피요?</div>
+                    <div class="translation">Да, горячий кофе? Холодный кофе?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">손님:</div>
+                    <div class="korean-text">차가운 커피 주세요. 케이크도 주세요.</div>
+                    <div class="translation">Холодный кофе дайте. Кейк тоже дайте.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">네, 알겠습니다. 잠시만 기다려 주세요.</div>
+                    <div class="translation">Да, понял. Подождите, пожалуйста.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Заметьте порядок:</strong> &laquo;커피 한 잔 주세요&raquo; &mdash; дословно &laquo;кофе одна чашка дайте&raquo;. Глагол &laquo;дайте&raquo; (주세요) в конце. Прилагательные (&laquo;горячий&raquo;, &laquo;холодный&raquo;) стоят перед существительным &mdash; как в русском!
+            </div>
+        </div>
+
+        <!-- ====== УПРАЖНЕНИЯ ====== -->
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-item">
+                <div class="exercise-question">1. Какой порядок слов в корейском предложении?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">SVO (подлежащее-глагол-дополнение)</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">SOV (подлежащее-дополнение-глагол)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">VSO (глагол-подлежащее-дополнение)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Свободный порядок</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">2. Есть ли в корейском языке грамматический род?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Да, мужской и женский</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Да, три рода как в русском</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">Нет, рода нет</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Да, но только для людей</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">3. Как сказать &laquo;Я ем яблоко&raquo; по-корейски? <button class="audio-btn" onclick="speakKorean('나는 사과를 먹어요')">&#128264;</button></div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">나는 먹어요 사과를</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">나는 사과를 먹어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">먹어요 나는 사과를</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">사과를 나는 먹어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">4. Где стоят частицы (аналоги предлогов) в корейском?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Перед словом</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">После слова</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">В начале предложения</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">В конце предложения</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">5. 사과 означает: <button class="audio-btn" onclick="speakKorean('사과')">&#128264;</button></div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Только &laquo;яблоко&raquo; (ед.ч.)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Только &laquo;яблоки&raquo; (мн.ч.)</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">И &laquo;яблоко&raquo;, и &laquo;яблоки&raquo;</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Зависит от глагола</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">6. Какой уровень вежливости лучше использовать начинающим?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Разговорный (먹어)</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">Вежливый с -요 (먹어요)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Уважительный (드세요)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Любой подойдёт</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">7. &laquo;집에 가요&raquo; переводится как: <button class="audio-btn" onclick="speakKorean('집에 가요')">&#128264;</button></div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Дом красивый</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">Иду домой (без &laquo;я&raquo;)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Это мой дом</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Дом большой</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">8. Как правильно сказать &laquo;три книги&raquo; по-корейски?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">세 책</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">책 세 권</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">삼 책</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">책 삼</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+        </div>
+
+        <!-- ====== ЗАПОМНИ ====== -->
+        <div class="content-section">
+            <h2>&#128203; Запомни!</h2>
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>&#128161; Нет рода и артиклей</strong><br>
+                        그 = он/она/оно<br>
+                        예쁜 = красив(ый/ая/ое)
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>&#128260; SOV порядок</strong><br>
+                        나는 사과를 먹어요<br>
+                        Я яблоко ем
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>&#128205; Частицы после слова</strong><br>
+                        학교<strong>에서</strong> = в школе<br>
+                        책<strong>을</strong> = книгу
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>&#128172; Подлежащее можно опустить</strong><br>
+                        집에 가요 = Иду домой<br>
+                        배고파요 = Хочу есть
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" class="complete-btn">Урок пройден! &#10003;</button>
+        </div>
+    </div>
+
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+            if (kv) u.voice = kv;
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.closest('.dialogue-box');
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text');
+                if (k) {
+                    var t = k.textContent.replace(/\[.*?\]/g, '').replace(/\uD83D\uDD0A/g, '').trim();
+                    if (t) texts.push(t);
+                }
+            });
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.innerHTML = '&#9208; Воспроизводится...';
+            btn.disabled = true;
+            function next() {
+                if (i >= texts.length) {
+                    btn.innerHTML = '&#127917; Прослушать диалог';
+                    btn.disabled = false;
+                    lines.forEach(function(l) { l.style.background = ''; });
+                    return;
+                }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(255,255,255,0.15)';
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                var v = window.speechSynthesis.getVoices();
+                var kv = v.find(function(x) { return x.lang.indexOf('ko') !== -1; });
+                if (kv) u.voice = kv;
+                u.onend = function() { i++; setTimeout(next, 400); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item');
+            var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) {
+                    if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; }
+                });
+            }
+        }
+    </script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_korean_vs_russian';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>
