@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Слова-связки и филлеры — 2급 Корейский</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; margin: 0; padding: 0; background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%), linear-gradient(135deg, #2196F3 0%, #1565C0 100%); min-height: 100vh; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 25px; font-size: 0.95em; transition: all 0.3s ease; backdrop-filter: blur(5px); }
+        .navigation a:hover { background: rgba(255,255,255,0.3); }
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 2.2em; color: #2c3e50; margin-bottom: 10px; }
+        .korean-title { font-size: 1.3em; color: #1565C0; margin-bottom: 10px; }
+        .description { color: #666; font-size: 1.05em; }
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2c3e50; margin-bottom: 20px; font-size: 1.5em; }
+        .word-card { background: linear-gradient(135deg, #2196F3, #42A5F5); color: white; padding: 20px; border-radius: 15px; margin: 10px 0; }
+        .word-korean { font-size: 1.8em; font-weight: 700; }
+        .word-romanization { font-size: 0.95em; opacity: 0.9; margin: 5px 0; }
+        .word-meaning { font-size: 1.1em; }
+        .word-example { font-size: 0.95em; opacity: 0.85; margin-top: 8px; font-style: italic; }
+        .words-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin: 20px 0; }
+        .dialogue-box { background: linear-gradient(135deg, #2196F3, #42A5F5); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; }
+        .tip-box { background: #e3f2fd; border-left: 4px solid #2196F3; padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0; }
+        .tip-box strong { color: #1565C0; }
+        .practice-section { background: linear-gradient(135deg, #BBDEFB, #90CAF9); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .practice-section h2 { color: #1565C0; margin-bottom: 20px; font-size: 1.5em; }
+        .exercise { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .option { background: #1565C0; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1em; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; transition: all 0.3s ease; }
+        .option:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(21,101,192,0.4); }
+        .option.correct { background: #2e7d32; }
+        .option.wrong { background: #f44336; }
+        .result { margin-top: 10px; padding: 12px; border-radius: 10px; text-align: center; font-weight: 500; display: none; }
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+        .complete-btn { background: linear-gradient(135deg, #2196F3, #42A5F5); color: white; border: none; padding: 18px 50px; border-radius: 30px; font-size: 1.15em; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; box-shadow: 0 8px 25px rgba(21,101,192,0.3); }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(21,101,192,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .audio-btn { background: rgba(33,150,243,0.15); border: 2px solid rgba(33,150,243,0.3); border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0; transition: all 0.3s ease; flex-shrink: 0; }
+        .audio-btn:hover { background: rgba(33,150,243,0.3); transform: scale(1.1); }
+        .dialogue-play-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; margin: 15px auto; display: block; transition: all 0.3s ease; }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(102,126,234,0.4); }
+        .grammar-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0; }
+        .grammar-table th { background: #1565C0; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+        .complete-section { text-align: center; padding: 30px; }
+        .group-label { background: #1565C0; color: white; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 0.9em; font-weight: 600; margin-bottom: 15px; }
+        .example-block { background: rgba(33,150,243,0.08); border-radius: 12px; padding: 15px; margin: 10px 0; }
+        .example-block .ex-korean { font-size: 1.15em; font-weight: 600; color: #1565C0; margin-bottom: 5px; }
+        .example-block .ex-translation { font-size: 0.95em; color: #666; }
+        @media (max-width: 768px) { .header h1 { font-size: 1.6em; } .content-section { padding: 25px; } .options { flex-direction: column; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navigation">
+        <a href="../index.html">&larr; 2급 Уроки</a>
+        <a href="../../lessons.html">Все уровни</a>
+    </div>
+
+    <div class="header">
+        <h1>Слова-связки и филлеры</h1>
+        <div class="korean-title">연결어와 필러 <button class="audio-btn" onclick="speakKorean('연결어와 필러')">&#x1F50A;</button> -- Урок 2급</div>
+        <div class="description">Секрет естественной корейской речи -- маленькие слова, которые связывают мысли, заполняют паузы и делают вас похожим на носителя языка.</div>
+    </div>
+
+    <!-- Секция 1: 그냥 -->
+    <div class="content-section">
+        <h2>1. 그냥 -- просто, без причины</h2>
+        <div class="words-grid">
+            <div class="word-card">
+                <div class="word-korean">그냥 <button class="audio-btn" onclick="speakKorean('그냥')">&#x1F50A;</button></div>
+                <div class="word-romanization">[geunyang]</div>
+                <div class="word-meaning">просто, просто так, без причины</div>
+                <div class="word-example">Одно из самых частых слов в разговорном корейском!</div>
+            </div>
+        </div>
+        <p style="color:#666; margin:15px 0;">Используется, когда нет конкретной причины или не хотите объяснять:</p>
+        <div class="example-block">
+            <div class="ex-korean">"왜요?" -- "그냥요." <button class="audio-btn" onclick="speakKorean('왜요? 그냥요.')">&#x1F50A;</button></div>
+            <div class="ex-translation">"Почему?" -- "Просто так."</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">그냥 집에 있었어요. <button class="audio-btn" onclick="speakKorean('그냥 집에 있었어요')">&#x1F50A;</button></div>
+            <div class="ex-translation">Просто сидел дома.</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">그냥 물 주세요. <button class="audio-btn" onclick="speakKorean('그냥 물 주세요')">&#x1F50A;</button></div>
+            <div class="ex-translation">Просто воду, пожалуйста. (Ничего особенного не хочу)</div>
+        </div>
+        <div class="tip-box">
+            <strong>Культурный момент:</strong> Корейцы часто отвечают 그냥요 на вопрос «почему?». Это не грубость -- это нормальный ответ, означающий «без особой причины» или «не хочу вдаваться в детали».
+        </div>
+    </div>
+
+    <!-- Секция 2: 좀 -->
+    <div class="content-section">
+        <h2>2. 좀 -- немного / пожалуйста</h2>
+        <div class="words-grid">
+            <div class="word-card">
+                <div class="word-korean">좀 <button class="audio-btn" onclick="speakKorean('좀')">&#x1F50A;</button></div>
+                <div class="word-romanization">[jom]</div>
+                <div class="word-meaning">немного / пожалуйста (смягчение просьбы)</div>
+                <div class="word-example">Двойное значение! Зависит от контекста.</div>
+            </div>
+        </div>
+        <p style="color:#666; margin:15px 0;"><strong>Значение 1:</strong> немного (= 조금)</p>
+        <div class="example-block">
+            <div class="ex-korean">좀 피곤해요. <button class="audio-btn" onclick="speakKorean('좀 피곤해요')">&#x1F50A;</button></div>
+            <div class="ex-translation">Немного устал.</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">좀 어려워요. <button class="audio-btn" onclick="speakKorean('좀 어려워요')">&#x1F50A;</button></div>
+            <div class="ex-translation">Немного сложно.</div>
+        </div>
+        <p style="color:#666; margin:15px 0;"><strong>Значение 2:</strong> смягчение просьбы (делает просьбу вежливее)</p>
+        <div class="example-block">
+            <div class="ex-korean">좀 도와주세요. <button class="audio-btn" onclick="speakKorean('좀 도와주세요')">&#x1F50A;</button></div>
+            <div class="ex-translation">Помогите, пожалуйста. (мягче, чем без 좀)</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">좀 기다려 주세요. <button class="audio-btn" onclick="speakKorean('좀 기다려 주세요')">&#x1F50A;</button></div>
+            <div class="ex-translation">Подождите немного, пожалуйста.</div>
+        </div>
+        <div class="tip-box" style="background:#fff3e0; border-left-color:#ff9800;">
+            <strong>Важно:</strong> Без 좀 просьба звучит более прямолинейно и даже грубовато. Сравните:<br>
+            도와주세요 -- Помогите (нейтрально/прямо)<br>
+            좀 도와주세요 -- Помогите, пожалуйста (мягче, вежливее)<br><br>
+            Привычка добавлять 좀 в просьбы -- признак хорошего корейского!
+        </div>
+    </div>
+
+    <!-- Секция 3: 아무튼 / 어쨌든 -->
+    <div class="content-section">
+        <h2>3. 아무튼 / 어쨌든 -- в общем, короче</h2>
+        <div class="words-grid">
+            <div class="word-card">
+                <div class="word-korean">아무튼 <button class="audio-btn" onclick="speakKorean('아무튼')">&#x1F50A;</button></div>
+                <div class="word-romanization">[amuteun]</div>
+                <div class="word-meaning">в любом случае, короче говоря</div>
+                <div class="word-example">Используется для подведения итога</div>
+            </div>
+            <div class="word-card">
+                <div class="word-korean">어쨌든 <button class="audio-btn" onclick="speakKorean('어쨌든')">&#x1F50A;</button></div>
+                <div class="word-romanization">[eojjaetteun]</div>
+                <div class="word-meaning">в любом случае, как бы то ни было</div>
+                <div class="word-example">Чуть более формальный вариант</div>
+            </div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">아무튼 내일 만나요. <button class="audio-btn" onclick="speakKorean('아무튼 내일 만나요')">&#x1F50A;</button></div>
+            <div class="ex-translation">В общем, завтра встретимся.</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">어쨌든 감사합니다. <button class="audio-btn" onclick="speakKorean('어쨌든 감사합니다')">&#x1F50A;</button></div>
+            <div class="ex-translation">В любом случае, спасибо.</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">아무튼 다 괜찮아요. <button class="audio-btn" onclick="speakKorean('아무튼 다 괜찮아요')">&#x1F50A;</button></div>
+            <div class="ex-translation">Короче, всё нормально.</div>
+        </div>
+        <div class="tip-box">
+            <strong>Разница:</strong> 아무튼 и 어쨌든 почти взаимозаменяемы. 아무튼 чуть более разговорный, 어쨌든 чуть более формальный. В повседневной речи чаще 아무튼.
+        </div>
+    </div>
+
+    <!-- Секция 4: 그러니까 -->
+    <div class="content-section">
+        <h2>4. 그러니까 -- то есть, значит</h2>
+        <div class="words-grid">
+            <div class="word-card">
+                <div class="word-korean">그러니까 <button class="audio-btn" onclick="speakKorean('그러니까')">&#x1F50A;</button></div>
+                <div class="word-romanization">[geureonikka]</div>
+                <div class="word-meaning">то есть, значит, поэтому</div>
+                <div class="word-example">Объяснение, уточнение или вывод</div>
+            </div>
+        </div>
+        <p style="color:#666; margin:15px 0;">Два основных использования:</p>
+        <p style="color:#666; margin:10px 0;"><strong>1. Уточнение / пояснение (= то есть):</strong></p>
+        <div class="example-block">
+            <div class="ex-korean">그러니까 내일 안 온다는 거예요? <button class="audio-btn" onclick="speakKorean('그러니까 내일 안 온다는 거예요?')">&#x1F50A;</button></div>
+            <div class="ex-translation">То есть завтра не придёшь?</div>
+        </div>
+        <p style="color:#666; margin:10px 0;"><strong>2. Согласие (= вот именно!):</strong></p>
+        <div class="example-block">
+            <div class="ex-korean">"오늘 너무 덥다!" -- "그러니까!" <button class="audio-btn" onclick="speakKorean('오늘 너무 덥다! 그러니까!')">&#x1F50A;</button></div>
+            <div class="ex-translation">"Сегодня так жарко!" -- "Вот именно!"</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">그러니까 제 말이요. <button class="audio-btn" onclick="speakKorean('그러니까 제 말이요')">&#x1F50A;</button></div>
+            <div class="ex-translation">Вот именно, я о том же. (Буквально: «Вот именно, мои слова»)</div>
+        </div>
+        <div class="tip-box">
+            <strong>В разговорной речи:</strong> 그러니까 часто сокращают до <strong>그니까</strong> <button class="audio-btn" onclick="speakKorean('그니까')">&#x1F50A;</button>. Это очень разговорная форма, не используйте в формальных ситуациях!
+        </div>
+    </div>
+
+    <!-- Секция 5: 그런데 / 근데 -->
+    <div class="content-section">
+        <h2>5. 그런데 / 근데 -- кстати, а кстати, но</h2>
+        <div class="words-grid">
+            <div class="word-card">
+                <div class="word-korean">그런데 <button class="audio-btn" onclick="speakKorean('그런데')">&#x1F50A;</button></div>
+                <div class="word-romanization">[geureonde]</div>
+                <div class="word-meaning">но, кстати, а вот (переключение темы)</div>
+                <div class="word-example">Нейтральная / полная форма</div>
+            </div>
+            <div class="word-card">
+                <div class="word-korean">근데 <button class="audio-btn" onclick="speakKorean('근데')">&#x1F50A;</button></div>
+                <div class="word-romanization">[geunde]</div>
+                <div class="word-meaning">но, кстати (разговорное сокращение)</div>
+                <div class="word-example">Используется в 3 раза чаще в речи!</div>
+            </div>
+        </div>
+        <p style="color:#666; margin:15px 0;">Переключение темы или введение новой мысли:</p>
+        <div class="example-block">
+            <div class="ex-korean">근데 어제 뭐 했어요? <button class="audio-btn" onclick="speakKorean('근데 어제 뭐 했어요?')">&#x1F50A;</button></div>
+            <div class="ex-translation">Кстати, что ты делал вчера?</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">맛있어요. 근데 좀 비싸요. <button class="audio-btn" onclick="speakKorean('맛있어요. 근데 좀 비싸요.')">&#x1F50A;</button></div>
+            <div class="ex-translation">Вкусно. Но немного дорого.</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">그런데 왜 전화했어요? <button class="audio-btn" onclick="speakKorean('그런데 왜 전화했어요?')">&#x1F50A;</button></div>
+            <div class="ex-translation">А кстати, почему ты звонил?</div>
+        </div>
+        <div class="tip-box">
+            <strong>Многофункциональное слово:</strong> 근데/그런데 может означать «но», «кстати», «а вот» -- зависит от контекста. Это самый универсальный коннектор в корейском!
+        </div>
+    </div>
+
+    <!-- Секция 6: 뭐 -->
+    <div class="content-section">
+        <h2>6. 뭐 -- ну, ладно (филлер)</h2>
+        <div class="words-grid">
+            <div class="word-card">
+                <div class="word-korean">뭐 <button class="audio-btn" onclick="speakKorean('뭐')">&#x1F50A;</button></div>
+                <div class="word-romanization">[mwo]</div>
+                <div class="word-meaning">ну, ладно (как филлер) / что (как вопрос)</div>
+                <div class="word-example">Как филлер показывает неуверенность или безразличие</div>
+            </div>
+        </div>
+        <p style="color:#666; margin:15px 0;">Как филлер (не путать с вопросительным 뭐 = что):</p>
+        <div class="example-block">
+            <div class="ex-korean">뭐, 괜찮아요. <button class="audio-btn" onclick="speakKorean('뭐, 괜찮아요')">&#x1F50A;</button></div>
+            <div class="ex-translation">Ну, нормально. (без энтузиазма)</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">뭐, 그럴 수도 있죠. <button class="audio-btn" onclick="speakKorean('뭐, 그럴 수도 있죠')">&#x1F50A;</button></div>
+            <div class="ex-translation">Ну, такое бывает.</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">뭐, 별거 아니에요. <button class="audio-btn" onclick="speakKorean('뭐, 별거 아니에요')">&#x1F50A;</button></div>
+            <div class="ex-translation">Ну, ничего особенного.</div>
+        </div>
+        <div class="tip-box">
+            <strong>Интонация решает:</strong> 뭐? (с вопросительной интонацией) = «Что?» А 뭐, (с нисходящей, перед паузой) = «Ну...» Совершенно разные значения!
+        </div>
+    </div>
+
+    <!-- Секция 7: 진짜요? / 정말요? -->
+    <div class="content-section">
+        <h2>7. 진짜요? / 정말요? -- правда? серьёзно?</h2>
+        <div class="words-grid">
+            <div class="word-card">
+                <div class="word-korean">진짜요? <button class="audio-btn" onclick="speakKorean('진짜요?')">&#x1F50A;</button></div>
+                <div class="word-romanization">[jinjjayo?]</div>
+                <div class="word-meaning">правда? серьёзно? (разговорный)</div>
+                <div class="word-example">Реакция на удивительную новость</div>
+            </div>
+            <div class="word-card">
+                <div class="word-korean">정말요? <button class="audio-btn" onclick="speakKorean('정말요?')">&#x1F50A;</button></div>
+                <div class="word-romanization">[jeongmallyo?]</div>
+                <div class="word-meaning">правда? действительно? (чуть формальнее)</div>
+                <div class="word-example">Можно использовать в более широком контексте</div>
+            </div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">"내일 시험이에요." -- "진짜요?!" <button class="audio-btn" onclick="speakKorean('내일 시험이에요. 진짜요?')">&#x1F50A;</button></div>
+            <div class="ex-translation">"Завтра экзамен." -- "Серьёзно?!"</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">"한국에 가요." -- "정말요? 좋겠다!" <button class="audio-btn" onclick="speakKorean('한국에 가요. 정말요? 좋겠다!')">&#x1F50A;</button></div>
+            <div class="ex-translation">"Еду в Корею." -- "Правда? Здорово!"</div>
+        </div>
+        <div class="tip-box">
+            <strong>Разница:</strong> 진짜요? -- более разговорный, эмоциональный. 정말요? -- чуть формальнее, подходит для любых ситуаций. Оба очень частотные. В неформальной речи: 진짜? / 정말?
+        </div>
+    </div>
+
+    <!-- Секция 8: 아~ / 그렇구나 -->
+    <div class="content-section">
+        <h2>8. 아~ / 그렇구나 -- ааа, понятно</h2>
+        <div class="words-grid">
+            <div class="word-card">
+                <div class="word-korean">아~ <button class="audio-btn" onclick="speakKorean('아')">&#x1F50A;</button></div>
+                <div class="word-romanization">[a~]</div>
+                <div class="word-meaning">ааа (осознание, понимание)</div>
+                <div class="word-example">Момент, когда что-то стало понятно</div>
+            </div>
+            <div class="word-card">
+                <div class="word-korean">그렇구나 <button class="audio-btn" onclick="speakKorean('그렇구나')">&#x1F50A;</button></div>
+                <div class="word-romanization">[geureokuna]</div>
+                <div class="word-meaning">понятно, вот оно что</div>
+                <div class="word-example">Показываете, что поняли / осознали</div>
+            </div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">아~ 그렇구나! <button class="audio-btn" onclick="speakKorean('아, 그렇구나!')">&#x1F50A;</button></div>
+            <div class="ex-translation">Ааа, понятно! (Теперь дошло!)</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">"오늘 쉬는 날이에요." -- "아~ 그렇구나." <button class="audio-btn" onclick="speakKorean('오늘 쉬는 날이에요. 아, 그렇구나.')">&#x1F50A;</button></div>
+            <div class="ex-translation">"Сегодня выходной." -- "Аа, понятно."</div>
+        </div>
+        <div class="example-block">
+            <div class="ex-korean">아~ 그래서 안 왔구나! <button class="audio-btn" onclick="speakKorean('아, 그래서 안 왔구나!')">&#x1F50A;</button></div>
+            <div class="ex-translation">Аа, вот почему не пришёл!</div>
+        </div>
+        <div class="tip-box">
+            <strong>Вежливая форма:</strong> 그렇구나 -- это неформальная форма (반말). Вежливый вариант: <strong>그렇군요</strong> <button class="audio-btn" onclick="speakKorean('그렇군요')">&#x1F50A;</button> (понятно / вот как). Используйте 그렇군요 с незнакомыми людьми и старшими.
+        </div>
+    </div>
+
+    <!-- Секция 9: Таблица формальное vs разговорное -->
+    <div class="content-section">
+        <h2>9. Формальное vs разговорное (격식체 vs 구어체)</h2>
+        <p style="color:#666; margin-bottom:20px;">Многие связки имеют сокращённые разговорные формы. Знайте обе, но в речи используйте сокращённые!</p>
+
+        <table class="grammar-table">
+            <thead>
+                <tr><th>Полная форма</th><th>Разговорная</th><th>Значение</th><th>Стиль</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>그런데 <button class="audio-btn" onclick="speakKorean('그런데')">&#x1F50A;</button></td>
+                    <td>근데 <button class="audio-btn" onclick="speakKorean('근데')">&#x1F50A;</button></td>
+                    <td>но, кстати</td>
+                    <td>Очень часто</td>
+                </tr>
+                <tr>
+                    <td>그러니까 <button class="audio-btn" onclick="speakKorean('그러니까')">&#x1F50A;</button></td>
+                    <td>그니까 <button class="audio-btn" onclick="speakKorean('그니까')">&#x1F50A;</button></td>
+                    <td>то есть, значит</td>
+                    <td>Среди друзей</td>
+                </tr>
+                <tr>
+                    <td>어쨌든 <button class="audio-btn" onclick="speakKorean('어쨌든')">&#x1F50A;</button></td>
+                    <td>어쨌든 <button class="audio-btn" onclick="speakKorean('어쨌든')">&#x1F50A;</button></td>
+                    <td>в любом случае</td>
+                    <td>Не сокращается</td>
+                </tr>
+                <tr>
+                    <td>그렇군요 <button class="audio-btn" onclick="speakKorean('그렇군요')">&#x1F50A;</button></td>
+                    <td>그렇구나 <button class="audio-btn" onclick="speakKorean('그렇구나')">&#x1F50A;</button></td>
+                    <td>понятно, вот как</td>
+                    <td>~군요 вежл., ~구나 друж.</td>
+                </tr>
+                <tr>
+                    <td>정말요? <button class="audio-btn" onclick="speakKorean('정말요?')">&#x1F50A;</button></td>
+                    <td>진짜? <button class="audio-btn" onclick="speakKorean('진짜?')">&#x1F50A;</button></td>
+                    <td>правда? серьёзно?</td>
+                    <td>정말 нейтр., 진짜 разг.</td>
+                </tr>
+                <tr>
+                    <td>조금 <button class="audio-btn" onclick="speakKorean('조금')">&#x1F50A;</button></td>
+                    <td>좀 <button class="audio-btn" onclick="speakKorean('좀')">&#x1F50A;</button></td>
+                    <td>немного</td>
+                    <td>좀 гораздо чаще</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="tip-box" style="background:#fff3e0; border-left-color:#ff9800;">
+            <strong>Правило:</strong> В письменном корейском и формальных ситуациях используйте полные формы. В разговоре с друзьями, ровесниками -- сокращённые. Знание обеих форм -- признак продвинутого уровня!
+        </div>
+    </div>
+
+    <!-- Секция 10: Частые ошибки -->
+    <div class="content-section">
+        <h2>10. Частые ошибки иностранцев (외국인 실수)</h2>
+        <p style="color:#666; margin-bottom:20px;">Избегайте этих типичных ошибок при использовании филлеров!</p>
+
+        <table class="grammar-table">
+            <thead>
+                <tr><th>Ошибка</th><th>Правильно</th><th>Почему</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color:#f44336;">도와주세요. (без 좀)</td>
+                    <td style="color:#4caf50;">좀 도와주세요.</td>
+                    <td>Без 좀 звучит слишком прямо и может показаться грубым</td>
+                </tr>
+                <tr>
+                    <td style="color:#f44336;">그런데요... (в начале каждого предложения)</td>
+                    <td style="color:#4caf50;">Чередуйте с другими связками</td>
+                    <td>Злоупотребление 근데 делает речь монотонной</td>
+                </tr>
+                <tr>
+                    <td style="color:#f44336;">그렇구나 (со старшими)</td>
+                    <td style="color:#4caf50;">그렇군요</td>
+                    <td>그렇구나 -- неформальное, для друзей. Со старшими -- 그렇군요</td>
+                </tr>
+                <tr>
+                    <td style="color:#f44336;">Не использовать филлеры совсем</td>
+                    <td style="color:#4caf50;">Добавлять 그냥, 좀, 근데 в речь</td>
+                    <td>Речь без филлеров звучит неестественно, как из учебника</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="tip-box" style="background:#fff3e0; border-left-color:#ff9800;">
+            <strong>Главная ошибка:</strong> Говорить «слишком правильно». Корейцы в повседневной речи постоянно используют филлеры: 근데, 그냥, 좀, 뭐, 아~. Если вы говорите без них -- это звучит как робот или учебник. Начните с добавления 좀 в просьбы и 근데 для смены темы!
+        </div>
+    </div>
+
+    <!-- Секция 11: Комбинации филлеров -->
+    <div class="content-section">
+        <h2>11. Комбинации филлеров (필러 조합)</h2>
+        <p style="color:#666; margin-bottom:20px;">В реальной речи корейцы часто комбинируют несколько филлеров подряд. Вот самые частые комбинации:</p>
+
+        <div class="words-grid">
+            <div class="word-card">
+                <div class="word-korean" style="font-size:1.3em;">아~ 근데... <button class="audio-btn" onclick="speakKorean('아, 근데')">&#x1F50A;</button></div>
+                <div class="word-meaning">Ааа, кстати...</div>
+                <div class="word-example">아~ 근데 내일 시간 있어요? -- Аа, кстати, завтра есть время?</div>
+            </div>
+            <div class="word-card">
+                <div class="word-korean" style="font-size:1.3em;">뭐, 그냥... <button class="audio-btn" onclick="speakKorean('뭐, 그냥')">&#x1F50A;</button></div>
+                <div class="word-meaning">Ну, просто...</div>
+                <div class="word-example">뭐, 그냥 좀 심심해서요. -- Ну, просто немного скучно было.</div>
+            </div>
+            <div class="word-card">
+                <div class="word-korean" style="font-size:1.3em;">진짜요? 근데... <button class="audio-btn" onclick="speakKorean('진짜요? 근데')">&#x1F50A;</button></div>
+                <div class="word-meaning">Серьёзно? А кстати...</div>
+                <div class="word-example">진짜요? 근데 어떻게 했어요? -- Серьёзно? А как вы это сделали?</div>
+            </div>
+            <div class="word-card">
+                <div class="word-korean" style="font-size:1.3em;">아무튼 그냥... <button class="audio-btn" onclick="speakKorean('아무튼 그냥')">&#x1F50A;</button></div>
+                <div class="word-meaning">В общем, просто...</div>
+                <div class="word-example">아무튼 그냥 가요. -- В общем, просто пойдём.</div>
+            </div>
+        </div>
+
+        <div class="tip-box">
+            <strong>Совет:</strong> Не бойтесь комбинировать филлеры! Это звучит естественно. Начните практиковать с комбинации <strong>아~ 근데...</strong> -- это самая универсальная связка для перехода к новой теме в разговоре.
+        </div>
+    </div>
+
+    <!-- Секция 12: Мини-диалог -->
+    <div class="content-section">
+        <h2>12. Диалог: 주말 이야기 (Разговор о выходных)</h2>
+        <p style="color:#666; margin-bottom:20px;">Хёнджун (현준) и Сора (소라) болтают на работе в понедельник. Обратите внимание, как много филлеров они используют!</p>
+
+        <div class="dialogue-box">
+            <div class="dialogue-line">
+                <div class="speaker">현준:</div>
+                <div class="korean-text">소라 씨, 주말에 뭐 했어요? <button class="audio-btn" onclick="speakKorean('소라 씨, 주말에 뭐 했어요?')">&#x1F50A;</button></div>
+                <div class="translation">Сора, что делали на выходных?</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">소라:</div>
+                <div class="korean-text">그냥 집에 있었어요. 좀 피곤해서요. <button class="audio-btn" onclick="speakKorean('그냥 집에 있었어요. 좀 피곤해서요.')">&#x1F50A;</button></div>
+                <div class="translation">Просто дома сидела. Немного устала.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">현준:</div>
+                <div class="korean-text">아~ 그렇군요. 근데 새로운 카페 알아요? 역 앞에 생겼어요. <button class="audio-btn" onclick="speakKorean('아, 그렇군요. 근데 새로운 카페 알아요? 역 앞에 생겼어요.')">&#x1F50A;</button></div>
+                <div class="translation">Аа, понятно. Кстати, знаете новое кафе? Открылось перед станцией.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">소라:</div>
+                <div class="korean-text">진짜요? 거기 커피 맛있어요? <button class="audio-btn" onclick="speakKorean('진짜요? 거기 커피 맛있어요?')">&#x1F50A;</button></div>
+                <div class="translation">Серьёзно? Там кофе вкусный?</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">현준:</div>
+                <div class="korean-text">뭐, 괜찮아요. 그러니까 가격도 좋고 분위기도 좋아요. <button class="audio-btn" onclick="speakKorean('뭐, 괜찮아요. 그러니까 가격도 좋고 분위기도 좋아요.')">&#x1F50A;</button></div>
+                <div class="translation">Ну, нормально. В общем, и цена хорошая, и атмосфера приятная.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">소라:</div>
+                <div class="korean-text">아~ 그렇구나! 좀 가 보고 싶어요. <button class="audio-btn" onclick="speakKorean('아, 그렇구나! 좀 가 보고 싶어요.')">&#x1F50A;</button></div>
+                <div class="translation">Аа, понятно! Хочу немного зайти, посмотреть.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">현준:</div>
+                <div class="korean-text">근데 주말에만 열어요. 그러니까 이번 주말에 같이 가요! <button class="audio-btn" onclick="speakKorean('근데 주말에만 열어요. 그러니까 이번 주말에 같이 가요!')">&#x1F50A;</button></div>
+                <div class="translation">Но открыто только по выходным. Значит, давайте вместе в эти выходные!</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">소라:</div>
+                <div class="korean-text">좋아요! 아무튼 알려 줘서 고마워요. <button class="audio-btn" onclick="speakKorean('좋아요! 아무튼 알려 줘서 고마워요.')">&#x1F50A;</button></div>
+                <div class="translation">Хорошо! В любом случае, спасибо, что рассказали.</div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#x1F3AD; Прослушать диалог</button>
+        </div>
+    </div>
+
+    <!-- Секция 13: Упражнения -->
+    <div class="practice-section">
+        <h2>Упражнения: вставьте подходящий филлер</h2>
+
+        <div class="exercise" id="ex1">
+            <div class="question">1. "왜 안 갔어요?" -- "___요. 가기 싫었어요." (Почему не пошли? -- ___, не хотелось идти.)</div>
+            <div class="options">
+                <button class="option" data-correct="false">근데</button>
+                <button class="option" data-correct="true">그냥</button>
+                <button class="option" data-correct="false">아무튼</button>
+                <button class="option" data-correct="false">그러니까</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex2">
+            <div class="question">2. ___ 도와주세요. (Помогите, пожалуйста -- вежливо, мягко)</div>
+            <div class="options">
+                <button class="option" data-correct="false">뭐</button>
+                <button class="option" data-correct="false">근데</button>
+                <button class="option" data-correct="true">좀</button>
+                <button class="option" data-correct="false">아무튼</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex3">
+            <div class="question">3. 맛있어요. ___ 좀 비싸요. (Вкусно. ___ немного дорого.)</div>
+            <div class="options">
+                <button class="option" data-correct="false">그냥</button>
+                <button class="option" data-correct="false">아무튼</button>
+                <button class="option" data-correct="false">뭐</button>
+                <button class="option" data-correct="true">근데</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex4">
+            <div class="question">4. "한국에 가요!" -- "___?! 좋겠다!" (Еду в Корею! -- ___?! Здорово!)</div>
+            <div class="options">
+                <button class="option" data-correct="true">진짜요</button>
+                <button class="option" data-correct="false">그냥요</button>
+                <button class="option" data-correct="false">아무튼</button>
+                <button class="option" data-correct="false">근데</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex5">
+            <div class="question">5. ___ 내일 만나요. (В любом случае, завтра встретимся.)</div>
+            <div class="options">
+                <button class="option" data-correct="false">그냥</button>
+                <button class="option" data-correct="false">좀</button>
+                <button class="option" data-correct="false">뭐</button>
+                <button class="option" data-correct="true">아무튼</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex6">
+            <div class="question">6. ___ 내일 안 온다는 거예요? (То есть завтра не придёшь?)</div>
+            <div class="options">
+                <button class="option" data-correct="false">그냥</button>
+                <button class="option" data-correct="true">그러니까</button>
+                <button class="option" data-correct="false">근데</button>
+                <button class="option" data-correct="false">뭐</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex7">
+            <div class="question">7. 근데 -- это сокращение от какого слова?</div>
+            <div class="options">
+                <button class="option" data-correct="false">그러니까</button>
+                <button class="option" data-correct="false">그렇구나</button>
+                <button class="option" data-correct="true">그런데</button>
+                <button class="option" data-correct="false">어쨌든</button>
+            </div>
+            <div class="result"></div>
+        </div>
+
+        <div class="exercise" id="ex8">
+            <div class="question">8. "오늘 쉬는 날이에요." -- "아~ ___." (Сегодня выходной. -- Аа, понятно.) Вежливая форма:</div>
+            <div class="options">
+                <button class="option" data-correct="false">그렇구나</button>
+                <button class="option" data-correct="true">그렇군요</button>
+                <button class="option" data-correct="false">그러니까요</button>
+                <button class="option" data-correct="false">아무튼요</button>
+            </div>
+            <div class="result"></div>
+        </div>
+    </div>
+
+    <!-- Секция 14: Запомни -->
+    <div class="content-section">
+        <h2>Запомни!</h2>
+        <div style="background: linear-gradient(135deg, #1565C0, #2196F3); color: white; padding: 25px; border-radius: 15px;">
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px;">
+                <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                    <strong>Филлеры-ответы</strong><br>그냥 -- просто так<br>뭐 -- ну, ладно<br>아~ -- ааа (осознание)<br><em>Делают речь естественной!</em>
+                </div>
+                <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                    <strong>Связки-коннекторы</strong><br>근데 -- но, кстати<br>그러니까 -- то есть, значит<br>아무튼 -- в любом случае<br><em>Связывают мысли!</em>
+                </div>
+                <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                    <strong>Реакции</strong><br>진짜요? -- серьёзно?<br>정말요? -- правда?<br>그렇군요 -- понятно (вежл.)<br>그렇구나 -- понятно (друж.)
+                </div>
+                <div style="background:rgba(255,255,255,0.2); padding:15px; border-radius:10px;">
+                    <strong>좀 -- двойной смысл</strong><br>좀 피곤해요 = немного устал<br>좀 도와주세요 = помогите (мягче)<br><em>Количество + Вежливость!</em>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="complete-section">
+        <button class="complete-btn" id="completeLessonBtn" onclick="completeLesson()">Отметить урок как пройденный</button>
+    </div>
+</div>
+
+<script>
+    function speakKorean(text) {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+        var voices = window.speechSynthesis.getVoices();
+        var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+        if (kv) u.voice = kv;
+        window.speechSynthesis.speak(u);
+    }
+    if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.addEventListener('voiceschanged', function(){});
+    }
+
+    function playDialogueSequence(btn) {
+        var section = btn.closest('.content-section') || btn.closest('.dialogue-box') || btn.parentElement;
+        var lines = section.querySelectorAll('.dialogue-line');
+        var texts = [];
+        lines.forEach(function(l) {
+            var k = l.querySelector('.korean-text') || l.querySelector('.dialogue-korean');
+            if (k) texts.push(k.textContent.replace(/\u{1F50A}/gu,'').trim());
+        });
+        if (!texts.length) return;
+        window.speechSynthesis.cancel();
+        var i = 0;
+        btn.textContent = '\u23F8 \u0412\u043E\u0441\u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0438\u0442\u0441\u044F...';
+        function next() {
+            if (i >= texts.length) { btn.textContent = '\u{1F3AD} \u041F\u0440\u043E\u0441\u043B\u0443\u0448\u0430\u0442\u044C \u0434\u0438\u0430\u043B\u043E\u0433'; return; }
+            lines[i].style.background = 'rgba(255,235,59,0.3)';
+            if (i > 0) lines[i-1].style.background = '';
+            var u = new SpeechSynthesisUtterance(texts[i]);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = i%2===0 ? 1.1 : 0.9;
+            var v = window.speechSynthesis.getVoices();
+            var kv = v.find(function(x){return x.lang.indexOf('ko')!==-1;});
+            if(kv) u.voice = kv;
+            u.onend = function() { lines[i].style.background = ''; i++; setTimeout(next,800); };
+            window.speechSynthesis.speak(u);
+        }
+        next();
+    }
+</script>
+<script src="../../js/progress-tracker.js"></script>
+<script>
+    var LESSON_ID = 'level2_lesson_filler_words';
+    function completeLesson() {
+        if (window.ProgressTracker) {
+            ProgressTracker.markLessonCompleted(LESSON_ID);
+            var btn = document.getElementById('completeLessonBtn');
+            btn.textContent = 'Пройдено!';
+            btn.style.background = '#1565C0';
+            btn.disabled = true;
+            console.log('[OK] Lesson completed:', LESSON_ID);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.ProgressTracker) {
+            var progress = ProgressTracker.get();
+            if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                var btn = document.getElementById('completeLessonBtn');
+                if (btn) { btn.textContent = 'Пройдено!'; btn.style.background = '#1565C0'; btn.disabled = true; }
+            }
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.exercise').forEach(function(exercise) {
+            exercise.querySelectorAll('.option').forEach(function(option) {
+                option.addEventListener('click', function() {
+                    var opts = exercise.querySelectorAll('.option');
+                    opts.forEach(function(o) { o.classList.remove('correct', 'wrong'); });
+                    var result = exercise.querySelector('.result');
+                    if (this.dataset.correct === 'true') {
+                        this.classList.add('correct');
+                        result.className = 'result correct';
+                        result.textContent = 'Правильно!';
+                    } else {
+                        this.classList.add('wrong');
+                        result.className = 'result wrong';
+                        result.textContent = 'Неправильно. Попробуйте ещё раз!';
+                        opts.forEach(function(o) { if (o.dataset.correct === 'true') o.classList.add('correct'); });
+                    }
+                    result.style.display = 'block';
+                });
+            });
+        });
+        document.querySelectorAll('.content-section').forEach(function(s, i) {
+            s.style.opacity = '0';
+            s.style.transform = 'translateY(30px)';
+            setTimeout(function() {
+                s.style.transition = 'all 0.6s ease';
+                s.style.opacity = '1';
+                s.style.transform = 'translateY(0)';
+            }, i * 200);
+        });
+        console.log('[OK] Lesson loaded:', LESSON_ID);
+    });
+</script>
+<script src="../../js/global-nav.js"></script>
+</body>
+</html>
