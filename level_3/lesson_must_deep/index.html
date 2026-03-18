@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Долженствование (углублённый)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '\26A0';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '\1F4CB';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; padding: 12px 25px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 15px; transition: all 0.3s ease; font-weight: 500; }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; margin-bottom: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .header h1 { margin: 0 0 15px 0; color: #E65100; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #FF9800; margin-bottom: 15px; font-weight: 500; }
+        .header .description { font-size: 1.05em; color: #666; }
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+        .content-section h2 { color: #E65100; margin-top: 0; font-size: 2em; border-bottom: 3px solid #FF9800; padding-bottom: 10px; }
+        .content-section h3 { color: #F57C00; font-size: 1.4em; }
+        .content-section p { font-size: 1.05em; line-height: 1.7; }
+        .grammar-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 30px 0; }
+        .form-card { border-radius: 15px; padding: 25px; color: white; position: relative; overflow: hidden; transition: transform 0.3s ease; }
+        .form-card:hover { transform: translateY(-5px); }
+        .card-aseo { background: linear-gradient(135deg, #FF9800, #E65100); }
+        .card-eoseo { background: linear-gradient(135deg, #FFA726, #FB8C00); }
+        .form-title { font-size: 1.8em; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .form-pattern { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 1.5em; text-align: center; font-weight: bold; }
+        .form-description { font-size: 1.1em; margin: 15px 0; opacity: 0.95; }
+        .form-examples { margin-top: 20px; }
+        .form-example { background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 8px 0; }
+        .korean-verb { font-size: 1.2em; font-weight: bold; margin-bottom: 5px; }
+        .verb-translation { font-size: 0.9em; opacity: 0.9; }
+        .sentence-structure { background: linear-gradient(135deg, #FF9800, #F57C00); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .structure-title { font-size: 1.5em; font-weight: bold; margin-bottom: 20px; text-align: center; }
+        .structure-example { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
+        .word-breakdown { display: flex; justify-content: center; gap: 15px; margin: 15px 0; flex-wrap: wrap; }
+        .word-part { background: rgba(255,255,255,0.3); padding: 10px 15px; border-radius: 8px; text-align: center; }
+        .korean-word { font-size: 1.3em; font-weight: bold; margin-bottom: 5px; }
+        .word-meaning { font-size: 0.9em; opacity: 0.9; }
+        .comparison-table { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin: 25px 0; }
+        .table-header { background: linear-gradient(135deg, #E65100, #FF9800); color: white; padding: 20px; text-align: center; font-size: 1.3em; font-weight: bold; }
+        .table-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: #e9ecef; }
+        .table-cell { background: white; padding: 15px; text-align: center; font-size: 1.05em; }
+        .table-cell.korean { color: #E65100; font-weight: bold; }
+        .table-cell.header { background: #f8f9fa; font-weight: bold; color: #495057; }
+        .dialogue-box { background: linear-gradient(135deg, #FFA726, #FF9800); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .dialogue-line { margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: bold; color: #fff3e0; margin-bottom: 8px; }
+        .korean-text { font-size: 1.3em; margin-bottom: 5px; }
+        .translation { font-size: 1em; opacity: 0.9; }
+        .grammar-note { font-size: 0.85em; color: #ffe0b2; font-style: italic; margin-top: 5px; }
+        .tip-box { background: #fff3e0; border-left: 5px solid #FF9800; padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0; }
+        .tip-box strong { color: #E65100; }
+        .practice-section { background: linear-gradient(135deg, #FFE0B2, #FFCC80); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .exercise { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .question { font-size: 1.2em; color: #333; margin-bottom: 15px; }
+        .options { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .option { background: #E65100; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1em; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif; }
+        .option:hover { background: #FF9800; transform: translateY(-2px); }
+        .option.correct { background: #4caf50; }
+        .option.wrong { background: #f44336; }
+        .result { margin-top: 15px; padding: 15px; border-radius: 10px; text-align: center; font-weight: 500; display: none; }
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+        .audio-btn { background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3); border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0; }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .dialogue-play-btn { background: linear-gradient(135deg, #FF9800, #E65100); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; margin: 15px auto; display: block; transition: all 0.3s ease; }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(255,152,0,0.4); }
+        .remember-block { background: linear-gradient(135deg, #FF9800, #E65100); color: white; padding: 30px; border-radius: 20px; margin: 30px 0; box-shadow: 0 15px 40px rgba(255,152,0,0.3); }
+        .remember-block h2 { color: white; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-top: 0; }
+        .remember-item { background: rgba(255,255,255,0.15); padding: 15px; border-radius: 12px; margin: 10px 0; }
+        .remember-item strong { color: #fff3e0; }
+
+        @media (max-width: 768px) {
+            .grammar-cards { grid-template-columns: 1fr; }
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .options { flex-direction: column; align-items: center; }
+            .word-breakdown { flex-direction: column; align-items: center; }
+            .header h1 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_3/index.html">← 3급 Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>Урок: Долженствование (углублённый)</h1>
+            <div class="korean-title">의무 표현 심화 -아/어야 하다/되다</div>
+            <div class="description">"Должен", "надо", "обязан" — продвинутое использование -아/어야 하다 и -아/어야 되다</div>
+        </header>
+
+        <!-- Повторение основ -->
+        <div class="content-section">
+            <h2>Повторение: -아/어야 하다</h2>
+            <p>На уровне 2 вы изучили конструкцию <strong>-아/어야 하다</strong> — "должен, нужно". Эта конструкция выражает обязательство или необходимость.</p>
+            <p>В этом уроке мы углубим знания: разберём разницу между <strong>하다</strong> и <strong>되다</strong>, изучим отрицательную форму и форму самообещания <strong>-아/어야지</strong>.</p>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Базовая структура: основа + -아/어야 하다</div>
+                <div class="structure-example">
+                    <div class="korean-text">숙제를 해야 해요. <button class="audio-btn" onclick="speakKorean('숙제를 해야 해요')">🔊</button></div>
+                    <div class="translation">[sukjereul haeya haeyo]</div>
+                    <div class="translation">Нужно делать домашнее задание.</div>
+                    <div class="word-breakdown">
+                        <div class="word-part">
+                            <div class="korean-word">해야</div>
+                            <div class="word-meaning">должен делать</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">해요</div>
+                            <div class="word-meaning">делает (하다)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">일찍 일어나야 해요. <button class="audio-btn" onclick="speakKorean('일찍 일어나야 해요')">🔊</button></div>
+                    <div class="translation">[iljjik ireonaya haeyo]</div>
+                    <div class="translation">Надо рано вставать.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 하다 vs 되다 -->
+        <div class="content-section">
+            <h2>-아/어야 하다 vs -아/어야 되다</h2>
+            <p>Обе формы означают "должен", но есть стилистическая разница:</p>
+
+            <div class="grammar-cards">
+                <div class="form-card card-aseo">
+                    <div class="form-title">-아/어야 하다</div>
+                    <div class="form-pattern">более книжная / нейтральная</div>
+                    <div class="form-description">
+                        Стандартная, нейтральная форма. Используется в письменной речи и формальных ситуациях.
+                    </div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">공부해야 해요 <button class="audio-btn" onclick="speakKorean('공부해야 해요')">🔊</button></div>
+                            <div class="verb-translation">[gongbuhaeya haeyo] — нужно учиться</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">먹어야 해요 <button class="audio-btn" onclick="speakKorean('먹어야 해요')">🔊</button></div>
+                            <div class="verb-translation">[meogeoya haeyo] — нужно есть</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">가야 해요 <button class="audio-btn" onclick="speakKorean('가야 해요')">🔊</button></div>
+                            <div class="verb-translation">[gaya haeyo] — нужно идти</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card card-eoseo">
+                    <div class="form-title">-아/어야 되다</div>
+                    <div class="form-pattern">более разговорная</div>
+                    <div class="form-description">
+                        Разговорная форма. Чаще используется в повседневной устной речи. Значение полностью совпадает.
+                    </div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">공부해야 돼요 <button class="audio-btn" onclick="speakKorean('공부해야 돼요')">🔊</button></div>
+                            <div class="verb-translation">[gongbuhaeya dwaeyo] — нужно учиться</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">먹어야 돼요 <button class="audio-btn" onclick="speakKorean('먹어야 돼요')">🔊</button></div>
+                            <div class="verb-translation">[meogeoya dwaeyo] — нужно есть</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">가야 돼요 <button class="audio-btn" onclick="speakKorean('가야 돼요')">🔊</button></div>
+                            <div class="verb-translation">[gaya dwaeyo] — нужно идти</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>На практике:</strong> В разговорной речи корейцы чаще используют <strong>-아/어야 되다</strong> (돼요). В учебниках и на экзаменах чаще встречается <strong>-아/어야 하다</strong> (해요). Обе формы абсолютно правильны и взаимозаменяемы.
+            </div>
+        </div>
+
+        <!-- Таблица спряжения -->
+        <div class="content-section">
+            <h2>Таблица спряжения</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Образование -아/어야 하다/되다</div>
+                <div class="table-row">
+                    <div class="table-cell header">Глагол</div>
+                    <div class="table-cell header">-아/어야 해요</div>
+                    <div class="table-cell header">-아/어야 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">가다 (идти)</div>
+                    <div class="table-cell korean">가야 해요</div>
+                    <div class="table-cell korean">가야 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">오다 (прийти)</div>
+                    <div class="table-cell korean">와야 해요</div>
+                    <div class="table-cell korean">와야 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">먹다 (есть)</div>
+                    <div class="table-cell korean">먹어야 해요</div>
+                    <div class="table-cell korean">먹어야 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">읽다 (читать)</div>
+                    <div class="table-cell korean">읽어야 해요</div>
+                    <div class="table-cell korean">읽어야 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">일어나다 (встать)</div>
+                    <div class="table-cell korean">일어나야 해요</div>
+                    <div class="table-cell korean">일어나야 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">공부하다 (учиться)</div>
+                    <div class="table-cell korean">공부해야 해요</div>
+                    <div class="table-cell korean">공부해야 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">자다 (спать)</div>
+                    <div class="table-cell korean">자야 해요</div>
+                    <div class="table-cell korean">자야 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">쓰다 (писать)</div>
+                    <div class="table-cell korean">써야 해요</div>
+                    <div class="table-cell korean">써야 돼요</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Отрицание: не обязан -->
+        <div class="content-section">
+            <h2>Отрицание: -지 않아도 되다 (не обязан)</h2>
+            <p>Чтобы сказать "не обязан", "не нужно", используется конструкция <strong>-지 않아도 되다</strong>. Это означает, что действие <em>не является обязательным</em>, но не запрещено.</p>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Структура: основа + -지 않아도 돼요 (не обязан)</div>
+                <div class="structure-example">
+                    <div class="korean-text">내일은 일하지 않아도 돼요. <button class="audio-btn" onclick="speakKorean('내일은 일하지 않아도 돼요')">🔊</button></div>
+                    <div class="translation">[naeireun ilhaji anatdo dwaeyo]</div>
+                    <div class="translation">Завтра можно не работать. (Не обязаны работать.)</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">신발을 벗지 않아도 돼요. <button class="audio-btn" onclick="speakKorean('신발을 벗지 않아도 돼요')">🔊</button></div>
+                    <div class="translation">[sinbareul beotji anatdo dwaeyo]</div>
+                    <div class="translation">Можно не снимать обувь. (Не обязаны снимать.)</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">다 먹지 않아도 돼요. <button class="audio-btn" onclick="speakKorean('다 먹지 않아도 돼요')">🔊</button></div>
+                    <div class="translation">[da meokji anatdo dwaeyo]</div>
+                    <div class="translation">Не обязательно всё доедать.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Сокращённая форма:</strong> В разговорной речи часто используется <strong>-안 -아/어도 돼요</strong>: 안 먹어도 돼요 (можно не есть). Оба варианта допустимы.
+            </div>
+        </div>
+
+        <!-- Ключевое различие -->
+        <div class="content-section">
+            <h2>Ключевое различие: не обязан vs запрещено</h2>
+            <p>Это одно из самых важных различий, которое часто путают изучающие корейский язык:</p>
+
+            <div class="comparison-table">
+                <div class="table-header">must vs don't have to vs must not</div>
+                <div class="table-row">
+                    <div class="table-cell header">Конструкция</div>
+                    <div class="table-cell header">Значение</div>
+                    <div class="table-cell header">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-아/어야 해요</div>
+                    <div class="table-cell">Должен (обязательство)</div>
+                    <div class="table-cell">가야 해요 (должен идти)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-지 않아도 돼요</div>
+                    <div class="table-cell">Не обязан (необязательно)</div>
+                    <div class="table-cell">안 가도 돼요 (можно не идти)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-(으)면 안 돼요</div>
+                    <div class="table-cell">Нельзя (запрет)</div>
+                    <div class="table-cell">가면 안 돼요 (нельзя идти)</div>
+                </div>
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Одна ситуация — три смысла</div>
+                <div class="structure-example">
+                    <div class="korean-text">약을 먹어야 해요. <button class="audio-btn" onclick="speakKorean('약을 먹어야 해요')">🔊</button></div>
+                    <div class="translation">Нужно принимать лекарство. (обязательно)</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">약을 먹지 않아도 돼요. <button class="audio-btn" onclick="speakKorean('약을 먹지 않아도 돼요')">🔊</button></div>
+                    <div class="translation">Не обязательно принимать лекарство. (по желанию)</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">이 약을 먹으면 안 돼요. <button class="audio-btn" onclick="speakKorean('이 약을 먹으면 안 돼요')">🔊</button></div>
+                    <div class="translation">Это лекарство нельзя принимать. (запрещено)</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Запомните:</strong> "Не обязан" (не нужно) и "Нельзя" (запрещено) — это совершенно разные вещи! "Не нужно работать завтра" (выходной) vs "Нельзя работать здесь" (запрет). Не путайте -지 않아도 되다 с -(으)면 안 되다.
+            </div>
+        </div>
+
+        <!-- Самообещание -아/어야지 -->
+        <div class="content-section">
+            <h2>Самообещание: -아/어야지</h2>
+            <p>Конструкция <strong>-아/어야지</strong> используется, когда человек говорит сам себе "я должен...", "мне надо бы...". Это внутреннее решение или обещание самому себе.</p>
+
+            <div class="sentence-structure">
+                <div class="structure-title">-아/어야지 — "Надо бы...", "Я должен..."</div>
+                <div class="structure-example">
+                    <div class="korean-text">운동을 해야지. <button class="audio-btn" onclick="speakKorean('운동을 해야지')">🔊</button></div>
+                    <div class="translation">[undongeul haeyaji]</div>
+                    <div class="translation">Надо бы заняться спортом. (говорю себе)</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">내일부터 다이어트를 해야지. <button class="audio-btn" onclick="speakKorean('내일부터 다이어트를 해야지')">🔊</button></div>
+                    <div class="translation">[naeilbuteo daieoteureul haeyaji]</div>
+                    <div class="translation">С завтрашнего дня надо сесть на диету.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">열심히 공부해야지! <button class="audio-btn" onclick="speakKorean('열심히 공부해야지')">🔊</button></div>
+                    <div class="translation">[yeolsimhi gongbuhaeyaji!]</div>
+                    <div class="translation">Буду усердно учиться! (обещание себе)</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">일찍 자야지. <button class="audio-btn" onclick="speakKorean('일찍 자야지')">🔊</button></div>
+                    <div class="translation">[iljjik jayaji]</div>
+                    <div class="translation">Надо лечь пораньше.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Нюанс:</strong> <strong>-아/어야지</strong> — это неформальная форма, которая используется только в разговорной речи и при обращении к себе или близким друзьям. В официальной речи используйте полную форму -아/어야 해요 / 돼요.
+            </div>
+        </div>
+
+        <!-- Сложные примеры -->
+        <div class="content-section">
+            <h2>Сложные примеры из жизни</h2>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Ситуации с использованием -아/어야 하다/되다</div>
+                <div class="structure-example">
+                    <div class="korean-text">시험을 잘 봐야 해요. <button class="audio-btn" onclick="speakKorean('시험을 잘 봐야 해요')">🔊</button></div>
+                    <div class="translation">[siheomeul jal bwaya haeyo]</div>
+                    <div class="translation">Нужно хорошо сдать экзамен.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">비자를 받아야 돼요. <button class="audio-btn" onclick="speakKorean('비자를 받아야 돼요')">🔊</button></div>
+                    <div class="translation">[bijareul badaya dwaeyo]</div>
+                    <div class="translation">Нужно получить визу.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">건강을 위해 운동을 해야 해요. <button class="audio-btn" onclick="speakKorean('건강을 위해 운동을 해야 해요')">🔊</button></div>
+                    <div class="translation">[geongangeul wihae undongeul haeya haeyo]</div>
+                    <div class="translation">Для здоровья нужно заниматься спортом.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">예약을 미리 해야 돼요. <button class="audio-btn" onclick="speakKorean('예약을 미리 해야 돼요')">🔊</button></div>
+                    <div class="translation">[yeyageul miri haeya dwaeyo]</div>
+                    <div class="translation">Нужно заранее забронировать.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">한국어를 더 열심히 배워야 해요. <button class="audio-btn" onclick="speakKorean('한국어를 더 열심히 배워야 해요')">🔊</button></div>
+                    <div class="translation">[hangugeoreul deo yeolsimhi baewoya haeyo]</div>
+                    <div class="translation">Нужно усерднее учить корейский.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Диалог -->
+        <div class="content-section">
+            <h2>Диалог: Подготовка к экзамену</h2>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">영수:</div>
+                    <div class="korean-text">다음 주에 시험이 있어서 열심히 공부해야 돼요. <button class="audio-btn" onclick="speakKorean('다음 주에 시험이 있어서 열심히 공부해야 돼요')">🔊</button></div>
+                    <div class="translation">[daeum jue siheomi isseoseo yeolsimhi gongbuhaеya dwaeyo] — На следующей неделе экзамен, нужно усердно учиться.</div>
+                    <div class="grammar-note">공부해야 돼요 = 공부하다 + -아/어야 되다</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">미나:</div>
+                    <div class="korean-text">뭘 공부해야 해요? 다 외워야 해요? <button class="audio-btn" onclick="speakKorean('뭘 공부해야 해요? 다 외워야 해요?')">🔊</button></div>
+                    <div class="translation">[mwol gongbuhaeya haeyo? da oewoya haeyo?] — Что нужно учить? Всё запоминать?</div>
+                    <div class="grammar-note">외워야 해요 = 외우다 (запоминать) + -어야 하다</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">영수:</div>
+                    <div class="korean-text">문법하고 단어를 외워야 해요. 작문은 안 써도 돼요. <button class="audio-btn" onclick="speakKorean('문법하고 단어를 외워야 해요. 작문은 안 써도 돼요.')">🔊</button></div>
+                    <div class="translation">[munbeophago daneoreul oewoya haeyo. jangmuneun an sseodo dwaeyo] — Грамматику и слова нужно выучить. Сочинение можно не писать.</div>
+                    <div class="grammar-note">안 써도 돼요 = 쓰다 (писать) + 안 -아/어도 되다 (не обязан)</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">미나:</div>
+                    <div class="korean-text">다행이다! 그런데 몇 시까지 제출해야 돼요? <button class="audio-btn" onclick="speakKorean('다행이다! 그런데 몇 시까지 제출해야 돼요?')">🔊</button></div>
+                    <div class="translation">[dahaengida! geureonde myeot sikkaji jechulhaeya dwaeyo?] — Хорошо! А до которого часа нужно сдать?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">영수:</div>
+                    <div class="korean-text">5시까지 제출해야 해요. 늦으면 안 돼요! <button class="audio-btn" onclick="speakKorean('다섯 시까지 제출해야 해요. 늦으면 안 돼요!')">🔊</button></div>
+                    <div class="translation">[daseot sikkaji jechulhaeya haeyo. neujeumyeon an dwaeyo!] — Нужно сдать до 5 часов. Опаздывать нельзя!</div>
+                    <div class="grammar-note">늦으면 안 돼요 = 늦다 (опоздать) + -(으)면 안 되다</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">미나:</div>
+                    <div class="korean-text">알겠어요. 오늘부터 열심히 해야지! <button class="audio-btn" onclick="speakKorean('알겠어요. 오늘부터 열심히 해야지!')">🔊</button></div>
+                    <div class="translation">[algessoyo. oneulbuteo yeolsimhi haeyaji!] — Понятно. С сегодняшнего дня буду стараться!</div>
+                    <div class="grammar-note">해야지 = 하다 + -아/어야지 (самообещание)</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать диалог</button>
+        </div>
+
+        <!-- Прошедшее время -->
+        <div class="content-section">
+            <h2>Прошедшее время: -아/어야 했다</h2>
+            <p>Чтобы сказать "нужно было" (в прошлом), используйте <strong>-아/어야 했어요</strong>:</p>
+
+            <div class="sentence-structure">
+                <div class="structure-title">-아/어야 했어요 — "Нужно было..."</div>
+                <div class="structure-example">
+                    <div class="korean-text">어제 일찍 자야 했어요. <button class="audio-btn" onclick="speakKorean('어제 일찍 자야 했어요')">🔊</button></div>
+                    <div class="translation">[eoje iljjik jaya haesseoyo]</div>
+                    <div class="translation">Вчера нужно было лечь рано.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">보고서를 금요일까지 내야 했어요. <button class="audio-btn" onclick="speakKorean('보고서를 금요일까지 내야 했어요')">🔊</button></div>
+                    <div class="translation">[bogoseoreul geumyoilkkaji naeya haesseoyo]</div>
+                    <div class="translation">Отчёт нужно было сдать до пятницы.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">택시를 타야 했어요. 버스가 없어서요. <button class="audio-btn" onclick="speakKorean('택시를 타야 했어요. 버스가 없어서요.')">🔊</button></div>
+                    <div class="translation">[taeksireul taya haesseoyo. beoseuga eopsеosеoyo]</div>
+                    <div class="translation">Пришлось ехать на такси. Автобуса не было.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Упражнения -->
+        <div class="practice-section">
+            <h3>Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. "Нужно рано вставать." — Выберите разговорную форму:</div>
+                <div class="options">
+                    <button class="option" data-correct="false">일찍 일어나야 해요.</button>
+                    <button class="option" data-correct="true">일찍 일어나야 돼요.</button>
+                    <button class="option" data-correct="false">일찍 일어나면 안 돼요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. "Не обязательно приходить завтра." — Выберите правильную форму:</div>
+                <div class="options">
+                    <button class="option" data-correct="false">내일 오면 안 돼요.</button>
+                    <button class="option" data-correct="true">내일 안 와도 돼요.</button>
+                    <button class="option" data-correct="false">내일 와야 돼요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Что означает "먹지 않아도 돼요"?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Нельзя есть (запрещено)</button>
+                    <button class="option" data-correct="true">Не обязательно есть (можно не есть)</button>
+                    <button class="option" data-correct="false">Нужно есть (обязательно)</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. "Надо бы заняться спортом." (самообещание) — Какая форма?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">운동을 해야 해요.</button>
+                    <button class="option" data-correct="true">운동을 해야지.</button>
+                    <button class="option" data-correct="false">운동을 하면 안 돼요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. "Вчера нужно было лечь рано." — Выберите прошедшее время:</div>
+                <div class="options">
+                    <button class="option" data-correct="false">어제 일찍 자야 돼요.</button>
+                    <button class="option" data-correct="true">어제 일찍 자야 했어요.</button>
+                    <button class="option" data-correct="false">어제 일찍 자지 않아도 돼요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. Какая конструкция означает "запрещено"?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">-아/어야 해요</button>
+                    <button class="option" data-correct="false">-지 않아도 돼요</button>
+                    <button class="option" data-correct="true">-(으)면 안 돼요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">7. 쓰다 (писать) + "нужно" (разговорная форма) = ?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">쓰야 돼요</button>
+                    <button class="option" data-correct="true">써야 돼요</button>
+                    <button class="option" data-correct="false">쓰어야 돼요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <!-- Блок "Запомни" -->
+        <div class="remember-block">
+            <h2>Запомни</h2>
+            <div class="remember-item">
+                <strong>-아/어야 하다:</strong> Должен, нужно. Нейтральная/книжная форма. 공부해야 해요 (нужно учиться).
+            </div>
+            <div class="remember-item">
+                <strong>-아/어야 되다:</strong> Должен, нужно. Разговорная форма. 공부해야 돼요 (нужно учиться). Значение то же.
+            </div>
+            <div class="remember-item">
+                <strong>-지 않아도 되다:</strong> Не обязан, не нужно. 안 와도 돼요 (можно не приходить). Это НЕ запрет!
+            </div>
+            <div class="remember-item">
+                <strong>-(으)면 안 되다:</strong> Нельзя, запрещено. 가면 안 돼요 (нельзя идти). Это запрет!
+            </div>
+            <div class="remember-item">
+                <strong>-아/어야지:</strong> Самообещание, "надо бы мне...". 열심히 해야지! (Буду стараться!) Неформальная форма.
+            </div>
+            <div class="remember-item">
+                <strong>Прошедшее время:</strong> -아/어야 했어요 = "нужно было". 일찍 자야 했어요 (нужно было лечь рано).
+            </div>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #FF9800, #E65100);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(255,152,0,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level3_lesson_must_deep';
+
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR';
+            u.rate = 0.7;
+            u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+            if (kv) u.voice = kv;
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence(btn) {
+            var section = btn.closest('.content-section') || btn.parentElement;
+            var lines = section.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text') || l;
+                var t = k.textContent.replace(/🔊/g, '').trim();
+                if (t) texts.push(t);
+            });
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.textContent = '⏸ Воспроизводится...';
+            function next() {
+                if (i >= texts.length) { btn.textContent = '🎭 Прослушать диалог'; return; }
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = i % 2 === 0 ? 1.1 : 0.9;
+                var v = window.speechSynthesis.getVoices();
+                var kv = v.find(function(x) { return x.lang.indexOf('ko') !== -1; });
+                if (kv) u.voice = kv;
+                u.onend = function() { i++; setTimeout(next, 800); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#E65100';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            } else {
+                console.log('[ERROR] ProgressTracker not found');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#E65100';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+
+                        var isCorrect = this.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+
+            console.log('[OK] Lesson loaded: level3_lesson_must_deep');
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

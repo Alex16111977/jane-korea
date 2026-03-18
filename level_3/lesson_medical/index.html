@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: В больнице и аптеке — 병원과 약국에서</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #FF9800 0%, #E65100 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '\1F3E5';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '\1F48A';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; padding: 12px 25px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 15px; transition: all 0.3s ease; font-weight: 500; }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; margin-bottom: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .header h1 { margin: 0 0 15px 0; color: #E65100; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #FF9800; margin-bottom: 15px; font-weight: 500; }
+        .header .description { font-size: 1.05em; color: #666; }
+
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+        .content-section h2 { color: #E65100; margin-top: 0; font-size: 2em; border-bottom: 3px solid #FF9800; padding-bottom: 10px; }
+        .content-section h3 { color: #F57C00; font-size: 1.4em; }
+        .content-section p { font-size: 1.05em; line-height: 1.7; }
+
+        .phrase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 25px 0; }
+        .phrase-card { background: linear-gradient(135deg, #FF9800, #E65100); color: white; padding: 22px; border-radius: 15px; transition: transform 0.3s ease; }
+        .phrase-card:hover { transform: translateY(-5px); }
+        .phrase-korean { font-size: 1.5em; font-weight: bold; margin-bottom: 6px; }
+        .phrase-romaji { font-size: 0.9em; opacity: 0.85; margin-bottom: 8px; font-style: italic; }
+        .phrase-meaning { font-size: 1.05em; background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 8px; }
+
+        .grammar-block { background: linear-gradient(135deg, #FFA726, #FF9800); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; }
+        .grammar-block h3 { color: white; margin-top: 0; font-size: 1.5em; }
+        .grammar-pattern { background: rgba(255,255,255,0.25); padding: 15px; border-radius: 10px; font-size: 1.4em; font-weight: bold; text-align: center; margin: 15px 0; }
+
+        .example-box { background: #fff3e0; border-left: 5px solid #FF9800; padding: 20px; margin: 15px 0; border-radius: 0 12px 12px 0; }
+        .example-box .korean-text { font-size: 1.3em; color: #E65100; font-weight: bold; margin-bottom: 5px; }
+        .example-box .translation { color: #555; font-size: 1.05em; }
+        .example-box .note { color: #888; font-size: 0.9em; margin-top: 6px; font-style: italic; }
+
+        .dialogue-box { background: linear-gradient(135deg, #FFA726, #FF9800); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .dialogue-box h3 { color: white; margin-top: 0; }
+        .dialogue-line { margin: 12px 0; padding: 14px; background: rgba(255,255,255,0.12); border-radius: 10px; }
+        .speaker { font-weight: bold; color: #fff3e0; margin-bottom: 6px; font-size: 0.95em; }
+        .korean-text { font-size: 1.25em; margin-bottom: 4px; }
+        .translation { font-size: 0.95em; opacity: 0.9; }
+        .grammar-note { font-size: 0.82em; color: #ffe0b2; font-style: italic; margin-top: 5px; }
+
+        .tip-box { background: #fff3e0; border-left: 5px solid #FF9800; padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0; }
+        .tip-box strong { color: #E65100; }
+
+        .comparison-table { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.12); margin: 25px 0; }
+        .table-header { background: linear-gradient(135deg, #E65100, #FF9800); color: white; padding: 18px 20px; text-align: center; font-size: 1.2em; font-weight: bold; }
+        .table-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: #e9ecef; }
+        .table-cell { background: white; padding: 13px 15px; font-size: 1.05em; }
+        .table-cell.korean { color: #E65100; font-weight: bold; }
+        .table-cell.header-cell { background: #f8f9fa; font-weight: bold; color: #495057; }
+
+        .practice-section { background: linear-gradient(135deg, #FFE0B2, #FFCC80); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .practice-section h2 { color: #E65100; margin-top: 0; }
+        .exercise { background: rgba(255,255,255,0.95); padding: 22px; border-radius: 12px; margin: 20px 0; box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        .question { font-size: 1.15em; color: #333; margin-bottom: 15px; font-weight: 500; }
+        .options { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        .option { background: #E65100; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1.05em; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif; }
+        .option:hover { background: #FF9800; transform: translateY(-2px); }
+        .option.correct { background: #4caf50; }
+        .option.wrong { background: #f44336; }
+
+        .result { margin-top: 15px; padding: 14px; border-radius: 10px; text-align: center; font-weight: 500; display: none; }
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+
+        .audio-btn { background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3); border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0; }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .dialogue-play-btn { background: linear-gradient(135deg, #FF9800, #E65100); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; margin: 15px auto; display: block; transition: all 0.3s ease; }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(255,152,0,0.4); }
+
+        .remember-block { background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .remember-block h3 { color: white; margin-top: 0; font-size: 1.5em; }
+        .remember-item { background: rgba(255,255,255,0.15); padding: 12px 16px; border-radius: 10px; margin: 10px 0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .remember-item .kor { font-size: 1.3em; font-weight: bold; }
+        .remember-item .rom { font-size: 0.85em; opacity: 0.85; font-style: italic; }
+        .remember-item .rus { font-size: 1em; }
+
+        @media (max-width: 768px) {
+            .phrase-grid { grid-template-columns: 1fr; }
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .options { flex-direction: column; align-items: center; }
+            .header h1 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_3/index.html">&larr; 3급 Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>Урок: В больнице и аптеке</h1>
+            <div class="korean-title">병원과 약국에서</div>
+            <div class="description">Как описать симптомы, обратиться к врачу и купить лекарства в Корее</div>
+        </header>
+
+        <!-- Раздел 1: Основная лексика -->
+        <div class="content-section">
+            <h2>1. Основная медицинская лексика</h2>
+            <p>Когда вы болеете в Корее, важно уметь объяснить, что с вами. Начнём с ключевых слов, которые пригодятся в больнице и аптеке.</p>
+
+            <div class="phrase-grid">
+                <div class="phrase-card">
+                    <div class="phrase-korean">병원 <button class="audio-btn" onclick="speakKorean('병원')">🔊</button></div>
+                    <div class="phrase-romaji">[byeongwon]</div>
+                    <div class="phrase-meaning">Больница</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">약국 <button class="audio-btn" onclick="speakKorean('약국')">🔊</button></div>
+                    <div class="phrase-romaji">[yakguk]</div>
+                    <div class="phrase-meaning">Аптека</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">의사 <button class="audio-btn" onclick="speakKorean('의사')">🔊</button></div>
+                    <div class="phrase-romaji">[uisa]</div>
+                    <div class="phrase-meaning">Врач</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">간호사 <button class="audio-btn" onclick="speakKorean('간호사')">🔊</button></div>
+                    <div class="phrase-romaji">[ganhosa]</div>
+                    <div class="phrase-meaning">Медсестра</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">약 <button class="audio-btn" onclick="speakKorean('약')">🔊</button></div>
+                    <div class="phrase-romaji">[yak]</div>
+                    <div class="phrase-meaning">Лекарство</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">처방전 <button class="audio-btn" onclick="speakKorean('처방전')">🔊</button></div>
+                    <div class="phrase-romaji">[cheobangjeeon]</div>
+                    <div class="phrase-meaning">Рецепт (от врача)</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">진찰 <button class="audio-btn" onclick="speakKorean('진찰')">🔊</button></div>
+                    <div class="phrase-romaji">[jinchal]</div>
+                    <div class="phrase-meaning">Осмотр</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">보험 <button class="audio-btn" onclick="speakKorean('보험')">🔊</button></div>
+                    <div class="phrase-romaji">[boheom]</div>
+                    <div class="phrase-meaning">Страховка</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Полезно знать:</strong> В Корее система здравоохранения разделена: врач ставит диагноз и выписывает рецепт (처방전), а лекарства покупаются в отдельной аптеке (약국). Без рецепта продаются только базовые лекарства.
+            </div>
+        </div>
+
+        <!-- Раздел 2: Части тела -->
+        <div class="content-section">
+            <h2>2. Части тела — 신체 부위</h2>
+            <p>Чтобы объяснить врачу, что болит, нужно знать названия частей тела.</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Части тела для медицинских ситуаций</div>
+                <div class="table-row">
+                    <div class="table-cell header-cell">Корейский</div>
+                    <div class="table-cell header-cell">Произношение</div>
+                    <div class="table-cell header-cell">Значение</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">머리 <button class="audio-btn" onclick="speakKorean('머리')">🔊</button></div>
+                    <div class="table-cell">[meori]</div>
+                    <div class="table-cell">Голова</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">배 <button class="audio-btn" onclick="speakKorean('배')">🔊</button></div>
+                    <div class="table-cell">[bae]</div>
+                    <div class="table-cell">Живот</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">목 <button class="audio-btn" onclick="speakKorean('목')">🔊</button></div>
+                    <div class="table-cell">[mok]</div>
+                    <div class="table-cell">Горло / шея</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">허리 <button class="audio-btn" onclick="speakKorean('허리')">🔊</button></div>
+                    <div class="table-cell">[heori]</div>
+                    <div class="table-cell">Поясница / спина</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">이 / 치아 <button class="audio-btn" onclick="speakKorean('치아')">🔊</button></div>
+                    <div class="table-cell">[i / chia]</div>
+                    <div class="table-cell">Зуб / зубы</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">귀 <button class="audio-btn" onclick="speakKorean('귀')">🔊</button></div>
+                    <div class="table-cell">[gwi]</div>
+                    <div class="table-cell">Ухо</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">눈 <button class="audio-btn" onclick="speakKorean('눈')">🔊</button></div>
+                    <div class="table-cell">[nun]</div>
+                    <div class="table-cell">Глаз</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">코 <button class="audio-btn" onclick="speakKorean('코')">🔊</button></div>
+                    <div class="table-cell">[ko]</div>
+                    <div class="table-cell">Нос</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">다리 <button class="audio-btn" onclick="speakKorean('다리')">🔊</button></div>
+                    <div class="table-cell">[dari]</div>
+                    <div class="table-cell">Нога</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">팔 <button class="audio-btn" onclick="speakKorean('팔')">🔊</button></div>
+                    <div class="table-cell">[pal]</div>
+                    <div class="table-cell">Рука (от плеча)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Раздел 3: Симптомы -->
+        <div class="content-section">
+            <h2>3. Симптомы — 증상</h2>
+            <p>Самое важное на приёме у врача -- уметь описать свои симптомы. Вот ключевые выражения:</p>
+
+            <div class="phrase-grid">
+                <div class="phrase-card">
+                    <div class="phrase-korean">아프다 <button class="audio-btn" onclick="speakKorean('아프다')">🔊</button></div>
+                    <div class="phrase-romaji">[apeuda]</div>
+                    <div class="phrase-meaning">Болеть / болит</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">열이 나다 <button class="audio-btn" onclick="speakKorean('열이 나다')">🔊</button></div>
+                    <div class="phrase-romaji">[yeori nada]</div>
+                    <div class="phrase-meaning">Температура / жар</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">기침이 나다 <button class="audio-btn" onclick="speakKorean('기침이 나다')">🔊</button></div>
+                    <div class="phrase-romaji">[gichimi nada]</div>
+                    <div class="phrase-meaning">Кашлять</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">콧물이 나다 <button class="audio-btn" onclick="speakKorean('콧물이 나다')">🔊</button></div>
+                    <div class="phrase-romaji">[konmuri nada]</div>
+                    <div class="phrase-meaning">Насморк</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">어지럽다 <button class="audio-btn" onclick="speakKorean('어지럽다')">🔊</button></div>
+                    <div class="phrase-romaji">[eojireopda]</div>
+                    <div class="phrase-meaning">Кружится голова</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">토하다 <button class="audio-btn" onclick="speakKorean('토하다')">🔊</button></div>
+                    <div class="phrase-romaji">[tohada]</div>
+                    <div class="phrase-meaning">Тошнить / рвота</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">설사하다 <button class="audio-btn" onclick="speakKorean('설사하다')">🔊</button></div>
+                    <div class="phrase-romaji">[seolsahada]</div>
+                    <div class="phrase-meaning">Диарея</div>
+                </div>
+                <div class="phrase-card">
+                    <div class="phrase-korean">감기에 걸리다 <button class="audio-btn" onclick="speakKorean('감기에 걸리다')">🔊</button></div>
+                    <div class="phrase-romaji">[gamgie geollida]</div>
+                    <div class="phrase-meaning">Простудиться</div>
+                </div>
+            </div>
+
+            <h3>Как строить фразы с симптомами</h3>
+            <p>Основная конструкция: <strong>[часть тела]가/이 아파요</strong> -- "[Что-то] болит".</p>
+
+            <div class="example-box">
+                <div class="korean-text">머리가 아파요. <button class="audio-btn" onclick="speakKorean('머리가 아파요')">🔊</button></div>
+                <div class="translation">У меня болит голова.</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">배가 아파요. <button class="audio-btn" onclick="speakKorean('배가 아파요')">🔊</button></div>
+                <div class="translation">У меня болит живот.</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">목이 아프고 기침이 나요. <button class="audio-btn" onclick="speakKorean('목이 아프고 기침이 나요')">🔊</button></div>
+                <div class="translation">У меня болит горло и есть кашель.</div>
+                <div class="note">-고 соединяет два симптома</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">열이 나고 콧물이 나요. <button class="audio-btn" onclick="speakKorean('열이 나고 콧물이 나요')">🔊</button></div>
+                <div class="translation">У меня температура и насморк.</div>
+            </div>
+        </div>
+
+        <!-- Раздел 4: Грамматика -->
+        <div class="content-section">
+            <h2>4. Грамматика в контексте</h2>
+
+            <div class="grammar-block">
+                <h3>Паттерн 1: -아/어서 — причина</h3>
+                <div class="grammar-pattern">причина + -아/어서 + результат</div>
+                <p>Используется, чтобы объяснить причину визита к врачу или почему вы чувствуете себя плохо.</p>
+                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 10px 0;">
+                    <strong>머리가 아파서 왔어요.</strong> <button class="audio-btn" onclick="speakKorean('머리가 아파서 왔어요')">🔊</button> [meoriga apaseo wasseoyo]<br>
+                    Я пришёл, потому что болит голова.
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 10px 0;">
+                    <strong>배가 아파서 밥을 못 먹었어요.</strong> <button class="audio-btn" onclick="speakKorean('배가 아파서 밥을 못 먹었어요')">🔊</button> [baega apaseo babeul mot meogeosseoyo]<br>
+                    Из-за боли в животе не смог есть.
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 10px 0;">
+                    <strong>감기에 걸려서 약을 먹고 있어요.</strong> <button class="audio-btn" onclick="speakKorean('감기에 걸려서 약을 먹고 있어요')">🔊</button> [gamgie geollyeoseo yageul meokgo isseoyo]<br>
+                    Простудился, поэтому принимаю лекарства.
+                </div>
+            </div>
+
+            <div class="grammar-block" style="background: linear-gradient(135deg, #FB8C00, #E65100);">
+                <h3>Паттерн 2: -(으)ㄴ 지 + время — "прошло [время] с тех пор как..."</h3>
+                <div class="grammar-pattern">глагол + -(으)ㄴ 지 + период + 되다/지나다</div>
+                <p>Врач часто спрашивает, как давно вы болеете. Эта конструкция позволяет ответить точно.</p>
+                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 10px 0;">
+                    <strong>아픈 지 3일 됐어요.</strong> <button class="audio-btn" onclick="speakKorean('아픈 지 삼일 됐어요')">🔊</button> [apeun ji samil dwaesseoyo]<br>
+                    Болею уже 3 дня.
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 10px 0;">
+                    <strong>기침한 지 일주일 됐어요.</strong> <button class="audio-btn" onclick="speakKorean('기침한 지 일주일 됐어요')">🔊</button> [gichimhan ji iljuil dwaesseoyo]<br>
+                    Кашляю уже неделю.
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 10px 0;">
+                    <strong>열이 난 지 이틀 됐어요.</strong> <button class="audio-btn" onclick="speakKorean('열이 난 지 이틀 됐어요')">🔊</button> [yeori nan ji iteul dwaesseoyo]<br>
+                    Температура уже два дня.
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Вопрос врача:</strong> 언제부터 아팠어요? [eonjebuteo apasseoyo] -- С каких пор болит? Можно ответить просто: 어제부터요 [eojjebuteooyo] -- Со вчерашнего дня. Или использовать -(으)ㄴ 지 для точности.
+            </div>
+        </div>
+
+        <!-- Раздел 5: Диалог у врача -->
+        <div class="content-section">
+            <h2>5. Диалог: На приёме у врача</h2>
+            <p>Типичный разговор при обращении к врачу в корейской поликлинике.</p>
+
+            <div class="dialogue-box">
+                <h3>병원 진찰 다이얼로그 -- Диалог на приёме</h3>
+
+                <div class="dialogue-line">
+                    <div class="speaker">의사 (Врач):</div>
+                    <div class="korean-text">어디가 아프세요? <button class="audio-btn" onclick="speakKorean('어디가 아프세요?')">🔊</button></div>
+                    <div class="translation">Что у вас болит?</div>
+                    <div class="grammar-note">아프세요 -- вежливая форма от 아프다</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">환자 (Пациент):</div>
+                    <div class="korean-text">머리가 아프고 열이 나요. <button class="audio-btn" onclick="speakKorean('머리가 아프고 열이 나요')">🔊</button></div>
+                    <div class="translation">Болит голова и есть температура.</div>
+                    <div class="grammar-note">-고 соединяет два симптома</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">의사:</div>
+                    <div class="korean-text">언제부터 아팠어요? <button class="audio-btn" onclick="speakKorean('언제부터 아팠어요?')">🔊</button></div>
+                    <div class="translation">С каких пор болит?</div>
+                    <div class="grammar-note">언제부터 = с какого момента</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">환자:</div>
+                    <div class="korean-text">아픈 지 이틀 됐어요. 어제부터 기침도 나요. <button class="audio-btn" onclick="speakKorean('아픈 지 이틀 됐어요. 어제부터 기침도 나요.')">🔊</button></div>
+                    <div class="translation">Болею уже два дня. Со вчера ещё и кашель.</div>
+                    <div class="grammar-note">-(으)ㄴ 지 + время; -도 = тоже/ещё и</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">의사:</div>
+                    <div class="korean-text">감기인 것 같아요. 약을 처방해 드릴게요. <button class="audio-btn" onclick="speakKorean('감기인 것 같아요. 약을 처방해 드릴게요.')">🔊</button></div>
+                    <div class="translation">Похоже на простуду. Я выпишу вам лекарства.</div>
+                    <div class="grammar-note">-(으)ㄴ 것 같다 = похоже, что...; -아/어 드리다 = сделать для вас</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">환자:</div>
+                    <div class="korean-text">감사합니다. 약은 어떻게 먹어요? <button class="audio-btn" onclick="speakKorean('감사합니다. 약은 어떻게 먹어요?')">🔊</button></div>
+                    <div class="translation">Спасибо. Как принимать лекарство?</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">의사:</div>
+                    <div class="korean-text">하루에 세 번, 식후에 드세요. <button class="audio-btn" onclick="speakKorean('하루에 세 번, 식후에 드세요.')">🔊</button></div>
+                    <div class="translation">Три раза в день, после еды.</div>
+                    <div class="grammar-note">하루에 = в день; 세 번 = три раза; 식후 = после еды</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать диалог</button>
+        </div>
+
+        <!-- Раздел 6: Диалог в аптеке -->
+        <div class="content-section">
+            <h2>6. Диалог: В аптеке</h2>
+            <p>После визита к врачу идём в аптеку за лекарствами.</p>
+
+            <div class="dialogue-box">
+                <h3>약국 다이얼로그 -- Диалог в аптеке</h3>
+
+                <div class="dialogue-line">
+                    <div class="speaker">환자 (Пациент):</div>
+                    <div class="korean-text">안녕하세요. 처방전이요. <button class="audio-btn" onclick="speakKorean('안녕하세요. 처방전이요.')">🔊</button></div>
+                    <div class="translation">Здравствуйте. Вот рецепт.</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">약사 (Фармацевт):</div>
+                    <div class="korean-text">네, 잠시만 기다려 주세요. <button class="audio-btn" onclick="speakKorean('네, 잠시만 기다려 주세요.')">🔊</button></div>
+                    <div class="translation">Да, подождите немного, пожалуйста.</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">약사:</div>
+                    <div class="korean-text">여기 약이요. 하루에 세 번 식후에 드세요. <button class="audio-btn" onclick="speakKorean('여기 약이요. 하루에 세 번 식후에 드세요.')">🔊</button></div>
+                    <div class="translation">Вот ваши лекарства. Принимайте три раза в день после еды.</div>
+                    <div class="grammar-note">드세요 -- вежливая форма "пейте/принимайте"</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">환자:</div>
+                    <div class="korean-text">두통약도 있어요? <button class="audio-btn" onclick="speakKorean('두통약도 있어요?')">🔊</button></div>
+                    <div class="translation">А обезболивающее от головной боли тоже есть?</div>
+                    <div class="grammar-note">두통약 = лекарство от головной боли; -도 = тоже</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">약사:</div>
+                    <div class="korean-text">네, 여기요. 이건 하루에 두 번만 드세요. <button class="audio-btn" onclick="speakKorean('네, 여기요. 이건 하루에 두 번만 드세요.')">🔊</button></div>
+                    <div class="translation">Да, вот. Это принимайте только два раза в день.</div>
+                    <div class="grammar-note">-만 = только</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">환자:</div>
+                    <div class="korean-text">감사합니다. 얼마예요? <button class="audio-btn" onclick="speakKorean('감사합니다. 얼마예요?')">🔊</button></div>
+                    <div class="translation">Спасибо. Сколько стоит?</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать диалог</button>
+        </div>
+
+        <!-- Раздел 7: Полезные фразы -->
+        <div class="content-section">
+            <h2>7. Полезные фразы для больницы и аптеки</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Ключевые фразы</div>
+                <div class="table-row">
+                    <div class="table-cell header-cell">Корейский</div>
+                    <div class="table-cell header-cell">Произношение</div>
+                    <div class="table-cell header-cell">Значение</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">어디가 아프세요? <button class="audio-btn" onclick="speakKorean('어디가 아프세요?')">🔊</button></div>
+                    <div class="table-cell">[eodiga apeuseyo]</div>
+                    <div class="table-cell">Что у вас болит?</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">약을 주세요 <button class="audio-btn" onclick="speakKorean('약을 주세요')">🔊</button></div>
+                    <div class="table-cell">[yageul juseyo]</div>
+                    <div class="table-cell">Дайте лекарство, пожалуйста</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">알레르기가 있어요 <button class="audio-btn" onclick="speakKorean('알레르기가 있어요')">🔊</button></div>
+                    <div class="table-cell">[allereugi-ga isseoyo]</div>
+                    <div class="table-cell">У меня есть аллергия</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">보험 있어요 <button class="audio-btn" onclick="speakKorean('보험 있어요')">🔊</button></div>
+                    <div class="table-cell">[boheom isseoyo]</div>
+                    <div class="table-cell">У меня есть страховка</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">하루에 세 번 드세요 <button class="audio-btn" onclick="speakKorean('하루에 세 번 드세요')">🔊</button></div>
+                    <div class="table-cell">[harue se beon deuseyo]</div>
+                    <div class="table-cell">Принимайте 3 раза в день</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">식전에 드세요 <button class="audio-btn" onclick="speakKorean('식전에 드세요')">🔊</button></div>
+                    <div class="table-cell">[sikjeone deuseyo]</div>
+                    <div class="table-cell">Принимайте до еды</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">식후에 드세요 <button class="audio-btn" onclick="speakKorean('식후에 드세요')">🔊</button></div>
+                    <div class="table-cell">[sikhue deuseyo]</div>
+                    <div class="table-cell">Принимайте после еды</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">주사를 맞아야 해요 <button class="audio-btn" onclick="speakKorean('주사를 맞아야 해요')">🔊</button></div>
+                    <div class="table-cell">[jusareul majaya haeyo]</div>
+                    <div class="table-cell">Нужно сделать укол</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Раздел 8: Упражнения -->
+        <div class="practice-section">
+            <h2>Практические упражнения</h2>
+
+            <div class="exercise">
+                <div class="question">1. Вы пришли к врачу с головной болью. Как скажете?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">머리가 아파요.</button>
+                    <button class="option" data-correct="false">배가 아파요.</button>
+                    <button class="option" data-correct="false">목이 아파요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. Врач спрашивает "언제부터 아팠어요?" Вы болеете 3 дня. Как ответите?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">아픈 지 한 시간 됐어요.</button>
+                    <button class="option" data-correct="true">아픈 지 3일 됐어요.</button>
+                    <button class="option" data-correct="false">아픈 지 일주일 됐어요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Как сказать "Я пришёл, потому что болит горло"?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">목이 아프고 왔어요.</button>
+                    <button class="option" data-correct="true">목이 아파서 왔어요.</button>
+                    <button class="option" data-correct="false">목이 아프면 왔어요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. Фармацевт говорит "식후에 드세요". Что это значит?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Принимайте до еды</button>
+                    <button class="option" data-correct="true">Принимайте после еды</button>
+                    <button class="option" data-correct="false">Принимайте перед сном</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. Как сказать "У меня насморк и кашель"?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">열이 나고 토해요.</button>
+                    <button class="option" data-correct="true">콧물이 나고 기침이 나요.</button>
+                    <button class="option" data-correct="false">머리가 아프고 배가 아파요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. Что означает 처방전?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Страховка</button>
+                    <button class="option" data-correct="false">Больница</button>
+                    <button class="option" data-correct="true">Рецепт</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <!-- Блок Запомни -->
+        <div class="content-section">
+            <div class="remember-block">
+                <h3>Запомни -- ключевые медицинские фразы</h3>
+                <div class="remember-item">
+                    <span class="kor">어디가 아프세요?</span>
+                    <span class="rom">[eodiga apeuseyo]</span>
+                    <span class="rus">-- Что у вас болит?</span>
+                    <button class="audio-btn" onclick="speakKorean('어디가 아프세요?')">🔊</button>
+                </div>
+                <div class="remember-item">
+                    <span class="kor">머리가 아파요</span>
+                    <span class="rom">[meoriga apayo]</span>
+                    <span class="rus">-- Болит голова</span>
+                    <button class="audio-btn" onclick="speakKorean('머리가 아파요')">🔊</button>
+                </div>
+                <div class="remember-item">
+                    <span class="kor">감기에 걸렸어요</span>
+                    <span class="rom">[gamgie geollyeosseoyo]</span>
+                    <span class="rus">-- Я простудился</span>
+                    <button class="audio-btn" onclick="speakKorean('감기에 걸렸어요')">🔊</button>
+                </div>
+                <div class="remember-item">
+                    <span class="kor">약을 주세요</span>
+                    <span class="rom">[yageul juseyo]</span>
+                    <span class="rus">-- Дайте лекарство, пожалуйста</span>
+                    <button class="audio-btn" onclick="speakKorean('약을 주세요')">🔊</button>
+                </div>
+                <div class="remember-item">
+                    <span class="kor">하루에 세 번 드세요</span>
+                    <span class="rom">[harue se beon deuseyo]</span>
+                    <span class="rus">-- Принимайте 3 раза в день</span>
+                    <button class="audio-btn" onclick="speakKorean('하루에 세 번 드세요')">🔊</button>
+                </div>
+                <div class="remember-item">
+                    <span class="kor">아픈 지 3일 됐어요</span>
+                    <span class="rom">[apeun ji samil dwaesseoyo]</span>
+                    <span class="rus">-- Болею уже 3 дня</span>
+                    <button class="audio-btn" onclick="speakKorean('아픈 지 삼일 됐어요')">🔊</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #FF9800, #E65100);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(255,152,0,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+            if (kv) u.voice = kv;
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function(){});
+        }
+
+        function playDialogueSequence(btn) {
+            var dialogueBox = btn.previousElementSibling;
+            while (dialogueBox && !dialogueBox.classList.contains('dialogue-box')) {
+                dialogueBox = dialogueBox.previousElementSibling;
+            }
+            if (!dialogueBox) {
+                var section = btn.closest('.content-section') || btn.parentElement;
+                dialogueBox = section.querySelector('.dialogue-box');
+            }
+            if (!dialogueBox) return;
+            var lines = dialogueBox.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text') || l.querySelector('.dialogue-korean');
+                if (k) texts.push(k.textContent.replace(/🔊/g,'').trim());
+            });
+            if (!texts.length) return;
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.textContent = '⏸ Воспроизводится...';
+            function next() {
+                if (i >= texts.length) { btn.textContent = '🎭 Прослушать диалог'; return; }
+                lines[i].style.background = 'rgba(255,235,59,0.3)';
+                if (i > 0) lines[i-1].style.background = '';
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = i%2===0 ? 1.1 : 0.9;
+                var v = window.speechSynthesis.getVoices();
+                var kv = v.find(function(x){return x.lang.indexOf('ko')!==-1;});
+                if(kv) u.voice = kv;
+                u.onend = function() { lines[i].style.background = ''; i++; setTimeout(next,800); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+    </script>
+    <script>
+        var LESSON_ID = 'level3_lesson_medical';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#E65100';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            } else {
+                console.log('[ERROR] ProgressTracker not found');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#E65100';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var exercises = document.querySelectorAll('.exercise');
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+
+                        var isCorrect = this.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

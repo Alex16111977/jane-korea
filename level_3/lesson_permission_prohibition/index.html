@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Разрешение и запрет</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '\2705';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '\1F6AB';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; padding: 12px 25px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 15px; transition: all 0.3s ease; font-weight: 500; }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; margin-bottom: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .header h1 { margin: 0 0 15px 0; color: #E65100; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #FF9800; margin-bottom: 15px; font-weight: 500; }
+        .header .description { font-size: 1.05em; color: #666; }
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+        .content-section h2 { color: #E65100; margin-top: 0; font-size: 2em; border-bottom: 3px solid #FF9800; padding-bottom: 10px; }
+        .content-section h3 { color: #F57C00; font-size: 1.4em; }
+        .content-section p { font-size: 1.05em; line-height: 1.7; }
+        .grammar-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 30px 0; }
+        .form-card { border-radius: 15px; padding: 25px; color: white; position: relative; overflow: hidden; transition: transform 0.3s ease; }
+        .form-card:hover { transform: translateY(-5px); }
+        .card-aseo { background: linear-gradient(135deg, #FF9800, #E65100); }
+        .card-eoseo { background: linear-gradient(135deg, #FFA726, #FB8C00); }
+        .form-title { font-size: 1.8em; font-weight: bold; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .form-pattern { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 1.5em; text-align: center; font-weight: bold; }
+        .form-description { font-size: 1.1em; margin: 15px 0; opacity: 0.95; }
+        .form-examples { margin-top: 20px; }
+        .form-example { background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 8px 0; }
+        .korean-verb { font-size: 1.2em; font-weight: bold; margin-bottom: 5px; }
+        .verb-translation { font-size: 0.9em; opacity: 0.9; }
+        .sentence-structure { background: linear-gradient(135deg, #FF9800, #F57C00); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .structure-title { font-size: 1.5em; font-weight: bold; margin-bottom: 20px; text-align: center; }
+        .structure-example { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
+        .word-breakdown { display: flex; justify-content: center; gap: 15px; margin: 15px 0; flex-wrap: wrap; }
+        .word-part { background: rgba(255,255,255,0.3); padding: 10px 15px; border-radius: 8px; text-align: center; }
+        .korean-word { font-size: 1.3em; font-weight: bold; margin-bottom: 5px; }
+        .word-meaning { font-size: 0.9em; opacity: 0.9; }
+        .comparison-table { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin: 25px 0; }
+        .table-header { background: linear-gradient(135deg, #E65100, #FF9800); color: white; padding: 20px; text-align: center; font-size: 1.3em; font-weight: bold; }
+        .table-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: #e9ecef; }
+        .table-cell { background: white; padding: 15px; text-align: center; font-size: 1.05em; }
+        .table-cell.korean { color: #E65100; font-weight: bold; }
+        .table-cell.header { background: #f8f9fa; font-weight: bold; color: #495057; }
+        .dialogue-box { background: linear-gradient(135deg, #FFA726, #FF9800); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .dialogue-line { margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: bold; color: #fff3e0; margin-bottom: 8px; }
+        .korean-text { font-size: 1.3em; margin-bottom: 5px; }
+        .translation { font-size: 1em; opacity: 0.9; }
+        .grammar-note { font-size: 0.85em; color: #ffe0b2; font-style: italic; margin-top: 5px; }
+        .tip-box { background: #fff3e0; border-left: 5px solid #FF9800; padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0; }
+        .tip-box strong { color: #E65100; }
+        .practice-section { background: linear-gradient(135deg, #FFE0B2, #FFCC80); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .exercise { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .question { font-size: 1.2em; color: #333; margin-bottom: 15px; }
+        .options { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .option { background: #E65100; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1em; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif; }
+        .option:hover { background: #FF9800; transform: translateY(-2px); }
+        .option.correct { background: #4caf50; }
+        .option.wrong { background: #f44336; }
+        .result { margin-top: 15px; padding: 15px; border-radius: 10px; text-align: center; font-weight: 500; display: none; }
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+        .audio-btn { background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3); border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0; }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .dialogue-play-btn { background: linear-gradient(135deg, #FF9800, #E65100); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; margin: 15px auto; display: block; transition: all 0.3s ease; }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(255,152,0,0.4); }
+        .remember-block { background: linear-gradient(135deg, #FF9800, #E65100); color: white; padding: 30px; border-radius: 20px; margin: 30px 0; box-shadow: 0 15px 40px rgba(255,152,0,0.3); }
+        .remember-block h2 { color: white; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-top: 0; }
+        .remember-item { background: rgba(255,255,255,0.15); padding: 15px; border-radius: 12px; margin: 10px 0; }
+        .remember-item strong { color: #fff3e0; }
+
+        @media (max-width: 768px) {
+            .grammar-cards { grid-template-columns: 1fr; }
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .options { flex-direction: column; align-items: center; }
+            .word-breakdown { flex-direction: column; align-items: center; }
+            .header h1 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_3/index.html">← 3급 Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>Урок: Разрешение и запрет</h1>
+            <div class="korean-title">허락과 금지 표현</div>
+            <div class="description">-아/어도 되다 (можно) и -(으)면 안 되다 (нельзя) — выражение разрешения и запрета</div>
+        </header>
+
+        <!-- Введение -->
+        <div class="content-section">
+            <h2>Что мы изучим?</h2>
+            <p>В этом уроке вы освоите две важнейшие грамматические конструкции корейского языка: <strong>-아/어도 되다</strong> (разрешение, "можно") и <strong>-(으)면 안 되다</strong> (запрет, "нельзя"). Эти формы необходимы в повседневной жизни: в музеях, библиотеках, больницах, на работе и в транспорте.</p>
+            <p>Вы научитесь спрашивать разрешение, давать его и выражать запрет.</p>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Основные конструкции урока</div>
+                <div class="structure-example">
+                    <div class="korean-text">여기서 사진을 찍어도 돼요? <button class="audio-btn" onclick="speakKorean('여기서 사진을 찍어도 돼요?')">🔊</button></div>
+                    <div class="translation">[yeogiseo sajineul jjigeodo dwaeyo?]</div>
+                    <div class="translation">Здесь можно фотографировать?</div>
+                    <div class="word-breakdown">
+                        <div class="word-part">
+                            <div class="korean-word">찍어도</div>
+                            <div class="word-meaning">даже если фотографировать</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">돼요?</div>
+                            <div class="word-meaning">можно?</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">여기서 담배를 피우면 안 돼요. <button class="audio-btn" onclick="speakKorean('여기서 담배를 피우면 안 돼요')">🔊</button></div>
+                    <div class="translation">[yeogiseo dambaereul piumyeon an dwaeyo]</div>
+                    <div class="translation">Здесь нельзя курить.</div>
+                    <div class="word-breakdown">
+                        <div class="word-part">
+                            <div class="korean-word">피우면</div>
+                            <div class="word-meaning">если курить</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">안 돼요</div>
+                            <div class="word-meaning">нельзя</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Разрешение -->
+        <div class="content-section">
+            <h2>Разрешение: -아/어도 되다</h2>
+            <p>Конструкция <strong>-아/어도 되다</strong> буквально означает "даже если сделать — нормально/можно". Используется для выражения разрешения или вопроса о разрешении.</p>
+
+            <div class="grammar-cards">
+                <div class="form-card card-aseo">
+                    <div class="form-title">-아도 되다</div>
+                    <div class="form-pattern">основа на ㅏ/ㅗ + 아도 되다</div>
+                    <div class="form-description">
+                        Если последняя гласная основы <strong>ㅏ</strong> или <strong>ㅗ</strong>
+                    </div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">가다 → 가도 되다 <button class="audio-btn" onclick="speakKorean('가도 돼요')">🔊</button></div>
+                            <div class="verb-translation">[gado doeda] — можно идти</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">오다 → 와도 되다 <button class="audio-btn" onclick="speakKorean('와도 돼요')">🔊</button></div>
+                            <div class="verb-translation">[wado doeda] — можно прийти</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">보다 → 봐도 되다 <button class="audio-btn" onclick="speakKorean('봐도 돼요')">🔊</button></div>
+                            <div class="verb-translation">[bwado doeda] — можно смотреть</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card card-eoseo">
+                    <div class="form-title">-어도 되다</div>
+                    <div class="form-pattern">основа на другие + 어도 되다</div>
+                    <div class="form-description">
+                        Если последняя гласная основы <strong>не ㅏ и не ㅗ</strong>
+                    </div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">먹다 → 먹어도 되다 <button class="audio-btn" onclick="speakKorean('먹어도 돼요')">🔊</button></div>
+                            <div class="verb-translation">[meogeodo doeda] — можно есть</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">읽다 → 읽어도 되다 <button class="audio-btn" onclick="speakKorean('읽어도 돼요')">🔊</button></div>
+                            <div class="verb-translation">[ilgeodo doeda] — можно читать</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">사용하다 → 사용해도 되다 <button class="audio-btn" onclick="speakKorean('사용해도 돼요')">🔊</button></div>
+                            <div class="verb-translation">[sayonghaedo doeda] — можно использовать</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Важно:</strong> В разговорной речи вместо 되다 почти всегда используется сокращённая форма <strong>돼요</strong> [dwaeyo]. Например: 가도 돼요? (Можно идти?), 먹어도 돼요? (Можно есть?).
+            </div>
+
+            <h3>Вопрос и ответ</h3>
+            <p>Чтобы спросить разрешение, используйте форму <strong>-아/어도 돼요?</strong></p>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Вопрос: -아/어도 돼요? (Можно...?)</div>
+                <div class="structure-example">
+                    <div class="korean-text">이 자리에 앉아도 돼요? <button class="audio-btn" onclick="speakKorean('이 자리에 앉아도 돼요?')">🔊</button></div>
+                    <div class="translation">[i jarie anjado dwaeyo?]</div>
+                    <div class="translation">Можно сесть на это место?</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">창문을 열어도 돼요? <button class="audio-btn" onclick="speakKorean('창문을 열어도 돼요?')">🔊</button></div>
+                    <div class="translation">[changmuneul yeoreodo dwaeyo?]</div>
+                    <div class="translation">Можно открыть окно?</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">전화해도 돼요? <button class="audio-btn" onclick="speakKorean('전화해도 돼요?')">🔊</button></div>
+                    <div class="translation">[jeonhwahaedo dwaeyo?]</div>
+                    <div class="translation">Можно позвонить?</div>
+                </div>
+            </div>
+
+            <h3>Ответы на вопрос о разрешении</h3>
+            <div class="comparison-table">
+                <div class="table-header">Положительные и отрицательные ответы</div>
+                <div class="table-row">
+                    <div class="table-cell header">Ответ</div>
+                    <div class="table-cell header">Корейский</div>
+                    <div class="table-cell header">Перевод</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell" style="color: #4caf50; font-weight: bold;">Да, можно</div>
+                    <div class="table-cell korean">네, -아/어도 돼요.</div>
+                    <div class="table-cell">Да, можно.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell" style="color: #4caf50; font-weight: bold;">Конечно</div>
+                    <div class="table-cell korean">그럼요, -아/어도 돼요.</div>
+                    <div class="table-cell">Конечно, можно.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell" style="color: #f44336; font-weight: bold;">Нет, нельзя</div>
+                    <div class="table-cell korean">아니요, -(으)면 안 돼요.</div>
+                    <div class="table-cell">Нет, нельзя.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Запрет -->
+        <div class="content-section">
+            <h2>Запрет: -(으)면 안 되다</h2>
+            <p>Конструкция <strong>-(으)면 안 되다</strong> буквально означает "если сделать — не пойдёт/не годится". Используется для выражения запрета.</p>
+
+            <div class="grammar-cards">
+                <div class="form-card card-aseo">
+                    <div class="form-title">-으면 안 되다</div>
+                    <div class="form-pattern">основа на согласную + 으면 안 되다</div>
+                    <div class="form-description">
+                        Если основа глагола оканчивается на <strong>согласную</strong> (받침)
+                    </div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">먹다 → 먹으면 안 되다 <button class="audio-btn" onclick="speakKorean('먹으면 안 돼요')">🔊</button></div>
+                            <div class="verb-translation">[meogeumyeon an doeda] — нельзя есть</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">읽다 → 읽으면 안 되다 <button class="audio-btn" onclick="speakKorean('읽으면 안 돼요')">🔊</button></div>
+                            <div class="verb-translation">[ilgeumyeon an doeda] — нельзя читать</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">찍다 → 찍으면 안 되다 <button class="audio-btn" onclick="speakKorean('찍으면 안 돼요')">🔊</button></div>
+                            <div class="verb-translation">[jjigeumyeon an doeda] — нельзя фотографировать</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card card-eoseo">
+                    <div class="form-title">-면 안 되다</div>
+                    <div class="form-pattern">основа на гласную + 면 안 되다</div>
+                    <div class="form-description">
+                        Если основа глагола оканчивается на <strong>гласную</strong>
+                    </div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">가다 → 가면 안 되다 <button class="audio-btn" onclick="speakKorean('가면 안 돼요')">🔊</button></div>
+                            <div class="verb-translation">[gamyeon an doeda] — нельзя идти</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">피우다 → 피우면 안 되다 <button class="audio-btn" onclick="speakKorean('피우면 안 돼요')">🔊</button></div>
+                            <div class="verb-translation">[piumyeon an doeda] — нельзя курить</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">만지다 → 만지면 안 되다 <button class="audio-btn" onclick="speakKorean('만지면 안 돼요')">🔊</button></div>
+                            <div class="verb-translation">[manjimyeon an doeda] — нельзя трогать</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Особый случай — 하다:</strong> 하다 → 하면 안 돼요. Все глаголы на -하다 (전화하다, 주차하다, 흡연하다) образуют форму: 전화하면 안 돼요 (нельзя звонить), 주차하면 안 돼요 (нельзя парковаться).
+            </div>
+        </div>
+
+        <!-- Таблица спряжения -->
+        <div class="content-section">
+            <h2>Таблица спряжения</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Разрешение vs Запрет — примеры</div>
+                <div class="table-row">
+                    <div class="table-cell header">Глагол</div>
+                    <div class="table-cell header">Можно (-아/어도 돼요)</div>
+                    <div class="table-cell header">Нельзя (-(으)면 안 돼요)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">가다 (идти)</div>
+                    <div class="table-cell korean">가도 돼요</div>
+                    <div class="table-cell korean">가면 안 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">먹다 (есть)</div>
+                    <div class="table-cell korean">먹어도 돼요</div>
+                    <div class="table-cell korean">먹으면 안 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">앉다 (сидеть)</div>
+                    <div class="table-cell korean">앉아도 돼요</div>
+                    <div class="table-cell korean">앉으면 안 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">찍다 (фото)</div>
+                    <div class="table-cell korean">찍어도 돼요</div>
+                    <div class="table-cell korean">찍으면 안 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">열다 (открыть)</div>
+                    <div class="table-cell korean">열어도 돼요</div>
+                    <div class="table-cell korean">열면 안 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">쓰다 (писать)</div>
+                    <div class="table-cell korean">써도 돼요</div>
+                    <div class="table-cell korean">쓰면 안 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">만지다 (трогать)</div>
+                    <div class="table-cell korean">만져도 돼요</div>
+                    <div class="table-cell korean">만지면 안 돼요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">전화하다 (звонить)</div>
+                    <div class="table-cell korean">전화해도 돼요</div>
+                    <div class="table-cell korean">전화하면 안 돼요</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Сравнение трёх конструкций -->
+        <div class="content-section">
+            <h2>Сравнение: можно / нельзя / не делайте</h2>
+            <p>В корейском языке есть три способа выразить запрет или ограничение. Важно понимать разницу:</p>
+
+            <div class="comparison-table">
+                <div class="table-header">-아/어도 되다 vs -(으)면 안 되다 vs -지 마세요</div>
+                <div class="table-row">
+                    <div class="table-cell header">Конструкция</div>
+                    <div class="table-cell header">Значение</div>
+                    <div class="table-cell header">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-아/어도 돼요</div>
+                    <div class="table-cell">Можно (разрешение)</div>
+                    <div class="table-cell">가도 돼요 (можно идти)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-(으)면 안 돼요</div>
+                    <div class="table-cell">Нельзя (запрет, правило)</div>
+                    <div class="table-cell">가면 안 돼요 (нельзя идти)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-지 마세요</div>
+                    <div class="table-cell">Не делайте (просьба)</div>
+                    <div class="table-cell">가지 마세요 (не ходите)</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Разница:</strong> <strong>-(으)면 안 돼요</strong> — это правило или запрет (в музее нельзя фотографировать). <strong>-지 마세요</strong> — это личная просьба (пожалуйста, не фотографируйте меня). Оба выражают "не делайте", но с разным оттенком.
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Примеры: одна ситуация — три выражения</div>
+                <div class="structure-example">
+                    <div class="korean-text">여기서 음식을 먹어도 돼요. <button class="audio-btn" onclick="speakKorean('여기서 음식을 먹어도 돼요')">🔊</button></div>
+                    <div class="translation">Здесь можно есть.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">여기서 음식을 먹으면 안 돼요. <button class="audio-btn" onclick="speakKorean('여기서 음식을 먹으면 안 돼요')">🔊</button></div>
+                    <div class="translation">Здесь нельзя есть. (правило)</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">여기서 음식을 먹지 마세요. <button class="audio-btn" onclick="speakKorean('여기서 음식을 먹지 마세요')">🔊</button></div>
+                    <div class="translation">Пожалуйста, не ешьте здесь. (просьба)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Примеры из жизни -->
+        <div class="content-section">
+            <h2>Примеры из повседневной жизни</h2>
+
+            <h3>В музее / галерее</h3>
+            <div class="sentence-structure">
+                <div class="structure-example">
+                    <div class="korean-text">작품을 만지면 안 돼요. <button class="audio-btn" onclick="speakKorean('작품을 만지면 안 돼요')">🔊</button></div>
+                    <div class="translation">[jakpumeul manjimyeon an dwaeyo] — Нельзя трогать экспонаты.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">플래시 없이 사진을 찍어도 돼요. <button class="audio-btn" onclick="speakKorean('플래시 없이 사진을 찍어도 돼요')">🔊</button></div>
+                    <div class="translation">[peullaesi eopsi sajineul jjigeodo dwaeyo] — Можно фотографировать без вспышки.</div>
+                </div>
+            </div>
+
+            <h3>В библиотеке</h3>
+            <div class="sentence-structure">
+                <div class="structure-example">
+                    <div class="korean-text">도서관에서 큰 소리로 말하면 안 돼요. <button class="audio-btn" onclick="speakKorean('도서관에서 큰 소리로 말하면 안 돼요')">🔊</button></div>
+                    <div class="translation">[doseogwaneseo keun soriro malhamyeon an dwaeyo] — В библиотеке нельзя громко разговаривать.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">이 책을 빌려도 돼요? <button class="audio-btn" onclick="speakKorean('이 책을 빌려도 돼요?')">🔊</button></div>
+                    <div class="translation">[i chaegeul billyeodo dwaeyo?] — Можно взять эту книгу?</div>
+                </div>
+            </div>
+
+            <h3>В транспорте / на улице</h3>
+            <div class="sentence-structure">
+                <div class="structure-example">
+                    <div class="korean-text">버스 안에서 음식을 먹으면 안 돼요. <button class="audio-btn" onclick="speakKorean('버스 안에서 음식을 먹으면 안 돼요')">🔊</button></div>
+                    <div class="translation">[beoseu aneseo eumsigeul meogeumyeon an dwaeyo] — В автобусе нельзя есть.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">여기에 주차해도 돼요? <button class="audio-btn" onclick="speakKorean('여기에 주차해도 돼요?')">🔊</button></div>
+                    <div class="translation">[yeogie juchahaedo dwaeyo?] — Здесь можно припарковаться?</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Диалог -->
+        <div class="content-section">
+            <h2>Диалог: В музее</h2>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">방문객 (посетитель):</div>
+                    <div class="korean-text">저기요, 여기서 사진을 찍어도 돼요? <button class="audio-btn" onclick="speakKorean('저기요, 여기서 사진을 찍어도 돼요?')">🔊</button></div>
+                    <div class="translation">[jeogiyo, yeogiseo sajineul jjigeodo dwaeyo?] — Извините, здесь можно фотографировать?</div>
+                    <div class="grammar-note">찍어도 돼요? = 찍다 (фотографировать) + -어도 돼요?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원 (сотрудник):</div>
+                    <div class="korean-text">네, 찍어도 돼요. 그런데 플래시를 사용하면 안 돼요. <button class="audio-btn" onclick="speakKorean('네, 찍어도 돼요. 그런데 플래시를 사용하면 안 돼요.')">🔊</button></div>
+                    <div class="translation">[ne, jjigeodo dwaeyo. geureonde peullaesireul sayonghamyeon an dwaeyo] — Да, можно. Но нельзя использовать вспышку.</div>
+                    <div class="grammar-note">사용하면 안 돼요 = 사용하다 (использовать) + -면 안 돼요</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">방문객:</div>
+                    <div class="korean-text">알겠습니다. 그리고 이 작품을 만져도 돼요? <button class="audio-btn" onclick="speakKorean('알겠습니다. 그리고 이 작품을 만져도 돼요?')">🔊</button></div>
+                    <div class="translation">[algesseumnida. geurigo i jakpumeul manjyeodo dwaeyo?] — Понял. А эту работу можно потрогать?</div>
+                    <div class="grammar-note">만져도 돼요? = 만지다 (трогать) + -어도 돼요?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">아니요, 작품을 만지면 안 돼요. 조심해 주세요. <button class="audio-btn" onclick="speakKorean('아니요, 작품을 만지면 안 돼요. 조심해 주세요.')">🔊</button></div>
+                    <div class="translation">[aniyo, jakpumeul manjimyeon an dwaeyo. josimhae juseyo] — Нет, нельзя трогать экспонаты. Будьте осторожны, пожалуйста.</div>
+                    <div class="grammar-note">만지면 안 돼요 = 만지다 + -면 안 돼요</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">방문객:</div>
+                    <div class="korean-text">음식을 가지고 들어가도 돼요? <button class="audio-btn" onclick="speakKorean('음식을 가지고 들어가도 돼요?')">🔊</button></div>
+                    <div class="translation">[eumsigeul gajigo deureogado dwaeyo?] — Можно войти с едой?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">아니요, 전시실에 음식을 가지고 들어가면 안 돼요. 로비에서 드세요. <button class="audio-btn" onclick="speakKorean('아니요, 전시실에 음식을 가지고 들어가면 안 돼요. 로비에서 드세요.')">🔊</button></div>
+                    <div class="translation">[aniyo, jeonsishire eumsigeul gajigo deureogamyeon an dwaeyo. robieseo deuseyo] — Нет, в выставочный зал нельзя с едой. Поешьте в лобби.</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать диалог</button>
+        </div>
+
+        <!-- Дополнительные нюансы -->
+        <div class="content-section">
+            <h2>Дополнительные нюансы</h2>
+
+            <h3>Вежливые формы</h3>
+            <p>Существует несколько уровней вежливости:</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Уровни вежливости</div>
+                <div class="table-row">
+                    <div class="table-cell header">Уровень</div>
+                    <div class="table-cell header">Разрешение</div>
+                    <div class="table-cell header">Запрет</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Неформальный</div>
+                    <div class="table-cell korean">가도 돼?</div>
+                    <div class="table-cell korean">가면 안 돼.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Стандартный</div>
+                    <div class="table-cell korean">가도 돼요?</div>
+                    <div class="table-cell korean">가면 안 돼요.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Формальный</div>
+                    <div class="table-cell korean">가도 됩니까?</div>
+                    <div class="table-cell korean">가면 안 됩니다.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Совет:</strong> Форма -아/어도 될까요? [dwelkkayo?] звучит ещё более вежливо и мягко: 앉아도 될까요? (Можно ли мне присесть?). Используйте её в формальных ситуациях.
+            </div>
+        </div>
+
+        <!-- Упражнения -->
+        <div class="practice-section">
+            <h3>Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. "Здесь можно курить?" — Выберите правильную форму:</div>
+                <div class="options">
+                    <button class="option" data-correct="false">여기서 담배를 피우면 안 돼요?</button>
+                    <button class="option" data-correct="true">여기서 담배를 피워도 돼요?</button>
+                    <button class="option" data-correct="false">여기서 담배를 피우지 마세요?</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. "В библиотеке нельзя громко разговаривать." — Какая форма верна?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">도서관에서 크게 말해도 돼요.</button>
+                    <button class="option" data-correct="true">도서관에서 크게 말하면 안 돼요.</button>
+                    <button class="option" data-correct="false">도서관에서 크게 말하지 돼요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. 먹다 (есть) + "можно" = ?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">먹어도 돼요</button>
+                    <button class="option" data-correct="false">먹아도 돼요</button>
+                    <button class="option" data-correct="false">먹으면 돼요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. 찍다 (фотографировать) + "нельзя" = ?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">찍면 안 돼요</button>
+                    <button class="option" data-correct="true">찍으면 안 돼요</button>
+                    <button class="option" data-correct="false">찍어면 안 돼요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. "Можно открыть окно?" — Выберите правильный перевод:</div>
+                <div class="options">
+                    <button class="option" data-correct="false">창문을 열면 안 돼요?</button>
+                    <button class="option" data-correct="true">창문을 열어도 돼요?</button>
+                    <button class="option" data-correct="false">창문을 열지 마세요?</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. Какая конструкция выражает личную просьбу "не делайте"?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">-(으)면 안 돼요</button>
+                    <button class="option" data-correct="false">-아/어도 돼요</button>
+                    <button class="option" data-correct="true">-지 마세요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">7. 주차하다 (парковаться) + "нельзя" = ?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">주차하어면 안 돼요</button>
+                    <button class="option" data-correct="true">주차하면 안 돼요</button>
+                    <button class="option" data-correct="false">주차해면 안 돼요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <!-- Блок "Запомни" -->
+        <div class="remember-block">
+            <h2>Запомни</h2>
+            <div class="remember-item">
+                <strong>-아/어도 돼요:</strong> Можно. Спрашиваем разрешение. 사진을 찍어도 돼요? (Можно фотографировать?)
+            </div>
+            <div class="remember-item">
+                <strong>-(으)면 안 돼요:</strong> Нельзя. Выражаем запрет или правило. 여기서 담배를 피우면 안 돼요. (Здесь нельзя курить.)
+            </div>
+            <div class="remember-item">
+                <strong>-지 마세요:</strong> Не делайте (просьба). 만지지 마세요. (Не трогайте, пожалуйста.)
+            </div>
+            <div class="remember-item">
+                <strong>Образование разрешения:</strong> основа на ㅏ/ㅗ → 아도 돼요; другие → 어도 돼요; 하다 → 해도 돼요
+            </div>
+            <div class="remember-item">
+                <strong>Образование запрета:</strong> основа на согласную → 으면 안 돼요; основа на гласную → 면 안 돼요
+            </div>
+            <div class="remember-item">
+                <strong>Вежливая форма:</strong> -아/어도 될까요? — более мягкая и вежливая форма вопроса о разрешении.
+            </div>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #FF9800, #E65100);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(255,152,0,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level3_lesson_permission_prohibition';
+
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR';
+            u.rate = 0.7;
+            u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+            if (kv) u.voice = kv;
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence(btn) {
+            var section = btn.closest('.content-section') || btn.parentElement;
+            var lines = section.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text') || l;
+                var t = k.textContent.replace(/🔊/g, '').trim();
+                if (t) texts.push(t);
+            });
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.textContent = '⏸ Воспроизводится...';
+            function next() {
+                if (i >= texts.length) { btn.textContent = '🎭 Прослушать диалог'; return; }
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = i % 2 === 0 ? 1.1 : 0.9;
+                var v = window.speechSynthesis.getVoices();
+                var kv = v.find(function(x) { return x.lang.indexOf('ko') !== -1; });
+                if (kv) u.voice = kv;
+                u.onend = function() { i++; setTimeout(next, 800); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#E65100';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            } else {
+                console.log('[ERROR] ProgressTracker not found');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#E65100';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+
+                        var isCorrect = this.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+
+            console.log('[OK] Lesson loaded: level3_lesson_permission_prohibition');
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>
