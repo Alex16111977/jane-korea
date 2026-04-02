@@ -23,6 +23,92 @@
     var PREFIX = getPathPrefix();
 
     // =============================================
+    // LANGUAGE DETECTION
+    // =============================================
+    function detectLanguage() {
+        var path = window.location.pathname;
+        if (path.indexOf('/en/') !== -1) return 'en';
+        return 'ru';
+    }
+
+    var LANG = detectLanguage();
+
+    // EN pages list (pages that exist in /en/)
+    var EN_PAGES = ['index.html', 'lessons.html', 'reading-texts.html', 'kpop-learning.html',
+        'profile.html', 'about.html', 'faq.html'];
+
+    function getLangSwitchUrl() {
+        var path = window.location.pathname;
+        var search = window.location.search;
+        var pageName = path.split('/').pop() || 'index.html';
+        if (LANG === 'en') {
+            return PREFIX + pageName + search;
+        }
+        if (EN_PAGES.indexOf(pageName) !== -1) {
+            return PREFIX + 'en/' + pageName + search;
+        }
+        return PREFIX + 'en/index.html';
+    }
+
+    // For EN pages, nav links to sibling files (same /en/ folder)
+    // For links to RU-only content, use PREFIX (goes up to root)
+    function getPageUrl(filename) {
+        if (LANG === 'en' && EN_PAGES.indexOf(filename) !== -1) {
+            return filename;
+        }
+        return PREFIX + filename;
+    }
+
+    var STRINGS = {
+        ru: {
+            navHome: 'Главная', navLessons: 'Уроки', navTexts: 'Тексты',
+            navVocab: 'Словарь', navKpop: 'K-POP', navProfile: 'Профиль',
+            navMore: 'Ещё', navSearch: 'Поиск', navMenu: 'Меню',
+            login: 'Войти', loginGoogle: 'Войти через Google', logout: 'Выйти',
+            myProfile: 'Мой профиль',
+            guestWarning: 'Прогресс не сохраняется',
+            guestMobileWarning: 'Прогресс не сохраняется. Войдите, чтобы сохранить!',
+            statsDays: 'Дней подряд', statsTexts: 'Текстов', statsLessons: 'Уроков',
+            statsTitle: 'Статистика', statsLink: 'Подробная статистика',
+            searchPlaceholder: 'Поиск уроков, слов, тем...',
+            searchMobilePlaceholder: 'Поиск...',
+            searchEmpty: 'Ничего не найдено',
+            searchMore: 'Ещё {n} результатов...',
+            footerDesc: 'Интерактивная платформа для изучения корейского языка через тексты, грамматику и K-POP',
+            footerLearning: 'Обучение', footerGrammar: 'Уроки грамматики',
+            footerReading: 'Тексты для чтения', footerVocab: 'Словарь',
+            footerProject: 'Проект', footerAbout: 'О проекте',
+            footerLevels: 'Уровни',
+            footerRights: 'Все права защищены.',
+            langSwitch: 'EN', langSwitchTitle: 'English version'
+        },
+        en: {
+            navHome: 'Home', navLessons: 'Lessons', navTexts: 'Texts',
+            navVocab: 'Vocabulary', navKpop: 'K-POP', navProfile: 'Profile',
+            navMore: 'More', navSearch: 'Search', navMenu: 'Menu',
+            login: 'Sign In', loginGoogle: 'Sign in with Google', logout: 'Sign Out',
+            myProfile: 'My Profile',
+            guestWarning: 'Progress is not saved',
+            guestMobileWarning: 'Progress is not saved. Sign in to save!',
+            statsDays: 'Day streak', statsTexts: 'Texts', statsLessons: 'Lessons',
+            statsTitle: 'Statistics', statsLink: 'Detailed statistics',
+            searchPlaceholder: 'Search lessons, words, topics...',
+            searchMobilePlaceholder: 'Search...',
+            searchEmpty: 'Nothing found',
+            searchMore: '{n} more results...',
+            footerDesc: 'Interactive platform for learning Korean through texts, grammar, and K-POP',
+            footerLearning: 'Learning', footerGrammar: 'Grammar Lessons',
+            footerReading: 'Reading Texts', footerVocab: 'Vocabulary',
+            footerProject: 'Project', footerAbout: 'About',
+            footerLevels: 'Levels',
+            footerRights: 'All rights reserved.',
+            langSwitch: 'RU', langSwitchTitle: 'Русская версия'
+        }
+    };
+
+    var S = STRINGS[LANG];
+
+    // =============================================
     // ACTIVE PAGE DETECTION
     // =============================================
     function getActivePage() {
@@ -61,7 +147,9 @@
             'challenge.html': 'index',
             'diary.html': 'profile',
             'dramas.html': 'index',
-            'listening.html': 'index'
+            'listening.html': 'index',
+            'about.html': 'index',
+            'faq.html': 'index'
         };
 
         if (pageMap[pageName]) return pageMap[pageName];
@@ -95,12 +183,12 @@
     // NAV LINKS DATA
     // =============================================
     var NAV_LINKS = [
-        { id: 'index', label: 'Главная', icon: ICONS.home, url: 'index.html' },
-        { id: 'lessons', label: 'Уроки', icon: ICONS.book, url: 'lessons.html' },
-        { id: 'texts', label: 'Тексты', icon: ICONS.texts, url: 'reading-texts.html' },
-        { id: 'vocab', label: 'Словарь', icon: ICONS.vocab, url: 'vocabulary-learning.html' },
-        { id: 'kpop', label: 'K-POP', icon: ICONS.music, url: 'kpop-learning.html' },
-        { id: 'profile', label: 'Профиль', icon: ICONS.user, url: 'profile.html' }
+        { id: 'index', label: S.navHome, icon: ICONS.home, url: 'index.html' },
+        { id: 'lessons', label: S.navLessons, icon: ICONS.book, url: 'lessons.html' },
+        { id: 'texts', label: S.navTexts, icon: ICONS.texts, url: 'reading-texts.html' },
+        { id: 'vocab', label: S.navVocab, icon: ICONS.vocab, url: 'vocabulary-learning.html' },
+        { id: 'kpop', label: S.navKpop, icon: ICONS.music, url: 'kpop-learning.html' },
+        { id: 'profile', label: S.navProfile, icon: ICONS.user, url: 'profile.html' }
     ];
 
     // Bottom bar: первые 4 + "Ещё"
@@ -277,6 +365,30 @@
         { t: 'Тексты 6급 - Путешествия', u: 'reading-texts.html?level=6&category=travel', k: 'тексты 6 путешествия' },
         { t: 'Тексты 6급 - Еда', u: 'reading-texts.html?level=6&category=food', k: 'тексты 6 еда' }
     ];
+
+    // =============================================
+    // SEARCH DATA EN
+    // =============================================
+    var SEARCH_DATA_EN = [
+        { t: 'Home', u: 'index.html', k: 'home main' },
+        { t: 'Grammar Lessons', u: 'lessons.html', k: 'lessons grammar' },
+        { t: 'My Profile', u: 'profile.html', k: 'profile progress statistics' },
+        { t: 'Vocabulary Practice', u: 'vocabulary-learning.html', k: 'vocabulary words' },
+        { t: 'Reading Texts', u: 'reading-texts.html', k: 'texts reading levels' },
+        { t: 'K-POP Learning', u: 'kpop-learning.html', k: 'kpop music blackpink bts' },
+        { t: 'About the Project', u: 'about.html', k: 'about project' },
+        { t: 'FAQ', u: 'faq.html', k: 'faq questions help' },
+        { t: 'BLACKPINK', u: 'group-blackpink.html', k: 'blackpink kpop' },
+        { t: 'BTS', u: 'group-bts.html', k: 'bts bangtan kpop' },
+        { t: 'Level 1 Texts', u: 'reading-texts.html?level=1', k: 'level 1 beginner A1' },
+        { t: 'Level 2 Texts', u: 'reading-texts.html?level=2', k: 'level 2 basic A2' },
+        { t: 'Level 3 Texts', u: 'reading-texts.html?level=3', k: 'level 3 intermediate B1' },
+        { t: 'Level 4 Texts', u: 'reading-texts.html?level=4', k: 'level 4 upper B2' },
+        { t: 'Level 5 Texts', u: 'reading-texts.html?level=5', k: 'level 5 advanced C1' },
+        { t: 'Level 6 Texts', u: 'reading-texts.html?level=6', k: 'level 6 mastery C2' }
+    ];
+
+    var ACTIVE_SEARCH_DATA = (LANG === 'en') ? SEARCH_DATA_EN : SEARCH_DATA;
 
     // =============================================
     // CSS STYLES
@@ -835,6 +947,16 @@
             .jk-nav-link .jk-nav-icon { display: flex; }\
         }\
 \
+        /* ======== LANG TOGGLE ======== */\
+        .jk-lang-toggle {\
+            display: inline-flex; align-items: center; justify-content: center;\
+            width: 32px; height: 32px; border-radius: 8px;\
+            background: rgba(102, 126, 234, 0.1); color: #667eea;\
+            font-weight: 700; font-size: 12px; letter-spacing: 0.5px;\
+            text-decoration: none; transition: all 0.2s ease;\
+        }\
+        .jk-lang-toggle:hover { background: #667eea; color: #fff; }\
+\
         /* ======== HIDE LEGACY NAV ======== */\
         .auth-header-bar .main-nav { display: none !important; }\
         .auth-header-bar .search-container { display: none !important; }\
@@ -847,7 +969,7 @@
     function buildNavHTML() {
         var linksHTML = '';
         NAV_LINKS.forEach(function(link) {
-            linksHTML += '<a href="' + PREFIX + link.url + '" class="jk-nav-link' +
+            linksHTML += '<a href="' + getPageUrl(link.url) + '" class="jk-nav-link' +
                 (activePage === link.id ? ' jk-active' : '') + '" data-page="' + link.id + '">' +
                 '<span class="jk-nav-icon">' + link.icon + '</span>' +
                 '<span>' + link.label + '</span></a>';
@@ -856,7 +978,7 @@
         return '<header class="jk-nav" id="jk-nav">' +
             '<div class="jk-nav-inner">' +
                 // Brand
-                '<a href="' + PREFIX + 'index.html" class="jk-nav-brand">' +
+                '<a href="' + getPageUrl('index.html') + '" class="jk-nav-brand">' +
                     '<span class="jk-nav-logo">JK</span>' +
                     '<span class="jk-nav-wordmark">Jane Korea</span>' +
                 '</a>' +
@@ -864,20 +986,22 @@
                 '<nav class="jk-nav-links" id="jk-nav-links">' + linksHTML + '</nav>' +
                 // Right actions
                 '<div class="jk-nav-actions">' +
+                    // Lang toggle
+                    '<a href="' + getLangSwitchUrl() + '" class="jk-lang-toggle" title="' + S.langSwitchTitle + '">' + S.langSwitch + '</a>' +
                     // Search toggle
-                    '<button class="jk-nav-action-btn" id="jk-search-toggle" aria-label="Поиск">' + ICONS.search + '</button>' +
+                    '<button class="jk-nav-action-btn" id="jk-search-toggle" aria-label="' + S.navSearch + '">' + ICONS.search + '</button>' +
                     // Stats toggle (desktop, shown when logged in)
                     '<button class="jk-nav-stats-toggle" id="jk-stats-toggle" style="display:none">' +
                         '<span>&#128293;</span><span id="jk-nav-streak">0</span>' +
                     '</button>' +
                     // Guest warning (desktop)
                     '<div class="jk-nav-guest-warning" id="jk-nav-guest-warning">' +
-                        '<span>Прогресс не сохраняется</span>' +
+                        '<span>' + S.guestWarning + '</span>' +
                     '</div>' +
                     // Auth
                     '<div class="jk-nav-auth" id="jk-nav-auth">' +
                         '<div class="jk-nav-guest" id="jk-nav-guest">' +
-                            '<button class="jk-nav-login-btn" id="jk-nav-login">Войти</button>' +
+                            '<button class="jk-nav-login-btn" id="jk-nav-login">' + S.login + '</button>' +
                         '</div>' +
                         '<div class="jk-nav-user" id="jk-nav-user" style="display:none">' +
                             '<button class="jk-nav-avatar-btn" id="jk-nav-avatar-btn">' +
@@ -886,24 +1010,24 @@
                         '</div>' +
                     '</div>' +
                     // Mobile hamburger
-                    '<button class="jk-nav-burger" id="jk-nav-burger" aria-label="Меню">' +
+                    '<button class="jk-nav-burger" id="jk-nav-burger" aria-label="' + S.navMenu + '">' +
                         '<span></span><span></span><span></span>' +
                     '</button>' +
                 '</div>' +
             '</div>' +
             // Search panel
             '<div class="jk-search-panel" id="jk-search-panel">' +
-                '<input type="text" class="jk-search-input" id="jk-search-input" placeholder="Поиск уроков, слов, тем..." autocomplete="off">' +
+                '<input type="text" class="jk-search-input" id="jk-search-input" placeholder="' + S.searchPlaceholder + '" autocomplete="off">' +
                 '<div class="jk-search-results" id="jk-search-results"></div>' +
             '</div>' +
             // Stats dropdown
             '<div class="jk-stats-dropdown" id="jk-stats-dropdown">' +
                 '<div class="jk-stats-grid">' +
-                    '<div class="jk-stats-item"><span class="jk-stats-icon">&#128293;</span><span class="jk-stats-value" id="jk-stats-streak">0</span><span class="jk-stats-label">Дней подряд</span></div>' +
-                    '<div class="jk-stats-item"><span class="jk-stats-icon">&#128218;</span><span class="jk-stats-value" id="jk-stats-texts">0</span><span class="jk-stats-label">Текстов</span></div>' +
-                    '<div class="jk-stats-item"><span class="jk-stats-icon">&#128214;</span><span class="jk-stats-value" id="jk-stats-lessons">0</span><span class="jk-stats-label">Уроков</span></div>' +
+                    '<div class="jk-stats-item"><span class="jk-stats-icon">&#128293;</span><span class="jk-stats-value" id="jk-stats-streak">0</span><span class="jk-stats-label">' + S.statsDays + '</span></div>' +
+                    '<div class="jk-stats-item"><span class="jk-stats-icon">&#128218;</span><span class="jk-stats-value" id="jk-stats-texts">0</span><span class="jk-stats-label">' + S.statsTexts + '</span></div>' +
+                    '<div class="jk-stats-item"><span class="jk-stats-icon">&#128214;</span><span class="jk-stats-value" id="jk-stats-lessons">0</span><span class="jk-stats-label">' + S.statsLessons + '</span></div>' +
                 '</div>' +
-                '<a href="' + PREFIX + 'profile.html" class="jk-stats-link">Подробная статистика &rarr;</a>' +
+                '<a href="' + getPageUrl('profile.html') + '" class="jk-stats-link">' + S.statsLink + ' &rarr;</a>' +
             '</div>' +
             // User dropdown
             '<div class="jk-user-dropdown" id="jk-user-dropdown">' +
@@ -912,8 +1036,8 @@
                     '<div><div class="jk-user-dd-name" id="jk-user-dd-name"></div></div>' +
                 '</div>' +
                 '<div class="jk-user-dd-divider"></div>' +
-                '<a href="' + PREFIX + 'profile.html" class="jk-user-dd-item">Мой профиль</a>' +
-                '<button class="jk-user-dd-item jk-user-dd-logout" id="jk-nav-logout">Выйти</button>' +
+                '<a href="' + getPageUrl('profile.html') + '" class="jk-user-dd-item">' + S.myProfile + '</a>' +
+                '<button class="jk-user-dd-item jk-user-dd-logout" id="jk-nav-logout">' + S.logout + '</button>' +
             '</div>' +
         '</header>';
     }
@@ -921,7 +1045,7 @@
     function buildMobileMenuHTML() {
         var linksHTML = '';
         NAV_LINKS.forEach(function(link) {
-            linksHTML += '<a href="' + PREFIX + link.url + '" class="jk-mobile-link' +
+            linksHTML += '<a href="' + getPageUrl(link.url) + '" class="jk-mobile-link' +
                 (activePage === link.id ? ' jk-active' : '') + '">' +
                 '<span class="jk-mobile-icon">' + link.icon + '</span>' +
                 '<span>' + link.label + '</span></a>';
@@ -929,29 +1053,29 @@
 
         return '<div class="jk-mobile-menu" id="jk-mobile-menu">' +
             '<div class="jk-mobile-search">' +
-                '<input type="text" class="jk-search-input" id="jk-mobile-search-input" placeholder="Поиск..." autocomplete="off">' +
+                '<input type="text" class="jk-search-input" id="jk-mobile-search-input" placeholder="' + S.searchMobilePlaceholder + '" autocomplete="off">' +
                 '<div class="jk-search-results" id="jk-mobile-search-results"></div>' +
             '</div>' +
             '<nav class="jk-mobile-nav-links">' + linksHTML + '</nav>' +
             '<div class="jk-mobile-stats">' +
-                '<div class="jk-mobile-stats-title">Статистика</div>' +
+                '<div class="jk-mobile-stats-title">' + S.statsTitle + '</div>' +
                 '<div class="jk-stats-grid">' +
-                    '<div class="jk-stats-item"><span class="jk-stats-icon">&#128293;</span><span class="jk-stats-value" id="jk-mobile-stats-streak">0</span><span class="jk-stats-label">Дней подряд</span></div>' +
-                    '<div class="jk-stats-item"><span class="jk-stats-icon">&#128218;</span><span class="jk-stats-value" id="jk-mobile-stats-texts">0</span><span class="jk-stats-label">Текстов</span></div>' +
-                    '<div class="jk-stats-item"><span class="jk-stats-icon">&#128214;</span><span class="jk-stats-value" id="jk-mobile-stats-lessons">0</span><span class="jk-stats-label">Уроков</span></div>' +
+                    '<div class="jk-stats-item"><span class="jk-stats-icon">&#128293;</span><span class="jk-stats-value" id="jk-mobile-stats-streak">0</span><span class="jk-stats-label">' + S.statsDays + '</span></div>' +
+                    '<div class="jk-stats-item"><span class="jk-stats-icon">&#128218;</span><span class="jk-stats-value" id="jk-mobile-stats-texts">0</span><span class="jk-stats-label">' + S.statsTexts + '</span></div>' +
+                    '<div class="jk-stats-item"><span class="jk-stats-icon">&#128214;</span><span class="jk-stats-value" id="jk-mobile-stats-lessons">0</span><span class="jk-stats-label">' + S.statsLessons + '</span></div>' +
                 '</div>' +
             '</div>' +
             '<div class="jk-mobile-auth" id="jk-mobile-auth">' +
                 '<div class="jk-mobile-auth-guest" id="jk-mobile-guest">' +
-                    '<p style="color:#856404;font-size:13px;margin-bottom:10px;">Прогресс не сохраняется. Войдите, чтобы сохранить!</p>' +
-                    '<button class="jk-mobile-login-btn" id="jk-mobile-login">Войти через Google</button>' +
+                    '<p style="color:#856404;font-size:13px;margin-bottom:10px;">' + S.guestMobileWarning + '</p>' +
+                    '<button class="jk-mobile-login-btn" id="jk-mobile-login">' + S.loginGoogle + '</button>' +
                 '</div>' +
                 '<div class="jk-mobile-auth-logged" id="jk-mobile-logged" style="display:none">' +
                     '<div class="jk-mobile-auth-user">' +
                         '<img id="jk-mobile-avatar" class="jk-mobile-auth-avatar" src="" alt="">' +
                         '<span class="jk-mobile-auth-name" id="jk-mobile-name"></span>' +
                     '</div>' +
-                    '<button class="jk-mobile-logout-btn" id="jk-mobile-logout">Выйти</button>' +
+                    '<button class="jk-mobile-logout-btn" id="jk-mobile-logout">' + S.logout + '</button>' +
                 '</div>' +
             '</div>' +
         '</div>';
@@ -960,7 +1084,7 @@
     function buildBottomBarHTML() {
         var tabsHTML = '';
         BOTTOM_LINKS.forEach(function(link) {
-            tabsHTML += '<a href="' + PREFIX + link.url + '" class="jk-bottom-tab' +
+            tabsHTML += '<a href="' + getPageUrl(link.url) + '" class="jk-bottom-tab' +
                 (activePage === link.id ? ' jk-active' : '') + '" data-page="' + link.id + '">' +
                 '<span class="jk-bottom-icon">' + link.icon + '</span>' +
                 '<span class="jk-bottom-label">' + link.label + '</span></a>';
@@ -971,12 +1095,12 @@
             (['kpop', 'profile'].indexOf(activePage) >= 0 ? ' jk-active' : '') +
             '" id="jk-bottom-more">' +
             '<span class="jk-bottom-icon">' + ICONS.more + '</span>' +
-            '<span class="jk-bottom-label">Ещё</span></button>';
+            '<span class="jk-bottom-label">' + S.navMore + '</span></button>';
 
         // More panel
         var moreItems = [
-            { id: 'kpop', label: 'K-POP', icon: ICONS.music, url: PREFIX + 'kpop-learning.html' },
-            { id: 'profile', label: 'Профиль', icon: ICONS.user, url: PREFIX + 'profile.html' }
+            { id: 'kpop', label: S.navKpop, icon: ICONS.music, url: getPageUrl('kpop-learning.html') },
+            { id: 'profile', label: S.navProfile, icon: ICONS.user, url: getPageUrl('profile.html') }
         ];
         var morePanelHTML = '<div class="jk-more-panel" id="jk-more-panel">';
         moreItems.forEach(function(item) {
@@ -1003,7 +1127,7 @@
         var q = query.toLowerCase();
         var matches = [];
 
-        SEARCH_DATA.forEach(function(item) {
+        ACTIVE_SEARCH_DATA.forEach(function(item) {
             var searchable = (item.t + ' ' + item.k).toLowerCase();
             if (searchable.indexOf(q) >= 0) {
                 matches.push(item);
@@ -1011,7 +1135,7 @@
         });
 
         if (matches.length === 0) {
-            resultsEl.innerHTML = '<div class="jk-search-empty">Ничего не найдено</div>';
+            resultsEl.innerHTML = '<div class="jk-search-empty">' + S.searchEmpty + '</div>';
             resultsEl.classList.add('jk-show');
             return;
         }
@@ -1021,10 +1145,10 @@
         for (var i = 0; i < max; i++) {
             var m = matches[i];
             var title = highlightMatch(m.t, q);
-            html += '<a class="jk-search-item" href="' + PREFIX + m.u + '">' + title + '</a>';
+            html += '<a class="jk-search-item" href="' + getPageUrl(m.u) + '">' + title + '</a>';
         }
         if (matches.length > 10) {
-            html += '<div class="jk-search-empty">Ещё ' + (matches.length - 10) + ' результатов...</div>';
+            html += '<div class="jk-search-empty">' + S.searchMore.replace('{n}', matches.length - 10) + '</div>';
         }
 
         resultsEl.innerHTML = html;
@@ -1287,6 +1411,68 @@
     }
 
     // =============================================
+    // FOOTER
+    // =============================================
+    function buildFooterHTML() {
+        return '<footer class="jk-footer">' +
+            '<div class="jk-footer-inner">' +
+                '<div class="jk-footer-brand">' +
+                    '<h3>Jane Korea</h3>' +
+                    '<p>' + S.footerDesc + '</p>' +
+                '</div>' +
+                '<div class="jk-footer-col">' +
+                    '<h4>' + S.footerLearning + '</h4>' +
+                    '<a href="' + getPageUrl('lessons.html') + '">' + S.footerGrammar + '</a>' +
+                    '<a href="' + getPageUrl('reading-texts.html') + '">' + S.footerReading + '</a>' +
+                    '<a href="' + getPageUrl('vocabulary-learning.html') + '">' + S.footerVocab + '</a>' +
+                    '<a href="' + getPageUrl('kpop-learning.html') + '">K-POP</a>' +
+                '</div>' +
+                '<div class="jk-footer-col">' +
+                    '<h4>' + S.footerProject + '</h4>' +
+                    '<a href="' + getPageUrl('about.html') + '">' + S.footerAbout + '</a>' +
+                    '<a href="' + getPageUrl('faq.html') + '">FAQ</a>' +
+                    '<a href="' + getPageUrl('profile.html') + '">' + S.navProfile + '</a>' +
+                '</div>' +
+                '<div class="jk-footer-col">' +
+                    '<h4>' + S.footerLevels + '</h4>' +
+                    '<a href="' + getPageUrl('reading-texts.html') + '?level=1">1급 (A1)</a>' +
+                    '<a href="' + getPageUrl('reading-texts.html') + '?level=2">2급 (A2)</a>' +
+                    '<a href="' + getPageUrl('reading-texts.html') + '?level=3">3급 (B1)</a>' +
+                    '<a href="' + getPageUrl('reading-texts.html') + '?level=4">4급 (B2)</a>' +
+                '</div>' +
+            '</div>' +
+            '<div class="jk-footer-bottom">' +
+                '<span>&copy; ' + new Date().getFullYear() + ' Jane Korea. ' + S.footerRights + '</span>' +
+            '</div>' +
+        '</footer>';
+    }
+
+    // =============================================
+    // FADE-IN OBSERVER
+    // =============================================
+    function initFadeInObserver() {
+        if (!('IntersectionObserver' in window)) return;
+
+        var targets = document.querySelectorAll('.level-card, .special-section, .jk-footer-col, .jk-footer-brand');
+        targets.forEach(function(el) {
+            el.classList.add('jk-fade-in');
+        });
+
+        var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('jk-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.jk-fade-in').forEach(function(el) {
+            observer.observe(el);
+        });
+    }
+
+    // =============================================
     // INIT
     // =============================================
     function initGlobalNav() {
@@ -1301,7 +1487,8 @@
         // Inject nav HTML
         document.body.insertAdjacentHTML('afterbegin', buildNavHTML());
 
-        // Inject mobile menu + bottom bar
+        // Inject footer + mobile menu + bottom bar
+        document.body.insertAdjacentHTML('beforeend', buildFooterHTML());
         document.body.insertAdjacentHTML('beforeend', buildMobileMenuHTML());
         document.body.insertAdjacentHTML('beforeend', buildBottomBarHTML());
 
@@ -1316,6 +1503,9 @@
 
         // Init stats
         updateNavStats();
+
+        // Init fade-in animations
+        setTimeout(initFadeInObserver, 100);
 
         console.log('[OK] Global nav v2 initialized');
     }

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Практика корейского словаря с карточками, тестами и интервальным повторением."/>
-    <meta property="og:title" content="Изучение слов — Jane Korea"/>
-    <meta property="og:description" content="Учите корейские слова с помощью интерактивных карточек и тестов."/>
+    <meta name="description" content="Practice Korean vocabulary with flashcards, quizzes, and spaced repetition."/>
+    <meta property="og:title" content="Vocabulary Practice — Jane Korea"/>
+    <meta property="og:description" content="Learn Korean words with interactive flashcards and quizzes."/>
     <meta name="theme-color" content="#ff6b9d"/>
-    <title>Изучение слов — Jane Korea</title>
+    <title>Vocabulary Practice — Jane Korea</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
-        
+
         * {
             margin: 0;
             padding: 0;
@@ -104,7 +104,7 @@
             display: block;
         }
 
-        /* КАРТКИ СЛІВ */
+        /* WORD CARDS */
         .words-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -182,7 +182,7 @@
         }
 
         .word-card.selected .select-checkbox::after {
-            content: '✓';
+            content: '\2713';
             color: white;
             font-weight: bold;
             position: absolute;
@@ -191,7 +191,7 @@
             transform: translate(-50%, -50%);
         }
 
-        /* ФЛЕШКАРТКИ */
+        /* FLASHCARDS */
         .flashcard-container {
             max-width: 600px;
             margin: 0 auto;
@@ -424,7 +424,7 @@
             color: white;
         }
 
-        /* СОЕДИНЕНИЕ */
+        /* MATCHING */
         .matching-game {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -481,7 +481,7 @@
             75% { transform: translateX(10px); }
         }
 
-        /* НАПИСАНИЕ */
+        /* WRITING */
         .writing-practice {
             max-width: 700px;
             margin: 0 auto;
@@ -551,7 +551,7 @@
             color: #f44336;
         }
 
-        /* СТАТИСТИКА */
+        /* STATISTICS */
         .stats {
             background: white;
             padding: 30px;
@@ -626,7 +626,7 @@
             font-size: 1.1em;
         }
 
-        /* МОЙ СЛОВАРЬ */
+        /* MY DICTIONARY */
         .dict-toolbar {
             background: rgba(255,255,255,0.95);
             padding: 20px;
@@ -793,7 +793,7 @@
             line-height: 1.6;
         }
 
-        /* SRS - ПОВТОРЕНИЕ */
+        /* SRS - REVIEW */
         .srs-summary {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -991,7 +991,7 @@
             }
         }
 
-        /* ВКЛАДКА ПРЕДЛОЖЕНИЯ */
+        /* SENTENCES TAB */
         .sentences-list {
             display: flex;
             flex-direction: column;
@@ -1101,7 +1101,7 @@
             color: #888;
         }
 
-        /* SRS БЕЙДЖ */
+        /* SRS BADGE */
         .srs-badge {
             display: inline-flex;
             align-items: center;
@@ -1120,7 +1120,7 @@
             display: none;
         }
 
-        /* КНОПКА ПРОИЗНОШЕНИЯ */
+        /* PRONUNCIATION BUTTON */
         .speech-btn {
             background: linear-gradient(135deg, #2196F3, #1976D2);
             color: white;
@@ -1169,122 +1169,121 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>📚 Изучение слов</h1>
-            <p>Выберите слова из текста и изучайте их с помощью карточек и упражнений</p>
+            <h1>Vocabulary Practice</h1>
+            <p>Select words from a text and learn them with flashcards and exercises</p>
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="showTab('select', this)">Выбрать слова</button>
-            <button class="tab" onclick="showTab('flashcards', this)">Флешкартки</button>
-            <button class="tab" onclick="showTab('matching', this)">Соединить</button>
-            <button class="tab" onclick="showTab('writing', this)">Написать</button>
-            <button class="tab" onclick="showTab('sentences', this)">Предложения</button>
-            <button class="tab" onclick="showTab('dictionary', this)">Мой словарь</button>
-            <button class="tab" onclick="showTab('srs', this)">Повторение <span class="srs-badge" id="srsBadge"></span></button>
+            <button class="tab active" onclick="showTab('select', this)">Select Words</button>
+            <button class="tab" onclick="showTab('flashcards', this)">Flashcards</button>
+            <button class="tab" onclick="showTab('matching', this)">Match</button>
+            <button class="tab" onclick="showTab('writing', this)">Write</button>
+            <button class="tab" onclick="showTab('sentences', this)">Sentences</button>
+            <button class="tab" onclick="showTab('dictionary', this)">My Dictionary</button>
+            <button class="tab" onclick="showTab('srs', this)">Review <span class="srs-badge" id="srsBadge"></span></button>
         </div>
 
-        <!-- ВЫБОР СЛОВ -->
+        <!-- SELECT WORDS -->
         <div class="tab-content active" id="select-tab">
             <div class="words-grid" id="wordsGrid"></div>
             <div class="stats" style="display: none;" id="selectedStats">
                 <div class="stat-item">
                     <div class="stat-value" id="selectedCount">0</div>
-                    <div class="stat-label">Выбрано слов</div>
+                    <div class="stat-label">Words selected</div>
                 </div>
             </div>
         </div>
 
-        <!-- ФЛЕШКАРТКИ -->
+        <!-- FLASHCARDS -->
         <div class="tab-content" id="flashcards-tab">
             <div class="flashcard-container" id="flashcardContainer">
                 <div class="empty-state">
-                    <h2>Сначала выберите слова</h2>
-                    <p>Перейдите на вкладку "Выбрать слова" и выберите слова, которые хотите изучать</p>
+                    <h2>Select words first</h2>
+                    <p>Go to the "Select Words" tab and choose words you want to study</p>
                 </div>
             </div>
         </div>
 
-        <!-- СОЕДИНЕНИЕ -->
+        <!-- MATCHING -->
         <div class="tab-content" id="matching-tab">
             <div class="matching-game" id="matchingGame">
                 <div class="empty-state">
-                    <h2>Сначала выберите слова</h2>
-                    <p>Перейдите на вкладку "Выбрать слова" и выберите минимум 5 слов</p>
+                    <h2>Select words first</h2>
+                    <p>Go to the "Select Words" tab and choose at least 5 words</p>
                 </div>
             </div>
         </div>
 
-        <!-- НАПИСАНИЕ -->
+        <!-- WRITING -->
         <div class="tab-content" id="writing-tab">
             <div class="writing-practice" id="writingPractice">
                 <div class="empty-state">
-                    <h2>Сначала выберите слова</h2>
-                    <p>Перейдите на вкладку "Выбрать слова" и выберите слова для практики</p>
+                    <h2>Select words first</h2>
+                    <p>Go to the "Select Words" tab and choose words to practice</p>
                 </div>
             </div>
         </div>
 
-        <!-- ПРЕДЛОЖЕНИЯ -->
+        <!-- SENTENCES -->
         <div class="tab-content" id="sentences-tab">
             <div id="sentencesContent"></div>
         </div>
 
-        <!-- МОЙ СЛОВАРЬ -->
+        <!-- MY DICTIONARY -->
         <div class="tab-content" id="dictionary-tab">
             <div id="dictionaryContent"></div>
         </div>
 
-        <!-- ПОВТОРЕНИЕ (SRS) -->
+        <!-- REVIEW (SRS) -->
         <div class="tab-content" id="srs-tab">
             <div id="srsContent"></div>
         </div>
     </div>
 
-    <!-- Подключаем модули ДО основного скрипта -->
-    <script src="js/srs.js"></script>
-    <script src="js/dictionary.js"></script>
-    <script src="js/word-examples.js"></script>
-    <script src="js/speech-recognition.js"></script>
+    <!-- Load modules BEFORE main script -->
+    <script src="../js/srs.js"></script>
+    <script src="../js/dictionary.js"></script>
+    <script src="../js/word-examples.js"></script>
+    <script src="../js/speech-recognition.js"></script>
 
     <script>
-        // Получаем параметры из URL
+        // Get URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const level = urlParams.get('level');
         const category = urlParams.get('category');
         const textId = urlParams.get('textId');
 
-        // Обновляем кнопку "Назад" (если есть)
+        // Update "Back" button (if present)
         const backBtn = document.getElementById('backToReading');
         if (backBtn) {
-            backBtn.href = `reading-content.html?level=${level}&category=${category}&textId=${textId}`;
+            backBtn.href = `../reading-content.html?level=${level}&category=${category}&textId=${textId}`;
         }
 
-        // Загружаем изученные слова из localStorage
+        // Load learned words from localStorage
         let learnedWords = JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
         let selectedWords = JSON.parse(localStorage.getItem('selectedWordsForStudy') || '[]');
 
         /**
-         * Получить пример предложения для слова из базы WORD_EXAMPLES
-         * Возвращает null если примера нет
+         * Get example sentence for a word from WORD_EXAMPLES database
+         * Returns null if no example found
          */
         function getWordExample(korean, translation) {
             return findWordExample(korean);
         }
 
-        // Умный поиск примера: точное → частицы → основа → контракции → нерегулярные → составные → частичное
+        // Smart example search: exact -> particles -> stem -> contractions -> irregular -> compound -> partial
         function findWordExample(word) {
             if (!window.WORD_EXAMPLES) return null;
             var EX = window.WORD_EXAMPLES;
 
-            // 1. Точное совпадение
+            // 1. Exact match
             if (EX[word]) return EX[word];
 
-            // 2. Снять частицы (은/는/이/가/을/를/도/에/에서/으로/의/와/과 и т.д.)
+            // 2. Strip particles
             var particles = ['이야말로', '에서의', '에서는', '에서도', '으로는', '으로의', '에게는', '에게서', '부터는', '까지는', '에서', '으로', '이나', '에는', '에도', '과는', '와는', '에게', '한테', '들은', '들이', '들의', '들을', '들과', '들도', '부터', '까지', '마다', '은', '는', '이', '가', '을', '를', '도', '에', '의', '와', '과', '로'];
             for (var p = 0; p < particles.length; p++) {
                 if (word.length > particles[p].length && word.endsWith(particles[p])) {
                     var base = word.slice(0, -particles[p].length);
-                    // Допускаем любую основу (даже 1 символ), если она есть в словаре
                     if (base.length >= 1) {
                         if (EX[base]) return EX[base];
                         if (EX[base + '다']) return EX[base + '다'];
@@ -1293,34 +1292,34 @@
                 }
             }
 
-            // 3. Попробовать добавить 다 (словарная форма)
+            // 3. Try adding 다 (dictionary form)
             if (EX[word + '다']) return EX[word + '다'];
 
-            // 4. Снять окончания и искать основу + 다/하다
+            // 4. Strip endings and search for stem + 다/하다
             var suffixes = [
                 '을 거예요', '을 수 있어요', '어야 해요', '아야 해요',
-                // Формальные формы (합쇼체)
+                // Formal forms
                 '했습니다', '았습니다', '었습니다', '겠습니다',
                 '하셨어요', '으셨어요', '셨어요',
                 '하십니다', '으십니다', '십니다',
                 '되었습니다', '되었어요',
                 '됐습니다', '됐어요',
-                // Неформальные прошедшие/настоящие
+                // Informal past/present
                 '었어요', '았어요', '했어요', '겠어요', '워요',
                 '여요', '해요', '돼요', '래요',
                 '어요', '아요',
                 '습니다', '입니다', '됩니다', '합니다', '입니다',
                 '는다', '은다',
-                // Причины/связки
+                // Causal/connective
                 '해서', '어서', '아서',
                 '하고', '해도', '하면', '하지', '하는', '하게', '하니',
                 '했다', '었다', '았다',
-                // Предположение/вопрос
+                // Conjecture/question
                 '을까요', '을래요', '나요',
-                // Условие
+                // Conditional
                 '으면', '면',
                 '지만', '더라도', '더니',
-                // Соединительные/причастия
+                // Connective/participles
                 '는', '은', '을',
                 '고', '며', '지',
                 '한', '해',
@@ -1331,7 +1330,6 @@
                 var s = suffixes[i];
                 if (word.length > s.length && word.endsWith(s)) {
                     var stem = word.slice(0, -s.length);
-                    // Для длинных суффиксов (2+) допускаем основу в 1 символ, для коротких — минимум 2
                     var minStem = s.length >= 2 ? 1 : 2;
                     if (stem.length < minStem) continue;
                     if (EX[stem + '다']) return EX[stem + '다'];
@@ -1341,7 +1339,7 @@
                 }
             }
 
-            // 5. Контракции + нерегулярные спряжения
+            // 5. Contractions + irregular conjugations
             var contractions = {
                 '해요': '하다', '했어요': '하다', '해서': '하다', '했다': '하다',
                 '봐요': '보다', '봤어요': '보다',
@@ -1356,13 +1354,10 @@
                 return EX[contractions[word]];
             }
 
-            // 6. Нерегулярные спряжения: ㅂ→워, ㄷ→ㄹ어, 이→여
-            // 뜨거워요→뜨겁다, 끓여요→끓이다, 걸어요→걷다
+            // 6. Irregular conjugations
             var irregulars = [
-                // ㅂ-нерегулярные: 워요/웠어요 → 원래 ㅂ다
                 { suffix: '워요', replace: '다', stems: {'뜨거': '뜨겁', '무거': '무겁', '가벼': '가볍', '아름다': '아름답', '차가': '차갑', '부드러': '부드럽', '어려': '어렵', '쉬': '쉽', '고마': '고맙', '즐거': '즐겁', '무서': '무섭', '반가': '반갑'} },
                 { suffix: '웠어요', replace: '다', stems: {'뜨거': '뜨겁', '무거': '무겁', '가벼': '가볍', '아름다': '아름답', '차가': '차갑', '부드러': '부드럽', '어려': '어렵', '고마': '고맙'} },
-                // 이→여: 끓이다→끓여요
                 { suffix: '여요', replace: '이다', stems: {} },
                 { suffix: '여서', replace: '이다', stems: {} },
                 { suffix: '였어요', replace: '이다', stems: {} }
@@ -1372,17 +1367,15 @@
                 if (word.endsWith(irr.suffix)) {
                     var irStem = word.slice(0, -irr.suffix.length);
                     if (irStem.length < 1) continue;
-                    // Проверяем известные основы
                     if (irr.stems[irStem] && EX[irr.stems[irStem] + irr.replace]) {
                         return EX[irr.stems[irStem] + irr.replace];
                     }
-                    // Общий случай
                     if (EX[irStem + irr.replace]) return EX[irStem + irr.replace];
                     if (EX[irStem + '다']) return EX[irStem + '다'];
                 }
             }
 
-            // 7. Для 하다-глаголов: 공부해요 → 공부 + 하다
+            // 7. For 하다-verbs
             var hadaSuffixes = ['했습니다', '하셨어요', '하십니다', '하겠어요', '해야 해요', '하셨다', '했어요', '합니다', '해요', '해서', '하고', '하면', '하지', '하는', '하게', '하며', '하니', '했다', '해도', '해'];
             for (var j = 0; j < hadaSuffixes.length; j++) {
                 var hs = hadaSuffixes[j];
@@ -1395,7 +1388,7 @@
                 }
             }
 
-            // 8. Составные конструкции: разбить по пробелам и искать КАЖДОЕ слово
+            // 8. Compound constructions: split by spaces and search each word
             if (word.includes(' ')) {
                 var parts = word.split(' ');
                 for (var pw = 0; pw < parts.length; pw++) {
@@ -1406,12 +1399,11 @@
                 }
             }
 
-            // 9. Двойное снятие: сначала частицы, потом суффиксы (걸렸어요→걸리다, 만났어요→만나다)
+            // 9. Double stripping: first particles, then suffixes
             for (var pp = 0; pp < particles.length; pp++) {
                 if (word.length > particles[pp].length && word.endsWith(particles[pp])) {
                     var base2 = word.slice(0, -particles[pp].length);
                     if (base2.length >= 2) {
-                        // Попробуем снять суффикс с оставшейся основы
                         for (var ss = 0; ss < suffixes.length; ss++) {
                             var sf = suffixes[ss];
                             if (base2.length > sf.length && base2.endsWith(sf)) {
@@ -1427,8 +1419,7 @@
                 }
             }
 
-            // 10. Частичное совпадение по началу слова (СТРОГО: 4+ общих символов, разница длины <= 1)
-            // Только для длинных слов, чтобы не путать разные короткие слова
+            // 10. Partial match by word beginning (strict: 4+ common chars, length diff <= 1)
             if (word.length >= 4) {
                 var keys = Object.keys(EX);
                 for (var k = 0; k < keys.length; k++) {
@@ -1448,14 +1439,14 @@
             return null;
         }
 
-        // Отображаем все изученные слова
+        // Display all learned words
         function displayWords() {
             const grid = document.getElementById('wordsGrid');
             if (learnedWords.length === 0) {
                 grid.innerHTML = `
                     <div class="empty-state" style="grid-column: 1/-1;">
-                        <h2>Пока нет изученных слов</h2>
-                        <p>Перейдите к чтению текста и нажмите на слова, чтобы добавить их сюда</p>
+                        <h2>No learned words yet</h2>
+                        <p>Go to a reading text and click on words to add them here</p>
                     </div>
                 `;
                 return;
@@ -1481,13 +1472,13 @@
         function toggleWord(index) {
             const word = learnedWords[index];
             const existingIndex = selectedWords.findIndex(w => w.korean === word.korean);
-            
+
             if (existingIndex >= 0) {
                 selectedWords.splice(existingIndex, 1);
             } else {
                 selectedWords.push(word);
             }
-            
+
             localStorage.setItem('selectedWordsForStudy', JSON.stringify(selectedWords));
             displayWords();
         }
@@ -1499,7 +1490,7 @@
             statsDiv.style.display = selectedWords.length > 0 ? 'block' : 'none';
         }
 
-        // Перемикання вкладок
+        // Tab switching
         function showTab(tabName, btn) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -1507,7 +1498,7 @@
             if (btn) btn.classList.add('active');
             document.getElementById(`${tabName}-tab`).classList.add('active');
 
-            // Инициализируем контент вкладки
+            // Initialize tab content
             if (tabName === 'flashcards') initFlashcards();
             if (tabName === 'matching') initMatching();
             if (tabName === 'writing') initWriting();
@@ -1516,13 +1507,13 @@
             if (tabName === 'srs') initSRS();
         }
 
-        // ФЛЕШКАРТКИ
-        // ФЛЕШКАРТКИ с SRS
+        // FLASHCARDS
+        // FLASHCARDS with SRS
         var flashcardQueue = [];
         var flashcardIndex = 0;
         var flashcardResults = { know: [], hard: [], again: [] };
         var flashcardFlipped = false;
-        var flashcardSource = 'selected'; // 'selected' или 'srs'
+        var flashcardSource = 'selected'; // 'selected' or 'srs'
 
         function initFlashcards(words, source) {
             var container = document.getElementById('flashcardContainer');
@@ -1530,7 +1521,7 @@
             flashcardSource = source || 'selected';
 
             if (wordsToUse.length === 0) {
-                container.innerHTML = '<div class="empty-state"><h2>Сначала выберите слова</h2><p>Перейдите на вкладку "Выбрать слова"</p></div>';
+                container.innerHTML = '<div class="empty-state"><h2>Select words first</h2><p>Go to the "Select Words" tab</p></div>';
                 return;
             }
 
@@ -1564,7 +1555,7 @@
                 '<div class="flashcard" id="flashcard" onclick="flipCard()">' +
                     '<div class="flashcard-front">' +
                         '<div class="korean">' + word.korean + '</div>' +
-                        '<p style="color: #999; margin-top: 20px;">Нажмите, чтобы перевернуть</p>' +
+                        '<p style="color: #999; margin-top: 20px;">Click to flip</p>' +
                     '</div>' +
                     '<div class="flashcard-back">' +
                         '<div class="translation">' + word.translation + '</div>' +
@@ -1574,12 +1565,12 @@
                 '</div>' +
                 '<div id="ratingArea"></div>' +
                 '<div id="speechSection" style="display:none;">' +
-                    '<button class="speech-btn" id="speechBtn" onclick="startSpeechPractice()">Произнеси</button>' +
+                    '<button class="speech-btn" id="speechBtn" onclick="startSpeechPractice()">Pronounce</button>' +
                     '<div id="speechResult"></div>' +
                 '</div>' +
-                '<div class="flashcard-hint">Переверните карточку, чтобы оценить</div>';
+                '<div class="flashcard-hint">Flip the card to rate it</div>';
 
-            // Показываем кнопку произношения для текущего слова
+            // Show pronunciation button for current word
             showSpeechButton(word.korean);
         }
 
@@ -1592,9 +1583,9 @@
             if (flashcardFlipped) {
                 document.getElementById('ratingArea').innerHTML = '' +
                     '<div class="rating-buttons">' +
-                        '<button class="rating-btn again" onclick="rateCard(\'again\')">Не знаю</button>' +
-                        '<button class="rating-btn hard" onclick="rateCard(\'hard\')">Сложно</button>' +
-                        '<button class="rating-btn know" onclick="rateCard(\'know\')">Знаю!</button>' +
+                        '<button class="rating-btn again" onclick="rateCard(\'again\')">Don\'t know</button>' +
+                        '<button class="rating-btn hard" onclick="rateCard(\'hard\')">Hard</button>' +
+                        '<button class="rating-btn know" onclick="rateCard(\'know\')">Know it!</button>' +
                     '</div>';
                 var hint = document.querySelector('.flashcard-hint');
                 if (hint) hint.style.display = 'none';
@@ -1608,17 +1599,17 @@
         function rateCard(quality) {
             var word = flashcardQueue[flashcardIndex];
 
-            // Записываем в SRS
+            // Record in SRS
             if (window.SRS) {
                 window.SRS.reviewWord(word.korean, quality);
                 updateSRSBadge();
             }
 
-            // Записываем результат
+            // Record result
             flashcardResults[quality].push(word);
 
             if (quality === 'again') {
-                // Слово добавляем в конец очереди для повторения
+                // Add word to end of queue for review
                 flashcardQueue.push(word);
             }
 
@@ -1632,22 +1623,22 @@
 
             container.innerHTML = '' +
                 '<div class="flashcard-results">' +
-                    '<h2>Результат</h2>' +
+                    '<h2>Results</h2>' +
                     '<div class="results-stats">' +
-                        '<div class="result-stat know"><div class="count">' + flashcardResults.know.length + '</div><div class="label">Знаю</div></div>' +
-                        '<div class="result-stat hard"><div class="count">' + flashcardResults.hard.length + '</div><div class="label">Сложно</div></div>' +
-                        '<div class="result-stat again"><div class="count">' + flashcardResults.again.length + '</div><div class="label">Не знаю</div></div>' +
+                        '<div class="result-stat know"><div class="count">' + flashcardResults.know.length + '</div><div class="label">Know</div></div>' +
+                        '<div class="result-stat hard"><div class="count">' + flashcardResults.hard.length + '</div><div class="label">Hard</div></div>' +
+                        '<div class="result-stat again"><div class="count">' + flashcardResults.again.length + '</div><div class="label">Don\'t know</div></div>' +
                     '</div>' +
                     '<div class="results-actions">' +
                         (flashcardResults.hard.length + flashcardResults.again.length > 0
-                            ? '<button style="background:#ff9800;color:white;" onclick="restartHard()">Повторить сложные (' + (flashcardResults.hard.length + flashcardResults.again.length) + ')</button>'
+                            ? '<button style="background:#ff9800;color:white;" onclick="restartHard()">Review hard ones (' + (flashcardResults.hard.length + flashcardResults.again.length) + ')</button>'
                             : '') +
-                        '<button style="background:#667eea;color:white;" onclick="restartAll()">Заново все</button>' +
-                        '<button style="background:#e0e0e0;color:#333;" onclick="showTab(\'srs\', document.querySelector(\'.tab:last-child\'))">К повторению</button>' +
+                        '<button style="background:#667eea;color:white;" onclick="restartAll()">Start over</button>' +
+                        '<button style="background:#e0e0e0;color:#333;" onclick="showTab(\'srs\', document.querySelector(\'.tab:last-child\'))">Go to Review</button>' +
                     '</div>' +
                 '</div>';
 
-            // Обновляем бейдж после завершения обзора
+            // Update badge after review completion
             updateSRSBadge();
         }
 
@@ -1660,34 +1651,34 @@
             initFlashcards(null, flashcardSource);
         }
 
-        // СОЕДИНЕНИЕ
+        // MATCHING
         let matchingPairs = [];
         let firstSelected = null;
         let matchedCount = 0;
 
         function initMatching() {
             const container = document.getElementById('matchingGame');
-            
+
             if (selectedWords.length < 5) {
                 container.innerHTML = `
                     <div class="empty-state" style="grid-column: 1/-1;">
-                        <h2>Выберите минимум 5 слов</h2>
-                        <p>Для игры нужно хотя бы 5 слов</p>
+                        <h2>Select at least 5 words</h2>
+                        <p>You need at least 5 words to play this game</p>
                     </div>
                 `;
                 return;
             }
 
-            matchingPairs = selectedWords.slice(0, 8); // Берём максимум 8 слов
+            matchingPairs = selectedWords.slice(0, 8); // Take up to 8 words
             firstSelected = null;
             matchedCount = 0;
 
-            // Перемешиваем переводы
+            // Shuffle translations
             const translations = [...matchingPairs].sort(() => Math.random() - 0.5);
 
             container.innerHTML = `
                 <div class="matching-column">
-                    <h3>Корейский</h3>
+                    <h3>Korean</h3>
                     ${matchingPairs.map((word, i) => `
                         <div class="matching-item" data-id="${i}" data-type="korean" onclick="selectMatching(this)">
                             ${word.korean}
@@ -1695,7 +1686,7 @@
                     `).join('')}
                 </div>
                 <div class="matching-column">
-                    <h3>Перевод</h3>
+                    <h3>Translation</h3>
                     ${translations.map((word, i) => `
                         <div class="matching-item" data-id="${matchingPairs.findIndex(w => w.korean === word.korean)}" data-type="translation" onclick="selectMatching(this)">
                             ${word.translation}
@@ -1713,47 +1704,47 @@
                 element.classList.add('selected');
             } else {
                 const secondSelected = element;
-                
-                if (firstSelected.dataset.id === secondSelected.dataset.id && 
+
+                if (firstSelected.dataset.id === secondSelected.dataset.id &&
                     firstSelected.dataset.type !== secondSelected.dataset.type) {
-                    // Правильно!
+                    // Correct!
                     firstSelected.classList.remove('selected');
                     firstSelected.classList.add('matched');
                     secondSelected.classList.add('matched');
                     matchedCount++;
-                    
+
                     if (matchedCount === matchingPairs.length) {
                         setTimeout(() => {
-                            alert('Поздравляю! Вы соединили все слова! 🎉');
+                            alert('Congratulations! You matched all the words!');
                             initMatching();
                         }, 500);
                     }
                 } else {
-                    // Неправильно
+                    // Wrong
                     secondSelected.classList.add('wrong');
                     firstSelected.classList.add('wrong');
-                    
+
                     setTimeout(() => {
                         secondSelected.classList.remove('wrong');
                         firstSelected.classList.remove('wrong', 'selected');
                     }, 500);
                 }
-                
+
                 firstSelected = null;
             }
         }
 
-        // НАПИСАНИЕ
+        // WRITING
         let writingIndex = 0;
 
         function initWriting() {
             const container = document.getElementById('writingPractice');
-            
+
             if (selectedWords.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <h2>Сначала выберите слова</h2>
-                        <p>Перейдите на вкладку "Выбрать слова"</p>
+                        <h2>Select words first</h2>
+                        <p>Go to the "Select Words" tab</p>
                     </div>
                 `;
                 return;
@@ -1766,12 +1757,12 @@
         function showWritingWord() {
             const container = document.getElementById('writingPractice');
             const word = selectedWords[writingIndex];
-            
+
             container.innerHTML = `
                 <div class="writing-card">
                     <div class="writing-word">${word.translation}</div>
                     <div class="writing-translation">${word.pronunciation}</div>
-                    <input type="text" class="writing-input" id="writingInput" placeholder="Напишите по-корейски..." autocomplete="off">
+                    <input type="text" class="writing-input" id="writingInput" placeholder="Type in Korean..." autocomplete="off">
                     <div class="writing-feedback" id="writingFeedback"></div>
                 </div>
                 <div style="text-align: center;">
@@ -1788,42 +1779,41 @@
             const input = document.getElementById('writingInput');
             const feedback = document.getElementById('writingFeedback');
             const word = selectedWords[writingIndex];
-            
+
             if (input.value === word.korean) {
                 input.classList.add('correct');
                 input.classList.remove('wrong');
-                feedback.textContent = '✓ Правильно!';
+                feedback.textContent = '[OK] Correct!';
                 feedback.classList.add('correct');
                 feedback.classList.remove('wrong');
-                
+
                 setTimeout(() => {
                     writingIndex = (writingIndex + 1) % selectedWords.length;
                     showWritingWord();
                 }, 1500);
             } else if (word.korean.startsWith(input.value) && input.value.length > 0) {
-                // Пока верное направление
+                // On the right track
                 input.classList.remove('wrong', 'correct');
                 feedback.textContent = '';
             } else if (input.value.length > 0) {
                 input.classList.add('wrong');
                 input.classList.remove('correct');
-                feedback.textContent = `✗ Попробуйте ещё раз. Подсказка: ${word.korean.charAt(0)}...`;
+                feedback.textContent = `[ERROR] Try again. Hint: ${word.korean.charAt(0)}...`;
                 feedback.classList.add('wrong');
                 feedback.classList.remove('correct');
             }
         }
 
-        // МОЙ СЛОВАРЬ
-        // ПРЕДЛОЖЕНИЯ
+        // SENTENCES
         function initSentences() {
             var container = document.getElementById('sentencesContent');
             if (!container) return;
 
-            // Берём слова из выбранных + из словаря
+            // Get words from selected + dictionary
             var allWords = [];
             var seen = {};
 
-            // Из выбранных слов
+            // From selected words
             if (selectedWords && selectedWords.length > 0) {
                 selectedWords.forEach(function(w) {
                     if (!seen[w.korean]) {
@@ -1833,7 +1823,7 @@
                 });
             }
 
-            // Из словаря
+            // From dictionary
             if (window.Dictionary) {
                 window.Dictionary.getAll().forEach(function(w) {
                     if (!seen[w.korean]) {
@@ -1844,21 +1834,21 @@
             }
 
             if (allWords.length === 0) {
-                container.innerHTML = '<div class="empty-state"><h2>Нет слов</h2><p>Добавьте слова на вкладке "Выбрать слова" или в "Мой словарь"</p></div>';
+                container.innerHTML = '<div class="empty-state"><h2>No words</h2><p>Add words in the "Select Words" tab or in "My Dictionary"</p></div>';
                 return;
             }
 
             var withExamples = 0;
-            var html = '<div class="sentences-header"><h2>Примеры предложений</h2><p>Слова в контексте помогают лучше запомнить</p></div>';
+            var html = '<div class="sentences-header"><h2>Example Sentences</h2><p>Words in context help you remember better</p></div>';
 
-            // Считаем слова с примерами
+            // Count words with examples
             allWords.forEach(function(w) {
                 if (findWordExample(w.korean)) withExamples++;
             });
 
             html += '<div class="sentences-stats">';
-            html += '<div class="sentences-stat"><div class="sentences-stat-value">' + allWords.length + '</div><div class="sentences-stat-label">Всего слов</div></div>';
-            html += '<div class="sentences-stat"><div class="sentences-stat-value">' + withExamples + '</div><div class="sentences-stat-label">С примерами</div></div>';
+            html += '<div class="sentences-stat"><div class="sentences-stat-value">' + allWords.length + '</div><div class="sentences-stat-label">Total words</div></div>';
+            html += '<div class="sentences-stat"><div class="sentences-stat-value">' + withExamples + '</div><div class="sentences-stat-label">With examples</div></div>';
             html += '</div>';
 
             html += '<div class="sentences-list">';
@@ -1880,7 +1870,7 @@
                     html += '<div class="sentence-item-ru">' + ex.exampleTranslation + '</div>';
                     html += '</div>';
                 } else {
-                    html += '<div class="sentence-no-example">Пример пока не добавлен</div>';
+                    html += '<div class="sentence-no-example">No example added yet</div>';
                 }
 
                 html += '</div>';
@@ -1890,7 +1880,7 @@
             container.innerHTML = html;
         }
 
-        // МОЙ СЛОВАРЬ
+        // MY DICTIONARY
         var dictSortMode = 'date';
         var dictSearchQuery = '';
 
@@ -1901,7 +1891,7 @@
         function renderDictionary() {
             const container = document.getElementById('dictionaryContent');
             if (!window.Dictionary) {
-                container.innerHTML = '<div class="dict-empty"><h2>Словарь не загружен</h2><p>Ошибка загрузки модуля словаря</p></div>';
+                container.innerHTML = '<div class="dict-empty"><h2>Dictionary not loaded</h2><p>Error loading dictionary module</p></div>';
                 return;
             }
 
@@ -1910,14 +1900,14 @@
             if (words.length === 0) {
                 container.innerHTML = `
                     <div class="dict-empty">
-                        <h2>Словарь пока пуст</h2>
-                        <p>Добавляйте слова из уроков и текстов с помощью кнопки «+ В словарь».<br>
-                        Все сохранённые слова появятся здесь.</p>
+                        <h2>Dictionary is empty</h2>
+                        <p>Add words from lessons and texts using the "+ To Dictionary" button.<br>
+                        All saved words will appear here.</p>
                     </div>`;
                 return;
             }
 
-            // Фильтрация
+            // Filtering
             if (dictSearchQuery) {
                 const q = dictSearchQuery.toLowerCase();
                 words = words.filter(w =>
@@ -1927,7 +1917,7 @@
                 );
             }
 
-            // Сортировка
+            // Sorting
             if (dictSortMode === 'date') {
                 words.sort((a, b) => {
                     const da = a.addedAt ? new Date(a.addedAt).getTime() : 0;
@@ -1937,25 +1927,25 @@
             } else if (dictSortMode === 'alpha') {
                 words.sort((a, b) => a.korean.localeCompare(b.korean, 'ko'));
             } else if (dictSortMode === 'alpha-ru') {
-                words.sort((a, b) => (a.translation || '').localeCompare(b.translation || '', 'ru'));
+                words.sort((a, b) => (a.translation || '').localeCompare(b.translation || '', 'en'));
             }
 
             const totalCount = window.Dictionary.getCount();
 
             let html = `
                 <div class="dict-toolbar">
-                    <input type="text" class="dict-search" placeholder="Поиск по слову или переводу..."
+                    <input type="text" class="dict-search" placeholder="Search by word or translation..."
                            value="${dictSearchQuery || ''}" oninput="filterDictionary(this.value)">
-                    <button class="dict-sort-btn ${dictSortMode === 'date' ? 'active' : ''}" onclick="sortDictionary('date')">По дате</button>
+                    <button class="dict-sort-btn ${dictSortMode === 'date' ? 'active' : ''}" onclick="sortDictionary('date')">By date</button>
                     <button class="dict-sort-btn ${dictSortMode === 'alpha' ? 'active' : ''}" onclick="sortDictionary('alpha')">A-Z (한)</button>
-                    <button class="dict-sort-btn ${dictSortMode === 'alpha-ru' ? 'active' : ''}" onclick="sortDictionary('alpha-ru')">А-Я (рус)</button>
-                    <span class="dict-count">${words.length}${words.length !== totalCount ? ' из ' + totalCount : ''} слов</span>
+                    <button class="dict-sort-btn ${dictSortMode === 'alpha-ru' ? 'active' : ''}" onclick="sortDictionary('alpha-ru')">A-Z (trans.)</button>
+                    <span class="dict-count">${words.length}${words.length !== totalCount ? ' of ' + totalCount : ''} words</span>
                 </div>
                 <div class="dict-grid">`;
 
             words.forEach(w => {
                 const example = getWordExample(w.korean, w.translation);
-                const dateStr = w.addedAt ? new Date(w.addedAt).toLocaleDateString('ru-RU') : '';
+                const dateStr = w.addedAt ? new Date(w.addedAt).toLocaleDateString('en-US') : '';
 
                 html += `
                     <div class="dict-card">
@@ -1968,8 +1958,8 @@
                                 <div class="dict-card-example-kr">${example.example}</div>
                                 <div class="dict-card-example-ru">${example.exampleTranslation}</div>
                             </div>` : ''}
-                        ${w.textKey ? '<div class="dict-card-source">Из: ' + w.textKey + '</div>' : ''}
-                        <button class="dict-card-delete" onclick="deleteDictWord('${w.korean.replace(/'/g, "\\'")}')">Удалить</button>
+                        ${w.textKey ? '<div class="dict-card-source">From: ' + w.textKey + '</div>' : ''}
+                        <button class="dict-card-delete" onclick="deleteDictWord('${w.korean.replace(/'/g, "\\'")}')">Delete</button>
                     </div>`;
             });
 
@@ -1994,7 +1984,7 @@
             }
         }
 
-        // SRS - ПОВТОРЕНИЕ
+        // SRS - REVIEW
         function initSRS() {
             renderSRS();
         }
@@ -2002,7 +1992,7 @@
         function renderSRS() {
             var container = document.getElementById('srsContent');
             if (!window.SRS) {
-                container.innerHTML = '<div class="srs-empty"><h2>Модуль повторения не загружен</h2></div>';
+                container.innerHTML = '<div class="srs-empty"><h2>Review module not loaded</h2></div>';
                 return;
             }
 
@@ -2012,36 +2002,36 @@
             var dueLater = window.SRS.getDueLater();
 
             if (stats.total === 0) {
-                container.innerHTML = '<div class="srs-empty"><h2>Пока нет слов для повторения</h2><p>Добавляйте слова в словарь и проходите флешкартки — слова автоматически попадут в систему повторения.</p></div>';
+                container.innerHTML = '<div class="srs-empty"><h2>No words for review yet</h2><p>Add words to your dictionary and go through flashcards — words will automatically enter the review system.</p></div>';
                 return;
             }
 
             var html = '' +
                 '<div class="srs-summary">' +
-                    '<div class="srs-stat today"><div class="count">' + stats.today + '</div><div class="label">Сегодня</div></div>' +
-                    '<div class="srs-stat tomorrow"><div class="count">' + stats.tomorrow + '</div><div class="label">Завтра</div></div>' +
-                    '<div class="srs-stat later"><div class="count">' + stats.later + '</div><div class="label">Позже</div></div>' +
+                    '<div class="srs-stat today"><div class="count">' + stats.today + '</div><div class="label">Today</div></div>' +
+                    '<div class="srs-stat tomorrow"><div class="count">' + stats.tomorrow + '</div><div class="label">Tomorrow</div></div>' +
+                    '<div class="srs-stat later"><div class="count">' + stats.later + '</div><div class="label">Later</div></div>' +
                 '</div>';
 
             if (stats.today > 0) {
-                html += '<button class="srs-start-btn" onclick="startSRSReview()">Начать повторение (' + stats.today + ' слов)</button>';
+                html += '<button class="srs-start-btn" onclick="startSRSReview()">Start review (' + stats.today + ' words)</button>';
             } else {
-                html += '<button class="srs-start-btn" disabled>Нет слов к повтору сегодня</button>';
+                html += '<button class="srs-start-btn" disabled>No words to review today</button>';
             }
 
-            // Секция «Сегодня»
+            // "Today" section
             if (dueToday.length > 0) {
-                html += renderSRSSection('Повторить сегодня', dueToday, '#f44336');
+                html += renderSRSSection('Review today', dueToday, '#f44336');
             }
 
-            // Секция «Завтра»
+            // "Tomorrow" section
             if (dueTomorrow.length > 0) {
-                html += renderSRSSection('Завтра', dueTomorrow, '#ff9800');
+                html += renderSRSSection('Tomorrow', dueTomorrow, '#ff9800');
             }
 
-            // Секция «Позже»
+            // "Later" section
             if (dueLater.length > 0) {
-                html += renderSRSSection('Позже', dueLater, '#4caf50');
+                html += renderSRSSection('Later', dueLater, '#4caf50');
             }
 
             container.innerHTML = html;
@@ -2053,7 +2043,7 @@
                     '<div class="srs-section-header">' +
                         '<div class="srs-section-dot" style="background:' + dotColor + '"></div>' +
                         '<div class="srs-section-title">' + title + '</div>' +
-                        '<div class="srs-section-count">' + words.length + ' слов</div>' +
+                        '<div class="srs-section-count">' + words.length + ' words</div>' +
                     '</div>' +
                     '<div class="srs-words-list">';
 
@@ -2062,7 +2052,7 @@
                 var levelColor = window.SRS.getLevelColor(level);
                 var levelText = window.SRS.getLevelText(level);
                 var wordData = window.SRS.getWordData(w.korean);
-                var nextReview = wordData ? window.SRS.formatDate(wordData.nextReview) : 'Новое';
+                var nextReview = wordData ? window.SRS.formatDate(wordData.nextReview) : 'New';
 
                 html += '' +
                     '<div class="srs-word-chip">' +
@@ -2080,15 +2070,15 @@
             var dueWords = window.SRS.getDueToday();
             if (dueWords.length === 0) return;
 
-            // Переключаемся на вкладку флешкарток
-            var flashBtn = document.querySelectorAll('.tab')[1]; // Флешкартки
+            // Switch to flashcards tab
+            var flashBtn = document.querySelectorAll('.tab')[1]; // Flashcards
             showTab('flashcards', flashBtn);
 
-            // Запускаем с SRS-словами
+            // Start with SRS words
             initFlashcards(dueWords, 'srs');
         }
 
-        // SRS БЕЙДЖ
+        // SRS BADGE
         function updateSRSBadge() {
             var badge = document.getElementById('srsBadge');
             if (!badge || !window.SRS) return;
@@ -2096,7 +2086,7 @@
             badge.textContent = stats.today > 0 ? stats.today : '';
         }
 
-        // ПРОИЗНОШЕНИЕ
+        // PRONUNCIATION
         var currentSpeechWord = '';
 
         function showSpeechButton(koreanWord) {
@@ -2107,7 +2097,7 @@
                 section.style.display = 'block';
                 document.getElementById('speechResult').innerHTML = '';
                 var btn = document.getElementById('speechBtn');
-                btn.textContent = 'Произнеси';
+                btn.textContent = 'Pronounce';
                 btn.disabled = false;
                 btn.classList.remove('listening');
             }
@@ -2116,23 +2106,23 @@
         function startSpeechPractice() {
             if (!currentSpeechWord) return;
             var btn = document.getElementById('speechBtn');
-            btn.textContent = 'Слушаю...';
+            btn.textContent = 'Listening...';
             btn.classList.add('listening');
             btn.disabled = true;
 
             window.SpeechPractice.listen(currentSpeechWord, function(result) {
                 btn.classList.remove('listening');
                 btn.disabled = false;
-                btn.textContent = 'Произнеси';
+                btn.textContent = 'Pronounce';
 
                 var resultDiv = document.getElementById('speechResult');
                 if (result.error) {
                     if (result.error === 'not-supported') {
-                        resultDiv.innerHTML = '<div class="speech-result retry">Распознавание речи доступно только в Chrome/Edge</div>';
+                        resultDiv.innerHTML = '<div class="speech-result retry">Speech recognition is only available in Chrome/Edge</div>';
                     } else if (result.error === 'no-speech') {
-                        resultDiv.innerHTML = '<div class="speech-result retry">Не слышу. Говорите громче и четче.</div>';
+                        resultDiv.innerHTML = '<div class="speech-result retry">Can\'t hear you. Please speak louder and more clearly.</div>';
                     } else {
-                        resultDiv.innerHTML = '<div class="speech-result retry">Ошибка: ' + result.error + '. Попробуйте ещё раз.</div>';
+                        resultDiv.innerHTML = '<div class="speech-result retry">[ERROR] ' + result.error + '. Please try again.</div>';
                     }
                     return;
                 }
@@ -2143,13 +2133,13 @@
                 resultDiv.innerHTML = '<div class="speech-result ' + scoreClass + '">' +
                     '<div class="speech-score">' + result.score + '%</div>' +
                     '<div>' + msg.message + '</div>' +
-                    '<div class="speech-transcript">Вы сказали: ' + result.transcript + '</div>' +
-                    '<div class="speech-transcript">Ожидалось: ' + result.expected + '</div>' +
+                    '<div class="speech-transcript">You said: ' + result.transcript + '</div>' +
+                    '<div class="speech-transcript">Expected: ' + result.expected + '</div>' +
                     '</div>';
             });
         }
 
-        // Инициализация
+        // Initialization
         displayWords();
         updateSRSBadge();
     </script>
@@ -2159,10 +2149,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
-    <!-- Firebase модули -->
-    <script src="js/firebase-config.js"></script>
-    <script src="js/firebase-sync.js"></script>
-    <script src="js/firebase-auth.js"></script>
-    <script src="js/global-nav.js"></script>
+    <!-- Firebase modules -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    <script src="../js/global-nav.js"></script>
 </body>
 </html>
