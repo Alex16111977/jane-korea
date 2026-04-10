@@ -230,6 +230,145 @@
             transform: rotateY(180deg);
         }
 
+        /* ===== Grammar section ===== */
+        .grammar-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .grammar-toggle button {
+            padding: 11px 28px;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: inherit;
+        }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.3); }
+
+        .grammar-block {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(10px);
+            border-radius: 22px;
+            padding: 0;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .grammar-block h3 {
+            color: white;
+            background: linear-gradient(135deg, #e67e22, #8e44ad);
+            padding: 18px 30px;
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .grammar-inner {
+            padding: 25px 30px 30px;
+        }
+
+        .section-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+        .section-label:first-child { margin-top: 0; }
+
+        .formula-card {
+            background: linear-gradient(135deg, #fff8f0, #f3e7f5);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border: 1px solid #f0e3d8;
+        }
+        .formula-card .fc-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+        }
+        .fc-word {
+            background: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .fc-word.highlight { background: #fff3e0; color: #e67e22; }
+        .fc-word.result { background: linear-gradient(135deg, #e67e22, #8e44ad); color: white; }
+        .fc-word.particle { background: #f3e5f5; color: #8e44ad; }
+        .fc-word.strike { text-decoration: line-through; color: #ccc; font-weight: 400; }
+        .fc-plus { color: #e67e22; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #8e44ad; font-size: 1.3em; }
+        .fc-desc { color: #777; font-size: 0.9em; margin-top: 4px; }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .usage-item {
+            background: white;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #eee;
+        }
+        .ui-kr { color: #e67e22; font-weight: 700; font-size: 1.05em; margin-bottom: 4px; }
+        .ui-tr { color: #777; font-size: 0.88em; }
+
+        /* Expand details in word cards */
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.3s;
+            color: #ccc;
+            line-height: 1;
+        }
+        .expand-btn:hover { color: #e67e22; }
+        .expand-btn.open { transform: rotate(180deg); color: #e67e22; }
+
+        .word-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+            margin-top: 10px;
+            border-radius: 0 0 10px 10px;
+        }
+        .word-details.open { max-height: 250px; }
+        .word-details-inner { padding: 14px 18px; }
+
+        .detail-example {
+            padding: 10px 14px;
+            background: #fff3e0;
+            border-radius: 10px;
+            border-left: 3px solid #e67e22;
+        }
+        .detail-example .ex-kr {
+            color: #e67e22;
+            font-weight: 600;
+            font-size: 1em;
+        }
+        .detail-example .ex-tr {
+            color: #777;
+            font-size: 0.88em;
+            margin-top: 3px;
+        }
+
         .search-bar {
             background: rgba(255,255,255,0.95);
             padding: 15px 20px;
@@ -263,6 +402,81 @@
         <div class="lesson-header">
             <h1>🌦️ Времена года и месяцы (계절과 달)</h1>
             <p>Изучаем времена года и названия месяцев</p>
+        </div>
+
+        <!-- Grammar toggle -->
+        <div class="grammar-toggle">
+            <button onclick="toggleGrammar()">&#128214; Как использовать в речи</button>
+        </div>
+
+        <!-- Grammar block -->
+        <div class="grammar-block" id="grammar-block" style="display: none;">
+            <h3>&#128161; Времена года в корейском</h3>
+            <div class="grammar-inner">
+
+                <!-- Rule 1: like season -->
+                <div class="section-label">Любить время года</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#48388;</span>
+                        <span class="fc-word particle">&#51012;/&#47484;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#51339;&#50500;&#54644;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#48388;&#51012; &#51339;&#50500;&#54644;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#171;Люблю весну&#187;. После времени года ставим 을/를, потом глагол &#51339;&#50500;&#54616;&#45796; (любить).</div>
+                </div>
+
+                <!-- Rule 2: in season -->
+                <div class="section-label">В [время года] + действие</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#50668;&#46984;</span>
+                        <span class="fc-word particle">&#50640;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#48148;&#45796;&#50640; &#44032;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#50668;&#46984;&#50640; &#48148;&#45796;&#50640; &#44032;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#171;Летом еду на море&#187;. Частица 에 указывает время: &#171;в&#187;, &#171;во время&#187;.</div>
+                </div>
+
+                <!-- Rule 3: season is... -->
+                <div class="section-label">Какая [время года]?</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#44160;&#50872;</span>
+                        <span class="fc-word particle">&#51060;/&#44032;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#52628;&#50892;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#44160;&#50872;&#51060; &#52628;&#50892;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#171;Зима холодная&#187;. 이/가 &#8212; именительный падеж, после него прилагательное.</div>
+                </div>
+
+                <!-- Rule 4: weather by season -->
+                <div class="section-label">&#127780; Погода по сезонам</div>
+                <div class="usage-grid">
+                    <div class="usage-item">
+                        <div class="ui-kr">&#48388;&#50640;&#45716; &#46384;&#46027;&#54644;&#50836;</div>
+                        <div class="ui-tr">Весной тепло</div>
+                    </div>
+                    <div class="usage-item">
+                        <div class="ui-kr">&#50668;&#46984;&#50640;&#45716; &#45908;&#50892;&#50836;</div>
+                        <div class="ui-tr">Летом жарко</div>
+                    </div>
+                    <div class="usage-item">
+                        <div class="ui-kr">&#44032;&#51012;&#50640;&#45716; &#49884;&#50896;&#54644;&#50836;</div>
+                        <div class="ui-tr">Осенью прохладно</div>
+                    </div>
+                    <div class="usage-item">
+                        <div class="ui-kr">&#44160;&#50872;&#50640;&#45716; &#52628;&#50892;&#50836;</div>
+                        <div class="ui-tr">Зимой холодно</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="study-mode">
@@ -336,22 +550,22 @@
 
     <script>
         const vocabulary = [
-            {korean: '봄', pronunciation: 'пом', translation: 'весна'},
-            {korean: '여름', pronunciation: 'ёрым', translation: 'лето'},
-            {korean: '가을', pronunciation: 'каыль', translation: 'осень'},
-            {korean: '겨울', pronunciation: 'кёуль', translation: 'зима'},
-            {korean: '1월', pronunciation: 'ирволь', translation: 'январь'},
-            {korean: '2월', pronunciation: 'иволь', translation: 'февраль'},
-            {korean: '3월', pronunciation: 'самволь', translation: 'март'},
-            {korean: '4월', pronunciation: 'саволь', translation: 'апрель'},
-            {korean: '5월', pronunciation: 'оволь', translation: 'май'},
-            {korean: '6월', pronunciation: 'юволь', translation: 'июнь'},
-            {korean: '7월', pronunciation: 'чхирволь', translation: 'июль'},
-            {korean: '8월', pronunciation: 'пхарволь', translation: 'август'},
-            {korean: '9월', pronunciation: 'куволь', translation: 'сентябрь'},
-            {korean: '10월', pronunciation: 'сиволь', translation: 'октябрь'},
-            {korean: '11월', pronunciation: 'сибирволь', translation: 'ноябрь'},
-            {korean: '12월', pronunciation: 'сибиволь', translation: 'декабрь'}
+            {korean: '봄', pronunciation: 'пом', translation: 'весна', example: '봄에 꽃이 피어요.', exampleTr: 'Весной распускаются цветы.'},
+            {korean: '여름', pronunciation: 'ёрым', translation: 'лето', example: '여름에 바다에 가요.', exampleTr: 'Летом еду на море.'},
+            {korean: '가을', pronunciation: 'каыль', translation: 'осень', example: '가을에는 시원해요.', exampleTr: 'Осенью прохладно.'},
+            {korean: '겨울', pronunciation: 'кёуль', translation: 'зима', example: '겨울이 추워요.', exampleTr: 'Зима холодная.'},
+            {korean: '1월', pronunciation: 'ирволь', translation: 'январь', example: '1월에 눈이 와요.', exampleTr: 'В январе идёт снег.'},
+            {korean: '2월', pronunciation: 'иволь', translation: 'февраль', example: '2월은 짧아요.', exampleTr: 'Февраль короткий.'},
+            {korean: '3월', pronunciation: 'самволь', translation: 'март', example: '3월에 학교가 시작해요.', exampleTr: 'В марте начинается школа.'},
+            {korean: '4월', pronunciation: 'саволь', translation: 'апрель', example: '4월에 벚꽃이 피어요.', exampleTr: 'В апреле цветёт сакура.'},
+            {korean: '5월', pronunciation: 'оволь', translation: 'май', example: '5월은 따뜻해요.', exampleTr: 'Май тёплый.'},
+            {korean: '6월', pronunciation: 'юволь', translation: 'июнь', example: '6월에 비가 많이 와요.', exampleTr: 'В июне много дождей.'},
+            {korean: '7월', pronunciation: 'чхирволь', translation: 'июль', example: '7월은 아주 더워요.', exampleTr: 'Июль очень жаркий.'},
+            {korean: '8월', pronunciation: 'пхарволь', translation: 'август', example: '8월에 휴가를 가요.', exampleTr: 'В августе еду в отпуск.'},
+            {korean: '9월', pronunciation: 'куволь', translation: 'сентябрь', example: '9월에 학기가 시작해요.', exampleTr: 'В сентябре начинается семестр.'},
+            {korean: '10월', pronunciation: 'сиволь', translation: 'октябрь', example: '10월에 단풍이 들어요.', exampleTr: 'В октябре листья желтеют.'},
+            {korean: '11월', pronunciation: 'сибирволь', translation: 'ноябрь', example: '11월은 쌀쌀해요.', exampleTr: 'Ноябрь прохладный.'},
+            {korean: '12월', pronunciation: 'сибиволь', translation: 'декабрь', example: '12월에 크리스마스가 있어요.', exampleTr: 'В декабре Рождество.'}
         ];
 
         let currentCardIndex = 0;
@@ -369,18 +583,43 @@
             });
         }
 
+        function toggleGrammar() {
+            const block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            const details = document.getElementById('details-' + id);
+            const btn = document.getElementById('expand-' + id);
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+
         function loadVocabulary() {
             const grid = document.getElementById('vocabularyGrid');
             grid.innerHTML = '';
 
-            vocabulary.forEach((word, index) => {
+            vocabulary.forEach((word, i) => {
                 const card = document.createElement('div');
                 card.className = 'word-card';
+                card.onclick = null;
+
+                const exHtml = word.example
+                    ? `<div class="detail-example"><div class="ex-kr">${word.example}</div><div class="ex-tr">${word.exampleTr}</div></div>`
+                    : '';
+
                 card.innerHTML = `
                     <div class="korean-word">${word.korean}</div>
                     <div class="pronunciation">${word.pronunciation}</div>
                     <div class="translation">${word.translation}</div>
-                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊</button>
+                    <div style="padding: 10px 0 0; display: flex; justify-content: flex-start; gap: 8px;">
+                        <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">&#128264;</button>
+                        <button class="expand-btn" id="expand-${i}" onclick="toggleDetails(event, ${i})">&#9660;</button>
+                    </div>
+                    <div class="word-details" id="details-${i}">
+                        <div class="word-details-inner">${exHtml}</div>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
@@ -389,12 +628,24 @@
         }
 
         function speak(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.8;
-                speechSynthesis.speak(utterance);
-            }
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            const voices = speechSynthesis.getVoices();
+            const koVoice = voices.find(v => v.lang === 'ko-KR' && v.name.includes('Yuna'))
+                || voices.find(v => v.lang === 'ko-KR' && v.name.includes('Google'))
+                || voices.find(v => v.lang === 'ko-KR' && !v.name.includes('Compact'))
+                || voices.find(v => v.lang.startsWith('ko'));
+            if (koVoice) utterance.voice = koVoice;
+            speechSynthesis.speak(utterance);
+        }
+
+        if ('speechSynthesis' in window) {
+            speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
         }
 
         function showVocabulary() {

@@ -230,6 +230,142 @@
             transform: rotateY(180deg);
         }
 
+        /* ===== Grammar section ===== */
+        .grammar-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .grammar-toggle button {
+            padding: 11px 28px;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: inherit;
+        }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.3); }
+
+        .grammar-block {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(10px);
+            border-radius: 22px;
+            padding: 0;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .grammar-block h3 {
+            color: white;
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            padding: 18px 30px;
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .grammar-inner {
+            padding: 25px 30px 30px;
+        }
+        .section-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+        .section-label:first-child { margin-top: 0; }
+        .formula-card {
+            background: linear-gradient(135deg, #fff8f0, #ffeee0);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border: 1px solid #ffe0c2;
+        }
+        .formula-card .fc-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+        }
+        .fc-word {
+            background: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .fc-word.highlight { background: #fff3e0; color: #e67e22; }
+        .fc-word.result { background: linear-gradient(135deg, #e67e22, #d35400); color: white; }
+        .fc-word.particle { background: #ffeadc; color: #d35400; }
+        .fc-word.strike { text-decoration: line-through; color: #ccc; font-weight: 400; }
+        .fc-plus { color: #e67e22; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #d35400; font-size: 1.3em; }
+        .fc-desc { color: #777; font-size: 0.9em; margin-top: 4px; }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .usage-item {
+            background: white;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #eee;
+        }
+        .ui-kr { color: #e67e22; font-weight: 700; font-size: 1.05em; margin-bottom: 4px; }
+        .ui-tr { color: #777; font-size: 0.88em; }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.3s;
+            color: #ccc;
+            line-height: 1;
+        }
+        .expand-btn:hover { color: #e67e22; }
+        .expand-btn.open { transform: rotate(180deg); color: #e67e22; }
+
+        .word-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+            margin-top: 10px;
+            border-radius: 0 0 10px 10px;
+        }
+        .word-details.open { max-height: 250px; }
+        .word-details-inner { padding: 14px 18px; }
+
+        .detail-example {
+            padding: 10px 14px;
+            background: #fff3e0;
+            border-radius: 10px;
+            border-left: 3px solid #e67e22;
+        }
+        .detail-example .ex-kr {
+            color: #e67e22;
+            font-weight: 600;
+            font-size: 1em;
+        }
+        .detail-example .ex-tr {
+            color: #777;
+            font-size: 0.88em;
+            margin-top: 3px;
+        }
+
         .search-bar {
             background: rgba(255,255,255,0.95);
             padding: 15px 20px;
@@ -263,6 +399,77 @@
         <div class="lesson-header">
             <h1>❓ Вопросительные слова (의문사)</h1>
             <p>Изучаем как задавать вопросы по-корейски</p>
+        </div>
+
+        <!-- Grammar toggle -->
+        <div class="grammar-toggle">
+            <button onclick="toggleGrammar()">&#128214; Как использовать в речи</button>
+        </div>
+
+        <!-- Grammar block -->
+        <div class="grammar-block" id="grammar-block" style="display: none;">
+            <h3>&#128161; Вопросительные слова в корейском</h3>
+            <div class="grammar-inner">
+
+                <!-- Rule 1: что -->
+                <div class="section-label">&#47924;&#50631; / &#55; &#51060;&#44172; &#47868;&#50696;&#50836;?</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#51060;&#44172;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#47868;&#50696;&#50836;?</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#51060;&#44172; &#47868;&#50696;&#50836;?</span>
+                    </div>
+                    <div class="fc-desc">&#171;Что это?&#187;. 뭐 &#8212; разговорное, 무엇 &#8212; формальное. Используем для предметов.</div>
+                </div>
+
+                <!-- Rule 2: кто -->
+                <div class="section-label">&#45572;&#44396; / Кто?</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">&#51200; &#49324;&#46988;&#51060;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">&#45572;&#44396;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#50696;&#50836;?</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#51200; &#49324;&#46988;&#51060; &#45572;&#44396;&#50696;&#50836;?</span>
+                    </div>
+                    <div class="fc-desc">&#171;Кто тот человек?&#187;. Когда 누구 &#8212; подлежащее, становится 누가: &#171;누가 왔어요?&#187; &#8212; &#171;Кто пришёл?&#187;</div>
+                </div>
+
+                <!-- Rule 3: где/куда -->
+                <div class="section-label">&#50612;&#46356; / Где? Куда?</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#50612;&#46356;</span>
+                        <span class="fc-word particle">&#50640;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#44032;&#50836;?</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#50612;&#46356;&#50640; &#44032;&#50836;?</span>
+                    </div>
+                    <div class="fc-desc">&#171;Куда идёшь?&#187;. С глаголом 있다 получается &#171;어디에 있어요?&#187; &#8212; &#171;Где находится?&#187;</div>
+                </div>
+
+                <!-- Rule 4: когда/почему/как -->
+                <div class="section-label">&#50616;&#51228; / &#50920; / &#50612;&#46524;&#44172;</div>
+                <div class="usage-grid">
+                    <div class="usage-item">
+                        <div class="ui-kr">&#50616;&#51228; &#50772;&#50836;?</div>
+                        <div class="ui-tr">Когда придёшь?</div>
+                    </div>
+                    <div class="usage-item">
+                        <div class="ui-kr">&#50920; &#44536;&#46000;&#50836;?</div>
+                        <div class="ui-tr">Почему так?</div>
+                    </div>
+                    <div class="usage-item">
+                        <div class="ui-kr">&#50612;&#46524;&#44172; &#54644;&#50836;?</div>
+                        <div class="ui-tr">Как это делать?</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="study-mode">
@@ -350,18 +557,18 @@
 
     <script>
         const vocabulary = [
-            {korean: '뭐', pronunciation: 'мво', translation: 'что (разг.)'},
-            {korean: '무엇', pronunciation: 'муот', translation: 'что (форм.)'},
-            {korean: '누구', pronunciation: 'нугу', translation: 'кто'},
-            {korean: '어디', pronunciation: 'оди', translation: 'где, куда'},
-            {korean: '언제', pronunciation: 'ончже', translation: 'когда'},
-            {korean: '왜', pronunciation: 'вэ', translation: 'почему'},
-            {korean: '어떻게', pronunciation: 'оттокхе', translation: 'как'},
-            {korean: '얼마', pronunciation: 'ольма', translation: 'сколько (цена)'},
-            {korean: '몇', pronunciation: 'мёт', translation: 'сколько (кол-во)'},
-            {korean: '어느', pronunciation: 'оны', translation: 'какой (из нескольких)'},
-            {korean: '무슨', pronunciation: 'мусын', translation: 'какой (какого рода)'},
-            {korean: '어떤', pronunciation: 'оттон', translation: 'какой (какого типа)'}
+            {korean: '뭐', pronunciation: 'мво', translation: 'что (разг.)', example: '이게 뭐예요?', exampleTr: 'Что это?'},
+            {korean: '무엇', pronunciation: 'муот', translation: 'что (форм.)', example: '무엇을 드시겠어요?', exampleTr: 'Что будете есть?'},
+            {korean: '누구', pronunciation: 'нугу', translation: 'кто', example: '저 사람이 누구예요?', exampleTr: 'Кто тот человек?'},
+            {korean: '어디', pronunciation: 'оди', translation: 'где, куда', example: '어디에 가요?', exampleTr: 'Куда идёшь?'},
+            {korean: '언제', pronunciation: 'ончже', translation: 'когда', example: '언제 와요?', exampleTr: 'Когда придёшь?'},
+            {korean: '왜', pronunciation: 'вэ', translation: 'почему', example: '왜 그래요?', exampleTr: 'Почему так?'},
+            {korean: '어떻게', pronunciation: 'оттокхе', translation: 'как', example: '어떻게 해요?', exampleTr: 'Как это делать?'},
+            {korean: '얼마', pronunciation: 'ольма', translation: 'сколько (цена)', example: '이거 얼마예요?', exampleTr: 'Сколько это стоит?'},
+            {korean: '몇', pronunciation: 'мёт', translation: 'сколько (кол-во)', example: '몇 살이에요?', exampleTr: 'Сколько тебе лет?'},
+            {korean: '어느', pronunciation: 'оны', translation: 'какой (из нескольких)', example: '어느 나라 사람이에요?', exampleTr: 'Из какой ты страны?'},
+            {korean: '무슨', pronunciation: 'мусын', translation: 'какой (какого рода)', example: '무슨 영화를 좋아해요?', exampleTr: 'Какие фильмы любишь?'},
+            {korean: '어떤', pronunciation: 'оттон', translation: 'какой (какого типа)', example: '어떤 음식을 좋아해요?', exampleTr: 'Какую еду любишь?'}
         ];
 
         let currentCardIndex = 0;
@@ -379,18 +586,43 @@
             });
         }
 
+        function toggleGrammar() {
+            const block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            const details = document.getElementById('details-' + id);
+            const btn = document.getElementById('expand-' + id);
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+
         function loadVocabulary() {
             const grid = document.getElementById('vocabularyGrid');
             grid.innerHTML = '';
 
-            vocabulary.forEach((word, index) => {
+            vocabulary.forEach((word, i) => {
                 const card = document.createElement('div');
                 card.className = 'word-card';
+                card.onclick = null;
+
+                const exHtml = word.example
+                    ? `<div class="detail-example"><div class="ex-kr">${word.example}</div><div class="ex-tr">${word.exampleTr}</div></div>`
+                    : '';
+
                 card.innerHTML = `
                     <div class="korean-word">${word.korean}</div>
                     <div class="pronunciation">${word.pronunciation}</div>
                     <div class="translation">${word.translation}</div>
-                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊</button>
+                    <div style="padding: 10px 0 0; display: flex; justify-content: flex-start; gap: 8px;">
+                        <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">&#128264;</button>
+                        <button class="expand-btn" id="expand-${i}" onclick="toggleDetails(event, ${i})">&#9660;</button>
+                    </div>
+                    <div class="word-details" id="details-${i}">
+                        <div class="word-details-inner">${exHtml}</div>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
@@ -399,12 +631,24 @@
         }
 
         function speak(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.8;
-                speechSynthesis.speak(utterance);
-            }
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            const voices = speechSynthesis.getVoices();
+            const koVoice = voices.find(v => v.lang === 'ko-KR' && v.name.includes('Yuna'))
+                || voices.find(v => v.lang === 'ko-KR' && v.name.includes('Google'))
+                || voices.find(v => v.lang === 'ko-KR' && !v.name.includes('Compact'))
+                || voices.find(v => v.lang.startsWith('ko'));
+            if (koVoice) utterance.voice = koVoice;
+            speechSynthesis.speak(utterance);
+        }
+
+        if ('speechSynthesis' in window) {
+            speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
         }
 
         function showVocabulary() {

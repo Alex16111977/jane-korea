@@ -407,6 +407,130 @@
             border: 2px solid #ddd;
         }
 
+        /* ===== Grammar section (visual) ===== */
+        .grammar-toggle { text-align: center; margin-bottom: 20px; }
+        .grammar-toggle button {
+            padding: 11px 28px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.35); }
+
+        .grammar-block {
+            background: rgba(255,255,255,0.97);
+            border-radius: 22px;
+            padding: 0;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .grammar-block h3 {
+            color: white;
+            background: linear-gradient(135deg, #E91E63, #9C27B0);
+            padding: 18px 30px;
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .grammar-inner { padding: 25px 30px 30px; }
+
+        .section-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+        .section-label:first-child { margin-top: 0; }
+
+        .formula-card {
+            background: linear-gradient(135deg, #fff5f8, #fce4ec);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border: 1px solid #f8bbd0;
+        }
+        .formula-card .fc-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+        }
+        .fc-word {
+            background: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .fc-word.highlight { background: #fce4ec; color: #c2185b; }
+        .fc-word.result { background: linear-gradient(135deg, #E91E63, #9C27B0); color: white; }
+        .fc-word.particle { background: #f3e5f5; color: #6a1b9a; font-weight: 700; }
+        .fc-plus { color: #E91E63; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #E91E63; font-size: 1.3em; }
+        .fc-desc { color: #777; font-size: 0.9em; margin-top: 4px; }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .usage-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #f8bbd0;
+        }
+        .ui-kr { color: #c2185b; font-weight: 600; font-size: 1.05em; }
+        .ui-tr { color: #777; font-size: 0.85em; margin-top: 3px; }
+
+        /* ===== Word details (expand) ===== */
+        .word-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+            margin: 12px -20px -20px;
+            border-radius: 0 0 15px 15px;
+        }
+        .word-details.open { max-height: 260px; }
+        .word-details-inner { padding: 14px 20px; }
+
+        .detail-example {
+            padding: 10px 14px;
+            background: #fce4ec;
+            border-radius: 10px;
+            border-left: 3px solid #E91E63;
+        }
+        .detail-example .ex-kr { color: #c2185b; font-weight: 600; font-size: 1em; }
+        .detail-example .ex-tr { color: #777; font-size: 0.88em; margin-top: 3px; }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 4px 8px;
+            transition: transform 0.3s;
+            color: #ccc;
+            line-height: 1;
+        }
+        .expand-btn:hover { color: #E91E63; }
+        .expand-btn.open { transform: rotate(180deg); color: #E91E63; }
+
         .search-bar {
             max-width: 500px;
             margin: 0 auto 30px;
@@ -454,6 +578,112 @@
             </div>
         </div>
         
+        <!-- Grammar toggle -->
+        <div class="grammar-toggle">
+            <button onclick="toggleGrammar()">📖 Как говорить об одежде по-корейски</button>
+        </div>
+
+        <!-- Grammar block -->
+        <div class="grammar-block" id="grammar-block" style="display: none;">
+            <h3>💡 Глаголы «надевать» в корейском</h3>
+            <div class="grammar-inner">
+
+                <!-- Rule 1: 입다 -->
+                <div class="section-label">Правило 1: 입다 — одежда для тела</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">одежда</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">입어요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">셔츠를 입어요</span>
+                    </div>
+                    <div class="fc-desc">«Надеваю рубашку». 입다 используется для всего, что надевают на тело (рубашки, брюки, платья, куртки).</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">바지를 입어요</div><div class="ui-tr">Надеваю брюки</div></div>
+                    <div class="usage-item"><div class="ui-kr">원피스를 입어요</div><div class="ui-tr">Надеваю платье</div></div>
+                    <div class="usage-item"><div class="ui-kr">재킷을 입어요</div><div class="ui-tr">Надеваю куртку</div></div>
+                </div>
+
+                <!-- Rule 2: 신다 -->
+                <div class="section-label">Правило 2: 신다 — обувь и носки</div>
+                <div class="formula-card" style="background: linear-gradient(135deg, #f3e5f5, #e1bee7); border-color: #ce93d8;">
+                    <div class="fc-formula">
+                        <span class="fc-word">신발 / 양말</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">신어요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">신발을 신어요</span>
+                    </div>
+                    <div class="fc-desc">⚠️ Для обуви и носков используется 신다, НЕ 입다! Это важное отличие корейского.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">운동화를 신어요</div><div class="ui-tr">Надеваю кроссовки</div></div>
+                    <div class="usage-item"><div class="ui-kr">구두를 신어요</div><div class="ui-tr">Надеваю туфли</div></div>
+                    <div class="usage-item"><div class="ui-kr">양말을 신어요</div><div class="ui-tr">Надеваю носки</div></div>
+                </div>
+
+                <!-- Rule 3: 쓰다 -->
+                <div class="section-label">Правило 3: 쓰다 — головные уборы и очки</div>
+                <div class="formula-card" style="background: linear-gradient(135deg, #ede7f6, #d1c4e9); border-color: #b39ddb;">
+                    <div class="fc-formula">
+                        <span class="fc-word">모자 / 안경</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">써요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">모자를 써요</span>
+                    </div>
+                    <div class="fc-desc">Для шляп, шапок и очков — глагол 쓰다 (надевать сверху). Тот же 쓰다 = писать, но в другом значении.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">모자를 써요</div><div class="ui-tr">Надеваю шляпу</div></div>
+                    <div class="usage-item"><div class="ui-kr">안경을 써요</div><div class="ui-tr">Надеваю очки</div></div>
+                    <div class="usage-item"><div class="ui-kr">선글라스를 써요</div><div class="ui-tr">Надеваю очки от солнца</div></div>
+                </div>
+
+                <!-- Extra: 차다 (watch/belt) -->
+                <div class="section-label">Бонус: 차다 — часы и ремень</div>
+                <div class="formula-card" style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-color: #ffcc80;">
+                    <div class="fc-formula">
+                        <span class="fc-word">시계 / 벨트</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">차요</span>
+                    </div>
+                    <div class="fc-desc">Для часов и ремней — 차다. 시계를 차요 — «Надеваю часы».</div>
+                </div>
+
+                <!-- Rule 4: 벗다 -->
+                <div class="section-label">Правило 4: 벗다 — снимать одежду и обувь</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">одежда / обувь</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">벗어요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">옷을 벗어요</span>
+                    </div>
+                    <div class="fc-desc">«Снимаю одежду». 벗다 — противоположность 입다/신다 (универсально и для одежды, и для обуви).</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">재킷을 벗어요</div><div class="ui-tr">Снимаю куртку</div></div>
+                    <div class="usage-item"><div class="ui-kr">신발을 벗어요</div><div class="ui-tr">Снимаю обувь</div></div>
+                    <div class="usage-item"><div class="ui-kr">모자를 벗어요</div><div class="ui-tr">Снимаю шляпу</div></div>
+                </div>
+
+            </div>
+        </div>
+
         <div class="wardrobe-widget">
             <h3>👗 Виртуальный гардероб</h3>
             <div class="outfit-display" id="outfit-display">
@@ -846,13 +1076,27 @@
         let totalQuestions = 0;
         let filteredVocabulary = vocabulary;
         
+        function toggleGrammar() {
+            const block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            const details = document.getElementById('details-' + id);
+            const btn = document.getElementById('expand-' + id);
+            if (details) details.classList.toggle('open');
+            if (btn) btn.classList.toggle('open');
+        }
+
         function loadVocabulary() {
             const grid = document.getElementById('vocabularyGrid');
             grid.innerHTML = '';
-            
-            filteredVocabulary.forEach((word, index) => {
+
+            filteredVocabulary.forEach((word, i) => {
                 const card = document.createElement('div');
                 card.className = `clothing-card ${word.category}`;
+                card.onclick = null;
                 card.innerHTML = `
                     <div class="clothing-emoji-large">${word.emoji}</div>
                     <div class="korean-word">${word.korean}</div>
@@ -862,12 +1106,14 @@
                         <div class="korean-sentence">${word.example}</div>
                         <div>${word.exampleTranslation}</div>
                     </div>
-                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊 Слово</button>
-                    <button class="speak-btn" onclick="speak('${word.example}')">🔊 Пример</button>
+                    <div style="display: flex; justify-content: center; gap: 8px; margin-top: 10px;">
+                        <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">&#128264; Слово</button>
+                        <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.example}')">&#128264; Пример</button>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
-            
+
             updateProgress();
         }
         
@@ -925,12 +1171,24 @@
         }
         
         function speak(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.8;
-                speechSynthesis.speak(utterance);
-            }
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            const voices = speechSynthesis.getVoices();
+            const koVoice = voices.find(v => v.lang === 'ko-KR' && v.name.includes('Yuna'))
+                || voices.find(v => v.lang === 'ko-KR' && v.name.includes('Google'))
+                || voices.find(v => v.lang === 'ko-KR' && !v.name.includes('Compact'))
+                || voices.find(v => v.lang.startsWith('ko'));
+            if (koVoice) utterance.voice = koVoice;
+            speechSynthesis.speak(utterance);
+        }
+
+        if ('speechSynthesis' in window) {
+            speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
         }
         
         function showVocabulary() {

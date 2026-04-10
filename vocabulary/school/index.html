@@ -306,6 +306,167 @@
             color: white;
         }
 
+        /* ===== Grammar section ===== */
+        .grammar-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .grammar-toggle button {
+            padding: 11px 28px;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.3); }
+
+        .grammar-block {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(10px);
+            border-radius: 22px;
+            padding: 0;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .grammar-block h3 {
+            color: white;
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            padding: 18px 30px;
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .grammar-inner {
+            padding: 25px 30px 30px;
+        }
+
+        .section-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+        .section-label:first-child { margin-top: 0; }
+
+        .formula-card {
+            background: linear-gradient(135deg, #fff8f0, #fff3e0);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border: 1px solid #ffe0b2;
+        }
+
+        .formula-card .fc-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+        }
+
+        .fc-word {
+            background: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .fc-word.highlight { background: #fff3e0; color: #e65100; }
+        .fc-word.result { background: linear-gradient(135deg, #FF9800, #F57C00); color: white; }
+        .fc-word.particle { background: #e3f2fd; color: #1565c0; }
+        .fc-plus { color: #FF9800; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #FF9800; font-size: 1.3em; }
+        .fc-desc { color: #777; font-size: 0.9em; margin-top: 4px; }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .usage-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #eee;
+        }
+
+        .ui-kr {
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #e65100;
+            margin-bottom: 4px;
+        }
+
+        .ui-tr {
+            font-size: 0.88em;
+            color: #777;
+        }
+
+        /* ===== Word details (expand) ===== */
+        .word-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .word-details.open {
+            max-height: 250px;
+        }
+
+        .word-details-inner {
+            padding: 14px 20px;
+        }
+
+        .detail-example {
+            padding: 10px 14px;
+            background: #fff8f0;
+            border-radius: 10px;
+            border-left: 3px solid #e65100;
+        }
+
+        .detail-example .ex-kr {
+            color: #e65100;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .detail-example .ex-tr {
+            color: #777;
+            font-size: 0.88em;
+            margin-top: 3px;
+        }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.3s;
+            color: #ccc;
+            line-height: 1;
+        }
+        .expand-btn:hover { color: #FF9800; }
+        .expand-btn.open { transform: rotate(180deg); color: #FF9800; }
+
         .search-bar {
             max-width: 500px;
             margin: 0 auto 25px;
@@ -354,6 +515,134 @@
             <h1>🏫 Школа</h1>
             <div class="korean-title">학교 [хакгё]</div>
             <p>Корейская школа и учебные принадлежности!</p>
+        </div>
+
+        <!-- Grammar toggle -->
+        <div class="grammar-toggle">
+            <button onclick="toggleGrammar()">&#128214; Как использовать в речи</button>
+        </div>
+
+        <!-- Grammar block -->
+        <div class="grammar-block" id="grammar-block" style="display: none;">
+            <h3>&#128161; Как говорить о школе и учёбе по-корейски</h3>
+            <div class="grammar-inner">
+
+                <!-- Rule 1: studying subject -->
+                <div class="section-label">&#8544;. "Я изучаю ..."</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#54620;&#44397;&#50612;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">&#47484;/&#51012;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#44277;&#48512;&#54644;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#54620;&#44397;&#50612;&#47484; &#44277;&#48512;&#54644;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#47484; после гласной, &#51012; после согласной. &#44277;&#48512;&#54616;&#45796; = изучать.</div>
+                    <div class="usage-grid">
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#54620;&#44397;&#50612;&#47484; &#44277;&#48512;&#54644;&#50836;.</div>
+                            <div class="ui-tr">Я изучаю корейский.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#49688;&#54617;&#51012; &#44277;&#48512;&#54644;&#50836;.</div>
+                            <div class="ui-tr">Изучаю математику.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#50689;&#50612;&#47484; &#44277;&#48512;&#54644;&#50836;.</div>
+                            <div class="ui-tr">Изучаю английский.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rule 2: being in a place -->
+                <div class="section-label">&#8545;. "Я нахожусь в ..."</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#44368;&#49892;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">&#50640;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#51080;&#50612;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#44368;&#49892;&#50640; &#51080;&#50612;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#50640; &#8212; частица места. &#51080;&#45796; = быть/находиться.</div>
+                    <div class="usage-grid">
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#44368;&#49892;&#50640; &#51080;&#50612;&#50836;.</div>
+                            <div class="ui-tr">Я в классе.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#49440;&#49373;&#45784;&#51008; &#54617;&#44368;&#50640; &#44228;&#49464;&#50836;.</div>
+                            <div class="ui-tr">Учитель в школе.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#52293;&#51008; &#44032;&#48169;&#50640; &#51080;&#50612;&#50836;.</div>
+                            <div class="ui-tr">Книга в рюкзаке.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rule 3: going to school -->
+                <div class="section-label">&#8546;. "Иду в школу"</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#54617;&#44368;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">&#50640;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#44032;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#54617;&#44368;&#50640; &#44032;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#50640; &#8212; частица направления. &#44032;&#45796; = идти.</div>
+                    <div class="usage-grid">
+                        <div class="usage-item">
+                            <div class="ui-kr">&#47588;&#51068; &#54617;&#44368;&#50640; &#44032;&#50836;.</div>
+                            <div class="ui-tr">Каждый день хожу в школу.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51648;&#44552; &#54617;&#44368;&#50640; &#44032;&#50836;.</div>
+                            <div class="ui-tr">Сейчас иду в школу.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#45236;&#51068; &#54617;&#44368;&#50640; &#50504; &#44032;&#50836;.</div>
+                            <div class="ui-tr">Завтра не иду в школу.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rule 4: liking subject -->
+                <div class="section-label">&#8547;. "Я люблю предмет"</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#49688;&#54617;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">&#51012;/&#47484;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#51339;&#50500;&#54644;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#49688;&#54617;&#51012; &#51339;&#50500;&#54644;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#51339;&#50500;&#54616;&#45796; = любить. Действие направлено на объект &#8594; частица &#51012;/&#47484;.</div>
+                    <div class="usage-grid">
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#49688;&#54617;&#51012; &#51339;&#50500;&#54644;&#50836;.</div>
+                            <div class="ui-tr">Я люблю математику.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#54620;&#44397;&#50612;&#47484; &#51339;&#50500;&#54644;&#50836;.</div>
+                            <div class="ui-tr">Люблю корейский.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#49884;&#54744;&#51012; &#49910;&#50612;&#54644;&#50836;.</div>
+                            <div class="ui-tr">Я не люблю экзамены.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="study-mode">
@@ -425,22 +714,38 @@
 
     <script>
         const vocabulary = [
-            {emoji: '📚', korean: '책', romanization: 'chaek', translation: 'книга'},
-            {emoji: '📓', korean: '공책', romanization: 'gongchaek', translation: 'тетрадь'},
-            {emoji: '✏️', korean: '연필', romanization: 'yeonpil', translation: 'карандаш'},
-            {emoji: '🖊️', korean: '펜', romanization: 'pen', translation: 'ручка'},
-            {emoji: '🎒', korean: '가방', romanization: 'gabang', translation: 'рюкзак'},
-            {emoji: '🧹', korean: '지우개', romanization: 'jiugae', translation: 'ластик'},
-            {emoji: '🔢', korean: '수학', romanization: 'suhak', translation: 'математика'},
-            {emoji: '🇰🇷', korean: '한국어', romanization: 'hangugeo', translation: 'корейский язык'},
-            {emoji: '🇺🇸', korean: '영어', romanization: 'yeongeo', translation: 'английский язык'},
-            {emoji: '📚', korean: '공부', romanization: 'gongbu', translation: 'учеба'},
-            {emoji: '📝', korean: '숙제', romanization: 'sukje', translation: 'домашнее задание'},
-            {emoji: '📋', korean: '시험', romanization: 'siheom', translation: 'экзамен'},
-            {emoji: '👩‍🏫', korean: '선생님', romanization: 'seonsaengnim', translation: 'учитель'},
-            {emoji: '🎓', korean: '학생', romanization: 'haksaeng', translation: 'ученик'},
-            {emoji: '👫', korean: '친구', romanization: 'chingu', translation: 'друг'},
-            {emoji: '📖', korean: '교과서', romanization: 'gyogwaseo', translation: 'учебник'}
+            {emoji: '📚', korean: '책', romanization: 'chaek', translation: 'книга',
+                example: '저는 책을 읽어요.', exampleTr: 'Я читаю книгу.'},
+            {emoji: '📓', korean: '공책', romanization: 'gongchaek', translation: 'тетрадь',
+                example: '공책에 이름을 써요.', exampleTr: 'Пишу имя в тетради.'},
+            {emoji: '✏️', korean: '연필', romanization: 'yeonpil', translation: 'карандаш',
+                example: '연필로 그림을 그려요.', exampleTr: 'Рисую карандашом.'},
+            {emoji: '🖊️', korean: '펜', romanization: 'pen', translation: 'ручка',
+                example: '이 펜은 제 거예요.', exampleTr: 'Эта ручка моя.'},
+            {emoji: '🎒', korean: '가방', romanization: 'gabang', translation: 'рюкзак',
+                example: '가방이 무거워요.', exampleTr: 'Рюкзак тяжёлый.'},
+            {emoji: '🧹', korean: '지우개', romanization: 'jiugae', translation: 'ластик',
+                example: '지우개 좀 빌려 주세요.', exampleTr: 'Одолжите, пожалуйста, ластик.'},
+            {emoji: '🔢', korean: '수학', romanization: 'suhak', translation: 'математика',
+                example: '저는 수학을 좋아해요.', exampleTr: 'Я люблю математику.'},
+            {emoji: '🇰🇷', korean: '한국어', romanization: 'hangugeo', translation: 'корейский язык',
+                example: '한국어를 공부해요.', exampleTr: 'Изучаю корейский язык.'},
+            {emoji: '🇺🇸', korean: '영어', romanization: 'yeongeo', translation: 'английский язык',
+                example: '영어가 조금 어려워요.', exampleTr: 'Английский немного сложный.'},
+            {emoji: '📚', korean: '공부', romanization: 'gongbu', translation: 'учеба',
+                example: '매일 공부해요.', exampleTr: 'Учусь каждый день.'},
+            {emoji: '📝', korean: '숙제', romanization: 'sukje', translation: 'домашнее задание',
+                example: '숙제가 많아요.', exampleTr: 'Много домашнего задания.'},
+            {emoji: '📋', korean: '시험', romanization: 'siheom', translation: 'экзамен',
+                example: '내일 시험이 있어요.', exampleTr: 'Завтра у меня экзамен.'},
+            {emoji: '👩‍🏫', korean: '선생님', romanization: 'seonsaengnim', translation: 'учитель',
+                example: '선생님은 친절해요.', exampleTr: 'Учитель добрый.'},
+            {emoji: '🎓', korean: '학생', romanization: 'haksaeng', translation: 'ученик',
+                example: '저는 학생이에요.', exampleTr: 'Я ученик.'},
+            {emoji: '👫', korean: '친구', romanization: 'chingu', translation: 'друг',
+                example: '친구와 같이 공부해요.', exampleTr: 'Учусь вместе с другом.'},
+            {emoji: '📖', korean: '교과서', romanization: 'gyogwaseo', translation: 'учебник',
+                example: '교과서를 펴세요.', exampleTr: 'Откройте учебник.'}
         ];
 
         let currentCardIndex = 0;
@@ -450,12 +755,38 @@
         let totalQuestions = 0;
 
         function speak(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.8;
-                speechSynthesis.speak(utterance);
-            }
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            const voices = speechSynthesis.getVoices();
+            const koVoice = voices.find(v => v.lang === 'ko-KR' && v.name.includes('Yuna'))
+                || voices.find(v => v.lang === 'ko-KR' && v.name.includes('Google'))
+                || voices.find(v => v.lang === 'ko-KR' && !v.name.includes('Compact'))
+                || voices.find(v => v.lang.startsWith('ko'));
+            if (koVoice) utterance.voice = koVoice;
+            speechSynthesis.speak(utterance);
+        }
+
+        // Загрузить голоса заранее
+        if ('speechSynthesis' in window) {
+            speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+        }
+
+        function toggleGrammar() {
+            const block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            const details = document.getElementById('details-' + id);
+            const btn = document.getElementById('expand-' + id);
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
         }
 
         function filterVocabulary() {
@@ -470,16 +801,27 @@
         function loadVocabulary() {
             const grid = document.getElementById('vocabularyGrid');
             grid.innerHTML = '';
-            vocabulary.forEach(word => {
+            vocabulary.forEach((word, i) => {
                 const card = document.createElement('div');
                 card.className = 'word-card';
-                card.onclick = () => speak(word.korean);
+                card.onclick = null;
+
+                const exHtml = word.example
+                    ? `<div class="detail-example"><div class="ex-kr">${word.example}</div><div class="ex-tr">${word.exampleTr}</div></div>`
+                    : '';
+
                 card.innerHTML = `
-                    <div class="word-emoji" style="background: linear-gradient(135deg, #FF9800, #FF9800);">${word.emoji}</div>
+                    <div class="word-emoji" style="background: linear-gradient(135deg, #FF9800, #F57C00);">${word.emoji}</div>
                     <div class="word-korean">${word.korean}</div>
                     <div class="word-romanization">${word.romanization}</div>
                     <div class="word-translation">${word.translation}</div>
-                    <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">🔊</button>
+                    <div style="padding: 0 15px 8px; display: flex; justify-content: center; gap: 8px;">
+                        <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')" style="padding: 4px;">&#128264;</button>
+                        <button class="expand-btn" id="expand-${i}" onclick="toggleDetails(event, ${i})">&#9660;</button>
+                    </div>
+                    <div class="word-details" id="details-${i}">
+                        <div class="word-details-inner">${exHtml}</div>
+                    </div>
                 `;
                 grid.appendChild(card);
             });

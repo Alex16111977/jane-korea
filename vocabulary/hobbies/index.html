@@ -48,6 +48,129 @@
         .quiz-buttons button { padding: 12px 25px; border: none; border-radius: 12px; font-size: 1em; cursor: pointer; transition: all 0.3s ease; font-weight: 500; }
         .quiz-buttons .next-btn { background: #00897b; color: white; }
         .quiz-buttons .restart-btn { background: #6c757d; color: white; }
+        /* ===== Grammar section ===== */
+        .grammar-toggle { text-align: center; margin-bottom: 20px; }
+        .grammar-toggle button {
+            padding: 11px 28px;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.3); }
+
+        .grammar-block {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(10px);
+            border-radius: 22px;
+            padding: 0;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .grammar-block h3 {
+            color: white;
+            background: linear-gradient(135deg, #00897b, #4db6ac);
+            padding: 18px 30px;
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .grammar-inner { padding: 25px 30px 30px; }
+
+        .section-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+        .section-label:first-child { margin-top: 0; }
+
+        .formula-card {
+            background: linear-gradient(135deg, #f8fffe, #e0f2f1);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border: 1px solid #b2dfdb;
+        }
+        .formula-card .fc-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+        }
+        .fc-word {
+            background: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .fc-word.highlight { background: #e0f7fa; color: #00796b; }
+        .fc-word.result { background: linear-gradient(135deg, #00897b, #4db6ac); color: white; }
+        .fc-word.particle { background: #fff3e0; color: #e65100; font-weight: 700; }
+        .fc-plus { color: #00897b; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #00897b; font-size: 1.3em; }
+        .fc-desc { color: #777; font-size: 0.9em; margin-top: 4px; }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .usage-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #e0f2f1;
+        }
+        .ui-kr { color: #00796b; font-weight: 600; font-size: 1.05em; }
+        .ui-tr { color: #777; font-size: 0.85em; margin-top: 3px; }
+
+        /* ===== Word details (expand) ===== */
+        .word-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+        }
+        .word-details.open { max-height: 250px; }
+        .word-details-inner { padding: 14px 20px; }
+
+        .detail-example {
+            padding: 10px 14px;
+            background: #e0f2f1;
+            border-radius: 10px;
+            border-left: 3px solid #00897b;
+        }
+        .detail-example .ex-kr { color: #00695c; font-weight: 600; font-size: 1em; }
+        .detail-example .ex-tr { color: #777; font-size: 0.88em; margin-top: 3px; }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.3s;
+            color: #ccc;
+            line-height: 1;
+        }
+        .expand-btn:hover { color: #00897b; }
+        .expand-btn.open { transform: rotate(180deg); color: #00897b; }
+
         .search-bar { max-width: 500px; margin: 0 auto 25px; padding: 0 20px; }
         .search-bar input { width: 100%; padding: 12px 20px; border: 2px solid rgba(255,255,255,0.3); border-radius: 25px; background: rgba(255,255,255,0.15); color: white; font-size: 16px; outline: none; transition: all 0.3s ease; box-sizing: border-box; }
         .search-bar input::placeholder { color: rgba(255,255,255,0.6); }
@@ -65,6 +188,95 @@
             <div class="korean-title">취미 [чхими]</div>
             <p>Расскажите о своих увлечениях на корейском!</p>
         </div>
+        <!-- Grammar toggle -->
+        <div class="grammar-toggle">
+            <button onclick="toggleGrammar()">📖 Как говорить о хобби по-корейски</button>
+        </div>
+
+        <!-- Grammar block -->
+        <div class="grammar-block" id="grammar-block" style="display: none;">
+            <h3>💡 Как говорить о хобби и увлечениях</h3>
+            <div class="grammar-inner">
+
+                <!-- Rule 1: like doing -->
+                <div class="section-label">Правило 1: Любить занятие</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">хобби</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">좋아해요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">운동을 좋아해요</span>
+                    </div>
+                    <div class="fc-desc">«Люблю спорт». Частица 을 — после согласной, 를 — после гласной.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">음악을 좋아해요</div><div class="ui-tr">Люблю музыку</div></div>
+                    <div class="usage-item"><div class="ui-kr">독서를 좋아해요</div><div class="ui-tr">Люблю чтение</div></div>
+                    <div class="usage-item"><div class="ui-kr">영화를 좋아해요</div><div class="ui-tr">Люблю фильмы</div></div>
+                </div>
+
+                <!-- Rule 2: do activity -->
+                <div class="section-label">Правило 2: Заниматься (делать)</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">существительное</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">해요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">운동을 해요</span>
+                    </div>
+                    <div class="fc-desc">«Занимаюсь спортом». Глагол 하다 (делать) универсален.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">요리를 해요</div><div class="ui-tr">Готовлю</div></div>
+                    <div class="usage-item"><div class="ui-kr">공부를 해요</div><div class="ui-tr">Учусь</div></div>
+                    <div class="usage-item"><div class="ui-kr">게임을 해요</div><div class="ui-tr">Играю в игры</div></div>
+                </div>
+
+                <!-- Rule 3: my hobby is -->
+                <div class="section-label">Правило 3: Моё хобби — это…</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">제 취미는</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">хобби</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">이에요/예요</span>
+                    </div>
+                    <div class="fc-desc">제 취미는 독서예요 — «Моё хобби — чтение». 예요 после гласной, 이에요 после согласной.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">제 취미는 독서예요</div><div class="ui-tr">Моё хобби — чтение</div></div>
+                    <div class="usage-item"><div class="ui-kr">제 취미는 요리예요</div><div class="ui-tr">Моё хобби — готовка</div></div>
+                    <div class="usage-item"><div class="ui-kr">제 취미는 음악이에요</div><div class="ui-tr">Моё хобби — музыка</div></div>
+                </div>
+
+                <!-- Rule 4: frequency -->
+                <div class="section-label">Правило 4: Часто / иногда / каждый день</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">자주 / 가끔 / 매일</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">глагол</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">자주 영화를 봐요</span>
+                    </div>
+                    <div class="fc-desc">«Часто смотрю фильмы». 자주 — часто, 가끔 — иногда, 매일 — каждый день.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">자주 운동해요</div><div class="ui-tr">Часто занимаюсь спортом</div></div>
+                    <div class="usage-item"><div class="ui-kr">가끔 요리를 해요</div><div class="ui-tr">Иногда готовлю</div></div>
+                    <div class="usage-item"><div class="ui-kr">매일 음악을 들어요</div><div class="ui-tr">Каждый день слушаю музыку</div></div>
+                </div>
+
+            </div>
+        </div>
+
         <div class="study-mode">
             <button class="mode-btn active" onclick="showMode('vocabulary')">📚 Словарь</button>
             <button class="mode-btn" onclick="showMode('flashcards')">🃏 Карточки</button>
@@ -113,26 +325,79 @@
     </div>
     <script>
         var vocabulary = [
-            {emoji: '🎵', korean: '음악 듣기', romanization: 'eumak deutgi', translation: 'слушать музыку'},
-            {emoji: '🎬', korean: '영화 보기', romanization: 'yeonghwa bogi', translation: 'смотреть фильмы'},
-            {emoji: '🏃', korean: '운동', romanization: 'undong', translation: 'спорт / упражнения'},
-            {emoji: '📖', korean: '책 읽기', romanization: 'chaek ilgi', translation: 'чтение книг'},
-            {emoji: '🍳', korean: '요리', romanization: 'yori', translation: 'готовка'},
-            {emoji: '✈️', korean: '여행', romanization: 'yeohaeng', translation: 'путешествие'},
-            {emoji: '🎮', korean: '게임', romanization: 'geim', translation: 'игры'},
-            {emoji: '📸', korean: '사진 찍기', romanization: 'sajin jjikgi', translation: 'фотография'},
-            {emoji: '🎨', korean: '그림 그리기', romanization: 'geurim geurigi', translation: 'рисование'},
-            {emoji: '🎤', korean: '노래하기', romanization: 'noraehagi', translation: 'петь'},
-            {emoji: '💃', korean: '춤추기', romanization: 'chumchugi', translation: 'танцевать'},
-            {emoji: '🏊', korean: '수영', romanization: 'suyeong', translation: 'плавание'},
-            {emoji: '⚽', korean: '축구', romanization: 'chukgu', translation: 'футбол'},
-            {emoji: '🛒', korean: '쇼핑', romanization: 'syoping', translation: 'шоппинг'},
-            {emoji: '🧘', korean: '요가', romanization: 'yoga', translation: 'йога'}
+            {emoji: '🎵', korean: '음악 듣기', romanization: 'eumak deutgi', translation: 'слушать музыку', example: '저는 매일 음악을 들어요.', exampleTr: 'Я каждый день слушаю музыку.'},
+            {emoji: '🎬', korean: '영화 보기', romanization: 'yeonghwa bogi', translation: 'смотреть фильмы', example: '주말에 영화를 봐요.', exampleTr: 'По выходным смотрю фильмы.'},
+            {emoji: '🏃', korean: '운동', romanization: 'undong', translation: 'спорт / упражнения', example: '저는 운동을 좋아해요.', exampleTr: 'Я люблю спорт.'},
+            {emoji: '📖', korean: '책 읽기', romanization: 'chaek ilgi', translation: 'чтение книг', example: '제 취미는 책 읽기예요.', exampleTr: 'Моё хобби — чтение книг.'},
+            {emoji: '🍳', korean: '요리', romanization: 'yori', translation: 'готовка', example: '가끔 요리를 해요.', exampleTr: 'Иногда готовлю.'},
+            {emoji: '✈️', korean: '여행', romanization: 'yeohaeng', translation: 'путешествие', example: '여행을 좋아해요.', exampleTr: 'Люблю путешествовать.'},
+            {emoji: '🎮', korean: '게임', romanization: 'geim', translation: 'игры', example: '친구하고 게임을 해요.', exampleTr: 'Играю в игры с другом.'},
+            {emoji: '📸', korean: '사진 찍기', romanization: 'sajin jjikgi', translation: 'фотография', example: '사진 찍기가 재미있어요.', exampleTr: 'Фотографировать интересно.'},
+            {emoji: '🎨', korean: '그림 그리기', romanization: 'geurim geurigi', translation: 'рисование', example: '저는 그림 그리기를 좋아해요.', exampleTr: 'Я люблю рисовать.'},
+            {emoji: '🎤', korean: '노래하기', romanization: 'noraehagi', translation: 'петь', example: '노래방에서 노래해요.', exampleTr: 'Пою в караоке.'},
+            {emoji: '💃', korean: '춤추기', romanization: 'chumchugi', translation: 'танцевать', example: '친구와 춤을 춰요.', exampleTr: 'Танцую с другом.'},
+            {emoji: '🏊', korean: '수영', romanization: 'suyeong', translation: 'плавание', example: '여름에 수영을 해요.', exampleTr: 'Летом плаваю.'},
+            {emoji: '⚽', korean: '축구', romanization: 'chukgu', translation: 'футбол', example: '저는 축구를 좋아해요.', exampleTr: 'Я люблю футбол.'},
+            {emoji: '🛒', korean: '쇼핑', romanization: 'syoping', translation: 'шоппинг', example: '주말에 쇼핑을 해요.', exampleTr: 'По выходным хожу за покупками.'},
+            {emoji: '🧘', korean: '요가', romanization: 'yoga', translation: 'йога', example: '매일 아침 요가를 해요.', exampleTr: 'Каждое утро занимаюсь йогой.'}
         ];
         var currentCardIndex = 0, isFlipped = false, quizCurrentIndex = 0, correctAnswers = 0, totalQuestions = 0;
-        function speak(t) { if ('speechSynthesis' in window) { var u = new SpeechSynthesisUtterance(t); u.lang = 'ko-KR'; u.rate = 0.8; speechSynthesis.speak(u); } }
+        function speak(text) {
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            var utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            var voices = speechSynthesis.getVoices();
+            var koVoice = voices.find(function(v) { return v.lang === 'ko-KR' && v.name.includes('Yuna'); })
+                || voices.find(function(v) { return v.lang === 'ko-KR' && v.name.includes('Google'); })
+                || voices.find(function(v) { return v.lang === 'ko-KR' && !v.name.includes('Compact'); })
+                || voices.find(function(v) { return v.lang.startsWith('ko'); });
+            if (koVoice) utterance.voice = koVoice;
+            speechSynthesis.speak(utterance);
+        }
+        if ('speechSynthesis' in window) {
+            speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = function() { speechSynthesis.getVoices(); };
+        }
+        function toggleGrammar() {
+            var block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            var details = document.getElementById('details-' + id);
+            var btn = document.getElementById('expand-' + id);
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
         function filterVocabulary() { var q = document.getElementById('vocabSearch').value.toLowerCase(); document.querySelectorAll('.word-card').forEach(function(c) { c.style.display = c.textContent.toLowerCase().includes(q) ? '' : 'none'; }); }
-        function loadVocabulary() { var g = document.getElementById('vocabularyGrid'); g.innerHTML = ''; vocabulary.forEach(function(w) { var c = document.createElement('div'); c.className = 'word-card'; c.onclick = function() { speak(w.korean); }; c.innerHTML = '<div class="word-emoji">' + w.emoji + '</div><div class="word-korean">' + w.korean + '</div><div class="word-romanization">' + w.romanization + '</div><div class="word-translation">' + w.translation + '</div><button class="speak-btn" onclick="event.stopPropagation(); speak(\'' + w.korean.replace(/'/g, "\\'") + '\')">🔊</button>'; g.appendChild(c); }); }
+        function loadVocabulary() {
+            var g = document.getElementById('vocabularyGrid');
+            g.innerHTML = '';
+            vocabulary.forEach(function(word, i) {
+                var card = document.createElement('div');
+                card.className = 'word-card';
+                card.onclick = null;
+                var exHtml = word.example
+                    ? '<div class="detail-example"><div class="ex-kr">' + word.example + '</div><div class="ex-tr">' + word.exampleTr + '</div></div>'
+                    : '';
+                card.innerHTML =
+                    '<div class="word-emoji">' + word.emoji + '</div>' +
+                    '<div class="word-korean">' + word.korean + '</div>' +
+                    '<div class="word-romanization">' + word.romanization + '</div>' +
+                    '<div class="word-translation">' + word.translation + '</div>' +
+                    '<div style="padding: 0 15px 8px; display: flex; justify-content: center; gap: 8px;">' +
+                        '<button class="speak-btn" onclick="event.stopPropagation(); speak(\'' + word.korean.replace(/'/g, "\\'") + '\')" style="padding: 4px;">&#128264;</button>' +
+                        '<button class="expand-btn" id="expand-' + i + '" onclick="toggleDetails(event, ' + i + ')">&#9660;</button>' +
+                    '</div>' +
+                    '<div class="word-details" id="details-' + i + '">' +
+                        '<div class="word-details-inner">' + exHtml + '</div>' +
+                    '</div>';
+                g.appendChild(card);
+            });
+        }
         function showMode(m) { document.getElementById('vocabulary-section').style.display = m === 'vocabulary' ? 'block' : 'none'; document.getElementById('flashcard-section').style.display = m === 'flashcards' ? 'block' : 'none'; document.getElementById('quiz-section').style.display = m === 'quiz' ? 'block' : 'none'; document.querySelectorAll('.study-mode .mode-btn').forEach(function(b, i) { b.classList.toggle('active', (m === 'vocabulary' && i === 0) || (m === 'flashcards' && i === 1) || (m === 'quiz' && i === 2)); }); if (m === 'flashcards') updateFlashcard(); if (m === 'quiz') generateQuizQuestion(); }
         function updateFlashcard() { var w = vocabulary[currentCardIndex]; var c = document.getElementById('flashcard-content'); if (isFlipped) { c.innerHTML = '<div class="card-emoji">' + w.emoji + '</div><div class="card-romanization">' + w.romanization + '</div><div class="card-translation">' + w.translation + '</div>'; } else { c.innerHTML = '<div class="card-emoji">' + w.emoji + '</div><div class="card-korean">' + w.korean + '</div><button class="speak-btn" onclick="event.stopPropagation(); speak(\'' + w.korean.replace(/'/g, "\\'") + '\')">🔊</button>'; } document.getElementById('card-counter').textContent = (currentCardIndex + 1) + ' / ' + vocabulary.length; }
         function flipCard() { isFlipped = !isFlipped; updateFlashcard(); }

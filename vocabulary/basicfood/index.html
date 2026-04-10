@@ -230,6 +230,130 @@
             transform: rotateY(180deg);
         }
 
+        /* ===== Grammar section ===== */
+        .grammar-toggle { text-align: center; margin-bottom: 20px; }
+        .grammar-toggle button {
+            padding: 11px 28px;
+            background: rgba(255,255,255,0.25);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.4); }
+
+        .grammar-block {
+            background: rgba(255,255,255,0.97);
+            border-radius: 22px;
+            padding: 0;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .grammar-block h3 {
+            color: white;
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            padding: 18px 30px;
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .grammar-inner { padding: 25px 30px 30px; }
+
+        .section-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+        .section-label:first-child { margin-top: 0; }
+
+        .formula-card {
+            background: linear-gradient(135deg, #fff8f0, #ffebe0);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border: 1px solid #ffd3b6;
+        }
+        .formula-card .fc-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+        }
+        .fc-word {
+            background: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .fc-word.highlight { background: #fff3e0; color: #e65100; }
+        .fc-word.result { background: linear-gradient(135deg, #e74c3c, #f39c12); color: white; }
+        .fc-word.particle { background: #ffe0b2; color: #bf360c; font-weight: 700; }
+        .fc-plus { color: #e74c3c; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #e74c3c; font-size: 1.3em; }
+        .fc-desc { color: #777; font-size: 0.9em; margin-top: 4px; }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .usage-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #ffd3b6;
+        }
+        .ui-kr { color: #c0392b; font-weight: 600; font-size: 1.05em; }
+        .ui-tr { color: #777; font-size: 0.85em; margin-top: 3px; }
+
+        /* ===== Word details (expand) ===== */
+        .word-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+            margin: 12px -20px -20px;
+            border-radius: 0 0 15px 15px;
+        }
+        .word-details.open { max-height: 250px; }
+        .word-details-inner { padding: 14px 20px; }
+
+        .detail-example {
+            padding: 10px 14px;
+            background: #fff3e0;
+            border-radius: 10px;
+            border-left: 3px solid #e74c3c;
+        }
+        .detail-example .ex-kr { color: #c0392b; font-weight: 600; font-size: 1em; }
+        .detail-example .ex-tr { color: #777; font-size: 0.88em; margin-top: 3px; }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 4px 8px;
+            transition: transform 0.3s;
+            color: #ccc;
+            line-height: 1;
+        }
+        .expand-btn:hover { color: #e74c3c; }
+        .expand-btn.open { transform: rotate(180deg); color: #e74c3c; }
+
         .search-bar {
             background: rgba(255,255,255,0.95);
             padding: 15px 20px;
@@ -263,6 +387,97 @@
         <div class="lesson-header">
             <h1>🍎 Еда и напитки (음식과 음료)</h1>
             <p>Изучаем базовые продукты и напитки</p>
+        </div>
+
+        <!-- Grammar toggle -->
+        <div class="grammar-toggle">
+            <button onclick="toggleGrammar()">📖 Как говорить о еде по-корейски</button>
+        </div>
+
+        <!-- Grammar block -->
+        <div class="grammar-block" id="grammar-block" style="display: none;">
+            <h3>💡 Как использовать еду в корейской речи</h3>
+            <div class="grammar-inner">
+
+                <!-- Rule 1: eating -->
+                <div class="section-label">Правило 1: Есть (кушать)</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">еда</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">먹어요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">밥을 먹어요</span>
+                    </div>
+                    <div class="fc-desc">«Ем рис». Глагол 먹다 (есть). 을 — после согласной, 를 — после гласной.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">김치를 먹어요</div><div class="ui-tr">Ем кимчи</div></div>
+                    <div class="usage-item"><div class="ui-kr">빵을 먹어요</div><div class="ui-tr">Ем хлеб</div></div>
+                    <div class="usage-item"><div class="ui-kr">국수를 먹어요</div><div class="ui-tr">Ем лапшу</div></div>
+                </div>
+
+                <!-- Rule 2: drinking -->
+                <div class="section-label">Правило 2: Пить</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">напиток</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">마셔요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">물을 마셔요</span>
+                    </div>
+                    <div class="fc-desc">«Пью воду». Глагол 마시다 используется только для напитков.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">커피를 마셔요</div><div class="ui-tr">Пью кофе</div></div>
+                    <div class="usage-item"><div class="ui-kr">우유를 마셔요</div><div class="ui-tr">Пью молоко</div></div>
+                    <div class="usage-item"><div class="ui-kr">차를 마셔요</div><div class="ui-tr">Пью чай</div></div>
+                </div>
+
+                <!-- Rule 3: like food -->
+                <div class="section-label">Правило 3: Любить еду</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">еда</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">좋아해요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">김치를 좋아해요</span>
+                    </div>
+                    <div class="fc-desc">«Люблю кимчи». Глагол 좋아하다 — любить (что-то).</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">사과를 좋아해요</div><div class="ui-tr">Люблю яблоки</div></div>
+                    <div class="usage-item"><div class="ui-kr">고기를 좋아해요</div><div class="ui-tr">Люблю мясо</div></div>
+                    <div class="usage-item"><div class="ui-kr">커피를 좋아해요</div><div class="ui-tr">Люблю кофе</div></div>
+                </div>
+
+                <!-- Rule 4: delicious -->
+                <div class="section-label">Правило 4: Вкусно / невкусно</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">еда</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">이/가</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">맛있어요 / 맛없어요</span>
+                    </div>
+                    <div class="fc-desc">이 음식이 맛있어요 — «Эта еда вкусная». 맛있다 — вкусно, 맛없다 — невкусно.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">김치가 맛있어요</div><div class="ui-tr">Кимчи вкусное</div></div>
+                    <div class="usage-item"><div class="ui-kr">빵이 맛있어요</div><div class="ui-tr">Хлеб вкусный</div></div>
+                    <div class="usage-item"><div class="ui-kr">이 수프가 맛없어요</div><div class="ui-tr">Этот суп невкусный</div></div>
+                </div>
+
+            </div>
         </div>
 
         <div class="study-mode">
@@ -350,24 +565,24 @@
 
     <script>
         const vocabulary = [
-            {korean: '사과', pronunciation: 'сагва', translation: 'яблоко'},
-            {korean: '바나나', pronunciation: 'панана', translation: 'банан'},
-            {korean: '딸기', pronunciation: 'ттальги', translation: 'клубника'},
-            {korean: '포도', pronunciation: 'пходо', translation: 'виноград'},
-            {korean: '수박', pronunciation: 'субак', translation: 'арбуз'},
-            {korean: '당근', pronunciation: 'танккын', translation: 'морковь'},
-            {korean: '토마토', pronunciation: 'тхоматхо', translation: 'помидор'},
-            {korean: '양파', pronunciation: 'янпха', translation: 'лук'},
-            {korean: '밥', pronunciation: 'пап', translation: 'рис (варёный)'},
-            {korean: '빵', pronunciation: 'ппан', translation: 'хлеб'},
-            {korean: '고기', pronunciation: 'коги', translation: 'мясо'},
-            {korean: '생선', pronunciation: 'сэнсон', translation: 'рыба'},
-            {korean: '계란', pronunciation: 'керан', translation: 'яйцо'},
-            {korean: '물', pronunciation: 'муль', translation: 'вода'},
-            {korean: '우유', pronunciation: 'ую', translation: 'молоко'},
-            {korean: '커피', pronunciation: 'кхопхи', translation: 'кофе'},
-            {korean: '차', pronunciation: 'чха', translation: 'чай'},
-            {korean: '주스', pronunciation: 'чусы', translation: 'сок'}
+            {korean: '사과', pronunciation: 'сагва', translation: 'яблоко', example: '사과를 먹어요.', exampleTr: 'Ем яблоко.'},
+            {korean: '바나나', pronunciation: 'панана', translation: 'банан', example: '바나나가 맛있어요.', exampleTr: 'Банан вкусный.'},
+            {korean: '딸기', pronunciation: 'ттальги', translation: 'клубника', example: '딸기를 좋아해요.', exampleTr: 'Люблю клубнику.'},
+            {korean: '포도', pronunciation: 'пходо', translation: 'виноград', example: '포도가 달아요.', exampleTr: 'Виноград сладкий.'},
+            {korean: '수박', pronunciation: 'субак', translation: 'арбуз', example: '여름에 수박을 먹어요.', exampleTr: 'Летом ем арбуз.'},
+            {korean: '당근', pronunciation: 'танккын', translation: 'морковь', example: '당근이 몸에 좋아요.', exampleTr: 'Морковь полезна для здоровья.'},
+            {korean: '토마토', pronunciation: 'тхоматхо', translation: 'помидор', example: '토마토를 샀어요.', exampleTr: 'Купил помидоры.'},
+            {korean: '양파', pronunciation: 'янпха', translation: 'лук', example: '양파가 매워요.', exampleTr: 'Лук острый.'},
+            {korean: '밥', pronunciation: 'пап', translation: 'рис (варёный)', example: '저는 밥을 먹어요.', exampleTr: 'Я ем рис.'},
+            {korean: '빵', pronunciation: 'ппан', translation: 'хлеб', example: '아침에 빵을 먹어요.', exampleTr: 'Утром ем хлеб.'},
+            {korean: '고기', pronunciation: 'коги', translation: 'мясо', example: '저는 고기를 좋아해요.', exampleTr: 'Я люблю мясо.'},
+            {korean: '생선', pronunciation: 'сэнсон', translation: 'рыба', example: '생선이 신선해요.', exampleTr: 'Рыба свежая.'},
+            {korean: '계란', pronunciation: 'керан', translation: 'яйцо', example: '계란을 삶아요.', exampleTr: 'Варю яйцо.'},
+            {korean: '물', pronunciation: 'муль', translation: 'вода', example: '물을 마셔요.', exampleTr: 'Пью воду.'},
+            {korean: '우유', pronunciation: 'ую', translation: 'молоко', example: '매일 우유를 마셔요.', exampleTr: 'Каждый день пью молоко.'},
+            {korean: '커피', pronunciation: 'кхопхи', translation: 'кофе', example: '아침에 커피를 마셔요.', exampleTr: 'Утром пью кофе.'},
+            {korean: '차', pronunciation: 'чха', translation: 'чай', example: '따뜻한 차를 마셔요.', exampleTr: 'Пью тёплый чай.'},
+            {korean: '주스', pronunciation: 'чусы', translation: 'сок', example: '오렌지 주스를 좋아해요.', exampleTr: 'Люблю апельсиновый сок.'}
         ];
 
         let currentCardIndex = 0;
@@ -385,18 +600,41 @@
             });
         }
 
+        function toggleGrammar() {
+            const block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            const details = document.getElementById('details-' + id);
+            const btn = document.getElementById('expand-' + id);
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+
         function loadVocabulary() {
             const grid = document.getElementById('vocabularyGrid');
             grid.innerHTML = '';
 
-            vocabulary.forEach((word, index) => {
+            vocabulary.forEach((word, i) => {
                 const card = document.createElement('div');
                 card.className = 'word-card';
+                card.onclick = null;
+                const exHtml = word.example
+                    ? `<div class="detail-example"><div class="ex-kr">${word.example}</div><div class="ex-tr">${word.exampleTr}</div></div>`
+                    : '';
                 card.innerHTML = `
                     <div class="korean-word">${word.korean}</div>
                     <div class="pronunciation">${word.pronunciation}</div>
                     <div class="translation">${word.translation}</div>
-                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊</button>
+                    <div style="display: flex; justify-content: center; gap: 8px; margin-top: 10px;">
+                        <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">&#128264;</button>
+                        <button class="expand-btn" id="expand-${i}" onclick="toggleDetails(event, ${i})">&#9660;</button>
+                    </div>
+                    <div class="word-details" id="details-${i}">
+                        <div class="word-details-inner">${exHtml}</div>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
@@ -405,12 +643,24 @@
         }
 
         function speak(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.8;
-                speechSynthesis.speak(utterance);
-            }
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            const voices = speechSynthesis.getVoices();
+            const koVoice = voices.find(v => v.lang === 'ko-KR' && v.name.includes('Yuna'))
+                || voices.find(v => v.lang === 'ko-KR' && v.name.includes('Google'))
+                || voices.find(v => v.lang === 'ko-KR' && !v.name.includes('Compact'))
+                || voices.find(v => v.lang.startsWith('ko'));
+            if (koVoice) utterance.voice = koVoice;
+            speechSynthesis.speak(utterance);
+        }
+
+        if ('speechSynthesis' in window) {
+            speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
         }
 
         function showVocabulary() {

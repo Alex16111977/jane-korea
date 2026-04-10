@@ -306,6 +306,167 @@
             color: white;
         }
 
+        /* ===== Grammar section ===== */
+        .grammar-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .grammar-toggle button {
+            padding: 11px 28px;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.3); }
+
+        .grammar-block {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(10px);
+            border-radius: 22px;
+            padding: 0;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .grammar-block h3 {
+            color: white;
+            background: linear-gradient(135deg, #2196F3, #1565c0);
+            padding: 18px 30px;
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .grammar-inner {
+            padding: 25px 30px 30px;
+        }
+
+        .section-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+        .section-label:first-child { margin-top: 0; }
+
+        .formula-card {
+            background: linear-gradient(135deg, #f8f9ff, #eef1ff);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border: 1px solid #e8ebf5;
+        }
+
+        .formula-card .fc-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+        }
+
+        .fc-word {
+            background: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .fc-word.highlight { background: #e3f2fd; color: #1565c0; }
+        .fc-word.result { background: linear-gradient(135deg, #2196F3, #1565c0); color: white; }
+        .fc-word.particle { background: #fff3e0; color: #e65100; }
+        .fc-plus { color: #2196F3; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #2196F3; font-size: 1.3em; }
+        .fc-desc { color: #777; font-size: 0.9em; margin-top: 4px; }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .usage-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #eee;
+        }
+
+        .ui-kr {
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #1565c0;
+            margin-bottom: 4px;
+        }
+
+        .ui-tr {
+            font-size: 0.88em;
+            color: #777;
+        }
+
+        /* ===== Word details (expand) ===== */
+        .word-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .word-details.open {
+            max-height: 250px;
+        }
+
+        .word-details-inner {
+            padding: 14px 20px;
+        }
+
+        .detail-example {
+            padding: 10px 14px;
+            background: #eef5ff;
+            border-radius: 10px;
+            border-left: 3px solid #1565c0;
+        }
+
+        .detail-example .ex-kr {
+            color: #1565c0;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .detail-example .ex-tr {
+            color: #777;
+            font-size: 0.88em;
+            margin-top: 3px;
+        }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.3s;
+            color: #ccc;
+            line-height: 1;
+        }
+        .expand-btn:hover { color: #2196F3; }
+        .expand-btn.open { transform: rotate(180deg); color: #2196F3; }
+
         .search-bar {
             max-width: 500px;
             margin: 0 auto 25px;
@@ -354,6 +515,120 @@
             <h1>💼 Профессии</h1>
             <div class="korean-title">직업 [чигоп]</div>
             <p>Кем работают люди в Корее?</p>
+        </div>
+
+        <!-- Grammar toggle -->
+        <div class="grammar-toggle">
+            <button onclick="toggleGrammar()">&#128214; Как использовать в речи</button>
+        </div>
+
+        <!-- Grammar block -->
+        <div class="grammar-block" id="grammar-block" style="display: none;">
+            <h3>&#128161; Как говорить о профессиях по-корейски</h3>
+            <div class="grammar-inner">
+
+                <!-- Rule 1: copula 이에요/예요 -->
+                <div class="section-label">&#8544;. "Я — кто" (разговорная вежливая)</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#51200;&#45716;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#51665;&#50629;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">&#51060;&#50640;&#50836;/&#50696;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#51200;&#45716; &#51032;&#49324;&#50696;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#51060;&#50640;&#50836; после согласной, &#50696;&#50836; после гласной. &#51200;&#45716; = "я" (вежл.).</div>
+                    <div class="usage-grid">
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#51032;&#49324;&#50696;&#50836;.</div>
+                            <div class="ui-tr">Я врач.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#54617;&#49373;&#51060;&#50640;&#50836;.</div>
+                            <div class="ui-tr">Я студент.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#44036;&#54840;&#49324;&#50696;&#50836;.</div>
+                            <div class="ui-tr">Я медсестра.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rule 2: formal copula 입니다 -->
+                <div class="section-label">&#8545;. Формальная вежливая форма</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#51200;&#45716;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#54924;&#49324;&#50896;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">&#51077;&#45768;&#45796;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#51200;&#45716; &#54924;&#49324;&#50896;&#51077;&#45768;&#45796;</span>
+                    </div>
+                    <div class="fc-desc">&#51077;&#45768;&#45796; &#8212; более формальная версия. На работе, в новостях, при знакомстве.</div>
+                    <div class="usage-grid">
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#54924;&#49324;&#50896;&#51077;&#45768;&#45796;.</div>
+                            <div class="ui-tr">Я офисный работник.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#49440;&#49373;&#45784;&#51077;&#45768;&#45796;.</div>
+                            <div class="ui-tr">Я учитель.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rule 3: asking about profession -->
+                <div class="section-label">&#8546;. Как спросить о профессии</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word result">&#51649;&#50629;&#51060; &#47709;&#50696;&#50836;?</span>
+                    </div>
+                    <div class="fc-desc">&#51649;&#50629; = профессия, &#47709; = что. Буквально: "Профессия что?"</div>
+                    <div class="usage-grid">
+                        <div class="usage-item">
+                            <div class="ui-kr">A: &#51649;&#50629;&#51060; &#47709;&#50696;&#50836;?</div>
+                            <div class="ui-tr">Кем работаете?</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">B: &#51200;&#45716; &#50836;&#47532;&#49324;&#50696;&#50836;.</div>
+                            <div class="ui-tr">Я повар.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rule 4: place + 에서 일해요 -->
+                <div class="section-label">&#8547;. Где работаю</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#51109;&#49548;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">&#50640;&#49436;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#51068;&#54644;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#51008;&#54665;&#50640;&#49436; &#51068;&#54644;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#50640;&#49436; &#8212; частица места действия. &#51068;&#54616;&#45796; = работать.</div>
+                    <div class="usage-grid">
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#51008;&#54665;&#50640;&#49436; &#51068;&#54644;&#50836;.</div>
+                            <div class="ui-tr">Я работаю в банке.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#54617;&#44368;&#50640;&#49436; &#51068;&#54644;&#50836;.</div>
+                            <div class="ui-tr">Работаю в школе.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#48337;&#50896;&#50640;&#49436; &#51068;&#54644;&#50836;.</div>
+                            <div class="ui-tr">Работаю в больнице.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="study-mode">
@@ -439,18 +714,30 @@
 
     <script>
         const vocabulary = [
-            {emoji: '👩‍🏫', korean: '선생님', romanization: 'seonsaengnim', translation: 'учитель'},
-            {emoji: '🎓', korean: '학생', romanization: 'haksaeng', translation: 'студент'},
-            {emoji: '👩‍⚕️', korean: '의사', romanization: 'uisa', translation: 'врач'},
-            {emoji: '👩‍⚕️', korean: '간호사', romanization: 'ganhosa', translation: 'медсестра'},
-            {emoji: '👔', korean: '회사원', romanization: 'hoesawon', translation: 'офисный работник'},
-            {emoji: '👨‍💼', korean: '사장', romanization: 'sajang', translation: 'директор'},
-            {emoji: '👩‍🍳', korean: '요리사', romanization: 'yorisa', translation: 'повар'},
-            {emoji: '🛍️', korean: '판매원', romanization: 'panmaewon', translation: 'продавец'},
-            {emoji: '🚗', korean: '운전사', romanization: 'unjeonsa', translation: 'водитель'},
-            {emoji: '🎵', korean: '가수', romanization: 'gasu', translation: 'певец'},
-            {emoji: '🎨', korean: '화가', romanization: 'hwaga', translation: 'художник'},
-            {emoji: '📺', korean: '배우', romanization: 'baeu', translation: 'актер'}
+            {emoji: '👩‍🏫', korean: '선생님', romanization: 'seonsaengnim', translation: 'учитель',
+                example: '저는 한국어 선생님이에요.', exampleTr: 'Я учитель корейского языка.'},
+            {emoji: '🎓', korean: '학생', romanization: 'haksaeng', translation: 'студент',
+                example: '저는 대학교 학생이에요.', exampleTr: 'Я студент университета.'},
+            {emoji: '👩‍⚕️', korean: '의사', romanization: 'uisa', translation: 'врач',
+                example: '우리 아버지는 의사예요.', exampleTr: 'Мой отец — врач.'},
+            {emoji: '👩‍⚕️', korean: '간호사', romanization: 'ganhosa', translation: 'медсестра',
+                example: '언니는 병원에서 간호사로 일해요.', exampleTr: 'Моя старшая сестра работает медсестрой в больнице.'},
+            {emoji: '👔', korean: '회사원', romanization: 'hoesawon', translation: 'офисный работник',
+                example: '저는 회사원입니다.', exampleTr: 'Я офисный работник.'},
+            {emoji: '👨‍💼', korean: '사장', romanization: 'sajang', translation: 'директор',
+                example: '그분은 회사 사장님이에요.', exampleTr: 'Он директор компании.'},
+            {emoji: '👩‍🍳', korean: '요리사', romanization: 'yorisa', translation: 'повар',
+                example: '저는 한식 요리사예요.', exampleTr: 'Я повар корейской кухни.'},
+            {emoji: '🛍️', korean: '판매원', romanization: 'panmaewon', translation: 'продавец',
+                example: '백화점에서 판매원으로 일해요.', exampleTr: 'Работаю продавцом в универмаге.'},
+            {emoji: '🚗', korean: '운전사', romanization: 'unjeonsa', translation: 'водитель',
+                example: '아버지는 택시 운전사예요.', exampleTr: 'Мой отец — таксист.'},
+            {emoji: '🎵', korean: '가수', romanization: 'gasu', translation: 'певец',
+                example: '저는 한국 가수를 좋아해요.', exampleTr: 'Я люблю корейских певцов.'},
+            {emoji: '🎨', korean: '화가', romanization: 'hwaga', translation: 'художник',
+                example: '그 사람은 유명한 화가예요.', exampleTr: 'Этот человек — знаменитый художник.'},
+            {emoji: '📺', korean: '배우', romanization: 'baeu', translation: 'актер',
+                example: '저는 한국 배우를 좋아해요.', exampleTr: 'Я люблю корейских актёров.'}
         ];
 
         let currentCardIndex = 0;
@@ -460,12 +747,38 @@
         let totalQuestions = 0;
 
         function speak(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.8;
-                speechSynthesis.speak(utterance);
-            }
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            const voices = speechSynthesis.getVoices();
+            const koVoice = voices.find(v => v.lang === 'ko-KR' && v.name.includes('Yuna'))
+                || voices.find(v => v.lang === 'ko-KR' && v.name.includes('Google'))
+                || voices.find(v => v.lang === 'ko-KR' && !v.name.includes('Compact'))
+                || voices.find(v => v.lang.startsWith('ko'));
+            if (koVoice) utterance.voice = koVoice;
+            speechSynthesis.speak(utterance);
+        }
+
+        // Загрузить голоса заранее
+        if ('speechSynthesis' in window) {
+            speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+        }
+
+        function toggleGrammar() {
+            const block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            const details = document.getElementById('details-' + id);
+            const btn = document.getElementById('expand-' + id);
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
         }
 
         function filterVocabulary() {
@@ -480,16 +793,27 @@
         function loadVocabulary() {
             const grid = document.getElementById('vocabularyGrid');
             grid.innerHTML = '';
-            vocabulary.forEach(word => {
+            vocabulary.forEach((word, i) => {
                 const card = document.createElement('div');
                 card.className = 'word-card';
-                card.onclick = () => speak(word.korean);
+                card.onclick = null;
+
+                const exHtml = word.example
+                    ? `<div class="detail-example"><div class="ex-kr">${word.example}</div><div class="ex-tr">${word.exampleTr}</div></div>`
+                    : '';
+
                 card.innerHTML = `
                     <div class="word-emoji" style="background: linear-gradient(135deg, #4facfe, #2196F3);">${word.emoji}</div>
                     <div class="word-korean">${word.korean}</div>
                     <div class="word-romanization">${word.romanization}</div>
                     <div class="word-translation">${word.translation}</div>
-                    <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">🔊</button>
+                    <div style="padding: 0 15px 8px; display: flex; justify-content: center; gap: 8px;">
+                        <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')" style="padding: 4px;">&#128264;</button>
+                        <button class="expand-btn" id="expand-${i}" onclick="toggleDetails(event, ${i})">&#9660;</button>
+                    </div>
+                    <div class="word-details" id="details-${i}">
+                        <div class="word-details-inner">${exHtml}</div>
+                    </div>
                 `;
                 grid.appendChild(card);
             });

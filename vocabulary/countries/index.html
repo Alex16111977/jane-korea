@@ -230,6 +230,169 @@
             transform: rotateY(180deg);
         }
 
+        /* ===== Grammar section ===== */
+        .grammar-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .grammar-toggle button {
+            padding: 11px 28px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: inherit;
+        }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.35); }
+
+        .grammar-block {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(10px);
+            border-radius: 22px;
+            padding: 0;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .grammar-block h3 {
+            color: white;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            padding: 18px 30px;
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .grammar-inner {
+            padding: 25px 30px 30px;
+        }
+
+        .section-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+        .section-label:first-child { margin-top: 0; }
+
+        .formula-card {
+            background: linear-gradient(135deg, #f8f9ff, #eef1ff);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border: 1px solid #e8ebf5;
+        }
+
+        .formula-card .fc-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+        }
+
+        .fc-word {
+            background: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .fc-word.highlight { background: #e3f2fd; color: #1565c0; }
+        .fc-word.result { background: linear-gradient(135deg, #3498db, #2980b9); color: white; }
+        .fc-word.particle { background: #fff3e0; color: #e65100; }
+        .fc-plus { color: #3498db; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #3498db; font-size: 1.3em; }
+        .fc-desc { color: #777; font-size: 0.9em; margin-top: 4px; }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .usage-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #eee;
+        }
+
+        .ui-kr {
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #1565c0;
+            margin-bottom: 4px;
+        }
+
+        .ui-tr {
+            font-size: 0.88em;
+            color: #777;
+        }
+
+        /* ===== Word details (expand) ===== */
+        .word-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+            margin: 14px -20px -20px;
+        }
+
+        .word-details.open {
+            max-height: 250px;
+        }
+
+        .word-details-inner {
+            padding: 14px 20px;
+        }
+
+        .detail-example {
+            padding: 10px 14px;
+            background: #eef5ff;
+            border-radius: 10px;
+            border-left: 3px solid #1565c0;
+        }
+
+        .detail-example .ex-kr {
+            color: #1565c0;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .detail-example .ex-tr {
+            color: #777;
+            font-size: 0.88em;
+            margin-top: 3px;
+        }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 4px 8px;
+            transition: transform 0.3s;
+            color: #ccc;
+            line-height: 1;
+            margin-left: 6px;
+        }
+        .expand-btn:hover { color: #3498db; }
+        .expand-btn.open { transform: rotate(180deg); color: #3498db; }
+
         .search-bar {
             background: rgba(255,255,255,0.95);
             padding: 15px 20px;
@@ -263,6 +426,136 @@
         <div class="lesson-header">
             <h1>🌍 Страны и национальности (나라)</h1>
             <p>Изучаем названия стран и национальностей</p>
+        </div>
+
+        <!-- Grammar toggle -->
+        <div class="grammar-toggle">
+            <button onclick="toggleGrammar()">&#128214; Как использовать в речи</button>
+        </div>
+
+        <!-- Grammar block -->
+        <div class="grammar-block" id="grammar-block" style="display: none;">
+            <h3>&#128161; Как говорить о странах по-корейски</h3>
+            <div class="grammar-inner">
+
+                <!-- Rule 1: From country -->
+                <div class="section-label">&#8544;. "Я из ..."</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#47084;&#49884;&#50500;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">&#50640;&#49436;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#50773;&#50612;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#51200;&#45716; &#47084;&#49884;&#50500;&#50640;&#49436; &#50773;&#50612;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#50640;&#49436; &#50773;&#45796; = "приехал из". Буквально: "от России пришёл".</div>
+                    <div class="usage-grid">
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#47084;&#49884;&#50500;&#50640;&#49436; &#50773;&#50612;&#50836;.</div>
+                            <div class="ui-tr">Я из России.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#48120;&#44397;&#50640;&#49436; &#50773;&#50612;&#50836;.</div>
+                            <div class="ui-tr">Я из США.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#51068;&#48376;&#50640;&#49436; &#50773;&#50612;&#50836;.</div>
+                            <div class="ui-tr">Я из Японии.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rule 2: Nationality -->
+                <div class="section-label">&#8545;. Национальность</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#54620;&#44397;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#49324;&#46988;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">&#51060;&#50640;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#54620;&#44397; &#49324;&#46988;&#51060;&#50640;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#49324;&#46988; = человек. Страна + 사람 = национальность.</div>
+                    <div class="usage-grid">
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#54620;&#44397; &#49324;&#46988;&#51060;&#50640;&#50836;.</div>
+                            <div class="ui-tr">Я кореец/кореянка.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#47084;&#49884;&#50500; &#49324;&#46988;&#51060;&#50640;&#50836;.</div>
+                            <div class="ui-tr">Я русский/русская.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#51473;&#44397; &#49324;&#46988;&#51060;&#50640;&#50836;.</div>
+                            <div class="ui-tr">Я китаец/китаянка.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rule 3: Going to country -->
+                <div class="section-label">&#8546;. "Еду в страну"</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#54620;&#44397;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">&#50640;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#44032;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#54620;&#44397;&#50640; &#44032;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#50640; &#8212; частица направления. &#44032;&#45796; = идти/ехать.</div>
+                    <div class="usage-grid">
+                        <div class="usage-item">
+                            <div class="ui-kr">&#54620;&#44397;&#50640; &#44032;&#50836;.</div>
+                            <div class="ui-tr">Еду в Корею.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51068;&#48376;&#50640; &#49548;&#54032;&#44032;&#44032; &#49910;&#50612;&#50836;.</div>
+                            <div class="ui-tr">Хочу съездить в Японию.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#45236;&#45380; &#54532;&#46993;&#49828;&#50640; &#44032;&#50836;.</div>
+                            <div class="ui-tr">В следующем году еду во Францию.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rule 4: Language -->
+                <div class="section-label">&#8547;. Язык страны</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#54620;&#44397;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#50612;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">&#47484;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#48176;&#50892;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#54620;&#44397;&#50612;&#47484; &#48176;&#50892;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">Страна + 어 = язык. &#47484;/&#51012; &#8212; частица объекта.</div>
+                    <div class="usage-grid">
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51200;&#45716; &#54620;&#44397;&#50612;&#47484; &#48176;&#50892;&#50836;.</div>
+                            <div class="ui-tr">Я учу корейский.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#50689;&#50612;&#47484; &#44066;&#54632;&#45768;&#45796;.</div>
+                            <div class="ui-tr">Говорю по-английски.</div>
+                        </div>
+                        <div class="usage-item">
+                            <div class="ui-kr">&#51068;&#48376;&#50612;&#47484; &#50880;&#45716; &#44144;&#51060; &#50612;&#47140;&#50892;&#50836;.</div>
+                            <div class="ui-tr">Писать по-японски сложно.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="study-mode">
@@ -336,24 +629,42 @@
 
     <script>
         const vocabulary = [
-            {korean: '한국', pronunciation: 'хангук', translation: 'Корея'},
-            {korean: '러시아', pronunciation: 'росиа', translation: 'Россия'},
-            {korean: '일본', pronunciation: 'ильбон', translation: 'Япония'},
-            {korean: '중국', pronunciation: 'чунгук', translation: 'Китай'},
-            {korean: '미국', pronunciation: 'мигук', translation: 'США'},
-            {korean: '영국', pronunciation: 'ёнгук', translation: 'Великобритания'},
-            {korean: '프랑스', pronunciation: 'пхырансы', translation: 'Франция'},
-            {korean: '독일', pronunciation: 'тогиль', translation: 'Германия'},
-            {korean: '이탈리아', pronunciation: 'итхаллиа', translation: 'Италия'},
-            {korean: '스페인', pronunciation: 'сыпхеин', translation: 'Испания'},
-            {korean: '한국 사람', pronunciation: 'хангук сарам', translation: 'кореец/кореянка'},
-            {korean: '러시아 사람', pronunciation: 'росиа сарам', translation: 'русский/русская'},
-            {korean: '일본 사람', pronunciation: 'ильбон сарам', translation: 'японец/японка'},
-            {korean: '중국 사람', pronunciation: 'чунгук сарам', translation: 'китаец/китаянка'},
-            {korean: '미국 사람', pronunciation: 'мигук сарам', translation: 'американец/американка'},
-            {korean: '외국', pronunciation: 'вегук', translation: 'заграница'},
-            {korean: '외국 사람', pronunciation: 'вегук сарам', translation: 'иностранец'},
-            {korean: '나라', pronunciation: 'нара', translation: 'страна'}
+            {korean: '한국', pronunciation: 'хангук', translation: 'Корея',
+                example: '저는 한국에 가고 싶어요.', exampleTr: 'Я хочу поехать в Корею.'},
+            {korean: '러시아', pronunciation: 'росиа', translation: 'Россия',
+                example: '저는 러시아에서 왔어요.', exampleTr: 'Я из России.'},
+            {korean: '일본', pronunciation: 'ильбон', translation: 'Япония',
+                example: '일본 음식을 좋아해요.', exampleTr: 'Я люблю японскую еду.'},
+            {korean: '중국', pronunciation: 'чунгук', translation: 'Китай',
+                example: '중국은 아주 커요.', exampleTr: 'Китай очень большой.'},
+            {korean: '미국', pronunciation: 'мигук', translation: 'США',
+                example: '언니는 미국에 살아요.', exampleTr: 'Старшая сестра живёт в США.'},
+            {korean: '영국', pronunciation: 'ёнгук', translation: 'Великобритания',
+                example: '영국에 여행 가고 싶어요.', exampleTr: 'Хочу поехать в Великобританию.'},
+            {korean: '프랑스', pronunciation: 'пхырансы', translation: 'Франция',
+                example: '프랑스 요리가 유명해요.', exampleTr: 'Французская кухня знаменита.'},
+            {korean: '독일', pronunciation: 'тогиль', translation: 'Германия',
+                example: '독일 자동차는 좋아요.', exampleTr: 'Немецкие автомобили хорошие.'},
+            {korean: '이탈리아', pronunciation: 'итхаллиа', translation: 'Италия',
+                example: '이탈리아 피자를 좋아해요.', exampleTr: 'Я люблю итальянскую пиццу.'},
+            {korean: '스페인', pronunciation: 'сыпхеин', translation: 'Испания',
+                example: '스페인어를 배우고 싶어요.', exampleTr: 'Хочу учить испанский.'},
+            {korean: '한국 사람', pronunciation: 'хангук сарам', translation: 'кореец/кореянка',
+                example: '제 친구는 한국 사람이에요.', exampleTr: 'Мой друг — кореец.'},
+            {korean: '러시아 사람', pronunciation: 'росиа сарам', translation: 'русский/русская',
+                example: '저는 러시아 사람이에요.', exampleTr: 'Я русский/русская.'},
+            {korean: '일본 사람', pronunciation: 'ильбон сарам', translation: 'японец/японка',
+                example: '그분은 일본 사람이에요.', exampleTr: 'Он/она — японец/японка.'},
+            {korean: '중국 사람', pronunciation: 'чунгук сарам', translation: 'китаец/китаянка',
+                example: '중국 사람이 많이 와요.', exampleTr: 'Приезжает много китайцев.'},
+            {korean: '미국 사람', pronunciation: 'мигук сарам', translation: 'американец/американка',
+                example: '제 선생님은 미국 사람이에요.', exampleTr: 'Мой учитель — американец.'},
+            {korean: '외국', pronunciation: 'вегук', translation: 'заграница',
+                example: '외국에 가 본 적이 있어요?', exampleTr: 'Вы когда-нибудь были за границей?'},
+            {korean: '외국 사람', pronunciation: 'вегук сарам', translation: 'иностранец',
+                example: '여기에 외국 사람이 많아요.', exampleTr: 'Здесь много иностранцев.'},
+            {korean: '나라', pronunciation: 'нара', translation: 'страна',
+                example: '어느 나라에서 왔어요?', exampleTr: 'Из какой вы страны?'}
         ];
 
         let currentCardIndex = 0;
@@ -375,14 +686,26 @@
             const grid = document.getElementById('vocabularyGrid');
             grid.innerHTML = '';
 
-            vocabulary.forEach((word, index) => {
+            vocabulary.forEach((word, i) => {
                 const card = document.createElement('div');
                 card.className = 'word-card';
+                card.onclick = null;
+
+                const exHtml = word.example
+                    ? `<div class="detail-example"><div class="ex-kr">${word.example}</div><div class="ex-tr">${word.exampleTr}</div></div>`
+                    : '';
+
                 card.innerHTML = `
                     <div class="korean-word">${word.korean}</div>
                     <div class="pronunciation">${word.pronunciation}</div>
                     <div class="translation">${word.translation}</div>
-                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊</button>
+                    <div style="margin-top: 8px;">
+                        <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">&#128264;</button>
+                        <button class="expand-btn" id="expand-${i}" onclick="toggleDetails(event, ${i})">&#9660;</button>
+                    </div>
+                    <div class="word-details" id="details-${i}">
+                        <div class="word-details-inner">${exHtml}</div>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
@@ -391,12 +714,38 @@
         }
 
         function speak(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.8;
-                speechSynthesis.speak(utterance);
-            }
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            const voices = speechSynthesis.getVoices();
+            const koVoice = voices.find(v => v.lang === 'ko-KR' && v.name.includes('Yuna'))
+                || voices.find(v => v.lang === 'ko-KR' && v.name.includes('Google'))
+                || voices.find(v => v.lang === 'ko-KR' && !v.name.includes('Compact'))
+                || voices.find(v => v.lang.startsWith('ko'));
+            if (koVoice) utterance.voice = koVoice;
+            speechSynthesis.speak(utterance);
+        }
+
+        // Загрузить голоса заранее
+        if ('speechSynthesis' in window) {
+            speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+        }
+
+        function toggleGrammar() {
+            const block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            const details = document.getElementById('details-' + id);
+            const btn = document.getElementById('expand-' + id);
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
         }
 
         function showVocabulary() {

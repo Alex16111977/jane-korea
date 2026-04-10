@@ -230,6 +230,142 @@
             transform: rotateY(180deg);
         }
 
+        /* ===== Grammar section ===== */
+        .grammar-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .grammar-toggle button {
+            padding: 11px 28px;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: inherit;
+        }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.3); }
+
+        .grammar-block {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(10px);
+            border-radius: 22px;
+            padding: 0;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .grammar-block h3 {
+            color: white;
+            background: linear-gradient(135deg, #16a085, #27ae60);
+            padding: 18px 30px;
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .grammar-inner {
+            padding: 25px 30px 30px;
+        }
+        .section-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+        .section-label:first-child { margin-top: 0; }
+        .formula-card {
+            background: linear-gradient(135deg, #f0fbf7, #e9f7ef);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border: 1px solid #d5f0e3;
+        }
+        .formula-card .fc-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+        }
+        .fc-word {
+            background: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .fc-word.highlight { background: #e0f7ef; color: #16a085; }
+        .fc-word.result { background: linear-gradient(135deg, #16a085, #27ae60); color: white; }
+        .fc-word.particle { background: #dff7e9; color: #27ae60; }
+        .fc-word.strike { text-decoration: line-through; color: #ccc; font-weight: 400; }
+        .fc-plus { color: #16a085; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #27ae60; font-size: 1.3em; }
+        .fc-desc { color: #777; font-size: 0.9em; margin-top: 4px; }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .usage-item {
+            background: white;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #eee;
+        }
+        .ui-kr { color: #16a085; font-weight: 700; font-size: 1.05em; margin-bottom: 4px; }
+        .ui-tr { color: #777; font-size: 0.88em; }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.3s;
+            color: #ccc;
+            line-height: 1;
+        }
+        .expand-btn:hover { color: #16a085; }
+        .expand-btn.open { transform: rotate(180deg); color: #16a085; }
+
+        .word-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+            margin-top: 10px;
+            border-radius: 0 0 10px 10px;
+        }
+        .word-details.open { max-height: 250px; }
+        .word-details-inner { padding: 14px 18px; }
+
+        .detail-example {
+            padding: 10px 14px;
+            background: #e0f7ef;
+            border-radius: 10px;
+            border-left: 3px solid #16a085;
+        }
+        .detail-example .ex-kr {
+            color: #16a085;
+            font-weight: 600;
+            font-size: 1em;
+        }
+        .detail-example .ex-tr {
+            color: #777;
+            font-size: 0.88em;
+            margin-top: 3px;
+        }
+
         .search-bar {
             background: rgba(255,255,255,0.95);
             padding: 15px 20px;
@@ -263,6 +399,81 @@
         <div class="lesson-header">
             <h1>🔢 Дни недели и время (요일과 시간)</h1>
             <p>Изучаем дни недели и время суток</p>
+        </div>
+
+        <!-- Grammar toggle -->
+        <div class="grammar-toggle">
+            <button onclick="toggleGrammar()">&#128214; Как использовать в речи</button>
+        </div>
+
+        <!-- Grammar block -->
+        <div class="grammar-block" id="grammar-block" style="display: none;">
+            <h3>&#128161; Дни недели и время в корейском</h3>
+            <div class="grammar-inner">
+
+                <!-- Rule 1: On day -->
+                <div class="section-label">В [день недели] + действие</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#50900;&#50836;&#51068;</span>
+                        <span class="fc-word particle">&#50640;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#54617;&#44368;&#50640; &#44032;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#50900;&#50836;&#51068;&#50640; &#54617;&#44368;&#50640; &#44032;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#171;В понедельник иду в школу&#187;. Частица 에 указывает момент времени.</div>
+                </div>
+
+                <!-- Rule 2: Today/yesterday/tomorrow -->
+                <div class="section-label">Сегодня / вчера / завтра (без 에!)</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#50724;&#45720;</span>
+                        <span class="fc-word strike">&#50640;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#48148;&#48274;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#50724;&#45720; &#48148;&#48274;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#171;Сегодня занят&#187;. После 오늘/어제/내일 НЕ ставим 에.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item">
+                        <div class="ui-kr">&#50612;&#51228; &#50689;&#54868;&#47484; &#48642;&#50612;&#50836;</div>
+                        <div class="ui-tr">Вчера смотрел фильм</div>
+                    </div>
+                    <div class="usage-item">
+                        <div class="ui-kr">&#45236;&#51068; &#47564;&#45208;&#50836;</div>
+                        <div class="ui-tr">Завтра встречаемся</div>
+                    </div>
+                </div>
+
+                <!-- Rule 3: Time of day -->
+                <div class="section-label">Утром / днём / вечером / ночью</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">&#50500;&#52840;</span>
+                        <span class="fc-word particle">&#50640;</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">&#51068;&#50612;&#45208;&#50836;</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#50500;&#52840;&#50640; &#51068;&#50612;&#45208;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#171;Утром встаю&#187;. После 아침/점심/저녁/밤 ставим 에.</div>
+                </div>
+
+                <!-- Rule 4: What day is it? -->
+                <div class="section-label">Какой сегодня день?</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">&#50724;&#45720;&#51060; &#47924;&#49832; &#50836;&#51068;&#51060;&#50640;&#50836;?</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">&#50724;&#45720;&#51008; &#50900;&#50836;&#51068;&#51060;&#50640;&#50836;</span>
+                    </div>
+                    <div class="fc-desc">&#171;Какой сегодня день? &#8212; Сегодня понедельник.&#187; 무슨 요일 = &#171;какой день недели&#187;.</div>
+                </div>
+            </div>
         </div>
 
         <div class="study-mode">
@@ -336,21 +547,21 @@
 
     <script>
         const vocabulary = [
-            {korean: '월요일', pronunciation: 'ворёиль', translation: 'понедельник'},
-            {korean: '화요일', pronunciation: 'хваёиль', translation: 'вторник'},
-            {korean: '수요일', pronunciation: 'суёиль', translation: 'среда'},
-            {korean: '목요일', pronunciation: 'могёиль', translation: 'четверг'},
-            {korean: '금요일', pronunciation: 'кымёиль', translation: 'пятница'},
-            {korean: '토요일', pronunciation: 'тхоёиль', translation: 'суббота'},
-            {korean: '일요일', pronunciation: 'ирёиль', translation: 'воскресенье'},
-            {korean: '아침', pronunciation: 'ачхим', translation: 'утро'},
-            {korean: '점심', pronunciation: 'чомсим', translation: 'обед (время дня)'},
-            {korean: '저녁', pronunciation: 'чонёк', translation: 'вечер'},
-            {korean: '밤', pronunciation: 'пам', translation: 'ночь'},
-            {korean: '오전', pronunciation: 'очжон', translation: 'до полудня (AM)'},
-            {korean: '오후', pronunciation: 'оху', translation: 'после полудня (PM)'},
-            {korean: '오늘', pronunciation: 'онуль', translation: 'сегодня'},
-            {korean: '내일', pronunciation: 'нэиль', translation: 'завтра'}
+            {korean: '월요일', pronunciation: 'ворёиль', translation: 'понедельник', example: '월요일에 학교에 가요.', exampleTr: 'В понедельник иду в школу.'},
+            {korean: '화요일', pronunciation: 'хваёиль', translation: 'вторник', example: '화요일에 운동해요.', exampleTr: 'Во вторник занимаюсь спортом.'},
+            {korean: '수요일', pronunciation: 'суёиль', translation: 'среда', example: '수요일에 한국어 수업이 있어요.', exampleTr: 'В среду урок корейского.'},
+            {korean: '목요일', pronunciation: 'могёиль', translation: 'четверг', example: '목요일에 친구를 만나요.', exampleTr: 'В четверг встречаюсь с другом.'},
+            {korean: '금요일', pronunciation: 'кымёиль', translation: 'пятница', example: '금요일에 영화를 봐요.', exampleTr: 'В пятницу смотрю фильм.'},
+            {korean: '토요일', pronunciation: 'тхоёиль', translation: 'суббота', example: '토요일에 쉬어요.', exampleTr: 'В субботу отдыхаю.'},
+            {korean: '일요일', pronunciation: 'ирёиль', translation: 'воскресенье', example: '일요일에 집에 있어요.', exampleTr: 'В воскресенье дома.'},
+            {korean: '아침', pronunciation: 'ачхим', translation: 'утро', example: '아침에 일찍 일어나요.', exampleTr: 'Утром встаю рано.'},
+            {korean: '점심', pronunciation: 'чомсим', translation: 'обед (время дня)', example: '점심에 김밥을 먹어요.', exampleTr: 'В обед ем кимбап.'},
+            {korean: '저녁', pronunciation: 'чонёк', translation: 'вечер', example: '저녁에 가족과 밥을 먹어요.', exampleTr: 'Вечером ужинаю с семьёй.'},
+            {korean: '밤', pronunciation: 'пам', translation: 'ночь', example: '밤에 잠을 자요.', exampleTr: 'Ночью сплю.'},
+            {korean: '오전', pronunciation: 'очжон', translation: 'до полудня (AM)', example: '오전 9시에 회의가 있어요.', exampleTr: 'В 9 утра совещание.'},
+            {korean: '오후', pronunciation: 'оху', translation: 'после полудня (PM)', example: '오후에 카페에 가요.', exampleTr: 'Днём иду в кафе.'},
+            {korean: '오늘', pronunciation: 'онуль', translation: 'сегодня', example: '오늘 바빠요.', exampleTr: 'Сегодня занят.'},
+            {korean: '내일', pronunciation: 'нэиль', translation: 'завтра', example: '내일 만나요.', exampleTr: 'Завтра встретимся.'}
         ];
 
         let currentCardIndex = 0;
@@ -368,18 +579,43 @@
             });
         }
 
+        function toggleGrammar() {
+            const block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            const details = document.getElementById('details-' + id);
+            const btn = document.getElementById('expand-' + id);
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+
         function loadVocabulary() {
             const grid = document.getElementById('vocabularyGrid');
             grid.innerHTML = '';
 
-            vocabulary.forEach((word, index) => {
+            vocabulary.forEach((word, i) => {
                 const card = document.createElement('div');
                 card.className = 'word-card';
+                card.onclick = null;
+
+                const exHtml = word.example
+                    ? `<div class="detail-example"><div class="ex-kr">${word.example}</div><div class="ex-tr">${word.exampleTr}</div></div>`
+                    : '';
+
                 card.innerHTML = `
                     <div class="korean-word">${word.korean}</div>
                     <div class="pronunciation">${word.pronunciation}</div>
                     <div class="translation">${word.translation}</div>
-                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊</button>
+                    <div style="padding: 10px 0 0; display: flex; justify-content: flex-start; gap: 8px;">
+                        <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">&#128264;</button>
+                        <button class="expand-btn" id="expand-${i}" onclick="toggleDetails(event, ${i})">&#9660;</button>
+                    </div>
+                    <div class="word-details" id="details-${i}">
+                        <div class="word-details-inner">${exHtml}</div>
+                    </div>
                 `;
                 grid.appendChild(card);
             });
@@ -388,12 +624,24 @@
         }
 
         function speak(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.8;
-                speechSynthesis.speak(utterance);
-            }
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            const voices = speechSynthesis.getVoices();
+            const koVoice = voices.find(v => v.lang === 'ko-KR' && v.name.includes('Yuna'))
+                || voices.find(v => v.lang === 'ko-KR' && v.name.includes('Google'))
+                || voices.find(v => v.lang === 'ko-KR' && !v.name.includes('Compact'))
+                || voices.find(v => v.lang.startsWith('ko'));
+            if (koVoice) utterance.voice = koVoice;
+            speechSynthesis.speak(utterance);
+        }
+
+        if ('speechSynthesis' in window) {
+            speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
         }
 
         function showVocabulary() {
