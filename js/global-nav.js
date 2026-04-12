@@ -23,6 +23,29 @@
     var PREFIX = getPathPrefix();
 
     // =============================================
+    // AUTO-LOAD UI COMPONENTS (JKModal + JKToast)
+    // Загружаем универсальные модалки и тосты,
+    // если они ещё не подключены вручную.
+    // =============================================
+    (function loadUIComponents() {
+        if (!(window.JKModal && window.JKToast) &&
+            !document.querySelector('script[src*="ui-components.js"]')) {
+            var s = document.createElement('script');
+            s.src = PREFIX + 'js/ui-components.js';
+            s.async = false;
+            document.head.appendChild(s);
+        }
+        // Lesson chrome (скролл-прогресс + prev/next навигация)
+        if (!window.JKLessonChrome &&
+            !document.querySelector('script[src*="lesson-chrome.js"]')) {
+            var sc = document.createElement('script');
+            sc.src = PREFIX + 'js/lesson-chrome.js';
+            sc.async = false;
+            document.head.appendChild(sc);
+        }
+    })();
+
+    // =============================================
     // LANGUAGE DETECTION
     // =============================================
     function detectLanguage() {
@@ -530,16 +553,27 @@
             object-fit: cover;\
         }\
 \
-        /* Guest warning — desktop only */\
+        /* Guest warning — desktop only, дискретный вариант */\
         .jk-nav-guest-warning {\
             display: none;\
             align-items: center;\
             gap: 6px;\
-            background: linear-gradient(135deg, #fff3cd, #ffeaa7);\
-            padding: 5px 12px;\
-            border-radius: 20px;\
-            font-size: 11px;\
-            color: #856404;\
+            background: transparent;\
+            padding: 4px 10px;\
+            border-radius: 14px;\
+            font-size: 10.5px;\
+            color: #9a8c6f;\
+            opacity: 0.65;\
+            transition: opacity 0.2s ease;\
+        }\
+        .jk-nav-guest-warning::before {\
+            content: "\\2022";\
+            color: #d4a947;\
+            font-size: 1.6em;\
+            line-height: 0.5;\
+        }\
+        .jk-nav-guest-warning:hover {\
+            opacity: 1;\
         }\
 \
         /* Hamburger */\

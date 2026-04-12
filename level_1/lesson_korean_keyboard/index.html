@@ -286,7 +286,7 @@
             </table>
 
             <div class="warning-box">
-                <strong>Shift + гласные:</strong> Shift+ㅐ = ㅒ [ye], Shift+㛔 (ㅛ) = ㅒ тоже. Shift+ㅔ не меняется. На практике ㅒ и ㅖ часто произносятся одинаково — как [е].
+                <strong>Shift + гласные:</strong> Shift+ㅐ = ㅒ [ye], Shift+ㅔ = ㅖ [ye]. На практике ㅒ и ㅖ часто произносятся одинаково — как [е].
             </div>
         </div>
 
@@ -449,6 +449,25 @@
             </table>
         </div>
 
+        <!-- SECTION 6: Typing Practice -->
+        <div class="content-section">
+            <h2>6. Тренировка набора</h2>
+            <p>Переключите клавиатуру на корейскую и попробуйте набрать слова. Нажмите «Новое слово» для следующего задания.</p>
+
+            <div id="typing-practice" style="background: rgba(255,255,255,0.97); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div id="typing-target" style="font-size: 2.2em; font-weight: 700; color: #2c3e50; margin-bottom: 8px;">한국</div>
+                <div id="typing-hint" style="font-size: 1em; color: #999; margin-bottom: 20px;">Корея</div>
+                <input type="text" id="typing-input" autocomplete="off" placeholder="Введите слово здесь..."
+                    style="width: 80%; max-width: 400px; padding: 14px 20px; font-size: 1.4em; border: 3px solid #e0e0e0; border-radius: 15px; text-align: center; outline: none; transition: border-color 0.3s; font-family: 'Noto Sans KR', sans-serif;"
+                    oninput="checkTyping()">
+                <div id="typing-feedback" style="margin-top: 15px; font-size: 1.1em; font-weight: 600; min-height: 1.5em;"></div>
+                <div style="margin-top: 15px; display: flex; justify-content: center; gap: 12px;">
+                    <button onclick="newTypingWord()" style="padding: 10px 24px; background: #3498db; color: white; border: none; border-radius: 12px; font-size: 1em; cursor: pointer; transition: all 0.3s; font-family: inherit;">Новое слово</button>
+                    <span id="typing-score" style="padding: 10px 18px; background: #f0f0f0; border-radius: 12px; font-weight: 600; color: #555; display: flex; align-items: center;">0 / 0</span>
+                </div>
+            </div>
+        </div>
+
         <!-- PRACTICE SECTION -->
         <div class="practice-section">
             <h2>Упражнения</h2>
@@ -529,6 +548,69 @@
                 }
             }
         });
+        // Typing practice
+        var typingWords = [
+            {korean: '한국', hint: 'Корея'},
+            {korean: '사랑', hint: 'любовь'},
+            {korean: '감사', hint: 'благодарность'},
+            {korean: '학교', hint: 'школа'},
+            {korean: '친구', hint: 'друг'},
+            {korean: '가족', hint: 'семья'},
+            {korean: '음식', hint: 'еда'},
+            {korean: '선생님', hint: 'учитель'},
+            {korean: '안녕', hint: 'привет'},
+            {korean: '고마워', hint: 'спасибо (неформ.)'},
+            {korean: '좋아요', hint: 'нравится / хорошо'},
+            {korean: '물', hint: 'вода'},
+            {korean: '바다', hint: 'море'},
+            {korean: '하늘', hint: 'небо'},
+            {korean: '서울', hint: 'Сеул'},
+            {korean: '의사', hint: 'врач'},
+            {korean: '최고', hint: 'лучший'},
+            {korean: '원', hint: 'вон (валюта)'},
+            {korean: '뭐', hint: 'что?'},
+            {korean: '왜', hint: 'почему?'}
+        ];
+        var typingIndex = 0;
+        var typingCorrect = 0;
+        var typingTotal = 0;
+
+        function checkTyping() {
+            var input = document.getElementById('typing-input');
+            var target = typingWords[typingIndex].korean;
+            var feedback = document.getElementById('typing-feedback');
+            if (input.value === target) {
+                typingCorrect++;
+                typingTotal++;
+                feedback.textContent = 'Правильно!';
+                feedback.style.color = '#27ae60';
+                input.style.borderColor = '#27ae60';
+                document.getElementById('typing-score').textContent = typingCorrect + ' / ' + typingTotal;
+                setTimeout(function() { newTypingWord(); }, 800);
+            } else if (target.indexOf(input.value) === 0) {
+                feedback.textContent = '';
+                input.style.borderColor = '#3498db';
+            } else {
+                feedback.textContent = 'Проверьте последний символ';
+                feedback.style.color = '#e74c3c';
+                input.style.borderColor = '#e74c3c';
+            }
+        }
+
+        function newTypingWord() {
+            var prev = typingIndex;
+            while (typingIndex === prev && typingWords.length > 1) {
+                typingIndex = Math.floor(Math.random() * typingWords.length);
+            }
+            document.getElementById('typing-target').textContent = typingWords[typingIndex].korean;
+            document.getElementById('typing-hint').textContent = typingWords[typingIndex].hint;
+            var input = document.getElementById('typing-input');
+            input.value = '';
+            input.style.borderColor = '#e0e0e0';
+            document.getElementById('typing-feedback').textContent = '';
+            input.focus();
+        }
+
         function showPhoneTab(tabId, clickedBtn) {
             document.querySelectorAll('.phone-content').forEach(function(el) { el.classList.remove('active'); });
             document.querySelectorAll('.phone-tab').forEach(function(el) { el.classList.remove('active'); });

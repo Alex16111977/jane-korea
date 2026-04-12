@@ -1181,7 +1181,7 @@
             <button class="tab" onclick="showTab('writing', this)">Написать</button>
             <button class="tab" onclick="showTab('sentences', this)">Предложения</button>
             <button class="tab" onclick="showTab('dictionary', this)">Мой словарь</button>
-            <button class="tab" onclick="showTab('srs', this)">Повторение <span class="srs-badge" id="srsBadge"></span></button>
+            <button class="tab" onclick="showTab('srs', this)" title="Слов на повторение сегодня">Повторение <span class="srs-badge" id="srsBadge"></span></button>
         </div>
 
         <!-- ВЫБОР СЛОВ -->
@@ -1530,8 +1530,17 @@
             var wordsToUse = words || selectedWords;
             flashcardSource = source || 'selected';
 
+            // Если нет выбранных — берём слова из словаря автоматически
+            if (wordsToUse.length === 0 && window.Dictionary) {
+                var dictWords = window.Dictionary.getAll();
+                if (dictWords.length > 0) {
+                    wordsToUse = dictWords.slice(-20); // Последние 20 слов
+                    flashcardSource = 'dictionary';
+                }
+            }
+
             if (wordsToUse.length === 0) {
-                container.innerHTML = '<div class="empty-state"><h2>Сначала выберите слова</h2><p>Перейдите на вкладку "Выбрать слова"</p></div>';
+                container.innerHTML = '<div class="empty-state"><h2>Нет слов для изучения</h2><p>Добавьте слова в словарь из уроков или текстов с помощью кнопки «+ В словарь»</p></div>';
                 return;
             }
 
@@ -1750,11 +1759,17 @@
         function initWriting() {
             const container = document.getElementById('writingPractice');
             
+            // Fallback на словарь если нет выбранных слов
+            if (selectedWords.length === 0 && window.Dictionary) {
+                var dictW = window.Dictionary.getAll();
+                if (dictW.length > 0) selectedWords = dictW.slice(-15);
+            }
+
             if (selectedWords.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <h2>Сначала выберите слова</h2>
-                        <p>Перейдите на вкладку "Выбрать слова"</p>
+                        <h2>Нет слов для практики</h2>
+                        <p>Добавьте слова из уроков или текстов</p>
                     </div>
                 `;
                 return;
@@ -1767,16 +1782,19 @@
         function showWritingWord() {
             const container = document.getElementById('writingPractice');
             const word = selectedWords[writingIndex];
-            
+
             container.innerHTML = `
                 <div class="writing-card">
                     <div class="writing-word">${word.translation}</div>
                     <div class="writing-translation">${word.pronunciation}</div>
-                    <input type="text" class="writing-input" id="writingInput" placeholder="Напишите по-корейски..." autocomplete="off">
+                    <input type="text" class="writing-input" id="writingInput" placeholder="Напишите по-корейски..." autocomplete="off" lang="ko">
                     <div class="writing-feedback" id="writingFeedback"></div>
                 </div>
                 <div style="text-align: center;">
                     <span style="color: white; font-size: 1.2em; font-weight: 600;">${writingIndex + 1} / ${selectedWords.length}</span>
+                </div>
+                <div style="text-align:center; margin-top:12px; padding:10px 16px; background:rgba(255,255,255,0.12); border-radius:12px; color:rgba(255,255,255,0.75); font-size:0.85em; line-height:1.5;">
+                    💡 <strong>Нет корейской клавиатуры?</strong> Windows: Win+Space или Alt+Shift &nbsp;|&nbsp; Mac: Ctrl+Space &nbsp;|&nbsp; Телефон: добавьте 한국어 в настройках клавиатуры
                 </div>
             `;
 

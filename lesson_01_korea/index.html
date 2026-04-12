@@ -455,7 +455,7 @@
                 <span class="korean-text">왜 한국어를 배워야 할까요?</span>
             </h2>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div class="reasons-grid">
                 <div>
                     <h3>💼 Карьерные возможности</h3>
                     <p>Корейские компании активно расширяются по всему миру. Знание языка открывает двери в Samsung, LG, Hyundai и многие другие корпорации.</p>
@@ -473,6 +473,16 @@
                     <p>Общайтесь с местными жителями во время поездок в Корею, откройте для себя скрытые жемчужины страны.</p>
                 </div>
             </div>
+            <style>
+                .reasons-grid {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 22px;
+                }
+                @media (max-width: 700px) {
+                    .reasons-grid { grid-template-columns: 1fr; }
+                }
+            </style>
 
             <div class="highlight-box" style="margin-top: 30px;">
                 <h3>🎯 Наша цель в этом курсе:</h3>
@@ -588,15 +598,13 @@
             
             if (answered === 2) {
                 setTimeout(() => {
-                    let message = '';
-                    if (score === 2) {
-                        message = '🎉 Отлично! Вы отлично усвоили материал!';
-                    } else if (score === 1) {
-                        message = '👍 Неплохо! Стоит еще раз прочитать урок.';
-                    } else {
-                        message = '📚 Рекомендуем перечитать урок внимательнее.';
-                    }
-                    alert(message);
+                    JKModal.quiz({
+                        score: score,
+                        total: 2,
+                        onContinue: function() {
+                            document.querySelector('.continue-btn').scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
                 }, 500);
             }
         }
@@ -604,5 +612,6 @@
 <script src="../js/dictionary.js"></script>
     <script src="../js/dictionary-inject.js"></script>
     <script src="../js/global-nav.js"></script>
+    <script src="../js/ui-components.js"></script>
 </body>
 </html>

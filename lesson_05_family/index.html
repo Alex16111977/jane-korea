@@ -979,7 +979,14 @@
 
         function showProgress() {
             const progress = Math.round((learnedItems / totalItems) * 100);
-            alert(`Ваш прогресс: ${progress}%\n진행률: ${progress}%\n\nИзучено: ${learnedItems} из ${totalItems} слов`);
+            JKModal.open({
+                type: progress >= 70 ? 'success' : (progress >= 30 ? 'warning' : 'info'),
+                title: 'Ваш прогресс',
+                icon: '📊',
+                score: learnedItems,
+                total: totalItems,
+                body: 'Изучено ' + progress + '% слов урока'
+            });
         }
 
         // ИСПРАВЛЕНО: Новая функция с правильной остановкой диалога
@@ -1084,10 +1091,14 @@
             }
         });
 
-        // Обработчик упражнений
+        // Обработчик упражнений — с отслеживанием общего результата
         document.addEventListener('DOMContentLoaded', function() {
             var exercises = document.querySelectorAll('.exercise');
-            exercises.forEach(function(exercise) {
+            var answeredExercises = new Set();
+            var correctExercises = new Set();
+            var totalExercises = exercises.length;
+
+            exercises.forEach(function(exercise, exIndex) {
                 var options = exercise.querySelectorAll('.option');
                 var result = exercise.querySelector('.result');
                 options.forEach(function(option) {
@@ -1096,10 +1107,16 @@
                             opt.classList.remove('correct', 'wrong');
                         });
                         var isCorrect = this.dataset.correct === 'true';
+
+                        // Засчитываем ПЕРВУЮ попытку — если уже отвечали, не меняем счёт
+                        var alreadyAnswered = answeredExercises.has(exIndex);
+                        answeredExercises.add(exIndex);
+
                         if (isCorrect) {
                             this.classList.add('correct');
                             result.className = 'result correct';
                             result.textContent = '[OK] 정답! Правильно! Отлично!';
+                            if (!alreadyAnswered) correctExercises.add(exIndex);
                         } else {
                             this.classList.add('wrong');
                             result.className = 'result wrong';
@@ -1111,6 +1128,19 @@
                             });
                         }
                         result.style.display = 'block';
+
+                        // Когда ответили на все упражнения — показываем итог
+                        if (answeredExercises.size === totalExercises) {
+                            setTimeout(function() {
+                                if (window.JKModal) {
+                                    JKModal.quiz({
+                                        score: correctExercises.size,
+                                        total: totalExercises,
+                                        title: 'Результат упражнений'
+                                    });
+                                }
+                            }, 600);
+                        }
                     });
                 });
             });
@@ -1119,5 +1149,6 @@
 <script src="../js/dictionary.js"></script>
     <script src="../js/dictionary-inject.js"></script>
     <script src="../js/global-nav.js"></script>
+    <script src="../js/ui-components.js"></script>
 </body>
 </html>

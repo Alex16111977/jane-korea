@@ -915,7 +915,7 @@
                                 <td><span class="korean-example">ㅅ</span></td>
                                 <td>[с] в начале/между гласными<br>[т] в подслоге<br>[щ] перед ㅕ,ㅑ,ㅛ,ㅠ,ㅣ,ㅟ</td>
                                 <td>시옷</td>
-                                <td><span class="korean-example">사실</span> [сащиль]</td>
+                                <td><span class="korean-example">사실</span> [сасиль]</td>
                             </tr>
                             <tr>
                                 <td><span class="korean-example">ㅇ</span></td>
@@ -1205,7 +1205,7 @@
                             <div class="practice-romanization">babo</div>
                             <div class="practice-meaning">дурак</div>
                         </div>
-                        <div class="practice-word" onclick="speakWord('사실', 'сащиль')">
+                        <div class="practice-word" onclick="speakWord('사실', 'сасиль')">
                             <div class="practice-korean">사실</div>
                             <div class="practice-romanization">sasil</div>
                             <div class="practice-meaning">правда</div>
@@ -1334,6 +1334,7 @@
             {korean: 'ㅁ', answer: '미음', options: ['미음', '비읍', '시옷', '이응']}
         ];
         let currentQuestionIndex = 0;
+        let quizScore = 0;
         let quizActive = false;
 
         function playSound(element, pronunciation) {
@@ -1363,7 +1364,7 @@
                 utterance.pitch = 1.1;
                 speechSynthesis.speak(utterance);
             } else {
-                alert(`Произношение: ${text}`);
+                JKToast.warning('Аудио недоступно в этом браузере. Попробуйте Chrome или Edge.');
             }
         }
 
@@ -1385,6 +1386,9 @@
         function startQuiz() {
             quizActive = true;
             currentQuestionIndex = 0;
+            quizScore = 0;
+            // Перемешиваем вопросы при каждом запуске
+            quizQuestions = quizQuestions.sort(() => Math.random() - 0.5);
             document.getElementById('quizSection').style.display = 'block';
             document.getElementById('quizSection').scrollIntoView({behavior: 'smooth'});
             loadQuestion();
@@ -1392,8 +1396,14 @@
 
         function loadQuestion() {
             if (currentQuestionIndex >= quizQuestions.length) {
-                alert('🎉 Тест завершен! Поздравляем!\n시험이 끝났어요! 축하해요!');
-                document.getElementById('quizSection').style.display = 'none';
+                JKModal.quiz({
+                    score: quizScore,
+                    total: quizQuestions.length,
+                    onRetry: function() { startQuiz(); },
+                    onContinue: function() {
+                        document.getElementById('quizSection').style.display = 'none';
+                    }
+                });
                 return;
             }
 
@@ -1430,6 +1440,7 @@
 
             if (isCorrect) {
                 element.classList.add('correct');
+                quizScore++;
                 speak('정답입니다'); // "Правильно"
             } else {
                 element.classList.add('incorrect');
@@ -1474,5 +1485,6 @@
 <script src="../js/dictionary.js"></script>
     <script src="../js/dictionary-inject.js"></script>
     <script src="../js/global-nav.js"></script>
+    <script src="../js/ui-components.js"></script>
 </body>
 </html>

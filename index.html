@@ -57,6 +57,9 @@
                     <span class="translation">(Учим вместе!)</span>
                 </div>
             </div>
+            <div style="text-align:center; margin-top:25px;">
+                <a href="lessons.html" style="display:inline-block; padding:16px 40px; background:linear-gradient(135deg,#667eea,#764ba2); color:white; text-decoration:none; border-radius:30px; font-size:1.15em; font-weight:700; box-shadow:0 8px 25px rgba(102,126,234,0.4); transition:all 0.3s ease; font-family:'Noto Sans KR',sans-serif;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='translateY(0)'">Начать обучение →</a>
+            </div>
         </div>
     </header>
 
@@ -157,20 +160,20 @@
                 <h2>✨ Рекомендовано для вас</h2>
                 <div class="korean-subtitle">당신을 위한 추천</div>
                 <div class="recommendations-grid" id="recommendations-grid">
-                    <div class="recommendation-card" onclick="window.location.href='reading-texts.html?level=1'">
+                    <div class="recommendation-card" onclick="window.location.href='reading-texts.html'">
                         <div class="rec-icon">📚</div>
-                        <div class="rec-title">Текст для вашего уровня</div>
-                        <div class="rec-description">Попробуйте текст уровня 1급</div>
+                        <div class="rec-title">Тексты для чтения</div>
+                        <div class="rec-description">70+ текстов по 6 уровням — от простых до продвинутых</div>
                     </div>
-                    <div class="recommendation-card" onclick="window.location.href='lesson_01/index.html'">
+                    <div class="recommendation-card" onclick="window.location.href='lesson_02_alphabet/index.html'">
                         <div class="rec-icon">🔤</div>
-                        <div class="rec-title">Изучите алфавит</div>
-                        <div class="rec-description">Начните с основ корейского алфавита</div>
+                        <div class="rec-title">Алфавит хангыль</div>
+                        <div class="rec-description">Интерактивные карточки букв с произношением</div>
                     </div>
                     <div class="recommendation-card" onclick="window.location.href='kpop-learning.html'">
                         <div class="rec-icon">🎵</div>
                         <div class="rec-title">Учите с K-POP</div>
-                        <div class="rec-description">Изучайте корейский через любимую музыку</div>
+                        <div class="rec-description">BTS, BLACKPINK, aespa — слова и фразы через музыку</div>
                     </div>
                 </div>
             </div>
@@ -1925,17 +1928,32 @@
                 });
             }
 
-            // Собираем слова
+            // Собираем уроки БЕЗ completedAt (старый формат)
+            if (progress && progress.completedLessons) {
+                Object.entries(progress.completedLessons).forEach(([id, data]) => {
+                    if (!data.completedAt && data.completed) {
+                        activities.push({
+                            icon: '📖',
+                            title: 'Урок: ' + id.replace('lesson_', '').replace(/_/g, ' '),
+                            time: new Date(0),
+                            type: 'lesson'
+                        });
+                    }
+                });
+            }
+
+            // Собираем слова (массив объектов)
             const words = localStorage.getItem('koreanLearnedWords');
             if (words) {
                 try {
-                    const wordsObj = JSON.parse(words);
-                    Object.entries(wordsObj).forEach(([key, data]) => {
-                        if (data.addedAt) {
+                    const wordsArr = JSON.parse(words);
+                    var wordList = Array.isArray(wordsArr) ? wordsArr : Object.values(wordsArr);
+                    wordList.forEach(function(data) {
+                        if (data && data.korean) {
                             activities.push({
                                 icon: '💬',
                                 title: 'Слово: ' + data.korean,
-                                time: new Date(data.addedAt),
+                                time: data.addedAt ? new Date(data.addedAt) : new Date(0),
                                 type: 'word'
                             });
                         }
@@ -2016,20 +2034,36 @@
         };
 
         function updateNextLessonInfo() {
-            const progress = window.ProgressTracker ? window.ProgressTracker.get() : null;
-            const completedCount = progress?.stats?.totalLessons || 0;
-            const nextLessonNum = completedCount + 1;
-
-            const lessonNames = {
-                1: 'Алфавит Хангыль',
-                2: 'Гласные буквы',
-                3: 'Согласные буквы',
-                4: 'Сложные гласные',
-                5: 'Приветствия'
-            };
-
-            const name = lessonNames[nextLessonNum] || 'Урок ' + nextLessonNum;
-            document.getElementById('next-lesson-name').textContent = '1급 Урок ' + nextLessonNum + ': ' + name;
+            var progress = window.ProgressTracker ? window.ProgressTracker.get() : null;
+            // Реальная последовательность уроков
+            var lessonSequence = [
+                { id: 'lesson_01_korea', name: 'Знакомство с Кореей', url: 'lesson_01_korea/index.html' },
+                { id: 'lesson_02_alphabet', name: 'Алфавит хангыль', url: 'lesson_02_alphabet/index.html' },
+                { id: 'lesson_03_greetings', name: 'Приветствие', url: 'lesson_03_greetings/index.html' },
+                { id: 'lesson_04_numbers', name: 'Числа и время', url: 'lesson_04_numbers/index.html' },
+                { id: 'lesson_05_family', name: 'Семья', url: 'lesson_05_family/index.html' },
+                { id: 'lesson_06_grammar', name: 'Грамматика 1: частицы', url: 'lesson_06_grammar/index.html' },
+                { id: 'lesson_07_verb_tenses', name: 'Времена глаголов', url: 'lesson_07_verb_tenses/index.html' },
+                { id: 'lesson_08_politeness', name: 'Вежливость', url: 'lesson_08_politeness/index.html' },
+                { id: 'lesson_09_negation', name: 'Отрицание', url: 'lesson_09_negation/index.html' },
+                { id: 'lesson_10_copula', name: 'Связка 이에요', url: 'lesson_10_copula/index.html' }
+            ];
+            var completed = (progress && progress.completedLessons) ? progress.completedLessons : {};
+            // Находим первый непройденный урок
+            var nextLesson = null;
+            for (var i = 0; i < lessonSequence.length; i++) {
+                if (!completed[lessonSequence[i].id]) {
+                    nextLesson = lessonSequence[i];
+                    break;
+                }
+            }
+            if (!nextLesson) nextLesson = { name: 'Все базовые уроки пройдены!', url: 'lessons.html' };
+            document.getElementById('next-lesson-name').textContent = '1급 · ' + nextLesson.name;
+            // Обновляем ссылку
+            var link = document.getElementById('continue-learning-link');
+            if (link) link.href = nextLesson.url;
+            var btn = document.getElementById('continue-lesson-btn');
+            if (btn) btn.href = nextLesson.url;
         }
 
         // ========================================

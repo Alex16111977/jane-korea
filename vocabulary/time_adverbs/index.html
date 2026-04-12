@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Наречия времени - 시간 부사</title>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #673AB7 0%, #9C27B0 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .vocab-header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 35px 40px 25px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .vocab-header h1 {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin: 0 0 8px;
+        }
+
+        .korean-title {
+            font-size: 1.6em;
+            color: #9C27B0;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .vocab-header p {
+            color: #777;
+            margin: 0;
+        }
+
+        /* ===== Mode buttons ===== */
+        .study-mode {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 11px 22px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 25px;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .mode-btn:hover { background: rgba(255,255,255,0.25); }
+        .mode-btn.active { background: #9C27B0; border-color: #9C27B0; }
+
+        /* ===== Grammar section ===== */
+        .grammar-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .grammar-toggle button {
+            padding: 11px 28px;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.3); }
+
+        .grammar-block {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(10px);
+            border-radius: 22px;
+            padding: 0;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .grammar-block h3 {
+            color: white;
+            background: linear-gradient(135deg, #673AB7, #9C27B0);
+            padding: 18px 30px;
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .grammar-inner {
+            padding: 25px 30px 30px;
+        }
+
+        /* Visual formula cards */
+        .formula-card {
+            background: linear-gradient(135deg, #f8f5ff, #f0e6ff);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border: 1px solid #e8d8f5;
+        }
+
+        .formula-card .fc-label {
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #999;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .formula-card .fc-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+        }
+
+        .fc-word {
+            background: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .fc-word.strike { text-decoration: line-through; color: #ccc; font-weight: 400; }
+        .fc-word.highlight { background: #ede7f6; color: #4527a0; }
+        .fc-word.wrong { background: #ffebee; color: #c62828; text-decoration: line-through; }
+        .fc-word.result { background: linear-gradient(135deg, #673AB7, #9C27B0); color: white; }
+        .fc-plus { color: #9C27B0; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #9C27B0; font-size: 1.3em; }
+        .fc-desc { color: #777; font-size: 0.9em; margin-top: 4px; }
+
+        .section-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+        .section-label:first-child { margin-top: 0; }
+
+        /* ===== Vocabulary grid ===== */
+        .vocabulary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+            margin: 15px 0;
+        }
+
+        .word-card {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .word-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+
+        .word-card-top {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 20px;
+        }
+
+        .word-color-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6em;
+            background: linear-gradient(135deg, #ede7f6, #e1bee7);
+        }
+
+        .word-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .word-korean {
+            font-size: 1.35em;
+            font-weight: 700;
+            color: #2c3e50;
+            line-height: 1.2;
+        }
+
+        .word-sub {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 3px;
+            flex-wrap: wrap;
+        }
+
+        .word-romanization {
+            font-size: 0.85em;
+            color: #aaa;
+            font-style: italic;
+        }
+
+        .word-translation {
+            font-size: 0.9em;
+            color: #777;
+            font-weight: 500;
+        }
+
+        .word-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .speak-btn {
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.2s;
+            line-height: 1;
+        }
+        .speak-btn:hover { transform: scale(1.2); }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.3s;
+            color: #ccc;
+            line-height: 1;
+        }
+        .expand-btn:hover { color: #9C27B0; }
+        .expand-btn.open { transform: rotate(180deg); color: #9C27B0; }
+
+        .word-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #faf7fc;
+            border-top: 1px solid #f0e6f5;
+        }
+
+        .word-details.open {
+            max-height: 250px;
+        }
+
+        .word-details-inner {
+            padding: 14px 20px;
+        }
+
+        .detail-example {
+            margin-top: 8px;
+            padding: 10px 14px;
+            background: #f3e5f5;
+            border-radius: 10px;
+            border-left: 3px solid #9C27B0;
+        }
+
+        .detail-example .ex-kr {
+            color: #4527a0;
+            font-weight: 600;
+            font-size: 1em;
+        }
+
+        .detail-example .ex-tr {
+            color: #777;
+            font-size: 0.88em;
+            margin-top: 3px;
+        }
+
+        /* ===== Search ===== */
+        .search-bar {
+            max-width: 450px;
+            margin: 0 auto 20px;
+            padding: 0 15px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 11px 20px;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 25px;
+            background: rgba(255,255,255,0.12);
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .search-bar input::placeholder { color: rgba(255,255,255,0.5); }
+        .search-bar input:focus { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.2); }
+
+        /* ===== Flashcard ===== */
+        .flashcard {
+            background: rgba(255,255,255,0.97);
+            padding: 45px 35px;
+            border-radius: 22px;
+            margin: 15px auto;
+            max-width: 480px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            user-select: none;
+        }
+
+        .flashcard:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .flashcard .card-emoji { font-size: 3em; margin-bottom: 10px; }
+        .flashcard .card-korean { font-size: 2.3em; font-weight: 700; color: #2c3e50; margin-bottom: 8px; }
+        .flashcard .card-romanization { font-size: 1.1em; color: #aaa; font-style: italic; }
+        .flashcard .card-translation { font-size: 1.4em; color: #555; margin-top: 8px; }
+
+        .flashcard .card-example {
+            font-size: 1.05em;
+            color: #4527a0;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+            line-height: 1.5;
+            text-align: center;
+        }
+        .flashcard .card-example-tr { font-size: 0.9em; color: #888; margin-top: 4px; text-align: center; }
+
+        .flashcard-nav {
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .flashcard-nav .mode-btn { min-width: 120px; }
+
+        .card-counter {
+            color: white;
+            font-size: 1em;
+            font-weight: 500;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .card-hint {
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            margin-top: 12px;
+            font-size: 0.85em;
+        }
+
+        /* ===== Quiz ===== */
+        .quiz-section {
+            background: rgba(255,255,255,0.97);
+            border-radius: 22px;
+            padding: 35px;
+            max-width: 550px;
+            margin: 15px auto;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 14px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-align: center;
+            font-size: 1.05em;
+        }
+
+        .quiz-option:hover { background: #e9ecef; transform: translateY(-2px); }
+        .quiz-option.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+        .quiz-option.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+
+        .quiz-result {
+            text-align: center;
+            font-size: 1.1em;
+            margin-top: 18px;
+            font-weight: 500;
+        }
+
+        .quiz-stats { text-align: center; margin-top: 12px; color: #888; font-size: 0.95em; }
+
+        .quiz-buttons {
+            text-align: center;
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .quiz-buttons button {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .quiz-buttons .next-btn { background: #9C27B0; color: white; }
+        .quiz-buttons .restart-btn { background: #6c757d; color: white; }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .vocab-header h1 { font-size: 1.7em; }
+            .korean-title { font-size: 1.3em; }
+            .vocabulary-grid { grid-template-columns: 1fr; gap: 10px; }
+            .flashcard { padding: 30px 20px; min-height: 170px; }
+            .flashcard .card-korean { font-size: 1.9em; }
+            .quiz-options { grid-template-columns: 1fr; }
+            .grammar-inner { padding: 18px 20px 22px; }
+            .formula-card .fc-formula { font-size: 1em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;">
+            <a href="../../level_1/index.html" style="color: white; text-decoration: none; font-size: 1em; padding: 10px 22px; background: rgba(255,255,255,0.12); border-radius: 15px; transition: all 0.3s ease; backdrop-filter: blur(10px);">&#8592; 1&#44553;</a>
+        </div>
+
+        <div class="vocab-header">
+            <h1>&#9200; Наречия времени</h1>
+            <div class="korean-title">시간 부사 [сиган буса]</div>
+            <p>Когда что происходит: сегодня, вчера, всегда, иногда</p>
+        </div>
+
+        <!-- Grammar toggle -->
+        <div class="grammar-toggle">
+            <button onclick="toggleGrammar()">&#128214; Как использовать в речи</button>
+        </div>
+
+        <!-- Grammar block -->
+        <div class="grammar-block" id="grammar-block" style="display: none;">
+            <h3>&#128161; Как использовать наречия времени</h3>
+            <div class="grammar-inner">
+
+                <!-- Rule 1: position -->
+                <div class="section-label">1. Позиция в предложении</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">오늘</span>
+                        <span class="fc-word">학교에 가요</span>
+                        <span class="fc-arrow">=</span>
+                        <span class="fc-word">학교에</span>
+                        <span class="fc-word highlight">오늘</span>
+                        <span class="fc-word">가요</span>
+                    </div>
+                    <div class="fc-desc">Наречие времени обычно ставится в начале предложения или перед сказуемым. Оба варианта корректны.</div>
+                </div>
+
+                <!-- Rule 2: no 에 -->
+                <div class="section-label">2. 오늘 / 어제 / 내일 &mdash; БЕЗ частицы 에</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word wrong">오늘에</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">오늘</span>
+                    </div>
+                    <div class="fc-desc">С "сегодня/вчера/завтра" частица 에 НЕ ставится. Нельзя говорить 오늘에 &mdash; только 오늘.</div>
+                </div>
+
+                <!-- Rule 3: frequency -->
+                <div class="section-label">3. 항상 / 가끔 / 자주 &mdash; частота</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">항상</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">커피를 마셔요</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">Всегда пью кофе</span>
+                    </div>
+                    <div class="fc-desc">항상 (всегда), 자주 (часто), 가끔 (иногда) &mdash; ставятся перед глаголом и описывают частоту действия.</div>
+                </div>
+
+                <!-- Rule 4: 절대 -->
+                <div class="section-label">4. 절대 = только с отрицанием</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">절대</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">안</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">먹어요</span>
+                        <span class="fc-arrow">&#8594;</span>
+                        <span class="fc-word result">Никогда не ем</span>
+                    </div>
+                    <div class="fc-desc">절대 "никогда" используется ТОЛЬКО с отрицанием (안 или 못). Без отрицания фраза будет неправильной.</div>
+                </div>
+
+                <!-- Rule 5: 벌써 vs 이미 -->
+                <div class="section-label">5. 벌써 vs 이미 &mdash; оба "уже"</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">벌써</span>
+                        <span class="fc-word">12시예요?</span>
+                    </div>
+                    <div class="fc-desc">벌써 &mdash; "уже?!" с удивлением ("так быстро?"). Эмоциональная окраска.</div>
+                </div>
+                <div class="formula-card" style="background: linear-gradient(135deg, #fff8f0, #fff3e0); border-color: #ffe0b2;">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">이미</span>
+                        <span class="fc-word">먹었어요</span>
+                    </div>
+                    <div class="fc-desc">이미 &mdash; "уже" нейтрально, констатация факта. Без эмоций.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="study-mode">
+            <button class="mode-btn active" onclick="showMode('vocabulary')">&#128218; Словарь</button>
+            <button class="mode-btn" onclick="showMode('flashcards')">&#127183; Карточки</button>
+            <button class="mode-btn" onclick="showMode('quiz')">&#127919; Тест</button>
+        </div>
+
+        <!-- Vocabulary Section -->
+        <div id="vocabulary-section">
+            <div class="search-bar">
+                <input type="text" id="vocabSearch" placeholder="Поиск..." oninput="filterVocabulary()">
+            </div>
+            <div class="vocabulary-grid" id="vocabularyGrid"></div>
+        </div>
+
+        <!-- Flashcard Section -->
+        <div id="flashcard-section" style="display: none;">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div id="flashcard-content"></div>
+            </div>
+            <div class="flashcard-nav">
+                <button class="mode-btn" onclick="prevCard()">&#8592; Назад</button>
+                <span class="card-counter" id="card-counter">1 / 15</span>
+                <button class="mode-btn" onclick="nextCard()">Далее &#8594;</button>
+            </div>
+            <div class="card-hint">Клик или пробел = перевернуть. &#8592;&#8594; = навигация</div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz-section" style="display: none;">
+            <div class="quiz-section">
+                <div class="quiz-question" id="quiz-question"></div>
+                <div class="quiz-options" id="quiz-options"></div>
+                <div class="quiz-result" id="quiz-result"></div>
+                <div class="quiz-buttons">
+                    <button class="next-btn" onclick="nextQuestion()">&#8594; Дальше</button>
+                    <button class="restart-btn" onclick="restartQuiz()">Заново</button>
+                </div>
+                <div class="quiz-stats" id="quiz-stats">&#10003; <span id="correct-count">0</span> / <span id="total-count">0</span></div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 35px 0 10px;">
+            <a href="../../level_1/index.html" style="display: inline-block; background: rgba(255,255,255,0.15); color: white; padding: 13px 28px; border-radius: 25px; text-decoration: none; font-size: 1em; font-weight: 500; transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.2);">
+                &#8592; К урокам 1&#44553;
+            </a>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 20px 0 40px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 16px 36px;
+                font-size: 1.1em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить как пройденный</button>
+        </div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            {emoji: '📅', korean: '오늘', romanization: 'oneul', translation: 'сегодня', example: '오늘 학교에 가요.', exampleTr: 'Сегодня иду в школу.'},
+            {emoji: '📆', korean: '어제', romanization: 'eoje', translation: 'вчера', example: '어제 영화를 봤어요.', exampleTr: 'Вчера смотрел фильм.'},
+            {emoji: '🗓️', korean: '내일', romanization: 'naeil', translation: 'завтра', example: '내일 만나요.', exampleTr: 'Встретимся завтра.'},
+            {emoji: '⏳', korean: '지금', romanization: 'jigeum', translation: 'сейчас', example: '지금 바빠요.', exampleTr: 'Сейчас занят.'},
+            {emoji: '⏱️', korean: '아까', romanization: 'akka', translation: 'только что / недавно', example: '아까 전화했어요.', exampleTr: 'Только что звонил.'},
+            {emoji: '🕐', korean: '나중에', romanization: 'najunge', translation: 'потом / позже', example: '나중에 이야기해요.', exampleTr: 'Поговорим позже.'},
+            {emoji: '🔁', korean: '항상', romanization: 'hangsang', translation: 'всегда', example: '항상 커피를 마셔요.', exampleTr: 'Всегда пью кофе.'},
+            {emoji: '🌀', korean: '가끔', romanization: 'gakkeum', translation: 'иногда', example: '가끔 운동해요.', exampleTr: 'Иногда занимаюсь спортом.'},
+            {emoji: '🚫', korean: '절대', romanization: 'jeoldae', translation: 'никогда (с отрицанием)', example: '절대 안 먹어요.', exampleTr: 'Никогда не ем.'},
+            {emoji: '✨', korean: '벌써', romanization: 'beolsseo', translation: 'уже (с удивлением)', example: '벌써 12시예요?', exampleTr: 'Уже 12 часов?'},
+            {emoji: '👉', korean: '이미', romanization: 'imi', translation: 'уже (нейтрально)', example: '이미 먹었어요.', exampleTr: 'Уже поел.'},
+            {emoji: '⏭️', korean: '아직', romanization: 'ajik', translation: 'ещё (не)', example: '아직 안 왔어요.', exampleTr: 'Ещё не пришёл.'},
+            {emoji: '🆕', korean: '방금', romanization: 'banggeum', translation: 'только что (секунду назад)', example: '방금 끝났어요.', exampleTr: 'Только что закончилось.'},
+            {emoji: '🌅', korean: '매일', romanization: 'maeil', translation: 'каждый день', example: '매일 한국어를 공부해요.', exampleTr: 'Каждый день учу корейский.'},
+            {emoji: '🔄', korean: '자주', romanization: 'jaju', translation: 'часто', example: '자주 산책해요.', exampleTr: 'Часто гуляю.'}
+        ];
+
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let quizCurrentIndex = 0;
+        let correctAnswers = 0;
+        let totalQuestions = 0;
+
+        function speak(text) {
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            const voices = speechSynthesis.getVoices();
+            const koVoice = voices.find(v => v.lang === 'ko-KR' && v.name.includes('Yuna'))
+                || voices.find(v => v.lang === 'ko-KR' && v.name.includes('Google'))
+                || voices.find(v => v.lang === 'ko-KR' && !v.name.includes('Compact'))
+                || voices.find(v => v.lang.startsWith('ko'));
+            if (koVoice) utterance.voice = koVoice;
+            speechSynthesis.speak(utterance);
+        }
+
+        if ('speechSynthesis' in window) {
+            speechSynthesis.getVoices();
+            speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+        }
+
+        function toggleGrammar() {
+            const block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            const details = document.getElementById('details-' + id);
+            const btn = document.getElementById('expand-' + id);
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+
+        function filterVocabulary() {
+            const query = document.getElementById('vocabSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.word-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        function loadVocabulary() {
+            const grid = document.getElementById('vocabularyGrid');
+            grid.innerHTML = '';
+            vocabulary.forEach((word, i) => {
+                const card = document.createElement('div');
+                card.className = 'word-card';
+
+                let detailsHtml = '';
+                if (word.example) {
+                    detailsHtml += `<div class="detail-example"><div class="ex-kr">${word.example}</div><div class="ex-tr">${word.exampleTr}</div></div>`;
+                }
+
+                card.innerHTML = `
+                    <div class="word-card-top">
+                        <div class="word-color-dot">${word.emoji}</div>
+                        <div class="word-info">
+                            <div class="word-korean">${word.korean}</div>
+                            <div class="word-sub">
+                                <span class="word-romanization">${word.romanization}</span>
+                                <span class="word-translation">${word.translation}</span>
+                            </div>
+                        </div>
+                        <div class="word-card-actions">
+                            <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">&#128264;</button>
+                            <button class="expand-btn" id="expand-${i}" onclick="toggleDetails(event, ${i})">&#9660;</button>
+                        </div>
+                    </div>
+                    <div class="word-details" id="details-${i}">
+                        <div class="word-details-inner">${detailsHtml}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function showMode(mode) {
+            document.getElementById('vocabulary-section').style.display = mode === 'vocabulary' ? 'block' : 'none';
+            document.getElementById('flashcard-section').style.display = mode === 'flashcards' ? 'block' : 'none';
+            document.getElementById('quiz-section').style.display = mode === 'quiz' ? 'block' : 'none';
+
+            const buttons = document.querySelectorAll('.study-mode .mode-btn');
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle('active',
+                    (mode === 'vocabulary' && i === 0) ||
+                    (mode === 'flashcards' && i === 1) ||
+                    (mode === 'quiz' && i === 2)
+                );
+            });
+
+            if (mode === 'flashcards') updateFlashcard();
+            if (mode === 'quiz') generateQuizQuestion();
+        }
+
+        function updateFlashcard() {
+            const word = vocabulary[currentCardIndex];
+            const content = document.getElementById('flashcard-content');
+
+            if (isFlipped) {
+                content.innerHTML = `
+                    <div class="card-romanization">${word.romanization}</div>
+                    <div class="card-translation">${word.translation}</div>
+                    <div class="card-example">${word.example}</div>
+                    <div class="card-example-tr">${word.exampleTr}</div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="card-emoji">${word.emoji}</div>
+                    <div class="card-korean">${word.korean}</div>
+                    <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">&#128264;</button>
+                `;
+            }
+
+            document.getElementById('card-counter').textContent = `${currentCardIndex + 1} / ${vocabulary.length}`;
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            updateFlashcard();
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % vocabulary.length;
+            isFlipped = false;
+            updateFlashcard();
+        }
+
+        function prevCard() {
+            currentCardIndex = (currentCardIndex - 1 + vocabulary.length) % vocabulary.length;
+            isFlipped = false;
+            updateFlashcard();
+        }
+
+        function generateQuizQuestion() {
+            const word = vocabulary[quizCurrentIndex % vocabulary.length];
+            const options = [word];
+
+            while (options.length < 4) {
+                const rw = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+                if (!options.includes(rw)) options.push(rw);
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            document.getElementById('quiz-question').textContent = 'Как по-корейски \u00ab' + word.translation + '\u00bb?';
+
+            const container = document.getElementById('quiz-options');
+            container.innerHTML = '';
+            options.forEach(opt => {
+                const div = document.createElement('div');
+                div.className = 'quiz-option';
+                div.textContent = opt.korean;
+                div.onclick = () => checkAnswer(opt, word);
+                container.appendChild(div);
+            });
+
+            document.getElementById('quiz-result').textContent = '';
+        }
+
+        function checkAnswer(selected, correct) {
+            totalQuestions++;
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.onclick = null;
+                if (opt.textContent.includes(correct.korean)) {
+                    opt.classList.add('correct');
+                } else if (opt.textContent.includes(selected.korean)) {
+                    opt.classList.add('wrong');
+                }
+            });
+
+            if (selected.korean === correct.korean) {
+                correctAnswers++;
+                document.getElementById('quiz-result').innerHTML = 'Правильно!';
+                document.getElementById('quiz-result').style.color = '#28a745';
+            } else {
+                document.getElementById('quiz-result').innerHTML = 'Нет, правильно: ' + correct.korean;
+                document.getElementById('quiz-result').style.color = '#dc3545';
+            }
+
+            document.getElementById('correct-count').textContent = correctAnswers;
+            document.getElementById('total-count').textContent = totalQuestions;
+        }
+
+        function nextQuestion() {
+            quizCurrentIndex++;
+            generateQuizQuestion();
+        }
+
+        function restartQuiz() {
+            quizCurrentIndex = 0;
+            correctAnswers = 0;
+            totalQuestions = 0;
+            document.getElementById('correct-count').textContent = '0';
+            document.getElementById('total-count').textContent = '0';
+            generateQuizQuestion();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVocabulary();
+            updateFlashcard();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('flashcard-section').style.display !== 'none') {
+                if (e.code === 'Space') { e.preventDefault(); flipCard(); }
+                else if (e.code === 'ArrowRight') { nextCard(); }
+                else if (e.code === 'ArrowLeft') { prevCard(); }
+            }
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'vocabulary_time_adverbs';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

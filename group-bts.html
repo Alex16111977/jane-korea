@@ -1211,7 +1211,7 @@
                                 <div class="flip-hint">Нажми для перевода</div>
                             </div>
                             <div class="flip-back">
-                                <div class="flip-romanization">[пого щипта]</div>
+                                <div class="flip-romanization">[пого сипта]</div>
                                 <div class="flip-meaning">Скучаю (хочу видеть)</div>
                                 <div class="flip-example">보고 싶다 — «Скучаю по тебе»</div>
                             </div>
@@ -1293,12 +1293,12 @@
                 <div class="lyrics-viewer" id="lyrics-spring-day">
                     <div class="lyrics-line-row" onclick="speakKorean('보고 싶다')">
                         <div class="lyrics-kr">보고 싶다</div>
-                        <div class="lyrics-rom" data-layer="rom-spring-day">[пого щипта]</div>
+                        <div class="lyrics-rom" data-layer="rom-spring-day">[пого сипта]</div>
                         <div class="lyrics-tr" data-layer="tr-spring-day">Скучаю по тебе</div>
                     </div>
                     <div class="lyrics-line-row" onclick="speakKorean('이렇게 말하니까 더 보고 싶다')">
                         <div class="lyrics-kr">이렇게 말하니까 더 보고 싶다</div>
-                        <div class="lyrics-rom" data-layer="rom-spring-day">[ирокхе мальханикка то пого щипта]</div>
+                        <div class="lyrics-rom" data-layer="rom-spring-day">[ирокхе мальханикка то пого сипта]</div>
                         <div class="lyrics-tr" data-layer="tr-spring-day">Когда говорю так — ещё больше скучаю</div>
                     </div>
                     <div class="lyrics-line-row" onclick="speakKorean('너희 집 앞 골목길에')">
@@ -1794,5 +1794,41 @@
 
     <!-- Global nav -->
     <script src="js/global-nav.js"></script>
+    <script src="js/dictionary.js"></script>
+    <script>
+    // Добавляем кнопки «+ В словарь» к K-POP словам
+    document.addEventListener('DOMContentLoaded', function() {
+        var cards = document.querySelectorAll('#kpop-vocab .vocab-card');
+        cards.forEach(function(card) {
+            var korean = card.querySelector('.vocab-korean');
+            var trans = card.querySelector('.vocab-translation');
+            var rom = card.querySelector('.vocab-romanization');
+            if (!korean || !trans) return;
+            var btn = document.createElement('button');
+            btn.textContent = '+ В словарь';
+            btn.style.cssText = 'margin-top:10px;padding:6px 14px;border:2px solid #8a57de;background:transparent;color:#8a57de;border-radius:20px;font-size:0.82em;font-weight:600;cursor:pointer;transition:all 0.25s;font-family:inherit;';
+            btn.onmouseover = function() { btn.style.background='#8a57de'; btn.style.color='white'; };
+            btn.onmouseout = function() { if(!btn.disabled){btn.style.background='transparent'; btn.style.color='#8a57de';} };
+            // Проверяем сохранено ли уже
+            if (window.Dictionary && window.Dictionary.isWordSaved(korean.textContent.trim())) {
+                btn.textContent = '✓ В словаре'; btn.disabled = true;
+                btn.style.background = '#8a57de'; btn.style.color = 'white'; btn.style.opacity = '0.6'; btn.style.cursor = 'default';
+            }
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (!window.Dictionary) return;
+                var added = window.Dictionary.addWord(korean.textContent.trim(), trans.textContent.trim(), rom ? rom.textContent.trim() : '', 'bts-kpop');
+                if (added) {
+                    btn.textContent = '✓ В словаре'; btn.disabled = true;
+                    btn.style.background = '#8a57de'; btn.style.color = 'white'; btn.style.opacity = '0.6'; btn.style.cursor = 'default';
+                    if (window.JKToast) JKToast.success('«' + korean.textContent.trim() + '» добавлено в словарь');
+                } else {
+                    if (window.JKToast) JKToast.info('Уже в словаре');
+                }
+            });
+            card.appendChild(btn);
+        });
+    });
+    </script>
 </body>
 </html>

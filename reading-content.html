@@ -33,7 +33,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 960px;
             margin: 0 auto;
             background: white;
             min-height: 100vh;
@@ -433,25 +433,28 @@
         }
 
         .controls-row {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            max-width: 720px;
+            margin: 0 auto;
         }
 
         .control-btn {
             background: white;
             border: 2px solid #667eea;
             color: #667eea;
-            padding: 12px 20px;
+            padding: 11px 14px;
             border-radius: 25px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 14px;
+            font-size: 13px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 6px;
+            white-space: nowrap;
         }
 
         .control-btn:hover {
@@ -3773,8 +3776,12 @@
             const q = currentQuiz[currentQuestionIndex];
             const progressText = `Вопрос ${currentQuestionIndex + 1} из ${currentQuiz.length}`;
             
+            const pct = ((currentQuestionIndex + 1) / currentQuiz.length * 100).toFixed(0);
             let html = `
-                <div style="text-align: center; margin-bottom: 20px; color: #667eea; font-weight: 600;">${progressText}</div>
+                <div style="text-align: center; margin-bottom: 8px; color: #667eea; font-weight: 600; font-size: 1.05em;">${progressText}</div>
+                <div style="height: 6px; background: #e8e8e8; border-radius: 6px; margin: 0 auto 20px; max-width: 300px; overflow: hidden;">
+                    <div style="height: 100%; width: ${pct}%; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 6px; transition: width 0.4s ease;"></div>
+                </div>
                 <div class="quiz-question" data-question="${currentQuestionIndex}">
                     <div class="question-text">${q.question}</div>
                     <div class="quiz-options">

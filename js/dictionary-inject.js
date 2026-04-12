@@ -263,7 +263,7 @@
         btn.className = 'dict-add-btn';
 
         if (window.Dictionary && window.Dictionary.isWordSaved(korean)) {
-            btn.textContent = '[OK] В словаре';
+            btn.textContent = '✓ В словаре';
             btn.setAttribute('style', BUTTON_SAVED_STYLES);
             btn.disabled = true;
         } else {
@@ -281,9 +281,17 @@
 
                 var added = window.Dictionary.addWord(korean, translation, pronunciation, getPageSource());
                 if (added) {
-                    btn.textContent = '[OK] В словаре';
+                    btn.textContent = '✓ В словаре';
                     btn.setAttribute('style', BUTTON_SAVED_STYLES);
                     btn.disabled = true;
+                    // Тост-уведомление
+                    if (window.JKToast) {
+                        window.JKToast.success('«' + korean + '» добавлено в словарь');
+                    }
+                } else {
+                    if (window.JKToast) {
+                        window.JKToast.info('«' + korean + '» уже есть в словаре');
+                    }
                 }
             });
 

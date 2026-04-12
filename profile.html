@@ -209,11 +209,10 @@
             grid.innerHTML = ALL_ACHIEVEMENTS.map(ach => {
                 const unlocked = ach.condition(progress, wordsCount);
                 return `
-                    <div class="achievement-card ${unlocked ? 'unlocked' : 'locked'}">
+                    <div class="achievement-card ${unlocked ? 'unlocked' : 'locked'}" title="${unlocked ? 'Разблокировано!' : ach.desc}">
                         <div class="achievement-icon">${ach.icon}</div>
                         <div class="achievement-name">${ach.name}</div>
-                        <div class="achievement-desc">${ach.desc}</div>
-                        ${unlocked ? '<div class="achievement-badge">✓</div>' : ''}
+                        <div class="achievement-desc">${unlocked ? '✓ Получено' : ach.desc}</div>
                     </div>
                 `;
             }).join('');
@@ -223,19 +222,27 @@
         function updateLevelProgress(progress) {
             const container = document.getElementById('levels-progress');
             const levels = [
-                { id: 1, name: '1급 Элементарный', total: 10 },
-                { id: 2, name: '2급 Базовый', total: 10 },
-                { id: 3, name: '3급 Средний', total: 24 },
-                { id: 4, name: '4급 Средне-продвинутый', total: 15 },
-                { id: 5, name: '5급 Продвинутый', total: 10 },
-                { id: 6, name: '6급 Мастерский', total: 10 },
+                { id: 1, name: '1급 Элементарный', totalTexts: 19, totalLessons: 74 },
+                { id: 2, name: '2급 Базовый', totalTexts: 24, totalLessons: 34 },
+                { id: 3, name: '3급 Средний', totalTexts: 18, totalLessons: 27 },
+                { id: 4, name: '4급 Средне-продвинутый', totalTexts: 9, totalLessons: 12 },
+                { id: 5, name: '5급 Продвинутый', totalTexts: 12, totalLessons: 13 },
+                { id: 6, name: '6급 Мастерский', totalTexts: 12, totalLessons: 15 },
             ];
 
             container.innerHTML = levels.map(level => {
                 // Count completed texts for this level
-                const completed = Object.keys(progress.completedTexts || {})
+                var completedTexts = Object.keys(progress.completedTexts || {})
                     .filter(key => key.startsWith(`${level.id}-`)).length;
-                const percent = Math.min(100, Math.round((completed / level.total) * 100));
+                // Count completed lessons (root lessons for 1급, level_N lessons for others)
+                var completedLessons = 0;
+                var lessonKeys = Object.keys(progress.completedLessons || {});
+                if (level.id === 1) {
+                    completedLessons = lessonKeys.filter(k => k.startsWith('lesson_')).length;
+                }
+                var completed = completedTexts + completedLessons;
+                var total = level.totalTexts + (level.id === 1 ? level.totalLessons : 0);
+                const percent = Math.min(100, Math.round((completed / total) * 100));
 
                 return `
                     <div class="level-progress-item">
@@ -261,12 +268,17 @@
                 return;
             }
 
-            container.innerHTML = recentWords.map(word => `
-                <div class="word-card">
-                    <span class="word-korean">${word.korean}</span>
-                    <span class="word-translation">${word.translation}</span>
+            container.innerHTML = recentWords.map(word => {
+                // Обрезаем длинные фразы
+                var kr = word.korean && word.korean.length > 15 ? word.korean.substring(0, 15) + '...' : (word.korean || '');
+                var tr = word.translation && word.translation.length > 25 ? word.translation.substring(0, 25) + '...' : (word.translation || '');
+                return `
+                <div class="word-card" title="${(word.korean || '')} — ${(word.translation || '')}">
+                    <span class="word-korean">${kr}</span>
+                    <span class="word-translation">${tr}</span>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         // Generate activity calendar (GitHub style)

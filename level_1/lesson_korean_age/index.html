@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корейский возраст | 1급 Корейский язык</title>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #a8e6cf 0%, #dcedc8 50%, #dcedc8 100%);
+            min-height: 100vh; color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; top: 15%; right: 4%;
+            font-size: 115px; opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none; z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #388e3c; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #4caf50; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.05em; }
+        .header .lesson-number { font-size: 0.95em; color: #888; margin-bottom: 10px; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 { color: #388e3c; margin-top: 0; font-size: 1.8em; border-bottom: 3px solid #4caf50; padding-bottom: 10px; }
+        .content-section h3 { color: #388e3c; }
+
+        .grammar-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0;
+        }
+        .grammar-table th { background: #4caf50; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+
+        .example-card {
+            background: linear-gradient(135deg, #4caf50, #66bb6a); color: white;
+            padding: 20px; border-radius: 15px; margin: 12px 0;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+        }
+        .example-korean { font-size: 1.5em; font-weight: 700; }
+        .example-romanization { font-size: 0.9em; opacity: 0.85; margin-top: 4px; }
+        .example-meaning { font-size: 1em; opacity: 0.95; }
+        .example-info { flex: 1; min-width: 200px; }
+
+        .tip-box {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #388e3c, #4caf50); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .korean-text { font-size: 1.1em; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; font-style: italic; }
+        .dialogue-play-btn {
+            background: rgba(255,255,255,0.25); color: white; border: 2px solid rgba(255,255,255,0.4);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer;
+            font-size: 1em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.3s ease; margin-bottom: 15px;
+        }
+        .dialogue-play-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .audio-btn-light {
+            background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn-light:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049); color: white;
+            border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+        }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        .age-system-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; margin: 25px 0;
+        }
+        .age-system-card {
+            background: linear-gradient(135deg, #388e3c, #4caf50); color: white;
+            padding: 25px; border-radius: 15px;
+        }
+        .age-system-card h3 { margin-top: 0; color: white; }
+        .age-system-card .age-sub { font-size: 0.9em; opacity: 0.85; margin: 8px 0; }
+        .age-system-card .age-desc { font-size: 0.95em; line-height: 1.5; }
+
+        .comparison-box {
+            background: #fffde7; border: 2px solid #fbc02d;
+            border-radius: 15px; padding: 20px; margin: 20px 0;
+        }
+        .comparison-box h3 { color: #f57f17; margin-top: 0; }
+        .comparison-row {
+            display: flex; justify-content: space-between;
+            padding: 10px; border-bottom: 1px dashed #fdd835;
+            flex-wrap: wrap; gap: 10px;
+        }
+        .comparison-row:last-child { border-bottom: none; }
+        .comparison-label { font-weight: 600; color: #f57f17; }
+
+        .number-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px; margin: 20px 0;
+        }
+        .number-card {
+            background: linear-gradient(135deg, #4caf50, #66bb6a); color: white;
+            padding: 15px; border-radius: 12px; text-align: center;
+        }
+        .number-digit { font-size: 2em; font-weight: 700; }
+        .number-korean { font-size: 1.1em; margin: 5px 0; }
+        .number-rom { font-size: 0.85em; opacity: 0.85; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .content-section { padding: 25px; }
+            .age-system-grid { grid-template-columns: 1fr; }
+            .number-grid { grid-template-columns: repeat(2, 1fr); }
+            .example-card { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../index.html">&#8592; 1&#44553; Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <div class="lesson-number">1&#44553; | Культура</div>
+            <h1>Корейский возраст</h1>
+            <div class="korean-title">한국 나이 [hanguk nai]</div>
+            <div class="description">Почему в Корее возраст считают по-особому, и что это значит на практике</div>
+        </header>
+
+        <!-- Секция 1: Почему у корейцев другой возраст? -->
+        <div class="content-section">
+            <h2>1. Почему у корейцев другой возраст?</h2>
+            <p>В Корее возраст традиционно считают не так, как в большинстве стран мира. Если в других странах новорожденному 0 лет, то в Корее <strong>ребёнок уже на 1 году при рождении</strong>.</p>
+
+            <p>Причина этого — старая восточная философия: девять месяцев, которые малыш провёл в утробе матери, тоже считаются годом жизни. Логично, не правда ли?</p>
+
+            <p>Но это ещё не всё. Вторая важная особенность: корейцы <strong>добавляют год всем сразу 1 января</strong>, а не в день рождения. То есть ребёнок, родившийся 31 декабря, на следующий день уже становится "двухлетним" по корейскому счёту!</p>
+
+            <div class="tip-box">
+                <strong>Пример:</strong> Малыш родился 28 декабря 2024 года. При рождении ему уже 1 год (по-корейски). А 1 января 2025 года ему становится 2 года. Спустя всего 4 дня!
+            </div>
+        </div>
+
+        <!-- Секция 2: Три системы возраста -->
+        <div class="content-section">
+            <h2>2. Три системы возраста в Корее</h2>
+            <p>В Корее одновременно существуют <strong>три</strong> системы подсчёта возраста. Да, корейцам тоже бывает непросто!</p>
+
+            <div class="age-system-grid">
+                <div class="age-system-card">
+                    <h3>1. 한국 나이</h3>
+                    <div class="age-sub">[hanguk nai] — корейский возраст</div>
+                    <div class="age-desc">
+                        Традиционный счёт. При рождении сразу 1 год. Все прибавляют по году в Новый год (1 января), а не в день рождения. Самый большой из трёх возрастов.
+                    </div>
+                </div>
+                <div class="age-system-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <h3>2. 만 나이</h3>
+                    <div class="age-sub">[man nai] — международный возраст</div>
+                    <div class="age-desc">
+                        Такой же, как во всём мире. При рождении 0, прибавляется в день рождения. Используется в официальных документах, анкетах, законах.
+                    </div>
+                </div>
+                <div class="age-system-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <h3>3. 연 나이</h3>
+                    <div class="age-sub">[yeon nai] — школьный возраст</div>
+                    <div class="age-desc">
+                        Текущий год минус год рождения. Используется для поступления в школу, армии, возрастных ограничений. Средний между тремя.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 3: Пример -->
+        <div class="content-section">
+            <h2>3. Живой пример</h2>
+            <p>Давайте посмотрим, как это работает в жизни. Человек родился <strong>1 декабря 2000 года</strong>. Сегодня <strong>1 января 2025 года</strong>:</p>
+
+            <div class="comparison-box">
+                <h3>&#127891; Один человек — три возраста</h3>
+                <div class="comparison-row">
+                    <span class="comparison-label">Международный (만 나이):</span>
+                    <span><strong>24 года</strong> (день рождения 1 декабря уже был)</span>
+                </div>
+                <div class="comparison-row">
+                    <span class="comparison-label">Школьный (연 나이):</span>
+                    <span><strong>25 лет</strong> (2025 - 2000 = 25)</span>
+                </div>
+                <div class="comparison-row">
+                    <span class="comparison-label">Корейский (한국 나이):</span>
+                    <span><strong>26 лет</strong> (при рождении был 1, + 25 раз Новый год)</span>
+                </div>
+            </div>
+
+            <p>Разница между международным и корейским возрастом может быть <strong>1 или 2 года</strong> — в зависимости от того, прошёл ли уже день рождения в этом году.</p>
+
+            <div class="tip-box">
+                <strong>Лайфхак для расчёта корейского возраста:</strong>
+                <ul style="margin: 10px 0 0 0; padding-left: 20px;">
+                    <li>Если день рождения в этом году <strong>уже был</strong>: международный возраст + 1</li>
+                    <li>Если ещё <strong>не было</strong>: международный возраст + 2</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Секция 4: Новый закон 2023 -->
+        <div class="content-section">
+            <h2>4. Важно: новый закон с 2023 года</h2>
+            <p>В <strong>июне 2023 года</strong> в Корее приняли закон о переходе на международный возраст (만 나이) во всех официальных документах, юридических вопросах и государственных сервисах.</p>
+
+            <p>Это означает, что:</p>
+            <ul>
+                <li>В паспорте, правах, медицинской карте — международный возраст</li>
+                <li>При подписании договоров — международный возраст</li>
+                <li>На работе и в школе по документам — международный возраст</li>
+            </ul>
+
+            <p><strong>НО</strong> в повседневной жизни — при знакомстве, в кафе, с друзьями, в K-дорамах — корейцы продолжают говорить корейский возраст. Традиция никуда не делась!</p>
+
+            <div class="tip-box">
+                <strong>На практике:</strong> Если вас спросят "몇 살이에요?" (сколько лет?), корейцы ожидают услышать корейский возраст. В официальной ситуации (в банке, на визе) — международный.
+            </div>
+        </div>
+
+        <!-- Секция 5: Как спросить и ответить -->
+        <div class="content-section">
+            <h2>5. Как спросить и ответить о возрасте</h2>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">몇 살이에요?</div>
+                    <div class="example-romanization">[myeot sariyeyo]</div>
+                    <div class="example-meaning">Сколько вам лет? (обычный вопрос)</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('몇 살이에요?')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">나이가 어떻게 되세요?</div>
+                    <div class="example-romanization">[naiga eotteoke doeseyo]</div>
+                    <div class="example-meaning">Как ваш возраст? (очень вежливо)</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('나이가 어떻게 되세요?')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">저는 24살이에요.</div>
+                    <div class="example-romanization">[jeoneun seumunesarieyo]</div>
+                    <div class="example-meaning">Мне 24 года.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('저는 24살이에요')">&#128264;</button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">스무 살이에요.</div>
+                    <div class="example-romanization">[seumu sarieyo]</div>
+                    <div class="example-meaning">Мне 20 лет.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('스무 살이에요')">&#128264;</button>
+            </div>
+
+            <div class="tip-box">
+                <strong>Вежливость:</strong> "몇 살이에요?" — можно спросить у ровесника или ребёнка. К старшему человеку используйте более вежливую форму "나이가 어떻게 되세요?".
+            </div>
+        </div>
+
+        <!-- Секция 6: Почему возраст важен -->
+        <div class="content-section">
+            <h2>6. Почему возраст так важен в Корее?</h2>
+            <p>Возраст в корейской культуре — это не просто число. Он определяет <strong>всё</strong>: как к вам обращаются, какой стиль речи использовать, кто платит в кафе, кто первым наливает вино.</p>
+
+            <h3>Что зависит от возраста:</h3>
+            <ul>
+                <li><strong>Стиль речи:</strong> 반말 [панмаль] (неформальная речь) — только среди ровесников и младших; 존댓말 [чондэтмаль] (вежливая речь) — со старшими</li>
+                <li><strong>Обращения:</strong> 언니 [онни] (старшая сестра — от девушки к девушке), 오빠 [оппа] (старший брат — от девушки к парню), 형 [хён] (старший брат — от парня к парню), 누나 [нуна] (старшая сестра — от парня к девушке)</li>
+                <li><strong>Иерархия:</strong> в школе, армии, на работе — старший всегда имеет приоритет</li>
+                <li><strong>Первый вопрос при знакомстве:</strong> да, часто именно "сколько тебе лет?" — чтобы определить, как общаться</li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>Не обижайтесь:</strong> Когда в Корее у вас сразу спрашивают возраст, это не грубость, а проявление уважения. Без этой информации невозможно правильно построить общение.
+            </div>
+        </div>
+
+        <!-- Секция 7: Родные числа для возраста -->
+        <div class="content-section">
+            <h2>7. Родные корейские числа для возраста</h2>
+            <p>Для возраста используются <strong>родные корейские числа</strong> (а не сино-корейские). Они же используются для счёта людей, часов, небольших предметов.</p>
+
+            <div class="number-grid">
+                <div class="number-card">
+                    <div class="number-digit">1</div>
+                    <div class="number-korean">한 살</div>
+                    <div class="number-rom">[han sal]</div>
+                </div>
+                <div class="number-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="number-digit">2</div>
+                    <div class="number-korean">두 살</div>
+                    <div class="number-rom">[du sal]</div>
+                </div>
+                <div class="number-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="number-digit">3</div>
+                    <div class="number-korean">세 살</div>
+                    <div class="number-rom">[se sal]</div>
+                </div>
+                <div class="number-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                    <div class="number-digit">4</div>
+                    <div class="number-korean">네 살</div>
+                    <div class="number-rom">[ne sal]</div>
+                </div>
+                <div class="number-card" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                    <div class="number-digit">5</div>
+                    <div class="number-korean">다섯 살</div>
+                    <div class="number-rom">[daseot sal]</div>
+                </div>
+                <div class="number-card">
+                    <div class="number-digit">6</div>
+                    <div class="number-korean">여섯 살</div>
+                    <div class="number-rom">[yeoseot sal]</div>
+                </div>
+                <div class="number-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="number-digit">7</div>
+                    <div class="number-korean">일곱 살</div>
+                    <div class="number-rom">[ilgop sal]</div>
+                </div>
+                <div class="number-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="number-digit">8</div>
+                    <div class="number-korean">여덟 살</div>
+                    <div class="number-rom">[yeodeol sal]</div>
+                </div>
+                <div class="number-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                    <div class="number-digit">9</div>
+                    <div class="number-korean">아홉 살</div>
+                    <div class="number-rom">[ahop sal]</div>
+                </div>
+                <div class="number-card" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                    <div class="number-digit">10</div>
+                    <div class="number-korean">열 살</div>
+                    <div class="number-rom">[yeol sal]</div>
+                </div>
+            </div>
+
+            <h3>Ключевые десятки:</h3>
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Возраст</th>
+                        <th>Корейский</th>
+                        <th>Произношение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>20</td><td>스무 살 <button class="audio-btn" onclick="speakKorean('스무 살')">&#128264;</button></td><td>[seumu sal]</td></tr>
+                    <tr><td>30</td><td>서른 살 <button class="audio-btn" onclick="speakKorean('서른 살')">&#128264;</button></td><td>[seoreun sal]</td></tr>
+                    <tr><td>40</td><td>마흔 살 <button class="audio-btn" onclick="speakKorean('마흔 살')">&#128264;</button></td><td>[maheun sal]</td></tr>
+                    <tr><td>50</td><td>쉰 살 <button class="audio-btn" onclick="speakKorean('쉰 살')">&#128264;</button></td><td>[swin sal]</td></tr>
+                    <tr><td>60</td><td>예순 살 <button class="audio-btn" onclick="speakKorean('예순 살')">&#128264;</button></td><td>[yesun sal]</td></tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Замечание:</strong> В разговоре с числами выше 20 корейцы часто переходят на сино-корейские числа: "저는 24살이에요" (seumusanesal — слишком сложно, проще сказать "isipsa-sal").
+            </div>
+        </div>
+
+        <!-- Секция 8: Мини-диалог -->
+        <div class="content-section">
+            <h2>8. Мини-диалог: знакомство</h2>
+
+            <div class="dialogue-box">
+                <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">안녕하세요, 저는 민수예요.</div>
+                    <div class="translation">Здравствуйте, я Минсу.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지영:</div>
+                    <div class="korean-text">안녕하세요, 저는 지영이에요. 나이가 어떻게 되세요?</div>
+                    <div class="translation">Здравствуйте, я Чиён. Сколько вам лет?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">저는 스물다섯 살이에요. 지영 씨는요?</div>
+                    <div class="translation">Мне 25 лет. А вам, Чиён?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지영:</div>
+                    <div class="korean-text">저도 스물다섯 살이에요! 우리 동갑이네요!</div>
+                    <div class="translation">Мне тоже 25! Мы ровесники!</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">그럼 말 놓아도 돼요?</div>
+                    <div class="translation">Тогда можно на "ты" (на 반말)?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지영:</div>
+                    <div class="korean-text">네, 좋아요!</div>
+                    <div class="translation">Да, хорошо!</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>동갑 [донгап]</strong> — ровесник, человек того же года рождения. Когда корейцы узнают, что они 동갑, они часто сразу предлагают перейти на неформальное общение.
+            </div>
+        </div>
+
+        <!-- Запомни блок -->
+        <div class="content-section">
+            <div style="background: linear-gradient(135deg, rgba(76,175,80,0.08), rgba(76,175,80,0.15)); border-left: 4px solid #4caf50; border-radius: 12px; padding: 20px; margin: 20px 0;">
+                <h3 style="color: #2e7d32;">&#128204; Запомни</h3>
+                <ul>
+                    <li><strong>Три системы:</strong> 한국 나이 (корейский, самый большой), 만 나이 (международный), 연 나이 (школьный)</li>
+                    <li><strong>С 2023 года</strong> в официальных документах — только международный возраст</li>
+                    <li><strong>В быту</strong> корейцы по-прежнему используют корейский возраст</li>
+                    <li><strong>Разница</strong> между корейским и международным — 1-2 года</li>
+                    <li><strong>Возраст определяет</strong> стиль речи и обращения (언니/오빠/형/누나)</li>
+                    <li><strong>Числа возраста</strong> — родные корейские: 한, 두, 세, 네, 다섯...</li>
+                    <li><strong>Спросить вежливо:</strong> 나이가 어떻게 되세요?</li>
+                    <li><strong>동갑</strong> (ровесник) — знак того, что можно перейти на 반말</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" class="complete-btn">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            var yuna = voices.find(function(v) { return v.name && v.name.indexOf('Yuna') !== -1; });
+            var kv = yuna || voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+            if (kv) u.voice = kv;
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.closest('.dialogue-box');
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text');
+                if (k) {
+                    var t = k.textContent.replace(/\[.*?\]/g, '').trim();
+                    if (t) texts.push(t);
+                }
+            });
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.innerHTML = '&#9208; Воспроизводится...';
+            btn.disabled = true;
+            function next() {
+                if (i >= texts.length) {
+                    btn.innerHTML = '&#127917; Прослушать диалог';
+                    btn.disabled = false;
+                    lines.forEach(function(l) { l.style.background = ''; });
+                    return;
+                }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(255,255,255,0.15)';
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                var v = window.speechSynthesis.getVoices();
+                var yuna = v.find(function(x) { return x.name && x.name.indexOf('Yuna') !== -1; });
+                var kv = yuna || v.find(function(x) { return x.lang.indexOf('ko') !== -1; });
+                if (kv) u.voice = kv;
+                u.onend = function() { i++; setTimeout(next, 400); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_korean_age';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                ProgressTracker.markLessonCompleted(LESSON_ID);
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>
