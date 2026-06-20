@@ -242,10 +242,11 @@ function mergeProgress(cloudProgress, localProgress) {
         localProgress.stats?.longestStreak || 0
     );
 
-    // Суммируем время обучения
-    merged.stats.studyTimeMinutes =
-        (cloudProgress.stats?.studyTimeMinutes || 0) +
-        (localProgress.stats?.studyTimeMinutes || 0);
+    // Берём максимум времени обучения (не суммируем, иначе удваивается при каждой синхронизации)
+    merged.stats.studyTimeMinutes = Math.max(
+        cloudProgress.stats?.studyTimeMinutes || 0,
+        localProgress.stats?.studyTimeMinutes || 0
+    );
 
     // Берём последнюю дату активности
     const cloudDate = cloudProgress.stats?.lastActivityDate;
