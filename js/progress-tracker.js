@@ -134,6 +134,7 @@ function markLessonCompleted(lessonId) {
     saveProgress(progress);
     if (window.DailyTasks) { window.DailyTasks.updateTask('studyLesson'); }
     console.log('[+] Lesson completed:', lessonId);
+    setTimeout(function() { _addUnmarkBtn(lessonId); }, 100);
     return progress;
 }
 
@@ -199,6 +200,73 @@ function isLessonCompleted(lessonId) {
     return !!progress.completedLessons[lessonId];
 }
 
+// Снять отметку с урока
+function markLessonUncompleted(lessonId) {
+    if (!requireLogin()) return null;
+    const progress = getProgress();
+    if (progress.completedLessons && progress.completedLessons[lessonId]) {
+        delete progress.completedLessons[lessonId];
+        progress.stats.totalLessons = Object.keys(progress.completedLessons).length;
+        saveProgress(progress);
+        console.log('[-] Lesson uncompleted:', lessonId);
+    }
+    return progress;
+}
+
+// Добавить кнопку "Убрать отметку" рядом с completeLessonBtn
+function _addUnmarkBtn(lessonId) {
+    var btn = document.getElementById('completeLessonBtn');
+    if (!btn) return;
+    if (document.getElementById('jk-unmark-btn')) return;
+
+    var lid = lessonId || (typeof LESSON_ID !== 'undefined' ? LESSON_ID : null);
+    if (!lid) return;
+    var progress = getProgress();
+    if (!progress.completedLessons || !progress.completedLessons[lid]) return;
+
+    var unmarkBtn = document.createElement('button');
+    unmarkBtn.id = 'jk-unmark-btn';
+    unmarkBtn.textContent = 'Убрать отметку';
+    unmarkBtn.style.cssText = [
+        'display:block', 'margin:10px auto 0', 'background:none', 'border:none',
+        'color:#bbb', 'font-size:13px', 'cursor:pointer', 'text-decoration:underline',
+        'font-family:\'Noto Sans KR\',sans-serif', 'padding:4px 8px', 'transition:color 0.2s'
+    ].join(';');
+    unmarkBtn.onmouseover = function() { this.style.color = '#e53935'; };
+    unmarkBtn.onmouseout  = function() { this.style.color = '#bbb'; };
+
+    unmarkBtn.onclick = function() {
+        var activeLid = typeof LESSON_ID !== 'undefined' ? LESSON_ID : lid;
+        if (!markLessonUncompleted(activeLid)) return;
+        btn.textContent = 'Отметить урок как пройденный';
+        btn.style.background = 'linear-gradient(135deg, #4CAF50, #45a049)';
+        btn.style.cursor = 'pointer';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        unmarkBtn.remove();
+        console.log('[-] Lesson button reset');
+    };
+
+    btn.parentNode.insertBefore(unmarkBtn, btn.nextSibling);
+}
+
+// Автопроверка кнопки при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    function checkBtn() {
+        var lid = typeof LESSON_ID !== 'undefined' ? LESSON_ID : null;
+        if (!lid) return;
+        if (isLessonCompleted(lid)) _addUnmarkBtn(lid);
+    }
+    // Проверяем через 350ms — после DOMContentLoaded уроков и до Firebase sync
+    setTimeout(checkBtn, 350);
+    // Повторно после Firebase sync
+    if (window.FirebaseAuth) {
+        window.FirebaseAuth.onAuthStateChanged(function() {
+            setTimeout(checkBtn, 1500);
+        });
+    }
+});
+
 // Сбросить весь прогресс
 function resetProgress() {
     if (confirm('Вы уверены? Весь прогресс будет потерян!')) {
@@ -215,6 +283,7 @@ window.ProgressTracker = {
     save: saveProgress,
     markTextCompleted,
     markLessonCompleted,
+    markLessonUncompleted,
     markDialogueCompleted,
     isTextCompleted,
     isLessonCompleted,
