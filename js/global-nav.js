@@ -1,6 +1,6 @@
 /**
  * Global Navigation Component v2.0
- * Единая навигация для всех страниц Jane Korea
+ * Единая навигация для всех страниц Miso: 한국어 수업
  * Desktop: top bar с ссылками, поиском, статистикой, auth
  * Mobile: компактный top bar + bottom tab bar + hamburger overlay
  */
@@ -42,6 +42,49 @@
             sc.src = PREFIX + 'js/lesson-chrome.js';
             sc.async = false;
             document.head.appendChild(sc);
+        }
+        // Улучшение озвучки: подбор лучшего корейского TTS-голоса
+        if (!window.JKTTS &&
+            !document.querySelector('script[src*="tts-voice.js"]')) {
+            var stts = document.createElement('script');
+            stts.src = PREFIX + 'js/tts-voice.js';
+            stts.async = false;
+            document.head.appendChild(stts);
+        }
+    })();
+
+    // =============================================
+    // VISUAL BOOST — живой фон + эффекты кнопок
+    // =============================================
+    (function loadVisualBoost() {
+        if (!document.querySelector('link[href*="visual-boost.css"]')) {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = PREFIX + 'css/visual-boost.css';
+            document.head.appendChild(link);
+        }
+
+        function addBgDecor() {
+            if (!document.body || document.querySelector('.jk-bg-decor')) return;
+            var decor = document.createElement('div');
+            decor.className = 'jk-bg-decor';
+            decor.setAttribute('aria-hidden', 'true');
+            decor.innerHTML =
+                '<span class="jk-blob jk-blob-1"></span>' +
+                '<span class="jk-blob jk-blob-2"></span>' +
+                '<span class="jk-blob jk-blob-3"></span>' +
+                '<span class="jk-han jk-han-1">한</span>' +
+                '<span class="jk-han jk-han-2">글</span>' +
+                '<span class="jk-han jk-han-3">안녕</span>' +
+                '<span class="jk-han jk-han-4">사랑</span>' +
+                '<span class="jk-han jk-han-5">꿈</span>';
+            document.body.insertBefore(decor, document.body.firstChild);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', addBgDecor);
+        } else {
+            addBgDecor();
         }
     })();
 
@@ -85,7 +128,7 @@
     var STRINGS = {
         ru: {
             navHome: 'Главная', navLessons: 'Уроки', navTexts: 'Тексты',
-            navVocab: 'Словарь', navKpop: 'K-POP', navProfile: 'Профиль',
+            navVocab: 'Словарь', navProfile: 'Профиль',
             navMore: 'Ещё', navSearch: 'Поиск', navMenu: 'Меню',
             login: 'Войти', loginGoogle: 'Войти через Google', logout: 'Выйти',
             myProfile: 'Мой профиль',
@@ -97,7 +140,7 @@
             searchMobilePlaceholder: 'Поиск...',
             searchEmpty: 'Ничего не найдено',
             searchMore: 'Ещё {n} результатов...',
-            footerDesc: 'Интерактивная платформа для изучения корейского языка через тексты, грамматику и K-POP',
+            footerDesc: 'Интерактивная платформа для изучения корейского языка через тексты, грамматику и словарь',
             footerLearning: 'Обучение', footerGrammar: 'Уроки грамматики',
             footerReading: 'Тексты для чтения', footerVocab: 'Словарь',
             footerProject: 'Проект', footerAbout: 'О проекте',
@@ -107,7 +150,7 @@
         },
         en: {
             navHome: 'Home', navLessons: 'Lessons', navTexts: 'Texts',
-            navVocab: 'Vocabulary', navKpop: 'K-POP', navProfile: 'Profile',
+            navVocab: 'Vocabulary', navProfile: 'Profile',
             navMore: 'More', navSearch: 'Search', navMenu: 'Menu',
             login: 'Sign In', loginGoogle: 'Sign in with Google', logout: 'Sign Out',
             myProfile: 'My Profile',
@@ -119,13 +162,13 @@
             searchMobilePlaceholder: 'Search...',
             searchEmpty: 'Nothing found',
             searchMore: '{n} more results...',
-            footerDesc: 'Interactive platform for learning Korean through texts, grammar, and K-POP',
+            footerDesc: 'Interactive platform for learning Korean through texts, grammar, and vocabulary',
             footerLearning: 'Learning', footerGrammar: 'Grammar Lessons',
             footerReading: 'Reading Texts', footerVocab: 'Vocabulary',
             footerProject: 'Project', footerAbout: 'About',
             footerLevels: 'Levels',
             footerRights: 'All rights reserved.',
-            langSwitch: 'RU', langSwitchTitle: 'Русская версия'
+            langSwitch: 'RU', langSwitchTitle: 'Основная версия (RU)'
         }
     };
 
@@ -210,7 +253,6 @@
         { id: 'lessons', label: S.navLessons, icon: ICONS.book, url: 'lessons.html' },
         { id: 'texts', label: S.navTexts, icon: ICONS.texts, url: 'reading-texts.html' },
         { id: 'vocab', label: S.navVocab, icon: ICONS.vocab, url: 'vocabulary-learning.html' },
-        { id: 'kpop', label: S.navKpop, icon: ICONS.music, url: 'kpop-learning.html' },
         { id: 'profile', label: S.navProfile, icon: ICONS.user, url: 'profile.html' }
     ];
 
@@ -233,7 +275,6 @@
         { t: 'Корейская культура', u: 'korean-culture.html', k: 'культура нунчи хан традиции общество culture этикет возраст конфуцианство' },
         { t: 'Челлендж 30 дней', u: 'challenge.html', k: 'челлендж вызов 30 дней challenge план обучения мотивация' },
         { t: 'Мой дневник на корейском', u: 'diary.html', k: 'дневник записи diary писать текст практика журнал' },
-        { t: 'Учи корейский по дорамам', u: 'dramas.html', k: 'дорамы сериалы kdrama фразы фильмы drama' },
         { t: 'Аудирование', u: 'listening.html', k: 'аудирование слушание listening слух восприятие речь' },
         { t: 'Урок 90: Подготовка к TOPIK', u: 'lesson_90_topik_prep/index.html', k: 'topik экзамен подготовка тест' },
         { t: 'Урок 91: Написание эссе', u: 'lesson_91_essay_writing/index.html', k: 'эссе сочинение письмо writing' },
@@ -302,7 +343,7 @@
         { t: 'Урок 83: Пассивные конструкции', u: 'lesson_83_passive_constructions/index.html', k: 'пассив залог 83' },
 
         // Уроки level_2
-        { t: 'Уровень 2: Основы грамматики', u: 'level_2/lesson_01_grammar/index.html', k: 'грамматика уровень 2' },
+        { t: 'Уровень 1: Основы грамматики', u: 'level_1/lesson_01_grammar/index.html', k: 'грамматика уровень 1' },
         { t: 'Уровень 2: Формы вежливости', u: 'level_2/lesson_02_politeness/index.html', k: 'вежливость уровень 2' },
 
         // Уроки level_6
@@ -310,7 +351,7 @@
         { t: 'Уровень 6: Деловая лексика', u: 'level_6/lesson_business_vocabulary/index.html', k: 'деловая лексика бизнес 6' },
         { t: 'Уровень 6: Идиомы и фразеологизмы', u: 'level_6/lesson_idioms/index.html', k: 'идиомы фразеологизмы 6' },
         { t: 'Уровень 6: Литературные выражения', u: 'level_6/lesson_literary_expressions/index.html', k: 'литературные выражения 6' },
-        { t: 'Уровень 6: Социальные темы', u: 'level_6/lesson_social_topics/index.html', k: 'социальные темы 6' },
+        { t: 'Уровень 3: Социальные темы', u: 'level_3/lesson_social_topics/index.html', k: 'социальные темы 3' },
 
         // Уровни
         { t: '1급 - Элементарный уровень', u: 'level_1/index.html', k: 'уровень 1 элементарный A1' },
@@ -343,17 +384,6 @@
         { t: 'Словарь: Город и места 도시', u: 'vocabulary/city/index.html', k: 'город места больница школа парк кафе' },
         { t: 'Словарь: Хобби 취미', u: 'vocabulary/hobbies/index.html', k: 'хобби увлечения свободное время музыка спорт' },
         { t: 'Словарь: Деньги и покупки 돈', u: 'vocabulary/money/index.html', k: 'деньги покупки цена дорого дешево вон' },
-
-        // K-POP
-        { t: 'K-POP: Учим корейский через музыку', u: 'kpop-learning.html', k: 'kpop музыка' },
-        { t: 'BLACKPINK 블랙핑크', u: 'group-blackpink.html', k: 'blackpink блэкпинк' },
-        { t: 'K-POP Словарь с BLACKPINK', u: 'blackpink-vocabulary-learning.html', k: 'blackpink словарь' },
-        { t: 'Тексты песен BLACKPINK', u: 'blackpink-songs-learning.html', k: 'blackpink песни тексты' },
-        { t: 'Корейская культура через BLACKPINK', u: 'blackpink-culture-learning.html', k: 'blackpink культура' },
-        { t: 'Участницы BLACKPINK', u: 'blackpink-members-learning.html', k: 'blackpink участницы' },
-        { t: 'BLACKPINK Songs 2016', u: 'blackpink-songs.html', k: 'blackpink songs 2016' },
-        { t: 'BOOMBAYAH Music Video', u: 'boombayah-video.html', k: 'boombayah видео' },
-        { t: 'BTS 방탄소년단', u: 'group-bts.html', k: 'bts бтс бантан bangtan' },
 
         // Тексты по уровням и категориям
         { t: 'Тексты для чтения', u: 'reading-texts.html', k: 'тексты чтение reading' },
@@ -398,11 +428,8 @@
         { t: 'My Profile', u: 'profile.html', k: 'profile progress statistics' },
         { t: 'Vocabulary Practice', u: 'vocabulary-learning.html', k: 'vocabulary words' },
         { t: 'Reading Texts', u: 'reading-texts.html', k: 'texts reading levels' },
-        { t: 'K-POP Learning', u: 'kpop-learning.html', k: 'kpop music blackpink bts' },
         { t: 'About the Project', u: 'about.html', k: 'about project' },
         { t: 'FAQ', u: 'faq.html', k: 'faq questions help' },
-        { t: 'BLACKPINK', u: 'group-blackpink.html', k: 'blackpink kpop' },
-        { t: 'BTS', u: 'group-bts.html', k: 'bts bangtan kpop' },
         { t: 'Level 1 Texts', u: 'reading-texts.html?level=1', k: 'level 1 beginner A1' },
         { t: 'Level 2 Texts', u: 'reading-texts.html?level=2', k: 'level 2 basic A2' },
         { t: 'Level 3 Texts', u: 'reading-texts.html?level=3', k: 'level 3 intermediate B1' },
@@ -446,8 +473,22 @@
             gap: 8px;\
         }\
 \
-        /* Brand — hidden until decided */\
-        .jk-nav-brand { display: none; }\
+        /* Brand */\
+        .jk-nav-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }\
+        .jk-nav-logo {\
+            display: flex; align-items: center; justify-content: center;\
+            padding: 4px 9px; border-radius: 10px;\
+            background: linear-gradient(135deg, #ff6b9d, #c44569);\
+            color: #fff; font-size: 13px; font-weight: 700; line-height: 1.4;\
+        }\
+        .jk-nav-wordmark {\
+            font-size: 17px; font-weight: 800; white-space: nowrap;\
+            color: #c44569;\
+            background: linear-gradient(135deg, #ff6b9d, #764ba2);\
+            -webkit-background-clip: text; background-clip: text;\
+            -webkit-text-fill-color: transparent;\
+        }\
+        @media (max-width: 420px) { .jk-nav-wordmark { display: none; } }\
 \
         /* Desktop nav links — hidden on mobile */\
         .jk-nav-links {\
@@ -1013,8 +1054,8 @@
             '<div class="jk-nav-inner">' +
                 // Brand
                 '<a href="' + getPageUrl('index.html') + '" class="jk-nav-brand">' +
-                    '<span class="jk-nav-logo">JK</span>' +
-                    '<span class="jk-nav-wordmark">Jane Korea</span>' +
+                    '<span class="jk-nav-logo">미소</span>' +
+                    '<span class="jk-nav-wordmark">Miso Korean</span>' +
                 '</a>' +
                 // Desktop links
                 '<nav class="jk-nav-links" id="jk-nav-links">' + linksHTML + '</nav>' +
@@ -1126,14 +1167,13 @@
 
         // "Ещё" tab
         tabsHTML += '<button class="jk-bottom-tab' +
-            (['kpop', 'profile'].indexOf(activePage) >= 0 ? ' jk-active' : '') +
+            (['profile'].indexOf(activePage) >= 0 ? ' jk-active' : '') +
             '" id="jk-bottom-more">' +
             '<span class="jk-bottom-icon">' + ICONS.more + '</span>' +
             '<span class="jk-bottom-label">' + S.navMore + '</span></button>';
 
         // More panel
         var moreItems = [
-            { id: 'kpop', label: S.navKpop, icon: ICONS.music, url: getPageUrl('kpop-learning.html') },
             { id: 'profile', label: S.navProfile, icon: ICONS.user, url: getPageUrl('profile.html') }
         ];
         var morePanelHTML = '<div class="jk-more-panel" id="jk-more-panel">';
@@ -1451,7 +1491,7 @@
         return '<footer class="jk-footer">' +
             '<div class="jk-footer-inner">' +
                 '<div class="jk-footer-brand">' +
-                    '<h3>Jane Korea</h3>' +
+                    '<h3>Miso: 한국어 수업</h3>' +
                     '<p>' + S.footerDesc + '</p>' +
                 '</div>' +
                 '<div class="jk-footer-col">' +
@@ -1459,7 +1499,6 @@
                     '<a href="' + getPageUrl('lessons.html') + '">' + S.footerGrammar + '</a>' +
                     '<a href="' + getPageUrl('reading-texts.html') + '">' + S.footerReading + '</a>' +
                     '<a href="' + getPageUrl('vocabulary-learning.html') + '">' + S.footerVocab + '</a>' +
-                    '<a href="' + getPageUrl('kpop-learning.html') + '">K-POP</a>' +
                 '</div>' +
                 '<div class="jk-footer-col">' +
                     '<h4>' + S.footerProject + '</h4>' +
@@ -1476,7 +1515,7 @@
                 '</div>' +
             '</div>' +
             '<div class="jk-footer-bottom">' +
-                '<span>&copy; ' + new Date().getFullYear() + ' Jane Korea. ' + S.footerRights + '</span>' +
+                '<span>&copy; ' + new Date().getFullYear() + ' Miso: 한국어 수업. ' + S.footerRights + '</span>' +
             '</div>' +
         '</footer>';
     }
@@ -1522,7 +1561,11 @@
         document.body.insertAdjacentHTML('afterbegin', buildNavHTML());
 
         // Inject footer + mobile menu + bottom bar
-        document.body.insertAdjacentHTML('beforeend', buildFooterHTML());
+        // Футер стилизуется в css/style.css — на страницах без него
+        // (уроки и т.п.) не вставляем, иначе рендерится без стилей
+        if (document.querySelector('link[href*="style.css"]')) {
+            document.body.insertAdjacentHTML('beforeend', buildFooterHTML());
+        }
         document.body.insertAdjacentHTML('beforeend', buildMobileMenuHTML());
         document.body.insertAdjacentHTML('beforeend', buildBottomBarHTML());
 

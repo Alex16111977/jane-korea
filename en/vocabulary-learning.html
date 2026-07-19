@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Practice Korean vocabulary with flashcards, quizzes, and spaced repetition."/>
-    <meta property="og:title" content="Vocabulary Practice — Jane Korea"/>
+    <meta property="og:title" content="Vocabulary Practice — Miso: 한국어 수업"/>
     <meta property="og:description" content="Learn Korean words with interactive flashcards and quizzes."/>
     <meta name="theme-color" content="#ff6b9d"/>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
-    <title>Vocabulary Practice — Jane Korea</title>
+    <title>Vocabulary Practice — Miso: 한국어 수업</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
 
@@ -550,6 +550,25 @@
 
         .writing-feedback.wrong {
             color: #f44336;
+        }
+
+        .writing-hint-btn {
+            display: block;
+            margin: 15px auto 0;
+            padding: 8px 20px;
+            background: #f5f5f5;
+            color: #667eea;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .writing-hint-btn:hover {
+            border-color: #667eea;
+            background: #eef0ff;
         }
 
         /* STATISTICS */
@@ -1242,6 +1261,7 @@
     </div>
 
     <!-- Load modules BEFORE main script -->
+    <script src="../js/ui-components.js"></script>
     <script src="../js/srs.js"></script>
     <script src="../js/dictionary.js"></script>
     <script src="../js/word-examples.js"></script>
@@ -1716,8 +1736,12 @@
 
                     if (matchedCount === matchingPairs.length) {
                         setTimeout(() => {
-                            alert('Congratulations! You matched all the words!');
-                            initMatching();
+                            JKModal.open({
+                                type: 'success',
+                                title: 'Congratulations!',
+                                body: 'You matched all the words!',
+                                onClose: initMatching
+                            });
                         }, 500);
                     }
                 } else {
@@ -1765,6 +1789,7 @@
                     <div class="writing-translation">${word.pronunciation}</div>
                     <input type="text" class="writing-input" id="writingInput" placeholder="Type in Korean..." autocomplete="off">
                     <div class="writing-feedback" id="writingFeedback"></div>
+                    <button type="button" class="writing-hint-btn" onclick="showWritingHint()">💡 Hint</button>
                 </div>
                 <div style="text-align: center;">
                     <span style="color: white; font-size: 1.2em; font-weight: 600;">${writingIndex + 1} / ${selectedWords.length}</span>
@@ -1774,6 +1799,9 @@
             const input = document.getElementById('writingInput');
             input.focus();
             input.addEventListener('input', checkWriting);
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') submitWriting();
+            });
         }
 
         function checkWriting() {
@@ -1784,7 +1812,7 @@
             if (input.value === word.korean) {
                 input.classList.add('correct');
                 input.classList.remove('wrong');
-                feedback.textContent = '[OK] Correct!';
+                feedback.textContent = '✓ Correct!';
                 feedback.classList.add('correct');
                 feedback.classList.remove('wrong');
 
@@ -1792,17 +1820,38 @@
                     writingIndex = (writingIndex + 1) % selectedWords.length;
                     showWritingWord();
                 }, 1500);
-            } else if (word.korean.startsWith(input.value) && input.value.length > 0) {
-                // On the right track
+            } else {
+                // Don't interrupt typing: errors show only on Enter
                 input.classList.remove('wrong', 'correct');
                 feedback.textContent = '';
-            } else if (input.value.length > 0) {
-                input.classList.add('wrong');
-                input.classList.remove('correct');
-                feedback.textContent = `[ERROR] Try again. Hint: ${word.korean.charAt(0)}...`;
-                feedback.classList.add('wrong');
-                feedback.classList.remove('correct');
+                feedback.classList.remove('wrong', 'correct');
             }
+        }
+
+        function submitWriting() {
+            const input = document.getElementById('writingInput');
+            const feedback = document.getElementById('writingFeedback');
+            const word = selectedWords[writingIndex];
+
+            if (!word || input.value === word.korean || input.value.length === 0) return;
+
+            input.classList.add('wrong');
+            input.classList.remove('correct');
+            feedback.textContent = '✗ Try again';
+            feedback.classList.add('wrong');
+            feedback.classList.remove('correct');
+        }
+
+        function showWritingHint() {
+            const feedback = document.getElementById('writingFeedback');
+            const word = selectedWords[writingIndex];
+            if (!word) return;
+
+            feedback.textContent = '💡 Starts with: ' + word.korean.charAt(0) + '...';
+            feedback.classList.remove('wrong', 'correct');
+
+            const input = document.getElementById('writingInput');
+            if (input) input.focus();
         }
 
         // SENTENCES

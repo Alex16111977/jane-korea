@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой дневник на корейском — Jane Korea</title>
+    <title>Мой дневник на корейском — Miso: 한국어 수업</title>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
     <style>
         * {
@@ -590,6 +590,7 @@
         </div>
     </section>
 
+    <script src="js/ui-components.js"></script>
     <script src="js/progress-tracker.js"></script>
     <script src="js/global-nav.js"></script>
     <script>
@@ -892,11 +893,19 @@
         }
 
         function deleteEntry(entryId) {
-            if (!confirm('Удалить эту запись? Это действие нельзя отменить.')) {
-                return;
-            }
-            deleteEntryById(entryId);
-            console.log('[OK] Entry deleted: ' + entryId);
+            JKModal.open({
+                type: 'warning',
+                icon: '🗑️',
+                title: 'Удалить запись?',
+                body: 'Это действие нельзя отменить.',
+                buttons: [
+                    { text: 'Отмена' },
+                    { text: 'Удалить', primary: true, onClick: function() {
+                        deleteEntryById(entryId);
+                        console.log('[OK] Entry deleted: ' + entryId);
+                    } }
+                ]
+            });
         }
 
         function deleteEntryById(entryId) {

@@ -1,5 +1,5 @@
 /* ============================================
-   Jane Korea — UI Components (Modal + Toast)
+   Miso: 한국어 수업 — UI Components (Modal + Toast)
    Версия: 1.0
    Использование:
      JKModal.alert('Сообщение')

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Практика корейского словаря с карточками, тестами и интервальным повторением."/>
-    <meta property="og:title" content="Изучение слов — Jane Korea"/>
+    <meta property="og:title" content="Изучение слов — Miso: 한국어 수업"/>
     <meta property="og:description" content="Учите корейские слова с помощью интерактивных карточек и тестов."/>
     <meta name="theme-color" content="#ff6b9d"/>
     <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-    <title>Изучение слов — Jane Korea</title>
+    <title>Изучение слов — Miso: 한국어 수업</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         
@@ -550,6 +550,25 @@
 
         .writing-feedback.wrong {
             color: #f44336;
+        }
+
+        .writing-hint-btn {
+            display: block;
+            margin: 15px auto 0;
+            padding: 8px 20px;
+            background: #f5f5f5;
+            color: #667eea;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .writing-hint-btn:hover {
+            border-color: #667eea;
+            background: #eef0ff;
         }
 
         /* СТАТИСТИКА */
@@ -1176,7 +1195,7 @@
 
         <div class="tabs">
             <button class="tab active" onclick="showTab('select', this)">Выбрать слова</button>
-            <button class="tab" onclick="showTab('flashcards', this)">Флешкартки</button>
+            <button class="tab" onclick="showTab('flashcards', this)">Карточки</button>
             <button class="tab" onclick="showTab('matching', this)">Соединить</button>
             <button class="tab" onclick="showTab('writing', this)">Написать</button>
             <button class="tab" onclick="showTab('sentences', this)">Предложения</button>
@@ -1242,6 +1261,7 @@
     </div>
 
     <!-- Подключаем модули ДО основного скрипта -->
+    <script src="js/ui-components.js"></script>
     <script src="js/srs.js"></script>
     <script src="js/dictionary.js"></script>
     <script src="js/word-examples.js"></script>
@@ -1734,8 +1754,12 @@
                     
                     if (matchedCount === matchingPairs.length) {
                         setTimeout(() => {
-                            alert('Поздравляю! Вы соединили все слова! 🎉');
-                            initMatching();
+                            JKModal.open({
+                                type: 'success',
+                                title: 'Поздравляю!',
+                                body: 'Вы соединили все слова!',
+                                onClose: initMatching
+                            });
                         }, 500);
                     }
                 } else {
@@ -1789,6 +1813,7 @@
                     <div class="writing-translation">${word.pronunciation}</div>
                     <input type="text" class="writing-input" id="writingInput" placeholder="Напишите по-корейски..." autocomplete="off" lang="ko">
                     <div class="writing-feedback" id="writingFeedback"></div>
+                    <button type="button" class="writing-hint-btn" onclick="showWritingHint()">💡 Подсказка</button>
                 </div>
                 <div style="text-align: center;">
                     <span style="color: white; font-size: 1.2em; font-weight: 600;">${writingIndex + 1} / ${selectedWords.length}</span>
@@ -1801,6 +1826,9 @@
             const input = document.getElementById('writingInput');
             input.focus();
             input.addEventListener('input', checkWriting);
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') submitWriting();
+            });
         }
 
         function checkWriting() {
@@ -1819,17 +1847,38 @@
                     writingIndex = (writingIndex + 1) % selectedWords.length;
                     showWritingWord();
                 }, 1500);
-            } else if (word.korean.startsWith(input.value) && input.value.length > 0) {
-                // Пока верное направление
+            } else {
+                // Во время набора не мешаем: ошибка показывается только по Enter
                 input.classList.remove('wrong', 'correct');
                 feedback.textContent = '';
-            } else if (input.value.length > 0) {
-                input.classList.add('wrong');
-                input.classList.remove('correct');
-                feedback.textContent = `✗ Попробуйте ещё раз. Подсказка: ${word.korean.charAt(0)}...`;
-                feedback.classList.add('wrong');
-                feedback.classList.remove('correct');
+                feedback.classList.remove('wrong', 'correct');
             }
+        }
+
+        function submitWriting() {
+            const input = document.getElementById('writingInput');
+            const feedback = document.getElementById('writingFeedback');
+            const word = selectedWords[writingIndex];
+
+            if (!word || input.value === word.korean || input.value.length === 0) return;
+
+            input.classList.add('wrong');
+            input.classList.remove('correct');
+            feedback.textContent = '✗ Попробуйте ещё раз';
+            feedback.classList.add('wrong');
+            feedback.classList.remove('correct');
+        }
+
+        function showWritingHint() {
+            const feedback = document.getElementById('writingFeedback');
+            const word = selectedWords[writingIndex];
+            if (!word) return;
+
+            feedback.textContent = '💡 Начинается с: ' + word.korean.charAt(0) + '...';
+            feedback.classList.remove('wrong', 'correct');
+
+            const input = document.getElementById('writingInput');
+            if (input) input.focus();
         }
 
         // МОЙ СЛОВАРЬ
@@ -2031,7 +2080,7 @@
             var dueLater = window.SRS.getDueLater();
 
             if (stats.total === 0) {
-                container.innerHTML = '<div class="srs-empty"><h2>Пока нет слов для повторения</h2><p>Добавляйте слова в словарь и проходите флешкартки — слова автоматически попадут в систему повторения.</p></div>';
+                container.innerHTML = '<div class="srs-empty"><h2>Пока нет слов для повторения</h2><p>Добавляйте слова в словарь и проходите карточки — слова автоматически попадут в систему повторения.</p></div>';
                 return;
             }
 
@@ -2100,7 +2149,7 @@
             if (dueWords.length === 0) return;
 
             // Переключаемся на вкладку флешкарток
-            var flashBtn = document.querySelectorAll('.tab')[1]; // Флешкартки
+            var flashBtn = document.querySelectorAll('.tab')[1]; // Карточки
             showTab('flashcards', flashBtn);
 
             // Запускаем с SRS-словами

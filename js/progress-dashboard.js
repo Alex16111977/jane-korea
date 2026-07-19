@@ -1,5 +1,5 @@
 /**
- * Jane Korea - Progress Dashboard Component
+ * Miso: 한국어 수업 - Progress Dashboard Component
  * Версия: 1.0
  */
 

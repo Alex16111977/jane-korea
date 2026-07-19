@@ -1322,13 +1322,13 @@
                 <span class="game-card-icon">🃏</span>
                 <div class="game-card-title">Найди пару</div>
                 <div class="game-card-subtitle">짝 찾기</div>
-                <div class="game-card-desc">Переверни карточки и найди пары: корейское слово + русский перевод. Тренируй память!</div>
+                <div class="game-card-desc">Переверни карточки и найди пары: корейское слово + перевод. Тренируй память!</div>
             </div>
             <div class="game-card" onclick="openGame('guess')">
                 <span class="game-card-icon">🧩</span>
                 <div class="game-card-title">Угадай слово</div>
                 <div class="game-card-subtitle">단어 맞추기</div>
-                <div class="game-card-desc">Собери корейское слово по слогам из подсказки на русском. Не ошибись 6 раз!</div>
+                <div class="game-card-desc">Собери корейское слово по слогам, глядя на перевод. Не ошибись 6 раз!</div>
             </div>
             <div class="game-card" onclick="openGame('build')">
                 <span class="game-card-icon">🔤</span>
@@ -1364,13 +1364,13 @@
                 <span class="game-card-icon">⌨️</span>
                 <div class="game-card-title">Печатай быстрее</div>
                 <div class="game-card-subtitle">빨리 쓰세요</div>
-                <div class="game-card-desc">Увидел русский перевод — напиши по-корейски! 15 секунд на слово.</div>
+                <div class="game-card-desc">Увидел перевод — напиши по-корейски! 15 секунд на слово.</div>
             </div>
             <div class="game-card" onclick="openGame('hangman')">
                 <span class="game-card-icon">🎯</span>
                 <div class="game-card-title">Виселица</div>
                 <div class="game-card-subtitle">단어 구하기</div>
-                <div class="game-card-desc">Угадай корейское слово по слогам! Подсказка — русский перевод. 7 попыток.</div>
+                <div class="game-card-desc">Угадай корейское слово по слогам! Подсказка — перевод. 7 попыток.</div>
             </div>
             <div class="game-card" onclick="openGame('dictation')">
                 <span class="game-card-icon">&#x1F3A7;</span>
@@ -1388,7 +1388,7 @@
                 <span class="game-card-icon">&#x1F504;</span>
                 <div class="game-card-title">Переведи на корейский</div>
                 <div class="game-card-subtitle">한국어로 번역</div>
-                <div class="game-card-desc">Увидишь русское слово - выбери или напиши перевод на корейском!</div>
+                <div class="game-card-desc">Увидишь перевод слова - выбери или напиши его по-корейски!</div>
             </div>
         </div>
     </div>
@@ -1802,8 +1802,6 @@
         ],
         hard: [
             { korean: '대한민국', translation: 'Республика Корея' },
-            { korean: '편의점', translation: 'магазин у дома' },
-            { korean: '냉장고', translation: 'холодильник' },
             { korean: '경복궁', translation: 'дворец Кёнбоккун' },
             { korean: '운전면허', translation: 'водительские права' },
             { korean: '슈퍼마켓', translation: 'супермаркет' },
@@ -1819,18 +1817,19 @@
             { korean: '약국', translation: 'аптека' },
             { korean: '백화점', translation: 'универмаг' },
             { korean: '주유소', translation: 'заправка' },
-            { korean: '도서관', translation: 'библиотека' },
-            { korean: '인터넷', translation: 'интернет' },
-            { korean: '텔레비전', translation: 'телевизор' },
-            { korean: '비행기', translation: 'самолёт' },
-            { korean: '컴퓨터', translation: 'компьютер' },
-            { korean: '영화관', translation: 'кинотеатр' },
             { korean: '지하철역', translation: 'станция метро' },
             { korean: '음식점', translation: 'ресторан' },
             { korean: '화장실', translation: 'туалет' },
-            { korean: '도서관', translation: 'библиотека' },
             { korean: '대학교', translation: 'университет' },
-            { korean: '기숙사', translation: 'общежитие' }
+            { korean: '기숙사', translation: 'общежитие' },
+            { korean: '전통시장', translation: 'традиционный рынок' },
+            { korean: '박물관', translation: 'музей' },
+            { korean: '고속버스터미널', translation: 'автовокзал' },
+            { korean: '지방자치단체', translation: 'орган местного самоуправления' },
+            { korean: '입학시험', translation: 'вступительный экзамен' },
+            { korean: '회사원증', translation: 'служебное удостоверение' },
+            { korean: '자원봉사자', translation: 'волонтёр' },
+            { korean: '환경보호', translation: 'защита окружающей среды' }
         ]
     };
 
@@ -2008,26 +2007,53 @@
         return m + ':' + (s < 10 ? '0' : '') + s;
     }
 
+    function getSyllableRange(difficulty) {
+        if (difficulty === 'easy') return { min: 1, max: 2 };
+        if (difficulty === 'medium') return { min: 2, max: 3 };
+        return { min: 3, max: 10 }; // hard
+    }
+
     function getGameWords(count, difficulty) {
+        var range = getSyllableRange(difficulty);
+        var defaults = DEFAULT_WORDS[difficulty] || DEFAULT_WORDS.easy;
+
         var dictWords = [];
         if (window.Dictionary) {
-            var all = window.Dictionary.getAll();
-            dictWords = all.map(function(w) {
+            dictWords = window.Dictionary.getAll().map(function(w) {
                 return { korean: w.korean, translation: w.translation };
             });
         }
-        if (dictWords.length < count) {
-            var defaults = DEFAULT_WORDS[difficulty] || DEFAULT_WORDS.easy;
-            // Add defaults that are not already in dictWords
-            var existing = {};
-            dictWords.forEach(function(w) { existing[w.korean] = true; });
-            defaults.forEach(function(w) {
-                if (!existing[w.korean]) {
-                    dictWords.push(w);
-                }
+
+        // Own difficulty tier first: curated defaults + user's dictionary words
+        // that match this tier's syllable range (dictionary has no level tag,
+        // so syllable count is used as the difficulty proxy).
+        var existing = {};
+        var pool = [];
+        defaults.forEach(function(w) {
+            if (!existing[w.korean]) { pool.push(w); existing[w.korean] = true; }
+        });
+        dictWords.forEach(function(w) {
+            var syl = splitSyllables(w.korean).length;
+            if (!existing[w.korean] && syl >= range.min && syl <= range.max) {
+                pool.push(w);
+                existing[w.korean] = true;
+            }
+        });
+
+        // Not enough words at this difficulty - top up from the full pool
+        // rather than leave the game short.
+        if (pool.length < count) {
+            dictWords.forEach(function(w) {
+                if (!existing[w.korean]) { pool.push(w); existing[w.korean] = true; }
+            });
+            Object.keys(DEFAULT_WORDS).forEach(function(key) {
+                DEFAULT_WORDS[key].forEach(function(w) {
+                    if (!existing[w.korean]) { pool.push(w); existing[w.korean] = true; }
+                });
             });
         }
-        return shuffleArray(dictWords).slice(0, count);
+
+        return shuffleArray(pool).slice(0, count);
     }
 
     function getWordsForSyllableGame(count, difficulty) {
@@ -2707,15 +2733,28 @@
     // Helper: get wrong options for quiz games
     function getWrongOptions(correctTranslation, count, difficulty) {
         var pool = DEFAULT_WORDS[difficulty] || DEFAULT_WORDS.easy;
-        var allPools = [].concat(DEFAULT_WORDS.easy, DEFAULT_WORDS.medium, DEFAULT_WORDS.hard);
         var options = [];
         var used = {};
         used[correctTranslation] = true;
-        var shuffled = shuffleArray(allPools);
+
+        // Same-tier decoys first, so "easy" quizzes don't get hard words as options.
+        var shuffled = shuffleArray(pool);
         for (var i = 0; i < shuffled.length && options.length < count; i++) {
             if (!used[shuffled[i].translation]) {
                 options.push(shuffled[i].translation);
                 used[shuffled[i].translation] = true;
+            }
+        }
+
+        // Tier too small for this many decoys - top up from other tiers.
+        if (options.length < count) {
+            var allPools = [].concat(DEFAULT_WORDS.easy, DEFAULT_WORDS.medium, DEFAULT_WORDS.hard);
+            var extra = shuffleArray(allPools);
+            for (var j = 0; j < extra.length && options.length < count; j++) {
+                if (!used[extra[j].translation]) {
+                    options.push(extra[j].translation);
+                    used[extra[j].translation] = true;
+                }
             }
         }
         return options;

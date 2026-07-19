@@ -1,5 +1,5 @@
 /**
- * Speech Recognition Module for Jane Korea
+ * Speech Recognition Module for Miso: 한국어 수업
  * Allows students to practice Korean pronunciation
  * Uses Web Speech API (Chrome/Edge only)
  * Exported as window.SpeechPractice

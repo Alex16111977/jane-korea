@@ -1,5 +1,5 @@
 /**
- * Jane Korea - Firebase Authentication Module
+ * Miso: 한국어 수업 - Firebase Authentication Module
  * Обеспечивает вход через Google
  */
 

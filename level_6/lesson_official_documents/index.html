@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Язык судебных решений и госдокументов — 판결문과 공문서</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #F44336;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #E53935;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .description {
+            font-size: 1.1em;
+            color: #555;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #F44336;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #F44336;
+            padding-bottom: 10px;
+        }
+
+        .content-section h3 {
+            color: #D32F2F;
+            margin-top: 25px;
+        }
+
+        .content-section p {
+            font-size: 1.05em;
+            line-height: 1.7;
+            margin: 12px 0;
+        }
+
+        .example-block {
+            background: linear-gradient(135deg, #FFEBEE, #FCE4EC);
+            border-left: 4px solid #F44336;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin: 16px 0;
+        }
+
+        .example-block .korean-text {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #B71C1C;
+            margin-bottom: 6px;
+        }
+
+        .example-block .romanization {
+            font-size: 0.95em;
+            color: #C62828;
+            font-style: italic;
+            margin-bottom: 6px;
+        }
+
+        .example-block .translation {
+            font-size: 1em;
+            color: #444;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #C62828, #F44336);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1.4fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            font-size: 1em;
+        }
+
+        .table-cell.korean {
+            color: #F44336;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+            text-align: center;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #EF5350, #F44336);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #FFD54F;
+            margin-bottom: 8px;
+        }
+
+        .korean-text {
+            font-size: 1.15em;
+            margin-bottom: 5px;
+            line-height: 1.6;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.85em;
+            color: #FFCDD2;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .question-forms {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #F44336;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #FFCDD2, #EF9A9A);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #F44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .option:hover {
+            background: #E53935;
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: #27ae60;
+        }
+
+        .option.wrong {
+            background: #e74c3c;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct {
+            background: #d5f5d5;
+            color: #27ae60;
+            display: block;
+        }
+
+        .result.wrong {
+            background: #fdd5d5;
+            color: #e74c3c;
+            display: block;
+        }
+
+        .document-mock {
+            background: #fffdf7;
+            border: 2px solid #D32F2F;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            font-size: 1.02em;
+            line-height: 1.9;
+        }
+
+        .document-mock .doc-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #B71C1C;
+            margin-bottom: 15px;
+        }
+
+        .document-mock .doc-label {
+            font-weight: bold;
+            color: #C62828;
+        }
+
+        .document-mock hr {
+            border: none;
+            border-top: 1px dashed #E57373;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 2px;
+            }
+
+            .options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../index.html">6급 Все уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>Язык судебных решений и госдокументов</h1>
+            <div class="korean-title">판결문과 공문서 [pangyeolmungwa gongmunseo] — Официально-деловой и юридический регистр</div>
+            <div class="description">주문, 이유, канцелярские клише и архаичная стилистика официальных текстов</div>
+        </header>
+
+        <div class="content-section">
+            <h2>Почему язык судов и госорганов такой особенный</h2>
+            <p>Язык 판결문 (судебных решений) и 공문서 (официальных документов) — это отдельный регистр корейского языка, который практически не пересекается с разговорной или даже деловой письменной речью. Он сформировался под влиянием ханмуна (한문, классического китайского) и японского колониального административного языка, поэтому сохраняет архаичные конструкции, которые вышли из живого употребления ещё в XX веке.</p>
+            <p>Этот стиль называют <strong>법률 문어체</strong> [beomnyul muneoche] — «письменный юридический стиль». Его особенности: predicate-final формулы, номинализация через <strong>-음/-ㅁ</strong>, устойчивые канцелярские обороты (<strong>-에 의하여</strong>, <strong>-에 의거하여</strong>, <strong>-라고 판시하다</strong>), и высочайшая плотность иероглифической (한자어) лексики.</p>
+            <div class="question-forms">
+                <h3>Три причины архаичности</h3>
+                <p><strong>1. Прецедентность формы.</strong> Формулировки 주문 (резолютивной части) должны быть узнаваемы и единообразны на протяжении десятилетий — суды сознательно не «модернизируют» язык, чтобы не создавать двусмысленности в толковании.</p>
+                <p><strong>2. Ритуальная дистанция власти.</strong> Канцелярский регистр демонстрирует безличность и авторитет государства — предложения строятся без указания на говорящего, с пассивными и номинализованными конструкциями.</p>
+                <p><strong>3. Юридическая точность важнее естественности.</strong> Длинные цепочки придаточных, нанизанные через <strong>-며</strong>, <strong>-되</strong>, <strong>-ㅁ에 있어서</strong>, позволяют втиснуть все условия и оговорки в одно грамматически завершённое предложение — переписывание на разговорный язык неизбежно теряет юридическую однозначность.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Примеры предложений (C2 уровень)</h2>
+
+            <div class="example-block">
+                <div class="korean-text">원고의 청구를 기각한다.</div>
+                <div class="romanization">[wongoui cheongguleul gigakhanda]</div>
+                <div class="translation">Иск истца отклоняется. (стандартная формула 주문 при проигрыше дела истцом)</div>
+            </div>
+
+            <div class="example-block">
+                <div class="korean-text">피고는 원고에게 금 오천만 원 및 이에 대한 소장 부본 송달일 다음 날부터 다 갚는 날까지 연 12%의 비율로 계산한 돈을 지급하라.</div>
+                <div class="romanization">[pigoneun wongoege geum ocheonman won mit ie daehan sojang bubon songdalil daeum nalbuteo da gapneun nalkkaji yeon sibi peosenteuui biyullo gyesanhan doneul jigeuphara]</div>
+                <div class="translation">Ответчик обязан выплатить истцу 50 000 000 вон, а также проценты по ставке 12% годовых, начисляемые со дня, следующего за днём вручения копии искового заявления, по день полного погашения.</div>
+            </div>
+
+            <div class="example-block">
+                <div class="korean-text">법원은 피고인이 범행 당시 심신미약 상태에 있었다고 판시하였다.</div>
+                <div class="romanization">[beobwoneun pigoini beomhaeng dangsi simsinmiyak sangtae-e isseotdago pansihayeotda]</div>
+                <div class="translation">Суд постановил, что в момент совершения деяния подсудимый находился в состоянии ограниченной вменяемости.</div>
+            </div>
+
+            <div class="example-block">
+                <div class="korean-text">이 사건 처분은 관계 법령에 의거하여 적법하게 이루어진 것으로 인정된다.</div>
+                <div class="romanization">[i sageon cheobuneun gwangye beomnyeonge uigeohayeo jeokbeophage iruueojin geoseuro injeongdoenda]</div>
+                <div class="translation">Признаётся, что оспариваемое административное решение было принято правомерно, на основании соответствующих нормативных актов.</div>
+            </div>
+
+            <div class="example-block">
+                <div class="korean-text">귀하의 민원 사항에 대하여 다음과 같이 통보합니다.</div>
+                <div class="romanization">[gwihaui minwon sahange daehayeo daeumgwa gachi tongbohamnida]</div>
+                <div class="translation">Настоящим уведомляем Вас о следующем в связи с поданным обращением.</div>
+            </div>
+
+            <div class="example-block">
+                <div class="korean-text">위 기한 내에 이의를 제기하지 아니할 경우, 이 처분은 그대로 확정됨을 알려 드립니다.</div>
+                <div class="romanization">[wi gihan naee uiireul jegihaji anihal gyeongu, i cheobuneun geudaero hwakjeongdoemeul allyeo deurimnida]</div>
+                <div class="translation">Уведомляем, что в случае непредставления возражения в указанный срок настоящее решение вступает в силу в неизменном виде.</div>
+            </div>
+
+            <div class="example-block">
+                <div class="korean-text">관련 서류를 첨부하시어 담당 부서로 제출하시기 바랍니다.</div>
+                <div class="romanization">[gwallyeon seoryureul cheombuhasieo damdang buseoro jechulhasigi baramnida]</div>
+                <div class="translation">Просим Вас приложить соответствующие документы и представить их в компетентное подразделение.</div>
+            </div>
+
+            <div class="example-block">
+                <div class="korean-text">항소인의 항소를 모두 인용하고, 제1심 판결 중 피고 패소 부분을 취소한다.</div>
+                <div class="romanization">[hangsoinui hangsoreul modu inyonghago, je-il-sim pangyeol jung pigo paeso bubuneul chwisohanda]</div>
+                <div class="translation">Апелляция апеллянта удовлетворяется в полном объёме; часть решения суда первой инстанции, вынесенная не в пользу ответчика, отменяется.</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Справочная таблица паттернов</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Ключевые конструкции 판결문 / 공문서</div>
+                <div class="table-row">
+                    <div class="table-cell header">Паттерн</div>
+                    <div class="table-cell header">Функция</div>
+                    <div class="table-cell header">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">주문</div>
+                    <div class="table-cell">резолютивная часть решения — итоговый вердикт</div>
+                    <div class="table-cell">피고인을 징역 1년에 처한다.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">이유</div>
+                    <div class="table-cell">мотивировочная часть — обоснование решения</div>
+                    <div class="table-cell">그 이유는 다음과 같다.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-라고 판시하다</div>
+                    <div class="table-cell">«суд постановил / определил, что...» — введение вывода суда</div>
+                    <div class="table-cell">고의가 있었다고 판시하였다.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-을 기각한다</div>
+                    <div class="table-cell">отклонить (иск/ходатайство) — иск не удовлетворён</div>
+                    <div class="table-cell">항소를 기각한다.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-을 인용한다</div>
+                    <div class="table-cell">удовлетворить (иск/требование)</div>
+                    <div class="table-cell">청구를 인용한다.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-에 의거하여</div>
+                    <div class="table-cell">«на основании / согласно» — отсылка к нормативному акту</div>
+                    <div class="table-cell">법 제5조에 의거하여</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-을 통보합니다</div>
+                    <div class="table-cell">«настоящим уведомляем» — официальное извещение</div>
+                    <div class="table-cell">결과를 통보합니다.</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-하시기 바랍니다</div>
+                    <div class="table-cell">«просим / убедительно просим» — вежливое требование к адресату</div>
+                    <div class="table-cell">제출하시기 바랍니다.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Пример: фрагмент 주문 и 공문</h2>
+            <p>Ниже — стилизованный учебный отрывок, объединяющий короткую резолютивную часть судебного решения и типовое официальное уведомление госоргана.</p>
+
+            <div class="document-mock">
+                <div class="doc-title">주 문</div>
+                <p>1. 피고는 원고에게 금 삼천만 원을 지급하라.<br>
+                2. 원고의 나머지 청구는 기각한다.<br>
+                3. 소송비용은 각자 부담한다.</p>
+                <hr>
+                <div class="doc-title">공문</div>
+                <p><span class="doc-label">수신:</span> 김민준 귀하<br>
+                <span class="doc-label">제목:</span> 건축 허가 신청 결과 통보</p>
+                <p>귀하께서 제출하신 건축 허가 신청 건에 대하여 관계 법령에 의거하여 검토한 결과를 다음과 같이 통보합니다.<br>
+                귀하의 신청은 관련 규정에 따라 승인되었음을 알려 드리며, 착공 전 첨부된 서류를 담당 부서에 제출하시기 바랍니다.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Запомнить</h2>
+            <div style="background: linear-gradient(135deg, #C62828, #F44336); color: white; padding: 25px; border-radius: 15px; margin: 20px 0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>주문 vs 이유</strong><br>
+                        <em>Вердикт vs обоснование — две обязательные части любого 판결문</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>기각 vs 인용</strong><br>
+                        <em>Отклонить требование vs удовлетворить требование</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>-에 의거하여</strong><br>
+                        <em>«На основании закона/акта» — обязательная отсылка к норме</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>-하시기 바랍니다</strong><br>
+                        <em>Вежливая формула требования в письме от госоргана</em>
+                    </div>
+                </div>
+            </div>
+            <p>Юридический и административный регистр — это закрытая система клише: не пытайтесь перефразировать эти конструкции «по-разговорному». Носители тоже учат их как готовые формулы, а не составляют заново.</p>
+        </div>
+
+        <div class="practice-section">
+            <h3>Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. Как называется резолютивная (итоговая) часть судебного решения?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">이유</button>
+                    <button class="option" data-correct="true">주문</button>
+                    <button class="option" data-correct="false">통보</button>
+                    <button class="option" data-correct="false">공문</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. Что означает «항소를 기각한다»?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Апелляция удовлетворена</button>
+                    <button class="option" data-correct="true">Апелляция отклонена</button>
+                    <button class="option" data-correct="false">Апелляция подана</button>
+                    <button class="option" data-correct="false">Апелляция отозвана</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Какой оборот вводит вывод, к которому пришёл суд?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">-을 통보합니다</button>
+                    <button class="option" data-correct="false">-하시기 바랍니다</button>
+                    <button class="option" data-correct="true">-라고 판시하다</button>
+                    <button class="option" data-correct="false">-에 의거하여</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. «청구를 인용한다» означает:</div>
+                <div class="options">
+                    <button class="option" data-correct="true">Требование удовлетворено</button>
+                    <button class="option" data-correct="false">Требование отклонено</button>
+                    <button class="option" data-correct="false">Требование отозвано</button>
+                    <button class="option" data-correct="false">Требование приостановлено</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. Какая конструкция используется для отсылки к нормативному акту («на основании закона»)?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">-라고 판시하다</button>
+                    <button class="option" data-correct="true">-에 의거하여</button>
+                    <button class="option" data-correct="false">-을 기각한다</button>
+                    <button class="option" data-correct="false">-을 인용한다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. Какая формула используется в госдокументе для официального уведомления?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">-라고 판시하다</button>
+                    <button class="option" data-correct="false">-을 기각한다</button>
+                    <button class="option" data-correct="true">-을 통보합니다</button>
+                    <button class="option" data-correct="false">-을 인용한다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">7. «담당 부서로 제출하시기 바랍니다» переводится как:</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Отдел уже получил документы</button>
+                    <button class="option" data-correct="true">Просим представить документы в соответствующее подразделение</button>
+                    <button class="option" data-correct="false">Отдел отклонил заявление</button>
+                    <button class="option" data-correct="false">Документы утеряны</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">8. Из какой части судебного решения обычно взята фраза «그 이유는 다음과 같다»?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">이유 (мотивировочная часть)</button>
+                    <button class="option" data-correct="false">주문 (резолютивная часть)</button>
+                    <button class="option" data-correct="false">공문 (официальное уведомление)</button>
+                    <button class="option" data-correct="false">민원 (обращение гражданина)</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #F44336, #D32F2F);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(244,67,54,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level6_lesson_official_documents';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#B71C1C';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#B71C1C';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+
+                        var isCorrect = this.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = '정답! Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = '틀렸어요. Неправильно. Попробуйте ещё раз!';
+
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

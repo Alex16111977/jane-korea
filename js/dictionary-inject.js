@@ -1,5 +1,5 @@
 /**
- * Jane Korea - Dictionary Inject
+ * Miso: 한국어 수업 - Dictionary Inject
  * Автоматически добавляет кнопки «+ В словарь» на карточки слов
  * Работает с: .phrase-card, .verb-card, .animal-card и аналогами
  */

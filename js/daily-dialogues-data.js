@@ -1,5 +1,5 @@
 /**
- * Jane Korea — Ежедневные диалоги для практики корейского языка
+ * Miso: 한국어 수업 — Ежедневные диалоги для практики корейского языка
  * 8 категорий, по 2 диалога в каждой (16 диалогов)
  * Экспорт: window.DailyDialoguesData
  */
@@ -1277,8 +1277,8 @@ window.DailyDialoguesData = {
                         {
                             speaker: '고객',
                             speakerRu: 'Клиент',
-                            korean: '<span class="korean-word" data-translation="Россия" data-pronunciation="러시아 [reosia]">러시아</span><span class="korean-word" data-translation="в (направление)" data-pronunciation="로 [ro]">로</span> <span class="korean-word" data-translation="отправить" data-pronunciation="보내려고요 [bonaeryeogoyo]">보내려고요</span>. <span class="korean-word" data-translation="сколько" data-pronunciation="얼마나 [eolmana]">얼마나</span> <span class="korean-word" data-translation="занимает" data-pronunciation="걸려요 [geollyeoyo]">걸려요</span>?',
-                            translation: 'В Россию. Сколько по времени займёт?',
+                            korean: '<span class="korean-word" data-translation="Германия" data-pronunciation="독일 [dogil]">독일</span><span class="korean-word" data-translation="в (направление)" data-pronunciation="로 [ro]">로</span> <span class="korean-word" data-translation="отправить" data-pronunciation="보내려고요 [bonaeryeogoyo]">보내려고요</span>. <span class="korean-word" data-translation="сколько" data-pronunciation="얼마나 [eolmana]">얼마나</span> <span class="korean-word" data-translation="занимает" data-pronunciation="걸려요 [geollyeoyo]">걸려요</span>?',
+                            translation: 'В Германию. Сколько по времени займёт?',
                             grammarNote: '얼마나 걸리다 — сколько времени занимает'
                         },
                         {
@@ -1373,15 +1373,15 @@ window.DailyDialoguesData = {
                         {
                             speaker: '고객',
                             speakerRu: 'Клиент',
-                            korean: '<span class="korean-word" data-translation="Россия" data-pronunciation="러시아 [reosia]">러시아</span><span class="korean-word" data-translation="в (направление)" data-pronunciation="로요 [royo]">로요</span>. <span class="korean-word" data-translation="марка" data-pronunciation="우표 [upyo]">우표</span><span class="korean-word" data-translation="(тематическая частица)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="ещё не" data-pronunciation="아직 [ajik]">아직</span> <span class="korean-word" data-translation="не наклеил" data-pronunciation="안 붙였어요 [an buchyeosseoyo]">안 붙였어요</span>. <span class="korean-word" data-translation="здесь" data-pronunciation="여기서 [yeogiseo]">여기서</span> <span class="korean-word" data-translation="купить (возможно)" data-pronunciation="살 [sal]">살</span> <span class="korean-word" data-translation="можно" data-pronunciation="수 있죠 [su itjyo]">수 있죠</span>?',
-                            translation: 'В Россию. Марку ещё не наклеил. Можно купить здесь?',
+                            korean: '<span class="korean-word" data-translation="Германия" data-pronunciation="독일 [dogil]">독일</span><span class="korean-word" data-translation="в (направление)" data-pronunciation="로요 [royo]">로요</span>. <span class="korean-word" data-translation="марка" data-pronunciation="우표 [upyo]">우표</span><span class="korean-word" data-translation="(тематическая частица)" data-pronunciation="는 [neun]">는</span> <span class="korean-word" data-translation="ещё не" data-pronunciation="아직 [ajik]">아직</span> <span class="korean-word" data-translation="не наклеил" data-pronunciation="안 붙였어요 [an buchyeosseoyo]">안 붙였어요</span>. <span class="korean-word" data-translation="здесь" data-pronunciation="여기서 [yeogiseo]">여기서</span> <span class="korean-word" data-translation="купить (возможно)" data-pronunciation="살 [sal]">살</span> <span class="korean-word" data-translation="можно" data-pronunciation="수 있죠 [su itjyo]">수 있죠</span>?',
+                            translation: 'В Германию. Марку ещё не наклеил. Можно купить здесь?',
                             grammarNote: 'V-ㄹ 수 있죠? — ведь можно V? (подтверждение)'
                         },
                         {
                             speaker: '직원',
                             speakerRu: 'Сотрудник почты',
-                            korean: '<span class="korean-word" data-translation="конечно" data-pronunciation="물론이죠 [mullonijyo]">물론이죠</span>. <span class="korean-word" data-translation="Россия" data-pronunciation="러시아 [reosia]">러시아</span><span class="korean-word" data-translation="(направление)" data-pronunciation="까지 [kkaji]">까지</span> <span class="korean-word" data-translation="авиапочта" data-pronunciation="항공편 [hanggongpyeon]">항공편</span><span class="korean-word" data-translation="(тематическая частица)" data-pronunciation="은 [eun]">은</span> <span class="korean-word" data-translation="марка" data-pronunciation="우표 [upyo]">우표</span> <span class="korean-word" data-translation="четыреста восемьдесят" data-pronunciation="사백팔십 [sabaekpalsip]">사백팔십</span> <span class="korean-word" data-translation="вон" data-pronunciation="원 [won]">원</span><span class="korean-word" data-translation="(принадлежность)" data-pronunciation="짜리 [jjari]">짜리</span><span class="korean-word" data-translation="(вежл. окончание)" data-pronunciation="예요 [yeyo]">예요</span>.',
-                            translation: 'Конечно. До России авиапочтой — марка за 480 вон.',
+                            korean: '<span class="korean-word" data-translation="конечно" data-pronunciation="물론이죠 [mullonijyo]">물론이죠</span>. <span class="korean-word" data-translation="Германия" data-pronunciation="독일 [dogil]">독일</span><span class="korean-word" data-translation="(направление)" data-pronunciation="까지 [kkaji]">까지</span> <span class="korean-word" data-translation="авиапочта" data-pronunciation="항공편 [hanggongpyeon]">항공편</span><span class="korean-word" data-translation="(тематическая частица)" data-pronunciation="은 [eun]">은</span> <span class="korean-word" data-translation="марка" data-pronunciation="우표 [upyo]">우표</span> <span class="korean-word" data-translation="четыреста восемьдесят" data-pronunciation="사백팔십 [sabaekpalsip]">사백팔십</span> <span class="korean-word" data-translation="вон" data-pronunciation="원 [won]">원</span><span class="korean-word" data-translation="(принадлежность)" data-pronunciation="짜리 [jjari]">짜리</span><span class="korean-word" data-translation="(вежл. окончание)" data-pronunciation="예요 [yeyo]">예요</span>.',
+                            translation: 'Конечно. До Германии авиапочтой — марка за 480 вон.',
                             grammarNote: 'N짜리 — стоимостью N (для обозначения цены)'
                         },
                         {

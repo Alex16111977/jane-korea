@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>-는 데다가 — вдобавок ко всему</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 80px),
+                linear-gradient(135deg, #9C27B0 0%, #6A1B9A 100%);
+            min-height: 100vh; color: #333; overflow-x: hidden;
+        }
+        body::before { content: '데다가'; position: fixed; top: 14%; right: 5%; font-size: 100px; font-weight: 900; opacity: 0.04; animation: floatSlow 10s ease-in-out infinite; pointer-events: none; z-index: 0; }
+        body::after { content: '게다가'; position: fixed; bottom: 12%; left: 4%; font-size: 90px; font-weight: 900; opacity: 0.04; animation: floatSlow 12s ease-in-out infinite reverse; pointer-events: none; z-index: 0; }
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-22px) scale(1.05); } }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; padding: 12px 25px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 15px; transition: all 0.3s ease; font-weight: 500; }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; margin-bottom: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .header h1 { margin: 0 0 15px 0; color: #6A1B9A; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #9C27B0; margin-bottom: 15px; font-weight: 500; }
+        .header .description { font-size: 1.05em; color: #666; }
+
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+        .content-section h2 { color: #6A1B9A; margin-top: 0; font-size: 2em; border-bottom: 3px solid #9C27B0; padding-bottom: 10px; }
+        .content-section h3 { color: #8E24AA; font-size: 1.4em; }
+        .content-section p { font-size: 1.05em; line-height: 1.7; }
+
+        .example-box { background: rgba(156,39,176,0.06); border-left: 5px solid #9C27B0; padding: 18px; margin: 14px 0; border-radius: 0 12px 12px 0; }
+        .example-box .korean-text { font-size: 1.25em; color: #6A1B9A; font-weight: bold; margin-bottom: 4px; }
+        .example-box .romanization { color: #9C27B0; font-size: 0.9em; font-style: italic; }
+        .example-box .translation { color: #555; font-size: 1.0em; }
+        .example-box .note { color: #888; font-size: 0.88em; margin-top: 5px; font-style: italic; }
+
+        .grammar-block { background: linear-gradient(135deg, #9C27B0, #6A1B9A); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; }
+        .grammar-block h3 { color: white; margin-top: 0; font-size: 1.5em; }
+        .grammar-pattern { background: rgba(255,255,255,0.25); padding: 15px; border-radius: 10px; font-size: 1.4em; font-weight: bold; text-align: center; margin: 15px 0; }
+        .grammar-example { background: rgba(255,255,255,0.15); padding: 13px; border-radius: 8px; margin: 10px 0; }
+        .grammar-example .kor { font-size: 1.2em; font-weight: bold; margin-bottom: 4px; }
+        .grammar-example .rom { font-size: 0.85em; opacity: 0.85; font-style: italic; }
+        .grammar-example .rus { font-size: 1em; margin-top: 4px; }
+
+        .tip-box { background: rgba(156,39,176,0.08); border-left: 4px solid #9C27B0; padding: 20px; border-radius: 0 12px 12px 0; margin: 20px 0; }
+        .tip-box strong { color: #6A1B9A; }
+
+        .comparison-table { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.12); margin: 20px 0; }
+        .table-header { background: linear-gradient(135deg, #6A1B9A, #9C27B0); color: white; padding: 18px 20px; text-align: center; font-size: 1.2em; font-weight: bold; }
+        .table-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: #e9ecef; }
+        .table-cell { background: white; padding: 12px 14px; font-size: 1.0em; }
+        .table-cell.korean { color: #6A1B9A; font-weight: bold; }
+        .table-cell.header-cell { background: #f8f9fa; font-weight: bold; color: #495057; text-align: center; }
+
+        .dialogue-box { background: linear-gradient(135deg, #AB47BC, #9C27B0); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .dialogue-line { margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: bold; color: #ffeb3b; margin-bottom: 8px; }
+        .korean-text { font-size: 1.2em; margin-bottom: 5px; }
+        .translation { font-size: 1em; opacity: 0.9; }
+        .grammar-note { font-size: 0.8em; color: #E1BEE7; font-style: italic; margin-top: 5px; }
+
+        .dialogue-play-btn { background: linear-gradient(135deg, #9C27B0, #6A1B9A); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; margin: 15px auto; display: block; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif; }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(156,39,176,0.4); }
+
+        .audio-btn { background: rgba(156,39,176,0.15); border: 2px solid rgba(156,39,176,0.3); border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0; }
+        .audio-btn:hover { background: rgba(156,39,176,0.3); transform: scale(1.1); }
+
+        .remember-block { background: linear-gradient(135deg, #9C27B0, #6A1B9A); color: white; padding: 30px; border-radius: 20px; margin: 30px 0; box-shadow: 0 15px 40px rgba(156,39,176,0.3); }
+        .remember-block h2 { color: white; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-top: 0; }
+        .remember-item { background: rgba(255,255,255,0.15); padding: 15px; border-radius: 12px; margin: 10px 0; }
+        .remember-item strong { color: #E1BEE7; }
+
+        .exercise-item { background: rgba(255,255,255,0.95); padding: 22px; border-radius: 12px; margin: 15px 0; box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        .exercise-question { font-size: 1.15em; color: #333; margin-bottom: 15px; font-weight: 500; }
+        .exercise-options { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        .exercise-btn { background: #6A1B9A; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1.05em; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif; }
+        .exercise-btn:hover { background: #9C27B0; transform: translateY(-2px); }
+        .exercise-result { margin-top: 12px; font-weight: 600; font-size: 1.05em; min-height: 24px; }
+
+        .practice-section { background: linear-gradient(135deg, #CE93D8, #BA68C8); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .practice-section h2 { color: white; margin-top: 0; text-align: center; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .exercise-options { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_4/index.html">← 4급 Уровень 4</a>
+            <a href="../../lessons.html">Все уроки</a>
+        </div>
+
+        <header class="header">
+            <h1>-는 데다가: вдобавок ко всему</h1>
+            <div class="korean-title">설상가상 [seolsanggasang] — беда не приходит одна</div>
+            <div class="description">«Денег нет, вдобавок и времени нет» — конструкция для добавления ещё одного факта в ту же сторону: плюс к плюсу, минус к минусу.</div>
+        </header>
+
+        <div class="content-section">
+            <h2>1. Зачем нужна конструкция -는 데다가?</h2>
+            <p><strong>-는 데다가</strong> дословно связано со словом 데 «место, обстоятельство» — «к тому месту/факту добавляется ещё...». Конструкция нужна, чтобы:</p>
+            <ul>
+                <li><strong>Добавить второй факт в том же направлении:</strong> если первое — плохо, второе тоже плохо (или оба хороши)</li>
+                <li><strong>Усилить впечатление:</strong> не просто «и то, и это», а «мало того что..., так ещё и...»</li>
+                <li><strong>Объяснить накопительную причину:</strong> два фактора вместе усиливают результат — усталость, популярность, проблему</li>
+                <li><strong>Показать оттенок неожиданности/досады или похвалы:</strong> в отличие от нейтрального -고</li>
+            </ul>
+            <div class="example-box">
+                <div class="korean-text">돈도 없는 데다가 시간도 없어요. <button class="audio-btn" onclick="speakKorean('돈도 없는 데다가 시간도 없어요')">🔊</button></div>
+                <div class="romanization">[dondo eomneun deodaga sigando eopseoyo]</div>
+                <div class="translation">Мало того что денег нет, так ещё и времени нет.</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>2. Образование</h2>
+
+            <div class="grammar-block">
+                <h3>Формула</h3>
+                <div class="grammar-pattern">Глагол (наст.) -는 데다가 / Прилаг. -(으)ㄴ 데다가 / Сущ. + 인 데다가</div>
+                <p>С <strong>глаголами</strong> в настоящем времени используется <strong>-는 데다가</strong>: 먹다 → 먹<strong>는 데다가</strong>, 벌다 → 버<strong>는 데다가</strong> (ㄹ выпадает). С <strong>прилагательными</strong> — <strong>-(으)ㄴ 데다가</strong>: 많다 → 많<strong>은 데다가</strong>, 바쁘다 → 바쁘<strong>ㄴ 데다가</strong>. С <strong>существительными</strong> — <strong>인 데다가</strong>: 학생 → 학생<strong>인 데다가</strong>.</p>
+                <p><strong>Исключение:</strong> 있다 и 없다 ведут себя как глаголы и всегда берут -는 데다가: 맛있다 → 맛있<strong>는 데다가</strong>, 없다 → 없<strong>는 데다가</strong> (а не 있은/없은).</p>
+
+                <div class="grammar-example">
+                    <div class="kor">비도 오는 데다가 바람도 불어요. <button class="audio-btn" onclick="speakKorean('비도 오는 데다가 바람도 불어요')">🔊</button></div>
+                    <div class="rom">[bido oneun deodaga baramdo buleoyo]</div>
+                    <div class="rus">Дождь идёт, вдобавок ещё и ветер дует.</div>
+                </div>
+                <div class="grammar-example">
+                    <div class="kor">일도 많은 데다가 어려워요. <button class="audio-btn" onclick="speakKorean('일도 많은 데다가 어려워요')">🔊</button></div>
+                    <div class="rom">[ildo maneun deodaga eolyeowoyo]</div>
+                    <div class="rus">Работы много, вдобавок она ещё и сложная.</div>
+                </div>
+                <div class="grammar-example">
+                    <div class="kor">그는 회사원인 데다가 대학원생이에요. <button class="audio-btn" onclick="speakKorean('그는 회사원인 데다가 대학원생이에요')">🔊</button></div>
+                    <div class="rom">[geuneun hoesawonin deodaga daehagwonsaengieyo]</div>
+                    <div class="rus">Он не только служащий компании, но вдобавок ещё и аспирант.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Три особенности:</strong> 1) обе части должны быть <strong>однонаправленными</strong> — оба факта плюс или оба минус, нельзя смешивать; 2) 있다/없다 — исключение, берут -는 데다가, а не -(으)ㄴ 데다가; 3) в разговорной речи первая часть часто усиливается частицей 도 («и... тоже»): 돈<strong>도</strong> 없는 데다가.
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>3. Примеры употребления</h2>
+
+            <div class="example-box">
+                <div class="korean-text">요즘 회사 일이 많은 데다가 집에서도 신경 쓸 일이 많아서 너무 피곤해요. <button class="audio-btn" onclick="speakKorean('요즘 회사 일이 많은 데다가 집에서도 신경 쓸 일이 많아서 너무 피곤해요')">🔊</button></div>
+                <div class="romanization">[yojeum hoesa iri maneun deodaga jibeseodo singyeong sseul iri manaseo neomu pigonhaeyo]</div>
+                <div class="translation">В последнее время на работе много дел, вдобавок дома тоже много забот, поэтому я очень устала.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">오늘은 비도 오는 데다가 바람까지 불어서 우산을 써도 소용없었어요. <button class="audio-btn" onclick="speakKorean('오늘은 비도 오는 데다가 바람까지 불어서 우산을 써도 소용없었어요')">🔊</button></div>
+                <div class="romanization">[oneureun bido oneun deodaga baramkkaji buleoseo usaneul sseodo soyongeopseosseoyo]</div>
+                <div class="translation">Сегодня и дождь идёт, вдобавок ещё и ветер дует, так что зонт не помогал.</div>
+                <div class="note">-까지 усиливает оттенок «даже ещё и»</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">그 사람은 성격도 좋은 데다가 일도 잘해서 회사에서 인기가 많아요. <button class="audio-btn" onclick="speakKorean('그 사람은 성격도 좋은 데다가 일도 잘해서 회사에서 인기가 많아요')">🔊</button></div>
+                <div class="romanization">[geu sarameun seonggyeokdo joeun deodaga ildo jalhaeseo hoesaeseo ingiga manayo]</div>
+                <div class="translation">У него хороший характер, вдобавок он хорошо работает, поэтому он популярен в компании.</div>
+                <div class="note">Пример с положительным направлением обеих частей</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">이 식당은 음식이 맛있는 데다가 가격도 저렴해서 항상 손님이 많아요. <button class="audio-btn" onclick="speakKorean('이 식당은 음식이 맛있는 데다가 가격도 저렴해서 항상 손님이 많아요')">🔊</button></div>
+                <div class="romanization">[i sikdangeun eumsigi masinneun deodaga gagyeokdo jeolyeomhaeseo hangsang sonnimi manayo]</div>
+                <div class="translation">В этом ресторане еда вкусная, вдобавок цены низкие, поэтому там всегда много посетителей.</div>
+                <div class="note">맛있다 → 맛있는 데다가: исключение, как у 있다</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">요즘 잠도 못 자는 데다가 스트레스까지 쌓여서 건강이 나빠졌어요. <button class="audio-btn" onclick="speakKorean('요즘 잠도 못 자는 데다가 스트레스까지 쌓여서 건강이 나빠졌어요')">🔊</button></div>
+                <div class="romanization">[yojeum jamdo mot janeun deodaga seuteureseukkaji ssayeoseo geongangi nappajyeosseoyo]</div>
+                <div class="translation">В последнее время я плохо сплю, вдобавок стресс накапливается, поэтому здоровье ухудшилось.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">그는 회사원인 데다가 대학원생이라서 시간이 별로 없어요. <button class="audio-btn" onclick="speakKorean('그는 회사원인 데다가 대학원생이라서 시간이 별로 없어요')">🔊</button></div>
+                <div class="romanization">[geuneun hoesawonin deodaga daehagwonsaengiraseo sigani byeollo eopseoyo]</div>
+                <div class="translation">Он не только работает в компании, но вдобавок ещё и учится в аспирантуре, поэтому у него мало времени.</div>
+                <div class="note">Существительное + 인 데다가</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>4. Сравнение: -는 데다가 vs -고 vs -(으)ㄹ 뿐만 아니라</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Какое «и» выбрать?</div>
+                <div class="table-row">
+                    <div class="table-cell header-cell">Конструкция</div>
+                    <div class="table-cell header-cell">Особенность</div>
+                    <div class="table-cell header-cell">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-는 데다가</div>
+                    <div class="table-cell"><strong>усиление</strong> в том же направлении: «мало того что..., так ещё и...»; обе части однонаправленные</div>
+                    <div class="table-cell korean">돈도 없는 데다가 시간도 없어요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-고</div>
+                    <div class="table-cell"><strong>нейтральное</strong> перечисление фактов, без оттенка усиления</div>
+                    <div class="table-cell korean">밥을 먹고 학교에 가요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-(으)ㄹ 뿐만 아니라</div>
+                    <div class="table-cell"><strong>книжный</strong> стиль «не только..., но и...», часто с 도 во второй части; более формально, чем -는 데다가</div>
+                    <div class="table-cell korean">그는 똑똑할 뿐만 아니라 성실하기도 해요</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Типичные ошибки:</strong> 1) смешение направлений — нельзя «работа лёгкая, вдобавок я устал» (плюс + минус); 2) 있다/없다 с -(으)ㄴ데다가 — правильно только -는 데다가 (있는/없는); 3) излишняя официальность — в разговоре носители чаще используют -는 데다가, а -(으)ㄹ 뿐만 아니라 звучит книжно и уместнее в статьях, докладах.
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>5. Диалог: Тяжёлая неделя</h2>
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">민수 [Minsu]:</div>
+                    <div class="korean-text">지은 씨, 요즘 얼굴이 안 좋아 보여요. 무슨 일 있어요? <button class="audio-btn" onclick="speakKorean('지은 씨, 요즘 얼굴이 안 좋아 보여요. 무슨 일 있어요?')">🔊</button></div>
+                    <div class="translation">Джиын, в последнее время вы плохо выглядите. Что-то случилось?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지은 [Jieun]:</div>
+                    <div class="korean-text">요즘 회사 일이 너무 많은 데다가 밤에 잠도 잘 못 자서 계속 피곤해요. <button class="audio-btn" onclick="speakKorean('요즘 회사 일이 너무 많은 데다가 밤에 잠도 잘 못 자서 계속 피곤해요')">🔊</button></div>
+                    <div class="translation">В последнее время на работе слишком много дел, вдобавок по ночам я плохо сплю, поэтому постоянно уставшая.</div>
+                    <div class="grammar-note">많은 데다가 — прилагательное, оба факта негативные</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">저런... 스트레스 때문에 그런 거 아니에요? <button class="audio-btn" onclick="speakKorean('저런... 스트레스 때문에 그런 거 아니에요?')">🔊</button></div>
+                    <div class="translation">Ох... Это, наверное, из-за стресса?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지은:</div>
+                    <div class="korean-text">맞아요. 스트레스가 쌓이는 데다가 운동할 시간도 없어서 건강이 점점 나빠지는 것 같아요. <button class="audio-btn" onclick="speakKorean('맞아요. 스트레스가 쌓이는 데다가 운동할 시간도 없어서 건강이 점점 나빠지는 것 같아요')">🔊</button></div>
+                    <div class="translation">Да. Стресс накапливается, вдобавок нет времени на спорт, поэтому здоровье, кажется, постепенно ухудшается.</div>
+                    <div class="grammar-note">쌓이는 데다가 — глагол, накопительная причина</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">주말에는 좀 쉬세요. 요즘 날씨도 추운 데다가 미세먼지까지 심하니까 감기 조심하세요. <button class="audio-btn" onclick="speakKorean('주말에는 좀 쉬세요. 요즘 날씨도 추운 데다가 미세먼지까지 심하니까 감기 조심하세요')">🔊</button></div>
+                    <div class="translation">В выходные хоть немного отдохните. Сейчас и погода холодная, вдобавок ещё и пыль сильная, так что берегитесь простуды.</div>
+                    <div class="grammar-note">추운 데다가 — ещё один пример усиления однонаправленных фактов</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지은:</div>
+                    <div class="korean-text">네, 고마워요. 이번 주말에는 꼭 쉴게요. <button class="audio-btn" onclick="speakKorean('네, 고마워요. 이번 주말에는 꼭 쉴게요')">🔊</button></div>
+                    <div class="translation">Да, спасибо. В эти выходные обязательно отдохну.</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать весь диалог</button>
+        </div>
+
+        <div class="remember-block">
+            <h2>📋 Запомни!</h2>
+            <div class="remember-item">
+                <strong>Формула:</strong> глагол(наст.) + 는 데다가; прилагательное + -(으)ㄴ 데다가; существительное + 인 데다가
+            </div>
+            <div class="remember-item">
+                <strong>Исключение:</strong> 있다/없다 (и 맛있다, 재미있다 и т.д.) всегда берут -는 데다가, а не -(으)ㄴ데다가
+            </div>
+            <div class="remember-item">
+                <strong>Обе части — однонаправленные:</strong> плюс к плюсу или минус к минусу, смешивать нельзя
+            </div>
+            <div class="remember-item">
+                <strong>Значение:</strong> «мало того что..., так ещё и...» — усиление, а не просто перечисление
+            </div>
+            <div class="remember-item">
+                <strong>Отличие от -고 и -(으)ㄹ 뿐만 아니라:</strong> -고 — нейтральное перечисление; -는 데다가 — разговорное усиление; -(으)ㄹ 뿐만 아니라 — книжный аналог «не только..., но и...»
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-item">
+                <div class="exercise-question">1. «У него хороший характер, вдобавок он хорошо работает»:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">성격도 좋은 데다가 일도 잘해요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">성격도 좋고는 데다가 일도 잘해요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">성격도 좋는 데다가 일도 잘해요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">2. Прилагательное присоединяет конструкцию в форме:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">-는 데다가</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">-(으)ㄴ 데다가</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">-았/었는 데다가</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">3. Как правильно сказать «еда вкусная, вдобавок...» (맛있다 — исключение)?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">맛있은 데다가</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">맛있는 데다가</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">맛있을 데다가</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">4. «Он служащий компании, вдобавок...» — существительное 회사원 + ?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">회사원인 데다가</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">회사원는 데다가</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">회사원은 데다가</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">5. «Дождь идёт, вдобавок ветер дует»:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">비도 오고 바람도 불어요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">비도 오는 데다가 바람도 불어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">비도 온 데다가 바람도 불어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">6. Чем -는 데다가 отличается от простого -고?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">-는 데다가 подчёркивает усиление в одном направлении, -고 просто нейтрально перечисляет</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">разницы нет, это синонимы</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">-는 데다가 используется только в прошедшем времени</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">7. Какая конструкция более книжная и формальная для «не только..., но и...»?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">-는 데다가</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">-(으)ㄹ 뿐만 아니라</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">-고</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">8. Две части в -는 데다가 обычно должны быть:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">разнонаправленными (одна плюс, другая минус)</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">однонаправленными (обе плюс или обе минус)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">никак не связанными по смыслу</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A); color: white; border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(156,39,176,0.3); font-family: 'Noto Sans KR', sans-serif;">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level4_lesson_dedaga';
+
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; });
+            if (kv) u.voice = kv;
+            window.speechSynthesis.speak(u);
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.previousElementSibling;
+            while (box && !box.classList.contains('dialogue-box')) box = box.previousElementSibling;
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line'); var i = 0; btn.disabled = true;
+            function playNext() {
+                if (i >= lines.length) { btn.disabled = false; return; }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(156,39,176,0.15)';
+                var text = lines[i].querySelector('.korean-text');
+                if (text) {
+                    var u = new SpeechSynthesisUtterance(text.textContent.replace(/🔊/g,'').trim());
+                    u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                    u.onend = function() { i++; setTimeout(playNext, 400); };
+                    window.speechSynthesis.speak(u);
+                } else { i++; setTimeout(playNext, 400); }
+            }
+            window.speechSynthesis.cancel(); playNext();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item'); var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) { if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; } });
+            }
+        }
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!'; btn.style.background = '#4A148C';
+                btn.style.cursor = 'default'; btn.disabled = true; btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) { btn.textContent = 'Пройдено!'; btn.style.background = '#4A148C'; btn.style.cursor = 'default'; btn.disabled = true; btn.style.opacity = '0.85'; }
+                }
+            }
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0'; section.style.transform = 'translateY(30px)';
+                setTimeout(function() { section.style.transition = 'all 0.6s ease'; section.style.opacity = '1'; section.style.transform = 'translateY(0)'; }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

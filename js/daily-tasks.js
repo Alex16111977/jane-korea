@@ -1,5 +1,5 @@
 /**
- * Daily Tasks Module for Jane Korea
+ * Daily Tasks Module for Miso: 한국어 수업
  * Tracks daily learning goals with specific tasks
  * Exported as window.DailyTasks
  */

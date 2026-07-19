@@ -1,5 +1,5 @@
 /**
- * Jane Korea - Progress Tracking System
+ * Miso: 한국어 수업 - Progress Tracking System
  * Версия: 2.0 (с поддержкой Firebase)
  * Дата: 2025-10-09
  */
@@ -269,10 +269,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Сбросить весь прогресс
 function resetProgress() {
-    if (confirm('Вы уверены? Весь прогресс будет потерян!')) {
+    function doReset() {
         localStorage.removeItem(STORAGE_KEY);
         console.log('[!] Progress reset');
         location.reload();
+    }
+    if (window.JKModal) {
+        window.JKModal.open({
+            type: 'warning',
+            icon: '🔄',
+            title: 'Сбросить прогресс?',
+            body: 'Весь прогресс будет потерян!',
+            buttons: [
+                { text: 'Отмена' },
+                { text: 'Сбросить', primary: true, onClick: doReset }
+            ]
+        });
+    } else if (confirm('Вы уверены? Весь прогресс будет потерян!')) {
+        doReset();
     }
 }
 

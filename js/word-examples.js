@@ -1,5 +1,5 @@
 /**
- * Jane Korea - Word Examples
+ * Miso: 한국어 수업 - Word Examples
  * Примеры предложений для слов личного словаря
  * Источники: vocabulary pages, lesson pages, базовые фразы
  */
@@ -280,7 +280,6 @@ var WORD_EXAMPLES = {
     "금색": { example: "금색 반지를 받았어요", exampleTranslation: "Получил золотое кольцо" },
 
     // === COUNTRIES & NATIONALITIES (vocabulary/countries) ===
-    "러시아": { example: "러시아는 세계에서 가장 큰 나라예요", exampleTranslation: "Россия — самая большая страна в мире" },
     "일본": { example: "일본에서 초밥을 먹었어요", exampleTranslation: "Ел суши в Японии" },
     "중국": { example: "중국은 인구가 많아요", exampleTranslation: "В Китае большое население" },
     "미국": { example: "미국에서 영어를 공부했어요", exampleTranslation: "Учил английский в Америке" },
@@ -1170,7 +1169,6 @@ var WORD_EXAMPLES = {
 
     // === VOCABULARY: COUNTRIES - nationality forms (vocabulary/countries) ===
     "한국 사람": { example: "저는 한국 사람이 아니에요", exampleTranslation: "Я не кореец" },
-    "러시아 사람": { example: "저는 러시아 사람이에요", exampleTranslation: "Я русский" },
     "일본 사람": { example: "그 분은 일본 사람이에요", exampleTranslation: "Он японец" },
     "중국 사람": { example: "중국 사람 친구가 있어요", exampleTranslation: "У меня есть друг-китаец" },
     "미국 사람": { example: "미국 사람이 영어를 가르쳐요", exampleTranslation: "Американец преподаёт английский" },

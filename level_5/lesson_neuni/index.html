@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>-느니 — уж лучше... чем...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '⚖️';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '🙅';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #E91E63;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #F06292;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .description {
+            font-size: 1.05em;
+            color: #666;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #E91E63;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #F06292;
+            padding-bottom: 10px;
+        }
+
+        .content-section h3 {
+            color: #AD1457;
+            margin-top: 25px;
+        }
+
+        .content-section p {
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .grammar-block {
+            background: linear-gradient(135deg, #F06292, #E91E63);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .grammar-block .structure-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .grammar-block .structure-example {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .grammar-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .grammar-card {
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .grammar-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-a {
+            background: linear-gradient(135deg, #E91E63, #AD1457);
+        }
+
+        .card-b {
+            background: linear-gradient(135deg, #F06292, #E91E63);
+        }
+
+        .card-title {
+            font-size: 1.6em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-pattern {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 1.3em;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .card-description {
+            font-size: 1.05em;
+            margin: 15px 0;
+            opacity: 0.9;
+        }
+
+        .example-box {
+            background: white;
+            border: 2px solid #F8BBD0;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .example-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #fce4ec;
+        }
+
+        .example-item:last-child {
+            border-bottom: none;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #AD1457;
+        }
+
+        .romanization {
+            font-size: 0.95em;
+            color: #999;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .translation {
+            font-size: 1em;
+            color: #555;
+        }
+
+        .example-note {
+            font-size: 0.85em;
+            color: #E91E63;
+            margin-top: 5px;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #AD1457, #E91E63);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.02em;
+        }
+
+        .table-cell.korean {
+            color: #E91E63;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #fce4ec;
+            font-weight: bold;
+            color: #880E4F;
+        }
+
+        .info-box {
+            background: #fce4ec;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #E91E63;
+        }
+
+        .info-box h3 {
+            color: #AD1457;
+            margin-top: 0;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #EC407A, #E91E63);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #ffeb3b;
+            margin-bottom: 8px;
+        }
+
+        .grammar-note {
+            font-size: 0.85em;
+            color: #fce4ec;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .remember-block {
+            background: linear-gradient(135deg, #AD1457, #E91E63);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .remember-block .remember-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .remember-block .remember-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #F8BBD0, #F48FB1);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .practice-section h3 {
+            color: #880E4F;
+            font-size: 1.5em;
+            margin-top: 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .question {
+            font-size: 1.15em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #E91E63;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.05em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .option:hover {
+            background: #F06292;
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: #4caf50;
+        }
+
+        .option.wrong {
+            background: #f44336;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct {
+            background: #d5f5d5;
+            color: #27ae60;
+            display: block;
+        }
+
+        .result.wrong {
+            background: #fdd5d5;
+            color: #e74c3c;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .grammar-cards { grid-template-columns: 1fr; }
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .options { flex-direction: column; align-items: center; }
+            .content-section { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_5/index.html">← 5급 Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>-느니 — уж лучше... чем...</h1>
+            <div class="korean-title">차라리 -느니: категорическое отвержение одного варианта в пользу другого</div>
+            <div class="description">Эмфатическая конструкция сравнения: "скорее сделаю Y, чем X" — риторическое неприятие плохой альтернативы</div>
+        </header>
+
+        <!-- Секция 1: Введение -->
+        <div class="content-section">
+            <h2>Что такое -느니?</h2>
+            <p>Конструкция <strong>-느니</strong> присоединяется к основе глагола и выражает <strong>категорическое, эмоционально окрашенное отвержение</strong> одного варианта действия в пользу другого, часто тоже нежелательного. Смысл: "вместо того чтобы делать X (это настолько плохо), я лучше сделаю Y" — при этом Y само по себе может быть крайним или даже абсурдным решением, но говорящий подчёркивает, что X ещё хуже.</p>
+            <p>Это не нейтральное сравнение вроде "лучше A, чем B" — это <strong>риторический приём</strong>: говорящий утрирует, чтобы показать всю степень своего неприятия первого варианта. Конструкция часто встречается в эмоциональных бытовых жалобах ("да я лучше умру, чем...") и в формальной аргументативной речи — критике политики, деловых решениях, публицистике, где автор отвергает один путь как заведомо худший.</p>
+
+            <div class="grammar-cards">
+                <div class="grammar-card card-a">
+                    <div class="card-title">🗣️ Разговорный регистр</div>
+                    <div class="card-pattern">차라리 죽는 게 낫다</div>
+                    <div class="card-description">
+                        Эмоциональная, часто гиперболическая жалоба. Подчёркивает крайнюю степень нежелания мириться с ситуацией.
+                    </div>
+                </div>
+                <div class="grammar-card card-b">
+                    <div class="card-title">📄 Формальный регистр</div>
+                    <div class="card-pattern">이 정책을 시행하느니...</div>
+                    <div class="card-description">
+                        Аргументативная критика: автор отвергает один вариант политики/решения как заведомо неприемлемый.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 2: Формирование -->
+        <div class="content-section">
+            <h2>Формирование</h2>
+            <p>Основа глагола (без учёта финального согласного/гласного — конечная -다 просто отбрасывается) + <strong>-느니</strong>. Суффикс не меняется в зависимости от типа основы (нет вариантов -으니/-니).</p>
+
+            <div class="grammar-block">
+                <div class="structure-title">(차라리) V-느니 (차라리) V-는 게 낫다 / V-겠다</div>
+                <div class="structure-example">
+                    <div class="korean-text">살다 → 사느니</div>
+                    <div class="translation">жить → чем жить (так)</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">가다 → 가느니</div>
+                    <div class="translation">идти → чем идти</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">참다 → 참느니</div>
+                    <div class="translation">терпеть → чем терпеть</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>Типичная модель предложения</h3>
+                <p><strong>차라리</strong> [первая, "нежелательный вариант", часто в конце — синтаксически -느니-часть обычно идёт первой] <strong>-느니</strong> <strong>차라리</strong> [второй, "предпочтительный, но тоже крайний вариант"] <strong>-는 게 낫다</strong> (было бы лучше) или <strong>-겠다</strong> (готов, решусь).</p>
+                <p>차라리 [charari] "уж лучше, скорее" может стоять перед первым глаголом, перед вторым, или дублироваться в обеих частях для усиления — это не обязательный, но очень частый спутник -느니.</p>
+            </div>
+        </div>
+
+        <!-- Секция 3: Примеры -->
+        <div class="content-section">
+            <h2>Примеры предложений</h2>
+
+            <div class="example-box">
+                <div class="example-item">
+                    <div class="korean-text">이렇게 사느니 차라리 죽는 게 낫겠어요.</div>
+                    <div class="romanization">ireoke saneuni charari jukneun ge natgesseoyo</div>
+                    <div class="translation">Уж лучше умереть, чем жить вот так.</div>
+                    <div class="example-note">Гиперболическая разговорная жалоба на невыносимую ситуацию.</div>
+                </div>
+                <div class="example-item">
+                    <div class="korean-text">이런 상사 밑에서 계속 일하느니 차라리 회사를 그만두겠어요.</div>
+                    <div class="romanization">ireon sangsa mit-eseo gyesok ilhaneuni charari hoesareul geumandugesseoyo</div>
+                    <div class="translation">Уж лучше я уволюсь, чем продолжать работать под таким начальником.</div>
+                    <div class="example-note">Эмфатическое бытовое решение — увольнение подаётся как крайняя, но предпочтительная мера.</div>
+                </div>
+                <div class="example-item">
+                    <div class="korean-text">맛없는 음식을 억지로 먹느니 차라리 굶는 게 낫다.</div>
+                    <div class="romanization">masobneun eumsigeul eokjiro meokneuni charari gumneun ge natda</div>
+                    <div class="translation">Уж лучше поголодать, чем через силу есть невкусную еду.</div>
+                    <div class="example-note">Разговорная гипербола о еде — типичный пример бытового преувеличения.</div>
+                </div>
+                <div class="example-item">
+                    <div class="korean-text">이 프로젝트를 어설프게 진행하느니 차라리 처음부터 다시 계획을 세우는 게 낫습니다.</div>
+                    <div class="romanization">i peurojekteureul eoseolpeuge jinhaenganeuni charari cheoeumbuteo dasi gyehoegeul seuneun ge natseumnida</div>
+                    <div class="translation">Уж лучше заново составить план с нуля, чем вести этот проект кое-как.</div>
+                    <div class="example-note">Деловой контекст: критика поспешного/непродуманного подхода к проекту.</div>
+                </div>
+                <div class="example-item">
+                    <div class="korean-text">부실한 정책을 그대로 시행하느니 차라리 시행을 전면 보류하는 편이 낫다는 의견이 지배적이다.</div>
+                    <div class="romanization">busilhan jeongchaegeul geudaero sihaenghaneuni charari sihaengeul jeonmyeon boryuhaneun pyeoni natdaneun uigyeoni jibaejeogida</div>
+                    <div class="translation">Преобладает мнение, что лучше полностью отложить внедрение, чем реализовывать несовершенную политику как есть.</div>
+                    <div class="example-note">Формальная публицистика/критика политики — типичный C1-контекст аргументативного письма.</div>
+                </div>
+                <div class="example-item">
+                    <div class="korean-text">품질이 떨어지는 제품을 싸게 파느니 차라리 생산을 중단하는 것이 회사 이미지에 낫다.</div>
+                    <div class="romanization">pumjiri tteoreojineun jepumeul ssage paneuni charari saengsaneul jungdanhaneun geosi hoesa imijie natda</div>
+                    <div class="translation">Для имиджа компании лучше прекратить производство, чем дёшево продавать некачественную продукцию.</div>
+                    <div class="example-note">Бизнес-контекст: сравнение управленческих решений через -느니.</div>
+                </div>
+                <div class="example-item">
+                    <div class="korean-text">그런 식으로 사과받느니 차라리 아무 말도 안 듣는 게 낫겠다.</div>
+                    <div class="romanization">geureon sigeuro sagwabatneuni charari amu maldo an deutneun ge natgetda</div>
+                    <div class="translation">Уж лучше вообще ничего не услышать, чем получить извинение в такой форме.</div>
+                    <div class="example-note">Эмоциональная реплика — отвержение формального/неискреннего извинения.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 4: Сравнение -->
+        <div class="content-section">
+            <h2>-느니 vs -는 것보다 vs -을 바에는</h2>
+            <p>Все три конструкции переводятся похоже ("чем... лучше..."), но различаются степенью эмоциональности и риторической силы.</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Сравнение трёх конструкций</div>
+                <div class="table-row">
+                    <div class="table-cell header">Конструкция</div>
+                    <div class="table-cell header">Оттенок</div>
+                    <div class="table-cell header">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-는 것보다</div>
+                    <div class="table-cell">Нейтральное сравнение, просто "чем X". Без эмоций, можно использовать в любом контексте, даже для приятных вещей.</div>
+                    <div class="table-cell korean">집에 있는 것보다 나가는 게 낫다<br>(лучше выйти, чем сидеть дома)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-을 바에는</div>
+                    <div class="table-cell">Похоже на -느니 по силе отвержения, но подчёркивает "раз уж всё равно придётся" — акцент на условии/обстоятельствах, а не на прямом эмоциональном неприятии.</div>
+                    <div class="table-cell korean">이럴 바에는 차라리 안 하는 게 낫다<br>(раз уж так, лучше вообще не делать)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-느니</div>
+                    <div class="table-cell"><strong>Максимально эмфатическое, риторическое отвержение.</strong> Часто гиперболично, эмоционально окрашено, типично для жалоб и категоричной аргументации.</div>
+                    <div class="table-cell korean">이렇게 사느니 죽는 게 낫다<br>(уж лучше умереть, чем так жить)</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>Важно!</h3>
+                <p>-느니 нельзя использовать для нейтральных, спокойных сравнений (например, "лучше пойти пешком, чем ехать на автобусе" в бытовом нейтральном смысле — здесь уместнее -는 것보다). -느니 подразумевает, что оба варианта неидеальны, а первый — категорически хуже второго. Чем эмоциональнее и категоричнее контекст, тем естественнее звучит -느니.</p>
+            </div>
+        </div>
+
+        <!-- Секция 5: Диалог -->
+        <div class="content-section">
+            <h2>Диалог: Стоит ли увольняться?</h2>
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">지은:</div>
+                    <div class="korean-text">요즘 회사 일 때문에 너무 힘들어. 매일 야근에 상사는 무시하고...</div>
+                    <div class="translation">В последнее время очень тяжело из-за работы. Каждый день переработки, начальник ещё и игнорирует...</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민호:</div>
+                    <div class="korean-text">그렇게 스트레스 받으면서 계속 다니느니 차라리 그만두는 게 낫지 않아?</div>
+                    <div class="translation">Не лучше ли уволиться, чем продолжать так работать в стрессе?</div>
+                    <div class="grammar-note">다니느니 -- "чем ходить (на работу)", -느니 в риторическом совете</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지은:</div>
+                    <div class="korean-text">나도 그러고 싶은데... 다른 회사도 다 비슷하다는 말을 들으면 그냥 참느니 여기 남는 게 나을까 싶기도 해.</div>
+                    <div class="translation">Я бы тоже хотела так, но... Когда слышу, что везде одинаково, думаю, может, лучше остаться, чем просто уйти терпя это в другом месте.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민호:</div>
+                    <div class="korean-text">건강 해치면서 버티느니 차라리 잠깐 쉬면서 다른 길을 찾아보는 게 낫다고 생각해.</div>
+                    <div class="translation">Я думаю, уж лучше немного отдохнуть и поискать другой путь, чем терпеть, разрушая здоровье.</div>
+                    <div class="grammar-note">버티느니 -- "чем держаться из последних сил", второе -느니 усиливает совет</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지은:</div>
+                    <div class="korean-text">맞아... 이렇게 스트레스 받으면서 사느니 내 삶을 먼저 챙기는 게 맞는 것 같아.</div>
+                    <div class="translation">Ты прав... Кажется, правильнее сначала позаботиться о своей жизни, чем так жить в постоянном стрессе.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Запомнить -->
+        <div class="content-section">
+            <h2>Запомнить</h2>
+            <div class="remember-block">
+                <div class="remember-grid">
+                    <div class="remember-item">
+                        <strong>Формула</strong><br>
+                        (차라리) V-느니 (차라리) V-는 게 낫다/겠다
+                    </div>
+                    <div class="remember-item">
+                        <strong>Смысл</strong><br>
+                        Категорическое отвержение первого варианта в пользу второго
+                    </div>
+                    <div class="remember-item">
+                        <strong>Оттенок</strong><br>
+                        Эмфатично, часто гиперболично, риторично
+                    </div>
+                    <div class="remember-item">
+                        <strong>Отличие от -는 것보다</strong><br>
+                        -는 것보다 нейтрально, -느니 эмоционально и категорично
+                    </div>
+                    <div class="remember-item">
+                        <strong>Отличие от -을 바에는</strong><br>
+                        -을 바에는 подчёркивает условие/обстоятельства, -느니 -- прямое отвержение
+                    </div>
+                    <div class="remember-item">
+                        <strong>Где встречается</strong><br>
+                        Бытовые жалобы + формальная аргументативная критика
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Практика -->
+        <div class="practice-section">
+            <h3>Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. Какой суффикс правильно образует -느니 от глагола 참다 (терпеть)?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">참느니</button>
+                    <button class="option" data-correct="false">참으느니</button>
+                    <button class="option" data-correct="false">참니</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. "Уж лучше умереть, чем жить вот так" -- 이렇게 ___ 차라리 죽는 게 낫겠어요.</div>
+                <div class="options">
+                    <button class="option" data-correct="false">사는 것보다</button>
+                    <button class="option" data-correct="true">사느니</button>
+                    <button class="option" data-correct="false">살면서</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Какое слово чаще всего сопровождает -느니, усиливая эмфазу?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">아마</button>
+                    <button class="option" data-correct="false">역시</button>
+                    <button class="option" data-correct="true">차라리</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. Какая конструкция наиболее эмоциональна и риторична — сильнее всего отвергает первый вариант?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">-는 것보다</button>
+                    <button class="option" data-correct="true">-느니</button>
+                    <button class="option" data-correct="false">-고 나서</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. "Уж лучше полностью отложить внедрение политики, чем реализовывать её кое-как" -- какая часть предложения грамматически некорректна: "정책을 부실하게 시행하는 것보다 차라리 보류하겠다"?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">Здесь уместнее -느니 вместо -는 것보다, так как контекст резко эмфатический</button>
+                    <button class="option" data-correct="false">Предложение полностью корректно и стилистически идеально</button>
+                    <button class="option" data-correct="false">Нужно убрать 차라리, оно избыточно в любом случае</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. "Уж лучше уволюсь, чем продолжать работать под таким начальником" -- 이런 상사 밑에서 계속 ___ 차라리 회사를 그만두겠어요.</div>
+                <div class="options">
+                    <button class="option" data-correct="true">일하느니</button>
+                    <button class="option" data-correct="false">일했으니</button>
+                    <button class="option" data-correct="false">일하거나</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">7. Чем -을 바에는 отличается от -느니 по смыслу?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">-을 바에는 используется только в письменной речи, -느니 -- только в устной</button>
+                    <button class="option" data-correct="true">-을 바에는 подчёркивает обстоятельства ("раз уж так"), -느니 -- прямое эмоциональное отвержение</button>
+                    <button class="option" data-correct="false">Разницы нет, это полные синонимы во всех контекстах</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">8. "Для имиджа компании лучше прекратить производство, чем дёшево продавать некачественный товар" -- 품질이 떨어지는 제품을 싸게 ___ 차라리 생산을 중단하는 것이 낫다.</div>
+                <div class="options">
+                    <button class="option" data-correct="false">팔지만</button>
+                    <button class="option" data-correct="true">파느니</button>
+                    <button class="option" data-correct="false">팔더니</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <!-- Заключение -->
+        <div class="content-section">
+            <h2>Заключение</h2>
+            <p>-느니 -- мощный инструмент C1-уровня для выражения категоричного, часто гиперболического отвержения одного варианта в пользу другого. Он придаёт речи убедительность и эмоциональную окраску -- как в бытовых жалобах, так и в аргументативной публицистике и деловой критике. Ключ к естественному использованию -- сочетание с 차라리 и понимание того, что оба сравниваемых варианта воспринимаются говорящим как неидеальные, но первый категорически хуже.</p>
+        </div>
+
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #E91E63, #AD1457);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(233,30,99,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level5_lesson_neuni';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+                        var isCorrect = this.dataset.correct === 'true';
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 /**
- * Jane Korea - Spaced Repetition System (SRS)
+ * Miso: 한국어 수업 - Spaced Repetition System (SRS)
  * Интервальное повторение по упрощённой системе Leitner
  * Интервалы: 1 → 3 → 7 → 14 → 30 дней
  */

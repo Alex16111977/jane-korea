@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Челлендж 30 дней - Jane Korea</title>
+    <title>Челлендж 30 дней - Miso: 한국어 수업</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
 
@@ -623,6 +623,7 @@
 </div>
 
 <!-- ==================== SCRIPTS ==================== -->
+<script src="js/ui-components.js"></script>
 <script src="js/progress-tracker.js"></script>
 <script src="js/global-nav.js"></script>
 
@@ -900,11 +901,11 @@
         },
         {
             day: 25,
-            title: 'K-POP',
-            titleKr: '케이팝',
+            title: 'Музыка',
+            titleKr: '음악',
             icon: '🎵',
             tasks: [
-                { desc: 'Изучите K-POP раздел и выберите одну песню для изучения', link: 'kpop-learning.html', linkText: 'K-POP обучение' },
+                { desc: 'Найдите корейскую песню, которая вам нравится, и выберите её для изучения', link: 'listening.html', linkText: 'Аудирование' },
                 { desc: 'Выучите 5 фраз из выбранной песни и их перевод', link: null, linkText: null },
                 { desc: 'Попробуйте подпевать, следя за текстом на корейском', link: null, linkText: null }
             ]
@@ -1236,21 +1237,31 @@
     };
 
     window.restartChallenge = function() {
-        if (!confirm('Вы уверены? Весь прогресс челленджа будет сброшен!')) return;
-        var progress = getChallengeState();
-        progress.challenge30 = {
-            startDate: new Date().toISOString(),
-            currentDay: 1,
-            completedDays: {},
-            isActive: true,
-            completedChallenge: false
-        };
-        window.ProgressTracker.save(progress);
-        window._tempTasks = {};
-        selectedDay = null;
-        document.getElementById('dayDetail').classList.remove('visible');
-        render();
-        console.log('[OK] Challenge restarted');
+        JKModal.open({
+            type: 'warning',
+            icon: '🔄',
+            title: 'Начать заново?',
+            body: 'Весь прогресс челленджа будет сброшен!',
+            buttons: [
+                { text: 'Отмена' },
+                { text: 'Сбросить', primary: true, onClick: function() {
+                    var progress = getChallengeState();
+                    progress.challenge30 = {
+                        startDate: new Date().toISOString(),
+                        currentDay: 1,
+                        completedDays: {},
+                        isActive: true,
+                        completedChallenge: false
+                    };
+                    window.ProgressTracker.save(progress);
+                    window._tempTasks = {};
+                    selectedDay = null;
+                    document.getElementById('dayDetail').classList.remove('visible');
+                    render();
+                    console.log('[OK] Challenge restarted');
+                } }
+            ]
+        });
     };
 
     window.closeDetail = function() {

@@ -1,5 +1,5 @@
 /**
- * Jane Korea - Firebase Configuration
+ * Miso: 한국어 수업 - Firebase Configuration
  * Проект: jane-korea
  */
 

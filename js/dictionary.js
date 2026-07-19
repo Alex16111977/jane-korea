@@ -1,5 +1,5 @@
 /**
- * Jane Korea - Dictionary Module
+ * Miso: 한국어 수업 - Dictionary Module
  * Общий API для работы с личным словарём
  * Использует существующий ключ koreanLearnedWords в localStorage
  */

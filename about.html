@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="О проекте Jane Korea — интерактивная платформа для изучения корейского языка. История создания, миссия и возможности."/>
-    <meta property="og:title" content="О проекте — Jane Korea"/>
-    <meta property="og:description" content="Узнайте больше о платформе Jane Korea для изучения корейского языка."/>
+    <meta name="description" content="О проекте Miso: 한국어 수업 — интерактивная платформа для изучения корейского языка. История создания, миссия и возможности."/>
+    <meta property="og:title" content="О проекте — Miso: 한국어 수업"/>
+    <meta property="og:description" content="Узнайте больше о платформе Miso: 한국어 수업 для изучения корейского языка."/>
     <meta name="theme-color" content="#667eea"/>
     <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-    <title>О проекте — Jane Korea</title>
+    <title>О проекте — Miso: 한국어 수업</title>
     <link href="css/style.css" rel="stylesheet"/>
     <link href="css/auth-styles.css" rel="stylesheet"/>
     <style>
@@ -216,7 +216,7 @@
     <div id="auth-message" class="auth-message"></div>
 
     <div class="about-hero">
-        <h1>Jane Korea</h1>
+        <h1>Miso: 한국어 수업</h1>
         <p class="subtitle">Изучай корейский язык с удовольствием</p>
     </div>
 
@@ -224,7 +224,7 @@
 
         <div class="about-card">
             <h2><span class="icon">&#127800;</span> О проекте</h2>
-            <p>Jane Korea — это интерактивная платформа для изучения корейского языка, созданная с любовью к корейской культуре. Наша цель — сделать изучение корейского доступным, увлекательным и эффективным.</p>
+            <p>Miso: 한국어 수업 — это интерактивная платформа для изучения корейского языка, созданная с любовью к корейской культуре. Наша цель — сделать изучение корейского доступным, увлекательным и эффективным.</p>
             <p>Платформа построена по корейской системе уровней (1급-6급), что соответствует международным стандартам TOPIK. Вы начинаете с простых приветствий и постепенно переходите к сложным текстам и грамматическим конструкциям.</p>
         </div>
 
@@ -238,13 +238,8 @@
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">&#128218;</div>
-                    <h3>83 урока грамматики</h3>
+                    <h3><span id="lessons-feature-count">281 урок</span> — грамматика и лексика</h3>
                     <p>От частиц и падежей до сложных конструкций и пассивного залога</p>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">&#127925;</div>
-                    <h3>K-POP модуль</h3>
-                    <p>Учите корейский через песни BLACKPINK, BTS и других артистов</p>
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">&#128221;</div>
@@ -284,8 +279,8 @@
                     <span class="stat-label">Уровней</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">83</span>
-                    <span class="stat-label">Урока грамматики</span>
+                    <span class="stat-number" id="lessons-stat">281</span>
+                    <span class="stat-label">Урок</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-number">9</span>
@@ -318,5 +313,19 @@
 
     <!-- Global navigation -->
     <script src="js/global-nav.js"></script>
+
+    <!-- Автоматический подсчёт уроков -->
+    <script src="js/level-lessons.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            LevelLessons.load('').then(function(map) {
+                var total = LevelLessons.total(map);
+                var stat = document.getElementById('lessons-stat');
+                if (stat) stat.textContent = total;
+                var feature = document.getElementById('lessons-feature-count');
+                if (feature) feature.textContent = LevelLessons.ruCount(total);
+            }).catch(function() { /* остаёмся на статичных числах */ });
+        });
+    </script>
 </body>
 </html>

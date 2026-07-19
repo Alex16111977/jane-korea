@@ -1,5 +1,5 @@
 /**
- * Jane Korea - Firebase Firestore Sync Module
+ * Miso: 한국어 수업 - Firebase Firestore Sync Module
  * Синхронизация данных пользователя с облаком
  */
 
@@ -392,7 +392,7 @@ async function exportUserData() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `jane-korea-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `miso-backup-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
 
