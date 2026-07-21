@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой дневник на корейском — Miso: 한국어 수업</title>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -70,6 +71,46 @@
             font-size: 1.1em;
         }
 
+        .sync-banner {
+            max-width: 1000px;
+            margin: 0 auto 20px;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-size: 0.92em;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .sync-banner.local {
+            background: #fff8e1;
+            color: #8a6d00;
+        }
+
+        .sync-banner.synced {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .sync-banner.syncing {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .sync-banner-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 16px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.92em;
+            cursor: pointer;
+        }
+
         .diary-content {
             max-width: 1000px;
             margin: 0 auto 30px;
@@ -116,6 +157,77 @@
 
         .date-picker-wrapper input[type="date"]:focus {
             border-color: #667eea;
+        }
+
+        .mood-picker-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .mood-picker-wrapper label {
+            display: block;
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .mood-picker {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .mood-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            background: white;
+            font-size: 1.3em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .mood-btn:hover {
+            border-color: #b3b3f0;
+            transform: translateY(-1px);
+        }
+
+        .mood-btn.selected {
+            border-color: #667eea;
+            background: #eef0ff;
+            transform: scale(1.08);
+        }
+
+        .editing-badge {
+            display: inline-block;
+            background: #fff3e0;
+            color: #e65100;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .btn-cancel-edit {
+            background: transparent;
+            color: #999;
+            border: 2px solid #ddd;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-cancel-edit:hover {
+            background: #f0f0f0;
         }
 
         .diary-textarea {
@@ -321,6 +433,53 @@
             margin-bottom: 20px;
         }
 
+        .timeline-toolbar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .timeline-search {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.95em;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .timeline-search:focus {
+            border-color: #667eea;
+        }
+
+        .btn-export {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-export:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .entry-mood {
+            font-size: 1.1em;
+            margin-right: 4px;
+        }
+
         .timeline-empty {
             text-align: center;
             color: #aaa;
@@ -519,9 +678,13 @@
                 flex-direction: column;
             }
 
-            .btn-save, .btn-clear {
+            .btn-save, .btn-clear, .btn-cancel-edit {
                 width: 100%;
                 text-align: center;
+            }
+
+            .timeline-toolbar {
+                flex-direction: column;
             }
 
             .timeline-section {
@@ -551,16 +714,24 @@
         <div class="diary-stats">
             <div class="diary-stat">Записей: <span id="totalEntries">0</span></div>
             <div class="diary-stat">Слов написано: <span id="totalWords">0</span></div>
+            <div class="diary-stat">Дней подряд: <span id="diaryStreak">0</span></div>
         </div>
     </header>
 
+    <div id="syncBanner" class="sync-banner local"></div>
+
     <div class="diary-content">
         <section class="editor-section">
-            <h2>Новая запись</h2>
+            <h2 id="editorTitle">Новая запись</h2>
 
             <div class="date-picker-wrapper">
                 <label for="entryDate">Дата записи:</label>
                 <input type="date" id="entryDate">
+            </div>
+
+            <div class="mood-picker-wrapper">
+                <label>Настроение (необязательно):</label>
+                <div class="mood-picker" id="moodPicker"></div>
             </div>
 
             <textarea id="diaryTextarea" class="diary-textarea" placeholder="오늘은... (Сегодня...)"></textarea>
@@ -572,6 +743,7 @@
             <div class="editor-actions">
                 <button class="btn-save" onclick="saveEntry()">Сохранить запись</button>
                 <button class="btn-clear" onclick="clearEditor()">Очистить</button>
+                <button class="btn-cancel-edit" id="btnCancelEdit" onclick="cancelEdit()" style="display:none">Отменить редактирование</button>
             </div>
 
             <div id="saveMessage" class="save-message">Запись успешно сохранена!</div>
@@ -585,6 +757,10 @@
 
     <section class="timeline-section">
         <h2>Мои записи</h2>
+        <div class="timeline-toolbar">
+            <input type="text" id="diarySearch" class="timeline-search" placeholder="Поиск по записям...">
+            <button class="btn-export" onclick="exportDiaryFile()">Скачать дневник (.txt)</button>
+        </div>
         <div id="timelineContainer">
             <div class="timeline-empty">Пока нет записей. Начните писать!</div>
         </div>
@@ -592,9 +768,25 @@
 
     <script src="js/ui-components.js"></script>
     <script src="js/progress-tracker.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-sync.js"></script>
+    <script src="js/firebase-auth.js"></script>
+
     <script src="js/global-nav.js"></script>
     <script>
         var DIARY_KEY = 'koreanDiary';
+        var DIARY_DRAFT_KEY = 'koreanDiaryDraft';
+
+        var MOODS = ['😊', '🙂', '😐', '😢', '😡', '😴'];
+
+        var state = {
+            editingId: null,
+            mood: null
+        };
 
         var hintsData = [
             {
@@ -669,6 +861,70 @@
 
         function saveDiary(diary) {
             localStorage.setItem(DIARY_KEY, JSON.stringify(diary));
+            if (window.FirebaseAuth && window.FirebaseAuth.isLoggedIn() && window.FirebaseSync) {
+                window.FirebaseSync.saveDiaryToCloud(diary).then(function(ok) {
+                    if (ok) updateSyncBanner();
+                });
+            }
+        }
+
+        // ===== Черновик текущей записи (защита от потери непрочтённого текста) =====
+        function saveDraft() {
+            var textarea = document.getElementById('diaryTextarea');
+            var dateInput = document.getElementById('entryDate');
+            var draft = {
+                text: textarea.value,
+                date: dateInput.value,
+                mood: state.mood,
+                editingId: state.editingId
+            };
+            try {
+                localStorage.setItem(DIARY_DRAFT_KEY, JSON.stringify(draft));
+            } catch (e) {
+                console.error('[ERROR] saveDraft:', e);
+            }
+        }
+
+        function restoreDraft() {
+            var raw = localStorage.getItem(DIARY_DRAFT_KEY);
+            if (!raw) return;
+            try {
+                var draft = JSON.parse(raw);
+                if (!draft.text || !draft.text.trim()) return;
+                document.getElementById('diaryTextarea').value = draft.text;
+                if (draft.date) document.getElementById('entryDate').value = draft.date;
+                if (draft.mood) setMood(draft.mood);
+                if (draft.editingId) startEditing(draft.editingId, true);
+            } catch (e) {
+                console.error('[ERROR] restoreDraft:', e);
+            }
+        }
+
+        function clearDraft() {
+            localStorage.removeItem(DIARY_DRAFT_KEY);
+        }
+
+        // ===== Настроение =====
+        function buildMoodPicker() {
+            var container = document.getElementById('moodPicker');
+            container.innerHTML = '';
+            MOODS.forEach(function(mood) {
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'mood-btn';
+                btn.textContent = mood;
+                btn.onclick = function() { setMood(state.mood === mood ? null : mood); };
+                container.appendChild(btn);
+            });
+        }
+
+        function setMood(mood) {
+            state.mood = mood;
+            var buttons = document.querySelectorAll('#moodPicker .mood-btn');
+            buttons.forEach(function(btn) {
+                btn.classList.toggle('selected', btn.textContent === mood);
+            });
+            saveDraft();
         }
 
         function countWords(text) {
@@ -696,6 +952,7 @@
             textarea.selectionStart = textarea.selectionEnd = start + insert.length;
             textarea.focus();
             updateCounters();
+            saveDraft();
         }
 
         function initDatePicker() {
@@ -757,36 +1014,105 @@
 
             var diary = getDiary();
             var now = new Date();
-            var timeStr = String(now.getHours()).padStart(2, '0') +
-                          String(now.getMinutes()).padStart(2, '0') +
-                          String(now.getSeconds()).padStart(2, '0');
+            var wasEditing = !!state.editingId;
+            var savedId = state.editingId;
 
-            var entry = {
-                id: 'entry-' + dateInput.value + '-' + timeStr,
-                date: dateInput.value,
-                text: text,
-                createdAt: now.toISOString(),
-                wordCount: countWords(text),
-                charCount: countChars(text)
-            };
+            if (state.editingId) {
+                var idx = -1;
+                for (var i = 0; i < diary.entries.length; i++) {
+                    if (diary.entries[i].id === state.editingId) { idx = i; break; }
+                }
+                if (idx !== -1) {
+                    diary.entries[idx].date = dateInput.value;
+                    diary.entries[idx].text = text;
+                    diary.entries[idx].mood = state.mood;
+                    diary.entries[idx].wordCount = countWords(text);
+                    diary.entries[idx].charCount = countChars(text);
+                    diary.entries[idx].updatedAt = now.toISOString();
+                } else {
+                    // Запись, которую редактировали, не найдена (например, удалена
+                    // в другой вкладке) - сохраняем как новую, а не теряем текст.
+                    wasEditing = false;
+                }
+            }
 
-            diary.entries.unshift(entry);
+            if (!wasEditing) {
+                var timeStr = String(now.getHours()).padStart(2, '0') +
+                              String(now.getMinutes()).padStart(2, '0') +
+                              String(now.getSeconds()).padStart(2, '0');
+                savedId = 'entry-' + dateInput.value + '-' + timeStr;
+                diary.entries.unshift({
+                    id: savedId,
+                    date: dateInput.value,
+                    text: text,
+                    mood: state.mood,
+                    createdAt: now.toISOString(),
+                    updatedAt: now.toISOString(),
+                    wordCount: countWords(text),
+                    charCount: countChars(text)
+                });
+            }
+
             saveDiary(diary);
-
-            textarea.value = '';
-            updateCounters();
+            resetEditor();
             updateStats();
             renderTimeline();
             showSaveMessage();
 
-            console.log('[OK] Entry saved: ' + entry.id);
+            console.log('[OK] Entry saved: ' + savedId + (wasEditing ? ' (edited)' : ''));
         }
 
         function clearEditor() {
             var textarea = document.getElementById('diaryTextarea');
             textarea.value = '';
             updateCounters();
+            saveDraft();
             textarea.focus();
+        }
+
+        // ===== Режим редактирования (запись остаётся в списке, пока не сохранены изменения) =====
+        function startEditing(entryId, skipFieldPopulate) {
+            var diary = getDiary();
+            var exists = diary.entries.some(function(e) { return e.id === entryId; });
+            if (!exists) return;
+
+            if (!skipFieldPopulate) {
+                var entry = diary.entries.filter(function(e) { return e.id === entryId; })[0];
+                document.getElementById('diaryTextarea').value = entry.text;
+                document.getElementById('entryDate').value = entry.date;
+                setMood(entry.mood || null);
+            }
+
+            state.editingId = entryId;
+            document.getElementById('editorTitle').innerHTML =
+                'Редактирование записи <span class="editing-badge">изменение</span>';
+            document.getElementById('btnCancelEdit').style.display = 'inline-block';
+            updateCounters();
+            saveDraft();
+        }
+
+        function editEntry(entryId) {
+            startEditing(entryId, false);
+            document.getElementById('diaryTextarea').focus();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function cancelEdit() {
+            resetEditor();
+        }
+
+        function resetEditor() {
+            state.editingId = null;
+            state.mood = null;
+            document.getElementById('diaryTextarea').value = '';
+            initDatePicker();
+            document.querySelectorAll('#moodPicker .mood-btn').forEach(function(btn) {
+                btn.classList.remove('selected');
+            });
+            document.getElementById('editorTitle').textContent = 'Новая запись';
+            document.getElementById('btnCancelEdit').style.display = 'none';
+            updateCounters();
+            clearDraft();
         }
 
         function showSaveMessage() {
@@ -818,20 +1144,35 @@
         function renderTimeline() {
             var container = document.getElementById('timelineContainer');
             var diary = getDiary();
+            var query = (document.getElementById('diarySearch').value || '').trim().toLowerCase();
 
             if (diary.entries.length === 0) {
                 container.innerHTML = '<div class="timeline-empty">Пока нет записей. Начните писать!</div>';
                 return;
             }
 
+            var entries = diary.entries;
+            if (query) {
+                entries = entries.filter(function(entry) {
+                    return entry.text.toLowerCase().indexOf(query) !== -1 ||
+                           formatDate(entry.date).toLowerCase().indexOf(query) !== -1;
+                });
+            }
+
+            if (entries.length === 0) {
+                container.innerHTML = '<div class="timeline-empty">Ничего не найдено по запросу «' + escapeHtml(query) + '».</div>';
+                return;
+            }
+
             var html = '';
-            diary.entries.forEach(function(entry, index) {
+            entries.forEach(function(entry) {
                 var preview = entry.text.length > 100 ? entry.text.substring(0, 100) + '...' : entry.text;
                 var needsExpand = entry.text.length > 100;
+                var moodHtml = entry.mood ? '<span class="entry-mood">' + entry.mood + '</span>' : '';
 
                 html += '<div class="entry-card" data-entry-id="' + entry.id + '">';
                 html += '  <div class="entry-header">';
-                html += '    <div class="entry-date">' + formatDate(entry.date) + '</div>';
+                html += '    <div class="entry-date">' + moodHtml + formatDate(entry.date) + '</div>';
                 html += '    <div class="entry-meta">';
                 html += '      <span>' + entry.wordCount + ' слов</span>';
                 html += '      <span>' + entry.charCount + ' символов</span>';
@@ -870,28 +1211,6 @@
             }
         }
 
-        function editEntry(entryId) {
-            var diary = getDiary();
-            var entry = null;
-            for (var i = 0; i < diary.entries.length; i++) {
-                if (diary.entries[i].id === entryId) {
-                    entry = diary.entries[i];
-                    break;
-                }
-            }
-            if (!entry) return;
-
-            var textarea = document.getElementById('diaryTextarea');
-            var dateInput = document.getElementById('entryDate');
-            textarea.value = entry.text;
-            dateInput.value = entry.date;
-            updateCounters();
-            textarea.focus();
-
-            deleteEntryById(entryId);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
         function deleteEntry(entryId) {
             JKModal.open({
                 type: 'warning',
@@ -914,8 +1233,37 @@
                 return e.id !== entryId;
             });
             saveDiary(diary);
+            if (state.editingId === entryId) {
+                resetEditor();
+            }
             updateStats();
             renderTimeline();
+        }
+
+        // ===== Серия дней подряд с записью =====
+        function pad2(n) {
+            return String(n).padStart(2, '0');
+        }
+
+        function toDateStr(d) {
+            return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+        }
+
+        function calculateDiaryStreak(entries) {
+            var dates = {};
+            entries.forEach(function(entry) { dates[entry.date] = true; });
+
+            var cursor = new Date();
+            if (!dates[toDateStr(cursor)]) {
+                cursor.setDate(cursor.getDate() - 1);
+            }
+
+            var streak = 0;
+            while (dates[toDateStr(cursor)]) {
+                streak++;
+                cursor.setDate(cursor.getDate() - 1);
+            }
+            return streak;
         }
 
         function updateStats() {
@@ -927,17 +1275,76 @@
             });
             document.getElementById('totalEntries').textContent = totalEntries;
             document.getElementById('totalWords').textContent = totalWords;
+            document.getElementById('diaryStreak').textContent = calculateDiaryStreak(diary.entries);
+        }
+
+        // ===== Синхронизация с облаком =====
+        function updateSyncBanner() {
+            var el = document.getElementById('syncBanner');
+            var loggedIn = window.FirebaseAuth && window.FirebaseAuth.isLoggedIn();
+            if (loggedIn) {
+                el.className = 'sync-banner synced';
+                el.innerHTML = '☁️ Дневник синхронизирован с облаком — записи не потеряются при очистке браузера';
+            } else {
+                el.className = 'sync-banner local';
+                el.innerHTML = '🔐 Записи пока хранятся только в этом браузере. Войдите через Google, чтобы дневник дублировался в облаке ' +
+                    '<button class="sync-banner-btn" onclick="window.FirebaseAuth && window.FirebaseAuth.signInWithGoogle()">Войти</button>';
+            }
+        }
+
+        // ===== Экспорт в файл (дополнительная страховка на случай потери доступа) =====
+        function exportDiaryFile() {
+            var diary = getDiary();
+            if (diary.entries.length === 0) return;
+
+            var lines = diary.entries.slice().reverse().map(function(entry) {
+                return '=== ' + formatDate(entry.date) + (entry.mood ? '  ' + entry.mood : '') + ' ===\n' + entry.text + '\n';
+            });
+
+            var blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'korean-diary-' + new Date().toISOString().split('T')[0] + '.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            console.log('[OK] Diary exported');
         }
 
         function init() {
             initDatePicker();
             buildHints();
+            buildMoodPicker();
+            restoreDraft();
             updateStats();
             renderTimeline();
             updateCounters();
+            updateSyncBanner();
 
             var textarea = document.getElementById('diaryTextarea');
-            textarea.addEventListener('input', updateCounters);
+            textarea.addEventListener('input', function() {
+                updateCounters();
+                saveDraft();
+            });
+
+            document.getElementById('entryDate').addEventListener('change', saveDraft);
+            document.getElementById('diarySearch').addEventListener('input', renderTimeline);
+
+            if (window.FirebaseAuth && window.FirebaseAuth.onAuthStateChanged) {
+                window.FirebaseAuth.onAuthStateChanged(function(user) {
+                    updateSyncBanner();
+                    if (user) {
+                        // Даём время фоновой синхронизации (merge облака и локальных
+                        // данных в firebase-sync.js) применить объединённые записи.
+                        setTimeout(function() {
+                            updateStats();
+                            renderTimeline();
+                            updateSyncBanner();
+                        }, 1500);
+                    }
+                });
+            }
 
             console.log('[OK] Diary page loaded');
         }
