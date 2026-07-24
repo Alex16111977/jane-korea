@@ -1528,6 +1528,51 @@
             speechSynthesis.onvoiceschanged = refreshVoices;
         }
 
+        // ===== Готовая озвучка переводов (edge-tts, ru-RU-SvetlanaNeural) =====
+        // Браузерные ru-RU голоса сильно разнятся по качеству (часто старый/роботизированный
+        // голос по умолчанию), поэтому для переводов используем такие же готовые MP3,
+        // как и для корейского — см. audio/tts/manifest.json → filesRu. Если манифест
+        // недоступен (нет сети и т.п.) — тихо откатываемся на синтезированный голос выше.
+        let ruMp3Files = null;
+        let ruPlayer = null;
+        let ruSettleCurrent = null;
+
+        fetch('../../audio/tts/manifest.json')
+            .then(r => r.ok ? r.json() : null)
+            .then(j => { if (j && j.filesRu) ruMp3Files = j.filesRu; })
+            .catch(() => { /* нет манифеста — говорим синтезированным голосом */ });
+
+        function stopRuMp3() {
+            if (ruPlayer) {
+                try { ruPlayer.pause(); ruPlayer.currentTime = 0; } catch (e) {}
+            }
+            if (ruSettleCurrent) {
+                const settle = ruSettleCurrent;
+                ruSettleCurrent = null;
+                settle();
+            }
+        }
+
+        function playRuMp3(text) {
+            const file = ruMp3Files && ruMp3Files[text];
+            if (!file) return null;
+            return new Promise(resolve => {
+                if (!ruPlayer) ruPlayer = new Audio();
+                stopRuMp3();
+                ruSettleCurrent = resolve;
+                const settle = () => {
+                    if (ruSettleCurrent !== resolve) return;
+                    ruSettleCurrent = null;
+                    resolve();
+                };
+                ruPlayer.onended = settle;
+                ruPlayer.onerror = settle;
+                ruPlayer.src = '../../audio/tts/' + file;
+                const p = ruPlayer.play();
+                if (p && p.catch) p.catch(settle);
+            });
+        }
+
         function speak(text) {
             if (!('speechSynthesis' in window)) return;
             speechSynthesis.cancel();
@@ -1541,6 +1586,10 @@
 
         // Произнести фразу и дождаться окончания — для непрерывного плеера "Слушать"
         function speakOne(text, lang) {
+            if (lang !== 'ko-KR') {
+                const mp3 = playRuMp3(text);
+                if (mp3) return mp3;
+            }
             return new Promise(resolve => {
                 if (!('speechSynthesis' in window)) { resolve(); return; }
                 const utter = new SpeechSynthesisUtterance(text);
@@ -1831,6 +1880,7 @@
             player.playing = false;
             player.gen++;
             if ('speechSynthesis' in window) speechSynthesis.cancel();
+            stopRuMp3();
             releaseWakeLock();
             updatePlayerUI();
         }
@@ -1851,6 +1901,7 @@
             const wasPlaying = player.playing;
             player.gen++;
             if ('speechSynthesis' in window) speechSynthesis.cancel();
+            stopRuMp3();
             player.index = (player.index + 1) % audioOrder.length;
             if (wasPlaying) { runPlayer(player.index); } else { updatePlayerUI(); }
         }
@@ -1859,6 +1910,7 @@
             const wasPlaying = player.playing;
             player.gen++;
             if ('speechSynthesis' in window) speechSynthesis.cancel();
+            stopRuMp3();
             player.index = (player.index - 1 + audioOrder.length) % audioOrder.length;
             if (wasPlaying) { runPlayer(player.index); } else { updatePlayerUI(); }
         }
