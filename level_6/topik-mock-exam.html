@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOPIK 6급 мини мок-экзамен — Miso: 한국어 수업</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #F44336 0%, #B71C1C 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container { max-width: 760px; margin: 0 auto; }
+
+        .back-link {
+            display: inline-block;
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+        .back-link:hover { color: white; }
+
+        .exam-header { text-align: center; padding: 20px 10px 25px; color: white; }
+        .exam-header h1 { font-size: 1.7em; margin-bottom: 6px; text-shadow: 0 2px 10px rgba(0,0,0,0.25); }
+        .exam-header p { opacity: 0.9; font-size: 0.98em; }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px 26px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+
+        /* ===== START SCREEN ===== */
+        .start-emoji { font-size: 3em; text-align: center; margin-bottom: 10px; }
+        .start-card h2 { text-align: center; font-size: 1.4em; color: #2c3e50; margin-bottom: 10px; }
+        .start-card p.lead { text-align: center; color: #666; margin-bottom: 18px; }
+        .format-note {
+            background: #fff3e0; border-left: 4px solid #ff9800; border-radius: 0 12px 12px 0;
+            padding: 14px 18px; margin-bottom: 20px; font-size: 0.9em; color: #5d4037;
+        }
+        .section-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+        .section-row {
+            display: flex; align-items: center; gap: 14px;
+            background: #fff5f5; border-radius: 14px; padding: 14px 18px;
+        }
+        .section-row .icon { font-size: 1.6em; }
+        .section-row .info { flex: 1; }
+        .section-row .info strong { display: block; color: #2c3e50; }
+        .section-row .info span { font-size: 0.85em; color: #888; }
+        .start-btn {
+            display: block; width: 100%; padding: 16px; border: none; border-radius: 14px;
+            background: linear-gradient(135deg, #F44336, #B71C1C); color: white;
+            font-size: 1.1em; font-weight: 600; cursor: pointer; font-family: inherit;
+            transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(244,67,54,0.35);
+        }
+        .start-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(244,67,54,0.45); }
+
+        /* ===== PROGRESS ===== */
+        .progress-wrapper {
+            background: rgba(255,255,255,0.15); border-radius: 20px; padding: 14px 20px;
+            margin-bottom: 18px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.25);
+        }
+        .progress-text { color: white; font-size: 0.9em; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .progress-bar { background: rgba(255,255,255,0.25); border-radius: 10px; height: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #fff, #ffc857); border-radius: 10px; transition: width 0.4s ease; }
+
+        .section-badge {
+            display: inline-block; padding: 5px 16px; border-radius: 20px; font-size: 0.82em;
+            font-weight: 600; margin-bottom: 14px; background: #ffebee; color: #c62828;
+        }
+
+        /* ===== PASSAGE ===== */
+        .passage-box {
+            background: #faf7ff; border-left: 4px solid #764ba2; border-radius: 0 14px 14px 0;
+            padding: 18px 20px; margin-bottom: 20px; font-size: 1.02em; color: #3a3a3a;
+        }
+        .passage-box p { margin-bottom: 8px; }
+        .passage-box p:last-child { margin-bottom: 0; }
+
+        .question-text { font-size: 1.12em; font-weight: 600; color: #2c3e50; margin-bottom: 18px; }
+
+        .options-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
+        .option-btn {
+            display: block; width: 100%; text-align: left; padding: 14px 18px;
+            background: #f8f9ff; border: 2px solid #e8eaf6; border-radius: 12px;
+            font-size: 1em; color: #333; cursor: pointer; transition: all 0.2s ease; font-family: inherit;
+        }
+        .option-btn:hover:not(.disabled) { background: #ede7f6; border-color: #b39ddb; }
+        .option-btn.correct { background: #e8f5e9; border-color: #4caf50; color: #2e7d32; font-weight: 600; }
+        .option-btn.wrong { background: #ffebee; border-color: #f44336; color: #c62828; }
+        .option-btn.disabled { pointer-events: none; opacity: 0.75; }
+
+        .next-btn {
+            display: none; margin-top: 16px; padding: 12px 28px; border: none; border-radius: 12px;
+            background: linear-gradient(135deg, #F44336, #B71C1C); color: white; font-size: 1em;
+            font-weight: 600; cursor: pointer; font-family: inherit;
+        }
+        .next-btn.visible { display: inline-block; }
+
+        /* ===== LISTENING ===== */
+        .audio-speaker {
+            font-size: 3.2em; cursor: pointer; display: block; text-align: center; margin-bottom: 8px;
+            user-select: none; transition: transform 0.2s ease;
+        }
+        .audio-speaker:hover { transform: scale(1.08); }
+        .audio-speaker.playing { animation: audioPulse 0.6s ease infinite; }
+        @keyframes audioPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        .audio-hint { text-align: center; color: #888; font-size: 0.88em; margin-bottom: 20px; }
+        .transcript-toggle {
+            background: none; border: 2px solid #ddd; color: #888; border-radius: 20px;
+            padding: 6px 16px; font-size: 0.85em; cursor: pointer; font-family: inherit; margin-top: 10px;
+        }
+        .transcript-box {
+            display: none; background: #f5f5f5; border-radius: 10px; padding: 12px 16px;
+            margin-top: 10px; font-size: 0.95em; color: #555;
+        }
+        .transcript-box.visible { display: block; }
+
+        /* ===== ORDERING ===== */
+        .order-pool { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+        .order-chip {
+            background: white; border: 2px solid #d1c4e9; border-radius: 12px; padding: 12px 16px;
+            cursor: pointer; font-size: 0.95em; transition: all 0.2s ease;
+        }
+        .order-chip:hover { border-color: #764ba2; background: #f8f5ff; }
+        .order-chip.used { opacity: 0.3; pointer-events: none; }
+        .order-result { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; min-height: 40px; }
+        .order-result-item {
+            background: #ede7f6; border-radius: 10px; padding: 10px 14px; font-size: 0.9em;
+            display: flex; gap: 10px; align-items: flex-start;
+        }
+        .order-result-item .num { font-weight: 700; color: #764ba2; }
+        .check-btn {
+            padding: 10px 26px; border: none; border-radius: 12px; background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; font-weight: 600; cursor: pointer; font-family: inherit;
+        }
+        .check-btn:disabled { opacity: 0.4; cursor: default; }
+        .order-feedback { margin-top: 12px; font-weight: 600; }
+        .order-feedback.ok { color: #2e7d32; }
+        .order-feedback.bad { color: #c62828; }
+
+        /* ===== WRITING ===== */
+        .writing-prompt { white-space: pre-line; background: #f8f5ff; border-left: 4px solid #764ba2;
+            border-radius: 0 12px 12px 0; padding: 16px 20px; margin-bottom: 18px; font-size: 0.97em; }
+        .blank-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+        .blank-label { font-weight: 700; color: #764ba2; min-width: 30px; }
+        .blank-input {
+            flex: 1; min-width: 200px; padding: 10px 14px; border: 2px solid #d1c4e9; border-radius: 10px;
+            font-family: inherit; font-size: 1em; outline: none;
+        }
+        .blank-input:focus { border-color: #764ba2; }
+        .blank-input.correct { border-color: #4caf50; background: #e8f5e9; }
+        .blank-input.close { border-color: #ff9800; background: #fff3e0; }
+        .blank-input.wrong { border-color: #f44336; background: #ffebee; }
+        .blank-feedback { font-size: 0.85em; color: #888; margin-top: -6px; margin-bottom: 10px; min-height: 18px; }
+
+        .essay-textarea {
+            width: 100%; min-height: 180px; padding: 16px; border: 2px solid #d1c4e9; border-radius: 14px;
+            font-family: inherit; font-size: 1em; line-height: 1.7; resize: vertical; outline: none;
+        }
+        .essay-textarea:focus { border-color: #764ba2; }
+        .essay-counter { text-align: right; font-size: 0.85em; color: #888; margin: 6px 0 16px; }
+        .essay-counter.ok { color: #2e7d32; font-weight: 600; }
+        .essay-counter.low { color: #c62828; }
+        .essay-counter.high { color: #ef6c00; }
+
+        .reveal-btn {
+            padding: 12px 24px; border: 2px solid #764ba2; background: transparent; color: #764ba2;
+            border-radius: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+        }
+        .model-answer-box {
+            display: none; margin-top: 18px; background: #e8f5e9; border-radius: 14px; padding: 18px 20px;
+        }
+        .model-answer-box.visible { display: block; }
+        .model-answer-box h4 { color: #2e7d32; margin-bottom: 8px; }
+        .model-answer-text { white-space: pre-line; font-size: 0.96em; margin-bottom: 14px; }
+        .checklist { list-style: none; }
+        .checklist li { font-size: 0.9em; color: #444; margin-bottom: 6px; padding-left: 22px; position: relative; }
+        .checklist li::before { content: '☑'; position: absolute; left: 0; color: #4caf50; }
+
+        /* ===== RESULTS ===== */
+        .results-card { text-align: center; }
+        .result-emoji { font-size: 3.6em; margin-bottom: 10px; }
+        .result-title { font-size: 1.6em; font-weight: 700; margin-bottom: 6px; color: #2c3e50; }
+        .result-score { font-size: 1.1em; color: #555; margin-bottom: 18px; }
+        .part-scores { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; }
+        .part-score { background: #fff5f5; border-radius: 14px; padding: 12px 20px; min-width: 110px; }
+        .part-score .val { font-size: 1.3em; font-weight: 700; color: #c62828; }
+        .part-score .lbl { font-size: 0.82em; color: #888; }
+        .result-verdict { text-align: left; border-radius: 14px; padding: 18px 20px; margin-bottom: 20px; line-height: 1.7; }
+        .result-buttons { display: flex; flex-direction: column; gap: 10px; }
+        .result-btn {
+            display: block; width: 100%; padding: 14px; border: none; border-radius: 12px;
+            font-size: 1em; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center;
+            font-family: inherit; transition: all 0.2s ease;
+        }
+        .result-btn.primary { background: linear-gradient(135deg, #F44336, #B71C1C); color: white; }
+        .result-btn.secondary { background: #f0f0f0; color: #555; }
+        .result-btn.primary:hover, .result-btn.secondary:hover { transform: translateY(-2px); }
+
+        .review-toggle {
+            background: none; border: none; color: #764ba2; text-decoration: underline; cursor: pointer;
+            font-family: inherit; font-size: 0.92em; margin-top: 16px;
+        }
+        .review-list { display: none; text-align: left; margin-top: 12px; }
+        .review-list.open { display: block; }
+        .review-item {
+            background: #f8f9ff; border-radius: 10px; padding: 10px 14px; margin-bottom: 6px;
+            font-size: 0.85em; border-left: 4px solid #ccc;
+        }
+        .review-item.correct-item { border-left-color: #4caf50; }
+        .review-item.wrong-item { border-left-color: #f44336; }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 600px) {
+            .card { padding: 22px 18px; }
+            .exam-header h1 { font-size: 1.35em; }
+            .part-scores { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">← 6급 — Мастерский уровень</a>
+
+    <div class="exam-header">
+        <h1>📝 TOPIK 6급 мини мок-экзамен</h1>
+        <p>Компактная тренировка в формате настоящего экзамена: 듣기 · 쓰기 · 읽기</p>
+    </div>
+
+    <!-- START -->
+    <div id="startScreen" class="card start-card">
+        <div class="start-emoji">👑</div>
+        <h2>Мини мок-экзамен TOPIK II (6급)</h2>
+        <p class="lead">18 заданий по трём частям настоящего экзамена — компактно, но по реальным типам вопросов.</p>
+
+        <div class="format-note">
+            ⚠️ Это НЕ полная версия экзамена (в реальном TOPIK II — 50+50+4 заданий на ~3 часа). Здесь — сокращённый, но структурно честный формат для тренировки конкретных навыков: аудирование на слух, самостоятельное письмо, чтение с выводами.
+        </div>
+
+        <div class="section-list">
+            <div class="section-row">
+                <span class="icon">🎧</span>
+                <span class="info"><strong>1. 듣기 (Аудирование) — 5 заданий</strong><span>Новости, объявления, лекция, дебаты, интервью — только на слух</span></span>
+            </div>
+            <div class="section-row">
+                <span class="icon">✍️</span>
+                <span class="info"><strong>2. 쓰기 (Письмо) — 3 задания</strong><span>Дополнение текста, эссе по данным (200-300자), эссе-рассуждение (600-700자)</span></span>
+            </div>
+            <div class="section-row">
+                <span class="icon">📖</span>
+                <span class="info"><strong>3. 읽기 (Чтение) — 10 заданий</strong><span>Грамматика в контексте, порядок предложений, основная мысль, вывод</span></span>
+            </div>
+        </div>
+
+        <button class="start-btn" onclick="startExam()">Начать мок-экзамен →</button>
+    </div>
+
+    <!-- PROGRESS -->
+    <div id="progressWrapper" class="progress-wrapper hidden">
+        <div class="progress-text">
+            <span id="progressLabel">Вопрос 1 из 18</span>
+            <span id="progressPart"></span>
+        </div>
+        <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+    </div>
+
+    <!-- ITEM CARD -->
+    <div id="itemCard" class="card hidden"></div>
+
+    <!-- RESULTS -->
+    <div id="resultsCard" class="card results-card hidden">
+        <div class="result-emoji" id="resultEmoji">🎯</div>
+        <div class="result-title" id="resultTitle"></div>
+        <div class="result-score" id="resultScore"></div>
+        <div class="part-scores">
+            <div class="part-score"><div class="val" id="scoreListening">0/5</div><div class="lbl">🎧 듣기</div></div>
+            <div class="part-score"><div class="val" id="scoreWriting">0/3</div><div class="lbl">✍️ 쓰기 (самопроверка)</div></div>
+            <div class="part-score"><div class="val" id="scoreReading">0/10</div><div class="lbl">📖 읽기</div></div>
+        </div>
+        <div id="resultVerdict" class="result-verdict"></div>
+        <div class="result-buttons">
+            <button class="result-btn primary" onclick="startExam()">Пройти заново</button>
+            <a href="index.html" class="result-btn secondary">Вернуться к 6급</a>
+        </div>
+        <button class="review-toggle" id="reviewToggle" onclick="toggleReview()">Показать разбор ответов</button>
+        <div id="reviewList" class="review-list"></div>
+    </div>
+</div>
+
+<script src="../js/global-nav.js"></script>
+<script>
+(function() {
+'use strict';
+
+// ================================================================
+// CONTENT: LISTENING (읽기 스크립트는 TTS로만 재생, 문항 5개)
+// ================================================================
+var LISTENING = [
+    {
+        script: "정부는 내일부터 대중교통 요금을 10퍼센트 인상한다고 발표했습니다. 이번 조치는 유가 상승에 따른 운영 적자를 해소하기 위한 것으로, 시민들의 반발이 예상됩니다.",
+        q: "이 뉴스의 중심 내용은 무엇입니까?",
+        opts: ["대중교통 요금이 인하되었다", "정부가 대중교통 요금 인상을 발표했다", "시민들이 요금 인상을 요구했다", "유가가 하락했다"],
+        c: 1
+    },
+    {
+        script: "안내 말씀 드립니다. 다음 주 월요일부터 금요일까지 시스템 점검으로 인해 온라인 서비스 이용이 일시 중단됩니다. 이용에 불편을 드려 죄송하며, 양해 부탁드립니다.",
+        q: "안내문에 따르면 다음 주에 무슨 일이 있습니까?",
+        opts: ["온라인 서비스가 새로 시작된다", "시스템 점검으로 서비스가 중단된다", "서비스 요금이 인상된다", "직원을 새로 채용한다"],
+        c: 1
+    },
+    {
+        script: "오늘 강연에서 강조하고 싶은 것은, 성공이란 결과가 아니라 과정에서 얼마나 최선을 다했는가에 달려 있다는 점입니다. 실패를 두려워하지 않는 태도야말로 진정한 성장의 밑거름이 됩니다.",
+        q: "강연자가 강조하는 것은 무엇입니까?",
+        opts: ["결과만이 중요하다", "실패는 반드시 피해야 한다", "과정에서의 노력과 실패를 두려워하지 않는 태도가 중요하다", "성공은 운에 달려 있다"],
+        c: 2
+    },
+    {
+        script: "여자: 재택근무가 확산되면서 업무 효율이 높아졌다는 의견이 많습니다. 남자: 저는 생각이 좀 다릅니다. 재택근무가 개인의 자율성은 높여 주지만, 반면에 팀원 간의 소통 부족으로 오히려 협업의 질이 떨어질 수 있다고 봅니다.",
+        q: "남자의 의견은 무엇입니까?",
+        opts: ["재택근무는 전적으로 긍정적이다", "재택근무는 자율성은 높이지만 협업의 질을 떨어뜨릴 수 있다", "재택근무는 즉시 폐지되어야 한다", "재택근무와 업무 효율은 무관하다"],
+        c: 1
+    },
+    {
+        script: "기자: 이번 프로젝트가 예정보다 늦어지고 있는데, 일정에 대해 어떻게 생각하십니까? 대표: 글쎄요, 최선을 다하고는 있습니다만... 모든 일이 계획대로만 되지는 않으니까요.",
+        q: "대표의 말이 실제로 의미하는 바는 무엇입니까?",
+        opts: ["프로젝트가 일정대로 순조롭게 진행되고 있다", "프로젝트 지연을 인정하면서도 직접적으로 말하기를 꺼리고 있다", "프로젝트를 포기하겠다는 뜻이다", "일정에 전혀 관심이 없다는 뜻이다"],
+        c: 1
+    }
+];
+
+// ================================================================
+// CONTENT: READING PASSAGES (взяты из уже проверенных текстов level-6-texts.js)
+// ================================================================
+var PASSAGE_AI = {
+    sentences: [
+        "인공지능이 발전하노라면 편리함을 가져올뿐더러 위협도 수반하는 바이니 이것이 기술의 역설입니다.",
+        "인간성의 본질을 생각할진대 감정이야말로 우리를 기계와 구분 짓는 바입니다.",
+        "기계가 계산은 잘하거니와 사랑하는 것은 불가능한 바입니다.",
+        "인간이 사랑할 수 있는 한 우리는 대체되지 않을 바이니 여기에 희망이 있습니다."
+    ]
+};
+
+var PASSAGE_CONFUCIAN = {
+    text: "유교는 고대의 가르침일뿐더러 현대 사회에서도 영향력을 발휘하는 바입니다. 한국 사회를 살피노라면 어른 공경이 전통일뿐더러 일상적 실천이기도 하거니와 이것이 사회의 근간입니다. 교육열을 생각할진대 학문이야말로 예로부터 최고의 가치로 여겨진 바이니 현대의 교육열은 여기에서 비롯됩니다. 이런 가치가 살아 있는 한 한국 사회는 정체성을 유지할 바입니다."
+};
+
+var PASSAGE_QUANTUM = {
+    text: "양자물리학의 발견들은 놀랍게도 동양 철학과 맞닿아 있는 바이니 이것이야말로 과학의 역설이라 하겠습니다. 불확정성 원리는 과학적 개념일뿐더러 철학적 함의도 담고 있거니와 불교의 공 사상과 유사합니다. 더 깊이 연구하노라면 관찰자와 관찰 대상이 분리되지 않는다는 것을 알게 되니 이것이야말로 만물일체의 사상입니다. 과학이 발전하는 한 고대의 지혜와의 대화는 계속될 바입니다."
+};
+
+// ================================================================
+// FLOW: sequence of items, each tagged by part (listening/writing/reading)
+// ================================================================
+var FLOW = [];
+
+LISTENING.forEach(function(item, i) {
+    FLOW.push({ part: 'listening', type: 'audio-mc', data: item, label: '듣기 ' + (i + 1) + '번' });
+});
+
+FLOW.push({
+    part: 'writing', type: 'fill-blanks', label: '쓰기 51~52번',
+    data: {
+        intro: "다음은 회사 내부 공지문입니다. ㉠과 ㉡에 들어갈 알맞은 말을 각각 쓰십시오.",
+        text: "안내\n\n다음 달부터 사내 카페테리아 운영 시간이 변경됩니다. 기존에는 오전 7시부터 운영했으나 앞으로는 오전 8시( ㉠ ). 또한 저녁 시간대 이용객이 적어 오후 8시 이후에는 운영하지 ( ㉡ ). 이용에 참고하시기 바랍니다.",
+        blanks: [
+            { label: '㉠', accepted: ['부터 운영합니다', '부터 시작합니다', '부터 운영됩니다', '부터 운영할 예정입니다'] },
+            { label: '㉡', accepted: ['않습니다', '않을 예정입니다', '않기로 했습니다', '않습니다.'] }
+        ]
+    }
+});
+
+FLOW.push({
+    part: 'writing', type: 'essay', label: '쓰기 53번 (자료 해석, 200~300자)',
+    data: {
+        prompt: "다음은 20~50대 성인 500명을 대상으로 '하루 평균 스마트폰 사용 시간'을 조사한 결과입니다. 이 내용을 200~300자로 설명하는 글을 쓰십시오.\n\n조사 결과:\n· 20대: 평균 5시간 30분\n· 30대: 평균 4시간 10분\n· 40대: 평균 3시간 20분\n· 50대: 평균 2시간 40분\n· 전체적으로 연령이 낮을수록 사용 시간이 길게 나타남\n· 주요 사용 목적: 20~30대는 'SNS 및 동영상 시청', 40~50대는 '정보 검색 및 연락'",
+        min: 200, max: 300,
+        model: "이 조사는 20~50대 성인 500명을 대상으로 하루 평균 스마트폰 사용 시간을 조사한 것이다. 그 결과 20대가 평균 5시간 30분으로 가장 길었으며, 30대 4시간 10분, 40대 3시간 20분, 50대 2시간 40분 순으로 나타났다. 이를 통해 연령이 낮을수록 스마트폰 사용 시간이 긴 것을 알 수 있다. 한편 사용 목적에서도 차이가 나타났는데, 20~30대는 주로 SNS 및 동영상 시청을 위해, 40~50대는 정보 검색 및 연락을 위해 스마트폰을 사용하는 것으로 조사되었다. 이는 연령대별로 스마트폰을 활용하는 방식이 다름을 보여 준다.",
+        checklist: [
+            "도입부에서 조사 대상과 주제를 소개했는가",
+            "수치 데이터를 순서대로 정확히 언급했는가",
+            "연령별 경향(비교)을 설명했는가",
+            "격식체(-다, -이다)를 사용했는가 — 구어체(-요) 금지",
+            "200~300자 분량을 지켰는가"
+        ]
+    }
+});
+
+FLOW.push({
+    part: 'writing', type: 'essay', label: '쓰기 54번 (논술, 600~700자)',
+    data: {
+        prompt: "다음을 주제로 자신의 생각을 600~700자로 논술하십시오.\n\n최근 인공지능 기술의 발전으로 여러 산업 분야에서 일자리가 자동화되고 있습니다. 이러한 변화가 개인과 사회에 미치는 영향은 무엇이며, 이에 어떻게 대응해야 하는지 자신의 의견을 쓰십시오.",
+        min: 600, max: 700,
+        model: "최근 인공지능 기술이 급속도로 발전하면서 제조업뿐 아니라 금융, 의료, 서비스업에 이르기까지 다양한 산업 분야에서 자동화가 확산되고 있다. 이러한 변화는 개인과 사회 전반에 걸쳐 상반된 영향을 미치고 있다.\n\n먼저 긍정적인 측면에서 보면, 인공지능은 반복적이고 단순한 업무를 대신함으로써 생산성을 높이고 인간이 보다 창의적이고 가치 있는 일에 집중할 수 있도록 돕는다. 또한 위험하거나 열악한 환경에서의 노동을 기계가 대체함으로써 노동자의 안전을 확보할 수 있다는 장점도 있다.\n\n그러나 부정적인 영향 또한 간과할 수 없다. 자동화로 인해 특정 직종의 일자리가 급격히 줄어들면서 실업 문제가 심화될 우려가 있으며, 이는 소득 불균형과 사회적 불안정으로 이어질 가능성이 크다. 특히 재교육의 기회를 얻지 못하는 계층은 더욱 취약한 위치에 놓이게 된다.\n\n따라서 이러한 변화에 효과적으로 대응하기 위해서는 정부와 기업, 개인 모두의 노력이 필요하다. 정부는 실직자를 위한 재교육 및 직업 전환 프로그램을 확대해야 하며, 기업은 자동화의 이익을 사회와 공유하려는 책임 의식을 가져야 한다. 개인 역시 변화하는 산업 구조에 발맞추어 새로운 기술을 지속적으로 습득하려는 자세가 요구된다. 결국 인공지능 시대에 필요한 것은 기술 자체에 대한 두려움이 아니라, 변화를 준비하고 함께 대응해 나가려는 사회적 노력일 것이다.",
+        checklist: [
+            "서론-본론-결론 구조를 갖췄는가",
+            "긍정적 측면과 부정적 측면을 균형 있게 서술했는가",
+            "구체적인 근거나 예시를 제시했는가",
+            "격식체(-다, -이다)를 일관되게 사용했는가",
+            "600~700자 분량을 지켰는가"
+        ]
+    }
+});
+
+FLOW.push({
+    part: 'reading', type: 'blank', label: '읽기 1번',
+    data: {
+        q: "그는 몇 번이나 실패( ) 포기하지 않고 다시 도전했다.",
+        opts: ["했음에도 불구하고", "했기 때문에", "하는 대로", "할망정"], c: 0
+    }
+});
+
+FLOW.push({
+    part: 'reading', type: 'blank', label: '읽기 2번',
+    data: {
+        q: "아무리 전문가( ) 이 문제는 해결하기 쉽지 않다.",
+        opts: ["라 할지라도", "이므로", "인 데다가", "라기보다는"], c: 0
+    }
+});
+
+FLOW.push({
+    part: 'reading', type: 'order', label: '읽기 3번 (순서 배열)',
+    data: {
+        intro: "다음 네 문장을 문맥에 맞게 순서대로 배열하십시오.",
+        sentences: PASSAGE_AI.sentences.slice()
+    }
+});
+
+FLOW.push({
+    part: 'reading', type: 'passage-mc', label: '읽기 4번',
+    data: {
+        passage: PASSAGE_AI.sentences.join(' '),
+        q: "윗글의 중심 생각으로 가장 알맞은 것은?",
+        opts: [
+            "인공지능은 조만간 인간의 감정을 완벽히 구현할 것이다",
+            "인간은 사랑할 수 있는 능력 때문에 기계로 완전히 대체되지 않을 것이다",
+            "기술 발전은 어떤 위협도 초래하지 않는다",
+            "계산 능력이야말로 인간성의 핵심이다"
+        ], c: 1
+    }
+});
+
+FLOW.push({
+    part: 'reading', type: 'passage-mc', label: '읽기 5번',
+    data: {
+        passage: PASSAGE_AI.sentences.join(' '),
+        q: "이 글 다음에 이어질 내용으로 가장 알맞은 것은?",
+        opts: [
+            "인공지능의 계산 속도를 향상시키는 구체적 기술 방법",
+            "감정을 지키고 키워 나가기 위해 인간이 해야 할 노력에 대한 제안",
+            "인공지능 산업의 매출 통계",
+            "기계의 하드웨어 사양 비교"
+        ], c: 1
+    }
+});
+
+FLOW.push({
+    part: 'reading', type: 'passage-mc', label: '읽기 6번',
+    data: {
+        passage: PASSAGE_CONFUCIAN.text,
+        q: "윗글의 내용과 일치하지 않는 것은?",
+        opts: [
+            "유교는 현대 한국 사회에도 영향을 미치고 있다",
+            "어른 공경은 오늘날에도 일상적으로 실천되고 있다",
+            "한국인의 교육열은 서구의 영향을 받아 형성되었다",
+            "이러한 가치들이 유지되는 한 한국 사회는 정체성을 지킬 것이다"
+        ], c: 2
+    }
+});
+
+FLOW.push({
+    part: 'reading', type: 'passage-mc', label: '읽기 7번',
+    data: {
+        passage: PASSAGE_CONFUCIAN.text,
+        q: "이 글에 나타난 필자의 태도로 가장 알맞은 것은?",
+        opts: [
+            "유교적 가치에 대해 비판적이다",
+            "유교적 가치가 현대 사회에도 긍정적 의미를 지닌다고 본다",
+            "유교와 현대 사회는 무관하다고 본다",
+            "유교적 가치의 소멸을 예견하고 있다"
+        ], c: 1
+    }
+});
+
+FLOW.push({
+    part: 'reading', type: 'passage-mc', label: '읽기 8번',
+    data: {
+        passage: PASSAGE_CONFUCIAN.text,
+        q: "'이런 가치가 살아 있는 한 한국 사회는 정체성을 유지할 바입니다'라는 문장이 함축하는 의미로 가장 알맞은 것은?",
+        opts: [
+            "전통적 가치가 사라지면 한국 사회의 정체성도 흔들릴 수 있다",
+            "한국 사회의 정체성은 유교와 무관하다",
+            "전통적 가치는 이미 완전히 사라졌다",
+            "정체성 유지에는 어떠한 노력도 필요 없다"
+        ], c: 0
+    }
+});
+
+FLOW.push({
+    part: 'reading', type: 'passage-mc', label: '읽기 9번',
+    data: {
+        passage: PASSAGE_QUANTUM.text,
+        q: "윗글의 주제로 가장 알맞은 것은?",
+        opts: [
+            "양자물리학의 실험 방법",
+            "현대 물리학과 동양 철학 사상의 유사성",
+            "불교와 기독교의 차이점",
+            "과학자들의 종교 생활"
+        ], c: 1
+    }
+});
+
+FLOW.push({
+    part: 'reading', type: 'passage-mc', label: '읽기 10번',
+    data: {
+        passage: PASSAGE_QUANTUM.text,
+        q: "필자가 이 글을 쓴 목적으로 가장 알맞은 것은?",
+        opts: [
+            "과학과 철학이 완전히 별개의 영역임을 강조하기 위해",
+            "과학적 발견과 동양의 전통 사상이 서로 통할 수 있음을 보여주기 위해",
+            "불교 신자가 될 것을 권유하기 위해",
+            "과학 이론의 오류를 지적하기 위해"
+        ], c: 1
+    }
+});
+
+var PART_LABELS = { listening: '🎧 듣기', writing: '✍️ 쓰기', reading: '📖 읽기' };
+
+// ================================================================
+// STATE
+// ================================================================
+var state = {
+    idx: 0,
+    scoreListening: 0,
+    scoreReading: 0,
+    writingDone: 0,
+    answers: []
+};
+
+// ================================================================
+// UTIL: fuzzy match (переиспользуем ту же идею, что и в разговорной практике)
+// ================================================================
+function normalize(s) {
+    return s.toLowerCase().replace(/[\s.,!?~()"'"'']/g, '');
+}
+function levenshtein(a, b) {
+    var m = a.length, n = b.length;
+    if (!m) return n;
+    if (!n) return m;
+    var prev = [], cur = [];
+    for (var j = 0; j <= n; j++) prev[j] = j;
+    for (var i = 1; i <= m; i++) {
+        cur[0] = i;
+        for (var j2 = 1; j2 <= n; j2++) {
+            var cost = a[i - 1] === b[j2 - 1] ? 0 : 1;
+            cur[j2] = Math.min(prev[j2] + 1, cur[j2 - 1] + 1, prev[j2 - 1] + cost);
+        }
+        prev = cur.slice();
+    }
+    return prev[n];
+}
+function similarity(a, b) {
+    var na = normalize(a), nb = normalize(b);
+    if (!na || !nb) return 0;
+    return 1 - levenshtein(na, nb) / Math.max(na.length, nb.length);
+}
+function bestMatch(input, accepted) {
+    var best = 0;
+    accepted.forEach(function(a) {
+        var sim = similarity(input, a);
+        if (sim > best) best = sim;
+    });
+    return best;
+}
+
+function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+}
+
+// ================================================================
+// FLOW CONTROL
+// ================================================================
+window.startExam = function() {
+    state.idx = 0;
+    state.scoreListening = 0;
+    state.scoreReading = 0;
+    state.writingDone = 0;
+    state.answers = [];
+
+    document.getElementById('startScreen').classList.add('hidden');
+    document.getElementById('resultsCard').classList.add('hidden');
+    document.getElementById('progressWrapper').classList.remove('hidden');
+    document.getElementById('itemCard').classList.remove('hidden');
+    renderItem();
+};
+
+function goNext() {
+    state.idx++;
+    if (state.idx < FLOW.length) {
+        renderItem();
+    } else {
+        showResults();
+    }
+}
+
+function renderItem() {
+    var item = FLOW[state.idx];
+    var total = FLOW.length;
+
+    document.getElementById('progressLabel').textContent = 'Задание ' + (state.idx + 1) + ' из ' + total;
+    document.getElementById('progressPart').textContent = PART_LABELS[item.part] + ' · ' + item.label;
+    document.getElementById('progressFill').style.width = ((state.idx / total) * 100) + '%';
+
+    var card = document.getElementById('itemCard');
+    card.innerHTML = '<div class="section-badge">' + PART_LABELS[item.part] + ' · ' + item.label + '</div>';
+
+    if (item.type === 'audio-mc') renderAudioMc(card, item);
+    else if (item.type === 'blank') renderBlankMc(card, item);
+    else if (item.type === 'passage-mc') renderPassageMc(card, item);
+    else if (item.type === 'order') renderOrder(card, item);
+    else if (item.type === 'fill-blanks') renderFillBlanks(card, item);
+    else if (item.type === 'essay') renderEssay(card, item);
+}
+
+// ================================================================
+// RENDER: LISTENING (audio + MC)
+// ================================================================
+function renderAudioMc(card, item) {
+    var d = item.data;
+    var speaker = document.createElement('div');
+    speaker.className = 'audio-speaker';
+    speaker.textContent = '🔊';
+    speaker.onclick = function() { playScript(d.script, speaker); };
+    card.appendChild(speaker);
+
+    var hint = document.createElement('div');
+    hint.className = 'audio-hint';
+    hint.textContent = 'Нажмите на динамик, чтобы прослушать (можно переслушать)';
+    card.appendChild(hint);
+
+    var qEl = document.createElement('div');
+    qEl.className = 'question-text';
+    qEl.style.marginTop = '18px';
+    qEl.textContent = d.q;
+    card.appendChild(qEl);
+
+    var list = document.createElement('ul');
+    list.className = 'options-list';
+    d.opts.forEach(function(opt, i) {
+        var li = document.createElement('li');
+        var btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.onclick = function() { answerMc(i, d.c, btn, list, function(ok) {
+            if (ok) state.scoreListening++;
+            state.answers.push({ part: 'listening', label: item.label, q: d.q, selected: opt, correct: d.opts[d.c], ok: ok });
+        }); };
+        li.appendChild(btn);
+        list.appendChild(li);
+    });
+    card.appendChild(list);
+
+    var toggleBtn = document.createElement('button');
+    toggleBtn.className = 'transcript-toggle';
+    toggleBtn.textContent = '스크립트 보기 (после ответа)';
+    toggleBtn.disabled = true;
+    var transcriptBox = document.createElement('div');
+    transcriptBox.className = 'transcript-box';
+    transcriptBox.textContent = d.script;
+    toggleBtn.onclick = function() { transcriptBox.classList.toggle('visible'); };
+    card.appendChild(toggleBtn);
+    card.appendChild(transcriptBox);
+
+    var next = document.createElement('button');
+    next.className = 'next-btn';
+    next.textContent = 'Далее →';
+    next.onclick = goNext;
+    card.appendChild(next);
+
+    list.addEventListener('click', function() {
+        toggleBtn.disabled = false;
+        next.classList.add('visible');
+    }, true);
+}
+
+function playScript(text, speakerEl) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ko-KR';
+    u.rate = 1.0;
+    speakerEl.classList.add('playing');
+    u.onend = function() { speakerEl.classList.remove('playing'); };
+    u.onerror = function() { speakerEl.classList.remove('playing'); };
+    window.speechSynthesis.speak(u);
+}
+
+// ================================================================
+// RENDER: fill-in-blank grammar MC (읽기 문법 문제)
+// ================================================================
+function renderBlankMc(card, item) {
+    var d = item.data;
+    var qEl = document.createElement('div');
+    qEl.className = 'question-text';
+    qEl.innerHTML = '( )에 들어갈 가장 알맞은 것을 고르십시오.<br><br>' + d.q;
+    card.appendChild(qEl);
+
+    var list = document.createElement('ul');
+    list.className = 'options-list';
+    d.opts.forEach(function(opt, i) {
+        var li = document.createElement('li');
+        var btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.onclick = function() { answerMc(i, d.c, btn, list, function(ok) {
+            if (ok) state.scoreReading++;
+            state.answers.push({ part: 'reading', label: item.label, q: d.q, selected: opt, correct: d.opts[d.c], ok: ok });
+        }); };
+        li.appendChild(btn);
+        list.appendChild(li);
+    });
+    card.appendChild(list);
+
+    var next = document.createElement('button');
+    next.className = 'next-btn';
+    next.textContent = 'Далее →';
+    next.onclick = goNext;
+    card.appendChild(next);
+    list.addEventListener('click', function() { next.classList.add('visible'); }, true);
+}
+
+// ================================================================
+// RENDER: passage + MC (읽기 독해 문제)
+// ================================================================
+function renderPassageMc(card, item) {
+    var d = item.data;
+    var passageBox = document.createElement('div');
+    passageBox.className = 'passage-box';
+    passageBox.textContent = d.passage;
+    card.appendChild(passageBox);
+
+    var qEl = document.createElement('div');
+    qEl.className = 'question-text';
+    qEl.textContent = d.q;
+    card.appendChild(qEl);
+
+    var list = document.createElement('ul');
+    list.className = 'options-list';
+    d.opts.forEach(function(opt, i) {
+        var li = document.createElement('li');
+        var btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.onclick = function() { answerMc(i, d.c, btn, list, function(ok) {
+            if (ok) state.scoreReading++;
+            state.answers.push({ part: 'reading', label: item.label, q: d.q, selected: opt, correct: d.opts[d.c], ok: ok });
+        }); };
+        li.appendChild(btn);
+        list.appendChild(li);
+    });
+    card.appendChild(list);
+
+    var next = document.createElement('button');
+    next.className = 'next-btn';
+    next.textContent = 'Далее →';
+    next.onclick = goNext;
+    card.appendChild(next);
+    list.addEventListener('click', function() { next.classList.add('visible'); }, true);
+}
+
+function answerMc(selected, correct, btnEl, listEl, onDone) {
+    var buttons = listEl.querySelectorAll('.option-btn');
+    if (buttons[0].classList.contains('disabled')) return;
+    for (var i = 0; i < buttons.length; i++) buttons[i].classList.add('disabled');
+
+    var ok = selected === correct;
+    btnEl.classList.add(ok ? 'correct' : 'wrong');
+    if (!ok) buttons[correct].classList.add('correct');
+
+    onDone(ok);
+}
+
+// ================================================================
+// RENDER: sentence ordering (읽기 순서 배열)
+// ================================================================
+function renderOrder(card, item) {
+    var d = item.data;
+    var intro = document.createElement('div');
+    intro.className = 'question-text';
+    intro.textContent = d.intro;
+    card.appendChild(intro);
+
+    var resultBox = document.createElement('div');
+    resultBox.className = 'order-result';
+    card.appendChild(resultBox);
+
+    var pool = document.createElement('div');
+    pool.className = 'order-pool';
+    card.appendChild(pool);
+
+    var checkBtn = document.createElement('button');
+    checkBtn.className = 'check-btn';
+    checkBtn.textContent = 'Проверить порядок';
+    checkBtn.disabled = true;
+    card.appendChild(checkBtn);
+
+    var feedback = document.createElement('div');
+    feedback.className = 'order-feedback';
+    card.appendChild(feedback);
+
+    var next = document.createElement('button');
+    next.className = 'next-btn';
+    next.textContent = 'Далее →';
+    next.onclick = goNext;
+    card.appendChild(next);
+
+    var picked = [];
+    var shuffled = shuffle(d.sentences);
+
+    shuffled.forEach(function(sentence) {
+        var chip = document.createElement('div');
+        chip.className = 'order-chip';
+        chip.textContent = sentence;
+        chip.onclick = function() {
+            if (chip.classList.contains('used')) return;
+            chip.classList.add('used');
+            picked.push(sentence);
+            renderResult();
+            checkBtn.disabled = picked.length !== d.sentences.length;
+        };
+        pool.appendChild(chip);
+    });
+
+    function renderResult() {
+        resultBox.innerHTML = '';
+        picked.forEach(function(sentence, i) {
+            var row = document.createElement('div');
+            row.className = 'order-result-item';
+            row.innerHTML = '<span class="num">' + (i + 1) + '.</span><span>' + sentence + '</span>';
+            resultBox.appendChild(row);
+        });
+    }
+
+    checkBtn.onclick = function() {
+        var correct = picked.every(function(s, i) { return s === d.sentences[i]; });
+        checkBtn.disabled = true;
+        pool.querySelectorAll('.order-chip').forEach(function(c) { c.style.pointerEvents = 'none'; });
+        feedback.className = 'order-feedback ' + (correct ? 'ok' : 'bad');
+        feedback.textContent = correct ? '✓ Верно! Порядок совпадает с оригиналом.' : '✗ Неверно. Правильный порядок показан ниже.';
+
+        if (!correct) {
+            resultBox.innerHTML = '';
+            d.sentences.forEach(function(sentence, i) {
+                var row = document.createElement('div');
+                row.className = 'order-result-item';
+                row.innerHTML = '<span class="num">' + (i + 1) + '.</span><span>' + sentence + '</span>';
+                resultBox.appendChild(row);
+            });
+        }
+
+        if (correct) state.scoreReading++;
+        state.answers.push({ part: 'reading', label: item.label, q: d.intro, selected: correct ? 'верно' : 'неверно', correct: 'верный порядок', ok: correct });
+
+        next.classList.add('visible');
+    };
+}
+
+// ================================================================
+// RENDER: fill-blanks writing task (쓰기 51~52번)
+// ================================================================
+function renderFillBlanks(card, item) {
+    var d = item.data;
+    var intro = document.createElement('div');
+    intro.className = 'question-text';
+    intro.textContent = d.intro;
+    card.appendChild(intro);
+
+    var textBox = document.createElement('div');
+    textBox.className = 'writing-prompt';
+    textBox.textContent = d.text;
+    card.appendChild(textBox);
+
+    var inputs = [];
+    d.blanks.forEach(function(blank) {
+        var row = document.createElement('div');
+        row.className = 'blank-row';
+        var label = document.createElement('span');
+        label.className = 'blank-label';
+        label.textContent = blank.label;
+        var input = document.createElement('input');
+        input.className = 'blank-input';
+        input.type = 'text';
+        input.placeholder = 'Впишите слово/окончание...';
+        row.appendChild(label);
+        row.appendChild(input);
+        card.appendChild(row);
+
+        var fb = document.createElement('div');
+        fb.className = 'blank-feedback';
+        card.appendChild(fb);
+
+        inputs.push({ input: input, fb: fb, blank: blank });
+    });
+
+    var checkBtn = document.createElement('button');
+    checkBtn.className = 'check-btn';
+    checkBtn.textContent = 'Проверить';
+    card.appendChild(checkBtn);
+
+    var next = document.createElement('button');
+    next.className = 'next-btn';
+    next.textContent = 'Далее →';
+    next.onclick = goNext;
+    card.appendChild(next);
+
+    checkBtn.onclick = function() {
+        var doneCount = 0;
+        inputs.forEach(function(entry) {
+            var val = entry.input.value.trim();
+            if (!val) { entry.fb.textContent = 'Введите вариант ответа.'; return; }
+            var sim = bestMatch(val, entry.blank.accepted);
+            entry.input.classList.remove('correct', 'close', 'wrong');
+            if (sim >= 0.8) {
+                entry.input.classList.add('correct');
+                entry.fb.textContent = '✓ Подходит.';
+                doneCount++;
+            } else if (sim >= 0.5) {
+                entry.input.classList.add('close');
+                entry.fb.textContent = 'Близко, но проверьте окончание. Пример: ' + entry.blank.accepted[0];
+            } else {
+                entry.input.classList.add('wrong');
+                entry.fb.textContent = 'Пример подходящего ответа: ' + entry.blank.accepted[0];
+            }
+        });
+        checkBtn.disabled = true;
+        state.writingDone++;
+        state.answers.push({
+            part: 'writing', label: item.label, q: d.intro,
+            selected: doneCount + '/' + inputs.length + ' совпало', correct: 'см. подсказки у полей', ok: null
+        });
+        next.classList.add('visible');
+    };
+}
+
+// ================================================================
+// RENDER: essay writing task (쓰기 53/54번) — self-graded
+// ================================================================
+function renderEssay(card, item) {
+    var d = item.data;
+    var promptBox = document.createElement('div');
+    promptBox.className = 'writing-prompt';
+    promptBox.textContent = d.prompt;
+    card.appendChild(promptBox);
+
+    var textarea = document.createElement('textarea');
+    textarea.className = 'essay-textarea';
+    textarea.placeholder = '여기에 답을 쓰십시오...';
+    card.appendChild(textarea);
+
+    var counter = document.createElement('div');
+    counter.className = 'essay-counter';
+    counter.textContent = '0 / ' + d.min + '~' + d.max + ' 자';
+    card.appendChild(counter);
+
+    textarea.addEventListener('input', function() {
+        var len = textarea.value.replace(/\s/g, '').length;
+        counter.className = 'essay-counter';
+        if (len < d.min) counter.classList.add('low');
+        else if (len > d.max) counter.classList.add('high');
+        else counter.classList.add('ok');
+        counter.textContent = len + ' / ' + d.min + '~' + d.max + ' 자';
+    });
+
+    var revealBtn = document.createElement('button');
+    revealBtn.className = 'reveal-btn';
+    revealBtn.textContent = 'Показать пример ответа и чек-лист';
+    card.appendChild(revealBtn);
+
+    var modelBox = document.createElement('div');
+    modelBox.className = 'model-answer-box';
+    modelBox.innerHTML = '<h4>Пример ответа:</h4><div class="model-answer-text">' + d.model + '</div><h4>Проверьте себя:</h4>';
+    var checklist = document.createElement('ul');
+    checklist.className = 'checklist';
+    d.checklist.forEach(function(point) {
+        var li = document.createElement('li');
+        li.textContent = point;
+        checklist.appendChild(li);
+    });
+    modelBox.appendChild(checklist);
+    card.appendChild(modelBox);
+
+    var next = document.createElement('button');
+    next.className = 'next-btn';
+    next.textContent = 'Далее →';
+    next.onclick = goNext;
+    card.appendChild(next);
+
+    revealBtn.onclick = function() {
+        modelBox.classList.add('visible');
+        next.classList.add('visible');
+        revealBtn.disabled = true;
+        state.writingDone++;
+        state.answers.push({ part: 'writing', label: item.label, q: '(письменное задание, самопроверка)', selected: (textarea.value.trim() ? 'ответ написан' : 'без ответа'), correct: 'см. пример ответа', ok: null });
+    };
+}
+
+// ================================================================
+// RESULTS
+// ================================================================
+function showResults() {
+    document.getElementById('progressWrapper').classList.add('hidden');
+    document.getElementById('itemCard').classList.add('hidden');
+    document.getElementById('resultsCard').classList.remove('hidden');
+
+    var scored = state.scoreListening + state.scoreReading;
+    var scoredTotal = LISTENING.length + 10; // 5 listening + 10 reading
+    var pct = Math.round((scored / scoredTotal) * 100);
+
+    document.getElementById('scoreListening').textContent = state.scoreListening + '/' + LISTENING.length;
+    document.getElementById('scoreWriting').textContent = state.writingDone + '/3';
+    document.getElementById('scoreReading').textContent = state.scoreReading + '/10';
+
+    var emoji, title, verdictHtml, verdictClass;
+    if (pct >= 90) {
+        emoji = '🏆'; title = 'Превосходно!';
+        verdictHtml = '<h3>🌟 Уверенный уровень 6급</h3><p>Аудирование и чтение на очень хорошем уровне. Сверьте свои эссе с примерами и обратите внимание на структуру и формальный стиль.</p>';
+        verdictClass = 'background:#e8f5e9;border-left:4px solid #4caf50;';
+    } else if (pct >= 70) {
+        emoji = '👍'; title = 'Хороший результат';
+        verdictHtml = '<h3>✅ Уровень близок к 6급</h3><p>Большинство заданий выполнены верно. Разберите ошибки в разделе ниже и повторите похожие грамматические конструкции.</p>';
+        verdictClass = 'background:#fff8e1;border-left:4px solid #ffc107;';
+    } else if (pct >= 50) {
+        emoji = '💪'; title = 'Есть над чем поработать';
+        verdictHtml = '<h3>📖 Средний результат</h3><p>Базовое понимание есть, но аудирование или чтение продвинутых текстов пока даётся с трудом. Разберите неверные ответы и повторите пройдённые уроки 6급.</p>';
+        verdictClass = 'background:#fff3e0;border-left:4px solid #ff9800;';
+    } else {
+        emoji = '📚'; title = 'Нужно больше практики';
+        verdictHtml = '<h3>🌱 Продолжайте заниматься</h3><p>Формат TOPIK 6급 пока сложен. Начните с уроков раздела «Продвинутая грамматика» и вернитесь к мок-экзамену позже.</p>';
+        verdictClass = 'background:#ffebee;border-left:4px solid #f44336;';
+    }
+
+    document.getElementById('resultEmoji').textContent = emoji;
+    document.getElementById('resultTitle').textContent = title;
+    document.getElementById('resultScore').textContent = '듣기+읽기: ' + scored + ' из ' + scoredTotal + ' (' + pct + '%)';
+    var verdict = document.getElementById('resultVerdict');
+    verdict.innerHTML = verdictHtml;
+    verdict.style.cssText = verdictClass + 'border-radius:0 14px 14px 0;padding:18px 20px;';
+
+    var list = document.getElementById('reviewList');
+    list.innerHTML = '';
+    state.answers.forEach(function(a, i) {
+        var div = document.createElement('div');
+        var cls = a.ok === null ? '' : (a.ok ? 'correct-item' : 'wrong-item');
+        div.className = 'review-item ' + cls;
+        var html = '<strong>' + (i + 1) + '. [' + a.label + ']</strong> ' + a.q + '<br>';
+        if (a.ok === null) {
+            html += 'Статус: ' + a.selected;
+        } else if (a.ok) {
+            html += 'Ваш ответ: <span style="color:#2e7d32">' + a.selected + '</span>';
+        } else {
+            html += 'Ваш ответ: <span style="color:#c62828;text-decoration:line-through">' + a.selected + '</span> → <span style="color:#2e7d32">' + a.correct + '</span>';
+        }
+        div.innerHTML = html;
+        list.appendChild(div);
+    });
+
+    localStorage.setItem('topikMockExamResult', JSON.stringify({
+        scoreListening: state.scoreListening,
+        scoreReading: state.scoreReading,
+        writingDone: state.writingDone,
+        pct: pct,
+        date: new Date().toISOString()
+    }));
+
+    console.log('[OK] TOPIK 6급 mock exam finished: ' + scored + '/' + scoredTotal);
+}
+
+window.toggleReview = function() {
+    var list = document.getElementById('reviewList');
+    var btn = document.getElementById('reviewToggle');
+    list.classList.toggle('open');
+    btn.textContent = list.classList.contains('open') ? 'Скрыть разбор ответов' : 'Показать разбор ответов';
+};
+
+})();
+</script>
+</body>
+</html>

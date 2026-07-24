@@ -1692,6 +1692,7 @@
             <button class="diff-btn active" onclick="setTransDiff('easy')">쉬움 Легко</button>
             <button class="diff-btn" onclick="setTransDiff('medium')">보통 Средне</button>
             <button class="diff-btn" onclick="setTransDiff('hard')">어려움 Сложно</button>
+            <button class="diff-btn" onclick="setTransDiff('master')">🎓 6급 마스터</button>
         </div>
         <div class="trans-area" id="trans-area">
             <div class="trans-mode-toggle">
@@ -1832,6 +1833,60 @@
             { korean: '환경보호', translation: 'защита окружающей среды' }
         ]
     };
+
+    // Мастерская лексика 6급: идиомы, 사자성어, юридический/дипломатический/деловой язык.
+    // Взято из уже проверенных уроков level_6 (lesson_sajaseongeo, lesson_idioms,
+    // lesson_legal_language, lesson_diplomatic_language, lesson_business_vocabulary).
+    var MASTER_PHRASES = [
+        { korean: '일석이조', translation: 'одним выстрелом двух зайцев' },
+        { korean: '자업자득', translation: 'что посеешь, то и пожнёшь' },
+        { korean: '우유부단', translation: 'нерешительность, колебание' },
+        { korean: '유비무환', translation: 'подготовка предотвращает беду' },
+        { korean: '동고동락', translation: 'делить горе и радость вместе' },
+        { korean: '전화위복', translation: 'обратить беду в счастье' },
+        { korean: '오매불망', translation: 'не забывать ни во сне, ни наяву' },
+        { korean: '좌불안석', translation: 'сидеть как на иголках' },
+        { korean: '이심전심', translation: 'понимание без слов, от сердца к сердцу' },
+        { korean: '눈 깜짝할 사이', translation: 'в мгновение ока, очень быстро' },
+        { korean: '발등에 불이 떨어지다', translation: 'дело стало срочным, припекло' },
+        { korean: '고래 싸움에 새우 등 터진다', translation: 'страдают невинные' },
+        { korean: '닭 쫓던 개 지붕 쳐다본다', translation: 'остаться ни с чем, упустить возможность' },
+        { korean: '원숭이도 나무에서 떨어진다', translation: 'даже мастер может ошибиться' },
+        { korean: '소 잃고 외양간 고친다', translation: 'принимать меры после того, как беда уже случилась' },
+        { korean: '우물 안 개구리', translation: 'ограниченный человек с узким кругозором' },
+        { korean: '가는 말이 고와야 오는 말이 곱다', translation: 'как аукнется, так и откликнется' },
+        { korean: '바늘구멍으로 황소 바람 들어온다', translation: 'мелочи могут привести к большим проблемам' },
+        { korean: '돌다리도 두드려 보고 건너라', translation: 'будь осторожен даже в безопасных ситуациях' },
+        { korean: '갑 / 을', translation: 'сторона А / сторона Б договора' },
+        { korean: '본 계약', translation: '«настоящий договор»' },
+        { korean: '-에 한하여', translation: 'только в случае, ограничиваясь тем, что' },
+        { korean: '-을 조건으로', translation: 'на условии того, что' },
+        { korean: '-(으)로 간주한다', translation: 'считается, признаётся (юридическая фикция)' },
+        { korean: '-에 갈음한다', translation: 'заменяет собой, служит заменой' },
+        { korean: '제O조', translation: 'статья №' },
+        { korean: '-하여야 한다', translation: 'формальное «обязан / должен»' },
+        { korean: '-지 아니한다', translation: 'формальное отрицание (письменный стиль)' },
+        { korean: '유감을 표하다', translation: 'выразить сожаление без признания вины' },
+        { korean: '우려를 표명하다', translation: 'мягко раскритиковать, не обвиняя напрямую' },
+        { korean: '검토해 보겠습니다', translation: 'отложить решение, вежливо отказать' },
+        { korean: '신중히 접근하겠습니다', translation: 'обозначить осторожность, избежать обязательств' },
+        { korean: '-로 사료됩니다', translation: 'смягчённое личное суждение («предполагается»)' },
+        { korean: '-에 대해 이견이 있다', translation: 'признать разногласие, не называя виноватого' },
+        { korean: '불가피한 조치', translation: 'вынужденная мера' },
+        { korean: '기대하는 바입니다', translation: 'выразить требование в форме надежды' },
+        { korean: '전략', translation: 'стратегия' },
+        { korean: '시장 점유율', translation: 'доля рынка' },
+        { korean: '인수합병', translation: 'слияние и поглощение (M&A)' },
+        { korean: '주주', translation: 'акционер' },
+        { korean: '이사회', translation: 'совет директоров' },
+        { korean: '경영', translation: 'управление (бизнесом)' },
+        { korean: '유통', translation: 'дистрибуция, распространение' },
+        { korean: '상장', translation: 'листинг (выход на биржу)' },
+        { korean: '파산', translation: 'банкротство' },
+        { korean: '규제', translation: 'регулирование' },
+        { korean: '지식재산권', translation: 'интеллектуальная собственность' },
+        { korean: '공급망', translation: 'цепочка поставок' }
+    ];
 
     // Korean syllable bank for decoys
     var SYLLABLE_BANK = [
@@ -3776,8 +3831,37 @@
     // ================================================
     var transState = { diff: 'easy', mode: 'choice', words: [], currentIndex: 0, correct: 0, total: 10, answered: false };
 
+    function getTransPool(diff) {
+        if (diff === 'master') return MASTER_PHRASES;
+        return DEFAULT_WORDS[diff] || DEFAULT_WORDS.easy;
+    }
+
+    // Fuzzy match for the master tier: idioms/legal phrases are too long to demand
+    // a character-perfect typed match, unlike single easy/medium/hard words.
+    function transLevenshtein(a, b) {
+        var m = a.length, n = b.length;
+        if (!m) return n;
+        if (!n) return m;
+        var prev = [], cur = [];
+        for (var j = 0; j <= n; j++) prev[j] = j;
+        for (var i = 1; i <= m; i++) {
+            cur[0] = i;
+            for (var j2 = 1; j2 <= n; j2++) {
+                var cost = a[i - 1] === b[j2 - 1] ? 0 : 1;
+                cur[j2] = Math.min(prev[j2] + 1, cur[j2 - 1] + 1, prev[j2 - 1] + cost);
+            }
+            prev = cur.slice();
+        }
+        return prev[n];
+    }
+    function transSimilarity(a, b) {
+        var na = normalizeKorean(a), nb = normalizeKorean(b);
+        if (!na || !nb) return 0;
+        return 1 - transLevenshtein(na, nb) / Math.max(na.length, nb.length);
+    }
+
     function startTransGame() {
-        var pool = DEFAULT_WORDS[transState.diff] || DEFAULT_WORDS.easy;
+        var pool = getTransPool(transState.diff);
         transState.words = shuffleArray(pool.slice()).slice(0, transState.total);
         transState.currentIndex = 0;
         transState.correct = 0;
@@ -3821,7 +3905,7 @@
 
     function renderTransChoices(word, container) {
         // Build 4 options: 1 correct + 3 decoys
-        var pool = DEFAULT_WORDS[transState.diff] || DEFAULT_WORDS.easy;
+        var pool = getTransPool(transState.diff);
         var decoys = shuffleArray(pool.filter(function(w) { return w.korean !== word.korean; })).slice(0, 3);
         var options = shuffleArray([word].concat(decoys));
 
@@ -3908,6 +3992,14 @@
                 if (btns[i].textContent === word.korean) btns[i].classList.add('correct');
                 if (btns[i].textContent === selected && !isCorrect) btns[i].classList.add('wrong');
             }
+        } else if (transState.diff === 'master') {
+            // Idioms/legal phrases are long - allow near matches (typos, particle slips).
+            isCorrect = transSimilarity(selected, word.korean) >= 0.85;
+            var inputM = document.getElementById('trans-input');
+            if (inputM) {
+                inputM.disabled = true;
+                inputM.classList.add(isCorrect ? 'correct' : 'wrong');
+            }
         } else {
             isCorrect = (normalizeKorean(selected) === normalizeKorean(word.korean));
             var input = document.getElementById('trans-input');
@@ -3936,7 +4028,7 @@
         transState.diff = diff;
         var btns = document.querySelectorAll('#trans-diff .diff-btn');
         for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
-        var labels = { easy: 0, medium: 1, hard: 2 };
+        var labels = { easy: 0, medium: 1, hard: 2, master: 3 };
         btns[labels[diff]].classList.add('active');
         startTransGame();
     }
