@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Публичное выступление и Q&A (발표와 질의응답) — 6급</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 10px 20px;
+            background: rgba(255,255,255,0.15); border-radius: 25px;
+            font-weight: 500; transition: all 0.3s ease; backdrop-filter: blur(10px);
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            border-radius: 20px; padding: 30px; margin-bottom: 30px; text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .header h1 { color: #F44336; font-size: 2.2em; margin-bottom: 10px; }
+        .header .subtitle { color: #666; font-size: 1.05em; }
+
+        main {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            border-radius: 25px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        section { margin-bottom: 40px; }
+
+        h2 {
+            color: #4a5568; font-size: 1.6em; margin-bottom: 20px; padding-bottom: 10px;
+            border-bottom: 3px solid #F44336;
+        }
+        h3 { color: #2d3748; font-size: 1.2em; margin-bottom: 12px; margin-top: 20px; }
+        h4 { color: #4a5568; font-size: 1.05em; margin-bottom: 10px; font-weight: 600; }
+
+        .lesson-intro {
+            background: linear-gradient(135deg, #F4433615, #E5393515);
+            padding: 25px; border-radius: 15px; border-left: 5px solid #F44336;
+        }
+        .lesson-intro ul { list-style: none; }
+        .lesson-intro li { padding: 8px 0; padding-left: 30px; position: relative; }
+        .lesson-intro li::before { content: '✓'; position: absolute; left: 0; color: #F44336; font-weight: bold; }
+
+        .structure-box {
+            background: rgba(244, 67, 54, 0.06); border-radius: 14px; padding: 20px; margin: 14px 0;
+            border-left: 4px solid #F44336;
+        }
+        .structure-box .part-label { font-weight: 700; color: #D32F2F; margin-bottom: 4px; }
+        .structure-box .part-text { color: #333; }
+
+        .phrase-item {
+            background: white; padding: 14px 18px; border-radius: 10px; margin: 10px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08); border-left: 4px solid #764ba2;
+        }
+        .phrase-item .korean { font-size: 1.1em; font-weight: 500; color: #2d3748; }
+        .phrase-item .meaning { color: #718096; font-size: 0.92em; margin-top: 3px; }
+        .phrase-group-title { font-weight: 700; color: #764ba2; margin: 20px 0 8px; font-size: 1em; }
+
+        .sample-box {
+            background: #fafafa; border: 1px solid #e0e0e0; border-radius: 14px;
+            padding: 20px; margin: 16px 0; white-space: pre-line; font-size: 0.98em;
+        }
+
+        .practice-prompt {
+            background: linear-gradient(135deg, #667eea, #764ba2); color: white;
+            padding: 22px; border-radius: 15px; margin-bottom: 16px;
+        }
+        .practice-prompt h4 { color: white; margin-bottom: 8px; }
+
+        .essay-textarea {
+            width: 100%; min-height: 150px; padding: 16px; border: 2px solid #d1c4e9;
+            border-radius: 14px; font-family: inherit; font-size: 1em; line-height: 1.7;
+            resize: vertical; outline: none;
+        }
+        .essay-textarea:focus { border-color: #764ba2; }
+        .essay-counter { text-align: right; font-size: 0.85em; color: #888; margin: 6px 0 16px; }
+        .essay-counter.ok { color: #2e7d32; font-weight: 600; }
+        .essay-counter.low { color: #c62828; }
+
+        .reveal-btn {
+            padding: 12px 24px; border: 2px solid #764ba2; background: transparent; color: #764ba2;
+            border-radius: 12px; font-weight: 600; cursor: pointer; font-family: inherit; font-size: 1em;
+        }
+        .reveal-btn:hover { background: #764ba2; color: white; }
+        .reveal-btn:disabled { opacity: 0.5; cursor: default; background: transparent; color: #764ba2; }
+
+        .model-answer-box {
+            display: none; margin-top: 18px; background: #e8f5e9; border-radius: 14px; padding: 18px 20px;
+        }
+        .model-answer-box.visible { display: block; }
+        .model-answer-box h4 { color: #2e7d32; margin-bottom: 8px; }
+        .model-answer-text { white-space: pre-line; font-size: 0.96em; margin-bottom: 14px; }
+        .checklist { list-style: none; padding: 0; }
+        .checklist li { font-size: 0.9em; color: #444; margin-bottom: 6px; padding-left: 22px; position: relative; }
+        .checklist li::before { content: '☑'; position: absolute; left: 0; color: #4caf50; }
+
+        .summary-box { background: linear-gradient(135deg, #F44336, #E53935); color: white; padding: 25px; border-radius: 15px; }
+        .summary-box ul { list-style: none; }
+        .summary-box li { padding: 8px 0; padding-left: 25px; position: relative; }
+        .summary-box li::before { content: '📌'; position: absolute; left: 0; }
+
+        footer { text-align: center; padding: 20px; color: white; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../index.html">🏠 Главная</a>
+            <a href="../index.html">🎓 6급 Уровень</a>
+        </div>
+
+        <div class="header">
+            <h1>🎤 Публичное выступление и Q&A</h1>
+            <p class="subtitle">발표와 질의응답 — структура доклада и работа с залом (продолжение урока о риторике)</p>
+        </div>
+
+        <main>
+            <section class="lesson-intro">
+                <h2>📖 Что мы изучаем</h2>
+                <p>Урок про риторику научил вас убеждать и аргументировать. Здесь — другое: не ЧТО говорить, а КАК организовать выступление и продержаться в сессии вопросов из зала, где заранее неизвестно, что спросят.</p>
+                <ul>
+                    <li>Структура доклада: 도입 → 본론 → 결론 → 질의응답</li>
+                    <li>Формулы вступления, сигнальные слова внутри доклада, формулы завершения</li>
+                    <li>질의응답: как принять вопрос, выиграть время, вежливо признать, что не знаешь ответа</li>
+                    <li>В конце — своё упражнение: ответить на неудобный вопрос из зала</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>🏗️ Структура выступления</h2>
+                <div class="structure-box">
+                    <div class="part-label">1. 도입 (вступление)</div>
+                    <div class="part-text">Приветствие, самопредставление, объявление темы и плана — слушатель должен сразу понять, о чём пойдёт речь и сколько пунктов будет</div>
+                </div>
+                <div class="structure-box">
+                    <div class="part-label">2. 본론 (основная часть)</div>
+                    <div class="part-text">Явное сигнальное деление на пункты (첫째/둘째/셋째) — без него слушатель теряет структуру на слух</div>
+                </div>
+                <div class="structure-box">
+                    <div class="part-label">3. 결론 (заключение)</div>
+                    <div class="part-text">Краткое резюме сказанного + благодарность за внимание</div>
+                </div>
+                <div class="structure-box">
+                    <div class="part-label">4. 질의응답 (сессия вопросов)</div>
+                    <div class="part-text">Отдельная фаза со своим набором формул — рассматривается ниже отдельно</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>🗝️ Формулы по фазам доклада</h2>
+                <div class="phrase-group-title">Вступление</div>
+                <div class="phrase-item">
+                    <div class="korean">지금부터 [주제]에 대해 발표하겠습니다</div>
+                    <div class="meaning">сейчас я начинаю доклад на тему [OO]</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">오늘 말씀드릴 내용은 크게 세 가지입니다</div>
+                    <div class="meaning">сегодня я расскажу о трёх основных пунктах</div>
+                </div>
+
+                <div class="phrase-group-title">Сигналы внутри доклада</div>
+                <div class="phrase-item">
+                    <div class="korean">첫째, ... 둘째, ... 마지막으로, ...</div>
+                    <div class="meaning">во-первых, ... во-вторых, ... наконец, ...</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">여기서 주목할 점은 ~입니다</div>
+                    <div class="meaning">здесь стоит обратить внимание на ~</div>
+                </div>
+
+                <div class="phrase-group-title">Заключение</div>
+                <div class="phrase-item">
+                    <div class="korean">지금까지 ~에 대해 말씀드렸습니다</div>
+                    <div class="meaning">до сих пор я рассказывал о ~ (подводка к резюме)</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">이상으로 발표를 마치겠습니다. 경청해 주셔서 감사합니다</div>
+                    <div class="meaning">на этом доклад окончен. Спасибо за внимание</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>❓ Формулы 질의응답</h2>
+                <div class="phrase-item">
+                    <div class="korean">질문 있으신 분 계신가요?</div>
+                    <div class="meaning">есть ли у кого-то вопросы?</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">좋은 질문 감사합니다</div>
+                    <div class="meaning">спасибо за хороший вопрос (признание вопроса — почти обязательная реплика)</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">질문의 의도를 좀 더 설명해 주시겠어요?</div>
+                    <div class="meaning">не могли бы вы пояснить, что именно вы имеете в виду? (выиграть время/уточнить)</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">정확히는 확인해 봐야 할 것 같습니다</div>
+                    <div class="meaning">мне нужно уточнить точные данные (вежливо признать, что не знаешь наверняка)</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">그 부분은 추후에 별도로 답변드리겠습니다</div>
+                    <div class="meaning">на этот счёт я отвечу вам отдельно позже</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">시간 관계상 이것으로 질의응답을 마치겠습니다</div>
+                    <div class="meaning">в связи с ограничением по времени на этом завершаем вопросы</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>📄 Образец (вступление + заключение)</h2>
+                <div class="sample-box">(도입) 안녕하십니까. 지금부터 신제품 마케팅 전략에 대해 발표하겠습니다. 오늘 말씀드릴 내용은 크게 세 가지, 시장 분석, 홍보 전략, 예상 성과입니다.
+
+(결론) 지금까지 신제품의 시장 분석과 홍보 전략, 예상 성과에 대해 말씀드렸습니다. 이상으로 발표를 마치겠습니다. 경청해 주셔서 감사합니다.</div>
+            </section>
+
+            <section>
+                <h2>✍️ Ваша очередь</h2>
+                <div class="practice-prompt">
+                    <h4>Задание</h4>
+                    <p>당신은 신제품 발표를 마쳤습니다. 한 청중이 "경쟁사 대비 가격 경쟁력은 어떻습니까?"라고 질문했는데, 정확한 자료가 없습니다. 정중하게 답변하십시오. (100자 이상)</p>
+                    <p style="margin-top:8px; opacity:0.9;">Вы закончили презентацию нового продукта. Слушатель спрашивает: «Как обстоят дела с ценовой конкурентоспособностью по сравнению с конкурентами?», но у вас нет точных данных. Ответьте вежливо. (100+ символов)</p>
+                </div>
+                <textarea class="essay-textarea" id="userEssay" placeholder="여기에 답변을 작성하십시오..."></textarea>
+                <div class="essay-counter" id="essayCounter">0 / 100자 이상</div>
+                <button class="reveal-btn" id="revealBtn">Показать пример ответа и чек-лист</button>
+                <div class="model-answer-box" id="modelBox">
+                    <h4>Пример ответа:</h4>
+                    <div class="model-answer-text">좋은 질문 감사합니다. 경쟁사와의 정확한 가격 비교 자료는 제가 지금 갖고 있지 않아 확실히 말씀드리기 어렵습니다. 확인 후 추후 별도로 답변드리겠습니다. 양해 부탁드립니다.</div>
+                    <h4>Проверьте себя:</h4>
+                    <ul class="checklist">
+                        <li>"좋은 질문 감사합니다" и т.п. — признали вопрос?</li>
+                        <li>Вежливо признали, что не знаете точного ответа (не стали придумывать)?</li>
+                        <li>Пообещали ответить позже?</li>
+                        <li>Тон вежливый на протяжении всего ответа?</li>
+                        <li>100자 이상 작성했는가?</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>📋 Краткое содержание</h2>
+                <div class="summary-box">
+                    <ul>
+                        <li>Структура: 도입 (тема+план) → 본론 (첫째/둘째/셋째) → 결론 (резюме) → 질의응답</li>
+                        <li>Внутри доклада обязательны явные сигнальные слова — слушатель ориентируется на слух, не по слайдам</li>
+                        <li>На вопрос без готового ответа — не выдумывайте: признайте, уточните, пообещайте ответить позже</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Корейский язык с Джейн. Все права защищены.</p>
+        </footer>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white; border: none; padding: 18px 40px; font-size: 1.2em;
+                font-weight: 600; border-radius: 30px; cursor: pointer;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level6_lesson_balpyo_qna';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var MIN_LEN = 100;
+            var textarea = document.getElementById('userEssay');
+            var counter = document.getElementById('essayCounter');
+            textarea.addEventListener('input', function() {
+                var len = textarea.value.replace(/\s/g, '').length;
+                counter.textContent = len + ' / ' + MIN_LEN + '자 이상';
+                counter.className = 'essay-counter' + (len >= MIN_LEN ? ' ok' : ' low');
+            });
+
+            var revealBtn = document.getElementById('revealBtn');
+            revealBtn.addEventListener('click', function() {
+                document.getElementById('modelBox').classList.add('visible');
+                revealBtn.disabled = true;
+                revealBtn.textContent = '모범 답안 확인 완료';
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

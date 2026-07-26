@@ -223,11 +223,11 @@
             const container = document.getElementById('levels-progress');
             const levels = [
                 { id: 1, name: '1급 Элементарный', totalTexts: 19, totalLessons: 74 },
-                { id: 2, name: '2급 Базовый', totalTexts: 24, totalLessons: 34 },
-                { id: 3, name: '3급 Средний', totalTexts: 18, totalLessons: 27 },
-                { id: 4, name: '4급 Средне-продвинутый', totalTexts: 9, totalLessons: 12 },
-                { id: 5, name: '5급 Продвинутый', totalTexts: 12, totalLessons: 13 },
-                { id: 6, name: '6급 Мастерский', totalTexts: 12, totalLessons: 15 },
+                { id: 2, name: '2급 Базовый', totalTexts: 24, totalLessons: 41 },
+                { id: 3, name: '3급 Средний', totalTexts: 18, totalLessons: 31 },
+                { id: 4, name: '4급 Средне-продвинутый', totalTexts: 9, totalLessons: 25 },
+                { id: 5, name: '5급 Продвинутый', totalTexts: 12, totalLessons: 16 },
+                { id: 6, name: '6급 Мастерский', totalTexts: 12, totalLessons: 42 },
             ];
 
             container.innerHTML = levels.map(level => {
@@ -239,16 +239,18 @@
                 var lessonKeys = Object.keys(progress.completedLessons || {});
                 if (level.id === 1) {
                     completedLessons = lessonKeys.filter(k => k.startsWith('lesson_')).length;
+                } else {
+                    completedLessons = lessonKeys.filter(k => k.startsWith(`level${level.id}_`)).length;
                 }
                 var completed = completedTexts + completedLessons;
-                var total = level.totalTexts + (level.id === 1 ? level.totalLessons : 0);
+                var total = level.totalTexts + level.totalLessons;
                 const percent = Math.min(100, Math.round((completed / total) * 100));
 
                 return `
                     <div class="level-progress-item">
                         <div class="level-info">
                             <span class="level-name">${level.name}</span>
-                            <span class="level-count">${completed}/${level.total}</span>
+                            <span class="level-count">${completed}/${total}</span>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill" style="width: ${percent}%"></div>
