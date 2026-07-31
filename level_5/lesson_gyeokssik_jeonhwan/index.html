@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Переключение регистров (격식 전환 훈련) — 5급</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 10px 20px;
+            background: rgba(255,255,255,0.15); border-radius: 25px;
+            font-weight: 500; transition: all 0.3s ease; backdrop-filter: blur(10px);
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            border-radius: 20px; padding: 30px; margin-bottom: 30px; text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .header h1 { color: #4a3fa8; font-size: 2.2em; margin-bottom: 10px; }
+        .header .subtitle { color: #666; font-size: 1.05em; }
+
+        main {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            border-radius: 25px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        section { margin-bottom: 40px; }
+
+        h2 {
+            color: #4a5568; font-size: 1.5em; margin-bottom: 20px; padding-bottom: 10px;
+            border-bottom: 3px solid #764ba2;
+        }
+        h3 { color: #2d3748; font-size: 1.15em; margin-bottom: 12px; margin-top: 20px; }
+        h4 { color: #4a5568; font-size: 1.05em; margin-bottom: 10px; font-weight: 600; }
+
+        .lesson-intro {
+            background: linear-gradient(135deg, #764ba215, #667eea15);
+            padding: 25px; border-radius: 15px; border-left: 5px solid #764ba2;
+        }
+        .lesson-intro ul { list-style: none; }
+        .lesson-intro li { padding: 8px 0; padding-left: 30px; position: relative; }
+        .lesson-intro li::before { content: '✓'; position: absolute; left: 0; color: #764ba2; font-weight: bold; }
+
+        .sample-box {
+            background: #fafafa; border: 1px solid #e0e0e0; border-radius: 14px;
+            padding: 20px; margin: 16px 0; white-space: pre-line; font-size: 0.98em;
+        }
+
+        .practice-section { background: linear-gradient(135deg, #764ba212, #667eea12); padding: 22px; border-radius: 15px; margin: 18px 0; }
+        .exercise { background: white; padding: 18px 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+        .question { font-size: 1.05em; font-weight: 600; margin-bottom: 14px; color: #2d3748; white-space: pre-line; }
+        .options { display: flex; flex-direction: column; gap: 8px; }
+        .option {
+            background: #764ba2; color: white; padding: 10px 18px; border: none; border-radius: 10px;
+            cursor: pointer; font-size: 0.95em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.2s ease; text-align: left;
+        }
+        .option:hover { filter: brightness(1.1); }
+        .option.correct { background: #2e7d32; }
+        .option.wrong { background: #e53935; }
+        .result { margin-top: 12px; padding: 12px; border-radius: 10px; text-align: center; font-weight: 500; display: none; }
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+
+        .practice-prompt {
+            background: linear-gradient(135deg, #667eea, #764ba2); color: white;
+            padding: 22px; border-radius: 15px; margin-bottom: 16px;
+        }
+        .practice-prompt h4 { color: white; margin-bottom: 8px; }
+
+        .essay-textarea {
+            width: 100%; min-height: 120px; padding: 16px; border: 2px solid #d1c4e9;
+            border-radius: 14px; font-family: inherit; font-size: 1em; line-height: 1.7;
+            resize: vertical; outline: none; margin-bottom: 16px;
+        }
+        .essay-textarea:focus { border-color: #764ba2; }
+
+        .reveal-btn {
+            padding: 12px 24px; border: 2px solid #764ba2; background: transparent; color: #764ba2;
+            border-radius: 12px; font-weight: 600; cursor: pointer; font-family: inherit; font-size: 1em;
+        }
+        .reveal-btn:hover { background: #764ba2; color: white; }
+        .reveal-btn:disabled { opacity: 0.5; cursor: default; background: transparent; color: #764ba2; }
+
+        .model-answer-box {
+            display: none; margin-top: 18px; background: #e8f5e9; border-radius: 14px; padding: 18px 20px;
+        }
+        .model-answer-box.visible { display: block; }
+        .model-answer-box h4 { color: #2e7d32; margin-bottom: 8px; }
+        .model-answer-text { white-space: pre-line; font-size: 0.96em; margin-bottom: 14px; }
+        .checklist { list-style: none; padding: 0; }
+        .checklist li { font-size: 0.9em; color: #444; margin-bottom: 6px; padding-left: 22px; position: relative; }
+        .checklist li::before { content: '☑'; position: absolute; left: 0; color: #4caf50; }
+
+        .summary-box { background: linear-gradient(135deg, #764ba2, #667eea); color: white; padding: 25px; border-radius: 15px; }
+        .summary-box ul { list-style: none; }
+        .summary-box li { padding: 8px 0; padding-left: 25px; position: relative; }
+        .summary-box li::before { content: '📌'; position: absolute; left: 0; }
+
+        footer { text-align: center; padding: 20px; color: white; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../index.html">🏠 Главная</a>
+            <a href="../index.html">🌸 5급 Уровень</a>
+        </div>
+
+        <div class="header">
+            <h1>🎚️ Переключение регистров</h1>
+            <p class="subtitle">격식 전환 훈련 — частая слепая зона: держать единый регистр на протяжении всего текста</p>
+        </div>
+
+        <main>
+            <section class="lesson-intro">
+                <h2>📖 Что мы изучаем</h2>
+                <p>Знать вежливые формы — не то же самое, что удержать их на протяжении ВСЕГО текста. Типичная ошибка продвинутого уровня: начать формально и незаметно съехать в разговорный тон, особенно в эмоциональных или бытовых по смыслу фразах внутри официального письма.</p>
+                <ul>
+                    <li>Как распознать точку, где регистр "ломается"</li>
+                    <li>Тренировка: найти сбой в формальном письме</li>
+                    <li>Тренировка: переписать разговорное сообщение в формальное</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>🔍 Найдите сбой регистра</h2>
+                <div class="sample-box">교수님께,
+안녕하세요, 저는 이번 학기 교수님의 수업을 듣고 있는 김민준입니다. 다름이 아니라 제출 기한과 관련하여 여쭤보고 싶은 것이 있어 메일 드립니다. 과제 제출 기한이 이번 주 금요일로 알고 있는데, 맞아? 혹시 제가 잘못 이해하고 있는 것은 아닌지 확인 부탁드립니다. 감사합니다.</div>
+
+                <div class="practice-section">
+                    <div class="exercise">
+                        <div class="question">위 이메일에서 격식이 깨지는 문장은 어느 것입니까?</div>
+                        <div class="options">
+                            <button class="option" data-correct="false">안녕하세요, 저는 이번 학기 교수님의 수업을 듣고 있는 김민준입니다.</button>
+                            <button class="option" data-correct="false">다름이 아니라 제출 기한과 관련하여 여쭤보고 싶은 것이 있어 메일 드립니다.</button>
+                            <button class="option" data-correct="true">과제 제출 기한이 이번 주 금요일로 알고 있는데, 맞아?</button>
+                            <button class="option" data-correct="false">혹시 제가 잘못 이해하고 있는 것은 아닌지 확인 부탁드립니다.</button>
+                        </div>
+                        <div class="result"></div>
+                    </div>
+                </div>
+                <p style="margin-top:10px; color:#666; font-size:0.92em;">"맞아?" — чистый 반말, резко выпадающий из формального 습니다체/해요체 письма преподавателю. Правильный вариант: "맞나요?" или "맞습니까?".</p>
+            </section>
+
+            <section>
+                <h2>✍️ Ваша очередь: перепишите формально</h2>
+                <div class="practice-prompt">
+                    <h4>Задание</h4>
+                    <p>다음 메시지를 상사에게 보내는 정중한 메시지로 바꿔 쓰십시오: "야 낼 시간 되냐? 얘기 좀 하자. 급한 일이야." (80자 이상)</p>
+                    <p style="margin-top:8px; opacity:0.9;">Перепишите это сообщение как вежливое обращение к начальнику: «Эй, завтра будешь свободен? Надо поговорить. Срочное дело». (80+ символов)</p>
+                </div>
+                <textarea class="essay-textarea" id="userEssay" placeholder="여기에 정중한 버전을 작성하십시오..."></textarea>
+                <button class="reveal-btn" id="revealBtn">Показать пример ответа и чек-лист</button>
+                <div class="model-answer-box" id="modelBox">
+                    <h4>Пример ответа:</h4>
+                    <div class="model-answer-text">안녕하십니까. 혹시 내일 잠시 시간 괜찮으시면 말씀 나눌 수 있을까요? 급하게 여쭤볼 일이 있어 연락드립니다.</div>
+                    <h4>Проверьте себя:</h4>
+                    <ul class="checklist">
+                        <li>반말 어미(-야/-냐/-자)가 모두 존댓말로 바뀌었는가?</li>
+                        <li>문장 전체의 격식 수준이 일관되게 유지되는가?</li>
+                        <li>원문의 의미(급한 용건)가 그대로 전달되는가?</li>
+                        <li>80자 이상 작성했는가?</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>📋 Краткое содержание</h2>
+                <div class="summary-box">
+                    <ul>
+                        <li>Регистр ломается чаще всего в эмоциональных/бытовых по смыслу вставках внутри формального текста</li>
+                        <li>Проверяйте КАЖДОЕ предложение письма отдельно — не только первое и последнее</li>
+                        <li>При переводе с разговорного на формальный меняются не только окончания, но и лексика (야→저, 낼→내일)</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Корейский язык с Джейн. Все права защищены.</p>
+        </footer>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white; border: none; padding: 18px 40px; font-size: 1.2em;
+                font-weight: 600; border-radius: 30px; cursor: pointer;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level5_lesson_gyeokssik_jeonhwan';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            document.querySelectorAll('.exercise').forEach(function(ex) {
+                ex.querySelectorAll('.option').forEach(function(opt) {
+                    opt.addEventListener('click', function() {
+                        var opts = ex.querySelectorAll('.option');
+                        opts.forEach(function(o) { o.classList.remove('correct', 'wrong'); });
+                        var r = ex.querySelector('.result');
+                        if (this.dataset.correct === 'true') {
+                            this.classList.add('correct');
+                            r.className = 'result correct';
+                            r.textContent = 'Правильно!';
+                        } else {
+                            this.classList.add('wrong');
+                            r.className = 'result wrong';
+                            r.textContent = 'Неправильно!';
+                            opts.forEach(function(o) { if (o.dataset.correct === 'true') o.classList.add('correct'); });
+                        }
+                        r.style.display = 'block';
+                    });
+                });
+            });
+
+            var revealBtn = document.getElementById('revealBtn');
+            revealBtn.addEventListener('click', function() {
+                document.getElementById('modelBox').classList.add('visible');
+                revealBtn.disabled = true;
+                revealBtn.textContent = '모범 답안 확인 완료';
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>
