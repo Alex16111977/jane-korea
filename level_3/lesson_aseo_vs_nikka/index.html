@@ -276,8 +276,45 @@
             <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать весь диалог</button>
         </div>
 
+        <div class="content-section">
+            <h2>7. Второе значение -(으)니까: обнаружение</h2>
+            <p>У -(으)니까 есть значение, которого нет у -아/어서 вообще: <strong>«сделал — и обнаружил»</strong>. Здесь первая часть не причина, а действие, благодаря которому вы что-то узнали.</p>
+
+            <div class="example-box">
+                <div class="korean-text">가게에 가 보니까 문을 닫았어요. <button class="audio-btn" onclick="speakKorean('가게에 가 보니까 문을 닫았어요')">🔊</button></div>
+                <div class="translation">Пришёл в магазин — а он закрыт. (пошёл и обнаружил)</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">먹어 보니까 정말 맛있어요. <button class="audio-btn" onclick="speakKorean('먹어 보니까 정말 맛있어요')">🔊</button></div>
+                <div class="translation">Попробовал — и правда вкусно.</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">창문을 여니까 눈이 오고 있었어요. <button class="audio-btn" onclick="speakKorean('창문을 여니까 눈이 오고 있었어요')">🔊</button></div>
+                <div class="translation">Открыл окно — а там снег идёт.</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">한국에 살아 보니까 정이 많은 나라예요. <button class="audio-btn" onclick="speakKorean('한국에 살아 보니까 정이 많은 나라예요')">🔊</button></div>
+                <div class="translation">Пожил в Корее — оказалось, это очень душевная страна.</div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Как отличить от причины:</strong> в значении обнаружения вторая часть — это <em>то, что вы узнали</em>, а не следствие. Проверка: если вместо «поэтому» подставляется тире («пришёл — а там закрыто»), это обнаружение.
+            </div>
+
+            <div class="tip-box">
+                <strong>Частый спутник — -아/어 보다:</strong> 가 보니까, 먹어 보니까, 만나 보니까, 살아 보니까. «Попробовал сделать — и вот что выяснилось». Эта пара звучит в речи постоянно.
+            </div>
+
+            <div class="tip-box">
+                <strong>Важно:</strong> заменить здесь на -아/어서 <strong>нельзя</strong>. «✗ 가게에 가 봐서 문을 닫았어요» — неверно. У -아/어서 такого значения просто нет.
+            </div>
+        </div>
+
         <div class="remember-block">
             <h2>📋 Запомни!</h2>
+            <div class="remember-item">
+                <strong>-(으)니까 ②:</strong> обнаружение — 가 보니까 문을 닫았어요 (пришёл — а закрыто). У -아/어서 такого значения нет.
+            </div>
             <div class="remember-item">
                 <strong>-아/어서:</strong> объективная причина → результат. НЕЛЬЗЯ с приказами/предложениями. Пример: 비가 와서 못 갔어요.
             </div>
@@ -388,7 +425,7 @@
     <script src="../../js/progress-tracker.js"></script>
     <script>
         var LESSON_ID = 'level3_lesson_aseo_vs_nikka';
-        function speakKorean(text) { if (!('speechSynthesis' in window)) return; window.speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(text); u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0; var voices = window.speechSynthesis.getVoices(); var kv = voices.find(function(v) { return v.lang.indexOf('ko') !== -1; }); if (kv) u.voice = kv; window.speechSynthesis.speak(u); }
+        function speakKorean(text) { if (!('speechSynthesis' in window)) return; window.speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(text); u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0; var voices = window.speechSynthesis.getVoices(); window.speechSynthesis.speak(u); }
         function playDialogueSequence(btn) { var box = btn.previousElementSibling; while (box && !box.classList.contains('dialogue-box')) box = box.previousElementSibling; if (!box) return; var lines = box.querySelectorAll('.dialogue-line'); var i = 0; btn.disabled = true; function playNext() { if (i >= lines.length) { btn.disabled = false; return; } lines.forEach(function(l) { l.style.background = ''; }); lines[i].style.background = 'rgba(156,39,176,0.15)'; var text = lines[i].querySelector('.korean-text'); if (text) { var u = new SpeechSynthesisUtterance(text.textContent.replace(/🔊/g,'').trim()); u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9; u.onend = function() { i++; setTimeout(playNext, 400); }; window.speechSynthesis.speak(u); } else { i++; setTimeout(playNext, 400); } } window.speechSynthesis.cancel(); playNext(); }
         function checkExercise(btn) { var parent = btn.closest('.exercise-item'); var result = parent.querySelector('.exercise-result'); var buttons = parent.querySelectorAll('.exercise-btn'); buttons.forEach(function(b) { b.disabled = true; }); if (btn.getAttribute('data-correct') === 'true') { btn.style.background = '#4caf50'; btn.style.color = 'white'; result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50'; } else { btn.style.background = '#f44336'; btn.style.color = 'white'; result.textContent = '[-] Неправильно.'; result.style.color = '#f44336'; buttons.forEach(function(b) { if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; } }); } }
         function completeLesson() { if (window.ProgressTracker) { if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return; var btn = document.getElementById('completeLessonBtn'); btn.textContent = 'Пройдено!'; btn.style.background = '#4A148C'; btn.style.cursor = 'default'; btn.disabled = true; btn.style.opacity = '0.85'; console.log('[OK] Lesson completed:', LESSON_ID); } }

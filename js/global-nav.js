@@ -336,7 +336,7 @@
         { t: 'Урок 76: ㅅ-неправильные глаголы', u: 'lesson_76_irregular_siot/index.html', k: 'неправильные 76' },
         { t: 'Урок 77: ㅡ-неправильные глаголы', u: 'lesson_77_irregular_eu/index.html', k: 'неправильные 77' },
         { t: 'Урок 78: ㅎ-неправильные глаголы', u: 'lesson_78_irregular_hieut/index.html', k: 'неправильные 78' },
-        { t: 'Урок 79: ㄹ-неправильные глаголы', u: 'lesson_79_irregular_rieul/index.html', k: 'неправильные 79' },
+        { t: 'Урок 79: 르-неправильные глаголы', u: 'lesson_79_irregular_rieul/index.html', k: 'неправильные 79 르 모르다 빠르다' },
         { t: 'Урок 80: Обладание 가지다/갖다', u: 'lesson_80_possession_advanced/index.html', k: 'обладание 80' },
         { t: 'Урок 81: Сравнительные конструкции -보다', u: 'lesson_81_comparative_constructions/index.html', k: 'сравнение 81' },
         { t: 'Урок 82: Причина и следствие -기 때문에', u: 'lesson_82_reason_consequence/index.html', k: 'причина следствие 82' },
@@ -363,6 +363,9 @@
 
         // Словарь
         { t: 'Словарь: Прилагательные 형용사', u: 'vocabulary/adjectives/index.html', k: 'прилагательные' },
+        { t: 'Словарь: Противоположности 반의어', u: 'vocabulary/opposites/index.html', k: 'антонимы противоположности пары' },
+        { t: 'Словарь: Синонимы 유의어', u: 'vocabulary/synonyms/index.html', k: 'синонимы похожие слова' },
+        { t: 'Словарь: География Кореи 지도', u: 'vocabulary/places/index.html', k: 'города карта сеул география места' },
         { t: 'Словарь: Животные 동물', u: 'vocabulary/animals/index.html', k: 'животные' },
         { t: 'Словарь: Части тела 몸', u: 'vocabulary/body/index.html', k: 'тело части' },
         { t: 'Словарь: Одежда 옷', u: 'vocabulary/clothes/index.html', k: 'одежда' },

@@ -81,7 +81,7 @@
         ['lesson_76_irregular_siot', 'Неправильные ㅅ'],
         ['lesson_77_irregular_eu', 'Неправильные ㅡ'],
         ['lesson_78_irregular_hieut', 'Неправильные ㅎ'],
-        ['lesson_79_irregular_rieul', 'Неправильные ㄹ'],
+        ['lesson_79_irregular_rieul', 'Неправильные 르'],
         ['lesson_80_possession_advanced', 'Обладание 가지다/갖다'],
         ['lesson_81_comparative_constructions', 'Сравнительные -보다'],
         ['lesson_82_reason_consequence', 'Причина -기 때문에'],

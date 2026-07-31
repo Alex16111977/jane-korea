@@ -452,6 +452,42 @@
         }
         .grammar-toggle button:hover { background: rgba(255,255,255,0.3); }
 
+        .antonym-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 10px;
+        }
+
+        .ant-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            background: #faf5fd;
+            border: 2px solid #f0e3f7;
+            border-radius: 14px;
+            padding: 10px 14px;
+        }
+
+        .ant-word {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: #7B1FA2;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .ant-word:hover { background: #9C27B0; color: white; }
+
+        .ant-arrow { color: #b39ddb; font-size: 1.1em; }
+
+        .ant-ru {
+            width: 100%;
+            color: #777;
+            font-size: 0.88em;
+        }
+
         .grammar-block {
             background: rgba(255,255,255,0.97);
             backdrop-filter: blur(10px);
@@ -689,6 +725,18 @@
         <!-- Grammar toggle -->
         <div class="grammar-toggle">
             <button onclick="toggleGrammar()">&#128214; Как использовать в речи</button>
+            <button onclick="toggleAntonyms()">&#8596;&#65039; Пары антонимов</button>
+        </div>
+
+        <!-- Antonyms block -->
+        <div class="grammar-block" id="antonym-block" style="display: none;">
+            <h3>&#8596;&#65039; &#48152;&#51032;&#50612; &mdash; пары антонимов</h3>
+            <div class="grammar-inner">
+                <p style="color: #666; font-size: 0.95em; margin: 0 0 18px;">
+                    Прилагательные легче запоминать парами. Нажми на любое слово &mdash; послушай.
+                </p>
+                <div class="antonym-grid" id="antonym-grid"></div>
+            </div>
         </div>
 
         <!-- Grammar block -->
@@ -862,7 +910,7 @@
             </div>
             <div class="flashcard-nav">
                 <button class="mode-btn" onclick="prevCard()">← Назад</button>
-                <span class="card-counter" id="card-counter">1 / 36</span>
+                <span class="card-counter" id="card-counter">1 / 79</span>
                 <button class="mode-btn" onclick="nextCard()">Вперёд →</button>
             </div>
             <div class="card-hint">Нажмите на карточку или пробел для переворота. ←→ для навигации</div>
@@ -900,7 +948,7 @@
             </div>
 
             <div class="audio-progress"><div class="audio-progress-bar" id="audio-progress-bar"></div></div>
-            <div class="audio-counter" id="audio-counter">1 / 36</div>
+            <div class="audio-counter" id="audio-counter">1 / 79</div>
 
             <div class="audio-controls">
                 <button class="audio-ctrl-btn" onclick="playerPrev()" title="Предыдущее">⏮</button>
@@ -956,6 +1004,10 @@
              example: '산이 높아요.', exampleTr: 'Гора высокая.'},
             {category: 'Размер', emoji: '⬇️', korean: '낮다', romanization: 'natda', translation: 'низкий',
              example: '건물이 낮아요.', exampleTr: 'Здание низкое.'},
+            {category: 'Размер', emoji: '📄', korean: '얇다', romanization: 'yalda', translation: 'тонкий',
+             example: '이 책이 얇아요.', exampleTr: 'Эта книга тонкая.'},
+            {category: 'Размер', emoji: '📚', korean: '두껍다', romanization: 'dukkeopda', translation: 'толстый (о предмете)',
+             example: '겨울 옷이 두꺼워요.', exampleTr: 'Зимняя одежда толстая.'},
 
             // Количество и вес
             {category: 'Количество и вес', emoji: '🔢', korean: '많다', romanization: 'manta', translation: 'много',
@@ -966,6 +1018,10 @@
              example: '가방이 무거워요.', exampleTr: 'Сумка тяжёлая.'},
             {category: 'Количество и вес', emoji: '🪶', korean: '가볍다', romanization: 'gabyeopda', translation: 'лёгкий (по весу)',
              example: '옷이 가벼워요.', exampleTr: 'Одежда лёгкая.'},
+            {category: 'Количество и вес', emoji: '🔋', korean: '충분하다', romanization: 'chungbunhada', translation: 'достаточный',
+             example: '시간이 충분해요.', exampleTr: 'Времени достаточно.'},
+            {category: 'Количество и вес', emoji: '🪫', korean: '부족하다', romanization: 'bujokhada', translation: 'недостаточный / не хватает',
+             example: '잠이 부족해요.', exampleTr: 'Не хватает сна.'},
 
             // Цена
             {category: 'Цена', emoji: '💰', korean: '비싸다', romanization: 'bissada', translation: 'дорогой',
@@ -996,12 +1052,28 @@
              example: '영화가 재미있어요.', exampleTr: 'Фильм интересный.'},
             {category: 'Вкус и впечатления', emoji: '😴', korean: '재미없다', romanization: 'jaemieopda', translation: 'скучный',
              example: '이 책이 재미없어요.', exampleTr: 'Эта книга скучная.'},
+            {category: 'Вкус и впечатления', emoji: '🍯', korean: '달다', romanization: 'dalda', translation: 'сладкий',
+             example: '이 케이크가 달아요.', exampleTr: 'Этот торт сладкий.'},
+            {category: 'Вкус и впечатления', emoji: '💊', korean: '쓰다', romanization: 'sseuda', translation: 'горький',
+             example: '약이 써요.', exampleTr: 'Лекарство горькое.'},
 
             // Внешность
             {category: 'Внешность', emoji: '✨', korean: '예쁘다', romanization: 'yeppeuda', translation: 'красивый',
              example: '꽃이 예뻐요.', exampleTr: 'Цветы красивые.'},
             {category: 'Внешность', emoji: '🐶', korean: '귀엽다', romanization: 'gwiyeopda', translation: 'милый',
              example: '강아지가 귀여워요.', exampleTr: 'Щенок милый.'},
+            {category: 'Внешность', emoji: '😎', korean: '잘생기다', romanization: 'jalsaenggida', translation: 'красивый (о внешности)',
+             example: '그 배우는 잘생겼어요.', exampleTr: 'Тот актёр красивый.'},
+            {category: 'Внешность', emoji: '🙃', korean: '못생기다', romanization: 'motsaenggida', translation: 'некрасивый',
+             example: '못생겼다고 놀리지 마세요.', exampleTr: 'Не дразните, что некрасивый.'},
+            {category: 'Внешность', emoji: '🎋', korean: '날씬하다', romanization: 'nalssinhada', translation: 'стройный',
+             example: '언니가 날씬해요.', exampleTr: 'Старшая сестра стройная.'},
+            {category: 'Внешность', emoji: '🐷', korean: '뚱뚱하다', romanization: 'ttungttunghada', translation: 'полный / толстый',
+             example: '고양이가 조금 뚱뚱해요.', exampleTr: 'Кот немного толстый.'},
+            {category: 'Внешность', emoji: '🌱', korean: '젊다', romanization: 'jeomda', translation: 'молодой',
+             example: '우리 부모님은 젊으세요.', exampleTr: 'Мои родители молодые.'},
+            {category: 'Внешность', emoji: '👴', korean: '늙다', romanization: 'neukda', translation: 'старый (о человеке)',
+             example: '할아버지가 늙으셨어요.', exampleTr: 'Дедушка постарел.'},
 
             // Качество
             {category: 'Качество', emoji: '😊', korean: '좋다', romanization: 'jota', translation: 'хороший',
@@ -1025,8 +1097,141 @@
             {category: 'Скорость и сложность', emoji: '✅', korean: '쉽다', romanization: 'swipda', translation: 'лёгкий / простой',
              example: '한국어가 쉬워요.', exampleTr: 'Корейский язык лёгкий.'},
             {category: 'Скорость и сложность', emoji: '❌', korean: '어렵다', romanization: 'eoryeopda', translation: 'трудный',
-             example: '시험이 어려워요.', exampleTr: 'Экзамен трудный.'}
+             example: '시험이 어려워요.', exampleTr: 'Экзамен трудный.'},
+
+            // Расстояние
+            {category: 'Расстояние', emoji: '🛣️', korean: '멀다', romanization: 'meolda', translation: 'далёкий / далеко',
+             example: '학교가 멀어요.', exampleTr: 'Школа далеко.'},
+            {category: 'Расстояние', emoji: '📍', korean: '가깝다', romanization: 'gakkapda', translation: 'близкий / близко',
+             example: '집이 가까워요.', exampleTr: 'Дом близко.'},
+
+            // Свет и звук
+            {category: 'Свет и звук', emoji: '💡', korean: '밝다', romanization: 'balda', translation: 'светлый',
+             example: '방이 밝아요.', exampleTr: 'В комнате светло.'},
+            {category: 'Свет и звук', emoji: '🌑', korean: '어둡다', romanization: 'eodupda', translation: 'тёмный',
+             example: '밖이 어두워요.', exampleTr: 'На улице темно.'},
+            {category: 'Свет и звук', emoji: '📢', korean: '시끄럽다', romanization: 'sikkeureopda', translation: 'шумный',
+             example: '교실이 시끄러워요.', exampleTr: 'В классе шумно.'},
+            {category: 'Свет и звук', emoji: '🤫', korean: '조용하다', romanization: 'joyonghada', translation: 'тихий',
+             example: '도서관이 조용해요.', exampleTr: 'В библиотеке тихо.'},
+            {category: 'Свет и звук', emoji: '🌤️', korean: '맑다', romanization: 'makda', translation: 'ясный / чистый',
+             example: '하늘이 맑아요.', exampleTr: 'Небо ясное.'},
+            {category: 'Свет и звук', emoji: '☁️', korean: '흐리다', romanization: 'heurida', translation: 'пасмурный / мутный',
+             example: '날씨가 흐려요.', exampleTr: 'Погода пасмурная.'},
+
+            // Эмоции и состояние
+            {category: 'Эмоции и состояние', emoji: '😄', korean: '기쁘다', romanization: 'gippeuda', translation: 'радостный',
+             example: '소식을 듣고 기뻐요.', exampleTr: 'Рад услышать новость.'},
+            {category: 'Эмоции и состояние', emoji: '😢', korean: '슬프다', romanization: 'seulpeuda', translation: 'грустный',
+             example: '영화가 슬퍼요.', exampleTr: 'Фильм грустный.'},
+            {category: 'Эмоции и состояние', emoji: '🏃', korean: '바쁘다', romanization: 'bappeuda', translation: 'занятой',
+             example: '요즘 정말 바빠요.', exampleTr: 'В последнее время очень занят.'},
+            {category: 'Эмоции и состояние', emoji: '🛋️', korean: '한가하다', romanization: 'hangahada', translation: 'свободный (не занят)',
+             example: '주말에는 한가해요.', exampleTr: 'По выходным я свободен.'},
+            {category: 'Эмоции и состояние', emoji: '🙅', korean: '싫다', romanization: 'silta', translation: 'не нравится / противно',
+             example: '청소가 싫어요.', exampleTr: 'Не люблю уборку.'},
+            {category: 'Эмоции и состояние', emoji: '🍽️', korean: '배고프다', romanization: 'baegopeuda', translation: 'голодный',
+             example: '배가 고파요.', exampleTr: 'Я голоден.'},
+            {category: 'Эмоции и состояние', emoji: '🍚', korean: '배부르다', romanization: 'baebureuda', translation: 'сытый',
+             example: '배가 불러요.', exampleTr: 'Я наелся.'},
+
+            // Характер и умения
+            {category: 'Характер и умения', emoji: '🐝', korean: '부지런하다', romanization: 'bujireonhada', translation: 'прилежный / трудолюбивый',
+             example: '형은 부지런해요.', exampleTr: 'Старший брат трудолюбивый.'},
+            {category: 'Характер и умения', emoji: '🦥', korean: '게으르다', romanization: 'georeuda', translation: 'ленивый',
+             example: '저는 조금 게을러요.', exampleTr: 'Я немного ленивый.'},
+            {category: 'Характер и умения', emoji: '🗣️', korean: '유창하다', romanization: 'yuchanghada', translation: 'беглый (о речи)',
+             example: '한국어가 유창해요.', exampleTr: 'Свободно говорит по-корейски.'},
+            {category: 'Характер и умения', emoji: '🔰', korean: '서투르다', romanization: 'seotureuda', translation: 'неумелый / плохо получается',
+             example: '아직 요리가 서툴러요.', exampleTr: 'Я пока плохо готовлю.'},
+            {category: 'Характер и умения', emoji: '💪', korean: '강하다', romanization: 'ganghada', translation: 'сильный',
+             example: '바람이 강해요.', exampleTr: 'Ветер сильный.'},
+            {category: 'Характер и умения', emoji: '🩹', korean: '약하다', romanization: 'yakhada', translation: 'слабый',
+             example: '몸이 약해요.', exampleTr: 'Здоровье слабое.'},
+
+            // Место и удобство
+            {category: 'Место и удобство', emoji: '😌', korean: '편하다', romanization: 'pyeonhada', translation: 'удобный / комфортный',
+             example: '이 의자가 편해요.', exampleTr: 'Этот стул удобный.'},
+            {category: 'Место и удобство', emoji: '😣', korean: '불편하다', romanization: 'bulpyeonhada', translation: 'неудобный',
+             example: '신발이 불편해요.', exampleTr: 'Обувь неудобная.'},
+            {category: 'Место и удобство', emoji: '🛡️', korean: '안전하다', romanization: 'anjeonhada', translation: 'безопасный',
+             example: '이 동네는 안전해요.', exampleTr: 'Этот район безопасный.'},
+            {category: 'Место и удобство', emoji: '⚠️', korean: '위험하다', romanization: 'wiheomhada', translation: 'опасный',
+             example: '밤에 혼자 다니면 위험해요.', exampleTr: 'Опасно ходить одному ночью.'},
+            {category: 'Место и удобство', emoji: '🚇', korean: '복잡하다', romanization: 'bokjaphada', translation: 'людный / переполненный, сложный',
+             example: '지하철이 복잡해요.', exampleTr: 'В метро толпа.'},
+            {category: 'Место и удобство', emoji: '🏜️', korean: '한산하다', romanization: 'hansanhada', translation: 'малолюдный / свободный',
+             example: '아침에는 길이 한산해요.', exampleTr: 'Утром на дорогах свободно.'},
+
+            // Сравнение и наличие
+            {category: 'Сравнение и наличие', emoji: '🟰', korean: '같다', romanization: 'gatda', translation: 'одинаковый / такой же',
+             example: '우리 나이가 같아요.', exampleTr: 'Мы одного возраста.'},
+            {category: 'Сравнение и наличие', emoji: '🔀', korean: '다르다', romanization: 'dareuda', translation: 'другой / разный',
+             example: '생각이 달라요.', exampleTr: 'Мнения разные.'},
+            {category: 'Сравнение и наличие', emoji: '⭕', korean: '있다', romanization: 'itda', translation: 'быть / иметься',
+             example: '시간이 있어요.', exampleTr: 'Время есть.'},
+            {category: 'Сравнение и наличие', emoji: '🚫', korean: '없다', romanization: 'eopda', translation: 'не быть / отсутствовать',
+             example: '돈이 없어요.', exampleTr: 'Денег нет.'}
         ];
+
+        // Пары антонимов (반의어) — рендерятся в блоке над режимами
+        const antonymPairs = [
+            {a: '크다', b: '작다', ru: 'большой ↔ маленький'},
+            {a: '길다', b: '짧다', ru: 'длинный ↔ короткий'},
+            {a: '넓다', b: '좁다', ru: 'широкий ↔ узкий'},
+            {a: '높다', b: '낮다', ru: 'высокий ↔ низкий'},
+            {a: '많다', b: '적다', ru: 'много ↔ мало'},
+            {a: '무겁다', b: '가볍다', ru: 'тяжёлый ↔ лёгкий'},
+            {a: '충분하다', b: '부족하다', ru: 'достаточно ↔ не хватает'},
+            {a: '비싸다', b: '싸다', ru: 'дорогой ↔ дешёвый'},
+            {a: '덥다', b: '춥다', ru: 'жарко ↔ холодно (погода)'},
+            {a: '뜨겁다', b: '차갑다', ru: 'горячий ↔ холодный (предмет)'},
+            {a: '맛있다', b: '맛없다', ru: 'вкусный ↔ невкусный'},
+            {a: '재미있다', b: '재미없다', ru: 'интересный ↔ скучный'},
+            {a: '달다', b: '쓰다', ru: 'сладкий ↔ горький'},
+            {a: '좋다', b: '나쁘다', ru: 'хороший ↔ плохой'},
+            {a: '좋다', b: '싫다', ru: 'нравится ↔ не нравится'},
+            {a: '깨끗하다', b: '더럽다', ru: 'чистый ↔ грязный'},
+            {a: '쉽다', b: '어렵다', ru: 'лёгкий ↔ трудный'},
+            {a: '빠르다', b: '느리다', ru: 'быстрый ↔ медленный'},
+            {a: '멀다', b: '가깝다', ru: 'далеко ↔ близко'},
+            {a: '밝다', b: '어둡다', ru: 'светлый ↔ тёмный'},
+            {a: '시끄럽다', b: '조용하다', ru: 'шумный ↔ тихий'},
+            {a: '기쁘다', b: '슬프다', ru: 'радостный ↔ грустный'},
+            {a: '바쁘다', b: '한가하다', ru: 'занятой ↔ свободный'},
+            {a: '부지런하다', b: '게으르다', ru: 'трудолюбивый ↔ ленивый'},
+            {a: '유창하다', b: '서투르다', ru: 'бегло ↔ неумело'},
+            {a: '강하다', b: '약하다', ru: 'сильный ↔ слабый'},
+            {a: '편하다', b: '불편하다', ru: 'удобный ↔ неудобный'},
+            {a: '안전하다', b: '위험하다', ru: 'безопасный ↔ опасный'},
+            {a: '복잡하다', b: '한산하다', ru: 'людно ↔ безлюдно'},
+            {a: '날씬하다', b: '뚱뚱하다', ru: 'стройный ↔ полный'},
+            {a: '잘생기다', b: '못생기다', ru: 'красивый ↔ некрасивый'},
+            {a: '젊다', b: '늙다', ru: 'молодой ↔ старый'},
+            {a: '같다', b: '다르다', ru: 'одинаковый ↔ разный'},
+            {a: '있다', b: '없다', ru: 'есть ↔ нет'},
+            {a: '배고프다', b: '배부르다', ru: 'голодный ↔ сытый'},
+            {a: '맑다', b: '흐리다', ru: 'ясный ↔ пасмурный'},
+            {a: '얇다', b: '두껍다', ru: 'тонкий ↔ толстый'}
+        ];
+
+        function loadAntonyms() {
+            const box = document.getElementById('antonym-grid');
+            if (!box) return;
+            box.innerHTML = antonymPairs.map(p => `
+                <div class="ant-row">
+                    <span class="ant-word" onclick="speak('${p.a}')">${p.a}</span>
+                    <span class="ant-arrow">&harr;</span>
+                    <span class="ant-word" onclick="speak('${p.b}')">${p.b}</span>
+                    <span class="ant-ru">${p.ru}</span>
+                </div>
+            `).join('');
+        }
+
+        function toggleAntonyms() {
+            const block = document.getElementById('antonym-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
 
         let currentCardIndex = 0;
         let isFlipped = false;
@@ -1517,6 +1722,7 @@
         // Init
         document.addEventListener('DOMContentLoaded', function() {
             loadVocabulary();
+            loadAntonyms();
             updateFlashcard();
             updatePlayerUI();
         });

@@ -462,6 +462,42 @@
             overflow: hidden;
         }
 
+        .antonym-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 10px;
+        }
+
+        .ant-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            background: #f2fbfc;
+            border: 2px solid #d9f1f4;
+            border-radius: 14px;
+            padding: 10px 14px;
+        }
+
+        .ant-word {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: #00838F;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .ant-word:hover { background: #00BCD4; color: white; }
+
+        .ant-arrow { color: #80deea; font-size: 1.1em; }
+
+        .ant-ru {
+            width: 100%;
+            color: #777;
+            font-size: 0.88em;
+        }
+
         .grammar-block h3 {
             color: white;
             background: linear-gradient(135deg, #00BCD4, #00838F);
@@ -689,6 +725,18 @@
         <!-- Grammar toggle -->
         <div class="grammar-toggle">
             <button onclick="toggleGrammar()">&#128214; Как использовать в речи</button>
+            <button onclick="toggleAntonyms()">&#8596;&#65039; Пары антонимов</button>
+        </div>
+
+        <!-- Antonyms block -->
+        <div class="grammar-block" id="antonym-block" style="display: none;">
+            <h3>&#8596;&#65039; &#48152;&#51032;&#50612; &mdash; пары антонимов</h3>
+            <div class="grammar-inner">
+                <p style="color: #666; font-size: 0.95em; margin: 0 0 18px;">
+                    Глаголы удобно учить парами: одно действие &mdash; и сразу обратное. Нажми на слово &mdash; послушай.
+                </p>
+                <div class="antonym-grid" id="antonym-grid"></div>
+            </div>
         </div>
 
         <!-- Grammar block -->
@@ -818,7 +866,7 @@
             </div>
             <div class="flashcard-nav">
                 <button class="mode-btn" onclick="prevCard()">← Назад</button>
-                <span class="card-counter" id="card-counter">1 / 34</span>
+                <span class="card-counter" id="card-counter">1 / 73</span>
                 <button class="mode-btn" onclick="nextCard()">Вперёд →</button>
             </div>
             <div class="card-hint">Нажмите на карточку или пробел для переворота. ←→ для навигации</div>
@@ -856,7 +904,7 @@
             </div>
 
             <div class="audio-progress"><div class="audio-progress-bar" id="audio-progress-bar"></div></div>
-            <div class="audio-counter" id="audio-counter">1 / 34</div>
+            <div class="audio-counter" id="audio-counter">1 / 73</div>
 
             <div class="audio-controls">
                 <button class="audio-ctrl-btn" onclick="playerPrev()" title="Предыдущий">⏮</button>
@@ -916,6 +964,18 @@
              example: '친구가 와요.', exampleTr: 'Друг приходит.'},
             {category: '🚶 Движение', emoji: '🏁', korean: '도착하다', romanization: 'dochakhada', translation: 'прибывать',
              example: '집에 도착해요.', exampleTr: 'Прибываю домой.'},
+            {category: '🚶 Движение', emoji: '🛫', korean: '출발하다', romanization: 'chulbalhada', translation: 'отправляться',
+             example: '기차가 출발해요.', exampleTr: 'Поезд отправляется.'},
+            {category: '🚶 Движение', emoji: '➡️', korean: '들어가다', romanization: 'deureogada', translation: 'входить / заходить',
+             example: '교실에 들어가요.', exampleTr: 'Захожу в класс.'},
+            {category: '🚶 Движение', emoji: '⬅️', korean: '나오다', romanization: 'naoda', translation: 'выходить',
+             example: '집에서 나와요.', exampleTr: 'Выхожу из дома.'},
+            {category: '🚶 Движение', emoji: '🚌', korean: '타다', romanization: 'tada', translation: 'садиться (в транспорт) / кататься',
+             example: '버스를 타요.', exampleTr: 'Сажусь в автобус.'},
+            {category: '🚶 Движение', emoji: '🚏', korean: '내리다', romanization: 'naerida', translation: 'выходить (из транспорта) / снижаться',
+             example: '다음 역에서 내려요.', exampleTr: 'Выхожу на следующей станции.'},
+            {category: '🚶 Движение', emoji: '🧍', korean: '서다', romanization: 'seoda', translation: 'вставать / стоять',
+             example: '줄을 서요.', exampleTr: 'Встаю в очередь.'},
 
             // Еда и питьё
             {category: '🍽️ Еда и питьё', emoji: '🍽️', korean: '먹다', romanization: 'meokda', translation: 'есть',
@@ -932,6 +992,12 @@
              example: '엄마에게 전화해요.', exampleTr: 'Звоню маме.'},
             {category: '💬 Речь и общение', emoji: '🤝', korean: '만나다', romanization: 'mannada', translation: 'встречаться',
              example: '친구를 만나요.', exampleTr: 'Встречаю друга.'},
+            {category: '💬 Речь и общение', emoji: '👋', korean: '헤어지다', romanization: 'heeojida', translation: 'расставаться',
+             example: '역에서 헤어졌어요.', exampleTr: 'Расстались на вокзале.'},
+            {category: '💬 Речь и общение', emoji: '🙋', korean: '묻다', romanization: 'mutda', translation: 'спрашивать',
+             example: '선생님께 물어요.', exampleTr: 'Спрашиваю учителя.'},
+            {category: '💬 Речь и общение', emoji: '💁', korean: '답하다', romanization: 'daphada', translation: 'отвечать',
+             example: '질문에 답해요.', exampleTr: 'Отвечаю на вопрос.'},
 
             // Восприятие
             {category: '👀 Восприятие', emoji: '👀', korean: '보다', romanization: 'boda', translation: 'смотреть / видеть',
@@ -948,6 +1014,20 @@
              example: '편지를 써요.', exampleTr: 'Пишу письмо.'},
             {category: '📚 Учёба и работа', emoji: '📖', korean: '읽다', romanization: 'ikda', translation: 'читать',
              example: '책을 읽어요.', exampleTr: 'Читаю книгу.'},
+            {category: '📚 Учёба и работа', emoji: '🧑‍🏫', korean: '가르치다', romanization: 'gareuchida', translation: 'преподавать / учить кого-то',
+             example: '한국어를 가르쳐요.', exampleTr: 'Преподаю корейский.'},
+            {category: '📚 Учёба и работа', emoji: '🎓', korean: '배우다', romanization: 'baeuda', translation: 'учиться чему-то',
+             example: '기타를 배워요.', exampleTr: 'Учусь играть на гитаре.'},
+            {category: '📚 Учёба и работа', emoji: '▶️', korean: '시작하다', romanization: 'sijakhada', translation: 'начинать',
+             example: '수업을 시작해요.', exampleTr: 'Начинаю урок.'},
+            {category: '📚 Учёба и работа', emoji: '⏹️', korean: '끝나다', romanization: 'kkeutnada', translation: 'заканчиваться (само)',
+             example: '수업이 끝났어요.', exampleTr: 'Урок закончился.'},
+            {category: '📚 Учёба и работа', emoji: '🏁', korean: '끝내다', romanization: 'kkeutnaeda', translation: 'заканчивать (что-то)',
+             example: '숙제를 끝냈어요.', exampleTr: 'Закончил домашнее задание.'},
+            {category: '📚 Учёба и работа', emoji: '🙋‍♂️', korean: '출석하다', romanization: 'chulseokhada', translation: 'присутствовать',
+             example: '수업에 출석해요.', exampleTr: 'Присутствую на занятии.'},
+            {category: '📚 Учёба и работа', emoji: '🚫', korean: '결석하다', romanization: 'gyeolseokhada', translation: 'отсутствовать / пропускать',
+             example: '어제 결석했어요.', exampleTr: 'Вчера пропустил занятие.'},
 
             // Мысли и знания
             {category: '💭 Мысли и знания', emoji: '💭', korean: '생각하다', romanization: 'saenggakhada', translation: 'думать',
@@ -956,6 +1036,14 @@
              example: '답을 알아요.', exampleTr: 'Знаю ответ.'},
             {category: '💭 Мысли и знания', emoji: '❓', korean: '모르다', romanization: 'moreuda', translation: 'не знать',
              example: '이름을 몰라요.', exampleTr: 'Не знаю имени.'},
+            {category: '💭 Мысли и знания', emoji: '🧠', korean: '기억하다', romanization: 'gieokhada', translation: 'помнить',
+             example: '그 날을 기억해요.', exampleTr: 'Помню тот день.'},
+            {category: '💭 Мысли и знания', emoji: '🤦', korean: '잊어버리다', romanization: 'ijeobeorida', translation: 'забывать',
+             example: '약속을 잊어버렸어요.', exampleTr: 'Забыл про встречу.'},
+            {category: '💭 Мысли и знания', emoji: '⭕', korean: '맞다', romanization: 'matda', translation: 'быть верным / совпадать',
+             example: '답이 맞아요.', exampleTr: 'Ответ правильный.'},
+            {category: '💭 Мысли и знания', emoji: '❌', korean: '틀리다', romanization: 'teullida', translation: 'быть неверным / ошибаться',
+             example: '답이 틀렸어요.', exampleTr: 'Ответ неправильный.'},
 
             // Быт и действия
             {category: '🏠 Быт и действия', emoji: '😴', korean: '자다', romanization: 'jada', translation: 'спать',
@@ -972,6 +1060,32 @@
              example: '친구를 기다려요.', exampleTr: 'Жду друга.'},
             {category: '🏠 Быт и действия', emoji: '🏋️', korean: '운동하다', romanization: 'undonghada', translation: 'заниматься спортом',
              example: '매일 운동해요.', exampleTr: 'Каждый день занимаюсь спортом.'},
+            {category: '🏠 Быт и действия', emoji: '👕', korean: '입다', romanization: 'ipda', translation: 'надевать / носить',
+             example: '코트를 입어요.', exampleTr: 'Надеваю пальто.'},
+            {category: '🏠 Быт и действия', emoji: '🧥', korean: '벗다', romanization: 'beotda', translation: 'снимать (одежду)',
+             example: '신발을 벗어요.', exampleTr: 'Снимаю обувь.'},
+            {category: '🏠 Быт и действия', emoji: '🔁', korean: '갈아입다', romanization: 'garaipda', translation: 'переодеваться',
+             example: '옷을 갈아입어요.', exampleTr: 'Переодеваюсь.'},
+            {category: '🏠 Быт и действия', emoji: '✊', korean: '잡다', romanization: 'japda', translation: 'хватать / держать',
+             example: '손을 잡아요.', exampleTr: 'Держу за руку.'},
+            {category: '🏠 Быт и действия', emoji: '🖐️', korean: '놓다', romanization: 'nota', translation: 'отпускать / класть',
+             example: '가방을 놓아요.', exampleTr: 'Кладу сумку.'},
+            {category: '🏠 Быт и действия', emoji: '📥', korean: '넣다', romanization: 'neota', translation: 'класть внутрь',
+             example: '가방에 책을 넣어요.', exampleTr: 'Кладу книгу в сумку.'},
+            {category: '🏠 Быт и действия', emoji: '📤', korean: '꺼내다', romanization: 'kkeonaeda', translation: 'доставать',
+             example: '지갑을 꺼내요.', exampleTr: 'Достаю кошелёк.'},
+            {category: '🏠 Быт и действия', emoji: '➖', korean: '빼다', romanization: 'ppaeda', translation: 'вынимать / вычитать',
+             example: '설탕을 뺐어요.', exampleTr: 'Убрал сахар.'},
+            {category: '🏠 Быт и действия', emoji: '💡', korean: '켜다', romanization: 'kyeoda', translation: 'включать',
+             example: '불을 켜요.', exampleTr: 'Включаю свет.'},
+            {category: '🏠 Быт и действия', emoji: '🪝', korean: '걸다', romanization: 'geolda', translation: 'вешать / набирать номер',
+             example: '옷걸이에 옷을 걸어요.', exampleTr: 'Вешаю одежду на вешалку.'},
+            {category: '🏠 Быт и действия', emoji: '🌙', korean: '끄다', romanization: 'kkeuda', translation: 'выключать',
+             example: '텔레비전을 꺼요.', exampleTr: 'Выключаю телевизор.'},
+            {category: '🏠 Быт и действия', emoji: '🫙', korean: '비다', romanization: 'bida', translation: 'пустеть / быть пустым',
+             example: '자리가 비었어요.', exampleTr: 'Место освободилось.'},
+            {category: '🏠 Быт и действия', emoji: '🈵', korean: '차다', romanization: 'chada', translation: 'наполняться',
+             example: '방이 사람으로 찼어요.', exampleTr: 'Комната наполнилась людьми.'},
 
             // Обмен
             {category: '💰 Обмен', emoji: '🛒', korean: '사다', romanization: 'sada', translation: 'покупать',
@@ -982,6 +1096,8 @@
              example: '선물을 줘요.', exampleTr: 'Дарю подарок.'},
             {category: '💰 Обмен', emoji: '📬', korean: '받다', romanization: 'batda', translation: 'получать',
              example: '편지를 받아요.', exampleTr: 'Получаю письмо.'},
+            {category: '💰 Обмен', emoji: '📈', korean: '오르다', romanization: 'oreuda', translation: 'подниматься (о цене) / взбираться',
+             example: '가격이 올랐어요.', exampleTr: 'Цена выросла.'},
 
             // Чувства
             {category: '❤️ Чувства', emoji: '❤️', korean: '좋아하다', romanization: 'joahada', translation: 'любить / нравиться',
@@ -992,11 +1108,74 @@
             // Базовые
             {category: '⚡ Базовые', emoji: '⚡', korean: '하다', romanization: 'hada', translation: 'делать',
              example: '숙제를 해요.', exampleTr: 'Делаю домашнее задание.'},
+            {category: '⚡ Базовые', emoji: '🤲', korean: '가지다', romanization: 'gajida', translation: 'иметь, держать при себе',
+             example: '카드를 가지고 있어요.', exampleTr: 'У меня есть карта.'},
             {category: '⚡ Базовые', emoji: '✅', korean: '있다', romanization: 'itda', translation: 'быть / иметь',
              example: '시간이 있어요.', exampleTr: 'У меня есть время.'},
             {category: '⚡ Базовые', emoji: '❌', korean: '없다', romanization: 'eopda', translation: 'не быть / не иметь',
-             example: '돈이 없어요.', exampleTr: 'У меня нет денег.'}
+             example: '돈이 없어요.', exampleTr: 'У меня нет денег.'},
+
+            // Жизнь и результат
+            {category: '🌱 Жизнь и результат', emoji: '🌱', korean: '살다', romanization: 'salda', translation: 'жить',
+             example: '서울에 살아요.', exampleTr: 'Живу в Сеуле.'},
+            {category: '🌱 Жизнь и результат', emoji: '🥀', korean: '죽다', romanization: 'jukda', translation: 'умирать',
+             example: '꽃이 죽었어요.', exampleTr: 'Цветок погиб.'},
+            {category: '🌱 Жизнь и результат', emoji: '🏆', korean: '이기다', romanization: 'igida', translation: 'побеждать',
+             example: '우리 팀이 이겼어요.', exampleTr: 'Наша команда выиграла.'},
+            {category: '🌱 Жизнь и результат', emoji: '😞', korean: '지다', romanization: 'jida', translation: 'проигрывать',
+             example: '경기에서 졌어요.', exampleTr: 'Проиграли матч.'}
         ];
+
+        // Пары антонимов (반의어) — рендерятся в блоке над режимами
+        const antonymPairs = [
+            {a: '알다', b: '모르다', ru: 'знать ↔ не знать'},
+            {a: '시작하다', b: '끝나다', ru: 'начинать ↔ заканчиваться'},
+            {a: '시작하다', b: '끝내다', ru: 'начинать ↔ заканчивать (что-то)'},
+            {a: '사다', b: '팔다', ru: 'покупать ↔ продавать'},
+            {a: '앉다', b: '서다', ru: 'садиться ↔ вставать'},
+            {a: '가르치다', b: '배우다', ru: 'преподавать ↔ учиться'},
+            {a: '열다', b: '닫다', ru: 'открывать ↔ закрывать'},
+            {a: '넣다', b: '꺼내다', ru: 'класть внутрь ↔ доставать'},
+            {a: '넣다', b: '빼다', ru: 'вкладывать ↔ вынимать'},
+            {a: '오르다', b: '내리다', ru: 'расти ↔ падать (о цене)'},
+            {a: '들어가다', b: '나오다', ru: 'входить ↔ выходить'},
+            {a: '도착하다', b: '출발하다', ru: 'прибывать ↔ отправляться'},
+            {a: '주다', b: '받다', ru: 'давать ↔ получать'},
+            {a: '맞다', b: '틀리다', ru: 'верно ↔ неверно'},
+            {a: '기억하다', b: '잊어버리다', ru: 'помнить ↔ забывать'},
+            {a: '출석하다', b: '결석하다', ru: 'присутствовать ↔ пропускать'},
+            {a: '묻다', b: '답하다', ru: 'спрашивать ↔ отвечать'},
+            {a: '입다', b: '벗다', ru: 'надевать ↔ снимать'},
+            {a: '잡다', b: '놓다', ru: 'хватать ↔ отпускать'},
+            {a: '비다', b: '차다', ru: 'пустой ↔ наполненный'},
+            {a: '타다', b: '내리다', ru: 'садиться ↔ выходить (транспорт)'},
+            {a: '살다', b: '죽다', ru: 'жить ↔ умирать'},
+            {a: '만나다', b: '헤어지다', ru: 'встречаться ↔ расставаться'},
+            {a: '이기다', b: '지다', ru: 'выигрывать ↔ проигрывать'},
+            {a: '좋아하다', b: '싫어하다', ru: 'нравится ↔ не нравится'},
+            {a: '켜다', b: '끄다', ru: 'включать ↔ выключать'},
+            {a: '가다', b: '오다', ru: 'идти ↔ приходить'},
+            {a: '자다', b: '일어나다', ru: 'спать ↔ просыпаться'},
+            {a: '있다', b: '없다', ru: 'быть ↔ не быть'}
+        ];
+
+        function loadAntonyms() {
+            const box = document.getElementById('antonym-grid');
+            if (!box) return;
+            box.innerHTML = antonymPairs.map(p => `
+                <div class="ant-row">
+                    <span class="ant-word" onclick="speak('${p.a}')">${p.a}</span>
+                    <span class="ant-arrow">&harr;</span>
+                    <span class="ant-word" onclick="speak('${p.b}')">${p.b}</span>
+                    <span class="ant-ru">${p.ru}</span>
+                </div>
+            `).join('');
+        }
+
+        function toggleAntonyms() {
+            const block = document.getElementById('antonym-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
 
         let currentCardIndex = 0;
         let isFlipped = false;
@@ -1477,6 +1656,7 @@
         // Init
         document.addEventListener('DOMContentLoaded', function() {
             loadVocabulary();
+            loadAntonyms();
             updateFlashcard();
             updatePlayerUI();
         });
