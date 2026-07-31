@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N 대신(에) · N(이)라도 — замена и компромисс — 3급</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; margin: 0; padding: 0; background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%), linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 25px; font-size: 0.95em; transition: all 0.3s ease; backdrop-filter: blur(5px); }
+        .navigation a:hover { background: rgba(255,255,255,0.3); }
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 2.2em; color: #6A1B9A; margin-bottom: 10px; }
+        .korean-title { font-size: 1.3em; color: #9C27B0; margin-bottom: 10px; }
+        .description { color: #666; font-size: 1.05em; }
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #6A1B9A; margin-bottom: 20px; font-size: 1.5em; }
+        .grammar-card { background: white; border-left: 5px solid #9C27B0; border-radius: 0 15px 15px 0; padding: 20px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+        .grammar-card .korean { font-size: 1.4em; font-weight: 700; color: #6A1B9A; margin-bottom: 5px; }
+        .grammar-card .romanization { font-size: 0.9em; color: #888; margin-bottom: 5px; }
+        .grammar-card .meaning { color: #333; font-size: 1em; }
+        .grammar-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0; }
+        .grammar-table th { background: #6A1B9A; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+        .dialogue-box { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .korean-text { font-size: 1.1em; margin-bottom: 4px; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; }
+        .tip-box { background: #e3f2fd; border-left: 4px solid #9C27B0; padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0; }
+        .tip-box strong { color: #6A1B9A; }
+        .example-box { background: #f5f5f5; border-radius: 12px; padding: 18px; margin: 12px 0; }
+        .example-box .ex-korean { font-size: 1.25em; font-weight: 700; color: #6A1B9A; margin-bottom: 4px; }
+        .example-box .ex-romanization { font-size: 0.85em; color: #888; margin-bottom: 4px; }
+        .example-box .ex-meaning { color: #333; }
+        .nuance-card { background: white; border: 2px solid #e1bee7; border-radius: 15px; padding: 20px; margin: 15px 0; }
+        .nuance-card h3 { color: #7b1fa2; margin-top: 0; }
+        .error-card { background: #ffebee; border: 2px solid #ef9a9a; border-radius: 15px; padding: 20px; margin: 15px 0; }
+        .error-card h3 { color: #c62828; margin-top: 0; }
+        .wrong { color: #c62828; font-weight: 700; }
+        .right { color: #2e7d32; font-weight: 700; }
+        .practice-section { background: linear-gradient(135deg, #E1BEE7, #CE93D8); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .practice-section h2 { color: #6A1B9A; margin-bottom: 20px; font-size: 1.5em; }
+        .exercise-item { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .exercise-item .question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .exercise-item .options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .exercise-btn { background: #6A1B9A; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1em; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; transition: all 0.3s ease; }
+        .exercise-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,0,0,0.25); }
+        .exercise-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .exercise-result { margin-top: 10px; padding: 10px; border-radius: 8px; font-weight: 500; min-height: 20px; }
+        .remember-block { background: linear-gradient(135deg, #fff3e0, #ffe0b2); border: 2px solid #ff9800; border-radius: 15px; padding: 30px; margin: 30px 0; }
+        .remember-block h2 { color: #e65100; margin-top: 0; font-size: 1.8em; }
+        .remember-phrase { background: rgba(230,81,0,0.08); border: 1px solid rgba(230,81,0,0.2); border-radius: 12px; padding: 15px 18px; margin: 10px 0; }
+        .remember-phrase .rp-korean { font-size: 1.3em; font-weight: 700; color: #e65100; margin-bottom: 4px; }
+        .remember-phrase .rp-meaning { color: #555; font-size: 0.95em; }
+        .complete-section { text-align: center; padding: 30px; }
+        .complete-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 18px 50px; border-radius: 30px; font-size: 1.15em; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; box-shadow: 0 8px 25px rgba(102,126,234,0.3); }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(102,126,234,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .audio-btn { background: rgba(156,39,176,0.15); border: 2px solid rgba(156,39,176,0.3); border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0; }
+        .audio-btn:hover { background: rgba(156,39,176,0.3); transform: scale(1.1); }
+        .dialogue-play-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; margin: 15px auto; display: block; transition: all 0.3s ease; }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(102,126,234,0.4); }
+        .nav-lessons { display: flex; justify-content: space-between; margin-top: 20px; flex-wrap: wrap; gap: 10px; }
+        .nav-lessons a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 12px 24px; border-radius: 25px; font-size: 1em; transition: all 0.3s ease; backdrop-filter: blur(5px); }
+        .nav-lessons a:hover { background: rgba(255,255,255,0.35); }
+        .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 20px 0; }
+        .table-scroll .grammar-table { margin: 0; min-width: 480px; }
+        @media (max-width: 768px) { .header h1 { font-size: 1.6em; } .content-section { padding: 25px; } .exercise-item .options { flex-direction: column; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="navigation">
+        <a href="../index.html">← 3급 Уроки</a>
+        <a href="../../lessons.html">Все уровни</a>
+    </div>
+
+    <div class="header">
+        <h1>Замена и компромисс: N 대신(에) · N(이)라도</h1>
+        <div class="korean-title">대신에 / (이)라도 — «вместо» и «хотя бы»</div>
+        <div class="description">커피 대신에 차를 마셔요 (вместо кофе пью чай), 물이라도 드세요 (выпейте хотя бы воды) — как предлагать замену и запасной вариант.</div>
+    </div>
+
+    <div class="content-section">
+        <h2>1. N 대신(에) — «вместо»</h2>
+        <p style="color:#666; margin-bottom:20px;">Прямая замена одного другим. С глаголами используется форма -는 대신에.</p>
+        <div class="grammar-card">
+            <div class="korean">N 대신(에) &nbsp;/&nbsp; V-는 대신(에)</div>
+            <div class="romanization">[N daesin(e) / V-neun daesin(e)]</div>
+            <div class="meaning">вместо N / вместо того чтобы…</div>
+        </div>
+        <div class="table-scroll">
+        <table class="grammar-table">
+            <thead>
+                <tr><th>Форма</th><th>Пример</th><th>Значение</th><th>Звук</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>существительное</td><td>커피 대신에 차</td><td>вместо кофе чай</td><td><button class="audio-btn" onclick="speakKorean('커피 대신에 차를 마셔요')">🔊</button></td></tr>
+                <tr><td>глагол</td><td>가는 대신에</td><td>вместо того чтобы идти</td><td><button class="audio-btn" onclick="speakKorean('가는 대신에 전화했어요')">🔊</button></td></tr>
+                <tr><td>компенсация</td><td>일하는 대신에 돈을 받다</td><td>работаю, зато получаю деньги</td><td><button class="audio-btn" onclick="speakKorean('일하는 대신에 돈을 받아요')">🔊</button></td></tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="example-box">
+            <div class="ex-korean">요즘 커피 대신에 차를 마셔요. <button class="audio-btn" onclick="speakKorean('요즘 커피 대신에 차를 마셔요.')">🔊</button></div>
+            <div class="ex-romanization">[yojeum keopi daesine chareul masyeoyo.]</div>
+            <div class="ex-meaning">В последнее время вместо кофе пью чай.</div>
+        </div>
+        <div class="example-box">
+            <div class="ex-korean">저 대신에 회의에 참석해 주시겠어요? <button class="audio-btn" onclick="speakKorean('저 대신에 회의에 참석해 주시겠어요?')">🔊</button></div>
+            <div class="ex-romanization">[jeo daesine hoeuie chamseokae jusigesseoyo?]</div>
+            <div class="ex-meaning">Не могли бы вы вместо меня пойти на совещание?</div>
+        </div>
+        <div class="example-box">
+            <div class="ex-korean">직접 가는 대신에 이메일을 보냈어요. <button class="audio-btn" onclick="speakKorean('직접 가는 대신에 이메일을 보냈어요.')">🔊</button></div>
+            <div class="ex-romanization">[jikjeop ganeun daesine imeireul bonaesseoyo.]</div>
+            <div class="ex-meaning">Вместо того чтобы ехать лично, отправил письмо.</div>
+        </div>
+        <div class="example-box">
+            <div class="ex-korean">주말에 일하는 대신에 월요일에 쉬어요. <button class="audio-btn" onclick="speakKorean('주말에 일하는 대신에 월요일에 쉬어요.')">🔊</button></div>
+            <div class="ex-romanization">[jumare ilhaneun daesine woryoire swieoyo.]</div>
+            <div class="ex-meaning">Работаю в выходные, зато отдыхаю в понедельник.</div>
+        </div>
+        <div class="tip-box">
+            <strong>Второе значение — компенсация:</strong> «비싼 대신에 품질이 좋아요» — «дорого, зато качество хорошее». Это очень частое употребление.
+        </div>
+    </div>
+    <div class="content-section">
+        <h2>2. N(이)라도 — «хотя бы, на худой конец»</h2>
+        <p style="color:#666; margin-bottom:20px;">Не лучший вариант, но приемлемый. Мягко предлагает замену, когда идеального нет.</p>
+        <div class="grammar-card">
+            <div class="korean">существительное + (이)라도</div>
+            <div class="romanization">[(i)rado]</div>
+            <div class="meaning">хотя бы… / пусть даже…</div>
+        </div>
+        <div class="example-box">
+            <div class="ex-korean">시간이 없으면 커피라도 한잔해요. <button class="audio-btn" onclick="speakKorean('시간이 없으면 커피라도 한잔해요.')">🔊</button></div>
+            <div class="ex-romanization">[sigani eopseumyeon keopirado hanjanhaeyo.]</div>
+            <div class="ex-meaning">Если нет времени, выпьем хотя бы по чашке кофе.</div>
+        </div>
+        <div class="example-box">
+            <div class="ex-korean">밥이 없으면 라면이라도 먹을게요. <button class="audio-btn" onclick="speakKorean('밥이 없으면 라면이라도 먹을게요.')">🔊</button></div>
+            <div class="ex-romanization">[babi eopseumyeon ramyeonirado meogeulgeyo.]</div>
+            <div class="ex-meaning">Если риса нет, поем хотя бы рамён.</div>
+        </div>
+        <div class="example-box">
+            <div class="ex-korean">바쁘시면 잠깐이라도 만나고 싶어요. <button class="audio-btn" onclick="speakKorean('바쁘시면 잠깐이라도 만나고 싶어요.')">🔊</button></div>
+            <div class="ex-romanization">[bappeusimyeon jamkkanirado mannago sipeoyo.]</div>
+            <div class="ex-meaning">Если вы заняты, хочу увидеться хотя бы ненадолго.</div>
+        </div>
+        <div class="example-box">
+            <div class="ex-korean">물이라도 드시겠어요? <button class="audio-btn" onclick="speakKorean('물이라도 드시겠어요?')">🔊</button></div>
+            <div class="ex-romanization">[murirado deusigesseoyo?]</div>
+            <div class="ex-meaning">Может, хотя бы воды выпьете?</div>
+        </div>
+        <div class="example-box">
+            <div class="ex-korean">주말에라도 연락 주세요. <button class="audio-btn" onclick="speakKorean('주말에라도 연락 주세요.')">🔊</button></div>
+            <div class="ex-romanization">[jumarerado yeollak juseyo.]</div>
+            <div class="ex-meaning">Свяжитесь со мной хотя бы в выходные.</div>
+        </div>
+        <div class="tip-box">
+            <strong>Вежливая тактика:</strong> предлагая гостю «커피라도 드릴까요?», вы как бы принижаете своё предложение — это считается скромным и приятным.
+        </div>
+    </div>
+    <div class="content-section">
+        <h2>3. Сравнение с похожими формами</h2>
+        <div class="table-scroll">
+        <table class="grammar-table">
+            <thead>
+                <tr><th>Форма</th><th>Значение</th><th>Пример</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>N 대신에</td><td>полная замена</td><td>커피 대신에 차</td></tr>
+                <tr><td>N 말고</td><td>не это, а то</td><td>커피 말고 차</td></tr>
+                <tr><td>N(이)라도</td><td>хотя бы, на худой конец</td><td>커피라도</td></tr>
+                <tr><td>N만 빼고</td><td>всё, кроме</td><td>커피만 빼고</td></tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="nuance-card">
+            <h3>Одна ситуация — четыре реплики</h3>
+        <div class="example-box">
+            <div class="ex-korean">커피 대신에 차 주세요. <button class="audio-btn" onclick="speakKorean('커피 대신에 차 주세요.')">🔊</button></div>
+            <div class="ex-meaning">Дайте чай вместо кофе.</div>
+        </div>
+        <div class="example-box">
+            <div class="ex-korean">커피 말고 차 주세요. <button class="audio-btn" onclick="speakKorean('커피 말고 차 주세요.')">🔊</button></div>
+            <div class="ex-meaning">Не кофе, а чай.</div>
+        </div>
+        <div class="example-box">
+            <div class="ex-korean">차라도 주세요. <button class="audio-btn" onclick="speakKorean('차라도 주세요.')">🔊</button></div>
+            <div class="ex-meaning">Дайте хотя бы чай.</div>
+        </div>
+        <div class="example-box">
+            <div class="ex-korean">커피만 빼고 다 주세요. <button class="audio-btn" onclick="speakKorean('커피만 빼고 다 주세요.')">🔊</button></div>
+            <div class="ex-meaning">Дайте всё, кроме кофе.</div>
+        </div>
+        </div>
+        <div class="error-card">
+            <h3>Частые ошибки</h3>
+            <p><span class="wrong">✗ 가다 대신에</span> &nbsp;→&nbsp; <span class="right">✓ 가는 대신에</span> <em>(с глаголом — форма на -는)</em></p>
+            <p><span class="wrong">✗ 물라도 드세요</span> &nbsp;→&nbsp; <span class="right">✓ 물이라도 드세요</span> <em>(после согласной — 이라도)</em></p>
+            <p><span class="wrong">✗ 커피라도 대신에 주세요</span> &nbsp;→&nbsp; <span class="right">✓ 커피 대신에 주세요</span> <em>(две конструкции не совмещают)</em></p>
+        </div>
+    </div>
+    <div class="content-section">
+        <h2>4. Мини-диалог: в кафе перед встречей (카페에서)</h2>
+        <p style="color:#666; margin-bottom:20px;">Встреча получилась короткой.</p>
+        <div class="dialogue-box">
+            <div class="dialogue-line">
+                <div class="speaker">수민:</div>
+                <div class="korean-text">오래 못 있어서 미안해요. <button class="audio-btn" onclick="speakKorean('오래 못 있어서 미안해요.')">🔊</button></div>
+                <div class="translation">Простите, что не могу задержаться.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">영호:</div>
+                <div class="korean-text">괜찮아요. 커피라도 한잔해요. <button class="audio-btn" onclick="speakKorean('괜찮아요. 커피라도 한잔해요.')">🔊</button></div>
+                <div class="translation">Ничего. Выпьем хотя бы по кофе.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">수민:</div>
+                <div class="korean-text">저는 커피 대신에 차 마실게요. 어제 잠을 못 잤거든요. <button class="audio-btn" onclick="speakKorean('저는 커피 대신에 차 마실게요. 어제 잠을 못 잤거든요.')">🔊</button></div>
+                <div class="translation">Я вместо кофе выпью чай — вчера не спал.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">영호:</div>
+                <div class="korean-text">그럼 케이크라도 시킬까요? <button class="audio-btn" onclick="speakKorean('그럼 케이크라도 시킬까요?')">🔊</button></div>
+                <div class="translation">Тогда, может, хотя бы торт закажем?</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">수민:</div>
+                <div class="korean-text">좋아요. 다음에는 밥 먹는 대신에 산책해요. <button class="audio-btn" onclick="speakKorean('좋아요. 다음에는 밥 먹는 대신에 산책해요.')">🔊</button></div>
+                <div class="translation">Давайте. В следующий раз вместо еды пойдём гулять.</div>
+            </div>
+            <div class="dialogue-line">
+                <div class="speaker">영호:</div>
+                <div class="korean-text">좋은 생각이에요. 짧게라도 자주 봐요. <button class="audio-btn" onclick="speakKorean('좋은 생각이에요. 짧게라도 자주 봐요.')">🔊</button></div>
+                <div class="translation">Хорошая мысль. Будем видеться чаще, пусть и ненадолго.</div>
+            </div>
+        </div>
+        <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать диалог</button>
+    </div>
+    <div class="practice-section">
+        <h2>Упражнения (연습문제)</h2>
+
+        <div class="exercise-item">
+            <div class="question">1. «Вместо кофе пью чай» —</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">커피 대신에 차를 마셔요</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">커피라도 차를 마셔요</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">커피만 빼고 차를 마셔요</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">커피처럼 차를 마셔요</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">2. 가다 + 대신에 =</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">가는 대신에</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">가다 대신에</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">갈 대신에</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">가서 대신에</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">3. «Выпейте хотя бы воды» —</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">물이라도 드세요</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">물라도 드세요</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">물 대신에 드세요</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">물만 빼고 드세요</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">4. «Дорого, зато качество хорошее» —</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">비싼 대신에 품질이 좋아요</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">비싸라도 품질이 좋아요</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">비싼 말고 품질이 좋아요</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">비싸만 빼고 품질이 좋아요</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">5. «Не кофе, а чай» —</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">커피 말고 차</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">커피라도 차</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">커피만 빼고 차</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">커피처럼 차</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">6. (이)라도 передаёт:</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">лучший выбор</button>
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">приемлемый запасной вариант</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">полный запрет</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">точное количество</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">7. «Хочу увидеться хотя бы ненадолго» —</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">잠깐이라도 만나고 싶어요</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">잠깐 대신에 만나고 싶어요</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">잠깐만 빼고 만나고 싶어요</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">잠깐 말고 만나고 싶어요</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">8. «Не могли бы вы пойти вместо меня?» —</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">저 대신에 가 주시겠어요?</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">저라도 가 주시겠어요?</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">저만 빼고 가 주시겠어요?</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">저 말고 가 주시겠어요?</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+    </div>
+
+    <div class="remember-block">
+        <h2>📋 Запомни!</h2>
+
+        <div class="remember-phrase">
+            <div class="rp-korean">N 대신에 = вместо <button class="audio-btn" onclick="speakKorean('커피 대신에 차를 마셔요.')">🔊</button></div>
+            <div class="rp-meaning">커피 대신에 차, 저 대신에 가 주세요</div>
+        </div>
+        <div class="remember-phrase">
+            <div class="rp-korean">V-는 대신에 <button class="audio-btn" onclick="speakKorean('가는 대신에 전화했어요.')">🔊</button></div>
+            <div class="rp-meaning">가는 대신에 전화했어요</div>
+        </div>
+        <div class="remember-phrase">
+            <div class="rp-korean">Компенсация <button class="audio-btn" onclick="speakKorean('비싼 대신에 품질이 좋아요.')">🔊</button></div>
+            <div class="rp-meaning">비싼 대신에 품질이 좋아요 — дорого, зато качественно</div>
+        </div>
+        <div class="remember-phrase">
+            <div class="rp-korean">N(이)라도 = хотя бы <button class="audio-btn" onclick="speakKorean('물이라도 드세요.')">🔊</button></div>
+            <div class="rp-meaning">커피라도, 물이라도, 잠깐이라도</div>
+        </div>
+        <div class="remember-phrase">
+            <div class="rp-korean">После согласной — 이라도 <button class="audio-btn" onclick="speakKorean('물이라도 드세요.')">🔊</button></div>
+            <div class="rp-meaning">✗ 물라도 → ✓ 물이라도</div>
+        </div>
+
+        <div style="margin-top: 15px; padding: 15px; background: rgba(230,81,0,0.1); border-radius: 10px;">
+            <strong>Совет:</strong> «커피라도 한잔할까요?» — самое лёгкое приглашение в корейском: оно ни к чему не обязывает и потому редко получает отказ.
+        </div>
+    </div>
+
+    <div class="complete-section">
+        <button class="complete-btn" id="completeLessonBtn" onclick="completeLesson()">Отметить урок как пройденный</button>
+    </div>
+
+    <div class="nav-lessons">
+        <a href="../lesson_indirect_short/index.html">← Косвенная речь -대요</a>
+        <a href="../lesson_formal_expressions/index.html">Официальные обороты →</a>
+    </div>
+</div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+<script>
+    function speakKorean(text) {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = 'ko-KR'; u.rate = 0.8; u.pitch = 1.1;
+        window.speechSynthesis.speak(u);
+    }
+    if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.addEventListener('voiceschanged', function(){});
+    }
+
+    function playDialogueSequence(btn) {
+        var section = btn.closest('.content-section') || btn.parentElement;
+        var box = section.querySelector('.dialogue-box');
+        if (!box) return;
+        var lines = box.querySelectorAll('.dialogue-line');
+        var texts = [];
+        lines.forEach(function(l) {
+            var k = l.querySelector('.korean-text');
+            if (k) texts.push(k.textContent.replace(/\ud83d\udd0a/g,'').trim());
+        });
+        if (!texts.length) return;
+        window.speechSynthesis.cancel();
+        var i = 0;
+        btn.textContent = '\u23f8 Воспроизводится...';
+        btn.disabled = true;
+        function next() {
+            if (i >= texts.length) { btn.textContent = '\ud83c\udfad Прослушать диалог'; btn.disabled = false; lines.forEach(function(l){l.style.background='';}); return; }
+            lines.forEach(function(l){l.style.background='';});
+            lines[i].style.background = 'rgba(255,235,59,0.3)';
+            var u = new SpeechSynthesisUtterance(texts[i]);
+            u.lang = 'ko-KR'; u.rate = 0.8; u.pitch = i%2===0 ? 1.1 : 0.95;
+            u.onend = function() { i++; setTimeout(next,600); };
+            window.speechSynthesis.speak(u);
+        }
+        next();
+    }
+
+    function checkExercise(btn) {
+        var parent = btn.closest('.exercise-item');
+        var result = parent.querySelector('.exercise-result');
+        var buttons = parent.querySelectorAll('.exercise-btn');
+        buttons.forEach(function(b) { b.disabled = true; });
+        if (btn.getAttribute('data-correct') === 'true') {
+            btn.style.background = '#4caf50'; btn.style.color = 'white';
+            result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+        } else {
+            btn.style.background = '#f44336'; btn.style.color = 'white';
+            result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+            buttons.forEach(function(b) {
+                if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; }
+            });
+        }
+    }
+
+    var LESSON_ID = 'level3_lesson_daesin_irado';
+    function completeLesson() {
+        if (window.ProgressTracker) {
+            if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+            var btn = document.getElementById('completeLessonBtn');
+            btn.textContent = 'Пройдено!';
+            btn.style.background = '#6A1B9A';
+            btn.disabled = true;
+            console.log('[OK] Lesson completed:', LESSON_ID);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.ProgressTracker) {
+            var progress = ProgressTracker.get();
+            if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                var btn = document.getElementById('completeLessonBtn');
+                if (btn) { btn.textContent = 'Пройдено!'; btn.style.background = '#6A1B9A'; btn.disabled = true; }
+            }
+        }
+        document.querySelectorAll('.content-section').forEach(function(s, i) {
+            s.style.opacity = '0'; s.style.transform = 'translateY(30px)';
+            setTimeout(function() {
+                s.style.transition = 'all 0.6s ease'; s.style.opacity = '1'; s.style.transform = 'translateY(0)';
+            }, i * 200);
+        });
+        console.log('[OK] Lesson loaded:', LESSON_ID);
+    });
+</script>
+<script src="../../js/global-nav.js"></script>
+</body>
+</html>
