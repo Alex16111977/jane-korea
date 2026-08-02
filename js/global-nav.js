@@ -5,6 +5,51 @@
  * Mobile: компактный top bar + bottom tab bar + hamburger overlay
  */
 
+// =============================================
+// ТЕМА УРОВНЯ — ставим data-level на <html>,
+// чтобы css/lesson-theme.css дал каждому 급 свой фон.
+// Выполняется первым делом, до остальной инициализации.
+// =============================================
+(function applyLevelTheme() {
+    'use strict';
+
+    // Корневые уроки (папка lesson_* в корне) — какому уровню принадлежат.
+    // Источник: levelLessonsMap в lessons.html.
+    var ROOT_LEVEL = {
+        lesson_01_korea: 1, lesson_02_alphabet: 1, lesson_03_greetings: 1,
+        lesson_04_numbers: 1, lesson_05_family: 1, lesson_06_grammar: 1,
+        lesson_10_copula: 1, lesson_11_informal_copula: 1, lesson_12_formal_copula: 1,
+        lesson_13_copula_negation: 1, lesson_14_demonstratives: 1,
+        lesson_15_demonstratives_practice: 1,
+        lesson_54_purpose_movement: 2, lesson_57_choice_ina: 2, lesson_58_choice_geona: 2,
+        lesson_59_suggestion_eulkayo: 2, lesson_61_helping_actions: 2, lesson_62_obligation: 2,
+        lesson_68_inability_ji_moshada: 2, lesson_69_intention_promise: 2,
+        lesson_70_trying_experience: 2, lesson_71_from_whom: 2, lesson_87_not_vs_cant: 2,
+        lesson_88_time_adverbs: 2, lesson_89_conjunctions_practice: 2,
+        lesson_64_conditional_intention: 3, lesson_72_future_intention: 3,
+        lesson_74_irregular_bieup: 3, lesson_75_irregular_digeut: 3,
+        lesson_76_irregular_siot: 3, lesson_77_irregular_eu: 3,
+        lesson_78_irregular_hieut: 3, lesson_79_irregular_rieul: 3,
+        lesson_82_reason_consequence: 3, lesson_92_traditions: 3, lesson_93_large_numbers: 3,
+        lesson_83_passive_constructions: 4, lesson_90_topik_prep: 4,
+        lesson_91_essay_writing: 4, lesson_94_medicine: 4
+    };
+
+    var parts = window.location.pathname.split('/').filter(Boolean);
+    var level = null;
+
+    for (var i = parts.length - 1; i >= 0; i--) {
+        var m = /^level_([1-6])$/.exec(parts[i]);
+        if (m) { level = m[1]; break; }
+        if (parts[i].indexOf('lesson_') === 0 && ROOT_LEVEL[parts[i]]) {
+            level = String(ROOT_LEVEL[parts[i]]);
+            break;
+        }
+    }
+
+    if (level) document.documentElement.setAttribute('data-level', level);
+})();
+
 (function() {
     'use strict';
 
@@ -64,20 +109,32 @@
             document.head.appendChild(link);
         }
 
+        // Слова-водяные знаки на фоне: свой набор для каждого уровня,
+        // чтобы страницы разных 급 не выглядели одинаково.
+        var HAN_SETS = {
+            '1': ['한', '글', '안녕', '사랑', '꿈'],
+            '2': ['말', '배움', '친구', '하늘', '여행'],
+            '3': ['길', '시간', '마음', '바다', '이야기'],
+            '4': ['생각', '문화', '세상', '기억', '자유'],
+            '5': ['지혜', '표현', '흐름', '깊이', '언어'],
+            '6': ['예술', '철학', '진리', '완성', '정신']
+        };
+
         function addBgDecor() {
             if (!document.body || document.querySelector('.jk-bg-decor')) return;
+            var lvl = document.documentElement.getAttribute('data-level');
+            var words = HAN_SETS[lvl] || HAN_SETS['1'];
             var decor = document.createElement('div');
             decor.className = 'jk-bg-decor';
             decor.setAttribute('aria-hidden', 'true');
-            decor.innerHTML =
+            var html =
                 '<span class="jk-blob jk-blob-1"></span>' +
                 '<span class="jk-blob jk-blob-2"></span>' +
-                '<span class="jk-blob jk-blob-3"></span>' +
-                '<span class="jk-han jk-han-1">한</span>' +
-                '<span class="jk-han jk-han-2">글</span>' +
-                '<span class="jk-han jk-han-3">안녕</span>' +
-                '<span class="jk-han jk-han-4">사랑</span>' +
-                '<span class="jk-han jk-han-5">꿈</span>';
+                '<span class="jk-blob jk-blob-3"></span>';
+            for (var i = 0; i < words.length; i++) {
+                html += '<span class="jk-han jk-han-' + (i + 1) + '">' + words[i] + '</span>';
+            }
+            decor.innerHTML = html;
             document.body.insertBefore(decor, document.body.firstChild);
         }
 

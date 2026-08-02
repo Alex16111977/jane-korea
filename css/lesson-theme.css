@@ -1,0 +1,552 @@
+/* ============================================================
+   lesson-theme.css — единая тема оформления уроков Jane Korea
+   Подключается последним в <head>, переопределяет локальные стили.
+   Палитра совпадает с брендом сайта: фиолетовый + розовый акцент.
+   ============================================================ */
+
+:root {
+    --lt-ink: #2b2440;
+    --lt-muted: #6f6a85;
+    --lt-line: #ece9f6;
+    --lt-brand: #6C5CE7;
+    --lt-brand-dk: #4b3fb8;
+    --lt-accent: #E91E63;
+    --lt-accent-sf: #fff0f5;
+    --lt-lav: #f6f4ff;
+    --lt-radius: 18px;
+}
+
+/* ---------- фон уроков: свой цвет для каждого 급 ----------
+   data-level ставится на <html> в js/global-nav.js по пути страницы.
+   Уроки без уровня (корневые вне levelLessonsMap) остаются на
+   нейтральном фиолетовом — это значение по умолчанию ниже. */
+:root {
+    --lt-bg-from: #667eea;
+    --lt-bg-to: #764ba2;
+}
+html[data-level="1"] { --lt-bg-from: #2e9e5b; --lt-bg-to: #14663a; } /* 1급 — зелёный  */
+html[data-level="2"] { --lt-bg-from: #2f6fd0; --lt-bg-to: #1a3f8f; } /* 2급 — синий    */
+html[data-level="3"] { --lt-bg-from: #e07a1f; --lt-bg-to: #9c4210; } /* 3급 — янтарный */
+html[data-level="4"] { --lt-bg-from: #8e44c9; --lt-bg-to: #4a1f7a; } /* 4급 — фиолет.  */
+html[data-level="5"] { --lt-bg-from: #d81b60; --lt-bg-to: #7b1030; } /* 5급 — малин.   */
+html[data-level="6"] { --lt-bg-from: #d84343; --lt-bg-to: #7f1d1d; } /* 6급 — красный  */
+
+body {
+    background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 50%),
+                linear-gradient(135deg, var(--lt-bg-from) 0%, var(--lt-bg-to) 100%);
+    background-attachment: fixed;
+    color: var(--lt-ink);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- контейнер и верхняя навигация ---------- */
+.container { max-width: 940px; padding: 18px 20px 40px; }
+
+/* Ссылки без класса, лежащие прямо на градиенте, — белые.
+   Внутри белых карточек им возвращается фирменный фиолетовый (правило ниже). */
+.container a:not([class]) { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.header a:not([class]),
+.content-section a:not([class]),
+.practice-section a:not([class]),
+.remember-block a:not([class]),
+.grammar-card a:not([class]),
+.example-box a:not([class]),
+.tip-box a:not([class]),
+.nuance-card a:not([class]),
+.error-card a:not([class]),
+.word-card a:not([class]),
+.vocab-header a:not([class]) { color: var(--lt-brand-dk); }
+/* Строка «Урок N / M» от global-nav.js лежит прямо на градиенте.
+   Её стиль вставляется скриптом позже нашего файла — поднимаем специфичность через body. */
+body #jk-lesson-nav-position { color: rgba(255, 255, 255, 0.85); }
+body #jk-lesson-nav-position a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+
+/* Тёмная полупрозрачная подложка вместо белой: читается и на тёмном
+   фиолетовом фоне уроков, и на светлых фонах словарных страниц. */
+.navigation a,
+.nav-lessons a,
+.lesson-nav a,
+.mode-btn {
+    background: rgba(0, 0, 0, 0.22);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 20px;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(6px);
+    transition: all .25s ease;
+}
+.navigation a:hover,
+.nav-lessons a:hover,
+.lesson-nav a:hover,
+.mode-btn:hover { background: rgba(0, 0, 0, 0.34); transform: translateY(-1px); }
+.mode-btn.active {
+    background: linear-gradient(135deg, var(--lt-brand), var(--lt-accent));
+    border-color: transparent;
+    box-shadow: 0 6px 18px rgba(108, 92, 231, 0.35);
+}
+.grammar-toggle button {
+    background: rgba(0, 0, 0, 0.22);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 20px;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(6px);
+    transition: all .25s ease;
+}
+.grammar-toggle button:hover { background: rgba(0, 0, 0, 0.34); transform: translateY(-1px); }
+
+/* поле поиска на светлом фоне */
+.search-box, .search-input, input[type="search"], #vocabSearch {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(45, 30, 90, 0.14);
+    color: var(--lt-ink);
+}
+.search-box::placeholder,
+.search-input::placeholder,
+input[type="search"]::placeholder,
+#vocabSearch::placeholder { color: #6f6a85; }
+
+/* ---------- шапка урока ---------- */
+.header {
+    background: #fff;
+    border-radius: 22px;
+    padding: 30px 34px 26px;
+    box-shadow: 0 18px 40px rgba(45, 30, 90, 0.16);
+    backdrop-filter: none;
+}
+.header h1 {
+    font-size: 1.85em;
+    line-height: 1.25;
+    color: var(--lt-ink);
+    margin: 0 0 10px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+.header .korean-title,
+.korean-title {
+    display: inline-block;
+    font-size: 0.88em;
+    font-weight: 700;
+    color: var(--lt-brand-dk);
+    background: var(--lt-lav);
+    border: 1px solid #e3ddff;
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+}
+.header .description,
+.description { color: var(--lt-muted); font-size: 0.97em; line-height: 1.6; }
+.lesson-number {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--lt-brand), var(--lt-accent));
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.8em;
+    font-weight: 700;
+}
+
+/* ---------- секции ---------- */
+.content-section,
+.practice-section,
+.theory-section,
+.vocab-section {
+    background: #fff;
+    border-radius: var(--lt-radius);
+    padding: 26px 30px 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 10px 28px rgba(45, 30, 90, 0.10);
+    backdrop-filter: none;
+}
+.content-section h2,
+.practice-section h2,
+.theory-section h2,
+.vocab-section h2 {
+    color: var(--lt-ink);
+    margin: 0 0 14px;
+    font-size: 1.22em;
+    font-weight: 700;
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.35;
+}
+.content-section h2::before,
+.practice-section h2::before,
+.theory-section h2::before,
+.vocab-section h2::before {
+    content: '';
+    position: absolute;
+    left: 0; top: .18em; bottom: .18em;
+    width: 4px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, var(--lt-brand), var(--lt-accent));
+}
+.content-section h3 { color: var(--lt-brand-dk); }
+
+/* ---------- карточки правил ---------- */
+.grammar-card,
+.grammar-note,
+.rule-card {
+    background: linear-gradient(135deg, #f8f6ff, #fff);
+    border: 1px solid #e6e0ff;
+    border-left: 4px solid var(--lt-brand);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin: 14px 0;
+    box-shadow: none;
+}
+.grammar-card .korean,
+.grammar-note .korean { color: var(--lt-brand-dk); font-weight: 700; line-height: 1.45; }
+.grammar-card .romanization { color: var(--lt-muted); }
+.grammar-card .meaning { color: #4a4560; line-height: 1.6; }
+
+/* ---------- таблицы ---------- */
+.grammar-table,
+.comparison-table,
+.vocab-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 0.93em;
+    box-shadow: none;
+}
+.grammar-table th,
+.comparison-table th,
+.vocab-table th,
+.table-header {
+    background: linear-gradient(135deg, var(--lt-brand), var(--lt-brand-dk));
+    color: #fff;
+    padding: 12px 14px;
+    font-weight: 600;
+    text-align: center;
+}
+.grammar-table th:first-child, .comparison-table th:first-child { border-top-left-radius: 12px; }
+.grammar-table th:last-child, .comparison-table th:last-child { border-top-right-radius: 12px; }
+.grammar-table td,
+.comparison-table td,
+.vocab-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--lt-line);
+    color: #45405c;
+    line-height: 1.5;
+}
+.grammar-table tr:last-child td,
+.comparison-table tr:last-child td { border-bottom: none; }
+.grammar-table tbody tr:nth-child(even),
+.comparison-table tbody tr:nth-child(even) { background: #faf9ff; }
+.grammar-table tbody tr:hover,
+.comparison-table tbody tr:hover { background: var(--lt-lav); }
+.table-scroll {
+    border: 1px solid var(--lt-line);
+    border-radius: 13px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+/* таблицы, собранные на div'ах */
+.table-row { border-bottom: 1px solid var(--lt-line); }
+.table-row:last-child { border-bottom: none; }
+.table-cell { color: #45405c; }
+
+/* ---------- примеры и подсказки ---------- */
+.example-box, .example-item {
+    background: #fff;
+    border: 1px solid var(--lt-line);
+    border-left: 3px solid var(--lt-accent);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 10px 0;
+    transition: all .2s ease;
+}
+.example-box:hover, .example-item:hover {
+    border-color: #e0d9ff;
+    box-shadow: 0 6px 18px rgba(45, 30, 90, 0.08);
+}
+.example-box .ex-korean { color: var(--lt-ink); font-weight: 700; line-height: 1.5; }
+.example-box .ex-romanization { color: #6b6684; font-style: italic; }
+.example-box .ex-meaning { color: #55506e; line-height: 1.55; }
+
+.tip-box, .info-box, .note-box {
+    background: var(--lt-lav);
+    border: 1px solid #e3ddff;
+    border-left: 4px solid var(--lt-brand);
+    border-radius: 13px;
+    padding: 15px 18px;
+    margin: 16px 0;
+    color: #4a4560;
+    line-height: 1.65;
+}
+.tip-box strong, .info-box strong { color: var(--lt-brand-dk); }
+
+.nuance-card {
+    background: var(--lt-accent-sf);
+    border: 1px solid #ffd6e6;
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin: 16px 0;
+}
+.nuance-card h3 { color: #b3175a; margin: 0 0 10px; font-size: 1.02em; }
+.nuance-card .example-box { background: rgba(255, 255, 255, 0.85); border-left-color: #f06292; }
+
+.error-card, .warning-box {
+    background: #fff5f5;
+    border: 1px solid #ffd4d4;
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin: 16px 0;
+}
+.error-card h3, .warning-box h3 { color: #c62828; margin: 0 0 10px; font-size: 1.02em; }
+.wrong { color: #d32f2f; font-weight: 700; }
+.right { color: #2e7d32; font-weight: 700; }
+.sound { color: var(--lt-accent); font-weight: 700; }
+
+/* ---------- карточки слов ---------- */
+.word-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(206px, 1fr)); gap: 12px; margin: 16px 0; }
+.word-card {
+    position: relative;
+    background: #fff;
+    border: 1px solid var(--lt-line);
+    border-top: 1px solid var(--lt-line);
+    border-radius: 14px;
+    padding: 15px 44px 15px 16px;
+    box-shadow: none;
+    transition: all .25s ease;
+}
+.word-card::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 14px; bottom: 14px;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: linear-gradient(180deg, var(--lt-brand), var(--lt-accent));
+    opacity: 0;
+    transition: opacity .25s ease;
+}
+.word-card:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(45, 30, 90, 0.13); border-color: #e0d9ff; }
+.word-card:hover::after { opacity: 1; }
+.word-card .wc-korean { color: var(--lt-ink); font-weight: 700; line-height: 1.35; }
+.word-card .wc-rom { color: #6b6684; font-style: italic; }
+.word-card .wc-meaning { color: #55506e; line-height: 1.45; }
+.word-card .wc-audio { position: absolute; top: 12px; right: 12px; margin: 0; }
+
+/* ---------- кнопка озвучки ---------- */
+.audio-btn, .audio-btn-light {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: var(--lt-lav);
+    color: var(--lt-brand);
+    cursor: pointer;
+    vertical-align: middle;
+    margin-left: 7px;
+    flex: 0 0 auto;
+    font-size: 0;
+    transition: all .2s ease;
+}
+.audio-btn:hover, .audio-btn-light:hover { background: var(--lt-brand); color: #fff; transform: scale(1.12); }
+.audio-btn svg, .audio-btn-light svg { width: 15px; height: 15px; display: block; }
+.grammar-table .audio-btn, .comparison-table .audio-btn { background: #efecfd; }
+.dialogue-box .audio-btn, .dialogue-box .audio-btn-light { background: rgba(255, 255, 255, 0.22); color: #fff; }
+.dialogue-box .audio-btn:hover, .dialogue-box .audio-btn-light:hover { background: #fff; color: var(--lt-brand-dk); }
+.remember-phrase .audio-btn { background: rgba(230, 81, 0, 0.12); color: #e65100; }
+.remember-phrase .audio-btn:hover { background: #e65100; color: #fff; }
+
+/* ---------- диалоги ---------- */
+.dialogue-box {
+    background: linear-gradient(140deg, #6C5CE7 0%, #8e5cd9 55%, #c2489b 100%);
+    color: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    margin: 16px 0;
+}
+.dialogue-line {
+    margin: 9px 0;
+    padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.13);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: background .3s ease;
+}
+.dialogue-box .speaker {
+    font-weight: 700;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    opacity: .85;
+    margin-bottom: 4px;
+}
+.dialogue-box .korean-text { font-size: 1.02em; font-weight: 500; line-height: 1.5; }
+.dialogue-box .translation { font-size: 0.87em; opacity: 0.82; margin-top: 5px; line-height: 1.5; }
+.dialogue-play-btn {
+    background: #fff;
+    color: var(--lt-brand-dk);
+    border: none;
+    padding: 11px 26px;
+    border-radius: 22px;
+    font-size: 0.93em;
+    font-weight: 700;
+    box-shadow: 0 6px 18px rgba(45, 30, 90, 0.18);
+    transition: all .25s ease;
+}
+.dialogue-play-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(45, 30, 90, 0.26); }
+.dialogue-play-btn:disabled { opacity: .65; cursor: default; transform: none; }
+
+/* ---------- упражнения ---------- */
+.practice-section { background: #fff; }
+.exercise-item, .exercise, .quiz-item {
+    background: #fbfaff;
+    border: 1px solid var(--lt-line);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin: 11px 0;
+    box-shadow: none;
+}
+.exercise-item .question,
+.exercise .question,
+.exercise-question { color: var(--lt-ink); font-weight: 600; line-height: 1.5; margin-bottom: 12px; }
+.exercise-item .options,
+.exercise-options { display: flex; flex-wrap: wrap; gap: 8px; }
+/* :not(...) — чтобы тема НЕ перебивала подсветку выбранного ответа,
+   которую уроки вешают классами correct / wrong / incorrect / selected. */
+.exercise-btn:not(.correct):not(.wrong):not(.incorrect):not(.selected):not(.wrong-answer),
+.exercise-item .option:not(.correct):not(.wrong):not(.incorrect):not(.selected):not(.wrong-answer),
+.exercise .option:not(.correct):not(.wrong):not(.incorrect):not(.selected):not(.wrong-answer),
+.option-btn:not(.correct):not(.wrong):not(.incorrect):not(.selected):not(.wrong-answer),
+.answer-btn:not(.correct):not(.wrong):not(.incorrect):not(.selected):not(.wrong-answer) {
+    background: #fff;
+    color: #4a4560;
+    padding: 9px 17px;
+    border: 1.5px solid #e2ddf2;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+.exercise-btn:not(.correct):not(.wrong):not(.incorrect):not(.selected):hover:not(:disabled),
+.exercise-item .option:not(.correct):not(.wrong):not(.incorrect):not(.selected):hover,
+.option-btn:not(.correct):not(.wrong):not(.incorrect):not(.selected):hover:not(:disabled) {
+    border-color: var(--lt-brand);
+    color: var(--lt-brand-dk);
+    background: var(--lt-lav);
+    transform: none;
+    box-shadow: none;
+}
+.exercise-btn:disabled, .option-btn:disabled { cursor: default; opacity: .95; }
+.exercise-result, .exercise-item .result { margin-top: 9px; font-weight: 600; font-size: 0.9em; }
+
+/* ---------- блок «Запомни» ---------- */
+.remember-block {
+    background: linear-gradient(140deg, #fffaf2, #fff3e0);
+    border: 1px solid #ffd9a8;
+    border-radius: var(--lt-radius);
+    padding: 26px 30px;
+    margin-bottom: 16px;
+    box-shadow: 0 10px 28px rgba(120, 70, 10, 0.09);
+}
+.remember-block h2 { color: #c0480f; margin: 0 0 14px; font-size: 1.28em; padding-left: 0; }
+.remember-block h2::before { display: none; }
+.remember-phrase {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid #ffe0b8;
+    border-radius: 12px;
+    padding: 13px 16px;
+    margin: 9px 0;
+}
+.remember-phrase .rp-korean { color: #b04513; font-weight: 700; line-height: 1.45; }
+.remember-phrase .rp-meaning { color: #6a6156; line-height: 1.5; }
+
+/* ---------- кнопка завершения ---------- */
+.complete-section { padding: 14px 0 8px; }
+.complete-btn {
+    background: linear-gradient(135deg, var(--lt-brand), var(--lt-accent));
+    color: #fff;
+    border: none;
+    padding: 15px 44px;
+    border-radius: 26px;
+    font-size: 1em;
+    font-weight: 700;
+    box-shadow: 0 10px 26px rgba(108, 92, 231, 0.35);
+    transition: all .25s ease;
+}
+.complete-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(108, 92, 231, 0.45); }
+.complete-btn:disabled { opacity: .8; cursor: default; transform: none; }
+
+/* ============================================================
+   ЧИТАЕМОСТЬ
+   Слишком светлый текст (контраст ниже требований WCAG AA:
+   4.5:1 для обычного текста, 3:1 для крупного). Значения
+   подобраны так, чтобы сохранить приглушённость, но дать
+   контраст не ниже 4.6:1 на белой карточке.
+   ============================================================ */
+.wc-rom,
+.ex-romanization,
+.word-romanization,
+.romanization,
+.pronunciation,
+.word-pron { color: #6b6684; }
+
+.word-translation,
+.ex-tr,
+.ex-meaning,
+.note,
+.hint,
+.essay-counter,
+.caption,
+.small-note { color: #55506e; }
+
+.meaning,
+.translation-text,
+.desc { color: #4a4560; }
+
+.sound { color: #C2185B; }
+.sound-arrow { color: #2e7d32; }
+
+/* цветной корейский в таблицах и заголовках — приглушённые
+   оранжевый и красный не добирали контраста на белом */
+.table-cell.korean,
+.korean-text.highlight,
+td .korean,
+.korean-accent { color: #b03a00; }
+
+/* элементы глобальной навигации: их стили вставляются скриптами
+   (global-nav.js, lesson-chrome.js) позже нашего файла, поэтому
+   специфичность поднята через body + id */
+body .jk-nav-guest-warning { color: #6f6350; }
+body #jk-lesson-nav .jk-nav-direction { color: #55506e; }
+
+/* белый текст на светло-оранжевой шапке таблицы спряжений не добирал контраста */
+.conj-head, .conj-grid .conj-head, .trans-cell.trans-header { background: #b8451c; color: #fff; }
+.korean-text { color: #c0392b; }
+.dialogue-box .korean-text { color: #fff; }
+
+/* ---------- мобильные ---------- */
+@media (max-width: 768px) {
+    /* Широкие таблицы и сетки прокручиваются внутри своей карточки,
+       а не растягивают всю страницу по горизонтали. */
+    .content-section,
+    .practice-section,
+    .theory-section,
+    .vocab-section,
+    .main-content,
+    .remember-block { overflow-x: auto; }
+    .grammar-table, .comparison-table, .vocab-table { max-width: 100%; }
+
+    .container { padding: 14px 14px 30px; }
+    .header { padding: 24px 20px 22px; }
+    .header h1 { font-size: 1.4em; }
+    .content-section, .practice-section, .remember-block, .theory-section, .vocab-section { padding: 22px 18px; }
+    .word-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .exercise-item .options, .exercise-options { flex-direction: column; }
+    .exercise-btn, .exercise-item .option, .option-btn { width: 100%; text-align: center; }
+}
+@media (max-width: 420px) {
+    .word-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>무슨 / 어느 / 어떤 / 몇 — четыре «какой» | 1급 Корейский язык</title>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+            min-height: 100vh; color: #333;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #388e3c; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #4caf50; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.05em; }
+        .header .lesson-number { font-size: 0.95em; color: #55506e; margin-bottom: 10px; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 { color: #388e3c; margin-top: 0; font-size: 1.8em; border-bottom: 3px solid #4caf50; padding-bottom: 10px; }
+
+        .grammar-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0;
+        }
+        .grammar-table th { background: #4caf50; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+        .table-wrap { overflow-x: auto; }
+
+        .tip-box {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .warning-box {
+            background: #fff8e1; border-left: 4px solid #FFC107;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #2e7d32, #388e3c); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+            text-align: center; font-size: 1.4em; font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .example-card {
+            background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+            border-left: 5px solid #4caf50;
+            padding: 20px 25px; border-radius: 12px; margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .example-card .korean { font-size: 1.3em; font-weight: 700; color: #2e7d32; margin-bottom: 8px; }
+        .example-card .pron { font-size: 0.95em; color: #689f38; font-style: italic; margin-bottom: 6px; }
+        .example-card .ru { font-size: 1em; color: #555; }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #388e3c, #4caf50); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .korean-text { font-size: 1.1em; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; font-style: italic; }
+        .dialogue-play-btn {
+            background: rgba(255,255,255,0.25); color: white; border: 2px solid rgba(255,255,255,0.4);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer;
+            font-size: 1em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.3s ease; margin-bottom: 15px;
+        }
+        .dialogue-play-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .drop { background: rgba(244,67,54,0.15); color: #c62828; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+        .keep { background: rgba(76,175,80,0.25); padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .audio-btn-light {
+            background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn-light:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .rule-visual {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 20px; margin: 15px 0; flex-wrap: wrap;
+        }
+        .rule-block {
+            padding: 12px 20px; border-radius: 12px; font-weight: 700; font-size: 1.2em;
+            text-align: center;
+        }
+        .rule-stem { background: #e3f2fd; color: #1565c0; border: 2px solid #90caf9; }
+        .rule-cut { background: #ffebee; color: #c62828; border: 2px solid #ef9a9a; text-decoration: line-through; }
+        .rule-end { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+        .rule-arrow { font-size: 1.3em; color: #55506e; }
+
+        .practice-section {
+            background: linear-gradient(135deg, #C8E6C9, #A5D6A7);
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .practice-section h2 { color: #1b5e20; margin-bottom: 20px; font-size: 1.5em; border-bottom: none; }
+
+        .exercise-block {
+            background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px;
+            margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .exercise-question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .exercise-options label {
+            display: block; padding: 10px 15px; margin: 6px 0;
+            background: #f5f5f5; border-radius: 10px; cursor: pointer;
+            transition: all 0.3s ease; font-size: 1em;
+        }
+        .exercise-options label:hover { background: #e8f5e9; }
+        .exercise-options input[type="radio"] { margin-right: 10px; accent-color: #4caf50; }
+        .exercise-check-btn {
+            background: #4caf50; color: white; padding: 10px 25px; border: none;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            transition: all 0.3s ease; margin-top: 10px;
+        }
+        .exercise-check-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .exercise-feedback { margin-top: 10px; padding: 8px; font-weight: 600; font-size: 1em; }
+
+        .summary-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
+        }
+        .summary-item {
+            background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049); color: white;
+            border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+        }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .content-section { padding: 25px; }
+            .rule-visual { gap: 5px; }
+            .rule-block { padding: 8px 14px; font-size: 1em; }
+            .summary-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../index.html">&larr; Назад к 1급</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <div class="lesson-number">1급 | Грамматика</div>
+            <h1>무슨 / 어느 / 어떤 / 몇 &mdash; четыре разных &laquo;какой&raquo;</h1>
+            <div class="korean-title">의문 관형사 <button class="audio-btn" onclick="speakKorean('무슨 음식을 좋아하세요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+            <div class="description">По-русски везде &laquo;какой&raquo;, по-корейски &mdash; четыре разных слова. Разбираем, когда какое</div>
+        </header>
+
+        <!-- ====== СЕКЦИЯ 1 ====== -->
+        <div class="content-section">
+            <h2>1. Одно русское слово &mdash; четыре корейских</h2>
+            <p>&laquo;Какой фильм ты смотрел?&raquo;, &laquo;Из какой ты страны?&raquo;, &laquo;Какой он человек?&raquo;, &laquo;Сколько сейчас времени?&raquo; &mdash; в русском это одно и то же вопросительное слово плюс интонация. В корейском для каждого случая своё слово, и они не взаимозаменяемы.</p>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Слово</th><th>Смысл вопроса</th><th>Пример</th><th>Звук</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>무슨</strong></td><td>что за, какого вида</td><td>무슨 음식? &mdash; что за еда?</td><td><button class="audio-btn" onclick="speakKorean('무슨 음식')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>어느</strong></td><td>который из нескольких</td><td>어느 나라? &mdash; какая страна?</td><td><button class="audio-btn" onclick="speakKorean('어느 나라')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>어떤</strong></td><td>какой по качеству</td><td>어떤 사람? &mdash; какой человек?</td><td><button class="audio-btn" onclick="speakKorean('어떤 사람')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>몇</strong></td><td>сколько, который по счёту</td><td>몇 시? &mdash; который час?</td><td><button class="audio-btn" onclick="speakKorean('몇 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="formula-box">무슨 / 어느 / 어떤 / 몇 + СУЩЕСТВИТЕЛЬНОЕ</div>
+
+            <div class="tip-box">
+                Все четыре слова &mdash; <strong>определения</strong>. Они всегда стоят <em>перед существительным</em> и никогда не употребляются в одиночку. Отдельно &laquo;что?&raquo; &mdash; это 무엇 / 뭐.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 2 ====== -->
+        <div class="content-section">
+            <h2>2. 무슨 &mdash; &laquo;что за&raquo;, вид или разновидность</h2>
+            <p>Спрашиваем о содержании или разновидности, когда список вариантов не задан заранее. Собеседник может ответить что угодно.</p>
+
+            <div class="example-card">
+                <div class="korean">무슨 음식을 좋아하세요? <button class="audio-btn" onclick="speakKorean('무슨 음식을 좋아하세요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[мусын ымсигыль чоахасэйо]</div>
+                <div class="ru">Какую еду вы любите? &mdash; 불고기를 좋아해요.</div>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">오늘이 무슨 요일이에요? <button class="audio-btn" onclick="speakKorean('오늘이 무슨 요일이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[оныри мусын ёириейо]</div>
+                <div class="ru">Какой сегодня день недели? &mdash; 금요일이에요.</div>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">무슨 일을 하세요? <button class="audio-btn" onclick="speakKorean('무슨 일을 하세요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[мусын ирыль хасэйо]</div>
+                <div class="ru">Кем вы работаете? (буквально: какую работу делаете)</div>
+            </div>
+
+            <div class="tip-box">
+                Частые сочетания: <strong>무슨 요일</strong> (день недели), <strong>무슨 색</strong> (цвет), <strong>무슨 음식</strong> (еда), <strong>무슨 영화</strong> (фильм), <strong>무슨 일</strong> (дело, работа), <strong>무슨 뜻</strong> (значение).
+            </div>
+
+            <div class="example-card">
+                <div class="korean">이 단어는 무슨 뜻이에요? <button class="audio-btn" onclick="speakKorean('이 단어는 무슨 뜻이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[и танонын мусын ттысиейо]</div>
+                <div class="ru">Что означает это слово? &mdash; фраза, которая спасает на каждом уроке.</div>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 3 ====== -->
+        <div class="content-section">
+            <h2>3. 어느 &mdash; &laquo;который из&raquo;, выбор из набора</h2>
+            <p>Используем, когда варианты уже известны или ограничены: страны мира, два блюда на столе, три автобуса на остановке.</p>
+
+            <div class="example-card">
+                <div class="korean">어느 나라 사람이에요? <button class="audio-btn" onclick="speakKorean('어느 나라 사람이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[оны нара сарамиейо]</div>
+                <div class="ru">Вы из какой страны? &mdash; классический вопрос при знакомстве.</div>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">어느 것이 마리아 씨 가방이에요? <button class="audio-btn" onclick="speakKorean('어느 것이 마리아 씨 가방이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[оны госи мариа сси кабанъиейо]</div>
+                <div class="ru">Которая сумка Марии? (сумки лежат перед нами)</div>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">어느 쪽으로 갈까요? <button class="audio-btn" onclick="speakKorean('어느 쪽으로 갈까요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[оны ччогыро калькайо]</div>
+                <div class="ru">В какую сторону пойдём?</div>
+            </div>
+
+            <div class="warning-box">
+                <strong>어느 것</strong> в разговоре часто сокращается до <strong>어느 거</strong>: 어느 거예요? &mdash; &laquo;который?&raquo;. Такое же сокращение у 이것 &rarr; 이거, 그것 &rarr; 그거.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 4 ====== -->
+        <div class="content-section">
+            <h2>4. 어떤 &mdash; &laquo;какой по характеру&raquo;</h2>
+            <p>Спрашиваем о свойствах, качестве, впечатлении. Ответ будет прилагательным, а не названием.</p>
+
+            <div class="example-card">
+                <div class="korean">어떤 사람이에요? <button class="audio-btn" onclick="speakKorean('어떤 사람이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[оттон сарамиейо]</div>
+                <div class="ru">Что он за человек? &mdash; 친절해요. (Добрый.)</div>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">어떤 영화를 좋아해요? <button class="audio-btn" onclick="speakKorean('어떤 영화를 좋아해요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[оттон ёнхварыль чоахэйо]</div>
+                <div class="ru">Какие фильмы вам нравятся? &mdash; 재미있는 영화요. (Весёлые.)</div>
+            </div>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Вопрос</th><th>Ожидаемый ответ</th><th>Разница</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>무슨 영화를 봤어요?</td><td>액션 영화요</td><td>жанр, название</td></tr>
+                    <tr><td>어떤 영화를 봤어요?</td><td>재미있는 영화요</td><td>впечатление, качество</td></tr>
+                    <tr><td>어느 영화를 봤어요?</td><td>첫 번째 영화요</td><td>который из списка</td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="tip-box">
+                Родственная конструкция: <strong>어떻습니까? / 어때요?</strong> &mdash; &laquo;как оно?&raquo;. 날씨가 어때요? &mdash; &laquo;Какая погода?&raquo;. Это уже сказуемое, а не определение.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 5 ====== -->
+        <div class="content-section">
+            <h2>5. 몇 &mdash; сколько и который по счёту</h2>
+            <p>몇 всегда стоит перед счётным словом или единицей измерения.</p>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Вопрос</th><th>Перевод</th><th>Пример ответа</th><th>Звук</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>몇 시예요?</td><td>Который час?</td><td>세 시예요</td><td><button class="audio-btn" onclick="speakKorean('몇 시예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>몇 명이에요?</td><td>Сколько человек?</td><td>네 명이에요</td><td><button class="audio-btn" onclick="speakKorean('몇 명이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>몇 개 주세요?</td><td>Сколько штук?</td><td>두 개요</td><td><button class="audio-btn" onclick="speakKorean('몇 개 주세요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>몇 층이에요?</td><td>Какой этаж?</td><td>지하 1층이에요</td><td><button class="audio-btn" onclick="speakKorean('몇 층이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>몇 월 며칠이에요?</td><td>Какое число?</td><td>시월 팔 일이에요</td><td><button class="audio-btn" onclick="speakKorean('몇 월 며칠이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="warning-box">
+                <strong>Внимание на 며칠:</strong> &laquo;какое число&raquo; &mdash; это 며칠, а не 몇 일. Пишется слитно и произносится [мёчхиль]. А вот &laquo;сколько дней&raquo; &mdash; тоже 며칠: 며칠 걸려요? (Сколько дней займёт?)
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 6 ====== -->
+        <div class="content-section">
+            <h2>6. 무슨 или 무엇? Не путать</h2>
+            <p>무엇 (разговорное 뭐) &mdash; это самостоятельное &laquo;что&raquo;, оно заменяет существительное. 무슨 &mdash; определение, после него обязательно идёт существительное.</p>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Правильно</th><th>Перевод</th><th>Ошибка</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>이것이 <strong>무엇</strong>입니까?</td><td>Что это?</td><td><span style="color:#c62828;">이것이 무슨입니까?</span></td></tr>
+                    <tr><td><strong>뭐</strong> 먹었어요?</td><td>Что вы ели?</td><td><span style="color:#c62828;">무슨 먹었어요?</span></td></tr>
+                    <tr><td><strong>무슨</strong> 음식을 먹었어요?</td><td>Какую еду вы ели?</td><td><span style="color:#c62828;">무엇 음식을 먹었어요?</span></td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="tip-box">
+                Проверка на лету: если после вопросительного слова идёт существительное &mdash; берите 무슨/어느/어떤/몇. Если сразу глагол &mdash; значит нужно 뭐/무엇.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 7: Диалог ====== -->
+        <div class="content-section">
+            <h2>7. Диалог: выбираем ресторан</h2>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">지훈:</div>
+                    <div class="korean-text">오늘 무슨 음식을 먹을까요?</div>
+                    <div class="translation">Что сегодня будем есть?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">올가:</div>
+                    <div class="korean-text">한식이 좋아요. 어느 식당에 갈까요?</div>
+                    <div class="translation">Хочу корейскую кухню. В какой ресторан пойдём?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지훈:</div>
+                    <div class="korean-text">학교 앞 식당은 어떤 곳이에요?</div>
+                    <div class="translation">А ресторан перед университетом &mdash; какое это место?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">올가:</div>
+                    <div class="korean-text">싸고 조용해요. 그런데 몇 시에 문을 열어요?</div>
+                    <div class="translation">Дёшево и тихо. Только во сколько он открывается?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지훈:</div>
+                    <div class="korean-text">열한 시요. 우리는 몇 명이에요?</div>
+                    <div class="translation">В одиннадцать. А нас сколько человек?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">올가:</div>
+                    <div class="korean-text">네 명이에요. 그럼 열두 시에 만나요.</div>
+                    <div class="translation">Четверо. Тогда встречаемся в двенадцать.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 8: Упражнения ====== -->
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-block">
+                <div class="exercise-question">1. ... 나라 사람이에요? (Вы из какой страны?)</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q1" value="0"> 무슨</label>
+                    <label><input type="radio" name="q1" value="1"> 어느</label>
+                    <label><input type="radio" name="q1" value="2"> 몇</label>
+                    <label><input type="radio" name="q1" value="3"> 무엇</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(1, 1)">Проверить</button>
+                <div class="exercise-feedback" id="feedback1"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">2. 오늘이 ... 요일이에요? (Какой сегодня день недели?)</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q2" value="0"> 어떤</label>
+                    <label><input type="radio" name="q2" value="1"> 어느</label>
+                    <label><input type="radio" name="q2" value="2"> 무슨</label>
+                    <label><input type="radio" name="q2" value="3"> 몇</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(2, 2)">Проверить</button>
+                <div class="exercise-feedback" id="feedback2"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">3. Вы спрашиваете о характере человека. Какое слово?</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q3" value="0"> 어떤 사람이에요?</label>
+                    <label><input type="radio" name="q3" value="1"> 무슨 사람이에요?</label>
+                    <label><input type="radio" name="q3" value="2"> 몇 사람이에요?</label>
+                    <label><input type="radio" name="q3" value="3"> 무엇 사람이에요?</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(3, 0)">Проверить</button>
+                <div class="exercise-feedback" id="feedback3"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">4. &laquo;Какое сегодня число?&raquo; &mdash; правильный вариант:</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q4" value="0"> 몇 월 몇 일이에요?</label>
+                    <label><input type="radio" name="q4" value="1"> 무슨 날짜예요?</label>
+                    <label><input type="radio" name="q4" value="2"> 몇 월 며칠이에요?</label>
+                    <label><input type="radio" name="q4" value="3"> 어느 날이에요?</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(4, 2)">Проверить</button>
+                <div class="exercise-feedback" id="feedback4"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">5. Где ошибка?</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q5" value="0"> 이것이 무엇입니까?</label>
+                    <label><input type="radio" name="q5" value="1"> 무슨 영화를 봤어요?</label>
+                    <label><input type="radio" name="q5" value="2"> 무슨 먹었어요?</label>
+                    <label><input type="radio" name="q5" value="3"> 몇 시에 만날까요?</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(5, 2)">Проверить</button>
+                <div class="exercise-feedback" id="feedback5"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">6. Перед вами три сумки. Как спросить &laquo;которая ваша?&raquo;</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q6" value="0"> 무슨 가방이에요?</label>
+                    <label><input type="radio" name="q6" value="1"> 어느 것이 가방이에요?</label>
+                    <label><input type="radio" name="q6" value="2"> 어떤 가방이에요?</label>
+                    <label><input type="radio" name="q6" value="3"> 몇 가방이에요?</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(6, 1)">Проверить</button>
+                <div class="exercise-feedback" id="feedback6"></div>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 9: Запомни! ====== -->
+        <div class="content-section">
+            <h2>&#128203; Запомни!</h2>
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px;">
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <strong>&#127860; 무슨</strong><br>
+                        что за, вид<br>
+                        무슨 음식, 무슨 요일
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#128071; 어느</strong><br>
+                        который из<br>
+                        어느 나라, 어느 것
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#10024; 어떤</strong><br>
+                        какой по качеству<br>
+                        어떤 사람, 어떤 영화
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#128290; 몇</strong><br>
+                        сколько<br>
+                        몇 시, 몇 명, 몇 층
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#10067; 무엇 / 뭐</strong><br>
+                        просто &laquo;что&raquo;<br>
+                        без существительного
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#9888; 며칠</strong><br>
+                        какое число<br>
+                        не 몇 일
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" class="complete-btn">Урок пройден! &#10003;</button>
+        </div>
+    </div>
+
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.parentElement.querySelector('.dialogue-box');
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text');
+                if (k) {
+                    var t = k.textContent.replace(/\[.*?\]/g, '').trim();
+                    if (t) texts.push(t);
+                }
+            });
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.innerHTML = '&#9208; Воспроизводится...';
+            btn.disabled = true;
+            function next() {
+                if (i >= texts.length) {
+                    btn.innerHTML = '&#127917; Прослушать диалог';
+                    btn.disabled = false;
+                    lines.forEach(function(l) { l.style.background = ''; });
+                    return;
+                }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(255,255,255,0.15)';
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                u.onend = function() { i++; setTimeout(next, 400); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+
+        function checkExercise(num, correct) {
+            var radios = document.getElementsByName('q' + num);
+            var selected = -1;
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) selected = i;
+            }
+            if (selected === -1) {
+                if (window.JKToast) { JKToast.warning('Выберите ответ!'); }
+                return;
+            }
+            var feedback = document.getElementById('feedback' + num);
+            var labels = radios[0].parentElement.parentElement.getElementsByTagName('label');
+            if (selected === correct) {
+                feedback.textContent = '[OK] Правильно!';
+                feedback.style.color = '#4caf50';
+                labels[selected].style.color = '#4caf50';
+                labels[selected].style.fontWeight = 'bold';
+            } else {
+                feedback.textContent = '[-] Неправильно. Попробуйте ещё раз!';
+                feedback.style.color = '#f44336';
+                labels[selected].style.color = '#f44336';
+            }
+        }
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_question_determiners';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>
