@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Словарь: TOPIK 중급: существительные II</title>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background: linear-gradient(135deg, #2f6fd0 0%, #1a3f8f 100%); min-height: 100vh; margin: 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .vocab-header { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-radius: 25px; padding: 40px; margin-bottom: 30px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        .vocab-header h1 { font-size: 2.5em; color: #2c3e50; margin-bottom: 10px; }
+        .korean-title { font-size: 1.8em; color: #b26a00; margin-bottom: 15px; font-weight: 600; }
+        .study-mode { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .mode-btn { padding: 12px 25px; background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3); border-radius: 25px; font-size: 1em; cursor: pointer; transition: all 0.3s ease; font-weight: 500; }
+        .mode-btn:hover { background: rgba(255,255,255,0.3); }
+        .mode-btn.active { background: #FF9800; border-color: #FF9800; }
+        .vocabulary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin: 20px 0; }
+        .word-card { background: white; border-radius: 20px; padding: 0; box-shadow: 0 10px 30px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.3s ease; overflow: hidden; text-align: center; }
+        .word-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .word-emoji { height: 80px; display: flex; align-items: center; justify-content: center; font-size: 2.5em; background: linear-gradient(135deg, #d97706, #92400e); color: white; }
+        .word-korean { font-size: 1.6em; font-weight: bold; color: #2c3e50; padding: 12px 15px 5px; }
+        .word-romanization { font-size: 0.95em; color: #55506e; font-style: italic; padding: 0 15px; }
+        .word-translation { font-size: 1em; color: #555; padding: 5px 15px 10px; }
+        .speak-btn { background: none; border: none; font-size: 1.3em; cursor: pointer; padding: 5px 10px 15px; transition: transform 0.2s; }
+        .speak-btn:hover { transform: scale(1.3); }
+        .flashcard { background: rgba(255,255,255,0.95); padding: 50px 40px; border-radius: 25px; margin: 20px auto; max-width: 500px; min-height: 220px; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 15px 40px rgba(0,0,0,0.1); user-select: none; }
+        .flashcard:hover { transform: scale(1.02); }
+        .flashcard .card-emoji { font-size: 3em; margin-bottom: 15px; }
+        .flashcard .card-korean { font-size: 2.5em; font-weight: bold; color: #2c3e50; margin-bottom: 10px; }
+        .flashcard .card-romanization { font-size: 1.2em; color: #55506e; font-style: italic; }
+        .flashcard .card-translation { font-size: 1.5em; color: #555; margin-top: 10px; }
+        .flashcard-nav { text-align: center; margin-top: 25px; display: flex; justify-content: center; align-items: center; gap: 20px; }
+        .flashcard-nav .mode-btn { min-width: 130px; }
+        .card-counter { color: #ffffff; font-size: 1.1em; font-weight: 500; min-width: 80px; text-align: center; }
+        .card-hint { text-align: center; color: #ffffff; margin-top: 15px; font-size: 0.9em; }
+
+        /* ===== Audio player (Слушать) ===== */
+        .audio-mode-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+        .audio-mode-toggle button {
+            padding: 9px 18px;
+            background: rgba(255,255,255,0.15);
+            color: #ffffff;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.25s ease;
+        }
+        .audio-mode-toggle button:hover { background: rgba(255,255,255,0.25); }
+        .audio-mode-toggle button.active { background: #FF9800; border-color: #FF9800; }
+
+        .audio-player {
+            background: rgba(255,255,255,0.97);
+            border-radius: 22px;
+            padding: 45px 35px;
+            margin: 15px auto 0;
+            max-width: 480px;
+            min-height: 200px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .audio-player.speaking { box-shadow: 0 15px 45px rgba(198,40,40,0.35); }
+
+        .audio-dot {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 14px;
+        }
+        .audio-korean { font-size: 2.3em; font-weight: 700; color: #2c3e50; }
+        .audio-romanization { font-size: 1.1em; color: #6b6684; font-style: italic; margin-top: 4px; }
+        .audio-translation { font-size: 1.4em; color: #555; margin-top: 8px; }
+
+        .audio-example {
+            display: none;
+            font-size: 1.05em;
+            color: #1565c0;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+            line-height: 1.5;
+        }
+        .audio-example.show { display: block; }
+        .audio-example .ax-tr { font-size: 0.9em; color: #55506e; margin-top: 4px; }
+
+        .audio-progress {
+            max-width: 480px;
+            margin: 18px auto 8px;
+            height: 6px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .audio-progress-bar {
+            height: 100%;
+            background: #FF9800;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .audio-counter {
+            text-align: center;
+            color: #ffffff;
+            font-size: 0.9em;
+            margin-bottom: 18px;
+        }
+
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+        }
+        .audio-ctrl-btn {
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.25);
+            color: white;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .audio-ctrl-btn:hover { background: rgba(255,255,255,0.28); transform: scale(1.05); }
+        .audio-ctrl-btn.play { width: 58px; height: 58px; font-size: 1.3em; background: #FF9800; border-color: #FF9800; }
+        .audio-ctrl-btn.play:hover { background: #AE2323; }
+        .audio-ctrl-btn.repeat.active { background: #FF9800; border-color: #FF9800; }
+
+        .quiz-section { background: rgba(255,255,255,0.95); border-radius: 25px; padding: 40px; max-width: 600px; margin: 20px auto; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .quiz-question { font-size: 1.5em; color: #2c3e50; margin-bottom: 25px; text-align: center; }
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .quiz-option { padding: 15px; background: #f8f9fa; border: 2px solid #e9ecef; border-radius: 12px; cursor: pointer; transition: all 0.3s ease; font-weight: 500; text-align: center; font-size: 1.1em; }
+        .quiz-option:hover { background: #e9ecef; transform: translateY(-2px); }
+        .quiz-option.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+        .quiz-option.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+        .quiz-result { text-align: center; font-size: 1.2em; margin-top: 20px; font-weight: 500; }
+        .quiz-stats { text-align: center; margin-top: 15px; color: #666; }
+        .quiz-buttons { text-align: center; margin-top: 20px; display: flex; justify-content: center; gap: 15px; }
+        .quiz-buttons button { padding: 12px 25px; border: none; border-radius: 12px; font-size: 1em; cursor: pointer; transition: all 0.3s ease; font-weight: 500; }
+        .quiz-buttons .next-btn { background: #FF9800; color: #ffffff; }
+        .quiz-buttons .restart-btn { background: #6c757d; color: #ffffff; }
+        /* ===== Grammar section ===== */
+        .grammar-toggle { text-align: center; margin-bottom: 20px; }
+        .grammar-toggle button { padding: 12px 28px; background: rgba(255,255,255,0.2); color: #2b2440; border: 2px solid rgba(255,255,255,0.3); border-radius: 25px; font-size: 1em; cursor: pointer; transition: all 0.3s ease; font-weight: 500; font-family: 'Noto Sans KR', sans-serif; }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.3); }
+        .grammar-block { background: rgba(255,255,255,0.97); backdrop-filter: blur(10px); border-radius: 22px; padding: 0; margin-bottom: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); overflow: hidden; }
+        .grammar-block h3 { color: white; background: linear-gradient(135deg, #d97706, #92400e); padding: 18px 30px; margin: 0; font-size: 1.2em; font-weight: 600; }
+        .grammar-inner { padding: 25px 30px 30px; }
+        .section-label { font-size: 0.85em; text-transform: uppercase; letter-spacing: 1.5px; color: #ffffff; font-weight: 600; margin: 20px 0 10px; }
+        .section-label:first-child { margin-top: 0; }
+        .formula-card { background: linear-gradient(135deg, #fff0f5, #ffe0ea); border-radius: 16px; padding: 20px 24px; margin-bottom: 16px; border: 1px solid #ffd6d6; }
+        .formula-card .fc-formula { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 1.1em; margin-bottom: 8px; }
+        .fc-word { background: white; padding: 6px 14px; border-radius: 10px; font-weight: 600; color: #2c3e50; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .fc-word.highlight { background: #ffebee; color: #b26a00; }
+        .fc-word.result { background: linear-gradient(135deg, #d97706, #92400e); color: white; }
+        .fc-word.particle { background: #ffe0e0; color: #b71c1c; }
+        .fc-word.strike { text-decoration: line-through; color: #6b6684; font-weight: 400; }
+        .fc-plus { color: #b26a00; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #FFA726; font-size: 1.3em; }
+        .fc-desc { color: #55506e; font-size: 0.9em; margin-top: 4px; }
+        .usage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 15px; }
+        .usage-item { background: white; border-radius: 12px; padding: 14px 16px; border: 1px solid #eee; }
+        .ui-kr { color: #b26a00; font-weight: 700; font-size: 1.02em; margin-bottom: 4px; }
+        .ui-tr { color: #55506e; font-size: 0.88em; }
+        .expand-btn { background: none; border: none; font-size: 1em; cursor: pointer; padding: 4px; transition: transform 0.3s; color: #6b6684; line-height: 1; }
+        .expand-btn:hover { color: #b26a00; }
+        .expand-btn.open { transform: rotate(180deg); color: #b26a00; }
+        .word-details { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; background: #fafbfc; border-top: 1px solid #f0f0f0; }
+        .word-details.open { max-height: 250px; }
+        .word-details-inner { padding: 14px 18px; }
+        .detail-example { padding: 10px 14px; background: #ffebee; border-radius: 10px; border-left: 3px solid #FF9800; }
+        .detail-example .ex-kr { color: #b26a00; font-weight: 600; font-size: 1em; }
+        .detail-example .ex-tr { color: #55506e; font-size: 0.88em; margin-top: 3px; }
+
+        .search-bar { max-width: 500px; margin: 0 auto 25px; padding: 0 20px; }
+        .search-bar input { width: 100%; padding: 12px 20px; border: 2px solid rgba(255,255,255,0.3); border-radius: 25px; background: rgba(255,255,255,0.15); color: #2b2440; font-size: 16px; outline: none; transition: all 0.3s ease; box-sizing: border-box; }
+        .search-bar input::placeholder { color: rgba(255,255,255,0.6); }
+        .search-bar input:focus { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.25); }
+        .vocab-group { margin-bottom: 10px; }
+        .group-header { color: #2c3e50; background: rgba(255,255,255,0.88); font-size: 1.25em; font-weight: 700; margin: 25px 0 15px; padding: 12px 22px; border-radius: 15px; border-left: 5px solid #FF9800; box-shadow: 0 5px 15px rgba(0,0,0,0.06); }
+        .group-header .gh-kr { color: #b26a00; font-weight: 600; margin-left: 10px; font-size: 0.85em; }
+        @media (max-width: 768px) { .vocab-header h1 { font-size: 1.8em; } .korean-title { font-size: 1.4em; } .vocabulary-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; } .flashcard { padding: 30px 20px; min-height: 180px; } .flashcard .card-korean { font-size: 2em; } .audio-player { padding: 30px 20px; min-height: 170px; } .audio-korean { font-size: 1.9em; } .quiz-options { grid-template-columns: 1fr; } }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap;">
+            <a href="../../level_3/index.html" style="color: white; text-decoration: none; font-size: 1.1em; padding: 12px 25px; background: rgba(45,30,90,0.28); text-shadow: 0 1px 2px rgba(0,0,0,0.25); border-radius: 15px; transition: all 0.3s ease; backdrop-filter: blur(10px);">← К 3급</a>
+        </div>
+        <div class="vocab-header">
+            <h1>📗 TOPIK 중급: существительные II</h1>
+            <div class="korean-title">중급 명사 ② [чунгып мёнса]</div>
+            <p>199 существительных TOPIK среднего уровня — от 명소 до 엉망</p>
+        </div>
+
+        <!-- Описание категории -->
+        <div class="grammar-block" style="display: block;">
+            <h3>&#128161; О категории</h3>
+            <div style="padding: 22px 30px 26px;">
+            <p style="color: #555; margin: 0; font-size: 0.97em; line-height: 1.6;">Слова сгруппированы по темам &mdash; переключайтесь между режимами <strong>Словарь</strong>, <strong>Карточки</strong>, <strong>Тест</strong> и <strong>Слушать</strong> вверху страницы.</p>
+            <p style="color: #55506e; margin: 14px 0 0 0; font-size: 0.9em;">Всего слов: <strong>199</strong> в 7 группах.
+            </p>
+            </div>
+        </div>
+
+        <div class="study-mode">
+            <button class="mode-btn active" onclick="showMode('vocabulary')">📚 Словарь</button>
+            <button class="mode-btn" onclick="showMode('flashcards')">🃏 Карточки</button>
+            <button class="mode-btn" onclick="showMode('quiz')">🎯 Тест</button>
+            <button class="mode-btn" onclick="showMode('audio')">🎧 Слушать</button>
+        </div>
+        <div id="vocabulary-section">
+            <div class="search-bar"><input type="text" id="vocabSearch" placeholder="🔍 Поиск слова..." oninput="filterVocabulary()"></div>
+            <div id="vocabularyContainer"></div>
+        </div>
+        <div id="flashcard-section" style="display: none;">
+            <div class="flashcard" id="flashcard" onclick="flipCard()"><div id="flashcard-content"></div></div>
+            <div class="flashcard-nav"><button class="mode-btn" onclick="prevCard()">← Назад</button><span class="card-counter" id="card-counter">1 / 45</span><button class="mode-btn" onclick="nextCard()">Вперёд →</button></div>
+            <div class="card-hint">Нажмите на карточку или пробел для переворота. ←→ для навигации</div>
+        </div>
+        <div id="quiz-section" style="display: none;">
+            <div class="quiz-section">
+                <h2 style="text-align: center; color: #2c3e50; margin-bottom: 20px;">🎯 Тест</h2>
+                <div class="quiz-question" id="quiz-question"></div>
+                <div class="quiz-options" id="quiz-options"></div>
+                <div class="quiz-result" id="quiz-result"></div>
+                <div class="quiz-buttons"><button class="next-btn" onclick="nextQuestion()">Следующий вопрос</button><button class="restart-btn" onclick="restartQuiz()">Начать заново</button></div>
+                <div class="quiz-stats" id="quiz-stats">Правильно: <span id="correct-count">0</span> из <span id="total-count">0</span></div>
+            </div>
+        </div>
+
+        <!-- Audio Section (Слушать по дороге) -->
+        <div id="audio-section" style="display: none;">
+            <div class="audio-mode-toggle">
+                <button id="audio-mode-word" class="active" onclick="setAudioMode('word')">🔤 Просто</button>
+                <button id="audio-mode-translation" onclick="setAudioMode('translation')">🌐 С переводом</button>
+                <button id="audio-mode-example" onclick="setAudioMode('example')">💬 С примерами</button>
+            </div>
+
+            <div class="audio-player" id="audio-player">
+                <div class="word-emoji" id="audio-dot"></div>
+                <div class="audio-korean" id="audio-korean"></div>
+                <div class="audio-romanization" id="audio-romanization"></div>
+                <div class="audio-translation" id="audio-translation"></div>
+                <div class="audio-example" id="audio-example"></div>
+            </div>
+
+            <div class="audio-progress"><div class="audio-progress-bar" id="audio-progress-bar"></div></div>
+            <div class="audio-counter" id="audio-counter">1 / 45</div>
+
+            <div class="audio-controls">
+                <button class="audio-ctrl-btn" onclick="playerPrev()" title="Предыдущий">⏮</button>
+                <button class="audio-ctrl-btn play" id="audio-play-btn" onclick="togglePlayPause()" title="Воспроизвести / пауза">▶</button>
+                <button class="audio-ctrl-btn" onclick="playerNext()" title="Следующий">⏭</button>
+                <button class="audio-ctrl-btn repeat active" id="audio-repeat-btn" onclick="toggleRepeat()" title="Повторять весь список по кругу">🔁</button>
+            </div>
+
+            <div class="card-hint">Плеер озвучит все слова по очереди — удобно слушать по дороге, не глядя в телефон. Пробел = play/пауза, ←→ = пред./след.</div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px; background: rgba(255,255,255,0.95); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            <h3 style="color: #2c3e50; margin-bottom: 20px;">🎉 Отлично!</h3>
+            <a href="../../level_1/index.html" style="display: inline-block; background: #FF9800; color: white; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-size: 1.1em; font-weight: 500;">← К урокам 1급</a>
+        </div>
+    
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+    <script>
+        var vocabulary = [
+            {group: 'life', emoji: '📸', korean: '명소', romanization: 'myeongso', translation: 'достопримечательность', example: '서울의 명소를 돌았어요.', exampleTr: 'Обошёл достопримечательности Сеула.'},
+            {group: 'life', emoji: '👜', korean: '명품', romanization: 'myeongpum', translation: 'люксовый бренд, брендовая вещь', example: '명품 가방을 샀어요.', exampleTr: 'Купила брендовую сумку.'},
+            {group: 'study', emoji: '🎒', korean: '모범생', romanization: 'mobeomsaeng', translation: 'примерный ученик', example: '그는 반의 모범생이에요.', exampleTr: 'Он в классе примерный ученик.'},
+            {group: 'person', emoji: '🧭', korean: '모험심', romanization: 'moheomsim', translation: 'дух авантюризма', example: '모험심이 강해요.', exampleTr: 'В нём силён дух авантюризма.'},
+            {group: 'idea', emoji: '🏗️', korean: '모형', romanization: 'mohyeong', translation: 'макет, модель', example: '비행기 모형을 만들었어요.', exampleTr: 'Собрал модель самолёта.'},
+            {group: 'person', emoji: '💓', korean: '목숨', romanization: 'moksum', translation: 'жизнь (существование)', example: '목숨을 구했어요.', exampleTr: 'Спас жизнь.'},
+            {group: 'life', emoji: '📍', korean: '목적지', romanization: 'mokjeokji', translation: 'пункт назначения', example: '목적지에 도착했어요.', exampleTr: 'Прибыли в пункт назначения.'},
+            {group: 'idea', emoji: '🎯', korean: '목표', romanization: 'mokpyo', translation: 'цель', example: '목표를 세웠어요.', exampleTr: 'Поставил цель.'},
+            {group: 'person', emoji: '😐', korean: '무관심', romanization: 'mugwansim', translation: 'равнодушие', example: '무관심이 제일 무서워요.', exampleTr: 'Страшнее всего равнодушие.'},
+            {group: 'nature', emoji: '🥵', korean: '무더위', romanization: 'mudeowi', translation: 'зной, сильная жара', example: '무더위가 계속돼요.', exampleTr: 'Зной продолжается.'},
+            {group: 'life', emoji: '⚰️', korean: '무덤', romanization: 'mudeom', translation: 'могила', example: '무덤에 꽃을 놓았어요.', exampleTr: 'Положил цветы на могилу.'},
+            {group: 'work', emoji: '📶', korean: '무선', romanization: 'museon', translation: 'беспроводной', example: '무선 인터넷이 돼요.', exampleTr: 'Есть беспроводной интернет.'},
+            {group: 'idea', emoji: '📭', korean: '무소식', romanization: 'musosik', translation: 'отсутствие вестей', example: '무소식이 희소식이에요.', exampleTr: 'Отсутствие новостей — хорошая новость.'},
+            {group: 'person', emoji: '🙄', korean: '무시', romanization: 'musi', translation: 'пренебрежение, игнор', example: '사람을 무시하지 마세요.', exampleTr: 'Не пренебрегайте людьми.'},
+            {group: 'society', emoji: '🏛️', korean: '문명', romanization: 'munmyeong', translation: 'цивилизация', example: '고대 문명을 연구해요.', exampleTr: 'Изучаю древние цивилизации.'},
+            {group: 'work', emoji: '📄', korean: '문서', romanization: 'munseo', translation: 'документ', example: '문서를 정리했어요.', exampleTr: 'Разобрал документы.'},
+            {group: 'work', emoji: '☎️', korean: '문의', romanization: 'munui', translation: 'запрос, справка', example: '문의 사항이 있어요.', exampleTr: 'У меня есть вопрос.'},
+            {group: 'idea', emoji: '⚠️', korean: '문제점', romanization: 'munjejeom', translation: 'недостаток, проблемное место', example: '문제점을 찾았어요.', exampleTr: 'Нашёл слабое место.'},
+            {group: 'society', emoji: '🏯', korean: '문화유산', romanization: 'munhwayusan', translation: 'культурное наследие', example: '문화유산을 보호해요.', exampleTr: 'Охраняем культурное наследие.'},
+            {group: 'society', emoji: '🎭', korean: '문화적', romanization: 'munhwajeok', translation: 'культурный', example: '문화적 차이가 있어요.', exampleTr: 'Есть культурные различия.'},
+            {group: 'nature', emoji: '🧪', korean: '물질', romanization: 'muljil', translation: 'вещество, материя', example: '해로운 물질이에요.', exampleTr: 'Это вредное вещество.'},
+            {group: 'work', emoji: '📦', korean: '물품', romanization: 'mulpum', translation: 'товар, вещи', example: '물품을 보냈어요.', exampleTr: 'Отправил товар.'},
+            {group: 'person', emoji: '🙅', korean: '미혼', romanization: 'mihon', translation: 'холостой, незамужняя', example: '아직 미혼이에요.', exampleTr: 'Пока не женат.'},
+            {group: 'society', emoji: '🎏', korean: '민속놀이', romanization: 'minsongnori', translation: 'народная игра', example: '설날에 민속놀이를 해요.', exampleTr: 'На Новый год играем в народные игры.'},
+            {group: 'society', emoji: '🎵', korean: '민요', romanization: 'minyo', translation: 'народная песня', example: '민요를 배웠어요.', exampleTr: 'Выучил народную песню.'},
+            {group: 'society', emoji: '🌏', korean: '민족', romanization: 'minjok', translation: 'народ, нация', example: '여러 민족이 살아요.', exampleTr: 'Живут разные народы.'},
+            {group: 'person', emoji: '🤝', korean: '믿음', romanization: 'mideum', translation: 'вера, доверие', example: '믿음이 생겼어요.', exampleTr: 'Появилось доверие.'},
+            {group: 'life', emoji: '🚪', korean: '바깥', romanization: 'bakkat', translation: 'наружу, снаружи', example: '바깥 공기가 좋아요.', exampleTr: 'На улице хороший воздух.'},
+            {group: 'life', emoji: '🧱', korean: '바닥', romanization: 'badak', translation: 'пол, дно', example: '바닥이 차가워요.', exampleTr: 'Пол холодный.'},
+            {group: 'idea', emoji: '🎨', korean: '바탕', romanization: 'batang', translation: 'основа, фон', example: '사실을 바탕으로 썼어요.', exampleTr: 'Написал на основе фактов.'},
+            {group: 'study', emoji: '🔁', korean: '반복', romanization: 'banbok', translation: 'повторение', example: '반복이 최고의 방법이에요.', exampleTr: 'Повторение — лучший способ.'},
+            {group: 'person', emoji: '🪞', korean: '반성', romanization: 'banseong', translation: 'самоанализ, раскаяние', example: '자기 반성을 했어요.', exampleTr: 'Проанализировал свои поступки.'},
+            {group: 'idea', emoji: '💥', korean: '반응', romanization: 'baneung', translation: 'реакция, отклик', example: '반응이 좋았어요.', exampleTr: 'Реакция была хорошей.'},
+            {group: 'work', emoji: '📮', korean: '반품', romanization: 'banpum', translation: 'возврат товара', example: '반품하고 싶어요.', exampleTr: 'Хочу вернуть товар.'},
+            {group: 'life', emoji: '👣', korean: '발걸음', romanization: 'balgeoreum', translation: 'шаг, поступь', example: '발걸음이 가벼워요.', exampleTr: 'Шаг лёгкий.'},
+            {group: 'study', emoji: '🔭', korean: '발견', romanization: 'balgyeon', translation: 'открытие, обнаружение', example: '새로운 발견이에요.', exampleTr: 'Это новое открытие.'},
+            {group: 'work', emoji: '🪪', korean: '발급', romanization: 'balgeup', translation: 'выдача документа', example: '여권을 발급받았어요.', exampleTr: 'Получил паспорт.'},
+            {group: 'idea', emoji: '📈', korean: '발달', romanization: 'baldal', translation: 'развитие, рост', example: '교통이 발달했어요.', exampleTr: 'Транспорт хорошо развит.'},
+            {group: 'study', emoji: '💡', korean: '발명', romanization: 'balmyeong', translation: 'изобретение', example: '위대한 발명이에요.', exampleTr: 'Это великое изобретение.'},
+            {group: 'society', emoji: '🚀', korean: '발전', romanization: 'baljeon', translation: 'развитие, прогресс', example: '기술 발전이 빨라요.', exampleTr: 'Технический прогресс быстрый.'},
+            {group: 'life', emoji: '🌙', korean: '밤새', romanization: 'bamsae', translation: 'всю ночь напролёт', example: '밤새 공부했어요.', exampleTr: 'Учился всю ночь.'},
+            {group: 'idea', emoji: '🧭', korean: '방식', romanization: 'bangsik', translation: 'способ, метод', example: '방식을 바꿨어요.', exampleTr: 'Изменил метод.'},
+            {group: 'idea', emoji: '🖼️', korean: '배경', romanization: 'baegyeong', translation: 'фон, предыстория', example: '배경 설명이 필요해요.', exampleTr: 'Нужно объяснить предысторию.'},
+            {group: 'person', emoji: '🤗', korean: '배려', romanization: 'baeryeo', translation: 'забота о других', example: '배려가 고마워요.', exampleTr: 'Спасибо за заботу.'},
+            {group: 'person', emoji: '💑', korean: '배우자', romanization: 'baeuja', translation: 'супруг, супруга', example: '배우자를 소개했어요.', exampleTr: 'Представил супругу.'},
+            {group: 'person', emoji: '🔁', korean: '버릇', romanization: 'beoreut', translation: 'привычка', example: '나쁜 버릇을 고쳤어요.', exampleTr: 'Избавился от плохой привычки.'},
+            {group: 'idea', emoji: '📐', korean: '범위', romanization: 'beomwi', translation: 'диапазон, охват', example: '시험 범위가 넓어요.', exampleTr: 'Объём экзамена большой.'},
+            {group: 'society', emoji: '🚔', korean: '범인', romanization: 'beomin', translation: 'преступник', example: '범인을 잡았어요.', exampleTr: 'Поймали преступника.'},
+            {group: 'society', emoji: '⛓️', korean: '범죄', romanization: 'beomjoe', translation: 'преступление', example: '범죄가 줄었어요.', exampleTr: 'Преступлений стало меньше.'},
+            {group: 'work', emoji: '✏️', korean: '변경', romanization: 'byeongyeong', translation: 'изменение, правка', example: '일정을 변경했어요.', exampleTr: 'Изменил расписание.'},
+            {group: 'person', emoji: '🙊', korean: '변명', romanization: 'byeonmyeong', translation: 'оправдание, отговорка', example: '변명하지 마세요.', exampleTr: 'Не оправдывайтесь.'},
+            {group: 'idea', emoji: '🔄', korean: '변화', romanization: 'byeonhwa', translation: 'перемена', example: '큰 변화가 있었어요.', exampleTr: 'Произошли большие перемены.'},
+            {group: 'person', emoji: '🏷️', korean: '별명', romanization: 'byeolmyeong', translation: 'прозвище', example: '별명이 뭐예요?', exampleTr: 'Какое у тебя прозвище?'},
+            {group: 'work', emoji: '📋', korean: '보고', romanization: 'bogo', translation: 'доклад, отчёт', example: '보고를 드릴게요.', exampleTr: 'Я доложу.'},
+            {group: 'work', emoji: '🗄️', korean: '보관', romanization: 'bogwan', translation: 'хранение', example: '냉장고에 보관하세요.', exampleTr: 'Храните в холодильнике.'},
+            {group: 'person', emoji: '🌱', korean: '보람', romanization: 'boram', translation: 'чувство, что всё не зря', example: '일에 보람을 느껴요.', exampleTr: 'Работа приносит удовлетворение.'},
+            {group: 'life', emoji: '💎', korean: '보물', romanization: 'bomul', translation: 'сокровище', example: '보물을 찾았어요.', exampleTr: 'Нашли сокровище.'},
+            {group: 'study', emoji: '➕', korean: '보충', romanization: 'bochung', translation: 'восполнение, добавка', example: '보충 수업을 들어요.', exampleTr: 'Хожу на дополнительные занятия.'},
+            {group: 'society', emoji: '🛡️', korean: '보호', romanization: 'boho', translation: 'защита, охрана', example: '환경 보호가 중요해요.', exampleTr: 'Охрана среды важна.'},
+            {group: 'society', emoji: '🤲', korean: '봉사', romanization: 'bongsa', translation: 'волонтёрство, служение', example: '주말에 봉사해요.', exampleTr: 'По выходным волонтёрю.'},
+            {group: 'person', emoji: '🎒', korean: '부담', romanization: 'budam', translation: 'бремя, обременение', example: '부담이 커요.', exampleTr: 'Слишком большая нагрузка.'},
+            {group: 'nature', emoji: '🤕', korean: '부상', romanization: 'busang', translation: 'травма', example: '부상을 입었어요.', exampleTr: 'Получил травму.'},
+            {group: 'society', emoji: '🚑', korean: '부상자', romanization: 'busangja', translation: 'пострадавший', example: '부상자가 없었어요.', exampleTr: 'Пострадавших не было.'},
+            {group: 'work', emoji: '🏢', korean: '부서', romanization: 'buseo', translation: 'отдел', example: '다른 부서로 옮겼어요.', exampleTr: 'Перешёл в другой отдел.'},
+            {group: 'nature', emoji: '💊', korean: '부작용', romanization: 'bujagyong', translation: 'побочный эффект', example: '부작용이 있어요.', exampleTr: 'Есть побочные эффекты.'},
+            {group: 'society', emoji: '🏰', korean: '부잣집', romanization: 'bujatjip', translation: 'богатая семья', example: '부잣집 아들이에요.', exampleTr: 'Он сын из богатой семьи.'},
+            {group: 'work', emoji: '🧑‍💼', korean: '부장', romanization: 'bujang', translation: 'начальник отдела', example: '부장님께 보고했어요.', exampleTr: 'Доложил начальнику отдела.'},
+            {group: 'person', emoji: '🙁', korean: '부정적', romanization: 'bujeongjeok', translation: 'негативный', example: '부정적으로 보지 마세요.', exampleTr: 'Не смотрите на это негативно.'},
+            {group: 'person', emoji: '⚠️', korean: '부주의', romanization: 'bujuui', translation: 'небрежность', example: '부주의로 생긴 사고예요.', exampleTr: 'Авария из-за небрежности.'},
+            {group: 'idea', emoji: '⚖️', korean: '분량', romanization: 'bullyang', translation: 'объём, количество', example: '분량이 많아요.', exampleTr: 'Объём большой.'},
+            {group: 'life', emoji: '♻️', korean: '분리수거', romanization: 'bullisugeo', translation: 'раздельный сбор мусора', example: '분리수거를 잘해요.', exampleTr: 'Хорошо сортирую мусор.'},
+            {group: 'society', emoji: '🔍', korean: '분실', romanization: 'bunsil', translation: 'утеря', example: '지갑을 분실했어요.', exampleTr: 'Потерял кошелёк.'},
+            {group: 'society', emoji: '📉', korean: '불경기', romanization: 'bulgyeonggi', translation: 'экономический спад', example: '불경기라 장사가 안돼요.', exampleTr: 'Из-за спада торговля не идёт.'},
+            {group: 'person', emoji: '😠', korean: '불만', romanization: 'bulman', translation: 'недовольство', example: '불만이 많아요.', exampleTr: 'Много недовольства.'},
+            {group: 'nature', emoji: '😴', korean: '불면증', romanization: 'bulmyeonjeung', translation: 'бессонница', example: '불면증에 시달려요.', exampleTr: 'Мучаюсь бессонницей.'},
+            {group: 'life', emoji: '💡', korean: '불빛', romanization: 'bulbit', translation: 'огонёк, свет', example: '멀리 불빛이 보여요.', exampleTr: 'Вдали виден огонёк.'},
+            {group: 'person', emoji: '😰', korean: '불안감', romanization: 'burangam', translation: 'тревога', example: '불안감이 사라졌어요.', exampleTr: 'Тревога исчезла.'},
+            {group: 'person', emoji: '😤', korean: '불평', romanization: 'bulpyeong', translation: 'жалоба, ропот', example: '불평만 하지 마세요.', exampleTr: 'Не жалуйтесь постоянно.'},
+            {group: 'person', emoji: '💔', korean: '불행', romanization: 'bulhaeng', translation: 'несчастье', example: '불행 중 다행이에요.', exampleTr: 'Не было бы счастья, да несчастье помогло.'},
+            {group: 'idea', emoji: '⚖️', korean: '비교', romanization: 'bigyo', translation: 'сравнение', example: '비교해 보세요.', exampleTr: 'Сравните.'},
+            {group: 'idea', emoji: '📊', korean: '비교적', romanization: 'bigyojeok', translation: 'сравнительно', example: '비교적 쉬워요.', exampleTr: 'Сравнительно легко.'},
+            {group: 'nature', emoji: '🍔', korean: '비만', romanization: 'biman', translation: 'ожирение', example: '비만을 조심하세요.', exampleTr: 'Берегитесь ожирения.'},
+            {group: 'work', emoji: '💸', korean: '비용', romanization: 'biyong', translation: 'затраты, стоимость', example: '비용이 많이 들어요.', exampleTr: 'Требуется много затрат.'},
+            {group: 'work', emoji: '💳', korean: '빚', romanization: 'bit', translation: 'долг', example: '빚을 다 갚았어요.', exampleTr: 'Полностью выплатил долг.'},
+            {group: 'society', emoji: '🚨', korean: '사건', romanization: 'sageon', translation: 'происшествие, дело', example: '큰 사건이 났어요.', exampleTr: 'Произошло крупное ЧП.'},
+            {group: 'person', emoji: '🧠', korean: '사고방식', romanization: 'sagobangsik', translation: 'образ мышления', example: '사고방식이 달라요.', exampleTr: 'У нас разный образ мышления.'},
+            {group: 'person', emoji: '🥳', korean: '사교적', romanization: 'sagyojeok', translation: 'общительный', example: '성격이 사교적이에요.', exampleTr: 'Он общительный по характеру.'},
+            {group: 'nature', emoji: '🏜️', korean: '사막', romanization: 'samak', translation: 'пустыня', example: '사막을 건넜어요.', exampleTr: 'Пересёк пустыню.'},
+            {group: 'society', emoji: '⚰️', korean: '사망', romanization: 'samang', translation: 'смерть, гибель', example: '사망 원인을 조사해요.', exampleTr: 'Расследуют причину смерти.'},
+            {group: 'person', emoji: '🔒', korean: '사생활', romanization: 'sasaenghwal', translation: 'личная жизнь', example: '사생활을 존중해요.', exampleTr: 'Уважаю личную жизнь.'},
+            {group: 'work', emoji: '💼', korean: '사업', romanization: 'saeop', translation: 'бизнес, дело', example: '사업을 시작했어요.', exampleTr: 'Начал своё дело.'},
+            {group: 'work', emoji: '🎁', korean: '사은품', romanization: 'saeunpum', translation: 'подарок к покупке', example: '사은품을 받았어요.', exampleTr: 'Получил подарок к покупке.'},
+            {group: 'idea', emoji: '🤷', korean: '사정', romanization: 'sajeong', translation: 'обстоятельства', example: '사정이 있어서 못 갔어요.', exampleTr: 'Не смог прийти по обстоятельствам.'},
+            {group: 'society', emoji: '🗣️', korean: '사투리', romanization: 'saturi', translation: 'диалект', example: '부산 사투리를 써요.', exampleTr: 'Говорит на пусанском диалекте.'},
+            {group: 'work', emoji: '📝', korean: '사표', romanization: 'sapyo', translation: 'заявление об уходе', example: '사표를 냈어요.', exampleTr: 'Подал заявление об уходе.'},
+            {group: 'society', emoji: '🤝', korean: '사회생활', romanization: 'sahoesaenghwal', translation: 'жизнь в обществе', example: '사회생활이 힘들어요.', exampleTr: 'Жить в обществе непросто.'},
+            {group: 'society', emoji: '🌐', korean: '사회적', romanization: 'sahoejeok', translation: 'социальный', example: '사회적 문제예요.', exampleTr: 'Это социальная проблема.'},
+            {group: 'society', emoji: '🏭', korean: '산업', romanization: 'saneop', translation: 'промышленность', example: '산업이 발달했어요.', exampleTr: 'Промышленность развита.'},
+            {group: 'life', emoji: '🍳', korean: '살림', romanization: 'sallim', translation: 'домашнее хозяйство', example: '살림을 잘해요.', exampleTr: 'Хорошо ведёт хозяйство.'},
+            {group: 'person', emoji: '🌱', korean: '삶', romanization: 'sam', translation: 'жизнь', example: '행복한 삶을 살아요.', exampleTr: 'Живу счастливой жизнью.'},
+            {group: 'work', emoji: '🏅', korean: '상금', romanization: 'sanggeum', translation: 'денежный приз', example: '상금을 받았어요.', exampleTr: 'Получил денежный приз.'},
+            {group: 'work', emoji: '💬', korean: '상담', romanization: 'sangdam', translation: 'консультация', example: '전문가와 상담했어요.', exampleTr: 'Проконсультировался со специалистом.'},
+            {group: 'person', emoji: '🤼', korean: '상대', romanization: 'sangdae', translation: 'соперник, партнёр', example: '상대가 강해요.', exampleTr: 'Соперник сильный.'},
+            {group: 'person', emoji: '🧑', korean: '상대방', romanization: 'sangdaebang', translation: 'собеседник, другая сторона', example: '상대방 말을 들으세요.', exampleTr: 'Выслушайте собеседника.'},
+            {group: 'idea', emoji: '📈', korean: '상승', romanization: 'sangseung', translation: 'рост, подъём', example: '물가 상승이 심해요.', exampleTr: 'Цены сильно растут.'},
+            {group: 'idea', emoji: '💡', korean: '상식', romanization: 'sangsik', translation: 'здравый смысл', example: '그건 상식이에요.', exampleTr: 'Это же элементарно.'},
+            {group: 'society', emoji: '🏬', korean: '상업', romanization: 'sangeop', translation: 'коммерция, торговля', example: '상업 지역이에요.', exampleTr: 'Это торговый район.'},
+            {group: 'idea', emoji: '🕊️', korean: '상징', romanization: 'sangjing', translation: 'символ', example: '평화의 상징이에요.', exampleTr: 'Это символ мира.'},
+            {group: 'idea', emoji: '📊', korean: '상태', romanization: 'sangtae', translation: 'состояние', example: '건강 상태가 좋아요.', exampleTr: 'Состояние здоровья хорошее.'},
+            {group: 'work', emoji: '🏷️', korean: '상표', romanization: 'sangpyo', translation: 'торговая марка', example: '상표를 등록했어요.', exampleTr: 'Зарегистрировал торговую марку.'},
+            {group: 'work', emoji: '🎟️', korean: '상품권', romanization: 'sangpumgwon', translation: 'подарочный сертификат', example: '상품권으로 계산했어요.', exampleTr: 'Расплатился сертификатом.'},
+            {group: 'idea', emoji: '🌐', korean: '상황', romanization: 'sanghwang', translation: 'ситуация', example: '상황이 나빠졌어요.', exampleTr: 'Ситуация ухудшилась.'},
+            {group: 'person', emoji: '👤', korean: '생김새', romanization: 'saenggimsae', translation: 'черты лица, облик', example: '생김새가 비슷해요.', exampleTr: 'Они похожи внешне.'},
+            {group: 'idea', emoji: '✂️', korean: '생략', romanization: 'saengnyak', translation: 'пропуск, сокращение', example: '설명은 생략할게요.', exampleTr: 'Объяснение опущу.'},
+            {group: 'nature', emoji: '🌱', korean: '생명', romanization: 'saengmyeong', translation: 'жизнь (живое)', example: '생명은 소중해요.', exampleTr: 'Жизнь бесценна.'},
+            {group: 'work', emoji: '🏭', korean: '생산', romanization: 'saengsan', translation: 'производство', example: '생산이 늘었어요.', exampleTr: 'Производство выросло.'},
+            {group: 'life', emoji: '📡', korean: '생중계', romanization: 'saengjunggye', translation: 'прямая трансляция', example: '경기를 생중계해요.', exampleTr: 'Матч транслируют вживую.'},
+            {group: 'life', emoji: '🧻', korean: '생필품', romanization: 'saengpilpum', translation: 'товары первой необходимости', example: '생필품을 샀어요.', exampleTr: 'Купил всё необходимое.'},
+            {group: 'work', emoji: '💰', korean: '생활비', romanization: 'saenghwalbi', translation: 'расходы на жизнь', example: '생활비가 부족해요.', exampleTr: 'Не хватает на жизнь.'},
+            {group: 'work', emoji: '✍️', korean: '서명', romanization: 'seomyeong', translation: 'подпись', example: '여기에 서명하세요.', exampleTr: 'Распишитесь здесь.'},
+            {group: 'society', emoji: '🌍', korean: '선진국', romanization: 'seonjinguk', translation: 'развитая страна', example: '선진국으로 성장했어요.', exampleTr: 'Страна стала развитой.'},
+            {group: 'society', emoji: '🥇', korean: '선착순', romanization: 'seonchaksun', translation: 'в порядке очереди', example: '선착순으로 받으세요.', exampleTr: 'Получайте в порядке очереди.'},
+            {group: 'person', emoji: '🗣️', korean: '설득', romanization: 'seoldeuk', translation: 'убеждение', example: '설득에 성공했어요.', exampleTr: 'Удалось убедить.'},
+            {group: 'work', emoji: '📘', korean: '설명서', romanization: 'seolmyeongseo', translation: 'инструкция', example: '설명서를 읽어 보세요.', exampleTr: 'Прочитайте инструкцию.'},
+            {group: 'study', emoji: '📋', korean: '설문', romanization: 'seolmun', translation: 'опрос, анкета', example: '설문에 답했어요.', exampleTr: 'Ответил на анкету.'},
+            {group: 'work', emoji: '⚡', korean: '성능', romanization: 'seongneung', translation: 'производительность', example: '성능이 좋아요.', exampleTr: 'Хорошая производительность.'},
+            {group: 'person', emoji: '🌟', korean: '성실', romanization: 'seongsil', translation: 'добросовестность', example: '성실이 무기예요.', exampleTr: 'Добросовестность — его оружие.'},
+            {group: 'person', emoji: '🧑', korean: '성인', romanization: 'seongin', translation: 'взрослый', example: '성인이 되었어요.', exampleTr: 'Стал совершеннолетним.'},
+            {group: 'study', emoji: '📊', korean: '성적', romanization: 'seongjeok', translation: 'успеваемость, оценки', example: '성적이 올랐어요.', exampleTr: 'Оценки улучшились.'},
+            {group: 'nature', emoji: '💉', korean: '성형', romanization: 'seonghyeong', translation: 'пластическая операция', example: '성형 수술을 받았어요.', exampleTr: 'Сделала пластическую операцию.'},
+            {group: 'society', emoji: '🧾', korean: '세금', romanization: 'segeum', translation: 'налог', example: '세금을 냈어요.', exampleTr: 'Заплатил налоги.'},
+            {group: 'idea', emoji: '🕰️', korean: '세기', romanization: 'segi', translation: 'век, столетие', example: '21세기예요.', exampleTr: 'Сейчас XXI век.'},
+            {group: 'society', emoji: '👨‍👦', korean: '세대', romanization: 'sedae', translation: 'поколение', example: '세대 차이가 커요.', exampleTr: 'Разрыв поколений велик.'},
+            {group: 'person', emoji: '🎩', korean: '세련', romanization: 'seryeon', translation: 'утончённость, лоск', example: '옷차림이 세련됐어요.', exampleTr: 'Одет со вкусом.'},
+            {group: 'society', emoji: '🌏', korean: '세상', romanization: 'sesang', translation: 'мир, свет', example: '세상이 넓어요.', exampleTr: 'Мир велик.'},
+            {group: 'idea', emoji: '⏳', korean: '세월', romanization: 'sewol', translation: 'годы, время', example: '세월이 빠르네요.', exampleTr: 'Как быстро летит время.'},
+            {group: 'person', emoji: '💭', korean: '소감', romanization: 'sogam', translation: 'впечатления', example: '소감을 말해 주세요.', exampleTr: 'Поделитесь впечатлениями.'},
+            {group: 'work', emoji: '🔹', korean: '소규모', romanization: 'sogyumo', translation: 'малый масштаб', example: '소규모 회사예요.', exampleTr: 'Это небольшая компания.'},
+            {group: 'work', emoji: '💵', korean: '소득', romanization: 'sodeuk', translation: 'доход', example: '소득이 늘었어요.', exampleTr: 'Доход вырос.'},
+            {group: 'person', emoji: '🌟', korean: '소망', romanization: 'somang', translation: 'чаяние, мечта', example: '소망이 이루어졌어요.', exampleTr: 'Мечта сбылась.'},
+            {group: 'society', emoji: '🗨️', korean: '소문', romanization: 'somun', translation: 'слух', example: '소문이 빨라요.', exampleTr: 'Слухи расходятся быстро.'},
+            {group: 'work', emoji: '🛍️', korean: '소비', romanization: 'sobi', translation: 'потребление', example: '소비를 줄였어요.', exampleTr: 'Сократил потребление.'},
+            {group: 'society', emoji: '🔢', korean: '소수', romanization: 'sosu', translation: 'меньшинство', example: '소수 의견도 중요해요.', exampleTr: 'Мнение меньшинства тоже важно.'},
+            {group: 'person', emoji: '🌠', korean: '소원', romanization: 'sowon', translation: 'желание', example: '소원을 빌었어요.', exampleTr: 'Загадал желание.'},
+            {group: 'life', emoji: '🔊', korean: '소음', romanization: 'soeum', translation: 'шум', example: '소음이 심해요.', exampleTr: 'Сильный шум.'},
+            {group: 'study', emoji: '📜', korean: '속담', romanization: 'sokdam', translation: 'пословица', example: '속담을 배웠어요.', exampleTr: 'Выучил пословицу.'},
+            {group: 'society', emoji: '🚨', korean: '속도위반', romanization: 'sokdowiban', translation: 'превышение скорости', example: '속도위반으로 걸렸어요.', exampleTr: 'Попался за превышение скорости.'},
+            {group: 'idea', emoji: '⚡', korean: '속력', romanization: 'songnyeok', translation: 'скорость', example: '속력을 줄이세요.', exampleTr: 'Сбавьте скорость.'},
+            {group: 'life', emoji: '✂️', korean: '손질', romanization: 'sonjil', translation: 'уход, обработка', example: '생선을 손질했어요.', exampleTr: 'Разделал рыбу.'},
+            {group: 'person', emoji: '👐', korean: '솜씨', romanization: 'somssi', translation: 'умение, сноровка', example: '요리 솜씨가 좋아요.', exampleTr: 'Отлично готовит.'},
+            {group: 'work', emoji: '💸', korean: '송금', romanization: 'songgeum', translation: 'денежный перевод', example: '송금을 완료했어요.', exampleTr: 'Перевод отправлен.'},
+            {group: 'person', emoji: '💬', korean: '수다', romanization: 'suda', translation: 'болтовня', example: '친구와 수다를 떨었어요.', exampleTr: 'Поболтал с другом.'},
+            {group: 'idea', emoji: '🧰', korean: '수단', romanization: 'sudan', translation: 'средство, способ', example: '교통수단이 다양해요.', exampleTr: 'Транспорт разнообразный.'},
+            {group: 'idea', emoji: '🔢', korean: '수량', romanization: 'suryang', translation: 'количество', example: '수량이 부족해요.', exampleTr: 'Количества не хватает.'},
+            {group: 'nature', emoji: '😴', korean: '수면', romanization: 'sumyeon', translation: 'сон', example: '수면 시간이 짧아요.', exampleTr: 'Сплю мало.'},
+            {group: 'nature', emoji: '⏳', korean: '수명', romanization: 'sumyeong', translation: 'продолжительность жизни', example: '평균 수명이 늘었어요.', exampleTr: 'Средняя продолжительность жизни выросла.'},
+            {group: 'work', emoji: '💳', korean: '수수료', romanization: 'susuryo', translation: 'комиссия, сбор', example: '수수료가 붙어요.', exampleTr: 'Взимается комиссия.'},
+            {group: 'work', emoji: '🚢', korean: '수입', romanization: 'suip', translation: 'импорт; доход', example: '수입 자동차예요.', exampleTr: 'Это импортный автомобиль.'},
+            {group: 'idea', emoji: '📏', korean: '수준', romanization: 'sujun', translation: 'уровень', example: '수준이 높아요.', exampleTr: 'Уровень высокий.'},
+            {group: 'work', emoji: '🛳️', korean: '수출', romanization: 'suchul', translation: 'экспорт', example: '수출이 늘었어요.', exampleTr: 'Экспорт вырос.'},
+            {group: 'life', emoji: '🏨', korean: '숙박', romanization: 'sukbak', translation: 'проживание, ночлег', example: '숙박은 어디서 해요?', exampleTr: 'Где будете ночевать?'},
+            {group: 'work', emoji: '💴', korean: '숙박비', romanization: 'sukbakbi', translation: 'плата за проживание', example: '숙박비가 비싸요.', exampleTr: 'Проживание дорогое.'},
+            {group: 'life', emoji: '🛏️', korean: '숙소', romanization: 'sukso', translation: 'место проживания', example: '숙소를 예약했어요.', exampleTr: 'Забронировал жильё.'},
+            {group: 'idea', emoji: '⏱️', korean: '순간', romanization: 'sungan', translation: 'миг, момент', example: '그 순간을 잊지 못해요.', exampleTr: 'Не забуду тот миг.'},
+            {group: 'nature', emoji: '💧', korean: '습기', romanization: 'seupgi', translation: 'сырость, влага', example: '습기가 많아요.', exampleTr: 'Много сырости.'},
+            {group: 'nature', emoji: '🌡️', korean: '습도', romanization: 'seupdo', translation: 'влажность', example: '습도가 높아요.', exampleTr: 'Влажность высокая.'},
+            {group: 'life', emoji: '🏆', korean: '승리', romanization: 'seungni', translation: 'победа', example: '승리를 축하해요.', exampleTr: 'Поздравляю с победой.'},
+            {group: 'society', emoji: '🏛️', korean: '시대', romanization: 'sidae', translation: 'эпоха', example: '시대가 변했어요.', exampleTr: 'Времена изменились.'},
+            {group: 'person', emoji: '🎯', korean: '시도', romanization: 'sido', translation: 'попытка', example: '새로운 시도를 했어요.', exampleTr: 'Сделал новую попытку.'},
+            {group: 'nature', emoji: '👁️', korean: '시력', romanization: 'siryeok', translation: 'зрение', example: '시력이 나빠졌어요.', exampleTr: 'Зрение ухудшилось.'},
+            {group: 'life', emoji: '🥊', korean: '시합', romanization: 'sihap', translation: 'матч, состязание', example: '시합에서 이겼어요.', exampleTr: 'Победил в состязании.'},
+            {group: 'life', emoji: '🍚', korean: '식생활', romanization: 'siksaenghwal', translation: 'пищевые привычки', example: '식생활을 바꿨어요.', exampleTr: 'Изменил рацион.'},
+            {group: 'work', emoji: '🤖', korean: '신기술', romanization: 'singisul', translation: 'новая технология', example: '신기술을 도입했어요.', exampleTr: 'Внедрили новую технологию.'},
+            {group: 'society', emoji: '🧑‍🎤', korean: '신세대', romanization: 'sinsedae', translation: 'новое поколение', example: '신세대는 달라요.', exampleTr: 'Новое поколение другое.'},
+            {group: 'work', emoji: '💳', korean: '신용', romanization: 'sinyong', translation: 'кредит доверия', example: '신용이 중요해요.', exampleTr: 'Репутация важна.'},
+            {group: 'nature', emoji: '🧍', korean: '신체', romanization: 'sinche', translation: 'тело', example: '신체가 건강해요.', exampleTr: 'Тело здоровое.'},
+            {group: 'study', emoji: '💪', korean: '실력', romanization: 'sillyeok', translation: 'реальные навыки', example: '실력이 늘었어요.', exampleTr: 'Навыки выросли.'},
+            {group: 'person', emoji: '😞', korean: '실망', romanization: 'silmang', translation: 'разочарование', example: '실망이 컸어요.', exampleTr: 'Разочарование было большим.'},
+            {group: 'society', emoji: '📌', korean: '실시', romanization: 'silsi', translation: 'проведение, введение', example: '새 제도를 실시해요.', exampleTr: 'Вводят новую систему.'},
+            {group: 'idea', emoji: '🧰', korean: '실용적', romanization: 'siryongjeok', translation: 'практичный', example: '실용적인 선물이에요.', exampleTr: 'Это практичный подарок.'},
+            {group: 'society', emoji: '🕵️', korean: '실종', romanization: 'siljong', translation: 'исчезновение', example: '실종 신고를 했어요.', exampleTr: 'Заявил о пропаже.'},
+            {group: 'person', emoji: '✅', korean: '실천', romanization: 'silcheon', translation: 'воплощение на деле', example: '계획을 실천했어요.', exampleTr: 'Воплотил план в жизнь.'},
+            {group: 'study', emoji: '🧪', korean: '실험', romanization: 'silheom', translation: 'эксперимент', example: '실험이 성공했어요.', exampleTr: 'Эксперимент удался.'},
+            {group: 'person', emoji: '😑', korean: '싫증', romanization: 'silcheung', translation: 'пресыщение, надоедание', example: '싫증이 났어요.', exampleTr: 'Надоело.'},
+            {group: 'study', emoji: '🧠', korean: '심리학', romanization: 'simnihak', translation: 'психология', example: '심리학을 공부해요.', exampleTr: 'Изучаю психологию.'},
+            {group: 'person', emoji: '😱', korean: '악몽', romanization: 'angmong', translation: 'кошмар', example: '악몽을 꿨어요.', exampleTr: 'Приснился кошмар.'},
+            {group: 'person', emoji: '💌', korean: '안부', romanization: 'anbu', translation: 'весточка, привет', example: '부모님께 안부 전해 주세요.', exampleTr: 'Передайте привет родителям.'},
+            {group: 'person', emoji: '😶', korean: '안색', romanization: 'ansaek', translation: 'цвет лица', example: '안색이 안 좋아요.', exampleTr: 'Плохо выглядите.'},
+            {group: 'person', emoji: '😮‍💨', korean: '안심', romanization: 'ansim', translation: 'спокойствие, облегчение', example: '이제 안심이에요.', exampleTr: 'Теперь можно не волноваться.'},
+            {group: 'idea', emoji: '🔮', korean: '앞날', romanization: 'amnal', translation: 'будущее', example: '앞날이 밝아요.', exampleTr: 'Будущее светлое.'},
+            {group: 'idea', emoji: '🌃', korean: '야간', romanization: 'yagan', translation: 'ночное время', example: '야간 근무를 해요.', exampleTr: 'Работаю в ночную смену.'},
+            {group: 'life', emoji: '🌉', korean: '야경', romanization: 'yagyeong', translation: 'ночной вид', example: '서울 야경이 예뻐요.', exampleTr: 'Ночной Сеул красив.'},
+            {group: 'society', emoji: '👘', korean: '양반', romanization: 'yangban', translation: 'янбан, дворянин', example: '양반 집안이에요.', exampleTr: 'Это дворянский род.'},
+            {group: 'person', emoji: '🤝', korean: '양보', romanization: 'yangbo', translation: 'уступка', example: '자리를 양보했어요.', exampleTr: 'Уступил место.'},
+            {group: 'study', emoji: '🎼', korean: '억양', romanization: 'eogyang', translation: 'интонация', example: '억양이 자연스러워요.', exampleTr: 'Интонация естественная.'},
+            {group: 'society', emoji: '📰', korean: '언론', romanization: 'eollon', translation: 'СМИ, пресса', example: '언론에 보도됐어요.', exampleTr: 'Об этом сообщили в СМИ.'},
+            {group: 'life', emoji: '🧽', korean: '얼룩', romanization: 'eolluk', translation: 'пятно', example: '옷에 얼룩이 졌어요.', exampleTr: 'На одежде появилось пятно.'},
+            {group: 'work', emoji: '💼', korean: '업무', romanization: 'eommu', translation: 'служебные обязанности', example: '업무가 많아요.', exampleTr: 'Много работы.'},
+            {group: 'life', emoji: '🌀', korean: '엉망', romanization: 'eongmang', translation: 'беспорядок, бардак', example: '방이 엉망이에요.', exampleTr: 'В комнате бардак.'}
+        ];
+
+        var groupLabels = {
+            society:  {ru: 'Общество и государство', kr: '사회'},
+            work:     {ru: 'Работа, деньги, экономика', kr: '경제'},
+            study:    {ru: 'Учёба и знания', kr: '학습'},
+            person:   {ru: 'Человек, характер, чувства', kr: '사람'},
+            life:     {ru: 'Быт, город, еда', kr: '생활'},
+            nature:   {ru: 'Природа и здоровье', kr: '자연'},
+            idea:     {ru: 'Понятия и качества', kr: '개념'}
+        };
+        var currentCardIndex = 0, isFlipped = false, quizCurrentIndex = 0, correctAnswers = 0, totalQuestions = 0;
+        // Корейский голос НЕ выбираем сами: на сайте уже подключён общий js/tts-voice.js
+        // (через global-nav.js) — он для корейских фраз либо включает готовую студийную
+        // MP3-запись, либо сам подбирает лучший синтезированный голос и отсеивает
+        // "роботов"/голоса-персонажи. Своё решение он применяет только если utterance.voice
+        // ещё не задан — поэтому здесь для ko-KR мы .voice не трогаем.
+        function speak(text) {
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            var utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            speechSynthesis.speak(utterance);
+        }
+
+        // ===== Голос для перевода (RU) — запасной вариант, если нет готовой MP3 =====
+        let cachedRuVoice = null;
+
+        const RU_VOICE_PRIORITY = [
+            /online.*natural/i,
+            /neural/i,
+            /(premium|enhanced)/i,
+            /dariya/i,
+            /pavel/i,
+            /milena/i,
+            /yuri/i,
+            /google/i
+        ];
+
+        function pickBestVoice(voices, lang, priorityPatterns) {
+            const prefix = lang.split('-')[0];
+            const list = voices.filter(v => v.lang === lang || v.lang.startsWith(prefix));
+            if (!list.length) return null;
+            for (const pattern of priorityPatterns) {
+                const match = list.find(v => pattern.test(v.name));
+                if (match) return match;
+            }
+            return list.find(v => !/compact/i.test(v.name)) || list[0];
+        }
+
+        function refreshVoices() {
+            if (!('speechSynthesis' in window)) return;
+            const voices = speechSynthesis.getVoices();
+            if (!voices.length) return;
+            cachedRuVoice = pickBestVoice(voices, 'ru-RU', RU_VOICE_PRIORITY);
+        }
+
+        if ('speechSynthesis' in window) {
+            refreshVoices();
+            speechSynthesis.onvoiceschanged = refreshVoices;
+        }
+
+        // ===== Готовая озвучка переводов (edge-tts, ru-RU-SvetlanaNeural) =====
+        // Браузерные ru-RU голоса сильно разнятся по качеству, поэтому для переводов
+        // используем такие же готовые MP3, как и для корейского — см.
+        // audio/tts/manifest.json → filesRu. Если манифест недоступен — тихо
+        // откатываемся на синтезированный голос выше.
+        let ruMp3Files = null;
+        let ruPlayer = null;
+        let ruSettleCurrent = null;
+
+        fetch('../../audio/tts/manifest.json')
+            .then(r => r.ok ? r.json() : null)
+            .then(j => { if (j && j.filesRu) ruMp3Files = j.filesRu; })
+            .catch(() => { /* нет манифеста — говорим синтезированным голосом */ });
+
+        function stopRuMp3() {
+            if (ruPlayer) {
+                try { ruPlayer.pause(); ruPlayer.currentTime = 0; } catch (e) {}
+            }
+            if (ruSettleCurrent) {
+                const settle = ruSettleCurrent;
+                ruSettleCurrent = null;
+                settle();
+            }
+        }
+
+        function playRuMp3(text) {
+            const file = ruMp3Files && ruMp3Files[text];
+            if (!file) return null;
+            return new Promise(resolve => {
+                if (!ruPlayer) ruPlayer = new Audio();
+                stopRuMp3();
+                ruSettleCurrent = resolve;
+                const settle = () => {
+                    if (ruSettleCurrent !== resolve) return;
+                    ruSettleCurrent = null;
+                    resolve();
+                };
+                ruPlayer.onended = settle;
+                ruPlayer.onerror = settle;
+                ruPlayer.src = '../../audio/tts/' + file;
+                const p = ruPlayer.play();
+                if (p && p.catch) p.catch(settle);
+            });
+        }
+
+        // Произнести фразу и дождаться окончания — для непрерывного плеера "Слушать"
+        function speakOne(text, lang) {
+            if (lang !== 'ko-KR') {
+                const mp3 = playRuMp3(text);
+                if (mp3) return mp3;
+            }
+            return new Promise(resolve => {
+                if (!('speechSynthesis' in window)) { resolve(); return; }
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = lang;
+                if (lang === 'ko-KR') {
+                    utter.rate = 0.85;
+                    utter.pitch = 1.05;
+                } else {
+                    utter.rate = 1.0;
+                    utter.pitch = 1.0;
+                    if (cachedRuVoice) utter.voice = cachedRuVoice;
+                }
+                utter.onend = () => resolve();
+                utter.onerror = () => resolve();
+                speechSynthesis.speak(utter);
+            });
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        function toggleGrammar() {
+            var block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            var details = document.getElementById('details-' + id);
+            var btn = document.getElementById('expand-' + id);
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+        function filterVocabulary() {
+            var q = document.getElementById('vocabSearch').value.toLowerCase();
+            document.querySelectorAll('.vocab-group').forEach(function(group) {
+                var anyVisible = false;
+                group.querySelectorAll('.word-card').forEach(function(c) {
+                    var match = c.textContent.toLowerCase().indexOf(q) !== -1;
+                    c.style.display = match ? '' : 'none';
+                    if (match) anyVisible = true;
+                });
+                group.style.display = anyVisible ? '' : 'none';
+            });
+        }
+        function loadVocabulary() {
+            var container = document.getElementById('vocabularyContainer');
+            container.innerHTML = '';
+            var groupsOrder = ['society', 'work', 'study', 'person', 'life', 'nature', 'idea'];
+
+            groupsOrder.forEach(function(groupKey) {
+                var groupWords = [];
+                vocabulary.forEach(function(w, idx) { if (w.group === groupKey) groupWords.push({w: w, idx: idx}); });
+                if (groupWords.length === 0) return;
+
+                var wrap = document.createElement('div');
+                wrap.className = 'vocab-group';
+                var label = groupLabels[groupKey] || {ru: groupKey, kr: ''};
+                var header = document.createElement('div');
+                header.className = 'group-header';
+                header.innerHTML = label.ru + '<span class="gh-kr">' + label.kr + '</span>';
+                wrap.appendChild(header);
+
+                var grid = document.createElement('div');
+                grid.className = 'vocabulary-grid';
+
+                groupWords.forEach(function(p) {
+                    var w = p.w, i = p.idx;
+                    var c = document.createElement('div');
+                    c.className = 'word-card';
+                    var speakText = w.korean.replace(/'/g, "\\'").replace(/\?/g, '');
+                    var exHtml = w.example
+                        ? '<div class="detail-example"><div class="ex-kr">' + w.example + '</div><div class="ex-tr">' + w.exampleTr + '</div></div>'
+                        : '';
+                    c.innerHTML = '<div class="word-emoji">' + w.emoji + '</div>' +
+                        '<div class="word-korean">' + w.korean + '</div>' +
+                        '<div class="word-romanization">' + w.romanization + '</div>' +
+                        '<div class="word-translation">' + w.translation + '</div>' +
+                        '<div style="padding: 0 15px 8px; display: flex; justify-content: center; gap: 8px;">' +
+                            '<button class="speak-btn" onclick="event.stopPropagation(); speak(\'' + speakText + '\')" style="padding: 4px;">&#128264;</button>' +
+                            '<button class="expand-btn" id="expand-' + i + '" onclick="toggleDetails(event, ' + i + ')">&#9660;</button>' +
+                        '</div>' +
+                        '<div class="word-details" id="details-' + i + '">' +
+                            '<div class="word-details-inner">' + exHtml + '</div>' +
+                        '</div>';
+                    grid.appendChild(c);
+                });
+                wrap.appendChild(grid);
+                container.appendChild(wrap);
+            });
+        }
+        function showMode(m) {
+            document.getElementById('vocabulary-section').style.display = m === 'vocabulary' ? 'block' : 'none';
+            document.getElementById('flashcard-section').style.display = m === 'flashcards' ? 'block' : 'none';
+            document.getElementById('quiz-section').style.display = m === 'quiz' ? 'block' : 'none';
+            document.getElementById('audio-section').style.display = m === 'audio' ? 'block' : 'none';
+            document.querySelectorAll('.study-mode .mode-btn').forEach(function(b, i) {
+                b.classList.toggle('active',
+                    (m === 'vocabulary' && i === 0) ||
+                    (m === 'flashcards' && i === 1) ||
+                    (m === 'quiz' && i === 2) ||
+                    (m === 'audio' && i === 3)
+                );
+            });
+            if (m === 'flashcards') updateFlashcard();
+            if (m === 'quiz') generateQuizQuestion();
+            if (m === 'audio') {
+                updatePlayerUI();
+            } else {
+                pausePlayback();
+            }
+        }
+        function updateFlashcard() { var w = vocabulary[currentCardIndex]; var c = document.getElementById('flashcard-content'); if (isFlipped) { c.innerHTML = '<div class="card-emoji">' + w.emoji + '</div><div class="card-romanization">' + w.romanization + '</div><div class="card-translation">' + w.translation + '</div>'; } else { c.innerHTML = '<div class="card-emoji">' + w.emoji + '</div><div class="card-korean">' + w.korean + '</div><button class="speak-btn" onclick="event.stopPropagation(); speak(\'' + w.korean.replace(/'/g, "\\'").replace(/\?/g, '') + '\')">🔊</button>'; } document.getElementById('card-counter').textContent = (currentCardIndex + 1) + ' / ' + vocabulary.length; }
+        function flipCard() { isFlipped = !isFlipped; updateFlashcard(); }
+        function nextCard() { currentCardIndex = (currentCardIndex + 1) % vocabulary.length; isFlipped = false; updateFlashcard(); }
+        function prevCard() { currentCardIndex = (currentCardIndex - 1 + vocabulary.length) % vocabulary.length; isFlipped = false; updateFlashcard(); }
+
+        // ===== Аудио-плеер "Слушать" — непрерывное озвучивание всего словаря =====
+        let audioOrder = vocabulary.map((_, i) => i);
+        let player = { gen: 0, playing: false, index: 0, mode: 'word', repeat: true };
+        let wakeLock = null;
+
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                }
+            } catch (e) { /* не критично, если экран нельзя удержать включенным */ }
+        }
+
+        function releaseWakeLock() {
+            if (wakeLock) {
+                wakeLock.release().catch(() => {});
+                wakeLock = null;
+            }
+        }
+
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible' && player.playing && !wakeLock) {
+                requestWakeLock();
+            }
+        });
+
+        function updatePlayerUI() {
+            const word = vocabulary[audioOrder[player.index]];
+            document.getElementById('audio-dot').textContent = word.emoji;
+            document.getElementById('audio-korean').textContent = word.korean;
+            document.getElementById('audio-romanization').textContent = word.romanization;
+            document.getElementById('audio-translation').textContent = word.translation;
+
+            const exampleEl = document.getElementById('audio-example');
+            if (player.mode === 'example' && word.example) {
+                exampleEl.innerHTML = word.example + '<div class="ax-tr">' + word.exampleTr + '</div>';
+                exampleEl.classList.add('show');
+            } else {
+                exampleEl.classList.remove('show');
+                exampleEl.innerHTML = '';
+            }
+
+            document.getElementById('audio-counter').textContent = (player.index + 1) + ' / ' + audioOrder.length;
+            document.getElementById('audio-progress-bar').style.width = (player.index / audioOrder.length * 100) + '%';
+            document.getElementById('audio-play-btn').innerHTML = player.playing ? '⏸' : '▶';
+            document.getElementById('audio-player').classList.toggle('speaking', player.playing);
+        }
+
+        async function runPlayer(startIndex) {
+            const gen = ++player.gen;
+            player.playing = true;
+            player.index = startIndex;
+            requestWakeLock();
+
+            while (player.gen === gen) {
+                updatePlayerUI();
+                const word = vocabulary[audioOrder[player.index]];
+
+                await speakOne(word.korean, 'ko-KR');
+                if (player.gen !== gen) return;
+
+                if (player.mode === 'translation') {
+                    await sleep(300);
+                    if (player.gen !== gen) return;
+                    await speakOne(word.translation, 'ru-RU');
+                } else if (player.mode === 'example' && word.example) {
+                    await sleep(300);
+                    if (player.gen !== gen) return;
+                    await speakOne(word.translation, 'ru-RU');
+                    if (player.gen !== gen) return;
+                    await sleep(400);
+                    if (player.gen !== gen) return;
+                    await speakOne(word.example, 'ko-KR');
+                    if (player.gen !== gen) return;
+                    await sleep(300);
+                    if (player.gen !== gen) return;
+                    await speakOne(word.exampleTr, 'ru-RU');
+                }
+                if (player.gen !== gen) return;
+
+                await sleep(1000);
+                if (player.gen !== gen) return;
+
+                player.index++;
+                if (player.index >= audioOrder.length) {
+                    if (player.repeat) {
+                        player.index = 0;
+                    } else {
+                        player.index = audioOrder.length - 1;
+                        break;
+                    }
+                }
+            }
+
+            if (player.gen === gen) {
+                player.playing = false;
+                releaseWakeLock();
+                updatePlayerUI();
+            }
+        }
+
+        function pausePlayback() {
+            player.playing = false;
+            player.gen++;
+            if ('speechSynthesis' in window) speechSynthesis.cancel();
+            stopRuMp3();
+            releaseWakeLock();
+            updatePlayerUI();
+        }
+
+        function togglePlayPause() {
+            if (!('speechSynthesis' in window)) {
+                alert('Ваш браузер не поддерживает озвучивание текста (Web Speech API).');
+                return;
+            }
+            if (player.playing) {
+                pausePlayback();
+            } else {
+                runPlayer(player.index);
+            }
+        }
+
+        function playerNext() {
+            const wasPlaying = player.playing;
+            player.gen++;
+            if ('speechSynthesis' in window) speechSynthesis.cancel();
+            stopRuMp3();
+            player.index = (player.index + 1) % audioOrder.length;
+            if (wasPlaying) { runPlayer(player.index); } else { updatePlayerUI(); }
+        }
+
+        function playerPrev() {
+            const wasPlaying = player.playing;
+            player.gen++;
+            if ('speechSynthesis' in window) speechSynthesis.cancel();
+            stopRuMp3();
+            player.index = (player.index - 1 + audioOrder.length) % audioOrder.length;
+            if (wasPlaying) { runPlayer(player.index); } else { updatePlayerUI(); }
+        }
+
+        function toggleRepeat() {
+            player.repeat = !player.repeat;
+            document.getElementById('audio-repeat-btn').classList.toggle('active', player.repeat);
+        }
+
+        function setAudioMode(mode) {
+            player.mode = mode;
+            ['word', 'translation', 'example'].forEach(m => {
+                document.getElementById('audio-mode-' + m).classList.toggle('active', m === mode);
+            });
+            const wasPlaying = player.playing;
+            updatePlayerUI();
+            if (wasPlaying) runPlayer(player.index);
+        }
+
+        function generateQuizQuestion() { var w = vocabulary[quizCurrentIndex % vocabulary.length]; var opts = [w]; while (opts.length < 4) { var r = vocabulary[Math.floor(Math.random() * vocabulary.length)]; if (opts.indexOf(r) === -1) opts.push(r); } opts.sort(function() { return Math.random() - 0.5; }); document.getElementById('quiz-question').textContent = 'Как по-корейски "' + w.translation + '"?'; var cont = document.getElementById('quiz-options'); cont.innerHTML = ''; opts.forEach(function(o) { var d = document.createElement('div'); d.className = 'quiz-option'; d.textContent = o.korean; d.onclick = function() { checkAnswer(o, w); }; cont.appendChild(d); }); document.getElementById('quiz-result').textContent = ''; }
+        function checkAnswer(s, c) { totalQuestions++; document.querySelectorAll('.quiz-option').forEach(function(o) { o.onclick = null; if (o.textContent === c.korean) o.classList.add('correct'); else if (o.textContent === s.korean) o.classList.add('wrong'); }); if (s.korean === c.korean) { correctAnswers++; document.getElementById('quiz-result').innerHTML = '✅ Правильно!'; document.getElementById('quiz-result').style.color = '#28a745'; } else { document.getElementById('quiz-result').innerHTML = '❌ Неправильно! Ответ: ' + c.korean; document.getElementById('quiz-result').style.color = '#dc3545'; } document.getElementById('correct-count').textContent = correctAnswers; document.getElementById('total-count').textContent = totalQuestions; }
+        function nextQuestion() { quizCurrentIndex++; generateQuizQuestion(); }
+        function restartQuiz() { quizCurrentIndex = 0; correctAnswers = 0; totalQuestions = 0; document.getElementById('correct-count').textContent = '0'; document.getElementById('total-count').textContent = '0'; generateQuizQuestion(); }
+        document.addEventListener('DOMContentLoaded', function() { loadVocabulary(); updateFlashcard(); updatePlayerUI(); console.log('[OK] Money vocabulary loaded'); });
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('flashcard-section').style.display !== 'none') {
+                if (e.code === 'Space') { e.preventDefault(); flipCard(); }
+                else if (e.code === 'ArrowRight') nextCard();
+                else if (e.code === 'ArrowLeft') prevCard();
+            } else if (document.getElementById('audio-section').style.display !== 'none') {
+                if (e.code === 'Space') { e.preventDefault(); togglePlayPause(); }
+                else if (e.code === 'ArrowRight') playerNext();
+                else if (e.code === 'ArrowLeft') playerPrev();
+            }
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        // Кнопка завершения урока
+        var LESSON_ID = 'vocabulary_topik3_nouns_2';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        // Проверяем статус при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -480,6 +480,22 @@ input[type="search"]::placeholder,
 .complete-btn:disabled { opacity: .8; cursor: default; transform: none; }
 
 /* ============================================================
+   ЗАЩИТА ОТ БЕЛОГО ТЕКСТА НА СВЕТЛОМ
+   Тема осветляет фон этих блоков. Если урок задавал им тёмный
+   фон и белый текст, без этого правила текст стал бы невидимым.
+   Элементы с собственным тёмным фоном внутри блока не затронуты —
+   у них свой color с большей специфичностью.
+   ============================================================ */
+.header,
+.content-section, .practice-section, .theory-section, .vocab-section,
+.grammar-card, .grammar-note, .rule-card,
+.example-box, .example-item,
+.tip-box, .info-box, .note-box,
+.nuance-card, .error-card, .warning-box,
+.word-card, .exercise-item, .exercise, .quiz-item,
+.remember-block, .remember-phrase { color: #3a3550; }
+
+/* ============================================================
    ЧИТАЕМОСТЬ
    Слишком светлый текст (контраст ниже требований WCAG AA:
    4.5:1 для обычного текста, 3:1 для крупного). Значения
@@ -550,3 +566,145 @@ body #jk-lesson-nav .jk-nav-direction { color: #55506e; }
 @media (max-width: 420px) {
     .word-grid { grid-template-columns: 1fr; }
 }
+
+/* ============================================================
+   КАРТОЧКИ СЛОВАРЯ — плашка эмодзи
+   Шаблон vocabulary/* рисует .word-emoji блоком 80px с плотной
+   заливкой в цвет уровня. На белой минималистичной карточке это
+   выглядит инородно, а на градиенте фона ещё и спорит по цвету.
+   Оставляем сам символ, убираем заливку.
+   ============================================================ */
+.word-card .word-emoji {
+    height: auto;
+    min-height: 0;
+    background: none;
+    color: inherit;
+    font-size: 2.1em;
+    line-height: 1;
+    padding: 4px 0 10px;
+    display: block;
+    filter: drop-shadow(0 2px 4px rgba(45, 30, 90, 0.14));
+}
+.word-card .word-korean { color: var(--lt-ink); font-size: 1.5em; padding: 0 0 4px; }
+.word-card .word-romanization { color: #6b6684; padding: 0; }
+.word-card .word-translation { color: #55506e; padding: 6px 0 0; }
+
+/* заголовок группы слов: тонкая линия вместо жирной цветной полосы */
+.vocab-group .group-header {
+    background: #fff;
+    border: 1px solid var(--lt-line);
+    border-left: 3px solid var(--lt-brand);
+    border-radius: 12px;
+    color: var(--lt-ink);
+    box-shadow: none;
+}
+.vocab-group .group-header .gh-kr { color: var(--lt-brand-dk); }
+
+/* блок «О категории» — шапка в фирменном градиенте, а не в цвете уровня */
+.grammar-block > h3 {
+    background: linear-gradient(135deg, var(--lt-brand), var(--lt-accent));
+    color: #fff;
+}
+
+/* ============================================================
+   СТРАНИЦЫ СЛОВАРЯ — светлый фон
+   data-vocab ставит js/global-nav.js для vocabulary/*. Уроки
+   остаются на насыщенном градиенте, а словарь читается долго
+   и подряд, поэтому фон здесь пастельный: цвет 급 узнаётся,
+   но не спорит с белыми карточками.
+   ============================================================ */
+html[data-vocab][data-level="1"] { --lt-bg-from: #e8f5ec; --lt-bg-to: #d6ecdf; }
+html[data-vocab][data-level="2"] { --lt-bg-from: #e9f0fb; --lt-bg-to: #d8e6f8; }
+html[data-vocab][data-level="3"] { --lt-bg-from: #fdf1e3; --lt-bg-to: #f9e3ca; }
+html[data-vocab][data-level="4"] { --lt-bg-from: #f3ebfa; --lt-bg-to: #e8dcf6; }
+html[data-vocab][data-level="5"] { --lt-bg-from: #fdeaf1; --lt-bg-to: #f8d9e5; }
+html[data-vocab][data-level="6"] { --lt-bg-from: #fdeceb; --lt-bg-to: #f8dad8; }
+html[data-vocab]:not([data-level]) { --lt-bg-from: #f1f0f9; --lt-bg-to: #e6e4f4; }
+
+/* карточкам возвращаем мягкую тень — на светлом фоне одна рамка теряется */
+html[data-vocab] .word-card { box-shadow: 0 2px 10px rgba(45, 30, 90, 0.07); }
+html[data-vocab] .vocab-group .group-header { box-shadow: 0 2px 10px rgba(45, 30, 90, 0.06); }
+html[data-vocab] .header,
+html[data-vocab] .vocab-header { box-shadow: 0 4px 20px rgba(45, 30, 90, 0.09); }
+
+/* элементы, рассчитанные на тёмный градиент: подложка и ссылки */
+html[data-vocab] .navigation a,
+html[data-vocab] .nav-lessons a,
+html[data-vocab] .lesson-nav a,
+html[data-vocab] .mode-btn,
+html[data-vocab] .grammar-toggle button {
+    background: rgba(45, 30, 90, 0.72);
+    border-color: rgba(255, 255, 255, 0.22);
+}
+html[data-vocab] .navigation a:hover,
+html[data-vocab] .mode-btn:hover,
+html[data-vocab] .grammar-toggle button:hover { background: rgba(45, 30, 90, 0.85); }
+html[data-vocab] .container a:not([class]) { color: var(--lt-brand-dk); }
+html[data-vocab] body #jk-lesson-nav-position { color: var(--lt-muted); }
+html[data-vocab] body #jk-lesson-nav-position a { color: var(--lt-brand-dk); }
+
+/* ============================================================
+   ЗАГОЛОВКИ ВНУТРИ ЦВЕТНЫХ БЛОКОВ
+   Тема красит h2/h3 внутри .content-section в тёмный. Но если
+   заголовок лежит на собственной цветной подложке урока, цвет
+   должен наследоваться от неё, а не навязываться темой.
+   color: inherit сохраняет замысел урока и на тёмном, и на светлом.
+   ============================================================ */
+.grammar-block h1, .grammar-block h2, .grammar-block h3, .grammar-block h4,
+.main-rule h1, .main-rule h2, .main-rule h3, .main-rule h4,
+.practice h1, .practice h2, .practice h3, .practice h4,
+.concept-box h1, .concept-box h2, .concept-box h3, .concept-box h4,
+.important-note h1, .important-note h2, .important-note h3, .important-note h4,
+.practice-prompt h2, .practice-prompt h3, .practice-prompt h4,
+.irregular-explanation h2, .irregular-explanation h3, .irregular-explanation h4,
+.section-header h1, .section-header h2, .section-header h3, .section-header h4,
+.exception-box h2, .exception-box h3, .exception-box h4,
+.usage-pattern h2, .usage-pattern h3, .usage-pattern h4,
+.highlight-box h2, .highlight-box h3, .highlight-box h4,
+.formula-box h2, .formula-box h3, .formula-box h4,
+.usage-case h2, .usage-case h3, .usage-case h4,
+.simple-rule h2, .simple-rule h3, .simple-rule h4,
+.rule-box h2, .rule-box h3, .rule-box h4,
+.info-block h2, .info-block h3, .info-block h4,
+.dialogue-box h2, .dialogue-box h3, .dialogue-box h4 { color: inherit; }
+
+/* декоративная черта у таких заголовков не нужна — она рассчитана на белую карточку */
+.grammar-block h2::before, .main-rule h2::before, .practice h2::before,
+.concept-box h2::before, .section-header h2::before, .dialogue-box h2::before,
+.highlight-box h2::before, .formula-box h2::before { display: none; }
+
+/* ============================================================
+   НЕЗАМЕТНЫЙ ТЕКСТ — цветной по бледной подложке
+   Акцентные цвета (зелёный «Правильно!», оранжевые частицы,
+   красный «Неправильно») брались в среднем тоне и на своих же
+   пастельных подложках давали 2.4-3.7:1 вместо 4.5:1.
+   Тон сохраняем, светлоту опускаем до читаемой.
+   ============================================================ */
+.result.correct,
+.builder-result.correct,
+.exercise-result.correct,
+.answer-result.correct { color: #16653a; }
+
+.result.wrong,
+.builder-result.wrong,
+.exercise-result.wrong,
+.answer-result.wrong { color: #a11d16; }
+
+/* подсветка слова/частицы в разборе примеров */
+.fc-word.highlight,
+.fc-word.particle,
+.anira-particle,
+.particle-polite,
+.position-adv,
+.verb-go,
+.origin-source.loan { color: #7c3703; }
+.origin-source.native { color: #14532d; }
+.origin-source.sino { color: #0d3f8f; }
+
+/* метки уместности в уроках живой речи и словаре */
+.lvl-mid { color: #8a3f00; }
+.lvl-ok  { color: #1b5e20; }
+.lvl-hard { color: #a11d16; }
+
+/* формулы и подписи, набранные акцентным цветом на белом */
+.pattern-box .pattern-formula { color: #c62828; }

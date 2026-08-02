@@ -35,8 +35,28 @@
         lesson_91_essay_writing: 4, lesson_94_medicine: 4
     };
 
+    // Категории словаря лежат в общей папке vocabulary/, поэтому уровень
+    // из пути не виден. Источник: карточки в level_N/index.html.
+    var VOCAB_LEVEL = {
+        adjectives: 1, animals: 1, basicfood: 1, bathroom: 1, body: 1, city: 1,
+        clothes: 1, colors: 1, conjunctions: 1, counters: 1, countries: 1,
+        daily_routine: 1, date: 1, daystime: 1, emotions: 1, food: 1, health: 1,
+        hobbies: 1, house: 1, kpop_fandom: 1, money: 1, opposites: 1, phone: 1,
+        places: 1, professions: 1, questions: 1, restaurant: 1, school: 1,
+        seasons: 1, shopping: 1, slang: 1, synonyms: 1, time_adverbs: 1,
+        transport: 1, verbs: 1,
+        adverbs_spoken: 2, aegyo: 2, communication: 2, office: 2, personality: 2,
+        romance: 2, sports: 2, symptoms: 2, taste_cooking: 2, travel_vocab: 2,
+        beauty: 3, onomatopoeia: 3, party: 3, space: 3, weather: 3,
+        topik3_adjectives: 3, topik3_adverbs: 3, topik3_nouns_1: 3,
+        topik3_nouns_2: 3, topik3_nouns_3: 3, topik3_verbs_1: 3, topik3_verbs_2: 3,
+        people_types: 4, religion: 4,
+        appearance: 5
+    };
+
     var parts = window.location.pathname.split('/').filter(Boolean);
     var level = null;
+    var isVocab = false;
 
     for (var i = parts.length - 1; i >= 0; i--) {
         var m = /^level_([1-6])$/.exec(parts[i]);
@@ -45,9 +65,16 @@
             level = String(ROOT_LEVEL[parts[i]]);
             break;
         }
+        if (parts[i - 1] === 'vocabulary' && VOCAB_LEVEL[parts[i]]) {
+            level = String(VOCAB_LEVEL[parts[i]]);
+            isVocab = true;
+            break;
+        }
     }
 
     if (level) document.documentElement.setAttribute('data-level', level);
+    // Страницы словаря оформляются светлее уроков — см. css/lesson-theme.css
+    if (isVocab) document.documentElement.setAttribute('data-vocab', '1');
 })();
 
 (function() {
