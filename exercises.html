@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="648 упражнений корейской грамматики с ключами: падежи, времена, причастия, косвенная речь. Проверка ответа сразу на странице."/>
+    <meta property="og:title" content="Упражнения по грамматике — Miso: 한국어 수업"/>
+    <meta property="og:description" content="21 урок, 89 упражнений, 648 заданий с ключами."/>
+    <meta name="theme-color" content="#667eea"/>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+    <title>Упражнения по грамматике | Miso: 한국어 수업</title>
+    <link href="css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="css/progress.css">
+    <link href="css/auth-styles.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body { font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; margin: 0; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .ex-header { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-radius: 25px; padding: 40px; margin-bottom: 25px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
+        .ex-header h1 { font-size: 2.4em; color: #2c3e50; margin: 0 0 10px; }
+        .ex-header .korean-title { font-size: 1.5em; color: #5b4bb5; font-weight: 600; margin-bottom: 12px; }
+        .ex-header p { color: #55506e; font-size: 1.05em; margin: 0 auto; max-width: 640px; line-height: 1.6; }
+        .ex-source { margin-top: 18px; font-size: 0.9em; color: #6b6684; }
+
+        .level-filter { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .filter-btn { padding: 10px 22px; background: rgba(255,255,255,0.2); color: #fff; border: 2px solid rgba(255,255,255,0.45); border-radius: 25px; font-size: 0.95em; cursor: pointer; transition: all 0.3s ease; font-weight: 500; font-family: inherit; }
+        .filter-btn:hover { background: rgba(255,255,255,0.32); }
+        .filter-btn.active { background: #fff; color: #5b4bb5; border-color: #fff; }
+
+        .unit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .unit-card { background: #fff; border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border-top: 5px solid #667eea; text-decoration: none; display: block; color: inherit; }
+        .unit-card:hover { transform: translateY(-5px); box-shadow: 0 18px 40px rgba(0,0,0,0.18); }
+        .unit-card .unit-no { font-size: 0.82em; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5b4bb5; }
+        .unit-card h3 { margin: 8px 0 10px; font-size: 1.15em; color: #2c3e50; line-height: 1.35; }
+        .unit-card .unit-meta { font-size: 0.88em; color: #55506e; }
+        .unit-card .unit-done { display: inline-block; margin-top: 10px; font-size: 0.82em; font-weight: 600; color: #2e7d32; }
+        .unit-card[data-level="1"] { border-top-color: #4caf50; }
+        .unit-card[data-level="2"] { border-top-color: #2196F3; }
+        .unit-card[data-level="3"] { border-top-color: #FF9800; }
+        .unit-card[data-level="4"] { border-top-color: #9C27B0; }
+
+        /* ---- страница урока ---- */
+        .back-link { display: inline-block; margin-bottom: 18px; color: #fff; text-decoration: none; font-weight: 500; opacity: 0.9; }
+        .back-link:hover { opacity: 1; }
+
+        .ex-block { background: #fff; border-radius: 20px; padding: 28px; margin-bottom: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .ex-block h2 { font-size: 1.1em; color: #2c3e50; margin: 0 0 6px; line-height: 1.45; }
+        .ex-num { display: inline-block; background: #667eea; color: #fff; border-radius: 12px; padding: 3px 12px; font-size: 0.82em; font-weight: 700; margin-bottom: 10px; }
+        .ex-kind { font-size: 0.82em; color: #6b6684; margin-bottom: 16px; }
+
+        .task-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eceaf5; flex-wrap: wrap; }
+        .task-row:last-child { border-bottom: none; }
+        .task-no { flex: 0 0 26px; color: #8b86a3; font-weight: 600; padding-top: 9px; }
+        .task-q { flex: 1 1 260px; font-size: 1.05em; color: #2c3e50; padding-top: 8px; line-height: 1.5; }
+        .task-q .hint { display: block; font-size: 0.85em; color: #6b6684; }
+        .task-a { flex: 0 0 auto; display: flex; gap: 8px; align-items: center; }
+        .task-a input { font-family: inherit; font-size: 1em; padding: 9px 14px; border: 2px solid #dcd8ec; border-radius: 12px; width: 230px; outline: none; transition: border-color 0.3s ease; }
+        .task-a input:focus { border-color: #667eea; }
+        .task-row.correct input { border-color: #4caf50; background: #f1f8f1; }
+        .task-row.wrong input { border-color: #f44336; background: #fdf1f0; }
+        .answer { flex: 1 1 100%; font-size: 1em; color: #2e7d32; background: #f1f8f1; border-radius: 12px; padding: 10px 14px; line-height: 1.55; }
+        .answer.hidden { display: none; }
+        .answer b { color: #1b5e20; }
+
+        .btn { font-family: inherit; font-size: 0.95em; padding: 10px 22px; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; }
+        .btn-check { background: #667eea; color: #fff; }
+        .btn-check:hover { background: #5b4bb5; }
+        .btn-show { background: #eceaf5; color: #5b4bb5; }
+        .btn-show:hover { background: #dcd8ec; }
+        .ex-actions { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+        .ex-score { font-size: 0.95em; font-weight: 600; color: #2e7d32; }
+
+        .chip { display: inline-block; font-family: inherit; font-size: 1em; padding: 9px 16px; margin: 5px; border: 2px solid #dcd8ec; border-radius: 20px; background: #fff; cursor: pointer; transition: all 0.2s ease; }
+        .chip.on { background: #667eea; border-color: #667eea; color: #fff; }
+        .chip.ok { background: #4caf50; border-color: #4caf50; color: #fff; }
+        .chip.no { background: #f44336; border-color: #f44336; color: #fff; }
+
+        .read-list { font-size: 1.1em; line-height: 2; color: #2c3e50; }
+        .open-note { background: #fff8e6; border-left: 4px solid #f0a500; border-radius: 10px; padding: 14px 18px; color: #7a5c00; line-height: 1.55; }
+
+        .unit-links { background: rgba(255,255,255,0.95); border-radius: 20px; padding: 24px; margin-bottom: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .unit-links h3 { margin: 0 0 12px; font-size: 1.05em; color: #2c3e50; }
+        .unit-links a { display: inline-block; margin: 4px 8px 4px 0; padding: 8px 16px; background: #eceaf5; color: #5b4bb5; border-radius: 18px; text-decoration: none; font-size: 0.9em; font-weight: 500; }
+        .unit-links a:hover { background: #dcd8ec; }
+
+        .unit-nav { display: flex; justify-content: space-between; gap: 12px; margin: 10px 0 40px; flex-wrap: wrap; }
+        .unit-nav a { flex: 1 1 200px; background: rgba(255,255,255,0.95); border-radius: 16px; padding: 16px 20px; text-decoration: none; color: #2c3e50; box-shadow: 0 8px 20px rgba(0,0,0,0.1); font-weight: 500; }
+        .unit-nav a:hover { background: #fff; }
+        .unit-nav a.next { text-align: right; }
+        .unit-nav span { display: block; font-size: 0.8em; color: #6b6684; }
+
+        .complete-box { background: rgba(255,255,255,0.95); border-radius: 20px; padding: 28px; text-align: center; margin-bottom: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .btn-complete { background: #4caf50; color: #fff; font-size: 1.05em; padding: 14px 34px; }
+        .btn-complete:hover { background: #43a047; }
+
+        @media (max-width: 768px) {
+            .ex-header { padding: 26px 20px; }
+            .ex-header h1 { font-size: 1.7em; }
+            .ex-block { padding: 20px 16px; }
+            .task-a input { width: 100%; }
+            .task-a { flex: 1 1 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="app"></div>
+    </div>
+
+    <script src="js/progress-tracker.js"></script>
+    <script src="js/book-exercises.js"></script>
+    <script>
+        'use strict';
+
+        var KIND_LABEL = {
+            input:  'Впишите ответ и нажмите «Проверить»',
+            reveal: 'Переведите сами, потом откройте ключ',
+            select: 'Отметьте подходящие слова',
+            read:   'Прочитайте вслух — ключа к заданию нет',
+            open:   'Творческое задание — выполняется письменно'
+        };
+
+        // Сравнение ответа: игнорируем регистр, пробелы и знаки препинания
+        function norm(s) {
+            return String(s || '').toLowerCase()
+                .replace(/[.,!?;:()«»"'`—–\-]/g, '')
+                .replace(/\s+/g, '');
+        }
+
+        function esc(s) {
+            return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function unitId(n) { return 'book_unit_' + n; }
+
+        function isDone(n) {
+            if (!window.ProgressTracker) return false;
+            var p = ProgressTracker.get();
+            return !!(p && p.completedLessons && p.completedLessons[unitId(n)]);
+        }
+
+        function countTasks(u) {
+            var t = 0;
+            u.ex.forEach(function (e) { t += (e.items || []).length; });
+            return t;
+        }
+
+        // =============================================
+        // Список уроков
+        // =============================================
+        function renderHub(level) {
+            var units = window.bookExercises;
+            var levels = [0, 1, 2, 3, 4];
+            var html = '' +
+                '<div class="ex-header">' +
+                    '<h1>Упражнения по грамматике</h1>' +
+                    '<div class="korean-title">문법 연습 문제</div>' +
+                    '<p>21 урок, ' + units.reduce(function (a, u) { return a + u.ex.length; }, 0) +
+                        ' упражнений и ' + units.reduce(function (a, u) { return a + countTasks(u); }, 0) +
+                        ' заданий с ключами — от чтения патчхима до косвенной речи. ' +
+                        'Короткие ответы проверяются прямо на странице.</p>' +
+                    '<div class="ex-source">По самоучителю А. В. Ана «Корейский язык без репетитора» (АСТ, 2019)</div>' +
+                '</div>' +
+                '<div class="level-filter">';
+
+            levels.forEach(function (l) {
+                var label = l === 0 ? 'Все уроки' : l + '급';
+                html += '<button class="filter-btn' + (l === level ? ' active' : '') +
+                        '" data-level="' + l + '">' + label + '</button>';
+            });
+            html += '</div><div class="unit-grid">';
+
+            units.forEach(function (u) {
+                if (level && u.level !== level) return;
+                html += '<a class="unit-card" data-level="' + u.level + '" href="?unit=' + u.n + '">' +
+                            '<div class="unit-no">' + esc(u.name) + ' · ' + u.level + '급</div>' +
+                            '<h3>' + esc(u.topic) + '</h3>' +
+                            '<div class="unit-meta">' + u.ex.length + ' упражнений · ' +
+                                countTasks(u) + ' заданий</div>' +
+                            (isDone(u.n) ? '<div class="unit-done">[OK] Пройдено</div>' : '') +
+                        '</a>';
+            });
+            html += '</div>';
+
+            document.getElementById('app').innerHTML = html;
+            document.querySelectorAll('.filter-btn').forEach(function (b) {
+                b.addEventListener('click', function () { renderHub(Number(b.dataset.level)); });
+            });
+        }
+
+        // =============================================
+        // Один урок
+        // =============================================
+        function renderUnit(u) {
+            var html = '<a class="back-link" href="exercises.html">&larr; Все уроки</a>' +
+                '<div class="ex-header">' +
+                    '<h1>' + esc(u.name) + '</h1>' +
+                    '<div class="korean-title">' + u.level + '급</div>' +
+                    '<p>' + esc(u.topic) + '</p>' +
+                    '<div class="ex-source">' + u.ex.length + ' упражнений · ' + countTasks(u) + ' заданий</div>' +
+                '</div>';
+
+            if (u.links && u.links.length) {
+                html += '<div class="unit-links"><h3>Теория по этим темам на сайте</h3>';
+                u.links.forEach(function (href) {
+                    var name = href.split('/').pop().replace(/^lesson_\d+_/, '').replace(/_/g, ' ');
+                    if (href.indexOf('vocabulary/') === 0) name = 'словарь: ' + name;
+                    html += '<a href="' + esc(href) + '/index.html">' + esc(name) + '</a>';
+                });
+                html += '</div>';
+            }
+
+            u.ex.forEach(function (e, ei) {
+                html += '<div class="ex-block" data-ex="' + ei + '">' +
+                            '<div class="ex-num">Упражнение ' + esc(e.id) + '</div>' +
+                            '<h2>' + esc(e.title) + '</h2>' +
+                            '<div class="ex-kind">' + KIND_LABEL[e.kind] + '</div>';
+
+                if (e.kind === 'open') {
+                    html += '<div class="open-note">Задание без ключа: выполните его письменно ' +
+                            'и сверьтесь с примерами из теории.</div>';
+                } else if (e.kind === 'read') {
+                    html += '<div class="read-list">';
+                    (e.items || []).forEach(function (it, i) {
+                        html += '<div>' + (i + 1) + ') ' + esc(it.q) + '</div>';
+                    });
+                    html += '</div>';
+                } else if (e.kind === 'select') {
+                    html += '<div>';
+                    (e.items || []).forEach(function (it, i) {
+                        html += '<button type="button" class="chip" data-i="' + i + '">' + esc(it.q) + '</button>';
+                    });
+                    html += '</div><div class="ex-actions">' +
+                                '<button class="btn btn-check" data-act="check-select">Проверить</button>' +
+                                '<span class="ex-score"></span></div>';
+                } else {
+                    (e.items || []).forEach(function (it, i) {
+                        html += '<div class="task-row" data-i="' + i + '">' +
+                                    '<div class="task-no">' + (i + 1) + '.</div>' +
+                                    '<div class="task-q">' + esc(it.q) +
+                                        (it.h ? '<span class="hint">' + esc(it.h) + '</span>' : '') +
+                                    '</div>';
+                        if (e.kind === 'input' && it.a) {
+                            html += '<div class="task-a">' +
+                                        '<input type="text" placeholder="Ваш ответ" autocomplete="off" ' +
+                                            'data-check="' + esc(it.c || it.a) + '"/>' +
+                                    '</div>';
+                        }
+                        html += it.a
+                            ? '<div class="answer hidden"><b>Ключ:</b> ' + esc(it.a) + '</div>'
+                            : '<div class="answer hidden">Ключа к этому пункту в книге нет.</div>';
+                        html += '</div>';
+                    });
+                    html += '<div class="ex-actions">';
+                    if (e.kind === 'input') {
+                        html += '<button class="btn btn-check" data-act="check">Проверить</button>';
+                    }
+                    html += '<button class="btn btn-show" data-act="show">Показать ключ</button>' +
+                            '<span class="ex-score"></span></div>';
+                }
+                html += '</div>';
+            });
+
+            html += '<div class="complete-box">' +
+                        '<button class="btn btn-complete" id="completeBtn">Отметить урок пройденным</button>' +
+                    '</div>';
+
+            var units = window.bookExercises;
+            var i = units.indexOf(u);
+            html += '<div class="unit-nav">';
+            if (i > 0) {
+                html += '<a href="?unit=' + units[i - 1].n + '"><span>&larr; Предыдущий</span>' +
+                        esc(units[i - 1].name) + '</a>';
+            }
+            if (i < units.length - 1) {
+                html += '<a class="next" href="?unit=' + units[i + 1].n + '"><span>Следующий &rarr;</span>' +
+                        esc(units[i + 1].name) + '</a>';
+            }
+            html += '</div>';
+
+            document.getElementById('app').innerHTML = html;
+            bindUnit(u);
+        }
+
+        function bindUnit(u) {
+            document.querySelectorAll('.ex-block').forEach(function (block) {
+                var ex = u.ex[Number(block.dataset.ex)];
+                var score = block.querySelector('.ex-score');
+
+                block.querySelectorAll('.chip').forEach(function (chip) {
+                    chip.addEventListener('click', function () { chip.classList.toggle('on'); });
+                });
+
+                block.addEventListener('click', function (evt) {
+                    var act = evt.target.dataset && evt.target.dataset.act;
+                    if (!act) return;
+
+                    if (act === 'show') {
+                        block.querySelectorAll('.answer').forEach(function (a) { a.classList.remove('hidden'); });
+                        evt.target.textContent = 'Ключ открыт';
+                        evt.target.disabled = true;
+                        return;
+                    }
+
+                    if (act === 'check') {
+                        var ok = 0, total = 0;
+                        block.querySelectorAll('.task-row').forEach(function (row) {
+                            var inp = row.querySelector('input');
+                            if (!inp) return;
+                            total++;
+                            row.classList.remove('correct', 'wrong');
+                            if (norm(inp.value) && norm(inp.value) === norm(inp.dataset.check)) {
+                                row.classList.add('correct');
+                                ok++;
+                            } else {
+                                row.classList.add('wrong');
+                                row.querySelector('.answer').classList.remove('hidden');
+                            }
+                        });
+                        score.textContent = 'Верно: ' + ok + ' из ' + total;
+                        console.log('[OK] Упражнение ' + ex.id + ': ' + ok + '/' + total);
+                        return;
+                    }
+
+                    if (act === 'check-select') {
+                        var right = 0;
+                        block.querySelectorAll('.chip').forEach(function (chip) {
+                            var it = ex.items[Number(chip.dataset.i)];
+                            var should = it.a !== '—';
+                            var picked = chip.classList.contains('on');
+                            chip.classList.remove('on');
+                            chip.classList.add(picked === should ? 'ok' : 'no');
+                            if (picked === should) right++;
+                        });
+                        score.textContent = 'Верно: ' + right + ' из ' + ex.items.length;
+                        evt.target.disabled = true;
+                    }
+                });
+            });
+
+            var btn = document.getElementById('completeBtn');
+            if (btn) {
+                if (isDone(u.n)) markDone(btn);
+                btn.addEventListener('click', function () {
+                    if (window.ProgressTracker) {
+                        ProgressTracker.markLessonCompleted(unitId(u.n));
+                        console.log('[OK] Урок отмечен пройденным:', unitId(u.n));
+                    }
+                    markDone(btn);
+                });
+            }
+        }
+
+        function markDone(btn) {
+            btn.textContent = 'Пройдено!';
+            btn.style.background = '#2e7d32';
+            btn.style.cursor = 'default';
+            btn.disabled = true;
+        }
+
+        // =============================================
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!window.bookExercises) {
+                document.getElementById('app').innerHTML =
+                    '<div class="ex-header"><h1>Не удалось загрузить упражнения</h1></div>';
+                console.error('[ERROR] js/book-exercises.js не загружен');
+                return;
+            }
+            var n = new URLSearchParams(window.location.search).get('unit');
+            var unit = n === null ? null : window.bookExercises.filter(function (u) {
+                return String(u.n) === String(n);
+            })[0];
+            if (unit) { renderUnit(unit); } else { renderHub(0); }
+        });
+    </script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-sync.js"></script>
+    <script src="js/firebase-auth.js"></script>
+    <script src="js/global-nav.js"></script>
+</body>
+</html>
