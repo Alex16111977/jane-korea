@@ -18,6 +18,7 @@
     var ROOT_LEVEL = {
         lesson_01_korea: 1, lesson_02_alphabet: 1, lesson_03_greetings: 1,
         lesson_04_numbers: 1, lesson_05_family: 1, lesson_06_grammar: 1,
+        lesson_104_consonant_assimilation: 1,
         lesson_10_copula: 1, lesson_11_informal_copula: 1, lesson_12_formal_copula: 1,
         lesson_13_copula_negation: 1, lesson_14_demonstratives: 1,
         lesson_15_demonstratives_practice: 1,
@@ -47,6 +48,7 @@
         transport: 1, verbs: 1,
         adverbs_spoken: 2, aegyo: 2, communication: 2, office: 2, personality: 2,
         romance: 2, sports: 2, symptoms: 2, taste_cooking: 2, travel_vocab: 2,
+        verbs_actions: 2, everyday_nouns: 2,
         beauty: 3, onomatopoeia: 3, party: 3, space: 3, weather: 3,
         topik3_adjectives: 3, topik3_adverbs: 3, topik3_nouns_1: 3,
         topik3_nouns_2: 3, topik3_nouns_3: 3, topik3_verbs_1: 3, topik3_verbs_2: 3,
@@ -298,6 +300,7 @@
             'diary.html': 'profile',
             'dramas.html': 'index',
             'listening.html': 'index',
+            'exercises.html': 'lessons',
             'about.html': 'index',
             'faq.html': 'index'
         };
@@ -350,6 +353,9 @@
         // Основные страницы
         { t: 'Главная страница', u: 'index.html', k: 'главная home' },
         { t: 'Все уроки грамматики', u: 'lessons.html', k: 'уроки грамматика lessons' },
+        { t: 'Упражнения по грамматике', u: 'exercises.html', k: 'упражнения задания практика ключи самоучитель тренажёр exercises падежи причастия косвенная речь' },
+        { t: 'Словарь: Глаголы — второй круг', u: 'vocabulary/verbs_actions/index.html', k: 'глаголы действия verbs 설거지하다 그리워하다 추천하다 быт чувства работа' },
+        { t: 'Словарь: Быт, вещи и заимствования', u: 'vocabulary/everyday_nouns/index.html', k: 'существительные вещи быт заимствования 외래어 리모컨 베개 도시락 강의 nouns' },
         { t: 'Мой профиль и прогресс', u: 'profile.html', k: 'профиль прогресс статистика profile' },
         { t: 'Практика слов', u: 'vocabulary-learning.html', k: 'словарь слова vocabulary' },
         { t: 'Разговорные фразы', u: 'phrases.html', k: 'фразы разговорные phrases кафе такси врач магазин аэропорт отель ресторан ситуации' },
@@ -365,6 +371,7 @@
         { t: 'Урок 92: Традиции и праздники', u: 'lesson_92_traditions/index.html', k: 'традиции праздники соллаль чусок ханбок' },
         { t: 'Урок 93: Большие числа и деньги', u: 'lesson_93_large_numbers/index.html', k: 'числа деньги воны цены' },
         { t: 'Урок 94: Медицина и аптека', u: 'lesson_94_medicine/index.html', k: 'медицина аптека врач больница лекарства' },
+        { t: 'Пары согласных и ассимиляция', u: 'lesson_104_consonant_assimilation/index.html', k: 'ассимиляция пары согласных патчхим правила чтения 겹받침 자음동화 학년 항년 произношение' },
 
         // Уроки (53 root)
         { t: 'Урок 1: Знакомство с Кореей', u: 'lesson_01_korea/index.html', k: 'корея знакомство 1' },
@@ -512,6 +519,7 @@
     var SEARCH_DATA_EN = [
         { t: 'Home', u: 'index.html', k: 'home main' },
         { t: 'Grammar Lessons', u: 'lessons.html', k: 'lessons grammar' },
+        { t: 'Grammar Exercises', u: 'exercises.html', k: 'exercises drills practice answer keys workbook' },
         { t: 'My Profile', u: 'profile.html', k: 'profile progress statistics' },
         { t: 'Vocabulary Practice', u: 'vocabulary-learning.html', k: 'vocabulary words' },
         { t: 'Reading Texts', u: 'reading-texts.html', k: 'texts reading levels' },
