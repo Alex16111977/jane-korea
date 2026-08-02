@@ -45,17 +45,41 @@ EL_DEFAULT_FORMAT = 'mp3_44100_64'
 # добавьте нативный голос из Voice Library и передайте --voice-id.
 EL_DEFAULT_VOICE = 'EXAVITQu4vr4xnSDxMaL'
 
-LESSON_GLOBS = ['lesson_*/index.html', 'lesson_*/*/index.html', 'level_*/*/index.html']
+LESSON_GLOBS = ['lesson_*/index.html', 'lesson_*/*/index.html', 'level_*/*/index.html',
+                'vocabulary/*/index.html']
 
 HANGUL = re.compile(r'[가-힯]')
+CYRILLIC = re.compile(r'[Ѐ-ӿ]')
 CALL_RE = re.compile(r"speak(?:Korean|Word|)\(\s*(['\"])(.*?)\1", re.S)
 KOREAN_TEXT_RE = re.compile(r'class="korean-text"[^>]*>([^<]*)<')
+# Лексика в таблицах и карточках — кнопки на неё вешает js/lesson-audio.js
+CELL_RES = [
+    re.compile(r'<td class="ko">([^<]*)</td>'),
+    re.compile(r'class="slang-korean">([^<]*)<'),
+]
+# Слова и примеры страниц словаря живут в JS-массиве, а не в разметке
+VOCAB_RES = [
+    re.compile(r"\bkorean: '((?:[^'\\]|\\.)*)'"),
+    re.compile(r"\bexample: '((?:[^'\\]|\\.)*)'"),
+]
 
 
 def norm(s):
     """Нормализация фразы — та же, что в js/tts-voice.js (normKey)."""
     s = s.replace('\U0001F50A', '')          # значок динамика
     s = re.sub(r'\[[^\]]*\]', '', s)          # [романизация] не озвучивается
+    return ' '.join(s.split()).strip()
+
+
+def norm_cell(s):
+    """Нормализация ячейки — та же, что в js/lesson-audio.js (normalize).
+
+    Отличается от norm() только заменой слэша: «막걸리 / 탁주» произносится
+    как перечисление, а не как знак препинания.
+    """
+    s = s.replace('\U0001F50A', '')
+    s = re.sub(r'\[[^\]]*\]', '', s)
+    s = re.sub(r'\s*/\s*', ', ', s)
     return ' '.join(s.split()).strip()
 
 
@@ -86,6 +110,23 @@ def collect_phrases():
             if p and HANGUL.search(p):
                 phrases.add(p)
                 dialogue.add(p)
+        for rx in CELL_RES:
+            for m in rx.finditer(txt):
+                raw = m.group(1)
+                # «прил. + 게 생기다» — описание конструкции, а не фраза
+                if CYRILLIC.search(raw):
+                    continue
+                p = norm_cell(raw)
+                if p and HANGUL.search(p):
+                    phrases.add(p)
+        for rx in VOCAB_RES:
+            for m in rx.finditer(txt):
+                raw = m.group(1).replace("\\'", "'")
+                if CYRILLIC.search(raw):
+                    continue
+                p = norm(raw)
+                if p and HANGUL.search(p):
+                    phrases.add(p)
     return sorted(phrases), sorted(dialogue)
 
 
