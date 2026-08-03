@@ -131,6 +131,78 @@ def build_html(les, prev, nxt):
     summary = '\n'.join(
         '                        <li>%s</li>' % s for s in les['summary'])
 
+    # --- Блоки продвинутого урока (4-6급): все опциональны ---
+    authentic = ''
+    if les.get('text'):
+        t = les['text']
+        rows = []
+        for ko, ru in t['lines']:
+            rows.append('                    <div class="src-line">')
+            rows.append('                        <p class="src-ko">%s</p>' % ko)
+            rows.append('                        <p class="src-ru">%s</p>' % ru)
+            rows.append('                    </div>')
+        note = ('                    <p class="src-note">%s</p>' % t['note']) if t.get('note') else ''
+        authentic = ('            <section class="authentic">\n'
+                     '                <h2>📰 %s</h2>\n'
+                     '                <div class="src-box">\n'
+                     '                    <p class="src-origin">%s</p>\n'
+                     '%s\n%s\n'
+                     '                </div>\n'
+                     '            </section>\n' %
+                     (t['title'], t.get('source', ''), '\n'.join(rows), note))
+
+    compare = ''
+    if les.get('compare'):
+        c = les['compare']
+        head = ''.join('<th>%s</th>' % h for h in c['headers'])
+        body = []
+        for row in c['rows']:
+            body.append('                        <tr>' +
+                        ''.join('<td>%s</td>' % cell for cell in row) + '</tr>')
+        compare = ('            <section class="compare">\n'
+                   '                <h2>🔍 %s</h2>\n'
+                   '                <div class="table-wrap">\n'
+                   '                    <table>\n'
+                   '                        <tr>%s</tr>\n'
+                   '%s\n'
+                   '                    </table>\n'
+                   '                </div>\n'
+                   '            </section>\n' % (c['title'], head, '\n'.join(body)))
+
+    mistakes = ''
+    if les.get('mistakes'):
+        items = []
+        for wrong, right, why in les['mistakes']:
+            items.append('                <div class="mistake">\n'
+                         '                    <p class="wrong">✗ %s</p>\n'
+                         '                    <p class="right">✓ %s</p>\n'
+                         '                    <p class="why">%s</p>\n'
+                         '                </div>' % (wrong, right, why))
+        mistakes = ('            <section class="mistakes">\n'
+                    '                <h2>⚠️ Типичные ошибки</h2>\n'
+                    '%s\n'
+                    '            </section>\n' % '\n'.join(items))
+
+    quiz = ''
+    quiz_json = '[]'
+    if les.get('quiz'):
+        items = []
+        for i, q in enumerate(les['quiz']):
+            opts = '\n'.join(
+                '                        <button class="quiz-opt" data-q="%d" data-o="%d">%s</button>'
+                % (i, j, o) for j, o in enumerate(q['options']))
+            items.append('                <div class="quiz-item" id="q%d">\n'
+                         '                    <p class="quiz-q">%d. %s</p>\n'
+                         '                    <div class="quiz-opts">\n%s\n                    </div>\n'
+                         '                    <p class="quiz-why" id="why%d">%s</p>\n'
+                         '                </div>' % (i, i + 1, q['q'], opts, i, q.get('why', '')))
+        quiz = ('            <section class="quiz">\n'
+                '                <h2>🎯 Проверьте себя</h2>\n'
+                '%s\n'
+                '                <p class="quiz-score" id="quizScore"></p>\n'
+                '            </section>\n' % '\n'.join(items))
+        quiz_json = json.dumps([q['correct'] for q in les['quiz']])
+
     nav = []
     if prev:
         nav.append('                <a href="../%s/index.html" class="prev-lesson">← %s</a>'
@@ -148,7 +220,8 @@ def build_html(les, prev, nxt):
         intro=les['intro'], points=points, dialogue=dialogue,
         concept_title=les['concept']['title'], concept_text=les['concept']['text'],
         sections=sections, examples=examples, summary=summary, nav=nav,
-        lesson_id=lesson_id)
+        lesson_id=lesson_id, authentic=authentic, compare=compare,
+        mistakes=mistakes, quiz=quiz, quiz_json=quiz_json)
 
 
 TEMPLATE = """<!DOCTYPE html>
