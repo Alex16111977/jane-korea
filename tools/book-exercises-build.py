@@ -60,12 +60,12 @@ def clean(text):
         text = text.replace(bad, good)
     # Латинские буквы на месте знаков препинания — только рядом с хангылем,
     # иначе пострадают «TV», «A학점», «K-POP»
-    text = re.sub(r'(?<=[가-힣])S(?=[\s»]|$)', ',', text)
-    text = re.sub(r'(?<=[가-힣])U(?=[\s»]|$)', '.', text)
-    text = re.sub(r'(?<=[가-힣])f(?=[\s»]|$)', '?', text)
-    text = re.sub(r'(?<=[가-힣])H(?=[\s»]|$)', '!', text)
-    text = re.sub(r'\bc(?=[가-힣])', '«', text)
-    text = re.sub(r'(?<=[가-힣.,?!])e\b', '»', text)
+    text = re.sub(r'(?<=[가-힣])S(?=[\se»]|$)', ',', text)
+    text = re.sub(r'(?<=[가-힣])U(?=[\se»]|$)', '.', text)
+    text = re.sub(r'(?<=[가-힣])f(?=[\se»]|$)', '?', text)
+    text = re.sub(r'(?<=[가-힣])H(?=[\se»]|$)', '!', text)
+    text = re.sub(r'\bc(?=[가-힣«])', '«', text)
+    text = re.sub(r'(?<=[가-힣.,?!…])e(?![а-яёa-z])', '»', text)
     text = re.sub(r'\s+b\s+', ', ', text)
     return re.sub(r'[ \t]+', ' ', text)
 
@@ -252,8 +252,8 @@ def section_blocks(lines, head, limit=90):
             if not x.strip() or re.match(r'^\s*\d{1,3}\s*$', x):
                 continue
             body.append(x.strip())
-        num = None
-        for j in range(i, max(0, i - 400), -1):
+        num = 0                      # вводный урок, если заголовка выше нет
+        for j in range(i, -1, -1):
             m = re.match(r'^\s*Урок (\d+)\s*$', lines[j])
             if m:
                 num = int(m.group(1))
@@ -279,27 +279,90 @@ def split_ko_ru(body):
     return ko, ru
 
 
-def join_wrapped(lines):
-    """Склеивает строки, разорванные переносом внутри реплики/предложения."""
+WORDS = set()      # настоящие слова книги, см. load_word_index()
+
+
+def load_word_index(pdf_path):
+    """Словник из pdfplumber: он режет строку по реальным пробелам PDF.
+
+    pdftotext теряет информацию о том, был ли на конце строки пробел, поэтому
+    «회사에 갑니 / 다» и «물건을 / 사오셨어요» выглядят одинаково. Список
+    настоящих слов позволяет решить, склеивать перенос со пробелом или без.
+    """
+    try:
+        import pdfplumber
+    except ImportError:
+        print('[!] pdfplumber не установлен — переносы склеиваются по эвристике')
+        return
+    # pdfplumber отдаёт корейские глифы как «(cid:15187)» — это тот же
+    # идентификатор, что и в pdftotext, только числом
+    cid = re.compile(r'\(cid:(\d+)\)')
+
+    def from_cid(text):
+        return cid.sub(lambda m: chr(int(m.group(1)) + HANGUL_OFFSET), text)
+
+    with pdfplumber.open(pdf_path) as pdf:
+        for page in pdf.pages:
+            for w in page.extract_words(use_text_flow=True):
+                token = clean(from_cid(w['text'])).strip(' .,!?«»…')
+                if token and HAN.search(token):
+                    WORDS.add(token)
+    print('[+] Словник для переносов:', len(WORDS), 'слов')
+
+
+def glue(prev, nxt):
+    """Соединяет разорванную переносом строку: с пробелом или без."""
+    tail = prev.split(' ')[-1].strip('.,!?«»…')
+    head = nxt.split(' ')[0].strip('.,!?«»…')
+    if WORDS:
+        if tail + head in WORDS:
+            return prev + nxt
+        if tail in WORDS and head in WORDS:
+            return prev + ' ' + nxt
+    # без словника: корейский набор чаще рвёт слово посередине
+    return prev + nxt
+
+
+def join_wrapped(lines, korean=True):
+    """Склеивает строки, разорванные переносом.
+
+    В русском перенос идёт по слогам с дефисом, в корейском — в любом месте.
+    """
     out = []
     for line in lines:
-        starts_new = line.startswith('—') or line.startswith('«') or not out
-        if starts_new:
+        if not out or line.startswith(('—', '«')):
             out.append(line)
+            continue
+        prev = out[-1]
+        if not korean:
+            out[-1] = prev[:-1] + line if prev.endswith('-') else prev + ' ' + line
+        elif prev and prev[-1] in '.!?»…':
+            out[-1] = prev + ' ' + line
         else:
-            out[-1] = out[-1] + ' ' + line
+            out[-1] = glue(prev, line)
     return [re.sub(r'\s+', ' ', x).strip() for x in out]
+
+
+def to_sentences(chunks):
+    """Режет длинные абзацы на предложения — так текст читается построчно."""
+    out = []
+    for chunk in chunks:
+        for part in re.split(r'(?<=[.!?»])\s+', chunk):
+            part = part.strip()
+            if part:
+                out.append(part)
+    return out
 
 
 def build_dialogs(lines):
     result = {}
     for num, body in section_blocks(lines, r'ДИАЛОГ[И]?'):
         ko, ru = split_ko_ru(body)
-        ko, ru = join_wrapped(ko), join_wrapped(ru)
+        ko, ru = join_wrapped(ko), join_wrapped(ru, korean=False)
         rows = [{'k': ko[i], 'r': ru[i] if i < len(ru) else None}
                 for i in range(len(ko))]
         if rows:
-            result.setdefault(num or 0, []).extend(rows)
+            result.setdefault(num, []).extend(rows)
     return result
 
 
@@ -308,21 +371,26 @@ def build_texts(lines):
     texts, glossary = {}, {}
     for num, body in section_blocks(lines, r'ТЕКСТ', limit=120):
         ko, ru = split_ko_ru(body)
-        ko, ru = join_wrapped(ko), join_wrapped(ru)
+        ko = to_sentences(join_wrapped(ko))
+        ru = to_sentences(join_wrapped(ru, korean=False))
         if ko:
-            texts.setdefault(num or 0, {'ko': [], 'ru': []})
-            texts[num or 0]['ko'].extend(ko)
-            texts[num or 0]['ru'].extend(ru)
-    rx = re.compile(r'([가-힣][가-힣\s]*?)\s+([А-Яа-яЁё][^가-힣]*?)(?=\s{2,}[가-힣]|\s*$)')
+            texts.setdefault(num, {'ko': [], 'ru': []})
+            texts[num]['ko'].extend(ko)
+            texts[num]['ru'].extend(ru)
+    # Словарик свёрстан в две колонки, pdftotext склеивает их в одну строку:
+    # «날마다 каждый день   회사 компания» — берём все пары «хангыль + русский»
+    rx = re.compile(r'([가-힣][가-힣\s]*?)\s+'
+                    r'([А-Яа-яЁё][А-Яа-яЁё\s,;()«»-]*?)(?=\s+[가-힣]|\s*$)')
     for num, body in section_blocks(lines, r'СЛОВАРИК К ТЕКСТУ', limit=60):
-        words = []
+        words, seen = [], set()
         for line in body:
             for m in rx.finditer(line):
-                ru = m.group(2).strip(' ,.')
-                if ru:
-                    words.append({'k': m.group(1).strip(), 'r': ru})
+                ko, ru = m.group(1).strip(), m.group(2).strip(' ,.;')
+                if ru and ko not in seen:
+                    seen.add(ko)
+                    words.append({'k': ko, 'r': ru})
         if words:
-            glossary.setdefault(num or 0, []).extend(words)
+            glossary.setdefault(num, []).extend(words)
     return texts, glossary
 
 
@@ -426,7 +494,9 @@ def main():
     ap.add_argument('--dry-run', action='store_true', help='только показать статистику')
     args = ap.parse_args()
 
-    lines = extract_text(os.path.expanduser(args.pdf)).split('\n')
+    pdf_path = os.path.expanduser(args.pdf)
+    load_word_index(pdf_path)
+    lines = extract_text(pdf_path).split('\n')
     i_keys = max(i for i, l in enumerate(lines) if re.match(r'^\s*Ключи\s*$', l))
 
     tasks = split_blocks(lines, 0, i_keys)
