@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каузатив — заставляем и позволяем действовать</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 80px),
+                linear-gradient(135deg, #6c5ce7 0%, #4b3fb8 50%, #4b3fb8 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '🔄';
+            position: fixed;
+            top: 16%;
+            right: 5%;
+            font-size: 105px;
+            opacity: 0.04;
+            animation: floatSlow 9s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '🎭';
+            position: fixed;
+            bottom: 10%;
+            left: 3%;
+            font-size: 95px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #7B1FA2;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #9C27B0;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .description {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #7B1FA2;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #9C27B0;
+            padding-bottom: 10px;
+        }
+
+        .content-section h3 {
+            color: #8E24AA;
+            font-size: 1.4em;
+        }
+
+        .content-section p {
+            font-size: 1.05em;
+            line-height: 1.7;
+        }
+
+        .grammar-forms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .form-card {
+            border-radius: 15px;
+            padding: 25px;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .form-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .suffix-i { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .suffix-hi { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .suffix-ri { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .suffix-gi { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .suffix-u { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .suffix-chu { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+
+        .form-title {
+            font-size: 1.6em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .form-pattern {
+            background: rgba(255,255,255,0.2);
+            padding: 12px;
+            border-radius: 10px;
+            margin: 12px 0;
+            font-size: 1.3em;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .form-description {
+            font-size: 1em;
+            margin: 10px 0;
+            opacity: 0.9;
+        }
+
+        .form-examples {
+            margin-top: 15px;
+        }
+
+        .form-example {
+            background: rgba(255,255,255,0.15);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 6px 0;
+        }
+
+        .korean-verb {
+            font-size: 1.15em;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .verb-translation {
+            font-size: 0.85em;
+            opacity: 0.9;
+        }
+
+        .sentence-structure {
+            background: linear-gradient(135deg, #6c5ce7, #4b3fb8);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .structure-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .structure-example {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .word-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .word-part {
+            background: rgba(255,255,255,0.3);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .korean-word {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .word-meaning {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #6c5ce7, #4b3fb8);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-row.three-col {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.05em;
+        }
+
+        .table-cell.korean {
+            color: #7B1FA2;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #6c5ce7, #4b3fb8);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.8em;
+            color: #2b2440;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .tip-box {
+            background: rgba(156,39,176,0.08);
+            border-left: 4px solid #9C27B0;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        .tip-box strong {
+            color: #7B1FA2;
+        }
+
+        .pair-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 15px;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .pair-box {
+            background: linear-gradient(135deg, #6c5ce7, #4b3fb8);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .pair-arrow {
+            font-size: 2em;
+            color: #9C27B0;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #6c5ce7, #4b3fb8);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #7B1FA2;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .option:hover {
+            background: #9C27B0;
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: #27ae60;
+        }
+
+        .option.wrong {
+            background: #e74c3c;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct {
+            background: #d5f5d5;
+            color: #27ae60;
+            display: block;
+        }
+
+        .result.wrong {
+            background: #fdd5d5;
+            color: #e74c3c;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .grammar-forms {
+                grid-template-columns: 1fr;
+            }
+
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 2px;
+            }
+
+            .options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .word-breakdown {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pair-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pair-arrow {
+                transform: rotate(90deg);
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_4/index.html">← 4급 Уровень 4</a>
+            <a href="../../lessons.html">Все уроки</a>
+        </div>
+
+        <header class="header">
+            <h1>Каузатив (사동사)</h1>
+            <div class="korean-title">사동사: 누군가에게 무엇을 하게 하다 [sadonsa: nugungaege mueoseul hage hada]</div>
+            <div class="description">Заставляем, позволяем, побуждаем: 먹이다, 웃기다, 울리다, 살리다</div>
+        </header>
+
+        <div class="content-section">
+            <h2>Что такое каузатив?</h2>
+            <p>Каузатив - это когда субъект не делает действие сам, а <strong>заставляет, побуждает или позволяет кому-то другому</strong> это сделать.</p>
+            <p>В русском языке это похоже на: "кормить" (заставлять есть), "смешить" (заставлять смеяться), "будить" (заставлять проснуться).</p>
+            <p>В корейском каузатив образуется двумя способами:</p>
+            <ol style="font-size: 1.05em; line-height: 1.8;">
+                <li><strong>Суффиксальный каузатив</strong> - добавление суффиксов 이, 히, 리, 기, 우, 추 к основе глагола</li>
+                <li><strong>Аналитический каузатив</strong> - конструкция -게 하다 (более универсальная)</li>
+            </ol>
+            <p>В этом уроке мы изучим оба способа.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Суффиксальный каузатив: 6 суффиксов</h2>
+            <p>Нет четкого правила, какой суффикс добавлять к какому глаголу - их нужно запоминать. Но есть определенные закономерности.</p>
+
+            <div class="grammar-forms">
+                <div class="form-card suffix-i">
+                    <div class="form-title">-이- [i]</div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">먹다 -> 먹이다</div>
+                            <div class="verb-translation">есть -> кормить</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">보다 -> 보이다</div>
+                            <div class="verb-translation">видеть -> показывать</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">죽다 -> 죽이다</div>
+                            <div class="verb-translation">умирать -> убивать</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card suffix-hi">
+                    <div class="form-title">-히- [hi]</div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">읽다 -> 읽히다</div>
+                            <div class="verb-translation">читать -> дать прочитать</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">앉다 -> 앉히다</div>
+                            <div class="verb-translation">сидеть -> усадить</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">입다 -> 입히다</div>
+                            <div class="verb-translation">одевать(ся) -> одеть кого-то</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card suffix-ri">
+                    <div class="form-title">-리- [ri]</div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">울다 -> 울리다</div>
+                            <div class="verb-translation">плакать -> довести до слез</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">살다 -> 살리다</div>
+                            <div class="verb-translation">жить -> спасти (оживить)</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">알다 -> 알리다</div>
+                            <div class="verb-translation">знать -> сообщить</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card suffix-gi">
+                    <div class="form-title">-기- [gi]</div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">웃다 -> 웃기다</div>
+                            <div class="verb-translation">смеяться -> смешить</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">벗다 -> 벗기다</div>
+                            <div class="verb-translation">раздеваться -> раздеть</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">남다 -> 남기다</div>
+                            <div class="verb-translation">оставаться -> оставить</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card suffix-u">
+                    <div class="form-title">-우- [u]</div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">자다 -> 재우다</div>
+                            <div class="verb-translation">спать -> уложить спать</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">깨다 -> 깨우다</div>
+                            <div class="verb-translation">проснуться -> разбудить</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">타다 -> 태우다</div>
+                            <div class="verb-translation">ехать -> посадить (в транспорт)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card suffix-chu">
+                    <div class="form-title">-추- [chu]</div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">낮다 -> 낮추다</div>
+                            <div class="verb-translation">быть низким -> понизить</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">맞다 -> 맞추다</div>
+                            <div class="verb-translation">совпадать -> подогнать, сверить</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Полная таблица каузативных пар</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Основные каузативные глаголы (запоминаем!)</div>
+                <div class="table-row">
+                    <div class="table-cell header">Исходный глагол</div>
+                    <div class="table-cell header">Значение</div>
+                    <div class="table-cell header">Каузатив</div>
+                    <div class="table-cell header">Значение</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">먹다 [meokda]</div>
+                    <div class="table-cell">есть</div>
+                    <div class="table-cell korean">먹이다 [meogida]</div>
+                    <div class="table-cell">кормить</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">보다 [boda]</div>
+                    <div class="table-cell">видеть</div>
+                    <div class="table-cell korean">보이다 [boida]</div>
+                    <div class="table-cell">показывать</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">웃다 [utda]</div>
+                    <div class="table-cell">смеяться</div>
+                    <div class="table-cell korean">웃기다 [utgida]</div>
+                    <div class="table-cell">смешить</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">울다 [ulda]</div>
+                    <div class="table-cell">плакать</div>
+                    <div class="table-cell korean">울리다 [ullida]</div>
+                    <div class="table-cell">довести до слез</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">살다 [salda]</div>
+                    <div class="table-cell">жить</div>
+                    <div class="table-cell korean">살리다 [sallida]</div>
+                    <div class="table-cell">спасти</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">입다 [ipda]</div>
+                    <div class="table-cell">одеваться</div>
+                    <div class="table-cell korean">입히다 [iphida]</div>
+                    <div class="table-cell">одеть кого-то</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">자다 [jada]</div>
+                    <div class="table-cell">спать</div>
+                    <div class="table-cell korean">재우다 [jaeuda]</div>
+                    <div class="table-cell">уложить спать</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">깨다 [kkaeda]</div>
+                    <div class="table-cell">проснуться</div>
+                    <div class="table-cell korean">깨우다 [kkaeuda]</div>
+                    <div class="table-cell">разбудить</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">앉다 [anda]</div>
+                    <div class="table-cell">сидеть</div>
+                    <div class="table-cell korean">앉히다 [anchida]</div>
+                    <div class="table-cell">усадить</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">죽다 [jukda]</div>
+                    <div class="table-cell">умирать</div>
+                    <div class="table-cell korean">죽이다 [jugida]</div>
+                    <div class="table-cell">убить</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Аналитический каузатив: -게 하다</h2>
+            <p>Конструкция <strong>-게 하다</strong> [ge hada] - это универсальный способ образования каузатива, который работает с любым глаголом. Она означает "сделать так, чтобы кто-то что-то делал".</p>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Структура: Подлежащее + Объект + 게 하다</div>
+
+                <div class="structure-example">
+                    <div class="korean-text">엄마가 아이를 공부하게 했어요.</div>
+                    <div class="translation">Мама заставила ребенка учиться.</div>
+                    <div class="word-breakdown">
+                        <div class="word-part">
+                            <div class="korean-word">엄마가</div>
+                            <div class="word-meaning">мама (субъект)</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">아이를</div>
+                            <div class="word-meaning">ребенка</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">공부하게</div>
+                            <div class="word-meaning">чтобы учился</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">했어요</div>
+                            <div class="word-meaning">сделала</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="structure-example">
+                    <div class="korean-text">선생님이 학생들을 일찍 오게 했어요.</div>
+                    <div class="translation">Учитель заставил учеников прийти рано.</div>
+                    <div class="word-breakdown">
+                        <div class="word-part">
+                            <div class="korean-word">선생님이</div>
+                            <div class="word-meaning">учитель</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">학생들을</div>
+                            <div class="word-meaning">учеников</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">일찍 오게</div>
+                            <div class="word-meaning">чтобы рано пришли</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">했어요</div>
+                            <div class="word-meaning">заставил</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="structure-example">
+                    <div class="korean-text">그 영화가 저를 울게 했어요.</div>
+                    <div class="translation">Этот фильм заставил меня плакать.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Суффиксальный vs. аналитический каузатив:</strong>
+                <ul>
+                    <li><strong>Суффиксальный</strong> (먹이다, 웃기다) - звучит более естественно, но нужно запоминать формы</li>
+                    <li><strong>Аналитический</strong> (-게 하다) - работает с любым глаголом, более универсальный</li>
+                    <li>Иногда значения немного отличаются: 웃기다 = "смешить" (активно), 웃게 하다 = "заставить смеяться" (более нейтрально)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Каузатив в предложениях</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Примеры с суффиксальным и аналитическим каузативом</div>
+                <div class="table-row three-col">
+                    <div class="table-cell header">Суффиксальный</div>
+                    <div class="table-cell header">Аналитический (-게 하다)</div>
+                    <div class="table-cell header">Перевод</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell korean">아이에게 밥을 먹였어요</div>
+                    <div class="table-cell korean">아이가 밥을 먹게 했어요</div>
+                    <div class="table-cell">Накормил(а) ребенка</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell korean">모든 사람을 웃겼어요</div>
+                    <div class="table-cell korean">모든 사람을 웃게 했어요</div>
+                    <div class="table-cell">Рассмешил(а) всех</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell korean">아기를 재웠어요</div>
+                    <div class="table-cell korean">아기가 자게 했어요</div>
+                    <div class="table-cell">Уложил(а) малыша спать</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell korean">아침에 동생을 깨웠어요</div>
+                    <div class="table-cell korean">동생이 일어나게 했어요</div>
+                    <div class="table-cell">Утром разбудил(а) брата/сестру</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Диалог: В детском саду</h2>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">선생님 (Учитель):</div>
+                    <div class="korean-text">아이들을 의자에 앉혔어요?</div>
+                    <div class="translation">Вы усадили детей на стулья?</div>
+                    <div class="grammar-note">앉다 + 히 -> 앉히다 (усадить)</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">보조 (Помощник):</div>
+                    <div class="korean-text">네, 앉히고 밥도 먹였어요.</div>
+                    <div class="translation">Да, усадил(а) и накормил(а) их.</div>
+                    <div class="grammar-note">먹다 + 이 -> 먹이다 (кормить)</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">선생님:</div>
+                    <div class="korean-text">점심 후에 아이들을 재워야 해요.</div>
+                    <div class="translation">После обеда нужно уложить детей спать.</div>
+                    <div class="grammar-note">자다 + 우 -> 재우다 (уложить спать)</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">보조:</div>
+                    <div class="korean-text">알겠어요. 그런데 민준이가 다른 아이들을 자꾸 웃겨요.</div>
+                    <div class="translation">Хорошо. Но Минджун всё время смешит других детей.</div>
+                    <div class="grammar-note">웃다 + 기 -> 웃기다 (смешить)</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">선생님:</div>
+                    <div class="korean-text">민준이를 조용하게 해 주세요. 동화책을 읽히면 조용해질 거예요.</div>
+                    <div class="translation">Сделайте так, чтобы Минджун был тихим. Если дать ему прочитать сказку, он успокоится.</div>
+                    <div class="grammar-note">조용하게 하다 (аналитический каузатив), 읽다 + 히 -> 읽히다</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Каузатив vs. Пассив</h2>
+            <p>Некоторые суффиксы каузатива совпадают с суффиксами пассива (이, 히, 리, 기). Различать их нужно по контексту.</p>
+
+            <div class="tip-box">
+                <strong>Как отличить?</strong>
+                <ul>
+                    <li><strong>Каузатив:</strong> Субъект ЗАСТАВЛЯЕТ кого-то делать. <em>엄마가 아이에게 옷을 입혔어요.</em> (Мама одела ребенка)</li>
+                    <li><strong>Пассив:</strong> Действие совершается НАД субъектом. <em>그 책이 많이 읽힌다.</em> (Эту книгу много читают / Эта книга много читается)</li>
+                    <li>Подсказка: в каузативе есть "заставитель" (кто заставляет) и "исполнитель" (кто делает). В пассиве - только тот, над кем совершается действие.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <h3 style="color: white; text-align: center; font-size: 1.5em;">Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. Каузативная форма от 먹다 (есть)?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">먹이다</button>
+                    <button class="option" data-correct="false">먹히다</button>
+                    <button class="option" data-correct="false">먹기다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. "Мама уложила ребенка спать" - какой глагол?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">자이다</button>
+                    <button class="option" data-correct="true">재우다</button>
+                    <button class="option" data-correct="false">자리다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Каузатив от 울다 (плакать)?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">울이다</button>
+                    <button class="option" data-correct="false">울기다</button>
+                    <button class="option" data-correct="true">울리다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. "Учитель заставил учеников ждать" (기다리다) - аналитический каузатив:</div>
+                <div class="options">
+                    <button class="option" data-correct="false">학생들을 기다리이다</button>
+                    <button class="option" data-correct="true">학생들을 기다리게 했어요</button>
+                    <button class="option" data-correct="false">학생들을 기다리히다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. "Мама одела ребёнка." — Какой каузативный глагол от 입다?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">입이다</button>
+                    <button class="option" data-correct="true">입히다</button>
+                    <button class="option" data-correct="false">입기다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. Выберите правильный перевод: 아이에게 옷을 입혔어요</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Ребенок оделся</button>
+                    <button class="option" data-correct="true">Одел(а) ребенка</button>
+                    <button class="option" data-correct="false">Одежда была надета</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Заключение</h2>
+            <p>Каузативные глаголы - важная часть корейской грамматики. Они позволяют выразить идею "заставлять" или "побуждать" кого-то к действию.</p>
+
+            <div style="background: linear-gradient(135deg, #7B1FA2, #9C27B0); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; text-align: center;">
+                <h3 style="margin-top: 0;">Краткий обзор</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>6 суффиксов</strong><br>
+                        이, 히, 리, 기, 우, 추<br>
+                        <em>먹이다, 입히다, 울리다</em><br>
+                        Нужно запоминать
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>-게 하다</strong><br>
+                        Универсальный каузатив<br>
+                        <em>공부하게 하다</em><br>
+                        Работает со всеми глаголами
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Отличие от пассива</strong><br>
+                        Каузатив: заставлять<br>
+                        Пассив: подвергаться<br>
+                        Различаем по контексту
+                    </div>
+                </div>
+            </div>
+
+            <p style="font-size: 1.2em; text-align: center; color: #2c3e50;">Запоминайте каузативные пары и практикуйте! 화이팅!</p>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(156,39,176,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level4_lesson_causative';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#4A148C';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#4A148C';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+
+                        var isCorrect = this.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

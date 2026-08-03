@@ -9,18 +9,37 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         body { font-family: 'Noto Sans KR', sans-serif; }
         .level-header {
-            background: linear-gradient(135deg, #2196F3, #03A9F4);
-            color: white;
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            color: #ffffff;
             text-align: center;
             padding: 40px 20px;
             margin-bottom: 30px;
             border-radius: 20px;
         }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border-radius: 15px;
+            padding: 20px 25px;
+            margin: 30px 20px 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #2196F3;
+        }
+        .section-header:first-of-type { margin-top: 10px; }
+        .section-info h2 { font-size: 1.4em; color: #333; margin-bottom: 4px; }
+        .section-info p { font-size: 0.9em; color: #2b2440; margin: 0; }
+        .section-progress { text-align: center; min-width: 70px; }
+        .section-progress .progress-count { font-size: 1.3em; font-weight: 700; color: #2196F3; }
+        .section-progress .progress-label { font-size: 0.75em; color: #2b2440; display: block; }
+        .section-progress-bar { width: 100%; height: 4px; background: #e9ecef; border-radius: 2px; margin-top: 6px; overflow: hidden; }
+        .section-progress-bar .fill { height: 100%; background: #2196F3; border-radius: 2px; transition: width 0.5s ease; }
         .lesson-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            padding: 20px;
+            padding: 0 20px 20px;
         }
         .lesson-item {
             background: white;
@@ -29,30 +48,20 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border-left: 5px solid #2196F3;
             transition: all 0.3s ease;
+            position: relative;
         }
-        .lesson-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        .lesson-item:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .lesson-item.completed { border-left-color: #1565C0; background: linear-gradient(135deg, rgba(33,150,243,0.04) 0%, white 100%); }
+        .completion-badge {
+            position: absolute; top: 10px; right: 10px; width: 28px; height: 28px;
+            background: #2196F3; color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: bold; box-shadow: 0 2px 6px rgba(33,150,243,0.4);
         }
-        .lesson-difficulty {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            margin-left: 10px;
-        }
-        .grammar { background: #e3f2fd; color: #1976d2; }
-        .verbs { background: #e8f5e8; color: #2e7d32; }
-        .culture { background: #fff3e0; color: #f57c00; }
-        .vocabulary { background: #f3e5f5; color: #7b1fa2; }
-        .coming-soon {
-            background: #f5f5f5 !important;
-            color: #999 !important;
-            cursor: not-allowed;
-            text-decoration: none;
-        }
-        .coming-soon:hover {
-            transform: none !important;
+        @media (max-width: 768px) {
+            .section-header { margin: 20px 10px 10px; padding: 15px 18px; }
+            .section-info h2 { font-size: 1.2em; }
+            .lesson-grid { padding: 0 10px 15px; }
         }
     </style>
 </head>
@@ -61,123 +70,933 @@
         <div class="level-header">
             <h1>🌿 2급 (두 번째 급)</h1>
             <h2>Базовый уровень корейского языка</h2>
-            <p>Базовая грамматика, глаголы, времена, вежливость + словарь</p>
+            <p>Базовая грамматика, глаголы, времена, базовые падежи, глагольные конструкции</p>
             <a href="../lessons.html" style="color: white; text-decoration: underline; position: relative; z-index: 100; display: inline-block; padding: 10px; cursor: pointer; font-size: 1.1em; font-weight: bold; background: rgba(255,255,255,0.1); border-radius: 5px; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">← Назад к выбору уровней</a>
         </div>
 
-        <div class="lesson-grid">
-            <div class="lesson-item">
-                <h3>📝 Урок 1: Основы грамматики <span class="lesson-difficulty grammar">Грамматика</span></h3>
-                <p>Порядок слов и базовые грамматические правила корейского</p>
-                <a href="lesson_01_grammar/index.html" class="lesson-link">Изучить →</a>
-            </div>
+        <a href="../level-test.html?level=2" style="display:flex;align-items:center;gap:15px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);color:white;padding:16px 22px;border-radius:16px;text-decoration:none;margin:0 0 25px;border:1px solid rgba(255,255,255,0.25);transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.25)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.15)';this.style.transform='none'">
+            <span style="font-size:1.8em;">📝</span>
+            <span style="flex:1;"><strong style="display:block;font-size:1.05em;">Проверьте свои знания 2급</strong><span style="opacity:0.85;font-size:0.9em;">10 вопросов по материалу уровня</span></span>
+            <span style="font-size:1.3em;opacity:0.8;">→</span>
+        </a>
 
-            <div class="lesson-item">
-                <h3>🔄 Урок 2: Времена глаголов <span class="lesson-difficulty verbs">Времена</span></h3>
-                <p>Как выражать действия в настоящем времени</p>
-                <a href="../lesson_07_verb_tenses/index.html" class="lesson-link">Изучить →</a>
+        <!-- Блок 1: Грамматика -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>📖 Грамматика</h2>
+                <p>Порядок слов, вежливость, отрицание, наречия, союзы</p>
             </div>
-
-            <div class="lesson-item">
-                <h3>🙏 Урок 3: Уровни вежливости <span class="lesson-difficulty culture">Культура</span></h3>
-                <p>Формальные и неформальные уровни речи - основа корейского общения</p>
+            <div class="section-progress">
+                <span class="progress-count" id="grammar-count">0/40</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="grammar-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-grammar">
+            <div class="lesson-item" data-lesson="level2_lesson_intro_attributive">
+                <h3>📎 관형사형 -는 · -(으)ㄴ · -(으)ㄹ <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>먹는/먹은/먹을 사람 — глагол как определение. Вводный урок перед 3급</p>
+                <a href="lesson_intro_attributive/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_intro_must">
+                <h3>✅ -아/어야 하다 — надо сделать <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>일찍 일어나야 해요. И как сказать «можно не делать» — 안 가도 돼요</p>
+                <a href="lesson_intro_must/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_intro_ability">
+                <h3>🦾 -(으)ㄹ 수 있다/없다 — могу <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>수영할 수 있어요? Умение и возможность одной формой. Плюс 못 vs 수 없다</p>
+                <a href="lesson_intro_ability/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_intro_myeonseo">
+                <h3>🎧 -(으)면서 — одновременно <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>음악을 들으면서 공부해요. Два действия одного человека сразу</p>
+                <a href="lesson_intro_myeonseo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_intro_haeboda">
+                <h3>🥢 -아/어 보다 — попробовать <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>한번 먹어 보세요 · 제주도에 가 봤어요. Мягкое предложение и рассказ об опыте</p>
+                <a href="lesson_intro_haeboda/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_intro_geoyo">
+                <h3>🫰 -(으)ㄹ게요 — я сделаю <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>제가 할게요. Обещание собеседнику — не путать с -(으)ㄹ 거예요</p>
+                <a href="lesson_intro_geoyo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_experience_jeoki">
+                <h3>🏅 Урок 1: -ㄴ/은 적이 있다/없다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Рассказать о своём опыте — «бывало ли...»</p>
+                <a href="lesson_experience_jeoki/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_seems_like">
+                <h3>👓 Урок 2: -는 것 같다 / -(으)ㄹ 것 같다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Кажется, что... — базовое предположение</p>
+                <a href="lesson_seems_like/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_neunde">
+                <h3>💬 -(으)ㄴ/는데 — а, но, кстати <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>비가 오는데 우산 있어요? (дождь — зонт есть?), 어려운데 재미있어요. Фон, контраст, недосказанность</p>
+                <a href="lesson_neunde/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_time_now">
+                <h3>🕐 지금 · 이제 · 요즘 · 아까 · 이따가 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Чем 지금 отличается от 이제, почему нельзя «이따가 결혼할 거예요», что значит 먼저 가겠습니다</p>
+                <a href="lesson_time_now/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_reactions">
+                <h3>😮 -네요 · -군요 · -나요? — реакция <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>맛있네요! (вкусно-то как), 그렇군요 (вот оно что), 언제 오나요? (мягкий вопрос)</p>
+                <a href="lesson_reactions/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_ge_adverb">
+                <h3>🔧 -게 · -아/어하다 · -는 데 걸리다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>맛있게 드세요 (наречия), 동생이 좋아해요 (чужие чувства), 가는 데 한 시간 걸려요</p>
+                <a href="lesson_ge_adverb/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_jul_alda">
+                <h3>🎹 -(으)ㄹ 줄 알다/모르다 — уметь <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>수영할 줄 알아요 (умею плавать), 운전할 줄 몰라요. Навык — и чем это не -(으)ㄹ 수 있다</p>
+                <a href="lesson_jul_alda/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_volition">
+                <h3>🙋 -겠어요 · -(으)ㄹ래요 · -(으)시겠어요 <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>알겠습니다, 커피 마실래요, 같이 가시겠어요? — намерение и предложение на всех уровнях вежливости</p>
+                <a href="lesson_volition/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_purpose">
+                <h3>🧭 -(으)려고 · -기 위해서 · -기로 하다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>배우려고 왔어요 (приехал, чтобы учиться), 건강을 위해서, 만나기로 했어요 (договорились)</p>
+                <a href="lesson_purpose/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_concession_wish">
+                <h3>🌂 -아/어도 · можно не · хотелось бы <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>비가 와도 갈 거예요 (даже если дождь), 안 가도 돼요, 합격했으면 좋겠어요</p>
+                <a href="lesson_concession_wish/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_small_particles">
+                <h3>🧩 밖에 · 마다 · 처럼 · 쯤 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>천 원밖에 없어요 (только тысяча), 날마다 (каждый день), 가수처럼 (как певец), 세 시쯤 (около трёх)</p>
+                <a href="lesson_small_particles/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_supposition_geoyeyo">
+                <h3>🔮 -(으)ㄹ 거예요 — предположение <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>아마 추울 거예요 (наверное, будет холодно), 갔을 거예요 (наверное, ушёл) — догадка вместо плана</p>
+                <a href="lesson_supposition_geoyeyo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_if_myeon">
+                <h3>🌱 Урок 3: -(으)면 — если: введение <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Быстрый старт: базовая форма + сравнение с -(으)려면</p>
+                <a href="lesson_if_myeon/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_topic_vs_subject">
+                <h3>⚖️ Урок 4: 은/는 vs 이/가 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Подробное сравнение частиц темы и подлежащего</p>
+                <a href="lesson_topic_vs_subject/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_03_politeness">
+                <h3>🙏 Урок 5: Уровни вежливости <span class="lesson-difficulty culture">Культура</span></h3>
+                <p>Формальные и неформальные уровни речи</p>
                 <a href="lesson_02_politeness/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🚫 Урок 4: Отрицание <span class="lesson-difficulty grammar">Грамматика</span></h3>
+            <div class="lesson-item" data-lesson="level2_lesson_04_negation">
+                <h3>🚫 Отрицание <span class="lesson-difficulty grammar">Грамматика</span></h3>
                 <p>Как сказать "нет" и строить отрицательные предложения</p>
                 <a href="../lesson_09_negation/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>📍 Урок 5: Есть/нет (있다/없다) <span class="lesson-difficulty verbs">Глаголы</span></h3>
-                <p>Глаголы местонахождения и существования - очень важно!</p>
-                <a href="../lesson_16_location_verbs/index.html" class="lesson-link">Изучить →</a>
-            </div>
-
-            <div class="lesson-item">
-                <h3>🔄 Урок 6: Спряжение глаголов <span class="lesson-difficulty grammar">Грамматика</span></h3>
-                <p>Основные правила изменения корейских глаголов</p>
-                <a href="../lesson_17_verb_conjugation/index.html" class="lesson-link">Изучить →</a>
-            </div>
-
-            <div class="lesson-item">
-                <h3>😊 Урок 7: Неформальные глаголы <span class="lesson-difficulty verbs">Разговор</span></h3>
-                <p>Разговорные формы глаголов для общения с друзьями</p>
-                <a href="../lesson_18_informal_verbs/index.html" class="lesson-link">Изучить →</a>
-            </div>
-
-            <div class="lesson-item">
-                <h3>🎩 Урок 8: Формальные глаголы <span class="lesson-difficulty verbs">Вежливость</span></h3>
-                <p>Вежливые формы для официального и уважительного общения</p>
-                <a href="../lesson_19_formal_verbs/index.html" class="lesson-link">Изучить →</a>
-            </div>
-
-            <div class="lesson-item">
-                <h3>🌈 Урок 9: Спряжение прилагательных <span class="lesson-difficulty grammar">Грамматика</span></h3>
-                <p>Как изменяются корейские прилагательные в разных формах</p>
+            <div class="lesson-item" data-lesson="level2_lesson_09_adj_conjugation">
+                <h3>🌈 Спряжение прилагательных <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Как изменяются корейские прилагательные</p>
                 <a href="../lesson_24_adjective_conjugation/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>⏮️ Урок 10: Прошедшее время <span class="lesson-difficulty verbs">Времена</span></h3>
-                <p>었/았 - как рассказать о том, что уже произошло</p>
-                <a href="../lesson_27_past_tense/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="lesson_87_not_vs_cant">
+                <h3>🚧 안 vs 못 — углублённый <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Детальное сравнение «не хочу» vs «не могу», длинные формы -지 않다/-지 못하다, нюансы. <em>Базовое отрицание — в 1급</em></p>
+                <a href="../lesson_87_not_vs_cant/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="lesson_88_time_adverbs">
+                <h3>⌛ 아직/이미/벌써 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Временные наречия — ещё не, уже, уже?! (с удивлением)</p>
+                <a href="../lesson_88_time_adverbs/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="lesson_89_conjunctions_practice">
+                <h3>⛓️ Союзы — углублённый <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Практика 그래서/그런데/그러면 в сложных предложениях + 그리고 나서, 그래도, 그러니까. <em>Базовые союзы — в 1급</em></p>
+                <a href="../lesson_89_conjunctions_practice/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_particle_ege">
+                <h3>👑 Урок 6: 께 / 께서 — вежливое «кому» и «кто» <span class="lesson-difficulty particles">Частицы</span></h3>
+                <p>Углубление: уважительная форма 께 (кому) и 께서 (вежливое подлежащее), какие глаголы меняются. <em>Базовые 에게/한테 — в 1급</em></p>
+                <a href="lesson_particle_ege/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_connecting_go">
+                <h3>🔗 Урок 7: Соединительный союз -고 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>밥을 먹고 커피를 마셔요 (ем и пью кофе). Последовательность и одновременность</p>
+                <a href="lesson_connecting_go/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_go_sipahada">
+                <h3>🫶 Урок 8: -고 싶어하다 — он/она хочет <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>1-е лицо: 가고 싶어요 vs 3-е лицо: 가고 싶어해요. Аналогия с 좋다/좋아하다</p>
+                <a href="lesson_go_sipahada/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_adjective_modifier">
+                <h3>📐 Урок 9: Прилагательные перед сущ. -(으)ㄴ <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>큰 집 (большой дом), 예쁜 꽃 (красивый цветок). ㅂ-неправильные и ㄹ-неправильные</p>
+                <a href="lesson_adjective_modifier/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_aseo_cause">
+                <h3>➡️ Урок 10: -아서/어서 — причина и последовательность <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>비가 와서 못 갔어요 (шёл дождь, поэтому не пошёл). Причина + результат, порядок действий</p>
+                <a href="lesson_aseo_cause/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_nikkayo">
+                <h3>💡 -(으)니까요 — потому что (в конце) <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>왜 택시를 탔어요? — 늦었으니까요. Причина отдельным предложением. Отличие от -거든요</p>
+                <a href="lesson_nikkayo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_condition_myeon">
+                <h3>🔑 Урок 11: -(으)면 — если: подробно <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>시간이 있으면 (если есть время), 날씨가 좋으면 (если погода хорошая). Полный разбор: 이다, прилагательные, -(으)면 좋겠다</p>
+                <a href="lesson_condition_myeon/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_but_jiman">
+                <h3>↔️ Урок 12: -지만 — но, однако <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>비싸지만 맛있어요 (дорого, но вкусно). Противопоставление. -지만 vs 그런데</p>
+                <a href="lesson_but_jiman/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_past_questions">
+                <h3>📜 Урок 13: Вопросы в прошедшем времени <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>뭐 했어요? (что делали?), 어디 갔어요? (куда ходили?), 왜 안 왔어요? (почему не пришли?)</p>
+                <a href="lesson_past_questions/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>⏭️ Урок 11: Будущее время <span class="lesson-difficulty verbs">Времена</span></h3>
-                <p>겠 - планы, намерения и будущие действия</p>
-                <a href="../lesson_30_future_tense/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="lesson_57_choice_ina">
+                <h3>⚡ Выбор 이나 — «или» <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>커피나 차 (кофе или чай) — выбор между предметами</p>
+                <a href="../lesson_57_choice_ina/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>⏰ Материал о времени <span class="lesson-difficulty vocabulary">Слова</span></h3>
-                <p>오늘, 어제, 내일, 월요일, 화요일... Дни недели и время</p>
-                <a href="vocabulary/time/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="lesson_58_choice_geona">
+                <h3>🎲 Выбор 거나 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>책을 읽거나 영화를 봐요 (читаю или смотрю кино) — выбор между действиями</p>
+                <a href="../lesson_58_choice_geona/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🍜 Материал о еде <span class="lesson-difficulty vocabulary">Слова</span></h3>
-                <p>김치, 불고기, 라면, 비빔밥... Корейская еда и кухня</p>
-                <a href="../vocabulary/food/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="level2_lesson_plans_intention">
+                <h3>📅 -(으)ㄹ까 하다 · -아/어야겠다 — планы <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>주말에 영화를 볼까 해요 (подумываю сходить в кино), 운동을 해야겠어요 (надо заняться спортом)</p>
+                <a href="lesson_plans_intention/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>😊 Материал об эмоциях <span class="lesson-difficulty vocabulary">Слова</span></h3>
-                <p>기쁘다, 슬프다, 화나다, 좋다... Как выражать чувства</p>
-                <a href="../vocabulary/emotions/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="level2_lesson_geodeunyo">
+                <h3>🗯️ -거든요 · -인데요 — объяснение <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>약속이 있거든요 (дело в том, что у меня встреча), 지금은 좀 바쁜데요 (сейчас вообще-то занят)</p>
+                <a href="lesson_geodeunyo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_quantity_particles">
+                <h3>📏 부터 · 씩 · 이상/이하 · 만 빼고 <span class="lesson-difficulty particles">Частицы</span></h3>
+                <p>하루에 30분씩 (по 30 минут в день), 열 명 이상 (свыше десяти), 주말만 빼고 (кроме выходных)</p>
+                <a href="lesson_quantity_particles/index.html" class="lesson-link">Изучить →</a>
             </div>
         </div>
 
-        <div style="text-align: center; margin: 40px 0; padding: 30px; background: linear-gradient(135deg, rgba(33,150,243,0.1), rgba(3,169,244,0.1)); border-radius: 20px;">
+        <!-- Блок 2: Глаголы и времена -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>🕰️ Глаголы и времена</h2>
+                <p>Спряжение, формы вежливости, временные формы</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="verbs-count">0/7</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="verbs-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-verbs">
+            <div class="lesson-item" data-lesson="level2_lesson_05_location_verbs">
+                <h3>📍 Есть/нет 있다/없다 <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>Глаголы местонахождения и существования</p>
+                <a href="../lesson_16_location_verbs/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_irregular_verbs">
+                <h3>🔀 Урок 14: Неправильные глаголы (불규칙) <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>ㅂ, ㄷ, ㅎ, ㄹ, ㅅ-неправильные: 돕다→도와요, 듣다→들어요, 그렇다→그래요</p>
+                <a href="lesson_irregular_verbs/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_07_informal_verbs">
+                <h3>🧢 Неформальные глаголы <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>Разговорные формы глаголов для друзей</p>
+                <a href="../lesson_18_informal_verbs/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_08_formal_verbs">
+                <h3>🎩 Формальные глаголы <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>Вежливые формы для официального общения</p>
+                <a href="../lesson_19_formal_verbs/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_10_past_tense">
+                <h3>⏮️ Прошедшее время <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>었/았 - как рассказать о том, что произошло</p>
+                <a href="../lesson_27_past_tense/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_11_future_tense">
+                <h3>⏭️ Будущее время <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>-(으)ㄹ 거예요 — планы и будущие действия. Про 겠 — в уроке «-겠어요 · -(으)ㄹ래요»</p>
+                <a href="../lesson_30_future_tense/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_past_perfect">
+                <h3>⏪ -았/었었어요 — давнопрошедшее <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>예전에 서울에 살았었어요 — жил когда-то, а сейчас уже нет. Разрыв с настоящим</p>
+                <a href="lesson_past_perfect/index.html" class="lesson-link">Изучить →</a>
+            </div>
+        </div>
+
+        <!-- Блок 3: Коммуникативные навыки -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>💬 Коммуникативные навыки</h2>
+                <p>Частицы 은/는 vs 이/가, вопросы, просьбы, счётные слова</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="communication-count">0/11</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="communication-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-communication">
+            <div class="lesson-item" data-lesson="level2_lesson_intonation">
+                <h3>🎵 억양 — интонация решает смысл <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>뭐 먹었어요? ↗ «поел?» / ↘ «что ел?». Одна фраза — два смысла</p>
+                <a href="lesson_intonation/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_ida_questions">
+                <h3>❓ Урок 15: 이다 в вопросах <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>누구예요? 뭐예요? 어디예요? — задаём вопросы со связкой</p>
+                <a href="lesson_ida_questions/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_uncertainty">
+                <h3>🤷 Урок 16: Неопределённость <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>글쎄요 (хм...), 아마도 (наверное), 모르겠어요 (не знаю)</p>
+                <a href="lesson_uncertainty/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_requests">
+                <h3>📢 Урок 17: Просьбы и команды <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>주세요 (дайте), 하세요 (делайте), 가세요 (идите) — вежливые просьбы</p>
+                <a href="lesson_requests/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_counters">
+                <h3>🔢 Урок 18: Счётные слова — расширенный <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Повторение базовых + новые: 번 (раз), 대 (машины/техника), 송이 (цветы), 켤레 (обувь), 장 (листы). <em>Базовые — в 1급</em></p>
+                <a href="lesson_counters/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_emotions">
+                <h3>😊 Урок 19: Эмоции — расширенный <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>Сложные эмоции и их выражение: 화나다, 걱정되다, 답답하다, 부끄럽다 + как рассказать почему. <em>Базовые — в 1급</em></p>
+                <a href="lesson_emotions/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_shopping">
+                <h3>🛒 Урок 20: Покупки в магазине <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>얼마예요? (сколько стоит?), 깎아 주세요 (сделайте скидку), 카드로 할게요 (картой)</p>
+                <a href="lesson_shopping/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_weather_talk">
+                <h3>🌤️ Урок 21: Погода в разговоре — расширенный <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>Диалоги про погоду, прогнозы, комментарии: 오늘 날씨 어때요?, 내일은 비가 올 거예요. <em>Базовая лексика погоды — в 1급</em></p>
+                <a href="lesson_weather_talk/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="lesson_59_suggestion_eulkayo">
+                <h3>✋ Предложение -(으)ㄹ까요? <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>같이 갈까요? (пойдём вместе?) — мягкие предложения и вопросы</p>
+                <a href="../lesson_59_suggestion_eulkayo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_eupsida">
+                <h3>👫 -(으)ㅂ시다 — давайте сделаем <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>같이 갑시다! (пойдёмте вместе!), 점심 먹읍시다 (давайте пообедаем), 늦지 맙시다 (не опаздываем)</p>
+                <a href="lesson_eupsida/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_advice_jigeuraeyo">
+                <h3>🧠 -지 그래요? · -는 게 좋겠다 — совет <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>좀 쉬지 그래요? (отдохнули бы вы), 일찍 자는 게 좋겠어요 (лучше лечь пораньше)</p>
+                <a href="lesson_advice_jigeuraeyo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+        </div>
+
+        <!-- Блок 5: Глагольные конструкции -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>🔧 Глагольные конструкции</h2>
+                <p>Прогрессив, действия для других, намерение, попытка, неспособность</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="constructions-count">0/14</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="constructions-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-constructions">
+            <div class="lesson-item" data-lesson="level2_lesson_progressive">
+                <h3>🔄 Урок 22: Прогрессив -고 있다 <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>Действие прямо сейчас — 먹고 있어요 (сейчас ем), 읽고 있어요 (сейчас читаю)</p>
+                <a href="lesson_progressive/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_state_verbs">
+                <h3>👕 -고 있다 ② · -아/어 있다 — состояния <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>안경을 쓰고 있어요 (в очках), 앉아 있어요 (сидит), 문이 열려 있어요 (дверь открыта)</p>
+                <a href="lesson_state_verbs/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_changes">
+                <h3>🦋 -아/어지다 · -게 되다 — изменения <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>날씨가 좋아졌어요 (погода улучшилась), 한국에 살게 됐어요 (так вышло, что живу в Корее)</p>
+                <a href="lesson_changes/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="lesson_61_helping_actions">
+                <h3>🤝 아/어 주다 <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>Делать для кого-то — 도와 주다 (помочь), 사 주다 (купить для)</p>
+                <a href="../lesson_61_helping_actions/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_eo_deurida">
+                <h3>🙇 -아/어 드리다 — для старшего <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>도와드릴까요? (вам помочь?), 사 드릴게요, 안내해 드리겠습니다. Скромная форма от -아/어 주다</p>
+                <a href="lesson_eo_deurida/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="lesson_69_intention_promise">
+                <h3>🤞 -(으)ㄹ게요 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Обещание и намерение — 갈게요 (я пойду), 할게요 (я сделаю)</p>
+                <a href="../lesson_69_intention_promise/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="lesson_70_trying_experience">
+                <h3>🧪 -아/어 보다 <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>Попробовать сделать — 먹어 보다 (попробовать еду), 가 보다 (сходить)</p>
+                <a href="../lesson_70_trying_experience/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="lesson_68_inability_ji_moshada">
+                <h3>⛔ -지 못하다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Неспособность — 가지 못하다 (не могу пойти), 먹지 못하다 (не могу есть)</p>
+                <a href="../lesson_68_inability_ji_moshada/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="lesson_62_obligation">
+                <h3>📋 -아/어야 하다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Долженствование — 해야 해요 (должен делать), 가야 해요 (должен идти)</p>
+                <a href="../lesson_62_obligation/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="lesson_71_from_whom">
+                <h3>📨 -에게서/-한테서 <span class="lesson-difficulty particles">Частицы</span></h3>
+                <p>От кого — 친구에게서 (от друга), 선생님한테서 (от учителя)</p>
+                <a href="../lesson_71_from_whom/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="lesson_54_purpose_movement">
+                <h3>🎯 Цель движения -(으)러 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>밥을 먹으러 가요 (иду поесть) — цель перемещения</p>
+                <a href="../lesson_54_purpose_movement/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_noda_duda">
+                <h3>📦 -아/어 놓다 · -아/어 두다 — заранее <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>창문을 열어 놓았어요 (открыл окно и оставил), 자료를 저장해 두세요 (сохраните на будущее)</p>
+                <a href="lesson_noda_duda/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_gajigo">
+                <h3>🧳 -아/어 가지고 · 가져오다/가져가다 <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>밥을 먹어 가지고 나갔어요 (поел и вышел), 우산을 가져가세요 (возьмите зонт)</p>
+                <a href="lesson_gajigo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_boida">
+                <h3>👀 A-아/어 보이다 — «выглядит» <span class="lesson-difficulty verbs">Глаголы</span></h3>
+                <p>피곤해 보여요 (выглядите усталым), 맛있어 보여요 (выглядит вкусно)</p>
+                <a href="lesson_boida/index.html" class="lesson-link">Изучить →</a>
+            </div>
+        </div>
+
+        <!-- Блок 6: Временные конструкции и выражения -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>⏰ Временные конструкции</h2>
+                <p>Когда, до, после, подтверждение, откуда</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="temporal-count">0/4</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="temporal-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-temporal">
+            <div class="lesson-item" data-lesson="level2_lesson_when_ttae">
+                <h3>⏰ Урок 23: -(으)ㄹ 때 — когда <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>밥을 먹을 때 (когда ем), 어릴 때 (когда был маленьким), 시간이 있을 때 (когда есть время)</p>
+                <a href="lesson_when_ttae/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_duration">
+                <h3>⏳ 는 중 · 동안 · (으)ㄴ 지 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>공부하는 중이에요 (сейчас занимаюсь), 삼 년 동안, 온 지 이 년 됐어요 (сколько прошло)</p>
+                <a href="lesson_duration/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_before_after">
+                <h3>🔜 Урок 24: -기 전에 / 후에 — до и после <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>자기 전에 (перед сном), 먹은 후에 (после еды), 졸업 후에 (после выпуска)</p>
+                <a href="lesson_before_after/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_confirmation_jyo">
+                <h3>🤔 Урок 25: -지요/죠? — правда ведь? <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>좋지요? (хорошо ведь?), 학생이죠? (вы студент, да?), 가죠! (давай пойдём!)</p>
+                <a href="lesson_confirmation_jyo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+        </div>
+
+        <!-- Блок 7: Практика общения -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>🧠 Практика общения</h2>
+                <p>Характер, образование, детальный распорядок дня</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="practice-count">0/6</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="practice-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-practice">
+            <div class="lesson-item" data-lesson="level2_lesson_personality">
+                <h3>🎨 Урок 26: Характер и личность <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>착하다 (добрый), 똑똑하다 (умный), 게으르다 (ленивый), 꼼꼼하다 (внимательный)</p>
+                <a href="lesson_personality/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_education">
+                <h3>🎓 Урок 27: Образование и учёба <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>대학교 (университет), 졸업하다 (закончить), 합격하다 (сдать экзамен), 전공 (специальность)</p>
+                <a href="lesson_education/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_daily_detail">
+                <h3>🌅 Урок 28: Распорядок дня — подробно <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>출근하다 (на работу), 퇴근하다 (с работы), 샤워를 하다 (душ), 드라마를 보다 (дорама)</p>
+                <a href="lesson_daily_detail/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_restaurant_dialogue">
+                <h3>🍽️ Урок 29: В ресторане — диалоги <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>여기요!, 메뉴 주세요, 잘 먹겠습니다, 계산해 주세요. Полный заказ и оплата</p>
+                <a href="lesson_restaurant_dialogue/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_tense_comparison">
+                <h3>⏱️ Урок 30: Три времени вместе <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>가요/갔어요/갈 거예요 — сводная таблица 10 глаголов. Временные маркеры и тренажёр</p>
+                <a href="lesson_tense_comparison/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_meeting_friend">
+                <h3>☕ Урок 31: Встреча с другом <span class="lesson-difficulty expressions">Выражения</span></h3>
+                <p>오랜만이에요! (давно не виделись!), 같이 갈래요? (пойдём вместе?). Планируем встречу</p>
+                <a href="lesson_meeting_friend/index.html" class="lesson-link">Изучить →</a>
+            </div>
+        </div>
+
+        <!-- Блок 8: Лексика -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>📚 Лексика</h2>
+                <p>Словарный запас по темам</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="vocab-count">0/32</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="vocab-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-vocab">
+            <div class="lesson-item" data-lesson="level2_lesson_sports">
+                <h3>⚽ Урок 32: Спорт и фитнес <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>축구 (футбол), 야구 (бейсбол), 수영 (плавание), 운동하다 (заниматься спортом)</p>
+                <a href="lesson_sports_vocab/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_nature">
+                <h3>🌿 Урок 33: Природа и пейзаж <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>산 (гора), 바다 (море), 강 (река), 꽃 (цветок), 나무 (дерево)</p>
+                <a href="lesson_nature_vocab/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_vocab_time">
+                <h3>🕰️ Время <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>오늘, 어제, 내일, 월요일... Дни недели и время</p>
+                <a href="vocabulary/time/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_vocab_travel">
+                <h3>🌏 Путешествия <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>여행, 비행기, 호텔, 여권... Слова для поездок</p>
+                <a href="../vocabulary/travel_vocab/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_vocab_sports">
+                <h3>💪 Спорт — базовый словарь <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>운동, 축구, 수영, 태권도... Краткий список слов по теме (для быстрого повторения)</p>
+                <a href="../vocabulary/sports/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_vocab_office">
+                <h3>🏢 Офис <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>회사, 사무실, 회의, 월급... Офис и работа</p>
+                <a href="../vocabulary/office/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_vocab_communication">
+                <h3>📡 Общение и связь <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>전화, 문자, 약속, 만나다, 인터넷... Повседневное общение и телефон</p>
+                <a href="../vocabulary/communication/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_adverbs_degree">
+                <h3>📊 Урок 34: Наречия степени <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>매우/아주 (очень), 좀 (немного), 너무 (слишком), 진짜 (реально), 전혀 안 (совсем не)</p>
+                <a href="lesson_adverbs_degree/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_time_frequency_adverbs">
+                <h3>🔁 Урок 35: Наречия времени и частотности <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>항상 (всегда), 자주 (часто), 가끔 (иногда), 빨리 (быстро), 천천히 (медленно), 갑자기 (вдруг)</p>
+                <a href="lesson_time_frequency_adverbs/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_abstract_nouns">
+                <h3>💭 Урок 36: Абстрактные существительные <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>사랑 (любовь), 꿈 (мечта), 걱정 (беспокойство), 경험 (опыт), 계획 (план), 기회 (возможность)</p>
+                <a href="lesson_abstract_nouns/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_spoken_shortcuts">
+                <h3>🗣️ Урок 37: Разговорные сокращения <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>뭐→머, 것→거, 나는→난, 저는→전, -는 거예요, 근데, 진짜, 완전. Живая речь</p>
+                <a href="lesson_spoken_shortcuts/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_weather_detailed">
+                <h3>🌦️ Урок 38: Погода — подробная лексика <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>흐리다 (пасмурно), 장마 (сезон дождей), 태풍 (тайфун), 일기예보 (прогноз). <em>Базовая погода — в 1급</em></p>
+                <a href="lesson_weather_detailed/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_nature_environment">
+                <h3>🌳 Урок 39: Природа и окружающая среда <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>산 (гора), 바다 (море), 숲 (лес), 벚꽃 (сакура), 호랑이 (тигр). Нац. парки Кореи</p>
+                <a href="lesson_nature_environment/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_state_adjectives">
+                <h3>😴 Урок 40: Прилагательные состояния <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>배고프다 (голодный), 졸리다 (сонный), 바쁘다 (занятой), 힘들다 (тяжело), 아프다 (болит)</p>
+                <a href="lesson_state_adjectives/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level2_lesson_filler_words">
+                <h3>💫 Урок 41: Слова-связки и филлеры <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>그냥 (просто), 좀 (немного), 아무튼 (в общем), 그러니까 (ну то есть), 근데 (но кстати)</p>
+                <a href="lesson_filler_words/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_friends_titles">
+                <h3>🧑‍🤝‍🧑 Друзья, знакомства и обращения <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>불알친구, 단짝, 짝꿍, 소개팅/미팅, 아줌마/아저씨/아가씨 — и как не обидеть незнакомого</p>
+                <a href="lesson_friends_titles/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_vocab_pop_culture">
+                <h3>🎬 대중문화 — поп-культура <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>드라마, 영화, 예능, 아이돌, 다시 보기. Как обсудить дораму и любимого певца</p>
+                <a href="lesson_vocab_pop_culture/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_vocab_lost_items">
+                <h3>🔍 분실 — потерял вещь <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>잃어버리다 vs 잊어버리다, 분실물 센터, 112 и 119. Что делать и что сказать</p>
+                <a href="lesson_vocab_lost_items/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_vocab_recycling">
+                <h3>♻️ 분리수거 — сортировка мусора <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>종량제 봉투, 음식물 쓰레기, 재활용. Система, штрафы и правила</p>
+                <a href="lesson_vocab_recycling/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_vocab_cooking">
+                <h3>🍳 요리법과 요리 도구 — готовим <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>볶다, 끓이다, 굽다, 삶다 + посуда и рецепт 김치볶음밥</p>
+                <a href="lesson_vocab_cooking/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_vocab_public_offices">
+                <h3>🏛️ 공공 기관 — госучреждения <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>외국인등록증 신청, 번호표, 서류, 통역 서비스 1345</p>
+                <a href="lesson_vocab_public_offices/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_vocab_office_supplies">
+                <h3>🖇️ 사무용품과 직장 생활 — офис <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Канцтовары, техника и система должностей 사원 → 과장 → 부장</p>
+                <a href="lesson_vocab_office_supplies/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_vocab_public_places">
+                <h3>🚻 공공장소 — общественные места <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>-아/어도 돼요? и -(으)면 안 돼요 + пиктограммы 금연, 비상구</p>
+                <a href="lesson_vocab_public_places/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_vocab_medicine_types">
+                <h3>💊 증상과 약품 종류 — аптека <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>열이 나다, 기침을 하다, 진통제, 하루에 세 번 식후에</p>
+                <a href="lesson_vocab_medicine_types/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_vocab_school_life">
+                <h3>🎒 학교생활 — школьная жизнь <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>담임 선생님, 급식, 학원, 소풍 · 견학 · 수학여행 и 반말 с ребёнком</p>
+                <a href="lesson_vocab_school_life/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_vocab_housing">
+                <h3>🏠 주거 형태와 이사 — жильё и переезд <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>원룸, 오피스텔, 전세 vs 월세, 보증금, 집들이</p>
+                <a href="lesson_vocab_housing/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="vocabulary_adverbs_spoken">
+                <h3>😀 Разговорные наречия <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>어차피, 하필, 설마, 차라리, 역시 — 41 слово, оживляющее учебную речь</p>
+                <a href="../vocabulary/adverbs_spoken/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="vocabulary_taste_cooking">
+                <h3>👅 Вкус и готовка <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>맵다, 느끼하다, 볶다, 삶다, 양념 — 41 слово о вкусе и приготовлении</p>
+                <a href="../vocabulary/taste_cooking/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="vocabulary_personality">
+                <h3>🎭 Характер и личность <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>똑똑한, 착한, 낙천적인, 이기적인, 게으른 — 30 слов о характере</p>
+                <a href="../vocabulary/personality/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="vocabulary_romance">
+                <h3>💕 Любовь и отношения <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>첫사랑, 고백하다, 사귀다, 자기야, 헤어지다 — 35 слов об отношениях</p>
+                <a href="../vocabulary/romance/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="vocabulary_symptoms">
+                <h3>🤒 Симптомы и болезни <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>감기, 독감, 두통, 열, 기침, 처방전 — 33 слова для визита к врачу</p>
+                <a href="../vocabulary/symptoms/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="vocabulary_aegyo">
+                <h3>🥰 Милая речь (애교) <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>왱, 넹, 좋아염, 뿌잉뿌잉 — 25 выражений милой речи и правила их образования</p>
+                <a href="../vocabulary/aegyo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="vocabulary_verbs_actions">
+                <h3>🏃 Глаголы: второй круг <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>89 глаголов и предикативов — быт, чувства, работа, состояния</p>
+                <a href="../vocabulary/verbs_actions/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="vocabulary_everyday_nouns">
+                <h3>🧺 Быт, вещи и заимствования <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>77 существительных — заимствования, дом, еда, деньги, учёба, места</p>
+                <a href="../vocabulary/everyday_nouns/index.html" class="lesson-link">Изучить →</a>
+            </div>
+        </div>
+
+        <!-- Блок 9: Культура -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>🏯 Культура</h2>
+                <p>Как всё устроено в корейской повседневности</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="culture-count">0/6</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="culture-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-culture">
+            <div class="lesson-item" data-lesson="level2_lesson_culture_gestures">
+                <h3>👐 한국의 몸짓 언어 — жесты <span class="lesson-difficulty culture">Культура</span></h3>
+                <p>Поклоны, две руки, «иди сюда» ладонью вниз и что такое 눈치</p>
+                <a href="lesson_culture_gestures/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_culture_traffic_signs">
+                <h3>🚸 한국의 교통 표지판 — знаки <span class="lesson-difficulty culture">Культура</span></h3>
+                <p>정지, 서행, 어린이 보호구역, 환승, 출구 번호. Дороги и метро</p>
+                <a href="lesson_culture_traffic_signs/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_culture_hobbies">
+                <h3>⛰️ 취미와 여가 생활 — досуг <span class="lesson-difficulty culture">Культура</span></h3>
+                <p>등산, 노래방, PC방, 찜질방 + как рассказать о своём хобби</p>
+                <a href="lesson_culture_hobbies/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_culture_health_habits">
+                <h3>🥗 건강에 좋은 생활 습관 <span class="lesson-difficulty culture">Культура</span></h3>
+                <p>스트레스를 받다/풀다, советы через -는 게 좋아요, 건강검진, 보양식</p>
+                <a href="lesson_culture_health_habits/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_culture_weather_life">
+                <h3>🌡️ 날씨와 생활 — погода и сезоны <span class="lesson-difficulty culture">Культура</span></h3>
+                <p>장마, 미세먼지, 생활 지수 и предположение -(으)ㄹ 것 같다</p>
+                <a href="lesson_culture_weather_life/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level2_lesson_culture_etiquette">
+                <h3>🎎 한국의 예절 — этикет и извинения <span class="lesson-difficulty culture">Культура</span></h3>
+                <p>죄송합니다 vs 미안해요, 잘 먹겠습니다, объяснение через -거든요</p>
+                <a href="lesson_culture_etiquette/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="lesson_95_assumption_geot_gatda">
+                <h3>🤔 Предположение -(으)ㄹ 것 같다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>비가 올 것 같아요 (кажется, пойдёт дождь) — три формы 것 같다 для догадки и смягчения</p>
+                <a href="../lesson_95_assumption_geot_gatda/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="lesson_96_tendency_pyeonida">
+                <h3>⚖️ Скорее да, чем нет -는/(으)ㄴ 편이다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>키가 큰 편이에요 (скорее высокий) — мягкая характеристика вместо категоричной</p>
+                <a href="../lesson_96_tendency_pyeonida/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="lesson_97_solution_myeon_doeda">
+                <h3>✅ Достаточно сделать -(으)면 되다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>길을 건너면 돼요 (просто перейдите дорогу) — объяснить, что достаточно сделать</p>
+                <a href="../lesson_97_solution_myeon_doeda/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="lesson_98_concession_gineun_hada">
+                <h3>🙂 Вообще-то да, но… -기는 하다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>가기는 해요. 그런데 멀어요 — согласиться и тут же добавить оговорку</p>
+                <a href="../lesson_98_concession_gineun_hada/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="lesson_99_modesty_gineunyo">
+                <h3>🙇 Ну что вы! -기는요 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>고맙기는요 (да не за что!) — вежливо отклонить похвалу или благодарность</p>
+                <a href="../lesson_99_modesty_gineunyo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="lesson_100_any_deunji">
+                <h3>🎯 Что угодно, когда угодно -(이)든지 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>언제든지 괜찮아요 (когда угодно) — 무엇이든지, 어디든지, 누구든지</p>
+                <a href="../lesson_100_any_deunji/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="lesson_101_becoming_i_ga_doeda">
+                <h3>🌱 Становиться кем-то -이/가 되다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>선생님이 되고 싶어요 (хочу стать учителем) — 되다 требует 이/가, а не 을/를</p>
+                <a href="../lesson_101_becoming_i_ga_doeda/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="lesson_102_nothing_amu_do">
+                <h3>🚫 Ничего и никто — 아무 -도 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>아무것도 없어요 (совсем ничего нет) — 아무도, 아무 데도, 아무 말도</p>
+                <a href="../lesson_102_nothing_amu_do/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="lesson_103_price_jjari_eochi">
+                <h3>🧾 Цена и сумма: -짜리 и -어치 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>천 원짜리 사과, 오천 원어치 주세요 — как назвать номинал и попросить на сумму</p>
+                <a href="../lesson_103_price_jjari_eochi/index.html" class="lesson-link">Изучить →</a>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px; background: linear-gradient(135deg, rgba(33,150,243,0.1), rgba(21,101,192,0.1)); border-radius: 20px;">
             <h3 style="color: #2196F3;">🎯 После 2급 вы сможете:</h3>
             <ul style="text-align: left; max-width: 500px; margin: 0 auto;">
-                <li>✅ Строить простые предложения</li>
                 <li>✅ Использовать разные уровни вежливости</li>
                 <li>✅ Говорить о настоящем, прошлом и будущем</li>
-                <li>✅ Заказывать еду в ресторане</li>
-                <li>✅ Выражать эмоции и чувства</li>
-                <li>✅ Говорить о времени и днях недели</li>
+                <li>✅ Спрягать неправильные глаголы (ㅂ, ㄷ, ㅎ, ㄹ, ㅅ-불규칙)</li>
+                <li>✅ Описывать действия в процессе (-고 있다)</li>
+                <li>✅ Просить и делать что-то для других (-아/어 주다)</li>
+                <li>✅ Выражать намерение (-(으)ㄹ게요) и пробовать новое (-아/어 보다)</li>
+                <li>✅ Объяснять причину через -아서/어서</li>
+                <li>✅ Ставить условия через -(으)면 (если...)</li>
+                <li>✅ Противопоставлять через -지만 (но, однако)</li>
+                <li>✅ Соединять действия через -고 и говорить «он хочет» (-고 싶어하다)</li>
+                <li>✅ Ставить прилагательные перед сущ.: 큰 집, 예쁜 꽃</li>
+                <li>✅ Говорить «когда» (-(으)ㄹ 때), «до/после» (-기 전에/후에)</li>
+                <li>✅ Подтверждать информацию (-죠?)</li>
+                <li>✅ Говорить «кому» (께) и «от кого» (-에게서/-한테서)</li>
+                <li>✅ Вежливо просить и командовать (주세요, 하세요)</li>
+                <li>✅ Считать со счётными словами (번, 대, 송이, 켤레)</li>
+                <li>✅ Задавать вопросы о прошлом: 뭐 했어요? 어디 갔어요?</li>
+                <li>✅ Использовать наречия времени: 항상, 자주, 가끔, 갑자기</li>
+                <li>✅ Использовать наречия степени: 매우, 좀, 너무, 진짜</li>
+                <li>✅ Употреблять абстрактные слова: 사랑, 꿈, 걱정, 경험</li>
+                <li>✅ Понимать разговорные сокращения: 뭐→머, 것→거, 근데</li>
+                <li>✅ Использовать филлеры: 그냥, 좀, 아무튼, 그러니까</li>
+                <li>✅ Описывать характер, личность и состояния</li>
+                <li>✅ Заказывать в ресторане: полный диалог</li>
+                <li>✅ Планировать встречу, общаться на работе и в университете</li>
             </ul>
             <a href="../level_3/index.html" style="display: inline-block; background: #2196F3; color: white; padding: 15px 30px; border-radius: 25px; text-decoration: none; margin-top: 20px;">Перейти к 3급 →</a>
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    <script src="../js/progress-tracker.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const lessons = document.querySelectorAll('.lesson-item');
-            lessons.forEach((lesson, index) => {
+            var lessons = document.querySelectorAll('.lesson-item');
+            lessons.forEach(function(lesson, index) {
                 lesson.style.opacity = '0';
                 lesson.style.transform = 'translateY(20px)';
-                setTimeout(() => {
+                setTimeout(function() {
                     lesson.style.transition = 'all 0.5s ease';
                     lesson.style.opacity = '1';
                     lesson.style.transform = 'translateY(0)';
-                }, index * 100);
+                }, index * 80);
             });
+
+            try {
+                if (window.ProgressTracker) {
+                    var progress = ProgressTracker.get();
+                    if (progress && progress.completedLessons) {
+                        function gridCount(gridId) {
+                            var grid = document.getElementById(gridId);
+                            return grid ? grid.querySelectorAll('.lesson-item').length : 0;
+                        }
+                        var sections = {
+                            grammar: { el: 'grammar', total: gridCount('grid-grammar'), done: 0 },
+                            verbs: { el: 'verbs', total: gridCount('grid-verbs'), done: 0 },
+                            communication: { el: 'communication', total: gridCount('grid-communication'), done: 0 },
+                            constructions: { el: 'constructions', total: gridCount('grid-constructions'), done: 0 },
+                            temporal: { el: 'temporal', total: gridCount('grid-temporal'), done: 0 },
+                            practice: { el: 'practice', total: gridCount('grid-practice'), done: 0 },
+                            vocab: { el: 'vocab', total: gridCount('grid-vocab'), done: 0 },
+                            culture: { el: 'culture', total: gridCount('grid-culture'), done: 0 }
+                        };
+                        lessons.forEach(function(card) {
+                            var lessonId = card.getAttribute('data-lesson');
+                            if (!lessonId) return;
+                            if (!!progress.completedLessons[lessonId]) {
+                                card.classList.add('completed');
+                                var badge = document.createElement('div');
+                                badge.className = 'completion-badge';
+                                badge.textContent = '\u2713';
+                                card.appendChild(badge);
+                                var grid = card.closest('.lesson-grid');
+                                if (grid) {
+                                    if (grid.id === 'grid-grammar') sections.grammar.done++;
+                                    else if (grid.id === 'grid-verbs') sections.verbs.done++;
+                                    else if (grid.id === 'grid-communication') sections.communication.done++;
+                                    else if (grid.id === 'grid-constructions') sections.constructions.done++;
+                                    else if (grid.id === 'grid-temporal') sections.temporal.done++;
+                                    else if (grid.id === 'grid-practice') sections.practice.done++;
+                                    else if (grid.id === 'grid-vocab') sections.vocab.done++;
+                                    else if (grid.id === 'grid-culture') sections.culture.done++;
+                                }
+                            }
+                        });
+                        Object.keys(sections).forEach(function(key) {
+                            var s = sections[key];
+                            var countEl = document.getElementById(s.el + '-count');
+                            var barEl = document.getElementById(s.el + '-bar');
+                            if (countEl) countEl.textContent = s.done + '/' + s.total;
+                            if (barEl) barEl.style.width = Math.round((s.done / s.total) * 100) + '%';
+                        });
+                        console.log('[OK] Level 2 progress loaded');
+                    }
+                }
+            } catch(e) { console.log('[ERROR] Progress loading failed:', e); }
+
+            // Галочка появляется только после кнопки завершения внутри урока
         });
     </script>
+<script src="../js/global-nav.js"></script>
 </body>
 </html>

@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Полная система 사동/피동 (каузатив и пассив)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #2f6fd0 0%, #1a3f8f 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '🔄';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '🔗';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #E91E63;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #F06292;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .description {
+            font-size: 1.05em;
+            color: #666;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #E91E63;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #F06292;
+            padding-bottom: 10px;
+        }
+
+        .content-section h3 {
+            color: #AD1457;
+            margin-top: 25px;
+        }
+
+        .content-section p {
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .grammar-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .grammar-card {
+            border-radius: 15px;
+            padding: 25px;
+            color: #2b2440;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .grammar-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-causative {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+        }
+
+        .card-passive {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+        }
+
+        .card-hada {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+        }
+
+        .card-doeda {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+        }
+
+        .card-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-pattern {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 1.5em;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .card-description {
+            font-size: 1.1em;
+            margin: 15px 0;
+            opacity: 0.9;
+        }
+
+        .card-examples {
+            margin-top: 20px;
+        }
+
+        .card-example {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .korean-verb {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .verb-translation {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-row.three-col {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.05em;
+        }
+
+        .table-cell.korean {
+            color: #E91E63;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #fce4ec;
+            font-weight: bold;
+            color: #880E4F;
+        }
+
+        .sentence-structure {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .structure-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .structure-example {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.85em;
+            color: #2b2440;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .info-box {
+            background: #fce4ec;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #E91E63;
+        }
+
+        .info-box h3 {
+            color: #AD1457;
+            margin-top: 0;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .practice-section h3 {
+            color: #880E4F;
+            font-size: 1.5em;
+            margin-top: 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #E91E63;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .option:hover {
+            background: #F06292;
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: #4caf50;
+        }
+
+        .option.wrong {
+            background: #f44336;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct {
+            background: #d5f5d5;
+            color: #27ae60;
+            display: block;
+        }
+
+        .result.wrong {
+            background: #fdd5d5;
+            color: #e74c3c;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .grammar-cards { grid-template-columns: 1fr; }
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .options { flex-direction: column; align-items: center; }
+            .content-section { padding: 20px; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_5/index.html">← 5급 Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>Полная система 사동/피동</h1>
+            <div class="korean-title">사동사와 피동사: каузативные и пассивные глаголы</div>
+            <div class="description">Все суффиксы, конструкции -게 하다, 되다, 당하다 -- полная картина</div>
+        </header>
+
+        <!-- Секция 1: Введение -->
+        <div class="content-section">
+            <h2>Что такое 사동 и 피동?</h2>
+            <p>В корейском языке есть два важнейших глагольных залога:</p>
+            <div class="grammar-cards">
+                <div class="grammar-card card-causative">
+                    <div class="card-title">사동 [sadong] -- Каузатив</div>
+                    <div class="card-pattern">заставлять / побуждать</div>
+                    <div class="card-description">
+                        Субъект <strong>заставляет</strong> кого-то совершить действие. Русский аналог: "кормить" (заставлять есть), "показывать" (заставлять видеть).
+                    </div>
+                    <div class="card-examples">
+                        <div class="card-example">
+                            <div class="korean-verb">먹다 [meokda] -> 먹이다 [meogida]</div>
+                            <div class="verb-translation">есть -> кормить (заставлять есть)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grammar-card card-passive">
+                    <div class="card-title">피동 [pidong] -- Пассив</div>
+                    <div class="card-pattern">подвергаться действию</div>
+                    <div class="card-description">
+                        Субъект <strong>подвергается</strong> действию. Русский аналог: "быть пойманным", "быть увиденным".
+                    </div>
+                    <div class="card-examples">
+                        <div class="card-example">
+                            <div class="korean-verb">잡다 [japda] -> 잡히다 [japhida]</div>
+                            <div class="verb-translation">ловить -> быть пойманным</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 2: Каузативные суффиксы -->
+        <div class="content-section">
+            <h2>Каузативные суффиксы 사동 접미사</h2>
+            <p>В корейском существует 7 каузативных суффиксов. Они присоединяются к основе глагола и меняют значение на "заставлять делать".</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Каузативные суффиксы</div>
+                <div class="table-row">
+                    <div class="table-cell header">Суффикс</div>
+                    <div class="table-cell header">Исходный глагол</div>
+                    <div class="table-cell header">Каузатив</div>
+                    <div class="table-cell header">Перевод</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-이-</div>
+                    <div class="table-cell korean">먹다 [meokda]</div>
+                    <div class="table-cell korean">먹이다 [meogida]</div>
+                    <div class="table-cell">есть -> кормить</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-히-</div>
+                    <div class="table-cell korean">읽다 [ikda]</div>
+                    <div class="table-cell korean">읽히다 [ilkida]</div>
+                    <div class="table-cell">читать -> давать читать</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-리-</div>
+                    <div class="table-cell korean">알다 [alda]</div>
+                    <div class="table-cell korean">알리다 [allida]</div>
+                    <div class="table-cell">знать -> сообщать</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-기-</div>
+                    <div class="table-cell korean">웃다 [utda]</div>
+                    <div class="table-cell korean">웃기다 [utgida]</div>
+                    <div class="table-cell">смеяться -> смешить</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-우-</div>
+                    <div class="table-cell korean">자다 [jada]</div>
+                    <div class="table-cell korean">재우다 [jaeuda]</div>
+                    <div class="table-cell">спать -> укладывать спать</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-추-</div>
+                    <div class="table-cell korean">낮다 [natda]</div>
+                    <div class="table-cell korean">낮추다 [natchuda]</div>
+                    <div class="table-cell">низкий -> понижать</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-구-</div>
+                    <div class="table-cell korean">돋다 [dotda]</div>
+                    <div class="table-cell korean">돋구다 [dotguda]</div>
+                    <div class="table-cell">подниматься -> поднимать</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>Важно!</h3>
+                <p>Выбор суффикса зависит от конкретного глагола. Единого правила нет -- нужно запоминать. Однако есть закономерности: суффикс -이- самый частый, -히- часто следует за согласными ㄱ, ㅂ, ㄷ.</p>
+            </div>
+        </div>
+
+        <!-- Секция 3: Пассивные суффиксы -->
+        <div class="content-section">
+            <h2>Пассивные суффиксы 피동 접미사</h2>
+            <p>Те же суффиксы (-이-, -히-, -리-, -기-) используются и для образования пассива, но с другим значением:</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Пассивные суффиксы</div>
+                <div class="table-row">
+                    <div class="table-cell header">Суффикс</div>
+                    <div class="table-cell header">Активный глагол</div>
+                    <div class="table-cell header">Пассив</div>
+                    <div class="table-cell header">Перевод</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-이-</div>
+                    <div class="table-cell korean">보다 [boda]</div>
+                    <div class="table-cell korean">보이다 [boida]</div>
+                    <div class="table-cell">видеть -> быть видимым</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-히-</div>
+                    <div class="table-cell korean">잡다 [japda]</div>
+                    <div class="table-cell korean">잡히다 [japhida]</div>
+                    <div class="table-cell">ловить -> быть пойманным</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-리-</div>
+                    <div class="table-cell korean">듣다 [deutda]</div>
+                    <div class="table-cell korean">들리다 [deullida]</div>
+                    <div class="table-cell">слушать -> быть слышимым</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-기-</div>
+                    <div class="table-cell korean">안다 [anda]</div>
+                    <div class="table-cell korean">안기다 [angida]</div>
+                    <div class="table-cell">обнимать -> быть обнятым</div>
+                </div>
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Сравнение: активный vs пассивный залог</div>
+                <div class="structure-example">
+                    <div class="korean-text">경찰이 도둑을 잡았어요.</div>
+                    <div class="translation">Полиция поймала вора. (активный)</div>
+                    <div class="grammar-note">경찰이 [gyeongchari] -- полиция (субъект), 도둑을 [dodeugeul] -- вора (объект)</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">도둑이 경찰에게 잡혔어요.</div>
+                    <div class="translation">Вор был пойман полицией. (пассивный)</div>
+                    <div class="grammar-note">도둑이 [dodeugi] -- вор (субъект пассива), 경찰에게 [gyeongcharege] -- полицией</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 4: -게 하다 -->
+        <div class="content-section">
+            <h2>Конструкция -게 하다 [ge hada]</h2>
+            <p>Универсальная каузативная конструкция, которая работает с <strong>любым</strong> глаголом. Когда нет специального каузативного суффикса, используйте -게 하다.</p>
+
+            <div class="grammar-cards">
+                <div class="grammar-card card-hada">
+                    <div class="card-title">-게 하다</div>
+                    <div class="card-pattern">основа глагола + 게 하다</div>
+                    <div class="card-description">
+                        "Заставлять / позволять / побуждать делать"
+                    </div>
+                    <div class="card-examples">
+                        <div class="card-example">
+                            <div class="korean-verb">공부하게 하다 [gongbuhage hada]</div>
+                            <div class="verb-translation">заставлять учиться</div>
+                        </div>
+                        <div class="card-example">
+                            <div class="korean-verb">가게 하다 [gage hada]</div>
+                            <div class="verb-translation">позволять / заставлять идти</div>
+                        </div>
+                        <div class="card-example">
+                            <div class="korean-verb">기다리게 하다 [gidarige hada]</div>
+                            <div class="verb-translation">заставлять ждать</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dialogue-box">
+                <div style="font-size: 1.3em; font-weight: bold; margin-bottom: 15px; text-align: center;">Примеры в предложениях</div>
+                <div class="dialogue-line">
+                    <div class="korean-text">엄마가 아이를 공부하게 했어요.</div>
+                    <div class="translation">Мама заставила ребёнка учиться.</div>
+                    <div class="grammar-note">엄마가 [eommaga] -- мама, 아이를 [aireul] -- ребёнка</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="korean-text">선생님이 학생들을 조용하게 했어요.</div>
+                    <div class="translation">Учитель заставил учеников быть тихими.</div>
+                    <div class="grammar-note">학생들을 [haksaengdeureul] -- учеников, 조용하게 [joyonghage] -- тихо</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="korean-text">비가 와서 저를 집에 있게 했어요.</div>
+                    <div class="translation">Из-за дождя мне пришлось остаться дома.</div>
+                    <div class="grammar-note">비가 와서 [biga waseo] -- из-за дождя, 집에 있게 [jibe itge] -- остаться дома</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>-게 하다 vs суффиксы</h3>
+                <p>Суффиксальные формы (먹이다, 입히다) звучат <strong>естественнее</strong> и чаще используются в разговорной речи. Конструкция -게 하다 более формальна и универсальна. Если существует суффиксальная форма -- предпочтительнее использовать её.</p>
+            </div>
+        </div>
+
+        <!-- Секция 5: 되다 и 당하다 -->
+        <div class="content-section">
+            <h2>Пассив через 되다 и 당하다</h2>
+
+            <div class="grammar-cards">
+                <div class="grammar-card card-doeda">
+                    <div class="card-title">되다 [doeda]</div>
+                    <div class="card-pattern">한자어 + 되다</div>
+                    <div class="card-description">
+                        Пассив для <strong>ханча-слов</strong> (китайских заимствований). Нейтральный оттенок.
+                    </div>
+                    <div class="card-examples">
+                        <div class="card-example">
+                            <div class="korean-verb">결정되다 [gyeoljeongdoeda]</div>
+                            <div class="verb-translation">быть решённым (결정 -- решение)</div>
+                        </div>
+                        <div class="card-example">
+                            <div class="korean-verb">발견되다 [balgyeondoeda]</div>
+                            <div class="verb-translation">быть обнаруженным (발견 -- обнаружение)</div>
+                        </div>
+                        <div class="card-example">
+                            <div class="korean-verb">사용되다 [sayongdoeda]</div>
+                            <div class="verb-translation">использоваться (사용 -- использование)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grammar-card card-causative">
+                    <div class="card-title">당하다 [danghada]</div>
+                    <div class="card-pattern">한자어 + 당하다</div>
+                    <div class="card-description">
+                        Пассив с <strong>негативным</strong> оттенком. Субъект -- жертва.
+                    </div>
+                    <div class="card-examples">
+                        <div class="card-example">
+                            <div class="korean-verb">거절당하다 [geojeoldanghada]</div>
+                            <div class="verb-translation">получить отказ (거절 -- отказ)</div>
+                        </div>
+                        <div class="card-example">
+                            <div class="korean-verb">해고당하다 [haegodanghada]</div>
+                            <div class="verb-translation">быть уволенным (해고 -- увольнение)</div>
+                        </div>
+                        <div class="card-example">
+                            <div class="korean-verb">무시당하다 [musidanghada]</div>
+                            <div class="verb-translation">быть проигнорированным (무시 -- игнорирование)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-table">
+                <div class="table-header">되다 vs 당하다: сравнение</div>
+                <div class="table-row three-col">
+                    <div class="table-cell header">Ситуация</div>
+                    <div class="table-cell header">되다 (нейтрально)</div>
+                    <div class="table-cell header">당하다 (негативно)</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell">Решение</div>
+                    <div class="table-cell korean">결정되다</div>
+                    <div class="table-cell">--</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell">Отказ</div>
+                    <div class="table-cell">--</div>
+                    <div class="table-cell korean">거절당하다</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell">Увольнение</div>
+                    <div class="table-cell">--</div>
+                    <div class="table-cell korean">해고당하다</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell">Избрание</div>
+                    <div class="table-cell korean">선출되다</div>
+                    <div class="table-cell">--</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell">Обман</div>
+                    <div class="table-cell">--</div>
+                    <div class="table-cell korean">사기당하다</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 6: Сводная таблица -->
+        <div class="content-section">
+            <h2>Сводная таблица: все способы</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Полная система каузатива и пассива</div>
+                <div class="table-row">
+                    <div class="table-cell header">Тип</div>
+                    <div class="table-cell header">Способ</div>
+                    <div class="table-cell header">Пример</div>
+                    <div class="table-cell header">Когда используется</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Каузатив</div>
+                    <div class="table-cell korean">суффиксы -이/히/리/기/우/추/구-</div>
+                    <div class="table-cell korean">먹이다, 읽히다</div>
+                    <div class="table-cell">Когда есть устоявшаяся форма</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Каузатив</div>
+                    <div class="table-cell korean">-게 하다</div>
+                    <div class="table-cell korean">공부하게 하다</div>
+                    <div class="table-cell">Универсальный способ</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Пассив</div>
+                    <div class="table-cell korean">суффиксы -이/히/리/기-</div>
+                    <div class="table-cell korean">잡히다, 보이다</div>
+                    <div class="table-cell">Исконно корейские глаголы</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Пассив</div>
+                    <div class="table-cell korean">되다</div>
+                    <div class="table-cell korean">결정되다, 사용되다</div>
+                    <div class="table-cell">Ханча-слова (нейтрально)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Пассив</div>
+                    <div class="table-cell korean">당하다</div>
+                    <div class="table-cell korean">거절당하다</div>
+                    <div class="table-cell">Негативные ситуации</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 7: Диалог -->
+        <div class="content-section">
+            <h2>Диалог: На работе</h2>
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">수현:</div>
+                    <div class="korean-text">이번 프로젝트가 승인되었다고 들었어요?</div>
+                    <div class="translation">Вы слышали, что этот проект был одобрён?</div>
+                    <div class="grammar-note">승인되다 [seungindoeda] -- быть одобренным (되다-пассив)</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민준:</div>
+                    <div class="korean-text">네, 드디어 결정되었어요! 부장님이 저한테 알리셨어요.</div>
+                    <div class="translation">Да, наконец-то было решено! Начальник сообщил мне.</div>
+                    <div class="grammar-note">알리다 [allida] -- сообщать (каузатив от 알다 -- знать)</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">수현:</div>
+                    <div class="korean-text">다행이에요. 저번에 거절당해서 걱정했는데...</div>
+                    <div class="translation">Хорошо. В прошлый раз был отказ, и я волновалась...</div>
+                    <div class="grammar-note">거절당하다 [geojeoldanghada] -- получить отказ (당하다-пассив, негативный)</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민준:</div>
+                    <div class="korean-text">이번에는 팀장님이 직원들을 열심히 준비하게 했어요.</div>
+                    <div class="translation">В этот раз руководитель заставил сотрудников тщательно подготовиться.</div>
+                    <div class="grammar-note">준비하게 하다 [junbihage hada] -- заставлять готовиться (-게 하다 каузатив)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Практика -->
+        <div class="practice-section">
+            <h3>Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. Как будет каузатив от 먹다 (есть)?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">먹이다</button>
+                    <button class="option" data-correct="false">먹히다</button>
+                    <button class="option" data-correct="false">먹기다</button>
+                    <button class="option" data-correct="false">먹리다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. Какую конструкцию используют для пассива с негативным оттенком?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">되다</button>
+                    <button class="option" data-correct="true">당하다</button>
+                    <button class="option" data-correct="false">-게 하다</button>
+                    <button class="option" data-correct="false">-이다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. "Мама уложила ребёнка спать" -- 엄마가 아이를 ___.</div>
+                <div class="options">
+                    <button class="option" data-correct="false">자게 했어요</button>
+                    <button class="option" data-correct="true">재웠어요</button>
+                    <button class="option" data-correct="false">잤어요</button>
+                    <button class="option" data-correct="false">자였어요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. "Проект был одобрён" -- 프로젝트가 ___.</div>
+                <div class="options">
+                    <button class="option" data-correct="false">승인당했어요</button>
+                    <button class="option" data-correct="true">승인되었어요</button>
+                    <button class="option" data-correct="false">승인하게 했어요</button>
+                    <button class="option" data-correct="false">승인보였어요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. Пассивная форма от 듣다 (слушать):</div>
+                <div class="options">
+                    <button class="option" data-correct="false">듣이다</button>
+                    <button class="option" data-correct="false">듣히다</button>
+                    <button class="option" data-correct="true">들리다</button>
+                    <button class="option" data-correct="false">듣기다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. "Он был уволен" -- 그는 ___.</div>
+                <div class="options">
+                    <button class="option" data-correct="false">해고되었어요</button>
+                    <button class="option" data-correct="true">해고당했어요</button>
+                    <button class="option" data-correct="false">해고하게 했어요</button>
+                    <button class="option" data-correct="false">해고보였어요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <!-- Заключение -->
+        <div class="content-section">
+            <h2>Заключение</h2>
+            <p>Система каузатива и пассива -- одна из самых сложных тем корейской грамматики. Ключевые моменты:</p>
+            <div style="background: linear-gradient(135deg, #AD1457, #E91E63); color: white; padding: 25px; border-radius: 15px; margin: 20px 0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Каузатив</strong><br>
+                        суффиксы + -게 하다<br>
+                        <em>"заставлять делать"</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Пассив</strong><br>
+                        суффиксы + 되다 + 당하다<br>
+                        <em>"подвергаться действию"</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>당하다</strong><br>
+                        Только негативное!<br>
+                        <em>увольнение, отказ, обман</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #E91E63, #AD1457);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(233,30,99,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level5_lesson_causative_passive_full';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+                        var isCorrect = this.dataset.correct === 'true';
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,2112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Read Korean texts with translations and annotations. 6 difficulty levels, 9 thematic categories."/>
+    <meta property="og:title" content="Korean Reading Texts — Miso: 한국어 수업"/>
+    <meta property="og:description" content="Interactive Korean texts with translation, pronunciation and quizzes."/>
+    <meta name="theme-color" content="#ff6b9d"/>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
+    <title>Korean Reading Texts | Miso: 한국어 수업</title>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/progress.css">
+    <link href="../css/auth-styles.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: #1a1a2e;
+            min-height: 100vh;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                linear-gradient(125deg,
+                    #667eea 0%,
+                    #764ba2 25%,
+                    #f093fb 50%,
+                    #4facfe 75%,
+                    #00f2fe 100%
+                );
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Korean waves (traditional pattern) */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255,255,255,0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 30%, rgba(255,255,255,0.1) 0%, transparent 40%),
+                repeating-radial-gradient(circle at 50% 50%, transparent 0, rgba(255,255,255,0.05) 2px, transparent 4px, transparent 100px);
+            animation: waveMove 20s linear infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes waveMove {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 2;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Glowing lines */
+        .glow-line {
+            position: fixed;
+            height: 2px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(255,255,255,0.8) 50%,
+                transparent 100%
+            );
+            pointer-events: none;
+            z-index: 2;
+            animation: lineMove 8s linear infinite;
+        }
+
+        @keyframes lineMove {
+            0% { left: -100%; width: 50%; }
+            100% { left: 100%; width: 50%; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow:
+                0 0 10px rgba(255,255,255,0.5),
+                0 0 20px rgba(102, 126, 234, 0.5),
+                0 0 30px rgba(118, 75, 162, 0.5);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow:
+                0 0 10px rgba(255,255,255,0.5),
+                0 0 20px rgba(102, 126, 234, 0.5),
+                0 0 30px rgba(118, 75, 162, 0.5); }
+            50% { text-shadow:
+                0 0 20px rgba(255,255,255,0.8),
+                0 0 30px rgba(102, 126, 234, 0.8),
+                0 0 40px rgba(118, 75, 162, 0.8); }
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.5);
+            color: #667eea;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow:
+                0 4px 20px rgba(0,0,0,0.2),
+                0 0 40px rgba(102, 126, 234, 0.3);
+        }
+
+        .back-button:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow:
+                0 8px 30px rgba(0,0,0,0.3),
+                0 0 60px rgba(102, 126, 234, 0.6);
+        }
+
+        .breadcrumb {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 20px;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+            color: white;
+            text-align: center;
+            font-size: 1.1em;
+            box-shadow:
+                0 8px 32px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .step.active {
+            background: rgba(255,255,255,0.95);
+            color: #667eea;
+            border-color: white;
+            box-shadow:
+                0 8px 25px rgba(255,255,255,0.3),
+                0 0 40px rgba(255,255,255,0.5);
+            transform: scale(1.05);
+        }
+
+        .step.completed {
+            background: linear-gradient(135deg, #4caf50, #66bb6a);
+            color: white;
+            border-color: #4caf50;
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4);
+            cursor: pointer;
+        }
+
+        .step.completed:hover {
+            transform: scale(1.08);
+            filter: brightness(1.1);
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .level-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(25px);
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            box-shadow:
+                0 10px 40px rgba(0,0,0,0.2),
+                0 0 60px rgba(102, 126, 234, 0.2);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-top: 6px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255,255,255,0.3),
+                transparent
+            );
+            transition: left 0.5s;
+        }
+
+        .level-card:hover::before {
+            left: 100%;
+        }
+
+        .level-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%);
+            z-index: 0;
+        }
+
+        .level-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .level-card:hover {
+            transform: translateY(-15px) scale(1.05) rotateZ(2deg);
+            box-shadow:
+                0 25px 60px rgba(0,0,0,0.3),
+                0 0 80px rgba(102, 126, 234, 0.5);
+        }
+
+        .level-1 { border-top-color: #4caf50; }
+        .level-2 { border-top-color: #8bc34a; }
+        .level-3 { border-top-color: #ffc107; }
+        .level-4 { border-top-color: #ff9800; }
+        .level-5 { border-top-color: #f44336; }
+        .level-6 { border-top-color: #9c27b0; }
+
+        .level-number {
+            font-size: 3.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: numberShine 3s ease-in-out infinite;
+        }
+
+        @keyframes numberShine {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        .level-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .level-korean {
+            font-size: 1.1em;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .level-description {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .level-texts-count {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            color: #667eea;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(25px);
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            box-shadow:
+                0 10px 40px rgba(0,0,0,0.2),
+                0 0 60px rgba(102, 126, 234, 0.2);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(135deg,
+                transparent 40%,
+                rgba(102, 126, 234, 0.1) 50%,
+                transparent 60%
+            );
+            animation: cardShimmer 3s infinite;
+        }
+
+        @keyframes cardShimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(0deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(360deg); }
+        }
+
+        .category-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow:
+                0 25px 60px rgba(0,0,0,0.3),
+                0 0 80px rgba(102, 126, 234, 0.5);
+        }
+
+        .category-icon {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .category-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .category-korean {
+            font-size: 1.1em;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .category-description {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .category-texts-count {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            color: #667eea;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .texts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .text-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(25px);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow:
+                0 10px 40px rgba(0,0,0,0.2),
+                0 0 60px rgba(102, 126, 234, 0.2);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border-left: 6px solid #667eea;
+        }
+
+        .text-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow:
+                0 25px 60px rgba(0,0,0,0.3),
+                0 0 80px rgba(118, 75, 162, 0.5);
+            border-left-color: #764ba2;
+        }
+
+        .text-number {
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+            animation: numberPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes numberPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .text-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            line-height: 1.3;
+        }
+
+        .text-subtitle {
+            font-size: 1em;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .text-preview {
+            color: #666;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+
+
+
+        .text-card.completed {
+            border-left: 6px solid #4caf50;
+        }
+
+        .completion-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #4caf50, #66bb6a);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            box-shadow: 0 4px 20px rgba(76, 175, 80, 0.6);
+            z-index: 10;
+            animation: badgePop 0.5s ease;
+        }
+
+        @keyframes badgePop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .progress-info {
+            font-size: 0.85em;
+            color: #4caf50;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .progress-info.not-completed {
+            color: #999;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: pageSlide 0.5s ease;
+        }
+
+        @keyframes pageSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .levels-grid, .categories-grid, .texts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header .subtitle {
+                font-size: 1em;
+            }
+
+            .level-number, .category-icon {
+                font-size: 2.5em;
+            }
+
+            .level-name, .category-name {
+                font-size: 1.2em;
+            }
+
+            .step-indicator {
+                gap: 8px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .step {
+                padding: 8px 15px;
+                font-size: 0.85em;
+            }
+
+            .back-button {
+                position: relative;
+                margin: 20px auto;
+                display: inline-block;
+            }
+
+            .text-card {
+                padding: 20px;
+            }
+
+            .text-title {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .level-number, .category-icon {
+                font-size: 2em;
+            }
+
+            .level-name, .category-name {
+                font-size: 1.05em;
+            }
+
+            .level-description, .category-description {
+                font-size: 0.9em;
+            }
+
+            .step {
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+
+            .content-area {
+                padding: 10px;
+            }
+        }
+    </style>
+
+    <script src="../level-5-phrases.js"></script>
+    <script src="../js/progress-tracker.js"></script>
+    <script src="../js/progress-dashboard.js"></script>
+</head>
+<body>
+    <script>
+        for(let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particle.style.width = (Math.random() * 6 + 4) + 'px';
+            particle.style.height = particle.style.width;
+            document.body.appendChild(particle);
+        }
+
+        for(let i = 0; i < 3; i++) {
+            const line = document.createElement('div');
+            line.className = 'glow-line';
+            line.style.top = (20 + i * 30) + '%';
+            line.style.animationDelay = i * 2 + 's';
+            line.style.animationDuration = (6 + i * 2) + 's';
+            document.body.appendChild(line);
+        }
+    </script>
+
+    <a href="index.html" class="back-button">← Home</a>
+    <button class="back-button" id="backBtn" style="top: 20px; left: 200px; border: none; cursor: pointer;">← Back</button>
+
+    <div class="container">
+        <div class="header">
+            <h1>📚 텍스트로 배우기</h1>
+            <div class="subtitle">Choose a level, category and text to study</div>
+        </div>
+
+        <div id="progressDashboard"></div>
+
+        <div class="step-indicator">
+            <div class="step active" id="step1" onclick="onStepClick(1)">1. Choose level</div>
+            <div class="step" id="step2" onclick="onStepClick(2)">2. Text category</div>
+            <div class="step" id="step3" onclick="onStepClick(3)">3. Choose text</div>
+            <div class="step" id="step4">4. Reading</div>
+        </div>
+
+        <div class="breadcrumb" id="breadcrumb">
+            Choose your Korean language level
+        </div>
+
+        <div class="page active" id="levelsPage">
+            <div class="levels-grid">
+                <div class="level-card level-1" onclick="selectLevel(1)">
+                    <div class="level-number">1급</div>
+                    <div class="level-name">Elementary</div>
+                    <div class="level-korean">초급</div>
+                    <div class="level-description">
+                        Hangul alphabet, basic phrases, simple sentences
+                    </div>
+                    <div class="level-texts-count">19 texts</div>
+                </div>
+
+                <div class="level-card level-2" onclick="selectLevel(2)">
+                    <div class="level-number">2급</div>
+                    <div class="level-name">Basic</div>
+                    <div class="level-korean">기초</div>
+                    <div class="level-description">
+                        Simple dialogues, everyday vocabulary, basic grammar
+                    </div>
+                    <div class="level-texts-count">24 texts</div>
+                </div>
+
+                <div class="level-card level-3" onclick="selectLevel(3)">
+                    <div class="level-number">3급</div>
+                    <div class="level-name">Intermediate</div>
+                    <div class="level-korean">중급</div>
+                    <div class="level-description">
+                        Everyday communication, work, study, hobbies
+                    </div>
+                    <div class="level-texts-count">18 texts</div>
+                </div>
+
+                <div class="level-card level-4" onclick="selectLevel(4)">
+                    <div class="level-number">4급</div>
+                    <div class="level-name">Upper-Intermediate</div>
+                    <div class="level-korean">중고급</div>
+                    <div class="level-description">
+                        Complex grammar, business communication, culture
+                    </div>
+                    <div class="level-texts-count">9 texts</div>
+                </div>
+
+                <div class="level-card level-5" onclick="selectLevel(5)">
+                    <div class="level-number">5급</div>
+                    <div class="level-name">Advanced</div>
+                    <div class="level-korean">고급</div>
+                    <div class="level-description">
+                        Fluent communication, academic texts, professional vocabulary
+                    </div>
+                    <div class="level-texts-count">12 texts</div>
+                </div>
+
+                <div class="level-card level-6" onclick="selectLevel(6)">
+                    <div class="level-number">6급</div>
+                    <div class="level-name">Master</div>
+                    <div class="level-korean">최고급</div>
+                    <div class="level-description">
+                        Native speaker level, literature, specialized topics
+                    </div>
+                    <div class="level-texts-count">12 texts</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="categoriesPage">
+            <div class="categories-grid">
+                <div class="category-card" onclick="selectCategory('personal')">
+                    <div class="category-icon">👤</div>
+                    <div class="category-name">Personal</div>
+                    <div class="category-korean">자기소개</div>
+                    <div class="category-description">
+                        Stories about family, hobbies, plans, daily life
+                    </div>
+                    <div class="category-texts-count" id="personalCount">3 texts</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('stories')">
+                    <div class="category-icon">📖</div>
+                    <div class="category-name">Stories</div>
+                    <div class="category-korean">이야기</div>
+                    <div class="category-description">
+                        Short stories, fairy tales, interesting events
+                    </div>
+                    <div class="category-texts-count" id="storiesCount">2 texts</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('culture')">
+                    <div class="category-icon">🏛️</div>
+                    <div class="category-name">Culture</div>
+                    <div class="category-korean">문화</div>
+                    <div class="category-description">
+                        Korean traditions, holidays, art, K-POP
+                    </div>
+                    <div class="category-texts-count" id="cultureCount">4 texts</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('science')">
+                    <div class="category-icon">🔬</div>
+                    <div class="category-name">Science</div>
+                    <div class="category-korean">과학</div>
+                    <div class="category-description">
+                        Technology, discoveries, health, nature
+                    </div>
+                    <div class="category-texts-count" id="scienceCount">0 texts</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('travel')">
+                    <div class="category-icon">✈️</div>
+                    <div class="category-name">Travel</div>
+                    <div class="category-korean">여행</div>
+                    <div class="category-description">
+                        Cities of Korea, landmarks, travel notes
+                    </div>
+                    <div class="category-texts-count" id="travelCount">0 texts</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('food')">
+                    <div class="category-icon">🍜</div>
+                    <div class="category-name">Food</div>
+                    <div class="category-korean">음식</div>
+                    <div class="category-description">
+                        Korean cuisine, recipes, restaurants, traditions
+                    </div>
+                    <div class="category-texts-count" id="foodCount">4 texts</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('health')">
+                    <div class="category-icon">🏥</div>
+                    <div class="category-name">Health</div>
+                    <div class="category-korean">건강</div>
+                    <div class="category-description">
+                        Well-being, symptoms, pharmacy, doctor visits
+                    </div>
+                    <div class="category-texts-count" id="healthCount">0 texts</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('phone')">
+                    <div class="category-icon">📞</div>
+                    <div class="category-name">Communication</div>
+                    <div class="category-korean">통신</div>
+                    <div class="category-description">
+                        Phone conversations, messengers, connectivity
+                    </div>
+                    <div class="category-texts-count" id="phoneCount">0 texts</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('sports')">
+                    <div class="category-icon">💪</div>
+                    <div class="category-name">Sports</div>
+                    <div class="category-korean">스포츠</div>
+                    <div class="category-description">
+                        Fitness, football, swimming, sports events
+                    </div>
+                    <div class="category-texts-count" id="sportsCount">0 texts</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('office')">
+                    <div class="category-icon">🏢</div>
+                    <div class="category-name">Work</div>
+                    <div class="category-korean">직장</div>
+                    <div class="category-description">
+                        Office, colleagues, meetings, work routine
+                    </div>
+                    <div class="category-texts-count" id="officeCount">0 texts</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('shopping')">
+                    <div class="category-icon">🛒</div>
+                    <div class="category-name">Shopping</div>
+                    <div class="category-korean">쇼핑</div>
+                    <div class="category-description">
+                        Stores, fitting rooms, discounts, returns
+                    </div>
+                    <div class="category-texts-count" id="shoppingCount">0 texts</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="textsPage">
+            <div class="texts-grid" id="textsGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedLevel = null;
+        let selectedCategory = null;
+
+        const categoryNames = {
+            personal: 'Personal',
+            stories: 'Stories',
+            culture: 'Culture',
+            science: 'Science',
+            travel: 'Travel',
+            food: 'Food',
+            health: 'Health',
+            phone: 'Communication',
+            sports: 'Sports',
+            office: 'Work',
+            shopping: 'Shopping'
+        };
+
+        const textsDatabase = {
+            1: {
+                personal: [
+                    {
+                        id: 'personal-1',
+                        title: "My Introduction to Korea",
+                        subtitle: "한국과의 첫 만남",
+                        preview: "A story of discovering the Korean language through dramas. Plans for a trip to Seoul and communicating in Korean."
+                    },
+                    {
+                        id: 'personal-2',
+                        title: "My Korean Family",
+                        subtitle: "나의 한국 가족",
+                        preview: "A story about a family of 5: parents, a student sister, and grandmother. Who does what."
+                    },
+                    {
+                        id: 'personal-3',
+                        title: "My Interests and Hobbies",
+                        subtitle: "나의 취미와 관심사",
+                        preview: "Favorite activities: K-POP music, reading books, and playing football with friends on weekends."
+                    }
+                ],
+                stories: [
+                    {
+                        id: 'stories-1',
+                        title: "A Funny Story at a Cafe",
+                        subtitle: "카페에서 일어난 재미있는 일",
+                        preview: "A funny incident at a cat cafe. A white cat caused chaos with a cup of coffee!"
+                    },
+                    {
+                        id: 'stories-2',
+                        title: "Meeting a Friend in the Park",
+                        subtitle: "공원에서 친구와의 만남",
+                        preview: "Meeting a school friend after three years. Conversations, ice cream, and warm memories."
+                    }
+                ],
+                culture: [
+                    {
+                        id: 'culture-1',
+                        title: "Korean New Year",
+                        subtitle: "한국의 설날",
+                        preview: "The most important Korean holiday. Traditions: rice soup, bowing to elders, and New Year's money."
+                    },
+                    {
+                        id: 'culture-2',
+                        title: "Hangul - The Korean Alphabet",
+                        subtitle: "한글 - 한국의 알파벳",
+                        preview: "The history of Hangul created by King Sejong in 1443. 24 letters: 14 consonants and 10 vowels."
+                    },
+                    {
+                        id: 'culture-3',
+                        title: "Traditional Hanbok Costume",
+                        subtitle: "전통 의상 한복",
+                        preview: "Beautiful traditional clothing. Jeogori and chima for women, jeogori and baji for men."
+                    },
+                    {
+                        id: 'culture-4',
+                        title: "Korean Taekwondo",
+                        subtitle: "한국의 태권도",
+                        preview: "Korea's martial art. Kicks and punches in a white dobok. An Olympic sport since 2000."
+                    }
+                ],
+                science: [
+                    {
+                        id: 'science-1',
+                        title: "A Simple Science Experiment",
+                        subtitle: "간단한 과학 실험",
+                        preview: "An experiment with water and paper. Why doesn't water fall from an upside-down glass?"
+                    },
+                    {
+                        id: 'science-2',
+                        title: "Magnet and Metal",
+                        subtitle: "자석과 금속",
+                        preview: "An interesting experiment with a magnet. What sticks and what doesn't? Metal, wood, plastic."
+                    },
+                    {
+                        id: 'science-3',
+                        title: "Ice Turns into Water",
+                        subtitle: "얼음이 물로 변해요",
+                        preview: "A simple experiment with ice. Watching ice melt and turn into water."
+                    }
+                ],
+                travel: [
+                    {
+                        id: 'travel-1',
+                        title: "First Trip to Seoul",
+                        subtitle: "첫 서울 여행",
+                        preview: "A dream of the first trip to Korea. Gyeongbokgung, the tower, bibimbap and tteokbokki. A week in Seoul!"
+                    },
+                    {
+                        id: 'travel-2',
+                        title: "In the National Park",
+                        subtitle: "국립공원에서",
+                        preview: "Hiking in the mountains with family. Beautiful views, kimbap at the summit, and meeting a deer!"
+                    },
+                    {
+                        id: 'travel-3',
+                        title: "At Namdaemun Market",
+                        subtitle: "남대문 시장에서",
+                        preview: "A traditional Korean market. Tteok from a grandmother, scarves and souvenirs. Friendly vendors!"
+                    }
+                ],
+                food: [
+                    {
+                        id: 'food-1',
+                        title: "My Favorite Korean Food",
+                        subtitle: "제가 좋아하는 한국 음식",
+                        preview: "Favorite dishes: bibimbap with vegetables and egg, spicy gochujang. Kimchi every day!"
+                    },
+                    {
+                        id: 'food-2',
+                        title: "At a Korean Restaurant",
+                        subtitle: "한국 식당에서",
+                        preview: "Visiting a new restaurant. 'Welcome!' greeting, the menu, and ordering samgyetang."
+                    },
+                    {
+                        id: 'food-3',
+                        title: "Learning to Make Kimchi",
+                        subtitle: "김치 만들기를 배워요",
+                        preview: "Mom teaches how to make kimchi. Salting cabbage, preparing spicy sauce with garlic and ginger."
+                    },
+                    {
+                        id: 'food-4',
+                        title: "Korean Beverages",
+                        subtitle: "한국의 음료",
+                        preview: "Delicious Korean drinks: cold sikhye, hot yuja tea, and the popular banana milk."
+                    }
+                ]
+            },
+            3: {
+                personal: [
+                    {
+                        id: 'personal-1',
+                        title: "My Work and Career",
+                        subtitle: "나의 일과 커리어",
+                        preview: "Working as a programmer at an IT company. Flexible schedule, friendly team. Planning career growth."
+                    },
+                    {
+                        id: 'personal-2',
+                        title: "Work-Life Balance",
+                        subtitle: "일과 삶의 균형",
+                        preview: "How I combine career, hobbies, and personal life. The importance of rest and self-education."
+                    },
+                    {
+                        id: 'personal-3',
+                        title: "My Plans for the Future",
+                        subtitle: "나의 미래 계획",
+                        preview: "Moving to Korea in two years. Language study, job search, cultural adaptation."
+                    }
+                ],
+                stories: [
+                    {
+                        id: 'stories-1',
+                        title: "An Unexpected Meeting",
+                        subtitle: "뜻밖의 만남",
+                        preview: "Meeting a school teacher in the subway after 10 years. A conversation about life and memories."
+                    },
+                    {
+                        id: 'stories-2',
+                        title: "First Day at a New Job",
+                        subtitle: "새 직장에서의 첫날",
+                        preview: "Excitement, meeting colleagues, office orientation. Everything turned out better than expected!"
+                    },
+                    {
+                        id: 'stories-3',
+                        title: "Helping a Stranger",
+                        subtitle: "낯선 사람을 도와준 이야기",
+                        preview: "Helped a foreign tourist find the way. Practiced Korean and made a friend!"
+                    }
+                ],
+                culture: [
+                    {
+                        id: 'culture-1',
+                        title: "Korean Office Etiquette",
+                        subtitle: "한국의 사무실 예절",
+                        preview: "Rules of conduct in a Korean office: hierarchy, addressing elders, corporate culture."
+                    },
+                    {
+                        id: 'culture-2',
+                        title: "The K-Drama Phenomenon",
+                        subtitle: "K-드라마의 인기",
+                        preview: "Why Korean dramas are popular worldwide. Storylines, actors, cultural influence."
+                    },
+                    {
+                        id: 'culture-3',
+                        title: "Korean Technology",
+                        subtitle: "한국의 기술",
+                        preview: "Samsung, LG, Hyundai - global technology leaders. Innovations and impact on the global market."
+                    }
+                ],
+                science: [
+                    {
+                        id: 'science-1',
+                        title: "Artificial Intelligence",
+                        subtitle: "인공지능",
+                        preview: "What is AI? Machine learning, neural networks. Applications in everyday life."
+                    },
+                    {
+                        id: 'science-2',
+                        title: "Korea's Green Energy",
+                        subtitle: "한국의 녹색 에너지",
+                        preview: "Solar panels, wind farms. How Korea transitions to renewable energy."
+                    }
+                ],
+                travel: [
+                    {
+                        id: 'travel-1',
+                        title: "Business Trip to Seoul",
+                        subtitle: "서울 출장",
+                        preview: "Conference in Gangnam. Meetings with partners, presentations, networking. City impressions."
+                    },
+                    {
+                        id: 'travel-2',
+                        title: "Journey to Gyeongju",
+                        subtitle: "경주 여행",
+                        preview: "Ancient capital of Silla. Temples, royal tombs, traditional architecture. History comes alive!"
+                    },
+                    {
+                        id: 'travel-3',
+                        title: "Hostel and New Acquaintances",
+                        subtitle: "호스텔에서 만난 사람들",
+                        preview: "Stayed at a hostel in Itaewon. Met travelers from all over the world."
+                    }
+                ],
+                food: [
+                    {
+                        id: 'food-1',
+                        title: "Korean Street Food",
+                        subtitle: "한국의 길거리 음식",
+                        preview: "Tteokbokki, kimbap, hotdog, bungeoppang. Popular street delicacies and their history."
+                    },
+                    {
+                        id: 'food-2',
+                        title: "Corporate Dinner",
+                        subtitle: "회식",
+                        preview: "The tradition of corporate dinners in Korea. Samgyeopsal, soju, team spirit building."
+                    },
+                    {
+                        id: 'food-3',
+                        title: "Cafes and Coffee Culture",
+                        subtitle: "카페 문화",
+                        preview: "Why are there so many cafes in Korea? Places for work, meetings, and relaxation. Popular drinks."
+                    },
+                    {
+                        id: 'food-4',
+                        title: "Healthy Korean Cuisine",
+                        subtitle: "건강한 한식",
+                        preview: "Fermented foods, vegetables, seafood. Benefits of traditional Korean cuisine."
+                    }
+                ]
+            },
+            2: {
+                personal: [
+                    {
+                        id: 'personal-1',
+                        title: "My Day at University",
+                        subtitle: "대학교에서의 하루",
+                        preview: "Morning starts with lectures. Lunch with friends in the cafeteria. Evening study at the library."
+                    },
+                    {
+                        id: 'personal-2',
+                        title: "My Apartment",
+                        subtitle: "나의 아파트",
+                        preview: "Description of rooms: bedroom, kitchen, bathroom. Furniture and favorite things. A cozy home."
+                    }
+                ],
+                stories: [
+                    {
+                        id: 'stories-1',
+                        title: "The Lost Phone",
+                        subtitle: "잃어버린 휴대폰",
+                        preview: "Forgot my phone on the bus. Searching around the city. A kind person returned it through the police!"
+                    },
+                    {
+                        id: 'stories-2',
+                        title: "Friend's Birthday",
+                        subtitle: "친구의 생일",
+                        preview: "Preparing a surprise. Cake and presents. A fun party until late at night."
+                    }
+                ],
+                culture: [
+                    {
+                        id: 'culture-1',
+                        title: "Korean Tea",
+                        subtitle: "한국의 차",
+                        preview: "Traditional types of tea: ginseng, chrysanthemum. Tea ceremony and health benefits."
+                    },
+                    {
+                        id: 'culture-2',
+                        title: "Children's Day",
+                        subtitle: "어린이날",
+                        preview: "May 5 - a special holiday. Amusement parks, gifts for children. Family traditions."
+                    }
+                ],
+                science: [
+                    {
+                        id: 'science-1',
+                        title: "Rainbow After the Rain",
+                        subtitle: "비 온 뒤 무지개",
+                        preview: "Why does a rainbow appear? Refraction of light in water drops. Seven colors of the spectrum."
+                    },
+                    {
+                        id: 'science-2',
+                        title: "Changing of the Seasons",
+                        subtitle: "계절의 변화",
+                        preview: "Why do seasons change? Earth's axial tilt. Spring, summer, autumn, winter in Korea."
+                    }
+                ],
+                food: [
+                    {
+                        id: 'food-1',
+                        title: "Cooking Ramyeon",
+                        subtitle: "라면 끓이기",
+                        preview: "Popular fast food. Boiling water, noodles, seasoning. Adding egg and green onion."
+                    },
+                    {
+                        id: 'food-2',
+                        title: "Korean BBQ",
+                        subtitle: "한국식 바비큐",
+                        preview: "Samgyeopsal - grilled pork belly. Cooking at the table. Wrapping in lettuce leaves."
+                    }
+                ],
+                travel: [
+                    {
+                        id: 'travel-1',
+                        title: "Trip to Busan",
+                        subtitle: "부산 여행",
+                        preview: "The second largest city. Famous Haeundae Beach. Fresh seafood at the market."
+                    },
+                    {
+                        id: 'travel-2',
+                        title: "Jeju Island",
+                        subtitle: "제주도",
+                        preview: "Korea's tropical island. Hallasan volcano, waterfalls. Orange orchards and black pork."
+                    },
+                    {
+                        id: 'travel-3',
+                        title: "At the Airport",
+                        subtitle: "공항에서",
+                        preview: "Check-in, passport control, boarding pass. Duty-free and boarding."
+                    },
+                    {
+                        id: 'travel-4',
+                        title: "At the Hotel",
+                        subtitle: "호텔에서",
+                        preview: "Booking and check-in. A spacious room with an ocean view. Breakfast buffet."
+                    }
+                ],
+                health: [
+                    {
+                        id: 'health-1',
+                        title: "I Got Sick",
+                        subtitle: "감기에 걸렸어요",
+                        preview: "A cold and its symptoms. Doctor visit. Medicine and rest at home."
+                    },
+                    {
+                        id: 'health-2',
+                        title: "At the Pharmacy",
+                        subtitle: "약국에서",
+                        preview: "Buying medicine. Pharmacist's advice. How to take pills."
+                    }
+                ],
+                phone: [
+                    {
+                        id: 'phone-1',
+                        title: "Phone Conversation",
+                        subtitle: "전화 통화",
+                        preview: "Calling a friend. Making plans to meet. Place and time."
+                    },
+                    {
+                        id: 'phone-2',
+                        title: "KakaoTalk",
+                        subtitle: "카카오톡",
+                        preview: "Korea's popular messenger. Messages, photos, emoticons, group chats."
+                    }
+                ],
+                sports: [
+                    {
+                        id: 'sports-1',
+                        title: "Fitness Club",
+                        subtitle: "헬스장에서",
+                        preview: "Daily workouts: running, weights, yoga, swimming. A healthy lifestyle."
+                    },
+                    {
+                        id: 'sports-2',
+                        title: "Football Match",
+                        subtitle: "축구 경기",
+                        preview: "Playing with friends in the park. Two teams, goals, and fans. Chicken after the match!"
+                    }
+                ],
+                office: [
+                    {
+                        id: 'office-1',
+                        title: "First Day at Work",
+                        subtitle: "첫 출근",
+                        preview: "New company, meeting colleagues and the boss. Business cards and the office."
+                    },
+                    {
+                        id: 'office-2',
+                        title: "Meeting",
+                        subtitle: "회의",
+                        preview: "Presenting a new project. Deadlines, reports, and teamwork."
+                    }
+                ],
+                shopping: [
+                    {
+                        id: 'shopping-1',
+                        title: "At the Shopping Mall",
+                        subtitle: "쇼핑몰에서",
+                        preview: "Trying on a dress, choosing a size. 30% off! Paying by card."
+                    },
+                    {
+                        id: 'shopping-2',
+                        title: "Returning an Item",
+                        subtitle: "교환과 환불",
+                        preview: "The sneakers didn't fit. Exchange and refund. Receipt and a polite salesperson."
+                    }
+                ]
+            },
+            4: {
+                personal: [
+                    {
+                        id: 'personal-1',
+                        title: "My Work and Career",
+                        subtitle: "나의 일과 커리어",
+                        preview: "Working as a programmer at an IT company. Flexible schedule, friendly team. Planning career growth."
+                    },
+                    {
+                        id: 'personal-2',
+                        title: "Work-Life Balance",
+                        subtitle: "일과 삶의 균형",
+                        preview: "How I combine career, hobbies, and personal life. The importance of rest and self-education."
+                    },
+                    {
+                        id: 'personal-3',
+                        title: "My Plans for the Future",
+                        subtitle: "나의 미래 계획",
+                        preview: "Moving to Korea in two years. Language study, job search, cultural adaptation."
+                    }
+                ],
+                stories: [
+                    {
+                        id: 'stories-1',
+                        title: "An Unexpected Meeting in the Subway",
+                        subtitle: "지하철에서의 뜻밖의 만남",
+                        preview: "Meeting a teacher after 10 years. A conversation about life, work, and memories."
+                    },
+                    {
+                        id: 'stories-2',
+                        title: "First Day at a New Job",
+                        subtitle: "새 직장에서의 첫날",
+                        preview: "Excitement, meeting colleagues, orientation. Everything better than expected!"
+                    },
+                    {
+                        id: 'stories-3',
+                        title: "Helping a Stranger",
+                        subtitle: "낯선 사람을 도와준 이야기",
+                        preview: "Helped a tourist from France. Practiced Korean and made a friend!"
+                    }
+                ],
+                culture: [
+                    {
+                        id: 'culture-1',
+                        title: "Korean Office Etiquette",
+                        subtitle: "한국의 사무실 예절",
+                        preview: "Hierarchy, addressing elders, corporate culture in a Korean office."
+                    },
+                    {
+                        id: 'culture-2',
+                        title: "The K-Drama Phenomenon",
+                        subtitle: "K-드라마의 인기",
+                        preview: "Why Korean dramas are popular worldwide. Storylines, actors, influence."
+                    }
+                ],
+                science: [
+                    {
+                        id: 'science-1',
+                        title: "Artificial Intelligence",
+                        subtitle: "일상생활 속 인공지능",
+                        preview: "AI in everyday life. Machine learning, applications, ethical issues."
+                    }
+                ],
+                travel: [
+                    {
+                        id: 'travel-1',
+                        title: "Expedition to Hwaseong Fortress",
+                        subtitle: "수원 화성 성곽 기행",
+                        preview: "A day in Suwon: touring Hwaseong Fortress, conversations with a guide, and tasting street delicacies at Paldalmun.",
+                    },
+                    {
+                        id: 'travel-2',
+                        title: "Coffee Festival in Gangneung",
+                        subtitle: "강릉 커피 축제 여행",
+                        preview: "A trip to the east coast for a coffee festival: sunrise on the beach, coffee museum, and conversations with baristas.",
+                    },
+                    {
+                        id: 'travel-3',
+                        title: "Eco Trail Along the Namhangang",
+                        subtitle: "남한강 생태 트레일",
+                        preview: "A cycling trip along the Namhangang eco trail: birdwatching, villages, and local farms.",
+                    }
+                ],
+                food: [
+                    {
+                        id: 'food-1',
+                        title: "Gourmet Tour of Jeonju",
+                        subtitle: "전주 미식 투어",
+                        preview: "Three restaurants in Jeonju in one day: traditional bibimbap, craft makgeolli, and a market with snacks.",
+                    },
+                    {
+                        id: 'food-2',
+                        title: "Vegetarian Hanjeongsik",
+                        subtitle: "사찰식 한정식 체험",
+                        preview: "Dinner at a temple restaurant: seasonal vegetables, fermented sauces, and a conversation with the monk-chef.",
+                    },
+                    {
+                        id: 'food-3',
+                        title: "Food Tech at a Seoul Startup",
+                        subtitle: "서울 푸드테크 연구소",
+                        preview: "Internship at the lab: developing cultured meat, taste sensors, and tasting prototypes.",
+                    }
+                ]
+            },
+            5: {
+                personal: [
+                    {
+                        id: 'personal-1',
+                        title: "Leadership and Team Management",
+                        subtitle: "리더십과 팀 관리",
+                        preview: "Experience leading a project at a major IT company, developing soft skills, and building corporate culture."
+                    },
+                    {
+                        id: 'personal-2',
+                        title: "Professional Development in IT",
+                        subtitle: "IT 분야의 전문성 개발",
+                        preview: "Career growth in the tech sector, continuous learning of new technologies, and finding work-life balance."
+                    },
+                    {
+                        id: 'personal-strategic-mission',
+                        title: "My Research Mission",
+                        subtitle: "지속가능 도시 연구자의 하루",
+                        preview: "A sustainable cities researcher collects data, conducts rounds with experts, and translates AI findings into language accessible to citizens, turning science into a public bridge."
+                    },
+                    {
+                        id: 'personal-cultural-mediator',
+                        title: "Diary of a Cultural Mediator",
+                        subtitle: "도시 문화 중재자의 다리 놓기",
+                        preview: "The author negotiates between the municipality and art collectives, drafts multilingual guidelines, and creates a space of trust for migrant communities."
+                    }
+                ],
+                stories: [
+                    {
+                        id: 'stories-1',
+                        title: "Business Negotiations with Investors",
+                        subtitle: "투자자와의 비즈니스 협상",
+                        preview: "The story of pitching a startup to venture investors, the fundraising process, and key negotiation moments."
+                    },
+                    {
+                        id: 'stories-2',
+                        title: "Overcoming a Company Crisis",
+                        subtitle: "회사 위기 극복기",
+                        preview: "A story about crisis management, business restructuring, and the importance of teamwork during difficult times."
+                    },
+                    {
+                        id: 'stories-urban-archive',
+                        title: "Chronicle of the Night Newsroom",
+                        subtitle: "심야 편집실에서 기록한 도시",
+                        preview: "A micro-publisher editor saves the voices of merchants after a flood at night, transcribes audio notes, and prints a new document of city memory."
+                    },
+                    {
+                        id: 'stories-river-accord',
+                        title: "The Riverside Pact",
+                        subtitle: "강변에서 맺은 약속",
+                        preview: "Strangers unite to protect a historic waterfront from development: a lawyer, an artist, and a guide launch a night expedition and find forgotten blueprints."
+                    }
+                ],
+                culture: [
+                    {
+                        id: 'culture-1',
+                        title: "Contemporary Korean Art",
+                        subtitle: "현대 한국 미술의 흐름",
+                        preview: "An overview of contemporary Korean artists, significant art exhibitions, and government cultural policy in the arts."
+                    },
+                    {
+                        id: 'culture-2',
+                        title: "Digital Transformation of Culture",
+                        subtitle: "문화의 디지털 전환",
+                        preview: "Virtual museums, NFT art, and digitization of cultural heritage in modern Korea."
+                    },
+                    {
+                        id: 'culture-ritual-soundscape',
+                        title: "A Living Sound Tradition",
+                        subtitle: "도시 무형문화의 소리 지도",
+                        preview: "Sound designers and craftspeople create a map of Seoul's intangible heritage with a vibration version for the hearing-impaired, combining archives, craft, and inclusive technologies."
+                    },
+                    {
+                        id: 'culture-seowon-residency',
+                        title: "Residency at an Old Academy",
+                        subtitle: "서원에서 다시 쓰는 예학",
+                        preview: "Contemporary creators spend a semester at an Andong seowon, study Confucian rituals, and translate them into audio installations to revive youth interest."
+                    }
+                ],
+                science: [
+                    {
+                        id: 'science-1',
+                        title: "Artificial Intelligence and Ethics",
+                        subtitle: "인공지능과 윤리적 과제",
+                        preview: "Ethical challenges of AI development, the need for regulation, and the impact of artificial intelligence on society."
+                    },
+                    {
+                        id: 'science-2',
+                        title: "Green Technology and Sustainable Development",
+                        subtitle: "녹색 기술과 지속가능 발전",
+                        preview: "Renewable energy, the path to carbon neutrality, and ecological innovations in Korea."
+                    },
+                    {
+                        id: 'science-ai-ethics-lab',
+                        title: "AI Ethics Lab",
+                        subtitle: "인공지능 감수성 프로토콜",
+                        preview: "A KAIST team tests a sensitivity protocol that detects biases in social budget allocation algorithms and involves residents in model adjustment."
+                    },
+                    {
+                        id: 'science-ocean-sensors',
+                        title: "Blue Sensor Network",
+                        subtitle: "동해 해양 감시 연대",
+                        preview: "Marine biologists deploy a citizen buoy network, teach students to read acidity data, and create an open atlas of climate threats."
+                    }
+                ],
+                travel: [
+                    {
+                        id: 'travel-1',
+                        title: "Cultural Diplomacy Through Tourism",
+                        subtitle: "관광을 통한 문화 외교",
+                        preview: "Cultural exchange through international tourism programs and the role of tourism as a soft power tool."
+                    },
+                    {
+                        id: 'travel-2',
+                        title: "Sustainable Tourism in Korea",
+                        subtitle: "한국의 지속가능 관광",
+                        preview: "Ecotourism, responsible travel, and preserving natural heritage in the context of sustainable tourism."
+                    },
+                    {
+                        id: 'travel-andong-slowmap',
+                        title: "Slow Travel to Andong",
+                        subtitle: "안동 서사길 느린 동행",
+                        preview: "Slow tour participants listen to guides' stories, meditate along a lunar canal map, learn Andong cloth weaving, and preserve records in digital and rural archives."
+                    },
+                    {
+                        id: 'travel-jeju-darksky',
+                        title: "Night Observation on Jeju",
+                        subtitle: "제주 별빛 보호 연대기",
+                        preview: "Astrophotographers and eco-activists conduct a tour of the dark sky reserve, measure light pollution, and negotiate sustainable lighting with farmers."
+                    }
+                ],
+                food: [
+                    {
+                        id: 'food-1',
+                        title: "Molecular Gastronomy in Seoul",
+                        subtitle: "서울의 분자 요리",
+                        preview: "Innovative cuisine in Seoul's restaurants, a scientific approach to cooking, and Michelin culture."
+                    },
+                    {
+                        id: 'food-2',
+                        title: "Food Security",
+                        subtitle: "식량 안보와 로컬 푸드",
+                        preview: "Local food production, organic farming, and government food policy."
+                    },
+                    {
+                        id: 'food-temple-fermentation',
+                        title: "Temple Fermentation Lab",
+                        subtitle: "사찰 발효 연구 조리실",
+                        preview: "Monks and food scientists show the micro-world of starter under a microscope, capture aromas with sensors, and end the practice with meditation through seasonal fermented dishes."
+                    },
+                    {
+                        id: 'food-seaweed-atlas',
+                        title: "Seaweed Atlas",
+                        subtitle: "해조류 풍미 기록 프로젝트",
+                        preview: "Chefs from Busan together with biochemists create a tasting map of 18 seaweed varieties, describe textures, and prepare menus for coastal farm restoration."
+                    }
+                ]
+            },
+            6: {
+                personal: [
+                    {
+                        id: 'personal-1',
+                        title: "Philosophy of Life's Journey",
+                        subtitle: "삶의 철학적 여정",
+                        preview: "Reflections on the meaning of life, overcoming difficulties, and passing experience to the next generation."
+                    },
+                    {
+                        id: 'personal-2',
+                        title: "Reflections on the Meaning of Work",
+                        subtitle: "노동의 의미에 관한 성찰",
+                        preview: "Work as a path to self-realization, professional ethics, and patience as a key virtue."
+                    }
+                ],
+                stories: [
+                    {
+                        id: 'stories-1',
+                        title: "A Night at a Mountain Monastery",
+                        subtitle: "산사에서의 하룻밤",
+                        preview: "A spiritual experience in the silence of an ancient monastery, the wisdom of an old monk, and the miracle of peace."
+                    },
+                    {
+                        id: 'stories-2',
+                        title: "The Calligrapher Grandfather's Legacy",
+                        subtitle: "서예가 할아버지의 유산",
+                        preview: "A story about spiritual legacy, the mastery of calligraphy, and true immortality through art."
+                    }
+                ],
+                culture: [
+                    {
+                        id: 'culture-1',
+                        title: "Aesthetics of Korean Garden Art",
+                        subtitle: "한국 정원 예술의 미학",
+                        preview: "Harmony with nature as the highest value, contemplation and Eastern wisdom in garden art."
+                    },
+                    {
+                        id: 'culture-2',
+                        title: "Philosophy of Korean Ceramics",
+                        subtitle: "한국 도자기의 철학",
+                        preview: "Goryeo celadon and Joseon white porcelain: perfection in imperfection and the depth of Eastern aesthetics."
+                    }
+                ],
+                science: [
+                    {
+                        id: 'science-1',
+                        title: "Quantum Physics and Eastern Philosophy",
+                        subtitle: "양자물리학과 동양 철학의 만남",
+                        preview: "Surprising parallels between quantum mechanics and Buddhist philosophy of emptiness."
+                    },
+                    {
+                        id: 'science-2',
+                        title: "Bioethics and the Future of Medicine",
+                        subtitle: "생명윤리와 의학의 미래",
+                        preview: "Genetic engineering, genome editing, and ethical questions of modern medicine."
+                    }
+                ],
+                travel: [
+                    {
+                        id: 'travel-1',
+                        title: "Pilgrimage to Ancient Temples",
+                        subtitle: "고찰 순례의 길",
+                        preview: "A spiritual journey through Korean temples: Tripitaka at Haeinsa and inner pilgrimage."
+                    },
+                    {
+                        id: 'travel-2',
+                        title: "DMZ: Border of a Divided Nation",
+                        subtitle: "분단의 경계, DMZ를 걷다",
+                        preview: "The Demilitarized Zone as a symbol of the tragedy of division and the hope for reunification."
+                    }
+                ],
+                food: [
+                    {
+                        id: 'food-1',
+                        title: "Philosophy of Korean Jang (Sauce)",
+                        subtitle: "한국 장의 철학",
+                        preview: "Fermentation as the quintessence of Korean cuisine, time as the best ingredient."
+                    },
+                    {
+                        id: 'food-2',
+                        title: "Seasonal Cooking: Wisdom of Eating by Season",
+                        subtitle: "제철 음식의 지혜",
+                        preview: "Harmony with nature through seasonal ingredients, the philosophy of eating according to the seasons."
+                    }
+                ]
+            }
+        };
+
+        function selectLevel(level, options = {}) {
+            const { skipHistory = false } = options;
+            selectedLevel = level;
+
+            document.getElementById('step1').classList.add('completed');
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+
+            document.getElementById('breadcrumb').textContent = `Level ${level}급 - Choose a text category`;
+
+            updateCategoryCounts(level);
+
+            document.getElementById('levelsPage').classList.remove('active');
+            document.getElementById('categoriesPage').classList.add('active');
+
+            if (!skipHistory) {
+                const newUrl = `${window.location.pathname}?level=${selectedLevel}`;
+                window.history.pushState({}, '', newUrl);
+            }
+        }
+
+        function pluralizeTexts(n) {
+            return `${n} text${n === 1 ? '' : 's'}`;
+        }
+
+        function updateCategoryCounts(level) {
+            const levelData = textsDatabase[level] || {};
+            const progress = (typeof ProgressTracker !== 'undefined') ? ProgressTracker.get() : null;
+            const categories = ['personal', 'stories', 'culture', 'science', 'travel', 'food', 'health', 'phone', 'sports', 'office', 'shopping'];
+            const countIds = {
+                personal: 'personalCount',
+                stories: 'storiesCount',
+                culture: 'cultureCount',
+                science: 'scienceCount',
+                travel: 'travelCount',
+                food: 'foodCount',
+                health: 'healthCount',
+                phone: 'phoneCount',
+                sports: 'sportsCount',
+                office: 'officeCount',
+                shopping: 'shoppingCount'
+            };
+
+            categories.forEach(cat => {
+                const texts = levelData[cat] || [];
+                const total = texts.length;
+                let completed = 0;
+                if (progress) {
+                    completed = texts.filter(t =>
+                        progress.completedTexts[`${level}-${cat}-${t.id}`]
+                    ).length;
+                }
+                const el = document.getElementById(countIds[cat]);
+                if (el) {
+                    if (completed > 0) {
+                        el.textContent = `${completed}/${total} completed`;
+                    } else {
+                        el.textContent = pluralizeTexts(total);
+                    }
+                }
+            });
+        }
+
+        function selectCategory(category, options = {}) {
+            const { skipHistory = false } = options;
+
+            if (!categoryNames[category]) {
+                console.warn(`Unknown category: ${category}`);
+                return;
+            }
+
+            selectedCategory = category;
+
+            document.getElementById('step2').classList.add('completed');
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.add('active');
+
+            document.getElementById('breadcrumb').textContent =
+                `Level ${selectedLevel}급 → ${categoryNames[category]} - Choose a text`;
+
+            loadTextsPage();
+
+            document.getElementById('categoriesPage').classList.remove('active');
+            document.getElementById('textsPage').classList.add('active');
+
+            if (!skipHistory) {
+                const newUrl = `${window.location.pathname}?level=${selectedLevel}&category=${category}`;
+                window.history.pushState({}, '', newUrl);
+            }
+        }
+
+        function loadTextsPage() {
+            const textsGrid = document.getElementById('textsGrid');
+            const levelData = textsDatabase[selectedLevel] || {};
+            const categoryTexts = levelData[selectedCategory] || [];
+
+            if (categoryTexts.length === 0) {
+                textsGrid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                        <div style="font-size: 3em; margin-bottom: 20px;">📝</div>
+                        <h3 style="color: white; margin-bottom: 15px;">Texts coming soon</h3>
+                        <p style="color: rgba(255,255,255,0.8);">
+                            We are actively adding new texts. Try another category!
+                        </p>
+                        <button onclick="goBack()" style="
+                            background: rgba(255,255,255,0.2);
+                            border: 1px solid rgba(255,255,255,0.3);
+                            color: white;
+                            padding: 12px 24px;
+                            border-radius: 25px;
+                            cursor: pointer;
+                            margin-top: 20px;
+                        ">← Back to categories</button>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            categoryTexts.forEach((text, index) => {
+                let imageHtml = '';
+                const imageMap = {
+                    'personal-1': 'флаг.jpg',
+                    'personal-2': 'OIP.jpg',
+                    'personal-3': 'OIP (1).jpg',
+                    'culture-1': 'новый год.jpg',
+                    'culture-2': 'хангыль.jpg',
+                    'culture-3': 'Традиционный костюм Ханбок.jpg',
+                    'culture-4': 'флаг.jpg',
+                    'stories-1': 'кошка белая в кафе.jpg',
+                    'stories-2': 'встреча с другом.jpg',
+                    'science-1': 'стакан.jpg',
+                    'science-2': 'магнит.jpg',
+                    'science-3': 'Лёд превращается в воду.jpg',
+                    'travel-1': 'сеул.jpg',
+                    'travel-2': 'Олененок в траве_ Олененок в лесу.jpg',
+                    'travel-3': 'На рынке Намдемун.jpg',
+                    'food-1': 'бибимпаб.jpg',
+                    'food-2': 'В корейском ресторане.jpg',
+                    'food-3': 'Учусь готовить кимчи.jpg',
+                    'food-4': 'Корейские напитки.jpg',
+                    '3-personal-1': 'level3-personal.svg',
+                    '3-personal-2': 'level3-personal.svg',
+                    '3-personal-3': 'level3-personal.svg',
+                    '3-stories-1': 'level3-stories.svg',
+                    '3-stories-2': 'level3-stories.svg',
+                    '3-stories-3': 'level3-stories.svg',
+                    '3-culture-1': 'level3-culture.svg',
+                    '3-culture-2': 'level3-culture.svg',
+                    '3-culture-3': 'level3-culture.svg',
+                    '3-science-1': 'level3-science.svg',
+                    '3-science-2': 'level3-science.svg',
+                    '3-travel-1': 'level3-travel.svg',
+                    '3-travel-2': 'level3-travel.svg',
+                    '3-travel-3': 'level3-travel.svg',
+                    '3-food-1': 'level3-food.svg',
+                    '3-food-2': 'level3-food.svg',
+                    '3-food-3': 'level3-food.svg',
+                    '3-food-4': 'level3-food.svg',
+                    '4-travel-1': 'level3-travel.svg',
+                    '4-travel-2': 'level3-travel.svg',
+                    '4-travel-3': 'level3-travel.svg',
+                    '4-food-1': 'level3-food.svg',
+                    '4-food-2': 'level3-food.svg',
+                    '4-food-3': 'level3-food.svg',
+                    '2-personal-1': 'level2-campus-study.svg',
+                    '2-personal-2': 'level2-cozy-apartment.svg',
+                    '2-culture-1': 'level2-korean-tea.svg',
+                    '2-culture-2': 'level2-childrens-day.svg',
+                    '2-stories-1': 'level2-lost-phone.svg',
+                    '2-stories-2': 'level2-birthday-party.svg',
+                    '2-science-1': 'level2-rainbow.svg',
+                    '2-science-2': 'level2-seasons.svg',
+                    '2-travel-1': 'level2-busan-coast.svg',
+                    '2-travel-2': 'level2-jeju-island.svg',
+                    '2-food-1': 'level2-ramyeon.svg',
+                    '2-food-2': 'level2-korean-bbq.svg',
+                    '2-travel-3': 'level2-busan-coast.svg',
+                    '2-travel-4': 'level2-jeju-island.svg',
+                    '2-health-1': 'level2-korean-tea.svg',
+                    '2-health-2': 'level2-korean-tea.svg',
+                    '2-phone-1': 'level2-lost-phone.svg',
+                    '2-phone-2': 'level2-lost-phone.svg',
+                    '2-sports-1': 'level2-campus-study.svg',
+                    '2-sports-2': 'level2-campus-study.svg',
+                    '2-office-1': 'level2-campus-study.svg',
+                    '2-office-2': 'level2-campus-study.svg',
+                    '2-shopping-1': 'level2-cozy-apartment.svg',
+                    '2-shopping-2': 'level2-cozy-apartment.svg'
+                };
+
+                const levelImageKey = selectedLevel ? `${selectedLevel}-${text.id}` : null;
+                const imageFile = (levelImageKey && imageMap[levelImageKey]) || imageMap[text.id];
+
+                if (imageFile) {
+                    imageHtml = `
+                        <div class="text-image">
+                            <img src="../images/${imageFile}" alt="${text.title}" loading="lazy" style="width: 120px; height: 80px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.15);">
+                        </div>
+                    `;
+                }
+
+                html += `
+                    <div class="text-card" onclick="selectText('${text.id}')">
+                        <div class="text-number">${index + 1}</div>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="flex: 1;">
+                                <div class="text-title">${text.title}</div>
+                                <div class="text-subtitle">${text.subtitle}</div>
+                            </div>
+                            ${imageHtml}
+                        </div>
+                        <div class="text-preview" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(102, 126, 234, 0.2);">${text.preview}</div>
+                    </div>
+                `;
+            });
+
+            textsGrid.innerHTML = html;
+        }
+
+
+
+        function selectText(textId) {
+            document.getElementById('step3').classList.add('completed');
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('step4').classList.add('active');
+
+            window.location.href = `../reading-content.html?level=${selectedLevel}&category=${selectedCategory}&textId=${textId}`;
+        }
+
+        function goBack() {
+            goBackToCategories();
+        }
+
+        function restoreStateFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const levelParam = urlParams.get('level');
+            const categoryParam = urlParams.get('category');
+
+            // Ignore "null" as a string
+            if (levelParam && levelParam !== 'null') {
+                const parsedLevel = parseInt(levelParam, 10);
+
+                if (!isNaN(parsedLevel) && parsedLevel >= 1 && parsedLevel <= 6) {
+                    selectLevel(parsedLevel, { skipHistory: true });
+
+                    if (categoryParam && categoryParam !== 'null') {
+                        selectCategory(categoryParam, { skipHistory: true });
+                        console.log(`Restored: Level ${selectedLevel}, Category ${selectedCategory}`);
+                    }
+                } else {
+                    // Invalid level - clear URL
+                    window.history.replaceState({}, '', window.location.pathname);
+                }
+            } else if (levelParam === 'null' || categoryParam === 'null') {
+                // Clear URL from null parameters
+                window.history.replaceState({}, '', window.location.pathname);
+            }
+        }
+
+        function setupSmartBackButton() {
+            const backBtn = document.getElementById('backBtn');
+
+            backBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const levelsPageActive = document.getElementById('levelsPage').classList.contains('active');
+                const categoriesPageActive = document.getElementById('categoriesPage').classList.contains('active');
+                const textsPageActive = document.getElementById('textsPage').classList.contains('active');
+
+                if (textsPageActive) {
+                    goBackToCategories();
+                } else if (categoriesPageActive) {
+                    goBackToLevels();
+                } else if (levelsPageActive) {
+                    window.location.href = 'index.html';
+                }
+            });
+        }
+
+        function onStepClick(stepNum) {
+            const step = document.getElementById(`step${stepNum}`);
+            if (!step || !step.classList.contains('completed')) return;
+
+            if (stepNum === 1) {
+                goBackToLevels();
+            } else if (stepNum === 2) {
+                goBackToCategories();
+            } else if (stepNum === 3) {
+                // Already on texts page or navigate to it
+                const textsPageActive = document.getElementById('textsPage').classList.contains('active');
+                if (!textsPageActive && selectedLevel && selectedCategory) {
+                    selectCategory(selectedCategory, { skipHistory: true });
+                }
+            }
+        }
+
+        function goBackToCategories() {
+            document.getElementById('step3').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+            document.getElementById('step2').classList.remove('completed');
+
+            document.getElementById('breadcrumb').textContent =
+                `Level ${selectedLevel}급 - Choose a text category`;
+
+            document.getElementById('textsPage').classList.remove('active');
+            document.getElementById('categoriesPage').classList.add('active');
+
+            const newUrl = `${window.location.pathname}?level=${selectedLevel}`;
+            window.history.pushState({}, '', newUrl);
+        }
+
+        function goBackToLevels() {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('step1').classList.remove('completed');
+
+            document.getElementById('breadcrumb').textContent =
+                'Choose your Korean language level';
+
+            document.getElementById('categoriesPage').classList.remove('active');
+            document.getElementById('levelsPage').classList.add('active');
+
+            const newUrl = window.location.pathname;
+            window.history.pushState({}, '', newUrl);
+
+            selectedLevel = null;
+            selectedCategory = null;
+        }
+
+        function markCompletedTexts() {
+            if (typeof ProgressTracker === 'undefined') {
+                console.warn('[WARN] ProgressTracker not loaded');
+                return;
+            }
+
+            const progress = ProgressTracker.get();
+            console.log('[OK] Loading progress for texts');
+
+            document.querySelectorAll('.text-card').forEach(card => {
+                const onclick = card.getAttribute('onclick');
+                if (!onclick) return;
+
+                const match = onclick.match(/selectText\('([^']+)'\)/);
+                if (!match) return;
+
+                const textId = match[1];
+                const key = `${selectedLevel}-${selectedCategory}-${textId}`;
+
+                if (progress.completedTexts[key]) {
+                    card.classList.add('completed');
+
+                    const badge = document.createElement('div');
+                    badge.className = 'completion-badge';
+                    badge.innerHTML = '&#10003;';
+                    card.style.position = 'relative';
+                    card.insertBefore(badge, card.firstChild);
+
+                    const progressInfo = document.createElement('div');
+                    progressInfo.className = 'progress-info';
+                    const data = progress.completedTexts[key];
+                    const date = new Date(data.completedAt).toLocaleDateString('en-US');
+                    progressInfo.innerHTML = `Completed ${date} | Score: ${data.quizScore}%`;
+                    card.appendChild(progressInfo);
+
+                    console.log('[+] Marked completed:', textId);
+                } else {
+                    const progressInfo = document.createElement('div');
+                    progressInfo.className = 'progress-info not-completed';
+                    progressInfo.innerHTML = 'Not completed';
+                    card.appendChild(progressInfo);
+                }
+            });
+
+            console.log('[OK] Completed texts marked');
+        }
+
+        const originalLoadTextsPage = loadTextsPage;
+        loadTextsPage = function() {
+            originalLoadTextsPage.call(this);
+            setTimeout(markCompletedTexts, 150);
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof ProgressDashboard !== 'undefined') {
+                ProgressDashboard.render('progressDashboard');
+            }
+
+            restoreStateFromURL();
+
+            setupSmartBackButton();
+
+            const cards = document.querySelectorAll('.level-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.4s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <!-- Firebase modules -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+
+    <!-- Global navigation -->
+    <script src="../js/global-nav.js"></script>
+</body>
+</html>

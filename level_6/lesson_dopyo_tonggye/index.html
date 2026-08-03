@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Описание графиков и статистики (도표·통계 해석) — 6급</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #2f6fd0 0%, #1a3f8f 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 10px 20px;
+            background: rgba(255,255,255,0.15); border-radius: 25px;
+            font-weight: 500; transition: all 0.3s ease; backdrop-filter: blur(10px);
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            border-radius: 20px; padding: 30px; margin-bottom: 30px; text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .header h1 { color: #F44336; font-size: 2.2em; margin-bottom: 10px; }
+        .header .subtitle { color: #666; font-size: 1.05em; }
+
+        main {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            border-radius: 25px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        section { margin-bottom: 40px; }
+
+        h2 {
+            color: #4a5568; font-size: 1.6em; margin-bottom: 20px; padding-bottom: 10px;
+            border-bottom: 3px solid #F44336;
+        }
+        h3 { color: #2d3748; font-size: 1.2em; margin-bottom: 12px; margin-top: 20px; }
+        h4 { color: #4a5568; font-size: 1.05em; margin-bottom: 10px; font-weight: 600; }
+
+        .lesson-intro {
+            background: linear-gradient(135deg, #d81b6015, #7b103015);
+            padding: 25px; border-radius: 15px; border-left: 5px solid #F44336;
+        }
+        .lesson-intro ul { list-style: none; }
+        .lesson-intro li { padding: 8px 0; padding-left: 30px; position: relative; }
+        .lesson-intro li::before { content: '✓'; position: absolute; left: 0; color: #F44336; font-weight: bold; }
+
+        .structure-box {
+            background: rgba(244, 67, 54, 0.06); border-radius: 14px; padding: 20px; margin: 14px 0;
+            border-left: 4px solid #F44336;
+        }
+        .structure-box .part-label { font-weight: 700; color: #D32F2F; margin-bottom: 4px; }
+        .structure-box .part-text { color: #333; }
+
+        .phrase-item {
+            background: white; padding: 14px 18px; border-radius: 10px; margin: 10px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08); border-left: 4px solid #764ba2;
+        }
+        .phrase-item .korean { font-size: 1.1em; font-weight: 500; color: #2d3748; }
+        .phrase-item .meaning { color: #4a5568; font-size: 0.92em; margin-top: 3px; }
+
+        .phrase-group-title {
+            font-weight: 700; color: #764ba2; margin: 20px 0 8px; font-size: 1em;
+        }
+
+        .data-table {
+            width: 100%; border-collapse: collapse; margin: 16px 0; background: white;
+            border-radius: 10px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        .data-table th, .data-table td {
+            padding: 10px 16px; text-align: left; border-bottom: 1px solid #eee;
+        }
+        .data-table th { background: #F4433615; color: #D32F2F; font-weight: 700; }
+
+        .sample-box {
+            background: #fafafa; border: 1px solid #e0e0e0; border-radius: 14px;
+            padding: 20px; margin: 16px 0; white-space: pre-line; font-size: 0.98em;
+        }
+
+        .practice-prompt {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f); color: white;
+            padding: 22px; border-radius: 15px; margin-bottom: 16px;
+        }
+        .practice-prompt h4 { color: white; margin-bottom: 8px; }
+
+        .essay-textarea {
+            width: 100%; min-height: 180px; padding: 16px; border: 2px solid #d1c4e9;
+            border-radius: 14px; font-family: inherit; font-size: 1em; line-height: 1.7;
+            resize: vertical; outline: none;
+        }
+        .essay-textarea:focus { border-color: #764ba2; }
+        .essay-counter { text-align: right; font-size: 0.85em; color: #55506e; margin: 6px 0 16px; }
+        .essay-counter.ok { color: #2e7d32; font-weight: 600; }
+        .essay-counter.low { color: #c62828; }
+
+        .reveal-btn {
+            padding: 12px 24px; border: 2px solid #764ba2; background: transparent; color: #764ba2;
+            border-radius: 12px; font-weight: 600; cursor: pointer; font-family: inherit; font-size: 1em;
+        }
+        .reveal-btn:hover { background: #764ba2; color: white; }
+        .reveal-btn:disabled { opacity: 0.5; cursor: default; background: transparent; color: #764ba2; }
+
+        .model-answer-box {
+            display: none; margin-top: 18px; background: #e8f5e9; border-radius: 14px; padding: 18px 20px;
+        }
+        .model-answer-box.visible { display: block; }
+        .model-answer-box h4 { color: #2e7d32; margin-bottom: 8px; }
+        .model-answer-text { white-space: pre-line; font-size: 0.96em; margin-bottom: 14px; }
+        .checklist { list-style: none; padding: 0; }
+        .checklist li { font-size: 0.9em; color: #444; margin-bottom: 6px; padding-left: 22px; position: relative; }
+        .checklist li::before { content: '☑'; position: absolute; left: 0; color: #4caf50; }
+
+        .summary-box { background: linear-gradient(135deg, #d81b60, #7b1030); color: white; padding: 25px; border-radius: 15px; }
+        .summary-box ul { list-style: none; }
+        .summary-box li { padding: 8px 0; padding-left: 25px; position: relative; }
+        .summary-box li::before { content: '📌'; position: absolute; left: 0; }
+
+        footer { text-align: center; padding: 20px; color: white; font-size: 0.9em; }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../index.html">🏠 Главная</a>
+            <a href="../index.html">🎓 6급 Уровень</a>
+        </div>
+
+        <div class="header">
+            <h1>📊 Описание графиков и статистики</h1>
+            <p class="subtitle">도표·통계 해석 — объективный, безличный язык отчёта по данным (TOPIK 쓰기 53번)</p>
+        </div>
+
+        <main>
+            <section class="lesson-intro">
+                <h2>📖 Что мы изучаем</h2>
+                <p>Описание графика или таблицы — отдельный жанр официального корейского со своим набором клише: обезличенные глаголы отчёта, лексика тренда, сравнения "год к году". Это именно формат задания 53 в TOPIK II — и один из самых предсказуемых по структуре.</p>
+                <ul>
+                    <li>Обезличенные глаголы отчёта: ~로 나타났다, ~인 것으로 조사되었다</li>
+                    <li>Лексика тренда и сравнения: 증가/감소, 전년 대비</li>
+                    <li>Фиксированная структура абзаца: тема → главная цифра → сравнение/ранжирование → вывод</li>
+                    <li>В конце — своё упражнение с примером ответа и чек-листом</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>🏗️ Структура абзаца-отчёта</h2>
+                <div class="structure-box">
+                    <div class="part-label">1. 조사 개요 (что и как исследовалось)</div>
+                    <div class="part-text">Кто/что исследовал, о чём данные — одно предложение</div>
+                </div>
+                <div class="structure-box">
+                    <div class="part-label">2. 가장 두드러진 수치 (самая заметная цифра)</div>
+                    <div class="part-text">Наибольшее/наименьшее значение, с точным числом</div>
+                </div>
+                <div class="structure-box">
+                    <div class="part-label">3. 순위·비교 (ранжирование/сравнение)</div>
+                    <div class="part-text">Что идёт следом, как соотносится с другими значениями или с прошлым периодом</div>
+                </div>
+                <div class="structure-box">
+                    <div class="part-label">4. 해석 (осторожный вывод)</div>
+                    <div class="part-text">Один вывод, тоже в хеджированной форме — не категоричное утверждение</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>🗝️ Ключевые формулы</h2>
+                <div class="phrase-group-title">Обезличенные глаголы отчёта</div>
+                <div class="phrase-item">
+                    <div class="korean">~로 나타났다</div>
+                    <div class="meaning">было показано/выявлено, что ~</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">~인 것으로 조사되었다</div>
+                    <div class="meaning">согласно исследованию, оказалось, что ~</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">~인 것으로 집계되었다</div>
+                    <div class="meaning">по подсчётам составило ~</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">~인 것으로 분석된다 / 보인다</div>
+                    <div class="meaning">как показывает анализ ~ / по всей видимости ~ (для вывода)</div>
+                </div>
+
+                <div class="phrase-group-title">Тренд и сравнение</div>
+                <div class="phrase-item">
+                    <div class="korean">증가하다 ↔ 감소하다, 상승하다 ↔ 하락하다</div>
+                    <div class="meaning">расти ↔ снижаться</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">급증하다 ↔ 급감하다</div>
+                    <div class="meaning">резко вырасти ↔ резко упасть</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">둔화되다 / 보합세를 보이다</div>
+                    <div class="meaning">замедляться / оставаться на прежнем уровне</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">완만하게 증가하다/감소하다</div>
+                    <div class="meaning">плавно, полого расти/снижаться (без резких скачков)</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">감소세를 보이다</div>
+                    <div class="meaning">демонстрировать тенденцию к снижению</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">정체되다</div>
+                    <div class="meaning">застаиваться, оставаться без изменений (обычно с негативным оттенком застоя)</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">전년 대비 / OOO에 비해</div>
+                    <div class="meaning">по сравнению с прошлым годом / по сравнению с OOO</div>
+                </div>
+
+                <div class="phrase-group-title">Доля и ранжирование</div>
+                <div class="phrase-item">
+                    <div class="korean">가장 높은 비중을 차지하다</div>
+                    <div class="meaning">занимать наибольшую долю</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">그 뒤를 이어 / OO위를 기록하다</div>
+                    <div class="meaning">следом идёт ~ / занять N-е место</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">~에 그치다</div>
+                    <div class="meaning">ограничиться лишь ~ (для низкого значения)</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>📄 Образец</h2>
+                <table class="data-table">
+                    <tr><th>여가 활동</th><th>비율</th></tr>
+                    <tr><td>TV 시청</td><td>42%</td></tr>
+                    <tr><td>인터넷·SNS</td><td>28%</td></tr>
+                    <tr><td>독서</td><td>12%</td></tr>
+                    <tr><td>운동</td><td>10%</td></tr>
+                    <tr><td>기타</td><td>8%</td></tr>
+                </table>
+                <div class="sample-box">문화체육관광부가 성인 1,000명을 대상으로 여가 활동을 조사한 결과, TV 시청이 42%로 가장 높은 비중을 차지한 것으로 나타났다. 그 뒤를 이어 인터넷 및 SNS 이용이 28%로 2위를 기록하였으며, 독서(12%)와 운동(10%)이 그 뒤를 이었다. 기타 응답은 8%에 그쳤다. 이를 통해 여전히 많은 한국인이 정적인 여가 활동을 선호하는 것으로 분석된다.</div>
+            </section>
+
+            <section>
+                <h2>✍️ Ваша очередь</h2>
+                <table class="data-table">
+                    <tr><th>연도</th><th>국내 온라인 쇼핑 거래액</th></tr>
+                    <tr><td>2022년</td><td>200조 원</td></tr>
+                    <tr><td>2023년</td><td>220조 원 (전년 대비 10% 증가)</td></tr>
+                    <tr><td>2024년</td><td>235조 원 (전년 대비 약 7% 증가)</td></tr>
+                </table>
+                <div class="practice-prompt">
+                    <h4>Задание</h4>
+                    <p>위 자료를 보고 온라인 쇼핑 거래액의 변화를 공식적인 문체로 서술하십시오. (150자 이상)</p>
+                    <p style="margin-top:8px; opacity:0.9;">Опишите изменение объёма онлайн-торговли по данным выше в официальном стиле. (150+ символов)</p>
+                </div>
+                <textarea class="essay-textarea" id="userEssay" placeholder="여기에 분석을 작성하십시오..."></textarea>
+                <div class="essay-counter" id="essayCounter">0 / 150자 이상</div>
+                <button class="reveal-btn" id="revealBtn">Показать пример ответа и чек-лист</button>
+                <div class="model-answer-box" id="modelBox">
+                    <h4>Пример ответа:</h4>
+                    <div class="model-answer-text">국내 온라인 쇼핑 거래액은 2022년 200조 원에서 2023년 220조 원으로 전년 대비 10% 증가한 것으로 나타났다. 이러한 증가세는 2024년에도 이어져 거래액이 235조 원을 기록하였다. 다만 증가율은 약 7%로 전년보다 다소 둔화된 것으로 조사되었다. 이는 온라인 쇼핑 시장의 성장세가 점차 안정화 단계에 접어들고 있음을 보여준다.</div>
+                    <h4>Проверьте себя:</h4>
+                    <ul class="checklist">
+                        <li>전체적인 변화 추이를 언급했는가? (증가/감소)</li>
+                        <li>구체적인 수치를 포함했는가?</li>
+                        <li>"~로 나타났다/조사되었다" 등 객관적·비인칭 표현을 사용했는가?</li>
+                        <li>"전년 대비" 등 비교 표현을 사용했는가?</li>
+                        <li>마지막에 간단한 분석/해석을 덧붙였는가?</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>📋 Краткое содержание</h2>
+                <div class="summary-box">
+                    <ul>
+                        <li>Структура: 조사 개요 → 가장 두드러진 수치 → 순위·비교 → 해석</li>
+                        <li>Всегда безличная форма: ~로 나타났다, ~인 것으로 조사되었다 — никогда от первого лица</li>
+                        <li>전년 대비 + глагол тренда — стандартная формула для динамики во времени</li>
+                        <li>Вывод в конце — тоже хеджированный (~것으로 분석된다), не категоричный</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Корейский язык с Джейн. Все права защищены.</p>
+        </footer>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white; border: none; padding: 18px 40px; font-size: 1.2em;
+                font-weight: 600; border-radius: 30px; cursor: pointer;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level6_lesson_dopyo_tonggye';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var MIN_LEN = 150;
+            var textarea = document.getElementById('userEssay');
+            var counter = document.getElementById('essayCounter');
+            textarea.addEventListener('input', function() {
+                var len = textarea.value.replace(/\s/g, '').length;
+                counter.textContent = len + ' / ' + MIN_LEN + '자 이상';
+                counter.className = 'essay-counter' + (len >= MIN_LEN ? ' ok' : ' low');
+            });
+
+            var revealBtn = document.getElementById('revealBtn');
+            revealBtn.addEventListener('click', function() {
+                document.getElementById('modelBox').classList.add('visible');
+                revealBtn.disabled = true;
+                revealBtn.textContent = '모범 답안 확인 완료';
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

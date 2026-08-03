@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS и KakaoTalk | 1급 Корейский язык</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #2e9e5b 0%, #14663a 100%);
+            min-height: 100vh; color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; top: 15%; right: 4%;
+            font-size: 115px; opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none; z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #388e3c; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #4CAF50; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.05em; }
+        .header .lesson-number { font-size: 0.95em; color: #ffffff; margin-bottom: 10px; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+        .content-section h2 { color: #388e3c; margin-top: 0; font-size: 1.8em; border-bottom: 3px solid #4CAF50; padding-bottom: 10px; }
+
+        .grammar-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0;
+        }
+        .grammar-table th { background: #4CAF50; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+
+        .example-card {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 20px; border-radius: 15px; margin: 12px 0;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+        }
+        .example-korean { font-size: 1.5em; font-weight: 700; }
+        .example-romanization { font-size: 0.9em; opacity: 0.85; margin-top: 4px; }
+        .example-meaning { font-size: 1em; opacity: 0.95; }
+        .example-info { flex: 1; min-width: 200px; }
+
+        .tip-box {
+            background: #e8f5e9; border-left: 4px solid #4CAF50;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .warning-box {
+            background: #fff8e1; border-left: 4px solid #FFC107;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        /* Chat bubble styles */
+        .chat-container { max-width: 400px; margin: 20px auto; }
+        .chat-bubble {
+            padding: 10px 15px; border-radius: 18px; margin: 8px 0;
+            max-width: 75%; font-size: 0.95em; line-height: 1.5;
+        }
+        .chat-bubble.sent {
+            background: #4CAF50; color: white;
+            margin-left: auto; border-bottom-right-radius: 4px;
+        }
+        .chat-bubble.received {
+            background: #e9ecef; color: #333;
+            margin-right: auto; border-bottom-left-radius: 4px;
+        }
+        .chat-sender { font-size: 0.8em; color: #55506e; margin-bottom: 2px; }
+        .chat-wrapper {
+            background: #f5f5f5; border-radius: 20px; padding: 25px 15px;
+            margin: 20px 0; box-shadow: inset 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .chat-header {
+            text-align: center; font-weight: 600; color: #333;
+            padding-bottom: 15px; border-bottom: 1px solid #ddd;
+            margin-bottom: 15px; font-size: 0.95em;
+        }
+
+        /* Abbreviation cards */
+        .abbrev-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px; margin: 20px 0;
+        }
+        .abbrev-card {
+            background: white; border-radius: 15px; padding: 20px;
+            text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 2px solid #e0e0e0; transition: all 0.3s ease;
+        }
+        .abbrev-card:hover { border-color: #4CAF50; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(76,175,80,0.2); }
+        .abbrev-korean { font-size: 2em; font-weight: 700; color: #4CAF50; }
+        .abbrev-meaning { font-size: 0.9em; color: #666; margin-top: 5px; }
+        .abbrev-origin { font-size: 0.8em; color: #5f5a75; margin-top: 3px; font-style: italic; }
+
+        /* Phrase list */
+        .phrase-list { list-style: none; padding: 0; margin: 0; }
+        .phrase-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 15px 20px; margin: 8px 0; background: #f8f9fa;
+            border-radius: 12px; transition: all 0.3s ease; flex-wrap: wrap; gap: 8px;
+        }
+        .phrase-item:hover { background: #e8f5e9; }
+        .phrase-korean { font-size: 1.2em; font-weight: 600; color: #2c3e50; }
+        .phrase-romanization { font-size: 0.85em; color: #55506e; }
+        .phrase-translation { font-size: 0.95em; color: #555; }
+
+        /* Audio button */
+        .audio-btn {
+            background: rgba(76,175,80,0.15);
+            border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px;
+            font-size: 1.1em; cursor: pointer; transition: all 0.3s ease;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+
+        /* Exercises */
+        .exercise-item {
+            background: white; padding: 25px; border-radius: 15px;
+            margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .exercise-question { font-size: 1.1em; font-weight: 600; color: #2c3e50; margin-bottom: 15px; }
+        .exercise-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .exercise-btn {
+            background: #4CAF50; color: white; border: none;
+            padding: 10px 20px; border-radius: 25px; cursor: pointer;
+            font-size: 0.95em; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .exercise-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .exercise-btn:disabled { cursor: default; opacity: 0.85; transform: none; }
+        .exercise-result { margin-top: 10px; font-weight: 600; min-height: 1.2em; }
+
+        /* Emoticon section */
+        .emoticon-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px; margin: 20px 0;
+        }
+        .emoticon-card {
+            background: #f8f9fa; padding: 18px; border-radius: 12px;
+            text-align: center; transition: all 0.3s ease;
+        }
+        .emoticon-card:hover { background: #e8f5e9; transform: scale(1.03); }
+        .emoticon-face { font-size: 2.5em; margin-bottom: 5px; }
+        .emoticon-text { font-size: 0.85em; color: #666; }
+
+        /* Complete button */
+        .complete-btn {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            border: none; padding: 18px 50px; border-radius: 30px;
+            font-size: 1.15em; font-weight: 700; cursor: pointer;
+            transition: all 0.3s ease; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            box-shadow: 0 8px 25px rgba(76,175,80,0.3);
+        }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        /* Dialogue box */
+        .dialogue-box {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            padding: 25px; border-radius: 15px; margin: 15px 0;
+        }
+        .dialogue-line {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 8px 12px; border-radius: 10px; margin: 5px 0;
+            transition: background 0.3s ease;
+        }
+        .dialogue-speaker { font-weight: 700; color: rgba(255,255,255,0.8); min-width: 30px; }
+        .korean-text { color: white; font-size: 1.1em; }
+        .dialogue-translation { color: rgba(255,255,255,0.7); font-size: 0.85em; margin-top: 3px; }
+        .play-dialogue-btn {
+            background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            font-size: 0.95em; margin-top: 10px; transition: all 0.3s ease;
+        }
+        .play-dialogue-btn:hover { background: rgba(255,255,255,0.3); }
+
+        /* Comparison cards */
+        .comparison-row {
+            display: flex; gap: 15px; margin: 10px 0; flex-wrap: wrap;
+        }
+        .comparison-card {
+            flex: 1; min-width: 200px; padding: 15px; border-radius: 12px;
+            text-align: center;
+        }
+        .comparison-card.formal { background: #e3f2fd; border: 2px solid #64b5f6; }
+        .comparison-card.informal { background: #e8f5e9; border: 2px solid #66bb6a; }
+        .comparison-label { font-size: 0.8em; font-weight: 600; margin-bottom: 5px; }
+        .comparison-card.formal .comparison-label { color: #1976d2; }
+        .comparison-card.informal .comparison-label { color: #388e3c; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .content-section { padding: 20px; }
+            .chat-container { max-width: 100%; }
+            .abbrev-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+            .exercise-options { flex-direction: column; }
+            .exercise-btn { width: 100%; }
+            .comparison-row { flex-direction: column; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <a href="../index.html">&larr; Назад к 1급</a>
+            <a href="../../lessons.html">Все уроки</a>
+            <a href="../../index.html">Главная</a>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="lesson-number">1급 | Уровень 1</div>
+            <h1>SMS и KakaoTalk</h1>
+            <div class="korean-title">문자와 카카오톡 쓰기</div>
+            <p class="description">Учимся писать простые сообщения на корейском: неформальная речь, сокращения, смайлики и чат-этикет</p>
+        </div>
+
+        <!-- Section 1: Introduction -->
+        <div class="content-section">
+            <h2>1. Введение: общение в мессенджерах</h2>
+            <p>В Корее главный мессенджер -- <strong>KakaoTalk</strong> (카카오톡, сокращённо 카톡). Его используют абсолютно все: от школьников до бабушек. SMS тоже пишут, но KakaoTalk -- стандарт общения.</p>
+
+            <div class="tip-box">
+                <strong>Важно знать:</strong> В чатах корейцы пишут совсем иначе, чем говорят в официальных ситуациях. Используется неформальная речь (반말 [banmal]), сокращения и специальные символы.
+            </div>
+
+            <p>В этом уроке вы научитесь:</p>
+            <ul>
+                <li>Использовать неформальную речь (반말) в переписке</li>
+                <li>Понимать и использовать популярные сокращения</li>
+                <li>Писать типичные фразы для чата</li>
+                <li>Разбираться в корейских эмотиконах и стикерах</li>
+            </ul>
+        </div>
+
+        <!-- Section 2: Informal speech basics -->
+        <div class="content-section">
+            <h2>2. Неформальная речь (반말) в переписке</h2>
+            <p>В обычных уроках вы учите вежливую форму с окончанием <strong>-요</strong>. В чатах с друзьями это окончание убирают:</p>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Вежливая форма (존댓말)</th>
+                        <th>Неформальная форма (반말)</th>
+                        <th>Перевод</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>뭐 해요?</td>
+                        <td>뭐 해? <button class="audio-btn" onclick="speakKorean('뭐 해?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>Что делаешь?</td>
+                    </tr>
+                    <tr>
+                        <td>밥 먹었어요?</td>
+                        <td>밥 먹었어? <button class="audio-btn" onclick="speakKorean('밥 먹었어?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>Ты ел(а)?</td>
+                    </tr>
+                    <tr>
+                        <td>어디예요?</td>
+                        <td>어디야? <button class="audio-btn" onclick="speakKorean('어디야?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>Где ты?</td>
+                    </tr>
+                    <tr>
+                        <td>뭐예요?</td>
+                        <td>뭐야? <button class="audio-btn" onclick="speakKorean('뭐야?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>Что это?</td>
+                    </tr>
+                    <tr>
+                        <td>괜찮아요?</td>
+                        <td>괜찮아? <button class="audio-btn" onclick="speakKorean('괜찮아?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>Ты в порядке?</td>
+                    </tr>
+                    <tr>
+                        <td>좋아요!</td>
+                        <td>좋아! <button class="audio-btn" onclick="speakKorean('좋아!')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>Хорошо! / Нравится!</td>
+                    </tr>
+                    <tr>
+                        <td>알았어요</td>
+                        <td>알았어 <button class="audio-btn" onclick="speakKorean('알았어')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>Понял(а)</td>
+                    </tr>
+                    <tr>
+                        <td>가요!</td>
+                        <td>가! / 가자! <button class="audio-btn" onclick="speakKorean('가자!')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>Пошли! / Идём!</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <strong>Внимание!</strong> 반말 используется ТОЛЬКО с близкими друзьями, одноклассниками, младшими. С незнакомыми, старшими или в рабочей переписке всегда 존댓말 (вежливая форма)!
+            </div>
+
+            <h3>Как образуется 반말:</h3>
+            <div class="comparison-row">
+                <div class="comparison-card formal">
+                    <div class="comparison-label">Вежливо (존댓말)</div>
+                    <p><strong>-아요 / -어요</strong></p>
+                    <p>먹어<strong>요</strong>, 가<strong>요</strong>, 해<strong>요</strong></p>
+                </div>
+                <div class="comparison-card informal">
+                    <div class="comparison-label">Неформально (반말)</div>
+                    <p><strong>убираем -요</strong></p>
+                    <p>먹어, 가, 해</p>
+                </div>
+            </div>
+
+            <div class="comparison-row" style="margin-top: 15px;">
+                <div class="comparison-card formal">
+                    <div class="comparison-label">Вежливый вопрос</div>
+                    <p>이거 <strong>뭐예요</strong>?</p>
+                </div>
+                <div class="comparison-card informal">
+                    <div class="comparison-label">Неформальный вопрос</div>
+                    <p>이거 <strong>뭐야</strong>?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Chat abbreviations -->
+        <div class="content-section">
+            <h2>3. Сокращения в чатах</h2>
+            <p>Корейцы используют множество сокращений при переписке. Многие из них -- первые согласные (초성 [choseong]) от полных слов:</p>
+
+            <div class="abbrev-grid">
+                <div class="abbrev-card">
+                    <div class="abbrev-korean">ㅋㅋㅋ</div>
+                    <div class="abbrev-meaning">Хахаха (смех)</div>
+                    <div class="abbrev-origin">от 크크크 [keukeukeu]</div>
+                </div>
+                <div class="abbrev-card">
+                    <div class="abbrev-korean">ㅎㅎ</div>
+                    <div class="abbrev-meaning">Хехе (мягкий смех)</div>
+                    <div class="abbrev-origin">от 하하 [haha]</div>
+                </div>
+                <div class="abbrev-card">
+                    <div class="abbrev-korean">ㅠㅠ / ㅜㅜ</div>
+                    <div class="abbrev-meaning">Плач, грусть</div>
+                    <div class="abbrev-origin">похоже на слёзы</div>
+                </div>
+                <div class="abbrev-card">
+                    <div class="abbrev-korean">ㄱㄱ</div>
+                    <div class="abbrev-meaning">Go go! / Пошли!</div>
+                    <div class="abbrev-origin">от 고고 [gogo]</div>
+                </div>
+                <div class="abbrev-card">
+                    <div class="abbrev-korean">ㅇㅋ</div>
+                    <div class="abbrev-meaning">ОК</div>
+                    <div class="abbrev-origin">от 오키 [oki]</div>
+                </div>
+                <div class="abbrev-card">
+                    <div class="abbrev-korean">ㄴㄴ</div>
+                    <div class="abbrev-meaning">Нет-нет / Не-не</div>
+                    <div class="abbrev-origin">от 노노 [nono]</div>
+                </div>
+                <div class="abbrev-card">
+                    <div class="abbrev-korean">ㅇㅇ</div>
+                    <div class="abbrev-meaning">Да-да / Угу</div>
+                    <div class="abbrev-origin">от 응응 [eungeung]</div>
+                </div>
+                <div class="abbrev-card">
+                    <div class="abbrev-korean">ㅁ?</div>
+                    <div class="abbrev-meaning">Чё? / Что?</div>
+                    <div class="abbrev-origin">от 뭐? [mwo?]</div>
+                </div>
+                <div class="abbrev-card">
+                    <div class="abbrev-korean">ㄷㄷ</div>
+                    <div class="abbrev-meaning">Ого / Шок / Дрожь</div>
+                    <div class="abbrev-origin">от 덜덜 [deoldeol]</div>
+                </div>
+                <div class="abbrev-card">
+                    <div class="abbrev-korean">ㅈㅅ</div>
+                    <div class="abbrev-meaning">Извини / Сорри</div>
+                    <div class="abbrev-origin">от 죄송 [joesung]</div>
+                </div>
+                <div class="abbrev-card">
+                    <div class="abbrev-korean">ㄳ</div>
+                    <div class="abbrev-meaning">Спасибо</div>
+                    <div class="abbrev-origin">от 감사 [gamsa]</div>
+                </div>
+                <div class="abbrev-card">
+                    <div class="abbrev-korean">ㅂㅂ</div>
+                    <div class="abbrev-meaning">Пока-пока</div>
+                    <div class="abbrev-origin">от 바이바이 [baibai]</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Совет:</strong> Количество символов имеет значение! <strong>ㅋ</strong> -- вежливая усмешка, <strong>ㅋㅋ</strong> -- лёгкий смех, <strong>ㅋㅋㅋㅋㅋ</strong> -- очень смешно! То же с <strong>ㅠ</strong>: чем больше, тем грустнее.
+            </div>
+        </div>
+
+        <!-- Section 4: Chat phrases -->
+        <div class="content-section">
+            <h2>4. Популярные фразы для переписки</h2>
+
+            <ul class="phrase-list">
+                <li class="phrase-item">
+                    <div>
+                        <div class="phrase-korean">뭐 해?</div>
+                        <div class="phrase-romanization">[mwo hae?]</div>
+                    </div>
+                    <div class="phrase-translation">Что делаешь?</div>
+                    <button class="audio-btn" onclick="speakKorean('뭐 해?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                </li>
+                <li class="phrase-item">
+                    <div>
+                        <div class="phrase-korean">밥 먹었어?</div>
+                        <div class="phrase-romanization">[bap meogeosseo?]</div>
+                    </div>
+                    <div class="phrase-translation">Ты ел(а)?</div>
+                    <button class="audio-btn" onclick="speakKorean('밥 먹었어?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                </li>
+                <li class="phrase-item">
+                    <div>
+                        <div class="phrase-korean">나중에 보자!</div>
+                        <div class="phrase-romanization">[najunge boja!]</div>
+                    </div>
+                    <div class="phrase-translation">Увидимся позже!</div>
+                    <button class="audio-btn" onclick="speakKorean('나중에 보자!')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                </li>
+                <li class="phrase-item">
+                    <div>
+                        <div class="phrase-korean">잘 자!</div>
+                        <div class="phrase-romanization">[jal ja!]</div>
+                    </div>
+                    <div class="phrase-translation">Спокойной ночи!</div>
+                    <button class="audio-btn" onclick="speakKorean('잘 자!')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                </li>
+                <li class="phrase-item">
+                    <div>
+                        <div class="phrase-korean">어디야?</div>
+                        <div class="phrase-romanization">[eodiya?]</div>
+                    </div>
+                    <div class="phrase-translation">Где ты?</div>
+                    <button class="audio-btn" onclick="speakKorean('어디야?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                </li>
+                <li class="phrase-item">
+                    <div>
+                        <div class="phrase-korean">기다려!</div>
+                        <div class="phrase-romanization">[gidaryeo!]</div>
+                    </div>
+                    <div class="phrase-translation">Подожди!</div>
+                    <button class="audio-btn" onclick="speakKorean('기다려!')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                </li>
+                <li class="phrase-item">
+                    <div>
+                        <div class="phrase-korean">지금 가!</div>
+                        <div class="phrase-romanization">[jigeum ga!]</div>
+                    </div>
+                    <div class="phrase-translation">Уже иду!</div>
+                    <button class="audio-btn" onclick="speakKorean('지금 가!')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                </li>
+                <li class="phrase-item">
+                    <div>
+                        <div class="phrase-korean">진짜? / 정말?</div>
+                        <div class="phrase-romanization">[jinjja? / jeongmal?]</div>
+                    </div>
+                    <div class="phrase-translation">Правда? / Серьёзно?</div>
+                    <button class="audio-btn" onclick="speakKorean('진짜? 정말?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                </li>
+                <li class="phrase-item">
+                    <div>
+                        <div class="phrase-korean">알았어!</div>
+                        <div class="phrase-romanization">[arasseo!]</div>
+                    </div>
+                    <div class="phrase-translation">Понял(а)!</div>
+                    <button class="audio-btn" onclick="speakKorean('알았어!')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                </li>
+                <li class="phrase-item">
+                    <div>
+                        <div class="phrase-korean">보고 싶어</div>
+                        <div class="phrase-romanization">[bogo sipeo]</div>
+                    </div>
+                    <div class="phrase-translation">Скучаю (по тебе)</div>
+                    <button class="audio-btn" onclick="speakKorean('보고 싶어')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Section 5: Emoticons and stickers culture -->
+        <div class="content-section">
+            <h2>5. Корейские эмотиконы и стикеры</h2>
+            <p>Корейские эмотиконы отличаются от западных. Они основаны на символах хангыля и азиатских традициях:</p>
+
+            <div class="emoticon-grid">
+                <div class="emoticon-card">
+                    <div class="emoticon-face">^^</div>
+                    <div class="emoticon-text">Улыбка (основной)</div>
+                </div>
+                <div class="emoticon-card">
+                    <div class="emoticon-face">^_^</div>
+                    <div class="emoticon-text">Радость</div>
+                </div>
+                <div class="emoticon-card">
+                    <div class="emoticon-face">ㅠㅠ</div>
+                    <div class="emoticon-text">Плачу</div>
+                </div>
+                <div class="emoticon-card">
+                    <div class="emoticon-face">ㅜㅜ</div>
+                    <div class="emoticon-text">Грущу</div>
+                </div>
+                <div class="emoticon-card">
+                    <div class="emoticon-face">-_-</div>
+                    <div class="emoticon-text">Раздражение</div>
+                </div>
+                <div class="emoticon-card">
+                    <div class="emoticon-face">@_@</div>
+                    <div class="emoticon-text">Удивление / шок</div>
+                </div>
+                <div class="emoticon-card">
+                    <div class="emoticon-face">*_*</div>
+                    <div class="emoticon-text">Восхищение</div>
+                </div>
+                <div class="emoticon-card">
+                    <div class="emoticon-face">~_~</div>
+                    <div class="emoticon-text">Усталость</div>
+                </div>
+                <div class="emoticon-card">
+                    <div class="emoticon-face">ㅎㅎ</div>
+                    <div class="emoticon-text">Хихи (тихий смех)</div>
+                </div>
+                <div class="emoticon-card">
+                    <div class="emoticon-face">ㅋㅋ</div>
+                    <div class="emoticon-text">Смех</div>
+                </div>
+                <div class="emoticon-card">
+                    <div class="emoticon-face">&gt;_&lt;</div>
+                    <div class="emoticon-text">Досада / неловкость</div>
+                </div>
+                <div class="emoticon-card">
+                    <div class="emoticon-face">O_O</div>
+                    <div class="emoticon-text">Удивление</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Стикеры (이모티콘):</strong> В KakaoTalk огромный выбор анимированных стикеров. Корейцы их покупают и коллекционируют. Часто в чатах вместо текста отправляют стикер -- это нормально и не считается грубым. Популярные персонажи: Kakao Friends (Apeach, Ryan, Muzi, Con, Neo).
+            </div>
+
+            <p><strong>Особенности корейских эмотиконов:</strong></p>
+            <ul>
+                <li><strong>^^</strong> -- самый популярный смайлик, ставится в конце предложения для дружелюбности: <em>감사합니다^^ (Спасибо^^)</em></li>
+                <li>Символы <strong>ㅠ</strong> и <strong>ㅜ</strong> -- это буквы хангыля, которые похожи на текущие слёзы</li>
+                <li>В Корее НЕ используют :) или :( -- это выглядит непривычно</li>
+                <li>Вместо "LOL" пишут <strong>ㅋㅋㅋ</strong></li>
+            </ul>
+        </div>
+
+        <!-- Section 6: Chat dialogues -->
+        <div class="content-section">
+            <h2>6. Диалоги в мессенджере</h2>
+
+            <!-- Dialogue 1: Making plans -->
+            <h3>Диалог 1: Планируем встречу</h3>
+            <div class="chat-wrapper">
+                <div class="chat-header">카카오톡 -- 민수 (Минсу)</div>
+                <div class="chat-container">
+                    <div class="chat-sender">민수</div>
+                    <div class="chat-bubble received">야, 뭐 해? <button class="audio-btn" onclick="speakKorean('야, 뭐 해?')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div style="text-align: right;"><div class="chat-sender" style="text-align:right;">나</div></div>
+                    <div class="chat-bubble sent">집에 있어. 왜? <button class="audio-btn" onclick="speakKorean('집에 있어. 왜?')" style="width:28px;height:28px;font-size:0.85em;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div class="chat-sender">민수</div>
+                    <div class="chat-bubble received">오늘 카페 갈래? <button class="audio-btn" onclick="speakKorean('오늘 카페 갈래?')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div style="text-align: right;"><div class="chat-sender" style="text-align:right;">나</div></div>
+                    <div class="chat-bubble sent">ㅇㅋ! 몇 시? <button class="audio-btn" onclick="speakKorean('오키! 몇 시?')" style="width:28px;height:28px;font-size:0.85em;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div class="chat-sender">민수</div>
+                    <div class="chat-bubble received">3시 어때? <button class="audio-btn" onclick="speakKorean('세 시 어때?')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div style="text-align: right;"><div class="chat-sender" style="text-align:right;">나</div></div>
+                    <div class="chat-bubble sent">좋아! ㄱㄱ <button class="audio-btn" onclick="speakKorean('좋아!')" style="width:28px;height:28px;font-size:0.85em;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div class="chat-sender">민수</div>
+                    <div class="chat-bubble received">ㅋㅋ 이따 봐! <button class="audio-btn" onclick="speakKorean('이따 봐!')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                </div>
+            </div>
+
+            <table class="grammar-table" style="margin-top:15px;">
+                <thead><tr><th>Фраза</th><th>Перевод</th></tr></thead>
+                <tbody>
+                    <tr><td>야, 뭐 해?</td><td>Эй, что делаешь?</td></tr>
+                    <tr><td>집에 있어. 왜?</td><td>Дома. А что?</td></tr>
+                    <tr><td>오늘 카페 갈래?</td><td>Хочешь сегодня в кафе?</td></tr>
+                    <tr><td>ㅇㅋ! 몇 시?</td><td>ОК! Во сколько?</td></tr>
+                    <tr><td>3시 어때?</td><td>Как насчёт 3 часов?</td></tr>
+                    <tr><td>좋아! ㄱㄱ</td><td>Отлично! Погнали!</td></tr>
+                    <tr><td>ㅋㅋ 이따 봐!</td><td>Хаха, до скорого!</td></tr>
+                </tbody>
+            </table>
+
+            <!-- Dialogue 2: Checking in -->
+            <h3 style="margin-top: 40px;">Диалог 2: Как дела? Поесть вместе?</h3>
+            <div class="chat-wrapper">
+                <div class="chat-header">카카오톡 -- 지은 (Чиын)</div>
+                <div class="chat-container">
+                    <div class="chat-sender">지은</div>
+                    <div class="chat-bubble received">밥 먹었어? <button class="audio-btn" onclick="speakKorean('밥 먹었어?')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div style="text-align: right;"><div class="chat-sender" style="text-align:right;">나</div></div>
+                    <div class="chat-bubble sent">아직~ 너는? <button class="audio-btn" onclick="speakKorean('아직. 너는?')" style="width:28px;height:28px;font-size:0.85em;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div class="chat-sender">지은</div>
+                    <div class="chat-bubble received">나도 ㅠㅠ 배고파 <button class="audio-btn" onclick="speakKorean('나도 배고파')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div style="text-align: right;"><div class="chat-sender" style="text-align:right;">나</div></div>
+                    <div class="chat-bubble sent">같이 먹을래? <button class="audio-btn" onclick="speakKorean('같이 먹을래?')" style="width:28px;height:28px;font-size:0.85em;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div class="chat-sender">지은</div>
+                    <div class="chat-bubble received">ㅇㅇ 좋아! 어디서? <button class="audio-btn" onclick="speakKorean('응 좋아! 어디서?')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div style="text-align: right;"><div class="chat-sender" style="text-align:right;">나</div></div>
+                    <div class="chat-bubble sent">학교 앞 식당! <button class="audio-btn" onclick="speakKorean('학교 앞 식당!')" style="width:28px;height:28px;font-size:0.85em;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div class="chat-sender">지은</div>
+                    <div class="chat-bubble received">ㅇㅋ 10분 후에 보자 ^^ <button class="audio-btn" onclick="speakKorean('오키 십 분 후에 보자')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                </div>
+            </div>
+
+            <table class="grammar-table" style="margin-top:15px;">
+                <thead><tr><th>Фраза</th><th>Перевод</th></tr></thead>
+                <tbody>
+                    <tr><td>밥 먹었어?</td><td>Ты ел(а)?</td></tr>
+                    <tr><td>아직~ 너는?</td><td>Ещё нет~ А ты?</td></tr>
+                    <tr><td>나도 ㅠㅠ 배고파</td><td>Я тоже ㅠㅠ Голодная</td></tr>
+                    <tr><td>같이 먹을래?</td><td>Хочешь вместе поесть?</td></tr>
+                    <tr><td>ㅇㅇ 좋아! 어디서?</td><td>Да, отлично! Где?</td></tr>
+                    <tr><td>학교 앞 식당!</td><td>Столовая у школы!</td></tr>
+                    <tr><td>ㅇㅋ 10분 후에 보자 ^^</td><td>ОК, увидимся через 10 мин ^^</td></tr>
+                </tbody>
+            </table>
+
+            <!-- Dialogue 3: Sharing news -->
+            <h3 style="margin-top: 40px;">Диалог 3: Делимся новостями</h3>
+            <div class="chat-wrapper">
+                <div class="chat-header">카카오톡 -- 현우 (Хёну)</div>
+                <div class="chat-container">
+                    <div style="text-align: right;"><div class="chat-sender" style="text-align:right;">나</div></div>
+                    <div class="chat-bubble sent">야!! 나 시험 합격했어!! <button class="audio-btn" onclick="speakKorean('야! 나 시험 합격했어!')" style="width:28px;height:28px;font-size:0.85em;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div class="chat-sender">현우</div>
+                    <div class="chat-bubble received">진짜?! ㄷㄷ <button class="audio-btn" onclick="speakKorean('진짜?!')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div class="chat-sender">현우</div>
+                    <div class="chat-bubble received">대박!! 축하해! <button class="audio-btn" onclick="speakKorean('대박! 축하해!')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div style="text-align: right;"><div class="chat-sender" style="text-align:right;">나</div></div>
+                    <div class="chat-bubble sent">ㄳㄳ ㅋㅋㅋ <button class="audio-btn" onclick="speakKorean('감사감사')" style="width:28px;height:28px;font-size:0.85em;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div class="chat-sender">현우</div>
+                    <div class="chat-bubble received">오늘 저녁에 치킨 먹자! 내가 쏠게 <button class="audio-btn" onclick="speakKorean('오늘 저녁에 치킨 먹자! 내가 쏠게')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div style="text-align: right;"><div class="chat-sender" style="text-align:right;">나</div></div>
+                    <div class="chat-bubble sent">ㅇㅋ!! 최고!! ^^ <button class="audio-btn" onclick="speakKorean('오키! 최고!')" style="width:28px;height:28px;font-size:0.85em;border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.2);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+
+                    <div class="chat-sender">현우</div>
+                    <div class="chat-bubble received">ㅋㅋㅋ 7시에 보자! <button class="audio-btn" onclick="speakKorean('일곱 시에 보자!')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                </div>
+            </div>
+
+            <table class="grammar-table" style="margin-top:15px;">
+                <thead><tr><th>Фраза</th><th>Перевод</th></tr></thead>
+                <tbody>
+                    <tr><td>나 시험 합격했어!!</td><td>Я сдал(а) экзамен!!</td></tr>
+                    <tr><td>진짜?! ㄷㄷ</td><td>Правда?! (шок)</td></tr>
+                    <tr><td>대박!! 축하해!</td><td>Круто!! Поздравляю!</td></tr>
+                    <tr><td>ㄳㄳ ㅋㅋㅋ</td><td>Спасибки хахаха</td></tr>
+                    <tr><td>오늘 저녁에 치킨 먹자!</td><td>Давай сегодня вечером курочку!</td></tr>
+                    <tr><td>내가 쏠게</td><td>Я угощаю</td></tr>
+                    <tr><td>ㅇㅋ!! 최고!!</td><td>ОК!! Лучший!!</td></tr>
+                    <tr><td>7시에 보자!</td><td>Увидимся в 7!</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 7: Exercises -->
+        <div class="content-section">
+            <h2>7. Упражнения</h2>
+
+            <!-- Exercise 1 -->
+            <div class="exercise-item">
+                <p class="exercise-question">1. Что означает сокращение ㅋㅋㅋ в переписке?</p>
+                <div class="exercise-options">
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">Плачу</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="true">Хахаха (смех)</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">Пока-пока</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">Извини</button>
+                </div>
+                <p class="exercise-result"></p>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="exercise-item">
+                <p class="exercise-question">2. Друг написал: "밥 먹었어?" -- что он спрашивает?</p>
+                <div class="exercise-options">
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">Где ты?</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">Что делаешь?</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="true">Ты ел(а)?</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">Ты спишь?</button>
+                </div>
+                <p class="exercise-result"></p>
+            </div>
+
+            <!-- Exercise 3 -->
+            <div class="exercise-item">
+                <p class="exercise-question">3. Переведите в неформальный стиль (반말): "뭐 해요?" &rarr; ?</p>
+                <div class="exercise-options">
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">뭐 하세요?</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">뭐 합니까?</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="true">뭐 해?</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">뭐 해요?</button>
+                </div>
+                <p class="exercise-result"></p>
+            </div>
+
+            <!-- Exercise 4 -->
+            <div class="exercise-item">
+                <p class="exercise-question">4. Что означает ㅠㅠ в чате?</p>
+                <div class="exercise-options">
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">Радость</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">Удивление</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">Смех</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="true">Грусть / слёзы</button>
+                </div>
+                <p class="exercise-result"></p>
+            </div>
+
+            <!-- Exercise 5 -->
+            <div class="exercise-item">
+                <p class="exercise-question">5. Друг пишет "ㄱㄱ!" -- что он имеет в виду?</p>
+                <div class="exercise-options">
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">Нет-нет</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="true">Погнали! (Go go)</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">Спасибо</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">Извини</button>
+                </div>
+                <p class="exercise-result"></p>
+            </div>
+
+            <!-- Exercise 6 -->
+            <div class="exercise-item">
+                <p class="exercise-question">6. Как правильно попрощаться с другом перед сном в чате?</p>
+                <div class="exercise-options">
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">안녕히 주무세요</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="true">잘 자!</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">안녕히 가세요</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">안녕히 계세요</button>
+                </div>
+                <p class="exercise-result"></p>
+            </div>
+
+            <!-- Exercise 7 -->
+            <div class="exercise-item">
+                <p class="exercise-question">7. Переведите в неформальный стиль: "어디에 있어요?" &rarr; ?</p>
+                <div class="exercise-options">
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">어디에 계세요?</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="true">어디야?</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">어디에 있습니까?</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">어디 가세요?</button>
+                </div>
+                <p class="exercise-result"></p>
+            </div>
+
+            <!-- Exercise 8 -->
+            <div class="exercise-item">
+                <p class="exercise-question">8. Друг написал: "나 시험 합격했어!" -- какой ответ подходит лучше всего?</p>
+                <div class="exercise-options">
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">ㅈㅅ</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">ㅠㅠ</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="true">대박! 축하해! ㅋㅋ</button>
+                    <button class="exercise-btn" onclick="checkExercise(this)" data-correct="false">ㄴㄴ</button>
+                </div>
+                <p class="exercise-result"></p>
+            </div>
+        </div>
+
+        <!-- Remember block -->
+        <div class="remember-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-radius: 15px; padding: 25px; margin: 30px 0; border-left: 5px solid #4CAF50;">
+            <h3>&#128203; Запомни!</h3>
+            <ul>
+                <li><strong>Не используй 반말 со старшими и незнакомыми людьми</strong> -- даже в чате! Это считается грубостью. Если не уверены -- используйте вежливую форму (존댓말).</li>
+                <li><strong>С преподавателями, начальниками, родителями друзей</strong> -- всегда 존댓말, даже в KakaoTalk.</li>
+                <li><strong>При первом общении</strong> с кем-то в чате лучше писать вежливо. Переход на 반말 обычно обсуждается: "우리 반말 할까요?" (Давай на "ты"?)</li>
+                <li><strong>В групповых чатах</strong> с людьми разного возраста пишите вежливо -- там могут быть старшие.</li>
+                <li><strong>ㅋ vs ㅋㅋㅋㅋ:</strong> одинокая ㅋ может показаться саркастичной или холодной. Лучше ㅋㅋ или больше.</li>
+                <li><strong>Слишком много ㅠㅠ</strong> выглядит чересчур драматично. Используйте в меру.</li>
+                <li><strong>"읽씹" (игнор)</strong> -- в KakaoTalk видно, прочитано ли сообщение. Прочитать и не ответить (읽씹) считается невежливым.</li>
+            </ul>
+        </div>
+
+        <!-- Additional useful words section -->
+        <div class="content-section">
+            <h2>8. Полезные слова для чата</h2>
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Слово</th>
+                        <th>Произношение</th>
+                        <th>Значение</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>카톡 <button class="audio-btn" onclick="speakKorean('카톡')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[katok]</td>
+                        <td>KakaoTalk (сокращённо)</td>
+                    </tr>
+                    <tr>
+                        <td>문자 <button class="audio-btn" onclick="speakKorean('문자')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[munja]</td>
+                        <td>SMS / текстовое сообщение</td>
+                    </tr>
+                    <tr>
+                        <td>답장 <button class="audio-btn" onclick="speakKorean('답장')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[dapjang]</td>
+                        <td>Ответ (на сообщение)</td>
+                    </tr>
+                    <tr>
+                        <td>읽씹 <button class="audio-btn" onclick="speakKorean('읽씹')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[ikssip]</td>
+                        <td>Прочитал, но не ответил</td>
+                    </tr>
+                    <tr>
+                        <td>안 읽씹 <button class="audio-btn" onclick="speakKorean('안 읽씹')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[an ikssip]</td>
+                        <td>Даже не прочитал</td>
+                    </tr>
+                    <tr>
+                        <td>대박 <button class="audio-btn" onclick="speakKorean('대박')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[daebak]</td>
+                        <td>Круто! Ого! Офигеть!</td>
+                    </tr>
+                    <tr>
+                        <td>헐 <button class="audio-btn" onclick="speakKorean('헐')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[heol]</td>
+                        <td>OMG / Ничоси</td>
+                    </tr>
+                    <tr>
+                        <td>당근 <button class="audio-btn" onclick="speakKorean('당근')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[danggeun]</td>
+                        <td>Конечно! (сленг, от 당연)</td>
+                    </tr>
+                    <tr>
+                        <td>그치? <button class="audio-btn" onclick="speakKorean('그치?')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[geuji?]</td>
+                        <td>Правда же? Ведь так?</td>
+                    </tr>
+                    <tr>
+                        <td>ㅇㄱㄹㅇ <button class="audio-btn" onclick="speakKorean('이거 레알')" style="width:28px;height:28px;font-size:0.85em;"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[igeo real]</td>
+                        <td>Это реально (이거 레알)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Completion button -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" class="complete-btn">Урок пройден!</button>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        var LESSON_ID = 'level1_lesson_sms_chat';
+
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.speak(u);
+        }
+
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item');
+            var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) {
+                    if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; }
+                });
+            }
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.previousElementSibling;
+            while (box && !box.classList.contains('dialogue-box')) box = box.previousElementSibling;
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var i = 0; btn.disabled = true;
+            function playNext() {
+                if (i >= lines.length) { btn.disabled = false; return; }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(76,175,80,0.15)';
+                var text = lines[i].querySelector('.korean-text');
+                if (text) {
+                    var u = new SpeechSynthesisUtterance(text.textContent.trim());
+                    u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                    u.onend = function() { i++; setTimeout(playNext, 400); };
+                    window.speechSynthesis.speak(u);
+                } else { i++; setTimeout(playNext, 400); }
+            }
+            window.speechSynthesis.cancel(); playNext();
+        }
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#388e3c';
+                btn.disabled = true;
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#388e3c';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

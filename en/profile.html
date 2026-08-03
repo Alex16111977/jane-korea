@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Your profile and Korean language learning statistics on Miso: 한국어 수업."/>
+    <meta property="og:title" content="My Profile — Miso: 한국어 수업"/>
+    <meta name="theme-color" content="#ff6b9d"/>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
+    <title>My Profile — Miso: 한국어 수업</title>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <link href="../css/auth-styles.css" rel="stylesheet"/>
+    <link href="../css/profile-styles.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+    </style>
+    <script src="../js/progress-tracker.js"></script>
+</head>
+<body>
+    <div class="profile-container">
+        <!-- Header -->
+        <header class="profile-header">
+            <h1>My Profile</h1>
+            <span class="korean-title">내 프로필</span>
+        </header>
+
+        <!-- User Card -->
+        <section class="user-card" id="user-card">
+            <div class="user-card-content">
+                <img id="profile-avatar" class="profile-avatar" src="https://www.gravatar.com/avatar/?d=mp" alt="Avatar">
+                <div class="user-details">
+                    <h2 id="profile-name">Guest</h2>
+                    <p id="profile-email" class="profile-email">Sign in to save your progress</p>
+                    <div id="profile-member-since" class="member-since"></div>
+                </div>
+                <div class="user-actions">
+                    <button id="profile-signin-btn" class="btn-primary" onclick="FirebaseAuth.signInWithGoogle()">
+                        Sign in with Google
+                    </button>
+                    <button id="profile-signout-btn" class="btn-secondary" onclick="FirebaseAuth.signOut()" style="display:none;">
+                        Sign out
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Overview -->
+        <section class="stats-overview">
+            <h3>Learning Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📚</div>
+                    <div class="stat-value" id="stat-texts">0</div>
+                    <div class="stat-label">Texts read</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📖</div>
+                    <div class="stat-value" id="stat-lessons">0</div>
+                    <div class="stat-label">Lessons completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📝</div>
+                    <div class="stat-value" id="stat-words">0</div>
+                    <div class="stat-label">Words learned</div>
+                </div>
+                <div class="stat-card streak-card">
+                    <div class="stat-icon">🔥</div>
+                    <div class="stat-value" id="stat-streak">0</div>
+                    <div class="stat-label">Day streak</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activity Calendar -->
+        <section class="activity-section">
+            <h3>Activity Calendar</h3>
+            <p class="activity-subtitle">Your activity over the last 12 weeks</p>
+            <div class="calendar-container">
+                <div class="calendar-months" id="calendar-months"></div>
+                <div class="calendar-grid" id="activity-calendar"></div>
+                <div class="calendar-legend">
+                    <span>Less</span>
+                    <div class="legend-boxes">
+                        <div class="legend-box level-0"></div>
+                        <div class="legend-box level-1"></div>
+                        <div class="legend-box level-2"></div>
+                        <div class="legend-box level-3"></div>
+                        <div class="legend-box level-4"></div>
+                    </div>
+                    <span>More</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements -->
+        <section class="achievements-section">
+            <h3>Achievements</h3>
+            <div class="achievements-grid" id="achievements-grid">
+                <!-- Achievements will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Level Progress -->
+        <section class="level-progress-section">
+            <h3>Level Progress</h3>
+            <div class="levels-progress" id="levels-progress">
+                <!-- Level progress will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Recent Words -->
+        <section class="recent-words-section">
+            <h3>Recently Learned Words</h3>
+            <div class="words-list" id="recent-words">
+                <!-- Words will be loaded here -->
+            </div>
+            <a href="../vocabulary-learning.html" class="btn-link">All words →</a>
+        </section>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+
+    <!-- Global Navigation -->
+    <script src="../js/global-nav.js"></script>
+
+    <script>
+        // All achievements definitions
+        const ALL_ACHIEVEMENTS = [
+            { id: 'first_text', icon: '🥇', name: 'First Text', desc: 'Read your first text', condition: (p) => p.stats.totalTexts >= 1 },
+            { id: 'five_texts', icon: '📚', name: 'Bookworm', desc: 'Read 5 texts', condition: (p) => p.stats.totalTexts >= 5 },
+            { id: 'ten_texts', icon: '🎓', name: 'Student', desc: 'Read 10 texts', condition: (p) => p.stats.totalTexts >= 10 },
+            { id: 'first_lesson', icon: '✏️', name: 'First Lesson', desc: 'Complete your first lesson', condition: (p) => p.stats.totalLessons >= 1 },
+            { id: 'ten_lessons', icon: '📝', name: 'Diligent Learner', desc: 'Complete 10 lessons', condition: (p) => p.stats.totalLessons >= 10 },
+            { id: 'streak_3', icon: '🔥', name: '3-Day Streak', desc: 'Study for 3 days in a row', condition: (p) => p.stats.currentStreak >= 3 || p.stats.longestStreak >= 3 },
+            { id: 'streak_7', icon: '💪', name: 'Weekly Streak', desc: 'Study for 7 days in a row', condition: (p) => p.stats.currentStreak >= 7 || p.stats.longestStreak >= 7 },
+            { id: 'streak_30', icon: '🏆', name: 'Month of Dedication', desc: 'Study for 30 days in a row', condition: (p) => p.stats.currentStreak >= 30 || p.stats.longestStreak >= 30 },
+            { id: 'words_10', icon: '💬', name: 'Vocabulary Builder', desc: 'Learn 10 words', condition: (p, w) => w >= 10 },
+            { id: 'words_50', icon: '📖', name: 'Polyglot', desc: 'Learn 50 words', condition: (p, w) => w >= 50 },
+            { id: 'words_100', icon: '🌟', name: 'Word Master', desc: 'Learn 100 words', condition: (p, w) => w >= 100 },
+            { id: 'perfect_quiz', icon: '💯', name: 'Perfect Quiz', desc: 'Score 100% on a quiz', condition: (p) => Object.values(p.completedTexts || {}).some(t => t.quizScore === 100) },
+        ];
+
+        // Activity data storage
+        let activityData = {};
+
+        // Initialize profile page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProfileData();
+            generateActivityCalendar();
+
+            // Listen for auth changes
+            if (window.FirebaseAuth) {
+                window.FirebaseAuth.onAuthStateChanged(updateProfileUI);
+            }
+        });
+
+        // Load all profile data
+        function loadProfileData() {
+            const progress = ProgressTracker.get();
+            const words = getLearnedWords();
+
+            updateStats(progress, words);
+            updateAchievements(progress, words);
+            updateLevelProgress(progress);
+            updateRecentWords(words);
+            loadActivityData(progress);
+        }
+
+        // Get learned words from localStorage
+        function getLearnedWords() {
+            try {
+                return JSON.parse(localStorage.getItem('koreanLearnedWords') || '[]');
+            } catch (e) {
+                return [];
+            }
+        }
+
+        // Update stats display
+        function updateStats(progress, words) {
+            document.getElementById('stat-texts').textContent = progress.stats.totalTexts || 0;
+            document.getElementById('stat-lessons').textContent = progress.stats.totalLessons || 0;
+            document.getElementById('stat-words').textContent = words.length || 0;
+            document.getElementById('stat-streak').textContent = progress.stats.currentStreak || 0;
+        }
+
+        // Update achievements
+        function updateAchievements(progress, words) {
+            const grid = document.getElementById('achievements-grid');
+            const wordsCount = words.length;
+
+            grid.innerHTML = ALL_ACHIEVEMENTS.map(ach => {
+                const unlocked = ach.condition(progress, wordsCount);
+                return `
+                    <div class="achievement-card ${unlocked ? 'unlocked' : 'locked'}">
+                        <div class="achievement-icon">${ach.icon}</div>
+                        <div class="achievement-name">${ach.name}</div>
+                        <div class="achievement-desc">${ach.desc}</div>
+                        ${unlocked ? '<div class="achievement-badge">&#10003;</div>' : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Update level progress
+        function updateLevelProgress(progress) {
+            const container = document.getElementById('levels-progress');
+            const levels = [
+                { id: 1, name: '1급 Elementary', total: 10 },
+                { id: 2, name: '2급 Basic', total: 10 },
+                { id: 3, name: '3급 Intermediate', total: 24 },
+                { id: 4, name: '4급 Upper-Intermediate', total: 15 },
+                { id: 5, name: '5급 Advanced', total: 10 },
+                { id: 6, name: '6급 Mastery', total: 10 },
+            ];
+
+            container.innerHTML = levels.map(level => {
+                // Count completed texts for this level
+                const completed = Object.keys(progress.completedTexts || {})
+                    .filter(key => key.startsWith(`${level.id}-`)).length;
+                const percent = Math.min(100, Math.round((completed / level.total) * 100));
+
+                return `
+                    <div class="level-progress-item">
+                        <div class="level-info">
+                            <span class="level-name">${level.name}</span>
+                            <span class="level-count">${completed}/${level.total}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${percent}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Update recent words
+        function updateRecentWords(words) {
+            const container = document.getElementById('recent-words');
+            const recentWords = words.slice(-10).reverse();
+
+            if (recentWords.length === 0) {
+                container.innerHTML = '<p class="no-words">No words learned yet. Start reading texts!</p>';
+                return;
+            }
+
+            container.innerHTML = recentWords.map(word => `
+                <div class="word-card">
+                    <span class="word-korean">${word.korean}</span>
+                    <span class="word-translation">${word.translation}</span>
+                </div>
+            `).join('');
+        }
+
+        // Generate activity calendar (GitHub style)
+        function generateActivityCalendar() {
+            const calendar = document.getElementById('activity-calendar');
+            const monthsContainer = document.getElementById('calendar-months');
+            const today = new Date();
+            const weeks = 12;
+            const days = weeks * 7;
+
+            // Generate month labels
+            const months = [];
+            for (let i = days - 1; i >= 0; i -= 7) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                const monthName = date.toLocaleDateString('en', { month: 'short' });
+                if (!months.includes(monthName)) {
+                    months.push(monthName);
+                }
+            }
+            monthsContainer.innerHTML = months.map(m => `<span>${m}</span>`).join('');
+
+            // Generate calendar grid
+            let html = '';
+            for (let i = days - 1; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(date.getDate() - i);
+                const dateStr = date.toDateString();
+                const activity = activityData[dateStr] || 0;
+                const level = getActivityLevel(activity);
+                const tooltip = `${date.toLocaleDateString('en')}: ${activity} activit${activity === 1 ? 'y' : 'ies'}`;
+
+                html += `<div class="calendar-day level-${level}" title="${tooltip}"></div>`;
+            }
+            calendar.innerHTML = html;
+        }
+
+        // Load activity data from progress
+        function loadActivityData(progress) {
+            activityData = {};
+
+            // Count activities from completed texts
+            Object.values(progress.completedTexts || {}).forEach(text => {
+                if (text.completedAt) {
+                    const date = new Date(text.completedAt).toDateString();
+                    activityData[date] = (activityData[date] || 0) + 1;
+                }
+            });
+
+            // Count activities from completed lessons
+            Object.values(progress.completedLessons || {}).forEach(lesson => {
+                if (lesson.completedAt) {
+                    const date = new Date(lesson.completedAt).toDateString();
+                    activityData[date] = (activityData[date] || 0) + 1;
+                }
+            });
+
+            // Regenerate calendar with new data
+            generateActivityCalendar();
+        }
+
+        // Get activity level (0-4) for calendar coloring
+        function getActivityLevel(count) {
+            if (count === 0) return 0;
+            if (count <= 2) return 1;
+            if (count <= 4) return 2;
+            if (count <= 6) return 3;
+            return 4;
+        }
+
+        // Update profile UI based on auth state
+        function updateProfileUI(user) {
+            const avatar = document.getElementById('profile-avatar');
+            const name = document.getElementById('profile-name');
+            const email = document.getElementById('profile-email');
+            const memberSince = document.getElementById('profile-member-since');
+            const signInBtn = document.getElementById('profile-signin-btn');
+            const signOutBtn = document.getElementById('profile-signout-btn');
+
+            if (user) {
+                avatar.src = user.photoURL || 'https://www.gravatar.com/avatar/?d=mp';
+                name.textContent = user.displayName || 'User';
+                email.textContent = user.email;
+                memberSince.textContent = `Member since ${new Date(user.metadata.creationTime).toLocaleDateString('en')}`;
+                signInBtn.style.display = 'none';
+                signOutBtn.style.display = 'inline-block';
+            } else {
+                avatar.src = 'https://www.gravatar.com/avatar/?d=mp';
+                name.textContent = 'Guest';
+                email.textContent = 'Sign in to save your progress';
+                memberSince.textContent = '';
+                signInBtn.style.display = 'inline-block';
+                signOutBtn.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

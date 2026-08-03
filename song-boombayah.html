@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BOOMBAYAH - BLACKPINK | Учим корейский</title>
+    <link href="css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .main-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== ШАПКА ПЕСНИ ===== */
+        .song-hero {
+            text-align: center;
+            padding: 50px 20px 35px;
+        }
+
+        .song-hero h1 {
+            font-size: 3.5em;
+            font-weight: 900;
+            color: white;
+            letter-spacing: 3px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            margin-bottom: 5px;
+        }
+
+        .song-hero .song-korean {
+            font-size: 1.5em;
+            color: rgba(255,255,255,0.8);
+            font-weight: 300;
+            margin-bottom: 12px;
+        }
+
+        .song-hero .song-meta {
+            font-size: 1.05em;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 25px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            padding: 12px 28px;
+            border-radius: 25px;
+            border: none;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .hero-btn.back {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .hero-btn.back:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        .hero-btn.youtube {
+            background: #ff0000;
+            color: white;
+        }
+
+        .hero-btn.youtube:hover {
+            background: #cc0000;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255,0,0,0.4);
+        }
+
+        /* ===== ВИДЕО ===== */
+        .video-block {
+            margin: 25px 0 35px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+        .video-block iframe {
+            width: 100%;
+            height: 450px;
+            display: block;
+            border: none;
+        }
+
+        /* ===== СЕКЦИИ ===== */
+        .section-block {
+            background: rgba(255,255,255,0.95);
+            border-radius: 25px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* ===== О ПЕСНЕ ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .about-item {
+            text-align: center;
+            padding: 18px 10px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .about-item .label {
+            font-size: 0.78em;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .about-item .value {
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .about-description {
+            font-size: 1.05em;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 16px;
+            background: linear-gradient(135deg, #e91e8c, #ff6bb5);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+
+        /* ===== СЛОВАРЬ — КАРТОЧКИ-ФЛИПЫ ===== */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+        }
+
+        .flip-card {
+            perspective: 800px;
+            height: 200px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s ease;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .flip-card-front {
+            background: linear-gradient(135deg, #1a1a2e, #2d2d44);
+            color: white;
+        }
+
+        .flip-card-front .fc-word {
+            font-size: 2em;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .flip-card-front .fc-romanization {
+            font-size: 0.9em;
+            color: rgba(255,255,255,0.6);
+            font-style: italic;
+        }
+
+        .flip-card-front .fc-tap {
+            position: absolute;
+            bottom: 12px;
+            font-size: 0.72em;
+            color: rgba(255,255,255,0.35);
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, #e91e8c, #ff6bb5);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-back .fc-translation {
+            font-size: 1.25em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .flip-card-back .fc-example {
+            font-size: 0.82em;
+            color: rgba(255,255,255,0.85);
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        .flip-card-back .fc-speak {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.25);
+            border: none;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .flip-card-back .fc-speak:hover {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.1);
+        }
+
+        /* ===== ТЕКСТ ПЕСНИ ===== */
+        .lyrics-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .lyrics-toggle {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .lyrics-toggle.active {
+            background: linear-gradient(135deg, #e91e8c, #ff6bb5);
+            color: white;
+            border-color: #e91e8c;
+        }
+
+        .lyrics-toggle:hover:not(.active) {
+            border-color: #e91e8c;
+            color: #e91e8c;
+        }
+
+        .lyrics-section-label {
+            font-size: 1em;
+            font-weight: 700;
+            color: #e91e8c;
+            margin: 20px 0 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .lyric-line {
+            padding: 10px 15px;
+            margin: 4px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lyric-line:hover {
+            background: rgba(233,30,140,0.08);
+        }
+
+        .lyric-line:active {
+            background: rgba(233,30,140,0.15);
+        }
+
+        .lyric-line .lyr-kr {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 2px;
+        }
+
+        .lyric-line .lyr-rom {
+            font-size: 0.88em;
+            color: #999;
+            font-style: italic;
+            margin-bottom: 2px;
+        }
+
+        .lyric-line .lyr-tr {
+            font-size: 0.92em;
+            color: #667eea;
+        }
+
+        .lyr-hidden {
+            display: none !important;
+        }
+
+        /* ===== МИНИ-ТЕСТ ===== */
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .quiz-question {
+            display: none;
+            text-align: center;
+        }
+
+        .quiz-question.active {
+            display: block;
+        }
+
+        .quiz-progress {
+            font-size: 0.85em;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .quiz-word {
+            font-size: 2.8em;
+            font-weight: 900;
+            color: #e91e8c;
+            margin: 15px 0;
+        }
+
+        .quiz-hint {
+            font-size: 0.9em;
+            color: #aaa;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .quiz-option {
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 14px;
+            background: white;
+            font-size: 1.05em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+            color: #2c3e50;
+        }
+
+        .quiz-option:hover {
+            border-color: #e91e8c;
+            background: #fff0f5;
+        }
+
+        .quiz-option.correct {
+            background: #4caf50;
+            color: white;
+            border-color: #4caf50;
+        }
+
+        .quiz-option.wrong {
+            background: #f44336;
+            color: white;
+            border-color: #f44336;
+        }
+
+        .quiz-option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .quiz-result {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .quiz-result .result-score {
+            font-size: 3em;
+            font-weight: 900;
+            color: #e91e8c;
+            margin-bottom: 10px;
+        }
+
+        .quiz-result .result-text {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .quiz-result .result-btn {
+            padding: 14px 35px;
+            border-radius: 25px;
+            border: none;
+            background: linear-gradient(135deg, #e91e8c, #ff6bb5);
+            color: white;
+            font-size: 1.05em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .quiz-result .result-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(233,30,140,0.4);
+        }
+
+        /* ===== СВЯЗАННЫЕ ПЕСНИ ===== */
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .related-card {
+            padding: 25px 20px;
+            background: #f8f9fa;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .related-card:hover {
+            background: #fff0f5;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        .related-card .rc-name {
+            font-size: 1.15em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .related-card .rc-level {
+            display: inline-block;
+            padding: 3px 12px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 10px;
+            font-size: 0.78em;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .related-card .rc-level.b1 {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .related-card .rc-btn {
+            display: inline-block;
+            padding: 10px 22px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #e91e8c, #ff6bb5);
+            color: white;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .related-card .rc-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(233,30,140,0.3);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .song-hero h1 {
+                font-size: 2.5em;
+            }
+
+            .video-block iframe {
+                height: 220px;
+            }
+
+            .about-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section-block {
+                padding: 25px;
+            }
+
+            .vocab-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .flip-card {
+                height: 180px;
+            }
+
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lyrics-controls {
+                justify-content: center;
+            }
+
+            .main-container {
+                padding: 10px;
+            }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(50px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+
+        <!-- ШАПКА ПЕСНИ -->
+        <div class="song-hero">
+            <h1>BOOMBAYAH</h1>
+            <div class="song-korean">붐바야</div>
+            <div class="song-meta">BLACKPINK 블랙핑크 &bull; 2016 &bull; Square One</div>
+            <div class="hero-buttons">
+                <a href="group-blackpink.html" class="hero-btn back">&larr; Назад к BLACKPINK</a>
+                <a href="https://www.youtube.com/watch?v=bwmSjveL3Lc" target="_blank" rel="noopener" class="hero-btn youtube">&#x25B6; Смотреть на YouTube</a>
+            </div>
+        </div>
+
+        <!-- ВСТРОЕННЫЙ ВИДЕО -->
+        <div class="video-block">
+            <iframe src="https://www.youtube.com/embed/bwmSjveL3Lc" title="BLACKPINK - BOOMBAYAH" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
+        <!-- О ПЕСНЕ -->
+        <div class="section-block">
+            <h2 class="section-title">&#x1F4CB; О песне</h2>
+            <div class="about-grid">
+                <div class="about-item">
+                    <div class="label">Дата выхода</div>
+                    <div class="value">8 авг 2016</div>
+                </div>
+                <div class="about-item">
+                    <div class="label">Жанр</div>
+                    <div class="value">K-pop, Hip-hop</div>
+                </div>
+                <div class="about-item">
+                    <div class="label">Просмотров</div>
+                    <div class="value">1.8 млрд+</div>
+                </div>
+                <div class="about-item">
+                    <div class="label">Альбом</div>
+                    <div class="value">Square One</div>
+                </div>
+            </div>
+            <p class="about-description">
+                Дебютный хит BLACKPINK, вышедший одновременно с WHISTLE. Песня о силе, уверенности и неудержимой энергии. BOOMBAYAH стала первым клипом K-POP дебютантов, набравшим миллиард просмотров на YouTube.
+            </p>
+            <div class="difficulty-badge">Сложность: A2</div>
+        </div>
+
+        <!-- СЛОВАРЬ ПЕСНИ -->
+        <div class="section-block">
+            <h2 class="section-title">&#x1F4DA; Словарь песни</h2>
+            <div class="vocab-grid" id="vocabGrid"></div>
+        </div>
+
+        <!-- ТЕКСТ ПЕСНИ -->
+        <div class="section-block">
+            <h2 class="section-title">&#x1F3A4; Текст песни</h2>
+            <div class="lyrics-controls">
+                <button class="lyrics-toggle active" data-layer="korean">&#x1F1F0;&#x1F1F7; Корейский</button>
+                <button class="lyrics-toggle active" data-layer="romanization">&#x1F524; Транскрипция</button>
+                <button class="lyrics-toggle active" data-layer="translation">&#x1F1F7;&#x1F1FA; Перевод</button>
+            </div>
+            <div id="lyricsContainer"></div>
+        </div>
+
+        <!-- МИНИ-ТЕСТ -->
+        <div class="section-block">
+            <h2 class="section-title">&#x1F3AF; Мини-тест</h2>
+            <div class="quiz-container" id="quizContainer"></div>
+            <div class="quiz-result" id="quizResult">
+                <div class="result-score" id="resultScore"></div>
+                <div class="result-text" id="resultText"></div>
+                <button class="result-btn" onclick="startQuiz()">Пройти ещё раз</button>
+            </div>
+        </div>
+
+        <!-- СВЯЗАННЫЕ ПЕСНИ -->
+        <div class="section-block">
+            <h2 class="section-title">&#x1F3B6; Другие песни BLACKPINK</h2>
+            <div class="related-grid">
+                <div class="related-card">
+                    <div class="rc-name">WHISTLE</div>
+                    <div class="rc-level">A2</div>
+                    <br>
+                    <a href="song-whistle.html" class="rc-btn">Учить &rarr;</a>
+                </div>
+                <div class="related-card">
+                    <div class="rc-name">PLAYING WITH FIRE</div>
+                    <div class="rc-level">A2</div>
+                    <br>
+                    <a href="song-playing-with-fire.html" class="rc-btn">Учить &rarr;</a>
+                </div>
+                <div class="related-card">
+                    <div class="rc-name">DDU-DU DDU-DU</div>
+                    <div class="rc-level b1">B1</div>
+                    <br>
+                    <a href="song-ddu-du.html" class="rc-btn">Учить &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ======================================
+        // ДАННЫЕ
+        // ======================================
+
+        var VOCAB = [
+            { word: '붐바야', rom: 'bumbaya', tr: 'боевой клич', example: '붐바야! 야!' },
+            { word: '예쁜', rom: 'yeppeun', tr: 'красивая', example: '예쁜 여자' },
+            { word: '나', rom: 'na', tr: 'я', example: '나 좋아해' },
+            { word: '우리', rom: 'uri', tr: 'мы', example: '우리 같이 가자' },
+            { word: '사랑', rom: 'sarang', tr: 'любовь', example: '사랑해요' },
+            { word: '눈', rom: 'nun', tr: 'глаза', example: '눈이 예뻐요' },
+            { word: '마음', rom: 'maeum', tr: 'сердце/душа', example: '마음이 아파요' },
+            { word: '이제', rom: 'ije', tr: 'теперь', example: '이제 시작이야' },
+            { word: '다', rom: 'da', tr: 'всё/все', example: '다 같이!' },
+            { word: '좋아', rom: 'joa', tr: 'нравится', example: '너무 좋아!' },
+            { word: '세상', rom: 'sesang', tr: 'мир', example: '온 세상이' },
+            { word: '빛', rom: 'bit', tr: 'свет', example: '빛이 나는' },
+            { word: '노래', rom: 'norae', tr: 'песня', example: '이 노래 좋아' },
+            { word: '춤', rom: 'chum', tr: 'танец', example: '춤을 춰요' },
+            { word: '강해', rom: 'ganghae', tr: 'сильная', example: '나는 강해' }
+        ];
+
+        var LYRICS = [
+            { label: 'Интро', lines: [
+                { kr: 'BLACKPINK in your area', rom: 'BLACKPINK in your area', tr: 'BLACKPINK в деле' },
+                { kr: 'BLACKPINK in your area', rom: 'BLACKPINK in your area', tr: 'BLACKPINK в деле' }
+            ]},
+            { label: 'Куплет 1 (Jisoo)', lines: [
+                { kr: '야 인마 face 좀 봐', rom: 'ya inma face jom bwa', tr: 'Эй, посмотри-ка на лицо' },
+                { kr: '넌 뭔데 날 쳐다봐', rom: 'neon mwonde nal chyeodabwa', tr: 'Ты кто такой, чтоб на меня пялиться?' },
+                { kr: '내가 좀 세 보여도', rom: 'naega jom se boyeodo', tr: 'Даже если я выгляжу дерзко' },
+                { kr: '겁내지 마 I\'m a good girl', rom: 'geomnaeji ma I\'m a good girl', tr: 'Не бойся, я хорошая девочка' }
+            ]},
+            { label: 'Куплет 2 (Jennie)', lines: [
+                { kr: '이리로 와 내게로 와', rom: 'iriro wa naegero wa', tr: 'Иди сюда, иди ко мне' },
+                { kr: '자 빨리 빨리 와', rom: 'ja ppalli ppalli wa', tr: 'Давай, быстрее, быстрее, иди' },
+                { kr: '지금 놀아볼까?', rom: 'jigeum norabokka?', tr: 'Поиграем сейчас?' },
+                { kr: '자 어서 어서 와', rom: 'ja eoseo eoseo wa', tr: 'Давай, скорее, скорее, иди' }
+            ]},
+            { label: 'Пре-хорус (Ros\u00e9)', lines: [
+                { kr: '오빠야 오빠야 왜 그래?', rom: 'oppaya oppaya wae geurae?', tr: 'Оппа, оппа, что такое?' },
+                { kr: '뭘 그렇게 쳐다보는 거야', rom: 'mwol geureoke chyeodaboneun geoya', tr: 'Что ты так пристально смотришь?' },
+                { kr: '나랑 놀아줘 나 좀 봐줘', rom: 'narang norajwo na jom bwajwo', tr: 'Поиграй со мной, посмотри на меня' },
+                { kr: '너 뭔데 자꾸 신경 쓰여', rom: 'neo mwonde jakku singyeong ssyeoyeo', tr: 'Кто ты такой, что я не могу тебя игнорировать' }
+            ]},
+            { label: 'Припев', lines: [
+                { kr: '붐바야 붐바야 붐붐바야', rom: 'bumbaya bumbaya bumbumbaya', tr: 'Бумбая бумбая бумбумбая' },
+                { kr: '붐바야 붐바야 붐붐바야', rom: 'bumbaya bumbaya bumbumbaya', tr: 'Бумбая бумбая бумбумбая' },
+                { kr: '이 밤이 끝나기 전에', rom: 'i bami kkeunnagi jeone', tr: 'Прежде чем эта ночь закончится' },
+                { kr: '한 번 더 다 같이 소리 질러', rom: 'han beon deo da gachi sori jilleo', tr: 'Ещё раз все вместе кричим' },
+                { kr: '붐바야 붐바야 붐붐바야', rom: 'bumbaya bumbaya bumbumbaya', tr: 'Бумбая бумбая бумбумбая' },
+                { kr: '붐바야 붐바야 붐붐바야', rom: 'bumbaya bumbaya bumbumbaya', tr: 'Бумбая бумбая бумбумбая' }
+            ]},
+            { label: 'Рэп (Lisa)', lines: [
+                { kr: '오늘 밤이 다 가기 전에', rom: 'oneul bami da gagi jeone', tr: 'Пока сегодняшняя ночь не ушла' },
+                { kr: '내 blood 속에 뜨거운 피가', rom: 'nae blood soge tteugeoun piga', tr: 'В моей крови горячая кровь' },
+                { kr: '끓어오르잖아 끓어오르잖아', rom: 'kkeureooreujanha kkeureooreujanha', tr: 'Она кипит, она кипит' },
+                { kr: '한 번 사는 인생인데', rom: 'han beon saneun insaenginde', tr: 'Живём всего один раз' },
+                { kr: '아까워 아까워 아까워', rom: 'akkawo akkawo akkawo', tr: 'Жалко терять, жалко, жалко' },
+                { kr: '다 같이 달려 달려 달려', rom: 'da gachi dallyeo dallyeo dallyeo', tr: 'Все вместе бежим, бежим, бежим' }
+            ]},
+            { label: 'Куплет 3 (Jisoo, Jennie)', lines: [
+                { kr: '나는 예쁘잖아', rom: 'naneun yeppeujanha', tr: 'Я ведь красивая' },
+                { kr: '더 예쁘잖아 더 예쁘잖아', rom: 'deo yeppeujanha deo yeppeujanha', tr: 'Ещё красивее, ещё красивее' },
+                { kr: '비켜라 비켜라 비켜라', rom: 'bikyeora bikyeora bikyeora', tr: 'Посторонись, посторонись' },
+                { kr: '너무 깜짝이야', rom: 'neomu kkamjjagiya', tr: 'Какой сюрприз' }
+            ]},
+            { label: 'Пре-хорус 2 (Ros\u00e9)', lines: [
+                { kr: '오빠야 오빠야 왜 그래?', rom: 'oppaya oppaya wae geurae?', tr: 'Оппа, оппа, что такое?' },
+                { kr: '뭘 그렇게 쳐다보는 거야', rom: 'mwol geureoke chyeodaboneun geoya', tr: 'Что ты так пристально смотришь?' },
+                { kr: '나랑 놀아줘 나 좀 봐줘', rom: 'narang norajwo na jom bwajwo', tr: 'Поиграй со мной, посмотри на меня' },
+                { kr: '너 뭔데 자꾸 신경 쓰여', rom: 'neo mwonde jakku singyeong ssyeoyeo', tr: 'Кто ты такой, что я не могу тебя игнорировать' }
+            ]},
+            { label: 'Припев 2', lines: [
+                { kr: '붐바야 붐바야 붐붐바야', rom: 'bumbaya bumbaya bumbumbaya', tr: 'Бумбая бумбая бумбумбая' },
+                { kr: '붐바야 붐바야 붐붐바야', rom: 'bumbaya bumbaya bumbumbaya', tr: 'Бумбая бумбая бумбумбая' },
+                { kr: '이 밤이 끝나기 전에', rom: 'i bami kkeunnagi jeone', tr: 'Прежде чем эта ночь закончится' },
+                { kr: '한 번 더 다 같이 소리 질러', rom: 'han beon deo da gachi sori jilleo', tr: 'Ещё раз все вместе кричим' },
+                { kr: '붐바야 붐바야 붐붐바야', rom: 'bumbaya bumbaya bumbumbaya', tr: 'Бумбая бумбая бумбумбая' },
+                { kr: '붐바야 붐바야 붐붐바야', rom: 'bumbaya bumbaya bumbumbaya', tr: 'Бумбая бумбая бумбумбая' }
+            ]},
+            { label: 'Бридж (Ros\u00e9, Jisoo)', lines: [
+                { kr: '밤이 깊어질수록 빛나는', rom: 'bami gipeojilsurok binnaneun', tr: 'Чем глубже ночь, тем ярче сияем' },
+                { kr: '우리는 아름다운 건', rom: 'urineun areumdaun geon', tr: 'Мы красивы, потому что' },
+                { kr: '남과 다른 건 겁내지 않는', rom: 'namgwa dareun geon geomnaeji anneun', tr: 'Не боимся быть другими' },
+                { kr: '우리의 자신감', rom: 'uriui jasingam', tr: 'Наша уверенность' }
+            ]},
+            { label: 'Аутро', lines: [
+                { kr: '붐바야 붐바야 붐붐바야', rom: 'bumbaya bumbaya bumbumbaya', tr: 'Бумбая бумбая бумбумбая' },
+                { kr: '소리 질러 BLACKPINK!', rom: 'sori jilleo BLACKPINK!', tr: 'Кричи BLACKPINK!' },
+                { kr: '춤을 춰 마지막처럼', rom: 'chumeul chwo majimakcheoreom', tr: 'Танцуй, как в последний раз' },
+                { kr: '소리 질러 la la la la la', rom: 'sori jilleo la la la la la', tr: 'Кричи ла ла ла ла ла' }
+            ]}
+        ];
+
+        var QUIZ = [
+            { word: '사랑', correct: 'любовь', options: ['мир', 'любовь', 'танец', 'глаза'] },
+            { word: '노래', correct: 'песня', options: ['песня', 'свет', 'сердце', 'красивая'] },
+            { word: '세상', correct: 'мир', options: ['теперь', 'всё', 'мир', 'танец'] },
+            { word: '예쁜', correct: 'красивая', options: ['сильная', 'красивая', 'нравится', 'я'] },
+            { word: '이제', correct: 'теперь', options: ['свет', 'мы', 'теперь', 'глаза'] }
+        ];
+
+        // ======================================
+        // СЛОВАРЬ (КАРТОЧКИ-ФЛИПЫ)
+        // ======================================
+        function renderVocab() {
+            var grid = document.getElementById('vocabGrid');
+            var html = '';
+            VOCAB.forEach(function(v, i) {
+                html += '<div class="flip-card" onclick="this.classList.toggle(\'flipped\'); speakKorean(\'' + v.word.replace(/'/g, "\\'") + '\')">' +
+                    '<div class="flip-card-inner">' +
+                        '<div class="flip-card-front">' +
+                            '<div class="fc-word">' + v.word + '</div>' +
+                            '<div class="fc-romanization">[' + v.rom + ']</div>' +
+                            '<div class="fc-tap">&#x1F447; Нажми</div>' +
+                        '</div>' +
+                        '<div class="flip-card-back">' +
+                            '<div class="fc-translation">' + v.tr + '</div>' +
+                            '<div class="fc-example">' + v.example + '</div>' +
+                            '<button class="fc-speak" onclick="event.stopPropagation(); speakKorean(\'' + v.word.replace(/'/g, "\\'") + '\')">&#x1F50A;</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            });
+            grid.innerHTML = html;
+        }
+
+        // ======================================
+        // ТЕКСТ ПЕСНИ
+        // ======================================
+        function renderLyrics() {
+            var container = document.getElementById('lyricsContainer');
+            var html = '';
+            LYRICS.forEach(function(section) {
+                html += '<div class="lyrics-section-label">' + section.label + '</div>';
+                section.lines.forEach(function(line) {
+                    html += '<div class="lyric-line" onclick="speakKorean(\'' + line.kr.replace(/'/g, "\\'") + '\')">' +
+                        '<div class="lyr-kr" data-layer="korean">' + line.kr + '</div>' +
+                        '<div class="lyr-rom" data-layer="romanization">' + line.rom + '</div>' +
+                        '<div class="lyr-tr" data-layer="translation">' + line.tr + '</div>' +
+                    '</div>';
+                });
+            });
+            container.innerHTML = html;
+        }
+
+        // Переключатели слоёв
+        document.querySelectorAll('.lyrics-toggle').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                btn.classList.toggle('active');
+                var layer = btn.getAttribute('data-layer');
+                var els = document.querySelectorAll('[data-layer="' + layer + '"]');
+                var hidden = !btn.classList.contains('active');
+                els.forEach(function(el) {
+                    if (hidden) {
+                        el.classList.add('lyr-hidden');
+                    } else {
+                        el.classList.remove('lyr-hidden');
+                    }
+                });
+            });
+        });
+
+        // ======================================
+        // МИНИ-ТЕСТ
+        // ======================================
+        var quizIndex = 0;
+        var quizScore = 0;
+
+        window.startQuiz = function() {
+            quizIndex = 0;
+            quizScore = 0;
+            document.getElementById('quizResult').style.display = 'none';
+            renderQuizQuestion();
+        };
+
+        function renderQuizQuestion() {
+            var container = document.getElementById('quizContainer');
+            if (quizIndex >= QUIZ.length) {
+                showQuizResult();
+                return;
+            }
+            var q = QUIZ[quizIndex];
+            var html = '<div class="quiz-question active">' +
+                '<div class="quiz-progress">Вопрос ' + (quizIndex + 1) + ' из ' + QUIZ.length + '</div>' +
+                '<div class="quiz-word">' + q.word + '</div>' +
+                '<div class="quiz-hint">Выбери правильный перевод</div>' +
+                '<div class="quiz-options">';
+
+            // Перемешиваем варианты
+            var shuffled = q.options.slice().sort(function() { return Math.random() - 0.5; });
+            shuffled.forEach(function(opt) {
+                html += '<button class="quiz-option" data-answer="' + opt + '">' + opt + '</button>';
+            });
+
+            html += '</div></div>';
+            container.innerHTML = html;
+
+            // Обработчики кликов
+            container.querySelectorAll('.quiz-option').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var answer = btn.getAttribute('data-answer');
+                    var allBtns = container.querySelectorAll('.quiz-option');
+
+                    allBtns.forEach(function(b) {
+                        b.classList.add('disabled');
+                        if (b.getAttribute('data-answer') === q.correct) {
+                            b.classList.add('correct');
+                        }
+                    });
+
+                    if (answer === q.correct) {
+                        quizScore++;
+                    } else {
+                        btn.classList.add('wrong');
+                    }
+
+                    setTimeout(function() {
+                        quizIndex++;
+                        renderQuizQuestion();
+                    }, 1200);
+                });
+            });
+        }
+
+        function showQuizResult() {
+            var container = document.getElementById('quizContainer');
+            container.innerHTML = '';
+            var result = document.getElementById('quizResult');
+            result.style.display = 'block';
+            document.getElementById('resultScore').textContent = quizScore + ' / ' + QUIZ.length;
+
+            var pct = Math.round(quizScore / QUIZ.length * 100);
+            var text = '';
+            if (pct === 100) {
+                text = 'Идеально! Ты отлично знаешь слова из BOOMBAYAH!';
+            } else if (pct >= 60) {
+                text = 'Хороший результат! Повтори слова и попробуй ещё раз.';
+            } else {
+                text = 'Стоит подучить словарь! Перечитай карточки и пройди тест снова.';
+            }
+            document.getElementById('resultText').textContent = text;
+        }
+
+        // ======================================
+        // TTS
+        // ======================================
+        window.speakKorean = function(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                var utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.8;
+                window.speechSynthesis.speak(utterance);
+            }
+        };
+
+        // ======================================
+        // ИНИЦИАЛИЗАЦИЯ
+        // ======================================
+        renderVocab();
+        renderLyrics();
+        startQuiz();
+
+        // Анимация секций
+        var sections = document.querySelectorAll('.section-block');
+        sections.forEach(function(s, i) {
+            s.style.opacity = '0';
+            s.style.transform = 'translateY(25px)';
+            setTimeout(function() {
+                s.style.transition = 'all 0.5s ease';
+                s.style.opacity = '1';
+                s.style.transform = 'translateY(0)';
+            }, 300 + i * 150);
+        });
+
+        console.log('[OK] Song BOOMBAYAH page loaded');
+    })();
+    </script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-sync.js"></script>
+    <script src="js/firebase-auth.js"></script>
+    <script src="js/global-nav.js"></script>
+</body>
+</html>

@@ -578,7 +578,7 @@
                 <h4>📝 Добавь остальные строки:</h4>
                 <p>Возьми полный текст с <a href="https://genius.com/Blackpink-boombayah-lyrics" target="_blank" style="color: #ff69b4;">Genius</a> и добавляй по строке:</p>
                 <input type="text" id="koreanInput" placeholder="Корейская/английская строка" class="lyric-input">
-                <input type="text" id="translationInput" placeholder="Русский перевод" class="lyric-input">
+                <input type="text" id="translationInput" placeholder="Перевод" class="lyric-input">
                 <button onclick="addCustomLyric()" class="add-btn">➕ Добавить</button>
                 <div id="customLyrics"></div>
             </div>
@@ -622,7 +622,7 @@
                 console.log('Ошибка воспроизведения:', error);
                 // Если не удается воспроизвести, показываем обложку обратно
                 overlay.classList.remove('hidden');
-                alert('Не удается воспроизвести видео. Проверьте файл.');
+                JKModal.error('Не удается воспроизвести видео. Проверьте файл.');
             });
         }
         
@@ -918,25 +918,45 @@
             const koreanLine = lineElement.querySelector('.korean-line');
             const translation = lineElement.querySelector('.translation');
             const pronunciation = lineElement.querySelector('.pronunciation');
-            
-            const newKorean = prompt('Редактировать текст:', koreanLine.textContent.trim());
-            const newTranslation = prompt('Редактировать перевод:', translation.textContent.trim());
-            const newPronunciation = prompt('Редактировать произношение:', pronunciation.textContent.trim());
-            
-            if (newKorean !== null && newKorean.trim()) {
-                koreanLine.innerHTML = createInteractiveWords(newKorean.trim());
+
+            function escapeAttr(str) {
+                return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
             }
-            if (newTranslation !== null) {
-                translation.textContent = newTranslation;
-            }
-            if (newPronunciation !== null) {
-                pronunciation.textContent = newPronunciation;
-            }
-            
-            // Обновляем обработчики
-            updateWordEventListeners();
-            showNotification('✏️ Строка обновлена!');
+
+            JKModal.open({
+                type: 'info',
+                icon: '✏️',
+                title: 'Редактировать строку',
+                html: true,
+                body:
+                    '<div class="jk-modal-field"><label for="editLineKorean">Текст</label>' +
+                    '<input type="text" id="editLineKorean" value="' + escapeAttr(koreanLine.textContent.trim()) + '"></div>' +
+                    '<div class="jk-modal-field"><label for="editLineTranslation">Перевод</label>' +
+                    '<input type="text" id="editLineTranslation" value="' + escapeAttr(translation.textContent.trim()) + '"></div>' +
+                    '<div class="jk-modal-field"><label for="editLinePronunciation">Произношение</label>' +
+                    '<input type="text" id="editLinePronunciation" value="' + escapeAttr(pronunciation.textContent.trim()) + '"></div>',
+                buttons: [
+                    { text: 'Отмена' },
+                    { text: 'Сохранить', primary: true, onClick: function() {
+                        const newKorean = document.getElementById('editLineKorean').value;
+                        const newTranslation = document.getElementById('editLineTranslation').value;
+                        const newPronunciation = document.getElementById('editLinePronunciation').value;
+
+                        if (newKorean.trim()) {
+                            koreanLine.innerHTML = createInteractiveWords(newKorean.trim());
+                        }
+                        translation.textContent = newTranslation;
+                        pronunciation.textContent = newPronunciation;
+
+                        // Обновляем обработчики
+                        updateWordEventListeners();
+                        showNotification('✏️ Строка обновлена!');
+                    } }
+                ]
+            });
         }
     </script>
+<script src="js/ui-components.js"></script>
+<script src="js/global-nav.js"></script>
 </body>
 </html>

@@ -13,7 +13,7 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #FF9800, #FF5722, #FFC107);
+            background: linear-gradient(135deg, #d97706, #92400e, #92400e);
             min-height: 100vh;
             color: #333;
         }
@@ -60,7 +60,7 @@
         
         .lesson-header h1 {
             font-size: 2.5em;
-            color: #FF9800;
+            color: #2b2440;
             margin-bottom: 10px;
         }
         
@@ -70,7 +70,7 @@
             margin: 20px 0;
             overflow: hidden;
             border-radius: 15px;
-            background: linear-gradient(to bottom, #87CEEB, #98D8EB);
+            background: linear-gradient(to bottom, #edfafa, #d5f0f0);
         }
         
         .sun {
@@ -143,11 +143,11 @@
             background: var(--card-color, #FF9800);
         }
         
-        .weather-card.sunny::before { background: linear-gradient(90deg, #FFD700, #FFA500); }
-        .weather-card.rainy::before { background: linear-gradient(90deg, #4FC3F7, #29B6F6); }
-        .weather-card.cloudy::before { background: linear-gradient(90deg, #90A4AE, #607D8B); }
-        .weather-card.snowy::before { background: linear-gradient(90deg, #E1F5FE, #B3E5FC); }
-        .weather-card.windy::before { background: linear-gradient(90deg, #81C784, #66BB6A); }
+        .weather-card.sunny::before { background: linear-gradient(90deg, #fff8ec, #ffeccd); }
+        .weather-card.rainy::before { background: linear-gradient(90deg, #0f8b8d, #0a5c5e); }
+        .weather-card.cloudy::before { background: linear-gradient(90deg, #0f8b8d, #0a5c5e); }
+        .weather-card.snowy::before { background: linear-gradient(90deg, #edfafa, #d5f0f0); }
+        .weather-card.windy::before { background: linear-gradient(90deg, #2e9e5b, #14663a); }
         
         .weather-card:hover {
             transform: translateY(-5px);
@@ -317,7 +317,7 @@
         }
         
         .progress-fill {
-            background: linear-gradient(90deg, #FF9800, #FF5722);
+            background: linear-gradient(90deg, #d97706, #92400e);
             height: 100%;
             width: 0%;
             transition: width 0.5s;
@@ -380,15 +380,43 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #FF9800, #FF5722);
+            background: linear-gradient(90deg, #d97706, #92400e);
             border-radius: 20px 20px 0 0;
         }
+
+        .search-bar {
+            max-width: 500px;
+            margin: 0 auto 30px;
+            padding: 0 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .search-bar input:focus {
+            border-color: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.25);
+        }
     </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
 </head>
 <body>
     <div class="container">
         <div class="nav">
-            <a href="../../level_3/index.html">← К 3급</a>
+            <a href="../../level_1/index.html">← К 1급</a>
             <a href="../../index.html">🏠 Главная</a>
         </div>
         
@@ -406,7 +434,7 @@
         <div class="weather-widget">
             <h3>🌍 Симулятор погоды</h3>
             <div class="current-weather" id="current-weather">
-                오늘 날씨는 맑아요! (Сегодня ясная погода!)
+                오늘 날씨가 맑아요! (Сегодня ясная погода!)
             </div>
             <div class="weather-input">
                 <select class="weather-select" id="weather-select" onchange="changeWeather()">
@@ -433,6 +461,11 @@
             <div class="progress-fill" id="progress"></div>
         </div>
         
+
+        <div class="search-bar">
+            <input type="text" id="vocabSearch" placeholder="🔍 Поиск слова..." oninput="filterVocabulary()">
+        </div>
+
         <div id="vocabulary-section">
             <div class="vocabulary-grid" id="vocabularyGrid">
                 <!-- Будет заполнено JS -->
@@ -449,7 +482,7 @@
             </div>
             <div style="text-align: center; margin-top: 20px;">
                 <button class="mode-btn" onclick="prevCard()">← Предыдущая</button>
-                <span id="card-counter">1 / 12</span>
+                <span id="card-counter">1 / 22</span>
                 <button class="mode-btn" onclick="nextCard()">Следующая →</button>
             </div>
             <div style="text-align: center; margin-top: 10px; color: #666;">
@@ -509,9 +542,35 @@
                 </div>
             </div>
         </div>
+    
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
     </div>
 
     <script>
+
+        function filterVocabulary() {
+            const query = document.getElementById('vocabSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.weather-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
         const vocabulary = [
             {
                 korean: '날씨', 
@@ -524,7 +583,7 @@
             },
             {
                 korean: '맑다', 
-                pronunciation: 'мальта', 
+                pronunciation: 'малькта', 
                 translation: 'ясно, солнечно',
                 emoji: '☀️',
                 category: 'sunny',
@@ -532,13 +591,58 @@
                 exampleTranslation: 'Небо ясное'
             },
             {
-                korean: '흐리다', 
-                pronunciation: 'хыриида', 
+                korean: '흐리다',
+                pronunciation: 'хырида',
                 translation: 'облачно, пасмурно',
                 emoji: '☁️',
                 category: 'cloudy',
                 example: '오늘 하늘이 흐려요',
                 exampleTranslation: 'Сегодня небо облачное'
+            },
+            {
+                korean: '그늘',
+                pronunciation: 'кыныль',
+                translation: 'тень (от солнца)',
+                emoji: '🌳',
+                category: 'sunny',
+                example: '그늘에서 쉬어요',
+                exampleTranslation: 'Отдыхаю в тени'
+            },
+            {
+                korean: '천둥',
+                pronunciation: 'чхондун',
+                translation: 'гром',
+                emoji: '🌩️',
+                category: 'rainy',
+                example: '천둥이 쳤어요',
+                exampleTranslation: 'Прогремел гром'
+            },
+            {
+                korean: '태풍',
+                pronunciation: 'тхэпхун',
+                translation: 'тайфун',
+                emoji: '🌀',
+                category: 'windy',
+                example: '태풍이 오고 있어요',
+                exampleTranslation: 'Приближается тайфун'
+            },
+            {
+                korean: '번개',
+                pronunciation: 'понгэ',
+                translation: 'молния',
+                emoji: '⚡',
+                category: 'rainy',
+                example: '번개가 쳤어요',
+                exampleTranslation: 'Сверкнула молния'
+            },
+            {
+                korean: '개다',
+                pronunciation: 'кэда',
+                translation: 'проясняться (о погоде)',
+                emoji: '🌤️',
+                category: 'cloudy',
+                example: '비가 그치고 날씨가 갰어요',
+                exampleTranslation: 'Дождь прекратился, и прояснилось'
             },
             {
                 korean: '비', 
@@ -569,7 +673,7 @@
             },
             {
                 korean: '덥다', 
-                pronunciation: 'топта', 
+                pronunciation: 'тыпта', 
                 translation: 'жарко',
                 emoji: '🔥',
                 category: 'hot',
@@ -587,7 +691,7 @@
             },
             {
                 korean: '따뜻하다', 
-                pronunciation: 'ттаттыта', 
+                pronunciation: 'ттадытхада', 
                 translation: 'тепло',
                 emoji: '🌡️',
                 category: 'sunny',
@@ -596,7 +700,7 @@
             },
             {
                 korean: '시원하다', 
-                pronunciation: 'сивонха', 
+                pronunciation: 'сивонхада', 
                 translation: 'прохладно',
                 emoji: '😌',
                 category: 'windy',
@@ -613,13 +717,58 @@
                 exampleTranslation: 'Солнце яркое'
             },
             {
-                korean: '구름', 
-                pronunciation: 'курым', 
+                korean: '구름',
+                pronunciation: 'курым',
                 translation: 'облако',
                 emoji: '☁️',
                 category: 'cloudy',
                 example: '구름이 많아요',
                 exampleTranslation: 'Много облаков'
+            },
+            {
+                korean: '기온',
+                pronunciation: 'кион',
+                translation: 'температура воздуха',
+                emoji: '🌡️',
+                category: 'sunny',
+                example: '오늘 기온이 30도예요',
+                exampleTranslation: 'Сегодня температура 30 градусов'
+            },
+            {
+                korean: '일기예보',
+                pronunciation: 'ильгиебо',
+                translation: 'прогноз погоды',
+                emoji: '📺',
+                category: 'cloudy',
+                example: '일기예보를 봤어요',
+                exampleTranslation: 'Смотрел прогноз погоды'
+            },
+            {
+                korean: '장마',
+                pronunciation: 'чанма',
+                translation: 'сезон дождей',
+                emoji: '🌊',
+                category: 'rainy',
+                example: '장마가 시작됐어요',
+                exampleTranslation: 'Начался сезон дождей'
+            },
+            {
+                korean: '습하다',
+                pronunciation: 'сыпхада',
+                translation: 'влажно',
+                emoji: '💧',
+                category: 'hot',
+                example: '여름에 습해요',
+                exampleTranslation: 'Летом влажно'
+            },
+            {
+                korean: '안개',
+                pronunciation: 'ангэ',
+                translation: 'туман',
+                emoji: '🌫️',
+                category: 'cloudy',
+                example: '아침에 안개가 꼈어요',
+                exampleTranslation: 'Утром был туман'
             }
         ];
         
@@ -903,6 +1052,44 @@
                     nextCard();
                 } else if (e.code === 'ArrowLeft') {
                     prevCard();
+                }
+            }
+        });
+    </script>
+<script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        // Кнопка завершения урока
+        var LESSON_ID = 'vocabulary_weather';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        // Проверяем статус при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
                 }
             }
         });

@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест по уровню — Miso: 한국어 수업</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 12%;
+            right: 5%;
+            font-size: 120px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 8%;
+            left: 4%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 13s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(5deg); }
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: white; }
+
+        .test-header {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 25px;
+        }
+        .test-header h1 {
+            color: white;
+            font-size: 1.8em;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            margin-bottom: 8px;
+        }
+        .test-header p {
+            color: rgba(255,255,255,0.85);
+            font-size: 1em;
+        }
+
+        /* Progress */
+        .progress-wrapper {
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .progress-text {
+            color: white;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .progress-bar { background: rgba(255,255,255,0.2); border-radius: 10px; height: 10px; overflow: hidden; }
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        /* Question */
+        .question-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            animation: cardIn 0.4s ease;
+        }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .question-number {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: white;
+        }
+        .question-text {
+            font-size: 1.25em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .question-text .korean { font-size: 1.1em; }
+        .question-context {
+            background: #f8f5ff;
+            border-left: 4px solid #764ba2;
+            padding: 12px 16px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        .options-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .option-btn {
+            display: block; width: 100%; text-align: left;
+            padding: 16px 20px;
+            background: #f8f9ff; border: 2px solid #e8eaf6;
+            border-radius: 14px; font-size: 1.05em; color: #333;
+            cursor: pointer; transition: all 0.25s ease; font-family: inherit;
+        }
+        .option-btn:hover:not(.disabled) {
+            background: #ede7f6; border-color: #b39ddb; transform: translateX(5px);
+        }
+        .option-btn.correct {
+            background: #e8f5e9; border-color: #4caf50; color: #2e7d32; font-weight: 600;
+        }
+        .option-btn.correct::after { content: ' [OK]'; color: #4caf50; font-weight: 700; }
+        .option-btn.wrong {
+            background: #ffebee; border-color: #f44336; color: #c62828;
+        }
+        .option-btn.wrong::after { content: ' [X]'; color: #f44336; font-weight: 700; }
+        .option-btn.disabled { pointer-events: none; opacity: 0.7; }
+
+        /* Results */
+        .results-card {
+            background: white; border-radius: 24px; padding: 40px 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15); text-align: center;
+            animation: cardIn 0.5s ease;
+        }
+        .result-emoji { font-size: 4em; margin-bottom: 10px; animation: bounceIn 0.6s ease; }
+        @keyframes bounceIn {
+            0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); }
+        }
+        .result-title {
+            font-size: 1.8em; font-weight: 700; margin-bottom: 5px;
+        }
+        .result-score { font-size: 1.15em; color: #444; margin-bottom: 15px; }
+        .result-bar-wrapper {
+            background: #f0f0f0; border-radius: 10px; height: 14px; margin: 15px 0 25px; overflow: hidden;
+        }
+        .result-bar-fill { height: 100%; border-radius: 10px; transition: width 1s ease; }
+
+        .result-verdict {
+            border-radius: 14px; padding: 20px; margin-bottom: 25px; text-align: left; line-height: 1.7;
+        }
+        .result-verdict h3 { margin-bottom: 8px; }
+
+        .result-buttons { display: flex; flex-direction: column; gap: 12px; }
+        .result-btn {
+            display: block; width: 100%; padding: 16px 20px; border: none;
+            border-radius: 14px; font-size: 1.05em; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease; font-family: inherit;
+            text-decoration: none; text-align: center;
+        }
+        .result-btn.primary { color: white; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+        .result-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+        .result-btn.secondary { background: #f0f0f0; color: #555; }
+        .result-btn.secondary:hover { background: #e0e0e0; }
+        .result-btn.outline { background: transparent; color: #764ba2; border: 2px solid #764ba2; }
+        .result-btn.outline:hover { background: #f8f5ff; }
+
+        /* Start */
+        .start-card {
+            background: white; border-radius: 24px; padding: 40px 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15); text-align: center;
+            animation: cardIn 0.5s ease;
+        }
+        .start-card .start-emoji { font-size: 3.5em; margin-bottom: 15px; }
+        .start-card h2 { font-size: 1.5em; color: #2c3e50; margin-bottom: 10px; }
+        .start-card p { color: #666; margin-bottom: 8px; }
+        .start-info {
+            background: #f8f5ff; border-radius: 14px; padding: 20px; margin: 20px 0; text-align: left;
+        }
+        .start-info li {
+            color: #555; margin-bottom: 6px; list-style: none; padding-left: 20px; position: relative;
+        }
+        .start-info li::before {
+            content: ''; position: absolute; left: 0; top: 10px;
+            width: 8px; height: 8px; border-radius: 50%;
+        }
+        .start-btn {
+            display: inline-block; padding: 16px 50px; color: white; border: none;
+            border-radius: 14px; font-size: 1.15em; font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease; font-family: inherit;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); margin-top: 10px;
+        }
+        .start-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+
+        /* Review */
+        .review-section { margin-top: 25px; }
+        .review-toggle {
+            background: none; border: none; font-size: 0.95em;
+            cursor: pointer; font-family: inherit; text-decoration: underline; margin-bottom: 15px;
+        }
+        .review-list { display: none; text-align: left; }
+        .review-list.open { display: block; }
+        .review-item {
+            background: #f8f9ff; border-radius: 12px; padding: 12px 16px;
+            margin-bottom: 8px; font-size: 0.9em; border-left: 4px solid #ccc;
+        }
+        .review-item.correct-item { border-left-color: #4caf50; }
+        .review-item.wrong-item { border-left-color: #f44336; }
+        .review-item .q-text { font-weight: 600; color: #333; margin-bottom: 4px; }
+        .review-item .q-answer { color: #666; }
+        .review-item .q-answer .right { color: #4caf50; font-weight: 600; }
+        .review-item .q-answer .wrong-text { color: #f44336; text-decoration: line-through; }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .test-header h1 { font-size: 1.4em; }
+            .question-card { padding: 25px 20px; }
+            .question-text { font-size: 1.1em; }
+            .option-btn { padding: 14px 16px; font-size: 0.95em; }
+            body::before { font-size: 80px; }
+            body::after { font-size: 70px; }
+        }
+        /* Recommendations */
+        .recommendations {
+            margin-top: 25px;
+            text-align: left;
+        }
+        .recommendations h3 {
+            font-size: 1.1em;
+            margin-bottom: 12px;
+        }
+        .rec-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: #f8f5ff;
+            border: 2px solid #e8eaf6;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #333;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+        .rec-link:hover {
+            background: #ede7f6;
+            border-color: #b39ddb;
+            transform: translateX(5px);
+        }
+        .rec-icon {
+            font-size: 1.3em;
+        }
+        .rec-info {
+            flex: 1;
+        }
+        .rec-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .rec-cat {
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a id="backLink" href="lessons.html" class="back-link">← Назад</a>
+
+        <div class="test-header">
+            <h1 id="testTitle">Тест по уровню</h1>
+            <p id="testSubtitle">Проверьте свои знания</p>
+        </div>
+
+        <!-- START -->
+        <div id="startScreen" class="start-card">
+            <div class="start-emoji" id="startEmoji">📝</div>
+            <h2 id="startTitle">Тест</h2>
+            <p id="startDesc">Проверьте, насколько хорошо вы знаете материал</p>
+            <div class="start-info">
+                <ul>
+                    <li>10 вопросов по материалу уровня</li>
+                    <li>Лексика, грамматика, понимание</li>
+                    <li>Около 3 минут</li>
+                    <li>Результат покажет ваши сильные стороны</li>
+                </ul>
+            </div>
+            <button class="start-btn" id="startBtn" onclick="startTest()">Начать тест</button>
+        </div>
+
+        <!-- PROGRESS -->
+        <div id="progressWrapper" class="progress-wrapper hidden">
+            <div class="progress-text">
+                <span id="progressLabel">Вопрос 1 из 10</span>
+                <span id="progressCategory"></span>
+            </div>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- QUESTION -->
+        <div id="questionCard" class="question-card hidden">
+            <div id="questionNumber" class="question-number"></div>
+            <div id="questionContext" class="question-context hidden"></div>
+            <div id="questionText" class="question-text"></div>
+            <ul id="optionsList" class="options-list"></ul>
+        </div>
+
+        <!-- RESULTS -->
+        <div id="resultsCard" class="results-card hidden">
+            <div class="result-emoji" id="resultEmoji">🎯</div>
+            <div class="result-title" id="resultTitle"></div>
+            <div class="result-score" id="resultScore"></div>
+            <div class="result-bar-wrapper">
+                <div id="resultBarFill" class="result-bar-fill" style="width:0%"></div>
+            </div>
+            <div id="resultVerdict" class="result-verdict"></div>
+            <div class="result-buttons">
+                <a id="btnLevel" class="result-btn primary" href="#">Перейти к уровню →</a>
+                <button class="result-btn secondary" onclick="startTest()">Пройти заново</button>
+                <a href="placement-test.html" class="result-btn outline">Пройти общий тест</a>
+            </div>
+            <div id="recommendationsBlock" class="recommendations hidden"></div>
+            <div class="review-section">
+                <button class="review-toggle" id="reviewToggle" onclick="toggleReview()">Показать ответы</button>
+                <div id="reviewList" class="review-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/global-nav.js"></script>
+    <script>
+    // === LEVEL CONFIG ===
+    const LEVELS = {
+        1: {
+            name: '1급 — Элементарный',
+            emoji: '🌱',
+            color1: '#4CAF50', color2: '#388E3C',
+            backLink: 'level_1/index.html',
+            subtitle: 'Хангыль, базовые слова и фразы',
+            questions: [
+                { cat: 'Чтение', q: 'Прочитайте: <span class="korean">한국</span>', opts: ['хангук', 'чунгук', 'тэгук', 'ильбон'], c: 0 },
+                { cat: 'Чтение', q: 'Какой слог читается как "ма"?', opts: ['나', '다', '마', '바'], c: 2 },
+                { cat: 'Лексика', q: '<span class="korean">선생님</span> — это:', opts: ['друг', 'учитель', 'студент', 'родитель'], c: 1 },
+                { cat: 'Лексика', q: 'Как по-корейски "спасибо"?', opts: ['미안해요', '감사합니다', '안녕하세요', '괜찮아요'], c: 1 },
+                { cat: 'Лексика', q: '<span class="korean">하나, 둘, 셋</span> — это:', opts: ['дни недели', 'цвета', 'числа 1, 2, 3', 'месяцы'], c: 2 },
+                { cat: 'Лексика', q: 'Что значит <span class="korean">물</span>?', opts: ['рис', 'хлеб', 'вода', 'мясо'], c: 2 },
+                { cat: 'Фразы', q: 'Как попрощаться, если уходите вы?', opts: ['안녕히 계세요', '안녕히 가세요', '감사합니다', '만나서 반갑습니다'], c: 0 },
+                { cat: 'Фразы', q: '<span class="korean">만나서 반갑습니다</span> значит:', opts: ['До свидания', 'Извините', 'Приятно познакомиться', 'Как дела?'], c: 2 },
+                { cat: 'Культура', q: 'Корейский алфавит называется:', opts: ['катакана', 'хангыль', 'ханча', 'пиньинь'], c: 1 },
+                { cat: 'Лексика', q: '<span class="korean">아버지</span> — это:', opts: ['мама', 'старший брат', 'папа', 'бабушка'], c: 2 },
+                { cat: 'Грамматика', q: '<span class="korean">살다</span> в официальном стиле:', opts: ['살습니다', '삽니다', '살읍니다', '사습니다'], c: 1 },
+                { cat: 'Грамматика', q: 'Вежливая просьба «садитесь»:', opts: ['앉세요', '앉으세요', '앉아세요', '앉지 마세요'], c: 1 },
+                { cat: 'Грамматика', q: 'Почтительная форма глагола <span class="korean">먹다</span>:', opts: ['계시다', '드시다', '주무시다', '말씀하시다'], c: 1 },
+                { cat: 'Грамматика', q: '... <span class="korean">나라 사람이에요?</span> (Из какой вы страны?)', opts: ['무슨', '어느', '어떤', '몇'], c: 1 },
+                { cat: 'Лексика', q: '«Две порции самгёпсаля»:', opts: ['삼겹살 두 인분', '삼겹살 이 인분', '삼겹살 두 그릇', '삼겹살 둘 개'], c: 1 }
+            ]
+        },
+        2: {
+            name: '2급 — Базовый',
+            emoji: '🌿',
+            color1: '#26A69A', color2: '#00897B',
+            backLink: 'level_2/index.html',
+            subtitle: 'Грамматика, частицы, времена глаголов',
+            questions: [
+                { cat: 'Грамматика', q: 'Порядок слов в корейском:', opts: ['SVO', 'SOV', 'VSO', 'OVS'], c: 1 },
+                { cat: 'Частицы', q: '<span class="korean">저<u>는</u> 학생이에요</span> — что делает 는?', opts: ['отрицание', 'вопрос', 'выделяет тему', 'показывает место'], c: 2 },
+                { cat: 'Частицы', q: '<span class="korean">사과<u>를</u> 먹어요</span> — что делает 를?', opts: ['указывает субъект', 'указывает объект', 'указывает место', 'указывает время'], c: 1 },
+                { cat: 'Глаголы', q: '<span class="korean">먹었어요</span> — какое время?', opts: ['настоящее', 'будущее', 'прошедшее', 'повелительное'], c: 2 },
+                { cat: 'Глаголы', q: '<span class="korean">갈 거예요</span> — какое время?', opts: ['настоящее', 'будущее', 'прошедшее', 'условное'], c: 1 },
+                { cat: 'Грамматика', q: 'Как сказать "Это не книга"?', opts: ['책이에요', '책이 아니에요', '책을 해요', '책에 가요'], c: 1 },
+                { cat: 'Лексика', q: '<span class="korean">어디</span> — вопросительное слово:', opts: ['когда?', 'кто?', 'где?', 'почему?'], c: 2 },
+                { cat: 'Грамматика', q: '<span class="korean">집에 가요</span> — что делает 에?', opts: ['объект действия', 'направление', 'инструмент', 'причина'], c: 1 },
+                { cat: 'Связка', q: '<span class="korean">의사예요</span> значит:', opts: ['Хочу быть врачом', 'Был врачом', 'Является врачом', 'Не врач'], c: 2 },
+                { cat: 'Отрицание', q: 'Как сказать "Не ем"?', opts: ['먹어요', '안 먹어요', '못 먹어요', '먹을 거예요'], c: 1 }
+            ]
+        },
+        3: {
+            name: '3급 — Средний',
+            emoji: '🌸',
+            color1: '#7E57C2', color2: '#5E35B1',
+            backLink: 'level_3/index.html',
+            subtitle: 'Причина, желание, соединение мыслей',
+            questions: [
+                { cat: 'Частицы', q: '<span class="korean">서울<u>에서</u> 살아요</span> — 에서 означает:', opts: ['направление', 'место действия', 'время', 'причину'], c: 1 },
+                { cat: 'Желание', q: 'Как сказать "Хочу есть"?', opts: ['먹을 수 있어요', '먹고 싶어요', '먹어야 해요', '먹으면 돼요'], c: 1 },
+                { cat: 'Причина', q: '<span class="korean">아파<u>서</u> 못 갔어요</span> — 아서 выражает:', opts: ['время', 'условие', 'причину', 'контраст'], c: 2 },
+                { cat: 'Соединение', q: '<span class="korean">커피<u>하고</u> 빵</span> — 하고 это:', opts: ['но', 'и', 'или', 'потому что'], c: 1 },
+                { cat: 'Частицы', q: '<span class="korean">나<u>의</u> 책</span> — 의 выражает:', opts: ['место', 'принадлежность', 'направление', 'цель'], c: 1 },
+                { cat: 'Причина', q: '<span class="korean">비가 오<u>니까</u> 우산 가져가세요</span> — переведите:', opts: ['Если пойдёт дождь...', 'Потому что идёт дождь, возьмите зонт', 'После дождя возьмите зонт', 'Несмотря на дождь...'], c: 1 },
+                { cat: 'Счётные слова', q: '<span class="korean">사과 세 <u>개</u></span> — 개 это:', opts: ['штука (счётное слово)', 'большой', 'собака', 'открыть'], c: 0 },
+                { cat: 'Грамматика', q: '<span class="korean">한국어를 공부한 <u>지</u> 1년 됐어요</span> — что это значит?', opts: ['Буду учить 1 год', 'Учу корейский уже 1 год', 'Учил 1 год назад', 'Хочу учить 1 год'], c: 1 },
+                { cat: 'Понимание', q: '<span class="korean">시간이 있으면 같이 가요</span> — переведите:', opts: ['У меня нет времени', 'Если будет время, пойдём вместе', 'Времени мало, не пойду', 'Когда будет время, скажите'], c: 1 },
+                { cat: 'Частицы', q: '<span class="korean">저<u>도</u> 한국어를 배워요</span> — 도 означает:', opts: ['только', 'тоже', 'уже', 'ещё'], c: 1 }
+            ]
+        },
+        4: {
+            name: '4급 — Средне-продвинутый',
+            emoji: '🌺',
+            color1: '#EF5350', color2: '#C62828',
+            backLink: 'level_4/index.html',
+            subtitle: 'Запреты, одновременность, условия',
+            questions: [
+                { cat: 'Запрет', q: '<span class="korean">여기서 담배를 피우<u>면 안 돼요</u></span> — переведите:', opts: ['Здесь можно курить', 'Здесь нельзя курить', 'Здесь курят', 'Здесь хочу курить'], c: 1 },
+                { cat: 'Одновременность', q: '<span class="korean">음악을 들으<u>면서</u> 운전해요</span> — 면서 это:', opts: ['после того как', 'перед тем как', 'делая одновременно', 'вместо того чтобы'], c: 2 },
+                { cat: 'Время', q: '<span class="korean">밥을 먹<u>기 전에</u> 손을 씻어요</span> — 기 전에:', opts: ['после еды', 'перед едой', 'во время еды', 'вместо еды'], c: 1 },
+                { cat: 'Время', q: '<span class="korean">숙제를 <u>한 후에</u> 놀아요</span> — 한 후에:', opts: ['перед уроками', 'вместо уроков', 'после уроков', 'во время уроков'], c: 2 },
+                { cat: 'Предположение', q: '<span class="korean">내일 눈이 올 <u>것 같아요</u></span> — это:', opts: ['уверенность', 'предположение', 'желание', 'обещание'], c: 1 },
+                { cat: 'Вежливость', q: '<span class="korean">선생님, 어디 <u>가세요</u>?</span> — 세요 выражает:', opts: ['просьбу', 'приказ', 'вежливость к старшему', 'отрицание'], c: 2 },
+                { cat: 'Контраст', q: '<span class="korean">비싸<u>지만</u> 맛있어요</span> — 지만 означает:', opts: ['и', 'потому что', 'но', 'если'], c: 2 },
+                { cat: 'Выбор', q: '<span class="korean">커피<u>나</u> 차 드세요</span> — 나 означает:', opts: ['и', 'или', 'только', 'тоже'], c: 1 },
+                { cat: 'Предложение', q: '<span class="korean">같이 영화 <u>볼까요</u>?</span> — 을까요 это:', opts: ['приказ', 'отказ', 'предложение', 'жалоба'], c: 2 },
+                { cat: 'Инструмент', q: '<span class="korean">버스<u>로</u> 가요</span> — 로 указывает:', opts: ['направление', 'средство/транспорт', 'причину', 'время'], c: 1 }
+            ]
+        },
+        5: {
+            name: '5급 — Продвинутый',
+            emoji: '🏆',
+            color1: '#FF7043', color2: '#E64A19',
+            backLink: 'level_5/index.html',
+            subtitle: 'Способность, обязанность, сложные конструкции',
+            questions: [
+                { cat: 'Способность', q: '<span class="korean">한국어를 <u>할 수 있어요</u></span> — переведите:', opts: ['Должен учить корейский', 'Могу говорить по-корейски', 'Хочу говорить по-корейски', 'Учу корейский'], c: 1 },
+                { cat: 'Обязанность', q: '<span class="korean">약을 <u>먹어야 해요</u></span> — 아야 하다:', opts: ['хочу принять лекарство', 'могу принять', 'должен принять лекарство', 'попробовал принять'], c: 2 },
+                { cat: 'Помощь', q: '<span class="korean">짐을 들<u>어 줄까요</u>?</span> — 아/어 주다:', opts: ['делать вместо', 'делать для кого-то', 'перестать делать', 'заставить делать'], c: 1 },
+                { cat: 'Разрешение', q: '<span class="korean">여기 앉<u>아도 돼요</u>?</span> — 아도 되다:', opts: ['нужно ли сесть?', 'можно ли сесть?', 'хочу сесть', 'уже сел'], c: 1 },
+                { cat: 'Опыт', q: '<span class="korean">한복을 입<u>어 본 적이 있어요</u></span> — переведите:', opts: ['Хочу надеть ханбок', 'Надевал ханбок (есть опыт)', 'Должен надеть ханбок', 'Не надевал ханбок'], c: 1 },
+                { cat: 'Невозможность', q: '<span class="korean">너무 매워서 <u>못 먹었어요</u></span> — 못:', opts: ['не хотел есть', 'не стал есть', 'не смог есть', 'не должен есть'], c: 2 },
+                { cat: 'Уступка', q: '<span class="korean"><u>아무리</u> 힘들어도 포기하지 마세요</span> — аналог:', opts: ['потому что тяжело', 'если тяжело', 'как бы ни было тяжело', 'когда тяжело'], c: 2 },
+                { cat: 'Условие', q: '<span class="korean">열심히 공부하<u>면</u> 합격할 거예요</span> — 면:', opts: ['потому что', 'если', 'хотя', 'после того как'], c: 1 },
+                { cat: 'Цитата', q: '<span class="korean">내일 온<u>다고</u> 했어요</span> — 다고 하다:', opts: ['хочу прийти', 'сказал, что придёт', 'должен прийти', 'может прийти'], c: 1 },
+                { cat: 'Намерение', q: '<span class="korean">한국에 <u>가려고</u> 돈을 모아요</span> — 려고:', opts: ['после поездки', 'вместо поездки', 'с целью поехать', 'если поеду'], c: 2 }
+            ]
+        },
+        6: {
+            name: '6급 — Мастерский',
+            emoji: '👑',
+            color1: '#5C6BC0', color2: '#283593',
+            backLink: 'level_6/index.html',
+            subtitle: 'Литературный стиль, абстрактные конструкции',
+            questions: [
+                { cat: 'Уступка', q: '<span class="korean">노력했<u>음에도 불구하고</u> 실패했다</span> — переведите:', opts: ['Благодаря усилиям успех', 'Несмотря на усилия, провал', 'Из-за усилий устал', 'После усилий результат'], c: 1 },
+                { cat: 'Повод', q: '<span class="korean">그 사건<u>을 계기로</u> 법이 바뀌었다</span> — 을 계기로:', opts: ['вопреки событию', 'это событие стало поводом', 'до этого события', 'вместо события'], c: 1 },
+                { cat: 'Неизбежность', q: '<span class="korean">경제가 나아<u>질 수밖에 없다</u></span> — 수밖에 없다:', opts: ['невозможность', 'неизбежность', 'запрет', 'сожаление'], c: 1 },
+                { cat: 'Способ', q: '<span class="korean">들은 <u>대로</u> 전해 주세요</span> — 대로:', opts: ['наоборот', 'вместо', 'так как (услышал)', 'до того как'], c: 2 },
+                { cat: 'Гипотеза', q: '<span class="korean">로또에 당첨된<u>다면</u> 세계여행을 할 거예요</span> — 다면:', opts: ['когда', 'если бы (гипотеза)', 'потому что', 'хотя'], c: 1 },
+                { cat: 'Время', q: '<span class="korean">도착하<u>자마자</u> 전화해 주세요</span> — 자마자:', opts: ['перед прибытием', 'после прибытия', 'как только (сразу)', 'во время прибытия'], c: 2 },
+                { cat: 'Пассив', q: '<span class="korean">이 노래는 많은 사람들에게 <u>불린다</u></span> — пассив от 부르다:', opts: ['поёт', 'поётся (пассив)', 'заставляет петь', 'хочет петь'], c: 1 },
+                { cat: 'Причина', q: '<span class="korean">교통사고<u>로 인해</u> 길이 막혔다</span> — 로 인해:', opts: ['несмотря на', 'вследствие, из-за', 'помимо', 'ради'], c: 1 },
+                { cat: 'Стиль', q: 'Какой стиль: <span class="korean">~(으)ㄹ 것으로 보인다</span>?', opts: ['разговорный', 'официальный/газетный', 'детский', 'сленг'], c: 1 },
+                { cat: 'Понимание', q: '<span class="korean">그는 성공<u>은커녕</u> 시작도 못 했다</span> — 은커녕:', opts: ['благодаря', 'не говоря уж о... (даже не)', 'ради', 'помимо'], c: 1 }
+            ]
+        }
+    };
+
+    // === LESSON RECOMMENDATIONS ===
+    var LESSON_RECOMMENDATIONS = {
+        1: {
+            'Чтение': [
+                { name: 'Алфавит хангыль', url: 'lesson_02_alphabet/index.html' },
+                { name: 'Правила произношения', url: 'level_1/lesson_pronunciation/index.html' }
+            ],
+            'Лексика': [
+                { name: 'Семья', url: 'lesson_05_family/index.html' },
+                { name: 'Еда и напитки', url: 'vocabulary/basicfood/index.html' },
+                { name: 'Числа', url: 'lesson_04_numbers/index.html' },
+                { name: 'Кухни и заказ в ресторане', url: 'level_1/lesson_food_order/index.html' },
+                { name: 'Университет: аудитория и кампус', url: 'level_1/lesson_campus/index.html' },
+                { name: 'Специальность и учёба', url: 'level_1/lesson_majors/index.html' }
+            ],
+            'Фразы': [
+                { name: 'Приветствие', url: 'lesson_03_greetings/index.html' },
+                { name: 'Просьба -(으)십시오 / -(으)세요', url: 'level_1/lesson_formal_imperative/index.html' }
+            ],
+            'Грамматика': [
+                { name: 'ㄹ-глаголы: 살다 → 삽니다', url: 'level_1/lesson_rieul_verbs/index.html' },
+                { name: 'Просьба -(으)십시오 / -(으)세요', url: 'level_1/lesson_formal_imperative/index.html' },
+                { name: 'Почтительные слова', url: 'level_1/lesson_honorific_words/index.html' },
+                { name: '무슨 / 어느 / 어떤 / 몇', url: 'level_1/lesson_question_determiners/index.html' }
+            ],
+            'Культура': [
+                { name: 'Знакомство с Кореей', url: 'lesson_01_korea/index.html' }
+            ]
+        },
+        2: {
+            'Грамматика': [
+                { name: 'Основы грамматики', url: 'lesson_06_grammar/index.html' },
+                { name: 'Порядок слов SOV', url: 'level_1/lesson_sov_order/index.html' }
+            ],
+            'Частицы': [
+                { name: 'Частица темы 은/는', url: 'level_1/lesson_topic_particle/index.html' },
+                { name: 'Частица подлежащего 이/가', url: 'level_1/lesson_subject_particle/index.html' }
+            ],
+            'Глаголы': [
+                { name: 'Времена глаголов', url: 'lesson_07_verb_tenses/index.html' }
+            ],
+            'Связка': [
+                { name: 'Связка 이에요/예요', url: 'lesson_10_copula/index.html' },
+                { name: 'Неформальная связка', url: 'lesson_11_informal_copula/index.html' }
+            ],
+            'Отрицание': [
+                { name: 'Отрицание связки', url: 'lesson_13_copula_negation/index.html' }
+            ],
+            'Лексика': [
+                { name: 'Вопросительные слова', url: 'vocabulary/questions/index.html' }
+            ]
+        },
+        3: {
+            'Частицы': [
+                { name: 'Частица места 에서', url: 'level_1/lesson_location_eseo/index.html' }
+            ],
+            'Желание': [
+                { name: 'Желание -고 싶다', url: 'lesson_34_want_desire/index.html' }
+            ],
+            'Причина': [
+                { name: 'Причина -아/어서', url: 'level_3/lesson_because_aseo/index.html' }
+            ],
+            'Соединение': [
+                { name: 'Союзы', url: 'vocabulary/conjunctions/index.html' }
+            ],
+            'Счётные слова': [
+                { name: 'Числа и счётные слова', url: 'lesson_04_numbers/index.html' }
+            ],
+            'Понимание': [
+                { name: 'Тексты уровня 3', url: 'reading-texts.html?level=3' }
+            ]
+        },
+        4: {
+            'Запрет': [
+                { name: 'Запреты и разрешения', url: 'lesson_67_prohibition/index.html' }
+            ],
+            'Одновременность': [
+                { name: 'Одновременные действия', url: 'lesson_47_simultaneous_actions/index.html' }
+            ],
+            'Время': [
+                { name: 'Временные конструкции', url: 'lesson_86_time_constructions/index.html' }
+            ],
+            'Предположение': [
+                { name: 'Предположения', url: 'lesson_73_supposition/index.html' }
+            ],
+            'Вежливость': [
+                { name: 'Формы вежливости', url: 'lesson_08_politeness/index.html' }
+            ],
+            'Контраст': [
+                { name: 'Контраст -지만', url: 'lesson_56_contrast_jiman/index.html' }
+            ]
+        },
+        5: {
+            'Способность': [
+                { name: 'Способность -(으)ㄹ 수 있다', url: 'lesson_63_ability/index.html' }
+            ],
+            'Обязанность': [
+                { name: 'Обязанность -아야 하다', url: 'lesson_62_obligation/index.html' }
+            ],
+            'Опыт': [
+                { name: 'Опыт -아 본 적이 있다', url: 'lesson_70_trying_experience/index.html' }
+            ],
+            'Цитата': [
+                { name: 'Косвенная речь', url: 'level_4/lesson_indirect_speech/index.html' }
+            ]
+        },
+        6: {
+            'Уступка': [
+                { name: 'Уступительные конструкции', url: 'level_5/lesson_concession_advanced/index.html' }
+            ],
+            'Пассив': [
+                { name: 'Пассивные конструкции', url: 'lesson_83_passive_constructions/index.html' }
+            ],
+            'Стиль': [
+                { name: 'Написание эссе', url: 'lesson_91_essay_writing/index.html' }
+            ]
+        }
+    };
+
+    // === STATE ===
+    let currentLevel = 1;
+    let currentQ = 0;
+    let score = 0;
+    let answers = [];
+    let isAnswering = false;
+    let currentQuestions = [];
+
+    // === INIT ===
+    function init() {
+        const params = new URLSearchParams(window.location.search);
+        currentLevel = parseInt(params.get('level')) || 1;
+        if (!LEVELS[currentLevel]) currentLevel = 1;
+
+        const lvl = LEVELS[currentLevel];
+        currentQuestions = lvl.questions;
+
+        // Theme
+        document.body.style.background = 'radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%), linear-gradient(135deg, ' + lvl.color1 + ' 0%, ' + lvl.color2 + ' 100%)';
+        document.body.style.setProperty('--accent', lvl.color1);
+        document.querySelector('.progress-fill').style.background = 'linear-gradient(90deg, ' + lvl.color1 + ', #ffc857)';
+        document.querySelector('.result-bar-fill').style.background = 'linear-gradient(90deg, ' + lvl.color2 + ', ' + lvl.color1 + ', #4caf50)';
+
+        // Dot colors in start-info
+        document.querySelectorAll('.start-info li').forEach(function(li) {
+            li.style.setProperty('--dot', lvl.color1);
+            li.querySelector(':before') || (li.style.cssText += '');
+        });
+        var style = document.createElement('style');
+        style.textContent = '.start-info li::before { background: ' + lvl.color1 + ' !important; } .question-number { background: linear-gradient(135deg, ' + lvl.color1 + ', ' + lvl.color2 + '); } .question-text .korean { color: ' + lvl.color2 + '; } .question-context { border-left-color: ' + lvl.color1 + '; } .start-btn { background: linear-gradient(135deg, ' + lvl.color1 + ', ' + lvl.color2 + '); } .result-btn.primary { background: linear-gradient(135deg, ' + lvl.color1 + ', ' + lvl.color2 + '); } .result-title { color: ' + lvl.color2 + '; } .review-toggle { color: ' + lvl.color2 + '; } .result-btn.outline { color: ' + lvl.color2 + '; border-color: ' + lvl.color2 + '; }';
+        document.head.appendChild(style);
+
+        // Content
+        document.getElementById('backLink').href = lvl.backLink;
+        document.getElementById('backLink').textContent = '\u2190 ' + lvl.name;
+        document.getElementById('testTitle').textContent = 'Тест: ' + lvl.name;
+        document.getElementById('testSubtitle').textContent = lvl.subtitle;
+        document.getElementById('startEmoji').textContent = lvl.emoji;
+        document.getElementById('startTitle').textContent = 'Тест ' + currentLevel + '\uAE09';
+        document.getElementById('startDesc').textContent = lvl.subtitle;
+        document.getElementById('btnLevel').href = lvl.backLink;
+        document.getElementById('btnLevel').textContent = 'Вернуться к ' + currentLevel + '\uAE09 \u2192';
+
+        document.body.style.setProperty('--before-emoji', '"' + lvl.emoji + '"');
+        document.querySelector('title').textContent = 'Тест ' + currentLevel + '\uAE09 \u2014 Miso: 한국어 수업';
+    }
+
+    function startTest() {
+        currentQ = 0;
+        score = 0;
+        answers = [];
+        isAnswering = false;
+
+        document.getElementById('startScreen').classList.add('hidden');
+        document.getElementById('resultsCard').classList.add('hidden');
+        document.getElementById('progressWrapper').classList.remove('hidden');
+        document.getElementById('questionCard').classList.remove('hidden');
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const q = currentQuestions[currentQ];
+        const total = currentQuestions.length;
+
+        document.getElementById('progressLabel').textContent = 'Вопрос ' + (currentQ + 1) + ' из ' + total;
+        document.getElementById('progressCategory').textContent = q.cat;
+        document.getElementById('progressFill').style.width = ((currentQ / total) * 100) + '%';
+
+        document.getElementById('questionNumber').textContent = q.cat;
+
+        const ctx = document.getElementById('questionContext');
+        if (q.context) {
+            ctx.innerHTML = q.context;
+            ctx.classList.remove('hidden');
+        } else {
+            ctx.classList.add('hidden');
+        }
+
+        document.getElementById('questionText').innerHTML = q.q;
+
+        const list = document.getElementById('optionsList');
+        list.innerHTML = '';
+        q.opts.forEach(function(opt, i) {
+            var li = document.createElement('li');
+            var btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.textContent = opt;
+            btn.onclick = function() { selectAnswer(i); };
+            li.appendChild(btn);
+            list.appendChild(li);
+        });
+
+        var card = document.getElementById('questionCard');
+        card.style.animation = 'none';
+        card.offsetHeight;
+        card.style.animation = 'cardIn 0.4s ease';
+    }
+
+    function selectAnswer(index) {
+        if (isAnswering) return;
+        isAnswering = true;
+
+        var q = currentQuestions[currentQ];
+        var buttons = document.querySelectorAll('.option-btn');
+
+        buttons.forEach(function(btn) { btn.classList.add('disabled'); });
+        buttons[q.c].classList.add('correct');
+
+        if (index !== q.c) {
+            buttons[index].classList.add('wrong');
+        } else {
+            score++;
+        }
+
+        answers.push({
+            question: q.q.replace(/<[^>]+>/g, ''),
+            selected: q.opts[index],
+            correct: q.opts[q.c],
+            isCorrect: index === q.c,
+            cat: q.cat
+        });
+
+        setTimeout(function() {
+            currentQ++;
+            isAnswering = false;
+            if (currentQ < currentQuestions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }, 800);
+    }
+
+    function showResults() {
+        var total = currentQuestions.length;
+        var pct = Math.round((score / total) * 100);
+        var lvl = LEVELS[currentLevel];
+
+        document.getElementById('progressWrapper').classList.add('hidden');
+        document.getElementById('questionCard').classList.add('hidden');
+        document.getElementById('resultsCard').classList.remove('hidden');
+
+        var emoji, title, verdictClass, verdictHtml;
+
+        if (pct >= 90) {
+            emoji = '\uD83C\uDFC6'; title = 'Превосходно!';
+            verdictHtml = '<h3>\uD83C\uDF1F Вы отлично знаете материал ' + currentLevel + '\uAE09!</h3><p>Вы готовы переходить к следующему уровню. Все темы усвоены на отлично.</p>';
+            verdictClass = 'background: #e8f5e9; border-left: 4px solid #4caf50;';
+        } else if (pct >= 70) {
+            emoji = '\uD83D\uDC4D'; title = 'Хороший результат!';
+            verdictHtml = '<h3>\u2705 Хорошее знание ' + currentLevel + '\uAE09</h3><p>Большинство тем усвоены. Повторите те, где ошиблись, и можно двигаться дальше.</p>';
+            verdictClass = 'background: #fff8e1; border-left: 4px solid #ffc107;';
+        } else if (pct >= 50) {
+            emoji = '\uD83D\uDCAA'; title = 'Неплохо, но есть пробелы';
+            verdictHtml = '<h3>\uD83D\uDCD6 Стоит повторить ' + currentLevel + '\uAE09</h3><p>Базовые темы есть, но некоторые нужно подтянуть. Пройдите уроки, в которых ошиблись.</p>';
+            verdictClass = 'background: #fff3e0; border-left: 4px solid #ff9800;';
+        } else {
+            emoji = '\uD83D\uDCDA'; title = 'Нужно подучить';
+            verdictHtml = '<h3>\uD83C\uDF31 Начните с уроков ' + currentLevel + '\uAE09</h3><p>Этот уровень ещё не освоен. Пройдите уроки по порядку \u2014 и скоро этот тест будет лёгким!</p>';
+            verdictClass = 'background: #ffebee; border-left: 4px solid #f44336;';
+        }
+
+        document.getElementById('resultEmoji').textContent = emoji;
+        document.getElementById('resultTitle').textContent = title;
+        document.getElementById('resultScore').textContent = score + ' из ' + total + ' правильно (' + pct + '%)';
+
+        var verdict = document.getElementById('resultVerdict');
+        verdict.innerHTML = verdictHtml;
+        verdict.style.cssText = verdictClass + ' border-radius: 0 14px 14px 0; padding: 20px;';
+
+        setTimeout(function() {
+            document.getElementById('resultBarFill').style.width = pct + '%';
+        }, 100);
+
+        // Build review
+        var list = document.getElementById('reviewList');
+        list.innerHTML = '';
+        answers.forEach(function(a, i) {
+            var div = document.createElement('div');
+            div.className = 'review-item ' + (a.isCorrect ? 'correct-item' : 'wrong-item');
+            var html = '<div class="q-text">' + (i + 1) + '. [' + a.cat + '] ' + a.question + '</div>';
+            if (a.isCorrect) {
+                html += '<div class="q-answer"><span class="right">' + a.correct + '</span></div>';
+            } else {
+                html += '<div class="q-answer"><span class="wrong-text">' + a.selected + '</span> \u2192 <span class="right">' + a.correct + '</span></div>';
+            }
+            div.innerHTML = html;
+            list.appendChild(div);
+        });
+
+        // Build recommendations from wrong answers
+        var wrongCats = {};
+        answers.forEach(function(a) {
+            if (!a.isCorrect) {
+                wrongCats[a.cat] = (wrongCats[a.cat] || 0) + 1;
+            }
+        });
+
+        var recs = LESSON_RECOMMENDATIONS[currentLevel] || {};
+        var recHtml = '';
+        var recCount = 0;
+        Object.keys(wrongCats).forEach(function(cat) {
+            if (recs[cat]) {
+                recs[cat].forEach(function(lesson) {
+                    recHtml += '<a href="' + lesson.url + '" class="rec-link">' +
+                        '<span class="rec-icon">📖</span>' +
+                        '<span class="rec-info">' +
+                        '<span class="rec-name">' + lesson.name + '</span>' +
+                        '<span class="rec-cat">ошибки в: ' + cat + '</span>' +
+                        '</span>' +
+                        '<span style="color: #999;">→</span></a>';
+                    recCount++;
+                });
+            }
+        });
+
+        var recBlock = document.getElementById('recommendationsBlock');
+        if (recCount > 0 && pct < 90) {
+            recBlock.innerHTML = '<h3 style="color: ' + lvl.color2 + ';">📚 Рекомендуемые уроки:</h3>' + recHtml;
+            recBlock.classList.remove('hidden');
+            console.log('[+] Showing ' + recCount + ' lesson recommendations');
+        } else {
+            recBlock.classList.add('hidden');
+        }
+
+        // Save
+        var key = 'levelTestResult_' + currentLevel;
+        localStorage.setItem(key, JSON.stringify({ score: score, total: total, pct: pct, date: new Date().toISOString() }));
+        console.log('[OK] Level ' + currentLevel + ' test: ' + score + '/' + total + ' (' + pct + '%)');
+    }
+
+    function toggleReview() {
+        var list = document.getElementById('reviewList');
+        var btn = document.getElementById('reviewToggle');
+        list.classList.toggle('open');
+        btn.textContent = list.classList.contains('open') ? 'Скрыть ответы' : 'Показать ответы';
+    }
+
+    init();
+    </script>
+</body>
+</html>

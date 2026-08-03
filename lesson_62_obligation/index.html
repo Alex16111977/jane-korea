@@ -15,10 +15,45 @@
 
         body {
             font-family: 'Noto Sans KR', sans-serif;
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(-30deg, transparent, transparent 30px, rgba(255,255,255,0.02) 30px, rgba(255,255,255,0.02) 60px),
+                linear-gradient(135deg, #2e9e5b 0%, #14663a 50%, #14663a 100%);
+            position: relative;
+            overflow-x: hidden;
             min-height: 100vh;
             color: #333;
             line-height: 1.6;
+        }
+
+        body::before {
+            content: '📋';
+            position: fixed;
+            top: 12%;
+            right: 4%;
+            font-size: 110px;
+            opacity: 0.04;
+            animation: floatSlow 14s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '⚡';
+            position: fixed;
+            bottom: 8%;
+            left: 3%;
+            font-size: 95px;
+            opacity: 0.04;
+            animation: floatSlow 8s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) translateX(10px); }
         }
 
         .container {
@@ -143,7 +178,7 @@
         }
 
         .lesson-intro {
-            background: linear-gradient(135deg, #11998e15, #38ef7d15);
+            background: linear-gradient(135deg, #2e9e5b15, #14663a15);
             padding: 25px;
             border-radius: 15px;
             border-left: 5px solid #11998e;
@@ -170,7 +205,7 @@
         }
 
         .dialogue {
-            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            background: linear-gradient(135deg, #fff8ec, #ffeccd);
             padding: 25px;
             border-radius: 15px;
             margin: 25px 0;
@@ -189,12 +224,12 @@
         }
 
         .dialogue-box strong {
-            color: #2d3748;
+            color: #ffffff;
             font-weight: 600;
         }
 
         .translation {
-            color: #718096;
+            color: #ffffff;
             font-style: italic;
             margin-left: 20px;
         }
@@ -221,7 +256,7 @@
         }
 
         .note, .grammar-note {
-            color: #718096;
+            color: #4a5568;
             font-size: 0.9em;
             font-style: italic;
         }
@@ -269,7 +304,7 @@
         }
 
         .usage-case {
-            background: linear-gradient(135deg, #a8e6cf, #88d8c0);
+            background: linear-gradient(135deg, #eefaf1, #d8f0e0);
             padding: 20px;
             border-radius: 12px;
             margin: 15px 0;
@@ -312,7 +347,7 @@
         }
 
         .cultural-box {
-            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            background: linear-gradient(135deg, #fff8ec, #ffeccd);
             padding: 25px;
             border-radius: 15px;
             border-left: 5px solid #fab1a0;
@@ -321,8 +356,8 @@
         }
 
         .summary-box {
-            background: linear-gradient(135deg, #11998e, #38ef7d);
-            color: white;
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            color: #ffffff;
             padding: 25px;
             border-radius: 15px;
         }
@@ -362,7 +397,7 @@
         }
 
         .prev-lesson, .next-lesson {
-            background: linear-gradient(135deg, #11998e, #38ef7d);
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
             color: white;
         }
 
@@ -408,6 +443,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="../css/lesson-theme.css">
 </head>
 <body>
     <div class="container">
@@ -653,9 +689,67 @@
         <footer>
             <p>&copy; 2025 Корейский язык с Джейн. Все права защищены.</p>
         </footer>
-    </div>
     
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+</div>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    <script src="../js/progress-tracker.js"></script>
     <script>
+        // Кнопка завершения урока
+        var LESSON_ID = 'lesson_62_obligation';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        // Проверяем статус при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+<script>
         // Добавляем интерактивность к корейским примерам
         document.querySelectorAll('.korean-example').forEach(example => {
             example.addEventListener('click', function() {
@@ -690,5 +784,8 @@
             observer.observe(el);
         });
     </script>
+<script src="../js/dictionary.js"></script>
+    <script src="../js/dictionary-inject.js"></script>
+    <script src="../js/global-nav.js"></script>
 </body>
 </html>

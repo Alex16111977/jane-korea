@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корейская клавиатура — 1급 Корейский язык</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; margin: 0; padding: 0; background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%), linear-gradient(135deg, #2e9e5b 0%, #14663a 100%); min-height: 100vh; color: #333; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 25px; font-size: 0.95em; transition: all 0.3s ease; backdrop-filter: blur(5px); }
+        .navigation a:hover { background: rgba(255,255,255,0.3); }
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; text-align: center; margin-bottom: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 2.2em; color: #2c3e50; margin-bottom: 10px; }
+        .korean-title { font-size: 1.3em; color: #4CAF50; margin-bottom: 10px; }
+        .description { color: #666; font-size: 1.05em; }
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .content-section h2 { color: #2c3e50; margin-bottom: 20px; font-size: 1.5em; }
+        .grammar-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0; }
+        .grammar-table th { background: #4CAF50; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+        .tip-box { background: #e8f5e9; border-left: 4px solid #4CAF50; padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0; }
+        .warning-box { background: #fff8e1; border-left: 4px solid #FFC107; padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0; }
+        .practice-section { background: linear-gradient(135deg, #eefaf1, #d8f0e0); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .practice-section h2 { color: #1b5e20; margin-bottom: 20px; font-size: 1.5em; }
+        .exercise { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .option { background: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1em; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; transition: all 0.3s ease; }
+        .option:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .option.correct { background: #2e7d32; }
+        .option.wrong { background: #f44336; }
+        .result { margin-top: 10px; padding: 12px; border-radius: 10px; text-align: center; font-weight: 500; display: none; }
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+        .complete-btn { background: linear-gradient(135deg, #2e9e5b, #14663a); color: white; border: none; padding: 18px 50px; border-radius: 30px; font-size: 1.15em; font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; box-shadow: 0 8px 25px rgba(76,175,80,0.3); }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        /* Keyboard layout styles */
+        .keyboard-layout { background: #f5f5f5; border-radius: 15px; padding: 20px; margin: 20px 0; box-shadow: inset 0 2px 8px rgba(0,0,0,0.1); }
+        .keyboard-row { display: flex; gap: 6px; margin: 6px 0; justify-content: center; flex-wrap: wrap; }
+        .key { background: white; border: 2px solid #ddd; border-radius: 8px; padding: 10px 14px; min-width: 44px; text-align: center; box-shadow: 0 3px 0 #bbb; font-size: 1.1em; transition: all 0.15s ease; display: inline-flex; flex-direction: column; align-items: center; }
+        .key:hover { transform: translateY(-2px); box-shadow: 0 5px 0 #bbb; }
+        .key .main-char { font-size: 1.2em; font-weight: 700; color: #2c3e50; }
+        .key .shift-char { font-size: 0.75em; color: #e74c3c; font-weight: 600; }
+        .key.consonant { border-color: #4CAF50; }
+        .key.vowel { border-color: #2196F3; background: #e3f2fd; }
+        .key.shift-key { border-color: #e74c3c; background: #fff8f8; }
+        .key-legend { display: flex; gap: 20px; margin: 15px 0; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9em; }
+        .legend-color { width: 20px; height: 20px; border-radius: 4px; border: 2px solid; }
+        .legend-consonant { border-color: #4CAF50; background: white; }
+        .legend-vowel { border-color: #2196F3; background: #e3f2fd; }
+
+        /* Syllable builder */
+        .syllable-builder { background: linear-gradient(135deg, #2e9e5b, #14663a); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; text-align: center; }
+        .syllable-parts { display: flex; align-items: center; justify-content: center; gap: 15px; font-size: 1.3em; flex-wrap: wrap; }
+        .syllable-part { background: rgba(255,255,255,0.2); padding: 10px 18px; border-radius: 10px; }
+        .syllable-result { font-size: 2.5em; font-weight: 700; margin-top: 15px; }
+        .syllable-label { font-size: 0.85em; opacity: 0.85; margin-top: 5px; }
+
+        /* Compound vowel table */
+        .compound-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin: 20px 0; }
+        .compound-card { background: linear-gradient(135deg, #2e9e5b, #14663a); color: #ffffff; padding: 15px; border-radius: 12px; text-align: center; }
+        .compound-result { font-size: 1.8em; font-weight: 700; }
+        .compound-formula { font-size: 0.85em; opacity: 0.9; margin: 5px 0; }
+        .compound-roman { font-size: 0.8em; opacity: 0.8; }
+
+        /* Phone setup steps */
+        .setup-steps { counter-reset: step; }
+        .setup-step { display: flex; align-items: flex-start; gap: 15px; margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 12px; }
+        .step-number { background: #4CAF50; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.95em; }
+        .step-text { font-size: 1em; color: #333; line-height: 1.5; }
+        .phone-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+        .phone-tab { background: #e0e0e0; border: none; padding: 10px 22px; border-radius: 20px; cursor: pointer; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; font-size: 0.95em; transition: all 0.3s ease; }
+        .phone-tab.active { background: #4CAF50; color: white; }
+        .phone-content { display: none; }
+        .phone-content.active { display: block; }
+
+        @media (max-width: 768px) { .header h1 { font-size: 1.6em; } .content-section { padding: 25px; } .options { flex-direction: column; } .syllable-parts { gap: 8px; font-size: 1em; } }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_1/index.html">← 1급 Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <div class="header">
+            <h1>Корейская клавиатура</h1>
+            <div class="korean-title">한국어 키보드 — Как набирать хангыль</div>
+            <div class="description">Изучаем стандартную корейскую раскладку клавиатуры, составные гласные и настройку на телефоне</div>
+        </div>
+
+        <!-- SECTION 1: How Hangul Input Works -->
+        <div class="content-section">
+            <h2>1. Как работает ввод хангыля</h2>
+            <p>Корейские слоги строятся по принципу <strong>초성 + 중성 + (종성)</strong> — начальный согласный + гласная + (финальный согласный). При наборе текста компьютер автоматически собирает эти части в слоги.</p>
+
+            <div class="syllable-builder">
+                <div style="margin-bottom: 15px; font-size: 1.1em; opacity: 0.9;">Пример сборки слога:</div>
+                <div class="syllable-parts">
+                    <div class="syllable-part">
+                        <div>ㅎ</div>
+                        <div style="font-size: 0.75em; opacity: 0.8; margin-top: 4px;">초성 [choseong]<br>начальный</div>
+                    </div>
+                    <div>+</div>
+                    <div class="syllable-part">
+                        <div>ㅏ</div>
+                        <div style="font-size: 0.75em; opacity: 0.8; margin-top: 4px;">중성 [jungseong]<br>гласная</div>
+                    </div>
+                    <div>+</div>
+                    <div class="syllable-part">
+                        <div>ㄴ</div>
+                        <div style="font-size: 0.75em; opacity: 0.8; margin-top: 4px;">종성 [jongseong]<br>финальный</div>
+                    </div>
+                    <div>=</div>
+                    <div class="syllable-part" style="background: rgba(255,255,255,0.35);">
+                        <div style="font-size: 1.8em; font-weight: 700;">한</div>
+                        <div style="font-size: 0.75em; opacity: 0.8; margin-top: 4px;">[han]</div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Позиция</th>
+                        <th>Название</th>
+                        <th>Описание</th>
+                        <th>Пример</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Верхняя</td>
+                        <td>초성 [choseong]</td>
+                        <td>Начальный согласный (обязателен)</td>
+                        <td><strong>ㅎ</strong>아→한</td>
+                    </tr>
+                    <tr>
+                        <td>Средняя/правая</td>
+                        <td>중성 [jungseong]</td>
+                        <td>Гласная (обязательна)</td>
+                        <td>ㅎ<strong>ㅏ</strong>→한</td>
+                    </tr>
+                    <tr>
+                        <td>Нижняя</td>
+                        <td>종성 [jongseong]</td>
+                        <td>Финальный согласный (не обязателен)</td>
+                        <td>ㅎㅏ<strong>ㄴ</strong>→한</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Порядок ввода всегда одинаков:</strong> сначала набираем согласный (초성), затем гласную (중성). Если слог заканчивается на согласный, добавляем его последним (종성). Например: ㅎ→하→한 (han).
+            </div>
+        </div>
+
+        <!-- SECTION 2: Keyboard Layout -->
+        <div class="content-section">
+            <h2>2. Стандартная раскладка (두벌식)</h2>
+            <p>Стандартная корейская раскладка называется <strong>두벌식 [dubeolsik]</strong> — "двухрядная система". Согласные — слева, гласные — справа.</p>
+
+            <div class="key-legend">
+                <div class="legend-item">
+                    <div class="legend-color legend-consonant"></div>
+                    <span>Согласные (왼쪽 — левая рука)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-vowel"></div>
+                    <span>Гласные (오른쪽 — правая рука)</span>
+                </div>
+            </div>
+
+            <div class="keyboard-layout">
+                <div class="keyboard-row">
+                    <div class="key consonant"><span class="shift-char">ㅃ</span><span class="main-char">ㅂ</span></div>
+                    <div class="key consonant"><span class="shift-char">ㅉ</span><span class="main-char">ㅈ</span></div>
+                    <div class="key consonant"><span class="shift-char">ㄸ</span><span class="main-char">ㄷ</span></div>
+                    <div class="key consonant"><span class="shift-char">ㄲ</span><span class="main-char">ㄱ</span></div>
+                    <div class="key consonant"><span class="shift-char">ㅆ</span><span class="main-char">ㅅ</span></div>
+                    <div class="key vowel"><span class="shift-char">ㅒ</span><span class="main-char">ㅛ</span></div>
+                    <div class="key vowel"><span class="main-char">ㅕ</span></div>
+                    <div class="key vowel"><span class="main-char">ㅑ</span></div>
+                    <div class="key vowel"><span class="shift-char">ㅖ</span><span class="main-char">ㅐ</span></div>
+                    <div class="key vowel"><span class="main-char">ㅔ</span></div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key consonant"><span class="main-char">ㅁ</span></div>
+                    <div class="key consonant"><span class="main-char">ㄴ</span></div>
+                    <div class="key consonant"><span class="main-char">ㅇ</span></div>
+                    <div class="key consonant"><span class="main-char">ㄹ</span></div>
+                    <div class="key consonant"><span class="main-char">ㅎ</span></div>
+                    <div class="key vowel"><span class="main-char">ㅗ</span></div>
+                    <div class="key vowel"><span class="main-char">ㅓ</span></div>
+                    <div class="key vowel"><span class="main-char">ㅏ</span></div>
+                    <div class="key vowel"><span class="main-char">ㅣ</span></div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key consonant"><span class="main-char">ㅋ</span></div>
+                    <div class="key consonant"><span class="main-char">ㅌ</span></div>
+                    <div class="key consonant"><span class="main-char">ㅊ</span></div>
+                    <div class="key consonant"><span class="main-char">ㅍ</span></div>
+                    <div class="key vowel"><span class="main-char">ㅠ</span></div>
+                    <div class="key vowel"><span class="main-char">ㅜ</span></div>
+                    <div class="key vowel"><span class="main-char">ㅡ</span></div>
+                </div>
+            </div>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Рука</th>
+                        <th>Тип</th>
+                        <th>Символы</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Левая (왼손)</td>
+                        <td>Согласные</td>
+                        <td>ㅂ ㅈ ㄷ ㄱ ㅅ ㅁ ㄴ ㅇ ㄹ ㅎ ㅋ ㅌ ㅊ ㅍ</td>
+                    </tr>
+                    <tr>
+                        <td>Правая (오른손)</td>
+                        <td>Гласные</td>
+                        <td>ㅛ ㅕ ㅑ ㅐ ㅔ ㅗ ㅓ ㅏ ㅣ ㅠ ㅜ ㅡ</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 3: Shift Key -->
+        <div class="content-section">
+            <h2>3. Клавиша Shift — двойные согласные</h2>
+            <p>Нажатие <strong>Shift</strong> + согласный даёт удвоенный (напряжённый) согласный — 된소리 [dwensori]. Они звучат резче и сильнее обычных:</p>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Обычный</th>
+                        <th>Shift + клавиша</th>
+                        <th>Романизация</th>
+                        <th>Пример слова</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-size: 1.3em;">ㅂ</td>
+                        <td style="font-size: 1.3em; color: #e74c3c;">ㅃ</td>
+                        <td>[pp]</td>
+                        <td>빠르다 [ppaреuda] — быстрый</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3em;">ㅈ</td>
+                        <td style="font-size: 1.3em; color: #e74c3c;">ㅉ</td>
+                        <td>[jj]</td>
+                        <td>짜다 [jjada] — солёный</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3em;">ㄷ</td>
+                        <td style="font-size: 1.3em; color: #e74c3c;">ㄸ</td>
+                        <td>[tt]</td>
+                        <td>따뜻하다 [ttadeutada] — тёплый</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3em;">ㄱ</td>
+                        <td style="font-size: 1.3em; color: #e74c3c;">ㄲ</td>
+                        <td>[kk]</td>
+                        <td>꽃 [kkot] — цветок</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3em;">ㅅ</td>
+                        <td style="font-size: 1.3em; color: #e74c3c;">ㅆ</td>
+                        <td>[ss]</td>
+                        <td>씨 [ssi] — вежл. суффикс</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="warning-box">
+                <strong>Shift + гласные:</strong> Shift+ㅐ = ㅒ [ye], Shift+ㅔ = ㅖ [ye]. На практике ㅒ и ㅖ часто произносятся одинаково — как [е].
+            </div>
+        </div>
+
+        <!-- SECTION 4: Phone Setup -->
+        <div class="content-section">
+            <h2>4. Как включить корейский на телефоне</h2>
+            <p>Выберите вашу платформу:</p>
+            <div class="phone-tabs">
+                <button class="phone-tab active" onclick="showPhoneTab('iphone', this)">iPhone (iOS)</button>
+                <button class="phone-tab" onclick="showPhoneTab('android', this)">Android</button>
+            </div>
+
+            <div id="iphone" class="phone-content active">
+                <div class="setup-steps">
+                    <div class="setup-step">
+                        <div class="step-number">1</div>
+                        <div class="step-text">Откройте <strong>Настройки</strong> (Settings)</div>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">2</div>
+                        <div class="step-text">Перейдите в <strong>Основные</strong> (General)</div>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">3</div>
+                        <div class="step-text">Нажмите <strong>Клавиатура</strong> (Keyboard)</div>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">4</div>
+                        <div class="step-text">Нажмите <strong>Клавиатуры</strong> → <strong>Добавить клавиатуру</strong> (Add New Keyboard)</div>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">5</div>
+                        <div class="step-text">Найдите и выберите <strong>Korean (한국어)</strong></div>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">6</div>
+                        <div class="step-text">Переключение: зажмите <strong>иконку глобуса</strong> на клавиатуре</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="android" class="phone-content">
+                <div class="setup-steps">
+                    <div class="setup-step">
+                        <div class="step-number">1</div>
+                        <div class="step-text">Откройте <strong>Настройки</strong> (Settings)</div>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">2</div>
+                        <div class="step-text">Перейдите в <strong>Управление устройством → Язык и ввод</strong></div>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">3</div>
+                        <div class="step-text">Выберите <strong>Samsung Keyboard</strong> (или Gboard)</div>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">4</div>
+                        <div class="step-text">Нажмите <strong>Языки и типы</strong> → <strong>Управление языками ввода</strong></div>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">5</div>
+                        <div class="step-text">Найдите <strong>Korean (한국어)</strong> и включите переключатель</div>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">6</div>
+                        <div class="step-text">Переключение: нажмите <strong>иконку языка</strong> на пробеле или в строке уведомлений</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Совет:</strong> После добавления корейской клавиатуры можно тренироваться прямо в мессенджерах — пишите знакомым слова, которые выучили!
+            </div>
+        </div>
+
+        <!-- SECTION 5: Compound Vowels -->
+        <div class="content-section">
+            <h2>5. Составные гласные</h2>
+            <p>Некоторые гласные в корейском образованы соединением двух простых гласных. Набираются они именно в этой последовательности — первая гласная, затем вторая, и клавиатура автоматически их объединит:</p>
+
+            <div class="compound-grid">
+                <div class="compound-card">
+                    <div class="compound-result">ㅘ</div>
+                    <div class="compound-formula">ㅗ + ㅏ</div>
+                    <div class="compound-roman">[wa]</div>
+                </div>
+                <div class="compound-card">
+                    <div class="compound-result">ㅙ</div>
+                    <div class="compound-formula">ㅗ + ㅐ</div>
+                    <div class="compound-roman">[wae]</div>
+                </div>
+                <div class="compound-card">
+                    <div class="compound-result">ㅚ</div>
+                    <div class="compound-formula">ㅗ + ㅣ</div>
+                    <div class="compound-roman">[oe/we]</div>
+                </div>
+                <div class="compound-card">
+                    <div class="compound-result">ㅝ</div>
+                    <div class="compound-formula">ㅜ + ㅓ</div>
+                    <div class="compound-roman">[wo]</div>
+                </div>
+                <div class="compound-card">
+                    <div class="compound-result">ㅞ</div>
+                    <div class="compound-formula">ㅜ + ㅔ</div>
+                    <div class="compound-roman">[we]</div>
+                </div>
+                <div class="compound-card">
+                    <div class="compound-result">ㅟ</div>
+                    <div class="compound-formula">ㅜ + ㅣ</div>
+                    <div class="compound-roman">[wi]</div>
+                </div>
+                <div class="compound-card">
+                    <div class="compound-result">ㅢ</div>
+                    <div class="compound-formula">ㅡ + ㅣ</div>
+                    <div class="compound-roman">[ui/i]</div>
+                </div>
+            </div>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Составная гласная</th>
+                        <th>Набор (порядок)</th>
+                        <th>Пример слова</th>
+                        <th>Перевод</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-size: 1.3em;">ㅘ</td>
+                        <td>ㅗ → ㅏ</td>
+                        <td>와요 [wayo]</td>
+                        <td>приходит</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3em;">ㅚ</td>
+                        <td>ㅗ → ㅣ</td>
+                        <td>최고 [choego]</td>
+                        <td>лучший</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3em;">ㅝ</td>
+                        <td>ㅜ → ㅓ</td>
+                        <td>원 [won]</td>
+                        <td>вон (валюта)</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3em;">ㅟ</td>
+                        <td>ㅜ → ㅣ</td>
+                        <td>위 [wi]</td>
+                        <td>верх, над</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 1.3em;">ㅢ</td>
+                        <td>ㅡ → ㅣ</td>
+                        <td>의사 [uisa]</td>
+                        <td>врач</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SECTION 6: Typing Practice -->
+        <div class="content-section">
+            <h2>6. Тренировка набора</h2>
+            <p>Переключите клавиатуру на корейскую и попробуйте набрать слова. Нажмите «Новое слово» для следующего задания.</p>
+
+            <div id="typing-practice" style="background: rgba(255,255,255,0.97); border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <div id="typing-target" style="font-size: 2.2em; font-weight: 700; color: #2c3e50; margin-bottom: 8px;">한국</div>
+                <div id="typing-hint" style="font-size: 1em; color: #5f5a75; margin-bottom: 20px;">Корея</div>
+                <input type="text" id="typing-input" autocomplete="off" placeholder="Введите слово здесь..."
+                    style="width: 80%; max-width: 400px; padding: 14px 20px; font-size: 1.4em; border: 3px solid #e0e0e0; border-radius: 15px; text-align: center; outline: none; transition: border-color 0.3s; font-family: 'Noto Sans KR', sans-serif;"
+                    oninput="checkTyping()">
+                <div id="typing-feedback" style="margin-top: 15px; font-size: 1.1em; font-weight: 600; min-height: 1.5em;"></div>
+                <div style="margin-top: 15px; display: flex; justify-content: center; gap: 12px;">
+                    <button onclick="newTypingWord()" style="padding: 10px 24px; background: #3498db; color: white; border: none; border-radius: 12px; font-size: 1em; cursor: pointer; transition: all 0.3s; font-family: inherit;">Новое слово</button>
+                    <span id="typing-score" style="padding: 10px 18px; background: #f0f0f0; border-radius: 12px; font-weight: 600; color: #555; display: flex; align-items: center;">0 / 0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRACTICE SECTION -->
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise">
+                <div class="question">1. Какой стороне клавиатуры (두벌식) соответствуют гласные?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Левая сторона</button>
+                    <button class="option" data-correct="true">Правая сторона</button>
+                    <button class="option" data-correct="false">Верхний ряд</button>
+                    <button class="option" data-correct="false">Нижний ряд</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. Какая комбинация клавиш даёт ㅃ?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Alt + ㅂ</button>
+                    <button class="option" data-correct="true">Shift + ㅂ</button>
+                    <button class="option" data-correct="false">Ctrl + ㅂ</button>
+                    <button class="option" data-correct="false">Tab + ㅂ</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Из каких двух гласных состоит составная гласная ㅝ?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">ㅗ + ㅏ</button>
+                    <button class="option" data-correct="false">ㅡ + ㅣ</button>
+                    <button class="option" data-correct="true">ㅜ + ㅓ</button>
+                    <button class="option" data-correct="false">ㅗ + ㅣ</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. Как называется стандартная корейская раскладка клавиатуры?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">세벌식</button>
+                    <button class="option" data-correct="false">한글 키보드</button>
+                    <button class="option" data-correct="true">두벌식</button>
+                    <button class="option" data-correct="false">초벌식</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" class="complete-btn">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_korean_keyboard';
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.disabled = true;
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.disabled = true;
+                    }
+                }
+            }
+        });
+        // Typing practice
+        var typingWords = [
+            {korean: '한국', hint: 'Корея'},
+            {korean: '사랑', hint: 'любовь'},
+            {korean: '감사', hint: 'благодарность'},
+            {korean: '학교', hint: 'школа'},
+            {korean: '친구', hint: 'друг'},
+            {korean: '가족', hint: 'семья'},
+            {korean: '음식', hint: 'еда'},
+            {korean: '선생님', hint: 'учитель'},
+            {korean: '안녕', hint: 'привет'},
+            {korean: '고마워', hint: 'спасибо (неформ.)'},
+            {korean: '좋아요', hint: 'нравится / хорошо'},
+            {korean: '물', hint: 'вода'},
+            {korean: '바다', hint: 'море'},
+            {korean: '하늘', hint: 'небо'},
+            {korean: '서울', hint: 'Сеул'},
+            {korean: '의사', hint: 'врач'},
+            {korean: '최고', hint: 'лучший'},
+            {korean: '원', hint: 'вон (валюта)'},
+            {korean: '뭐', hint: 'что?'},
+            {korean: '왜', hint: 'почему?'}
+        ];
+        var typingIndex = 0;
+        var typingCorrect = 0;
+        var typingTotal = 0;
+
+        function checkTyping() {
+            var input = document.getElementById('typing-input');
+            var target = typingWords[typingIndex].korean;
+            var feedback = document.getElementById('typing-feedback');
+            if (input.value === target) {
+                typingCorrect++;
+                typingTotal++;
+                feedback.textContent = 'Правильно!';
+                feedback.style.color = '#27ae60';
+                input.style.borderColor = '#27ae60';
+                document.getElementById('typing-score').textContent = typingCorrect + ' / ' + typingTotal;
+                setTimeout(function() { newTypingWord(); }, 800);
+            } else if (target.indexOf(input.value) === 0) {
+                feedback.textContent = '';
+                input.style.borderColor = '#3498db';
+            } else {
+                feedback.textContent = 'Проверьте последний символ';
+                feedback.style.color = '#e74c3c';
+                input.style.borderColor = '#e74c3c';
+            }
+        }
+
+        function newTypingWord() {
+            var prev = typingIndex;
+            while (typingIndex === prev && typingWords.length > 1) {
+                typingIndex = Math.floor(Math.random() * typingWords.length);
+            }
+            document.getElementById('typing-target').textContent = typingWords[typingIndex].korean;
+            document.getElementById('typing-hint').textContent = typingWords[typingIndex].hint;
+            var input = document.getElementById('typing-input');
+            input.value = '';
+            input.style.borderColor = '#e0e0e0';
+            document.getElementById('typing-feedback').textContent = '';
+            input.focus();
+        }
+
+        function showPhoneTab(tabId, clickedBtn) {
+            document.querySelectorAll('.phone-content').forEach(function(el) { el.classList.remove('active'); });
+            document.querySelectorAll('.phone-tab').forEach(function(el) { el.classList.remove('active'); });
+            document.getElementById(tabId).classList.add('active');
+            clickedBtn.classList.add('active');
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.exercise').forEach(function(exercise) {
+                exercise.querySelectorAll('.option').forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        var opts = exercise.querySelectorAll('.option');
+                        opts.forEach(function(o) { o.classList.remove('correct', 'wrong'); });
+                        var result = exercise.querySelector('.result');
+                        if (this.dataset.correct === 'true') {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+                            opts.forEach(function(o) { if (o.dataset.correct === 'true') o.classList.add('correct'); });
+                        }
+                        result.style.display = 'block';
+                    });
+                });
+            });
+            document.querySelectorAll('.content-section').forEach(function(s, i) {
+                s.style.opacity = '0';
+                s.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    s.style.transition = 'all 0.6s ease';
+                    s.style.opacity = '1';
+                    s.style.transform = 'translateY(0)';
+                }, i * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

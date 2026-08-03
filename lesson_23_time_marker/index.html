@@ -11,9 +11,44 @@
             font-family: 'Noto Sans KR', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #00cec9 0%, #00b894 100%);
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 80px),
+                linear-gradient(135deg, #0f8b8d 0%, #0a5c5e 50%, #0a5c5e 100%);
+            position: relative;
+            overflow-x: hidden;
             min-height: 100vh;
             color: #333;
+        }
+
+        body::before {
+            content: '🕐';
+            position: fixed;
+            top: 13%;
+            right: 5%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 8s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '📅';
+            position: fixed;
+            bottom: 9%;
+            left: 4%;
+            font-size: 85px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
         }
 
         .container {
@@ -49,7 +84,7 @@
 
         .header {
             text-align: center;
-            color: white;
+            color: #2b2440;
             margin: 50px 0;
         }
 
@@ -75,7 +110,7 @@
         }
 
         .grammar-point {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: linear-gradient(135deg, #eef4ff 0%, #dbe7fb 100%);
             border-left: 5px solid #00cec9;
             padding: 30px;
             border-radius: 15px;
@@ -83,7 +118,7 @@
         }
 
         .grammar-point h2 {
-            color: #00b894;
+            color: #2b2440;
             font-size: 1.8em;
             margin-bottom: 20px;
             font-weight: 600;
@@ -127,7 +162,7 @@
         }
 
         .usage-pattern {
-            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
             color: white;
             padding: 25px;
             border-radius: 15px;
@@ -150,7 +185,7 @@
         }
 
         .practice-section {
-            background: linear-gradient(135deg, #fd79a8, #fdcb6e);
+            background: linear-gradient(135deg, #0f8b8d, #0a5c5e);
             color: white;
             padding: 30px;
             border-radius: 15px;
@@ -170,7 +205,7 @@
         }
 
         .important-note {
-            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
             color: white;
             padding: 20px;
             border-radius: 15px;
@@ -204,7 +239,7 @@
 
         th {
             background: #00cec9;
-            color: white;
+            color: #ffffff;
             font-weight: 600;
         }
 
@@ -213,8 +248,8 @@
         }
 
         .time-category {
-            background: linear-gradient(135deg, #55efc4, #00b894);
-            color: white;
+            background: linear-gradient(135deg, #0f8b8d, #0a5c5e);
+            color: #ffffff;
             padding: 25px;
             border-radius: 15px;
             margin: 25px 0;
@@ -226,7 +261,7 @@
         }
 
         .comparison-table {
-            background: linear-gradient(135deg, #fab1a0, #e17055);
+            background: linear-gradient(135deg, #d81b60, #7b1030);
             color: white;
             padding: 25px;
             border-radius: 15px;
@@ -245,6 +280,7 @@
             margin: 10px 0;
         }
     </style>
+    <link rel="stylesheet" href="../css/lesson-theme.css">
 </head>
 <body>
     <div class="container">
@@ -478,6 +514,67 @@
                 <a href="../level_3/index.html">📚 3급 수업</a>
             </div>
         </div>
-    </div>
+    
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+</div>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    <script src="../js/progress-tracker.js"></script>
+    <script>
+        // Кнопка завершения урока
+        var LESSON_ID = 'lesson_23_time_marker';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        // Проверяем статус при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+<script src="../js/dictionary.js"></script>
+    <script src="../js/dictionary-inject.js"></script>
+    <script src="../js/global-nav.js"></script>
 </body>
 </html>

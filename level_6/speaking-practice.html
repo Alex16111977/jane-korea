@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Устная практика 6급 — Miso: 한국어 수업</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #F44336 0%, #B71C1C 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container { max-width: 760px; margin: 0 auto; }
+
+        .back-link { display: inline-block; color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.9em; margin-bottom: 15px; }
+        .back-link:hover { color: white; }
+
+        .page-header { text-align: center; padding: 15px 10px 25px; color: white; }
+        .page-header h1 { font-size: 1.7em; margin-bottom: 6px; text-shadow: 0 2px 10px rgba(0,0,0,0.25); }
+        .page-header p { opacity: 0.9; font-size: 0.98em; }
+
+        .card { background: white; border-radius: 20px; padding: 30px 26px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); margin-bottom: 20px; }
+
+        .env-banner {
+            border-radius: 14px; padding: 12px 18px; margin-bottom: 20px; font-size: 0.88em; line-height: 1.6;
+        }
+        .env-banner.ok { background: #e8f5e9; color: #2e7d32; }
+        .env-banner.warn { background: #fff3e0; color: #8a5300; }
+
+        /* ===== MODE GRID ===== */
+        .mode-grid { display: flex; flex-direction: column; gap: 14px; }
+        .mode-card {
+            background: #fff5f5; border-radius: 16px; padding: 20px 22px; cursor: pointer;
+            transition: all 0.25s ease; border: 2px solid transparent; display: flex; gap: 16px; align-items: center;
+        }
+        .mode-card:hover { transform: translateY(-3px); border-color: #F44336; box-shadow: 0 10px 24px rgba(244,67,54,0.18); }
+        .mode-icon { font-size: 2.2em; flex-shrink: 0; }
+        .mode-info { flex: 1; }
+        .mode-title { font-weight: 700; color: #2c3e50; font-size: 1.08em; margin-bottom: 3px; }
+        .mode-desc { color: #777; font-size: 0.88em; }
+        .mode-meta { color: #c62828; font-size: 0.82em; font-weight: 600; margin-top: 4px; }
+
+        /* ===== PRACTICE START ===== */
+        .start-emoji { font-size: 3em; text-align: center; margin-bottom: 10px; }
+        .start-card h2 { text-align: center; font-size: 1.4em; color: #2c3e50; margin-bottom: 8px; }
+        .start-card p.lead { text-align: center; color: #666; margin-bottom: 20px; }
+        .back-to-grid { background: none; border: none; color: #999; cursor: pointer; font-family: inherit; font-size: 0.9em; display: block; margin: 0 auto 14px; text-decoration: underline; }
+        .start-btn {
+            display: block; width: 100%; padding: 16px; border: none; border-radius: 14px;
+            background: linear-gradient(135deg, #F44336, #B71C1C); color: white;
+            font-size: 1.1em; font-weight: 600; cursor: pointer; font-family: inherit;
+            box-shadow: 0 6px 20px rgba(244,67,54,0.35);
+        }
+        .start-btn:hover { transform: translateY(-2px); }
+        .start-btn:disabled { opacity: 0.5; cursor: default; transform: none; }
+
+        /* ===== PROGRESS ===== */
+        .progress-wrapper { background: rgba(255,255,255,0.15); border-radius: 20px; padding: 14px 20px; margin-bottom: 18px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.25); }
+        .progress-text { color: white; font-size: 0.9em; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .progress-bar { background: rgba(255,255,255,0.25); border-radius: 10px; height: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #fff, #ffc857); border-radius: 10px; transition: width 0.4s ease; }
+
+        /* ===== ITEM ===== */
+        .prompt-korean { font-size: 1.5em; font-weight: 700; color: #2c3e50; text-align: center; margin-bottom: 6px; }
+        .prompt-roman { text-align: center; color: #999; font-size: 0.9em; margin-bottom: 6px; }
+        .prompt-meaning { text-align: center; color: #764ba2; font-size: 0.95em; margin-bottom: 6px; }
+        .prompt-rule { text-align: center; color: #c62828; font-size: 0.85em; font-weight: 600; margin-bottom: 20px; }
+        .prompt-topic { font-size: 1.2em; font-weight: 600; color: #2c3e50; margin-bottom: 10px; text-align: center; }
+        .prompt-tip { background: #f8f5ff; border-left: 4px solid #764ba2; border-radius: 0 12px 12px 0; padding: 12px 16px; margin-bottom: 20px; font-size: 0.9em; color: #555; }
+
+        .model-btn { display: block; margin: 0 auto 20px; background: none; border: 2px solid #764ba2; color: #764ba2; border-radius: 20px; padding: 8px 20px; font-size: 0.9em; cursor: pointer; font-family: inherit; }
+        .model-btn.playing { background: #764ba2; color: white; }
+
+        .countdown-box { text-align: center; margin-bottom: 20px; }
+        .countdown-num { font-size: 3em; font-weight: 700; color: #F44336; }
+        .countdown-label { color: #888; font-size: 0.9em; }
+
+        .mic-controls { text-align: center; margin-bottom: 16px; }
+        .mic-btn {
+            width: 84px; height: 84px; border-radius: 50%; border: none; cursor: pointer;
+            background: linear-gradient(135deg, #F44336, #B71C1C); color: white; font-size: 2em;
+            box-shadow: 0 6px 20px rgba(244,67,54,0.35); transition: all 0.2s ease;
+        }
+        .mic-btn.recording { animation: micPulse 1s ease infinite; background: linear-gradient(135deg, #c62828, #7a0000); }
+        @keyframes micPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(244,67,54,0.5); } 50% { box-shadow: 0 0 0 16px rgba(244,67,54,0); } }
+        .mic-hint { text-align: center; color: #888; font-size: 0.85em; margin-top: 8px; margin-bottom: 16px; }
+        .rec-timer { text-align: center; font-size: 0.95em; color: #c62828; font-weight: 600; margin-bottom: 12px; min-height: 20px; }
+
+        .transcript-box { background: #f8f9ff; border-radius: 12px; padding: 14px 18px; min-height: 50px; margin-bottom: 16px; font-size: 1em; color: #333; }
+        .transcript-box.empty { color: #aaa; font-style: italic; }
+        .match-result { text-align: center; font-weight: 700; margin-bottom: 16px; min-height: 24px; }
+        .match-result.ok { color: #2e7d32; }
+        .match-result.bad { color: #c62828; }
+
+        .playback-row { text-align: center; margin-bottom: 16px; }
+        .playback-row audio { width: 100%; max-width: 320px; }
+
+        .checklist-box { background: #e8f5e9; border-radius: 14px; padding: 16px 20px; margin-bottom: 16px; display: none; }
+        .checklist-box.visible { display: block; }
+        .checklist { list-style: none; }
+        .checklist li { font-size: 0.9em; color: #444; margin-bottom: 6px; padding-left: 22px; position: relative; }
+        .checklist li::before { content: '☑'; position: absolute; left: 0; color: #4caf50; }
+        .reveal-btn { display: block; margin: 0 auto 16px; padding: 10px 22px; border: 2px solid #764ba2; background: transparent; color: #764ba2; border-radius: 12px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
+        .action-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .action-btn {
+            padding: 12px 26px; border: none; border-radius: 12px; font-size: 1em; font-weight: 600;
+            cursor: pointer; font-family: inherit;
+        }
+        .action-btn.primary { background: linear-gradient(135deg, #F44336, #B71C1C); color: white; }
+        .action-btn.secondary { background: #f0f0f0; color: #555; }
+        .action-btn:disabled { opacity: 0.45; cursor: default; }
+
+        /* ===== RESULTS ===== */
+        .results-card { text-align: center; }
+        .result-emoji { font-size: 3.6em; margin-bottom: 10px; }
+        .result-title { font-size: 1.6em; font-weight: 700; margin-bottom: 6px; color: #2c3e50; }
+        .result-score { font-size: 1.1em; color: #555; margin-bottom: 18px; }
+        .result-verdict { text-align: left; border-radius: 14px; padding: 18px 20px; margin-bottom: 20px; line-height: 1.7; background: #fff8e1; border-left: 4px solid #ffc107; }
+        .result-buttons { display: flex; flex-direction: column; gap: 10px; }
+        .result-btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1em; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; font-family: inherit; transition: all 0.2s ease; }
+        .result-btn.primary { background: linear-gradient(135deg, #F44336, #B71C1C); color: white; }
+        .result-btn.secondary { background: #f0f0f0; color: #555; }
+        .result-btn.primary:hover, .result-btn.secondary:hover { transform: translateY(-2px); }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 600px) {
+            .card { padding: 22px 18px; }
+            .page-header h1 { font-size: 1.35em; }
+            .mode-card { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">← 6급 — Мастерский уровень</a>
+
+    <div class="page-header">
+        <h1>🗣️ Устная практика 6급</h1>
+        <p>Произношение, дискуссия, спонтанный ответ — говорите вслух, а не только читайте</p>
+    </div>
+
+    <div id="envBanner" class="env-banner"></div>
+
+    <!-- MODE GRID -->
+    <div id="gridScreen" class="card">
+        <div class="mode-grid">
+            <div class="mode-card" onclick="openMode('pron')">
+                <div class="mode-icon">🎯</div>
+                <div class="mode-info">
+                    <div class="mode-title">발음 훈련 — Тренировка произношения</div>
+                    <div class="mode-desc">Связанное произношение, озвончение, ассимиляция — скажите вслух, система сверит с образцом</div>
+                    <div class="mode-meta">8 фраз</div>
+                </div>
+            </div>
+            <div class="mode-card" onclick="openMode('discuss')">
+                <div class="mode-icon">💬</div>
+                <div class="mode-info">
+                    <div class="mode-title">주제 토론 — Дискуссия по теме</div>
+                    <div class="mode-desc">30 секунд на подготовку, затем связный устный ответ с аргументами</div>
+                    <div class="mode-meta">6 тем</div>
+                </div>
+            </div>
+            <div class="mode-card" onclick="openMode('spontaneous')">
+                <div class="mode-icon">⚡</div>
+                <div class="mode-info">
+                    <div class="mode-title">즉흥 답변 — Спонтанный ответ</div>
+                    <div class="mode-desc">Почти без подготовки — неожиданный вопрос, нужно отреагировать сразу</div>
+                    <div class="mode-meta">6 вопросов</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODE START -->
+    <div id="startScreen" class="card start-card hidden">
+        <button class="back-to-grid" onclick="backToGrid()">← Другой режим</button>
+        <div class="start-emoji" id="startEmoji"></div>
+        <h2 id="startTitle"></h2>
+        <p class="lead" id="startDesc"></p>
+        <button class="start-btn" id="startBtn" onclick="startMode()">Начать →</button>
+    </div>
+
+    <!-- PROGRESS -->
+    <div id="progressWrapper" class="progress-wrapper hidden">
+        <div class="progress-text">
+            <span id="progressLabel"></span>
+            <span id="progressMode"></span>
+        </div>
+        <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+    </div>
+
+    <!-- ITEM -->
+    <div id="itemCard" class="card hidden"></div>
+
+    <!-- RESULTS -->
+    <div id="resultsCard" class="card results-card hidden">
+        <div class="result-emoji" id="resultEmoji">🎯</div>
+        <div class="result-title" id="resultTitle"></div>
+        <div class="result-score" id="resultScore"></div>
+        <div class="result-verdict" id="resultVerdict"></div>
+        <div class="result-buttons">
+            <button class="result-btn primary" onclick="startMode()">Пройти заново</button>
+            <button class="result-btn secondary" onclick="backToGrid()">Другой режим</button>
+        </div>
+    </div>
+</div>
+
+<script src="../js/global-nav.js"></script>
+<script>
+(function() {
+'use strict';
+
+// ================================================================
+// ENVIRONMENT: feature detection (mic + speech recognition need
+// a secure context - HTTPS/localhost - and browser support)
+// ================================================================
+var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+var hasRecognition = !!SR;
+var hasRecorder = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+
+function renderEnvBanner() {
+    var el = document.getElementById('envBanner');
+    if (hasRecognition && hasRecorder) {
+        el.className = 'env-banner ok';
+        el.textContent = '🎤 Распознавание речи и запись голоса доступны в этом браузере.';
+    } else if (hasRecorder) {
+        el.className = 'env-banner warn';
+        el.textContent = '⚠️ Автоматическое распознавание речи недоступно (нужен Chrome/Edge), но запись голоса для самопрослушивания работает.';
+    } else {
+        el.className = 'env-banner warn';
+        el.textContent = '⚠️ Микрофон недоступен в этом браузере/контексте (нужен HTTPS и Chrome/Edge). Можно тренироваться по модели произношения и таймеру без записи.';
+    }
+}
+
+// ================================================================
+// CONTENT
+// ================================================================
+// Все примеры на связанное произношение - устоявшиеся, учебниковые случаи
+// (경음화/격음화/유음화/비음화/구개음화/연음), без спорных пограничных случаев.
+var PRON_ITEMS = [
+    { sentence: '저는 내일 학교에 가요.', target: '학교', roman: 'hakkyo', pron: '[학꾜]', rule: '경음화 (ㄱ+ㄱ → ㄲ)', meaning: 'Завтра я иду в школу.' },
+    { sentence: '생일 축하해요!', target: '축하', roman: 'chuka', pron: '[추카]', rule: '격음화 (ㄱ+ㅎ → ㅋ)', meaning: 'С днём рождения!' },
+    { sentence: '신라면 주세요.', target: '신라면', roman: 'sillamyeon', pron: '[실라면]', rule: '유음화 (ㄴ+ㄹ → ㄹㄹ)', meaning: 'Дайте, пожалуйста, синрамён.' },
+    { sentence: '국물을 마셔요.', target: '국물', roman: 'gungmul', pron: '[궁물]', rule: '비음화 (ㄱ+ㅁ → ㅇ)', meaning: 'Пью бульон.' },
+    { sentence: '친구랑 같이 가요.', target: '같이', roman: 'gachi', pron: '[가치]', rule: '구개음화 (ㅌ+이 → 치)', meaning: 'Иду вместе с другом.' },
+    { sentence: '날씨가 좋아요.', target: '좋아요', roman: 'joayo', pron: '[조아요]', rule: 'ㅎ탈락 + 연음', meaning: 'Хорошая погода.' },
+    { sentence: '책이 있어요.', target: '책이', roman: 'chaegi', pron: '[채기]', rule: '연음 (받침이 다음 음절로)', meaning: 'Есть книга.' },
+    { sentence: '입학을 진심으로 축하해요.', target: '입학을', roman: 'ipageul', pron: '[이파글]', rule: '격음화 + 연음', meaning: 'От всей души поздравляю с поступлением.' }
+];
+
+var DISCUSS_TOPICS = [
+    { q: '인공지능이 인간의 창의성을 대체할 수 있다고 생각합니까?', tip: '찬성/반대 입장을 먼저 밝히고, 이유 두 가지와 구체적인 예시를 들어 보세요.' },
+    { q: '성공적인 삶이란 무엇이라고 생각합니까?', tip: '자신만의 기준을 제시하고, 왜 그렇게 생각하는지 근거를 설명해 보세요.' },
+    { q: '전통과 현대화 중 어느 것이 더 중요하다고 생각합니까?', tip: '한쪽만 옳다고 말하기보다, 균형 잡힌 시각으로 설명해 보세요.' },
+    { q: '돈과 행복의 관계에 대해 어떻게 생각합니까?', tip: '개인적인 경험이나 구체적인 사례를 들어 설명하면 더 설득력이 있습니다.' },
+    { q: '환경 보호와 경제 발전, 어느 것이 우선되어야 합니까?', tip: '상반된 두 가치를 어떻게 조율할 수 있을지도 언급해 보세요.' },
+    { q: 'SNS가 인간관계에 미치는 영향은 긍정적입니까, 부정적입니까?', tip: '긍정적 측면과 부정적 측면을 모두 언급한 뒤 자신의 결론을 말해 보세요.' }
+];
+
+var SPONTANEOUS_QUESTIONS = [
+    '만약 지금 당장 백만 달러가 생긴다면 무엇을 하시겠습니까?',
+    '당신의 가장 큰 실패는 무엇이었고, 그것에서 무엇을 배웠습니까?',
+    '만약 다시 태어난다면 지금과 다른 삶을 선택하시겠습니까?',
+    '당신을 가장 화나게 하는 것은 무엇입니까?',
+    '10년 후의 자신에게 편지를 쓴다면 어떤 말을 하고 싶습니까?',
+    '누군가 당신의 의견에 강하게 반대한다면 어떻게 반응하시겠습니까?'
+];
+
+var MODES = {
+    pron: { icon: '🎯', title: '발음 훈련', desc: 'Прослушайте образец, затем произнесите фразу вслух — сравним с оригиналом.', items: PRON_ITEMS },
+    discuss: { icon: '💬', title: '주제 토론', desc: '30 секунд на подготовку, затем говорите 60-90 секунд с аргументами.', items: DISCUSS_TOPICS },
+    spontaneous: { icon: '⚡', title: '즉흥 답변', desc: 'Всего 3 секунды на подготовку — отвечайте сразу, как в жизни.', items: SPONTANEOUS_QUESTIONS }
+};
+
+// ================================================================
+// STATE
+// ================================================================
+var state = { modeKey: null, idx: 0, matched: 0, completed: 0 };
+var recognition = null;
+var recognitionActive = false;
+var mediaStream = null;
+var mediaRecorder = null;
+var mediaChunks = [];
+var timers = [];
+
+function clearTimers() {
+    timers.forEach(function(t) { clearTimeout(t); clearInterval(t); });
+    timers = [];
+}
+
+// ================================================================
+// SPEECH: TTS playback of the model phrase
+// ================================================================
+function speakModel(text, btnEl) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ko-KR';
+    u.rate = 0.9;
+    if (btnEl) btnEl.classList.add('playing');
+    u.onend = function() { if (btnEl) btnEl.classList.remove('playing'); };
+    u.onerror = function() { if (btnEl) btnEl.classList.remove('playing'); };
+    window.speechSynthesis.speak(u);
+}
+
+// ================================================================
+// SPEECH: recognition (Chrome/Edge only) + recording (broader support)
+// ================================================================
+function normalizeKr(s) {
+    return s.toLowerCase().replace(/[\s.,!?~()"'"'']/g, '');
+}
+function levenshtein(a, b) {
+    var m = a.length, n = b.length;
+    if (!m) return n;
+    if (!n) return m;
+    var prev = [], cur = [];
+    for (var j = 0; j <= n; j++) prev[j] = j;
+    for (var i = 1; i <= m; i++) {
+        cur[0] = i;
+        for (var j2 = 1; j2 <= n; j2++) {
+            var cost = a[i - 1] === b[j2 - 1] ? 0 : 1;
+            cur[j2] = Math.min(prev[j2] + 1, cur[j2 - 1] + 1, prev[j2 - 1] + cost);
+        }
+        prev = cur.slice();
+    }
+    return prev[n];
+}
+function similarity(a, b) {
+    var na = normalizeKr(a), nb = normalizeKr(b);
+    if (!na || !nb) return 0;
+    return 1 - levenshtein(na, nb) / Math.max(na.length, nb.length);
+}
+
+function startListening(onInterim, onFinal, onError) {
+    if (!hasRecognition) { onError('unsupported'); return; }
+    try {
+        recognition = new SR();
+        recognition.lang = 'ko-KR';
+        recognition.interimResults = true;
+        recognition.continuous = true;
+        recognition.onresult = function(e) {
+            var interim = '', finalText = '';
+            for (var i = e.resultIndex; i < e.results.length; i++) {
+                if (e.results[i].isFinal) finalText += e.results[i][0].transcript;
+                else interim += e.results[i][0].transcript;
+            }
+            if (finalText) onFinal(finalText);
+            if (interim) onInterim(interim);
+        };
+        recognition.onerror = function(e) { onError(e.error); };
+        recognition.onend = function() { recognitionActive = false; };
+        recognition.start();
+        recognitionActive = true;
+    } catch (e) {
+        onError('start-failed');
+    }
+}
+function stopListening() {
+    if (recognition && recognitionActive) {
+        try { recognition.stop(); } catch (e) {}
+    }
+    recognitionActive = false;
+}
+
+function startRecordingAudio(onReady, onError) {
+    if (!hasRecorder) { onError('unsupported'); return; }
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
+        mediaStream = stream;
+        mediaChunks = [];
+        try {
+            mediaRecorder = new MediaRecorder(stream);
+        } catch (e) {
+            onError('recorder-failed');
+            stream.getTracks().forEach(function(t) { t.stop(); });
+            return;
+        }
+        mediaRecorder.ondataavailable = function(e) { if (e.data && e.data.size) mediaChunks.push(e.data); };
+        mediaRecorder.onstop = function() {
+            var blob = new Blob(mediaChunks, { type: 'audio/webm' });
+            onReady(blob.size ? URL.createObjectURL(blob) : null);
+            stream.getTracks().forEach(function(t) { t.stop(); });
+        };
+        mediaRecorder.start();
+    }).catch(function(err) {
+        onError(err.name || 'denied');
+    });
+}
+function stopRecordingAudio() {
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+    }
+}
+
+// ================================================================
+// MODE GRID / START
+// ================================================================
+window.openMode = function(key) {
+    state.modeKey = key;
+    var mode = MODES[key];
+    document.getElementById('gridScreen').classList.add('hidden');
+    document.getElementById('startScreen').classList.remove('hidden');
+    document.getElementById('startEmoji').textContent = mode.icon;
+    document.getElementById('startTitle').textContent = mode.title;
+    document.getElementById('startDesc').textContent = mode.desc;
+};
+
+window.backToGrid = function() {
+    cleanupItem();
+    document.getElementById('startScreen').classList.add('hidden');
+    document.getElementById('progressWrapper').classList.add('hidden');
+    document.getElementById('itemCard').classList.add('hidden');
+    document.getElementById('resultsCard').classList.add('hidden');
+    document.getElementById('gridScreen').classList.remove('hidden');
+};
+
+function cleanupItem() {
+    clearTimers();
+    stopListening();
+    stopRecordingAudio();
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+}
+
+// ================================================================
+// FLOW
+// ================================================================
+window.startMode = function() {
+    state.idx = 0;
+    state.matched = 0;
+    state.completed = 0;
+
+    document.getElementById('startScreen').classList.add('hidden');
+    document.getElementById('resultsCard').classList.add('hidden');
+    document.getElementById('progressWrapper').classList.remove('hidden');
+    document.getElementById('itemCard').classList.remove('hidden');
+    renderItem();
+};
+
+function goNext() {
+    cleanupItem();
+    state.idx++;
+    var items = MODES[state.modeKey].items;
+    if (state.idx < items.length) {
+        renderItem();
+    } else {
+        showResults();
+    }
+}
+
+function renderItem() {
+    cleanupItem();
+    var mode = MODES[state.modeKey];
+    var items = mode.items;
+    var total = items.length;
+
+    document.getElementById('progressLabel').textContent = 'Задание ' + (state.idx + 1) + ' из ' + total;
+    document.getElementById('progressMode').textContent = mode.icon + ' ' + mode.title;
+    document.getElementById('progressFill').style.width = ((state.idx / total) * 100) + '%';
+
+    if (state.modeKey === 'pron') renderPronItem(items[state.idx]);
+    else if (state.modeKey === 'discuss') renderDiscussItem(items[state.idx]);
+    else renderSpontaneousItem(items[state.idx]);
+}
+
+// ================================================================
+// MODE 1: PRONUNCIATION
+// ================================================================
+function renderPronItem(item) {
+    var card = document.getElementById('itemCard');
+    card.innerHTML =
+        '<div class="prompt-korean">' + item.sentence + '</div>' +
+        '<div class="prompt-roman">' + item.roman + '</div>' +
+        '<div class="prompt-meaning">' + item.meaning + '</div>' +
+        '<div class="prompt-rule">' + item.target + ' → ' + item.pron + ' · ' + item.rule + '</div>' +
+        '<button class="model-btn" id="modelBtn">🔊 Прослушать образец</button>' +
+        '<div class="mic-controls"><button class="mic-btn" id="micBtn">🎤</button></div>' +
+        '<div class="mic-hint" id="micHint">Нажмите и произнесите фразу вслух</div>' +
+        '<div class="transcript-box empty" id="transcriptBox">Здесь появится то, что услышала система</div>' +
+        '<div class="match-result" id="matchResult"></div>' +
+        '<div class="playback-row" id="playbackRow"></div>' +
+        '<div class="action-row"><button class="action-btn secondary" id="nextBtn" style="display:none" onclick="_goNext()">Далее →</button></div>';
+
+    document.getElementById('modelBtn').onclick = function() { speakModel(item.sentence, this); };
+    wireMicButton(item.sentence, item.target);
+}
+
+function wireMicButton(targetSentence, targetWord) {
+    var micBtn = document.getElementById('micBtn');
+    var transcriptBox = document.getElementById('transcriptBox');
+    var matchResult = document.getElementById('matchResult');
+    var hint = document.getElementById('micHint');
+    var nextBtn = document.getElementById('nextBtn');
+    var recording = false;
+
+    if (!hasRecognition && !hasRecorder) {
+        micBtn.disabled = true;
+        hint.textContent = 'Микрофон недоступен в этом браузере — повторяйте вслух за образцом самостоятельно.';
+        nextBtn.style.display = 'inline-block';
+        return;
+    }
+
+    micBtn.onclick = function() {
+        if (recording) return;
+        recording = true;
+        micBtn.classList.add('recording');
+        hint.textContent = 'Слушаю... говорите сейчас';
+        transcriptBox.textContent = '';
+        transcriptBox.classList.remove('empty');
+
+        var heard = '';
+        var finished = false;
+
+        function finish(audioUrl) {
+            if (finished) return;
+            finished = true;
+            micBtn.classList.remove('recording');
+            micBtn.disabled = true;
+            hint.textContent = 'Готово';
+
+            if (hasRecognition) {
+                var sim = similarity(heard || '', targetWord);
+                var ok = sim >= 0.6;
+                if (heard) {
+                    transcriptBox.textContent = 'Услышано: «' + heard + '»';
+                    matchResult.className = 'match-result ' + (ok ? 'ok' : 'bad');
+                    matchResult.textContent = ok ? '✓ Похоже на верное произношение!' : '✗ Не совпало. Прослушайте образец и попробуйте ещё раз.';
+                    if (ok) state.matched++;
+                } else {
+                    transcriptBox.textContent = 'Речь не распознана.';
+                    transcriptBox.classList.add('empty');
+                    matchResult.className = 'match-result bad';
+                    matchResult.textContent = 'Система ничего не услышала — проверьте микрофон.';
+                }
+            } else {
+                transcriptBox.textContent = 'Автораспознавание недоступно — прослушайте запись и сравните сами.';
+                transcriptBox.classList.add('empty');
+            }
+
+            if (audioUrl) {
+                document.getElementById('playbackRow').innerHTML = '<audio controls src="' + audioUrl + '"></audio>';
+            }
+            state.completed++;
+            nextBtn.style.display = 'inline-block';
+        }
+
+        if (hasRecognition) {
+            startListening(
+                function(interim) { transcriptBox.textContent = interim; transcriptBox.classList.remove('empty'); },
+                function(finalText) { heard += finalText; },
+                function() {}
+            );
+        }
+        if (hasRecorder) {
+            startRecordingAudio(function(url) {
+                if (hasRecognition) {} // recognition result already captured via callbacks
+                finish(url);
+            }, function() { finish(null); });
+        }
+
+        // Auto-stop after 4s of speaking time
+        timers.push(setTimeout(function() {
+            stopListening();
+            stopRecordingAudio();
+            if (!hasRecorder) finish(null);
+        }, 4000));
+    };
+}
+
+window._goNext = goNext;
+
+// ================================================================
+// MODE 2 & 3: DISCUSSION / SPONTANEOUS (share the same recording flow,
+// differ only in prep time, speaking time and self-check copy)
+// ================================================================
+function renderDiscussItem(topic) {
+    renderOpenSpeakingItem({
+        heading: topic.q,
+        tip: topic.tip,
+        prepSeconds: 30,
+        speakSeconds: 90,
+        checklist: [
+            'Чётко обозначили позицию (согласен/не согласен, за/против)',
+            'Привели минимум две причины',
+            'Дали конкретный пример',
+            'Использовали формальные обороты (-다고 생각합니다, -ㄴ/는 반면에)',
+            'Пришли к выводу в конце ответа'
+        ]
+    });
+}
+
+function renderSpontaneousItem(question) {
+    renderOpenSpeakingItem({
+        heading: question,
+        tip: '',
+        prepSeconds: 3,
+        speakSeconds: 45,
+        checklist: [
+            'Отреагировали сразу, без долгой паузы',
+            'Использовали вводные фразы (글쎄요, 사실은, 제 생각에는)',
+            'Ответ был связным, а не набором отдельных слов',
+            'Успели закончить мысль до конца времени'
+        ]
+    });
+}
+
+function renderOpenSpeakingItem(cfg) {
+    var card = document.getElementById('itemCard');
+    var html = '<div class="prompt-topic">' + cfg.heading + '</div>';
+    if (cfg.tip) html += '<div class="prompt-tip">💡 ' + cfg.tip + '</div>';
+    html +=
+        '<div class="countdown-box" id="countdownBox"></div>' +
+        '<div class="mic-controls" id="micControlsWrap" style="display:none"><button class="mic-btn" id="micBtn2">⏹</button></div>' +
+        '<div class="rec-timer" id="recTimer"></div>' +
+        '<div class="transcript-box empty" id="transcriptBox2">Здесь появится расшифровка вашего ответа (если распознавание доступно)</div>' +
+        '<div class="playback-row" id="playbackRow2"></div>' +
+        '<button class="reveal-btn hidden" id="revealBtn">Показать чек-лист самопроверки</button>' +
+        '<div class="checklist-box" id="checklistBox"><ul class="checklist">' +
+        cfg.checklist.map(function(c) { return '<li>' + c + '</li>'; }).join('') +
+        '</ul></div>' +
+        '<div class="action-row"><button class="action-btn secondary hidden" id="nextBtn2" onclick="_goNext()">Далее →</button></div>';
+    card.innerHTML = html;
+
+    if (!hasRecognition && !hasRecorder) {
+        document.getElementById('transcriptBox2').textContent = 'Микрофон недоступен — используйте таймер ниже, чтобы потренироваться отвечать на время, проговаривая ответ вслух.';
+    }
+
+    runCountdown(cfg.prepSeconds, function() {
+        beginSpeaking(cfg.speakSeconds);
+    });
+}
+
+function runCountdown(seconds, onDone) {
+    var box = document.getElementById('countdownBox');
+    var remaining = seconds;
+    function tick() {
+        box.innerHTML = '<div class="countdown-num">' + remaining + '</div><div class="countdown-label">секунд на подготовку</div>';
+        if (remaining <= 0) {
+            box.innerHTML = '<div class="countdown-label">Время! Говорите сейчас</div>';
+            onDone();
+            return;
+        }
+        remaining--;
+        timers.push(setTimeout(tick, 1000));
+    }
+    tick();
+}
+
+function beginSpeaking(maxSeconds) {
+    var micWrap = document.getElementById('micControlsWrap');
+    var micBtn = document.getElementById('micBtn2');
+    var recTimer = document.getElementById('recTimer');
+    var transcriptBox = document.getElementById('transcriptBox2');
+    var revealBtn = document.getElementById('revealBtn');
+    var nextBtn = document.getElementById('nextBtn2');
+
+    if (!hasRecognition && !hasRecorder) {
+        var remaining = maxSeconds;
+        recTimer.textContent = 'Говорите вслух ' + remaining + ' сек...';
+        var iv = setInterval(function() {
+            remaining--;
+            recTimer.textContent = remaining > 0 ? 'Говорите вслух ' + remaining + ' сек...' : 'Время вышло';
+            if (remaining <= 0) {
+                clearInterval(iv);
+                revealBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+                state.completed++;
+            }
+        }, 1000);
+        timers.push(iv);
+        wireReveal(revealBtn);
+        return;
+    }
+
+    micWrap.style.display = 'block';
+    var heard = '';
+    var stopped = false;
+
+    function finalize(audioUrl) {
+        if (stopped) return;
+        stopped = true;
+        if (iv2) clearInterval(iv2);
+        micBtn.disabled = true;
+        recTimer.textContent = 'Готово';
+        if (heard) {
+            transcriptBox.textContent = heard;
+            transcriptBox.classList.remove('empty');
+        } else if (hasRecognition) {
+            transcriptBox.textContent = 'Речь не распознана полностью — если запись доступна, прослушайте её ниже.';
+        }
+        if (audioUrl) {
+            document.getElementById('playbackRow2').innerHTML = '<audio controls src="' + audioUrl + '"></audio>';
+        }
+        revealBtn.classList.remove('hidden');
+        nextBtn.classList.remove('hidden');
+        state.completed++;
+    }
+
+    micBtn.onclick = function() {
+        stopListening();
+        stopRecordingAudio();
+    };
+
+    if (hasRecognition) {
+        startListening(
+            function(interim) { transcriptBox.textContent = heard + interim; transcriptBox.classList.remove('empty'); },
+            function(finalText) { heard += finalText + ' '; },
+            function() {}
+        );
+    }
+    if (hasRecorder) {
+        startRecordingAudio(function(url) { finalize(url); }, function() { finalize(null); });
+    }
+
+    var remaining2 = maxSeconds;
+    recTimer.textContent = 'Осталось ' + remaining2 + ' сек (нажмите ⏹, чтобы закончить раньше)';
+    var iv2 = setInterval(function() {
+        remaining2--;
+        if (remaining2 > 0) {
+            recTimer.textContent = 'Осталось ' + remaining2 + ' сек (нажмите ⏹, чтобы закончить раньше)';
+        } else {
+            clearInterval(iv2);
+            stopListening();
+            stopRecordingAudio();
+            if (!hasRecorder) finalize(null);
+        }
+    }, 1000);
+    timers.push(iv2);
+
+    wireReveal(revealBtn);
+}
+
+function wireReveal(revealBtn) {
+    revealBtn.onclick = function() {
+        document.getElementById('checklistBox').classList.add('visible');
+        revealBtn.disabled = true;
+    };
+}
+
+// ================================================================
+// RESULTS
+// ================================================================
+function showResults() {
+    cleanupItem();
+    document.getElementById('progressWrapper').classList.add('hidden');
+    document.getElementById('itemCard').classList.add('hidden');
+    document.getElementById('resultsCard').classList.remove('hidden');
+
+    var mode = MODES[state.modeKey];
+    var total = mode.items.length;
+
+    document.getElementById('resultEmoji').textContent = '🎉';
+    document.getElementById('resultTitle').textContent = 'Практика завершена!';
+
+    if (state.modeKey === 'pron' && hasRecognition) {
+        document.getElementById('resultScore').textContent = 'Распознано верно: ' + state.matched + ' из ' + total;
+        document.getElementById('resultVerdict').innerHTML =
+            '<p>Если часть фраз не распозналась — не страшно: браузерное распознавание корейского неидеально. Важнее то, что вы вслух проговаривали связанное произношение. Переслушайте образцы там, где были расхождения.</p>';
+    } else {
+        document.getElementById('resultScore').textContent = 'Пройдено заданий: ' + state.completed + ' из ' + total;
+        document.getElementById('resultVerdict').innerHTML =
+            '<p>Устная практика не оценивается автоматически — важен сам факт, что вы говорили вслух под таймером, а не думали про себя. Прослушайте свои записи (если микрофон был доступен) и сравните с чек-листом.</p>';
+    }
+
+    console.log('[OK] Speaking practice (' + state.modeKey + '): completed ' + state.completed + '/' + total);
+}
+
+renderEnvBanner();
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аудирование 6급 — Miso: 한국어 수업</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #F44336 0%, #B71C1C 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container { max-width: 760px; margin: 0 auto; }
+
+        .back-link { display: inline-block; color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.9em; margin-bottom: 15px; }
+        .back-link:hover { color: white; }
+
+        .page-header { text-align: center; padding: 15px 10px 25px; color: white; }
+        .page-header h1 { font-size: 1.7em; margin-bottom: 6px; text-shadow: 0 2px 10px rgba(0,0,0,0.25); }
+        .page-header p { opacity: 0.9; font-size: 0.98em; }
+
+        .card { background: white; border-radius: 20px; padding: 30px 26px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); margin-bottom: 20px; }
+
+        /* ===== CATEGORY GRID ===== */
+        .cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        .cat-card {
+            background: #fff5f5; border-radius: 16px; padding: 22px 20px; cursor: pointer;
+            transition: all 0.25s ease; text-align: center; border: 2px solid transparent;
+        }
+        .cat-card:hover { transform: translateY(-4px); border-color: #F44336; box-shadow: 0 10px 24px rgba(244,67,54,0.18); }
+        .cat-icon { font-size: 2.4em; margin-bottom: 8px; }
+        .cat-title { font-weight: 700; color: #2c3e50; font-size: 1.1em; margin-bottom: 2px; }
+        .cat-subtitle { color: #888; font-size: 0.88em; margin-bottom: 10px; }
+        .cat-meta { font-size: 0.82em; color: #c62828; font-weight: 600; }
+        .cat-best { color: #2e7d32; }
+
+        /* ===== PRACTICE START (per category) ===== */
+        .start-emoji { font-size: 3em; text-align: center; margin-bottom: 10px; }
+        .start-card h2 { text-align: center; font-size: 1.4em; color: #2c3e50; margin-bottom: 8px; }
+        .start-card p.lead { text-align: center; color: #666; margin-bottom: 20px; }
+        .speed-picker { display: flex; justify-content: center; gap: 10px; margin-bottom: 22px; }
+        .speed-btn {
+            padding: 9px 20px; border: 2px solid #F44336; background: transparent; color: #F44336;
+            border-radius: 20px; cursor: pointer; font-family: inherit; font-size: 0.92em; font-weight: 600;
+        }
+        .speed-btn.active { background: linear-gradient(135deg, #F44336, #B71C1C); color: white; border-color: transparent; }
+        .start-btn {
+            display: block; width: 100%; padding: 16px; border: none; border-radius: 14px;
+            background: linear-gradient(135deg, #F44336, #B71C1C); color: white;
+            font-size: 1.1em; font-weight: 600; cursor: pointer; font-family: inherit;
+            box-shadow: 0 6px 20px rgba(244,67,54,0.35);
+        }
+        .start-btn:hover { transform: translateY(-2px); }
+        .back-to-grid { background: none; border: none; color: #999; cursor: pointer; font-family: inherit; font-size: 0.9em; display: block; margin: 0 auto 14px; text-decoration: underline; }
+
+        /* ===== PROGRESS ===== */
+        .progress-wrapper { background: rgba(255,255,255,0.15); border-radius: 20px; padding: 14px 20px; margin-bottom: 18px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.25); }
+        .progress-text { color: white; font-size: 0.9em; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .progress-bar { background: rgba(255,255,255,0.25); border-radius: 10px; height: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #fff, #ffc857); border-radius: 10px; transition: width 0.4s ease; }
+
+        /* ===== ITEM ===== */
+        .audio-speaker { font-size: 3.4em; cursor: pointer; display: block; text-align: center; margin-bottom: 6px; user-select: none; transition: transform 0.2s ease; }
+        .audio-speaker:hover { transform: scale(1.08); }
+        .audio-speaker.playing { animation: audioPulse 0.6s ease infinite; }
+        @keyframes audioPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        .audio-hint { text-align: center; color: #888; font-size: 0.88em; margin-bottom: 6px; }
+        .replay-row { text-align: center; margin-bottom: 20px; }
+        .replay-btn { background: none; border: 2px solid #ddd; color: #888; border-radius: 20px; padding: 6px 16px; font-size: 0.85em; cursor: pointer; font-family: inherit; }
+
+        .question-text { font-size: 1.12em; font-weight: 600; color: #2c3e50; margin-bottom: 18px; }
+        .options-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
+        .option-btn { display: block; width: 100%; text-align: left; padding: 14px 18px; background: #f8f9ff; border: 2px solid #e8eaf6; border-radius: 12px; font-size: 1em; color: #333; cursor: pointer; transition: all 0.2s ease; font-family: inherit; }
+        .option-btn:hover:not(.disabled) { background: #ede7f6; border-color: #b39ddb; }
+        .option-btn.correct { background: #e8f5e9; border-color: #4caf50; color: #2e7d32; font-weight: 600; }
+        .option-btn.wrong { background: #ffebee; border-color: #f44336; color: #c62828; }
+        .option-btn.disabled { pointer-events: none; opacity: 0.75; }
+
+        .transcript-toggle { background: none; border: 2px solid #ddd; color: #888; border-radius: 20px; padding: 6px 16px; font-size: 0.85em; cursor: pointer; font-family: inherit; margin-top: 10px; }
+        .transcript-box { display: none; background: #f5f5f5; border-radius: 10px; padding: 12px 16px; margin-top: 10px; font-size: 0.95em; color: #555; white-space: pre-line; }
+        .transcript-box.visible { display: block; }
+
+        .next-btn { display: none; margin-top: 16px; padding: 12px 28px; border: none; border-radius: 12px; background: linear-gradient(135deg, #F44336, #B71C1C); color: white; font-size: 1em; font-weight: 600; cursor: pointer; font-family: inherit; }
+        .next-btn.visible { display: inline-block; }
+
+        /* ===== RESULTS ===== */
+        .results-card { text-align: center; }
+        .result-emoji { font-size: 3.6em; margin-bottom: 10px; }
+        .result-title { font-size: 1.6em; font-weight: 700; margin-bottom: 6px; color: #2c3e50; }
+        .result-score { font-size: 1.1em; color: #555; margin-bottom: 18px; }
+        .result-verdict { text-align: left; border-radius: 14px; padding: 18px 20px; margin-bottom: 20px; line-height: 1.7; }
+        .result-buttons { display: flex; flex-direction: column; gap: 10px; }
+        .result-btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 1em; font-weight: 600; cursor: pointer; text-decoration: none; text-align: center; font-family: inherit; transition: all 0.2s ease; }
+        .result-btn.primary { background: linear-gradient(135deg, #F44336, #B71C1C); color: white; }
+        .result-btn.secondary { background: #f0f0f0; color: #555; }
+        .result-btn.primary:hover, .result-btn.secondary:hover { transform: translateY(-2px); }
+
+        .review-toggle { background: none; border: none; color: #764ba2; text-decoration: underline; cursor: pointer; font-family: inherit; font-size: 0.92em; margin-top: 16px; }
+        .review-list { display: none; text-align: left; margin-top: 12px; }
+        .review-list.open { display: block; }
+        .review-item { background: #f8f9ff; border-radius: 10px; padding: 10px 14px; margin-bottom: 6px; font-size: 0.85em; border-left: 4px solid #ccc; }
+        .review-item.correct-item { border-left-color: #4caf50; }
+        .review-item.wrong-item { border-left-color: #f44336; }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 600px) {
+            .card { padding: 22px 18px; }
+            .page-header h1 { font-size: 1.35em; }
+            .cat-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">← 6급 — Мастерский уровень</a>
+
+    <div class="page-header">
+        <h1>🎧 Аудирование 6급</h1>
+        <p>Новости, лекции, дебаты, объявления, интервью — на слух, без опоры на текст</p>
+    </div>
+
+    <!-- CATEGORY GRID -->
+    <div id="gridScreen" class="card">
+        <div id="categoryGrid" class="cat-grid"></div>
+    </div>
+
+    <!-- CATEGORY START -->
+    <div id="startScreen" class="card hidden">
+        <button class="back-to-grid" onclick="backToGrid()">← Другая категория</button>
+        <div class="start-emoji" id="startEmoji">🎧</div>
+        <h2 id="startTitle"></h2>
+        <p class="lead" id="startDesc"></p>
+        <div class="speed-picker">
+            <button class="speed-btn" id="speedSlow" onclick="setSpeed(0.85)">🐢 Тренировка (0.85x)</button>
+            <button class="speed-btn active" id="speedNormal" onclick="setSpeed(1.0)">⚡ Реальная скорость (1x)</button>
+        </div>
+        <button class="start-btn" onclick="startCategory()">Начать →</button>
+    </div>
+
+    <!-- PROGRESS -->
+    <div id="progressWrapper" class="progress-wrapper hidden">
+        <div class="progress-text">
+            <span id="progressLabel">Вопрос 1 из 6</span>
+            <span id="progressCat"></span>
+        </div>
+        <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+    </div>
+
+    <!-- ITEM -->
+    <div id="itemCard" class="card hidden"></div>
+
+    <!-- RESULTS -->
+    <div id="resultsCard" class="card results-card hidden">
+        <div class="result-emoji" id="resultEmoji">🎯</div>
+        <div class="result-title" id="resultTitle"></div>
+        <div class="result-score" id="resultScore"></div>
+        <div id="resultVerdict" class="result-verdict"></div>
+        <div class="result-buttons">
+            <button class="result-btn primary" onclick="startCategory()">Пройти заново</button>
+            <button class="result-btn secondary" onclick="backToGrid()">Другая категория</button>
+        </div>
+        <button class="review-toggle" id="reviewToggle" onclick="toggleReview()">Показать разбор ответов</button>
+        <div id="reviewList" class="review-list"></div>
+    </div>
+</div>
+
+<script src="../js/global-nav.js"></script>
+<script>
+(function() {
+'use strict';
+
+// ================================================================
+// CONTENT
+// ================================================================
+var CATEGORIES = {
+    news: {
+        icon: '📰', title: '뉴스', subtitle: 'Новостные сводки',
+        items: [
+            { script: "정부는 내일부터 대중교통 요금을 10퍼센트 인상한다고 발표했습니다. 이번 조치는 유가 상승에 따른 운영 적자를 해소하기 위한 것으로, 시민들의 반발이 예상됩니다.",
+              q: "이 뉴스의 중심 내용은 무엇입니까?",
+              opts: ["대중교통 요금이 인하되었다", "정부가 대중교통 요금 인상을 발표했다", "시민들이 요금 인상을 요구했다", "유가가 하락했다"], c: 1 },
+            { script: "내일 아침부터 전국적으로 강한 바람과 함께 많은 비가 내릴 것으로 예상됩니다. 기상청은 해안 지역 주민들에게 사전 대비를 당부했습니다.",
+              q: "이 뉴스에서 기상청이 당부한 것은 무엇입니까?",
+              opts: ["여행을 떠나라고", "해안 지역 주민들에게 대비하라고", "우산을 팔라고", "학교를 휴교하라고"], c: 1 },
+            { script: "최근 국제 유가 상승의 영향으로 국내 물가가 석 달 연속 오르고 있습니다. 전문가들은 하반기에도 이러한 상승세가 이어질 것으로 전망했습니다.",
+              q: "물가 상승의 원인으로 언급된 것은 무엇입니까?",
+              opts: ["국제 유가 상승", "인구 감소", "수출 증가", "정부 정책 변화"], c: 0 },
+            { script: "국내 연구팀이 배터리 충전 시간을 절반으로 줄이는 신기술을 개발했다고 밝혔습니다. 이 기술은 내년부터 전기차에 상용화될 예정입니다.",
+              q: "신기술의 특징은 무엇입니까?",
+              opts: ["배터리 수명을 두 배로 늘림", "충전 시간을 절반으로 줄임", "배터리 가격을 낮춤", "충전소를 늘림"], c: 1 },
+            { script: "통계청 발표에 따르면 올해 65세 이상 인구 비율이 처음으로 20퍼센트를 넘어서며 초고령 사회에 진입한 것으로 나타났습니다.",
+              q: "이 뉴스의 핵심 내용은 무엇입니까?",
+              opts: ["출산율이 증가했다", "한국이 초고령 사회에 진입했다", "청년 인구가 늘었다", "이민자가 증가했다"], c: 1 },
+            { script: "이번 주말 서울에서 열리는 국제 영화제에 전 세계 30개국의 작품 100여 편이 출품되어 역대 최대 규모를 기록했습니다.",
+              q: "이번 영화제의 특징은 무엇입니까?",
+              opts: ["참가국이 줄었다", "역대 최대 규모로 열린다", "취소되었다", "국내 영화만 출품되었다"], c: 1 }
+        ]
+    },
+    lecture: {
+        icon: '🎓', title: '강연', subtitle: 'Лекции и выступления',
+        items: [
+            { script: "오늘 강연에서 강조하고 싶은 것은, 성공이란 결과가 아니라 과정에서 얼마나 최선을 다했는가에 달려 있다는 점입니다. 실패를 두려워하지 않는 태도야말로 진정한 성장의 밑거름이 됩니다.",
+              q: "강연자가 강조하는 것은 무엇입니까?",
+              opts: ["결과만이 중요하다", "실패는 반드시 피해야 한다", "과정에서의 노력과 실패를 두려워하지 않는 태도가 중요하다", "성공은 운에 달려 있다"], c: 2 },
+            { script: "창의성이란 무에서 유를 만드는 것이 아니라, 이미 존재하는 것들을 새로운 방식으로 연결하는 능력입니다. 다양한 분야에 대한 호기심이야말로 창의성의 원천이 됩니다.",
+              q: "강연자가 말하는 창의성이란 무엇입니까?",
+              opts: ["완전히 새로운 것을 만드는 것", "기존의 것들을 새롭게 연결하는 능력", "타고난 재능", "돈으로 살 수 있는 것"], c: 1 },
+            { script: "많은 사람들이 시간이 부족하다고 말하지만, 사실 문제는 시간의 양이 아니라 우선순위입니다. 무엇이 정말 중요한지 명확히 하면 시간은 저절로 만들어집니다.",
+              q: "강연자의 요지는 무엇입니까?",
+              opts: ["시간을 더 벌어야 한다", "우선순위를 명확히 하는 것이 중요하다", "잠을 줄여야 한다", "일을 그만둬야 한다"], c: 1 },
+            { script: "기후 위기는 더 이상 먼 미래의 이야기가 아닙니다. 지금 우리가 내리는 작은 선택들이 다음 세대가 살아갈 지구의 모습을 결정할 것입니다.",
+              q: "강연의 중심 내용은 무엇입니까?",
+              opts: ["기후 위기는 먼 미래의 일이다", "우리의 현재 선택이 미래를 결정한다", "다음 세대는 관계없다", "기후 문제는 이미 해결되었다"], c: 1 },
+            { script: "진정한 리더는 모든 답을 알고 있는 사람이 아니라, 팀원들이 스스로 답을 찾도록 질문을 던질 줄 아는 사람입니다.",
+              q: "강연자가 말하는 진정한 리더는 어떤 사람입니까?",
+              opts: ["모든 답을 아는 사람", "팀원들이 답을 찾도록 돕는 사람", "명령만 내리는 사람", "혼자 일하는 사람"], c: 1 },
+            { script: "책을 많이 읽는 것보다 중요한 것은 읽은 내용을 자신의 삶에 어떻게 적용하는가입니다. 실천으로 이어지지 않는 독서는 반쪽짜리 배움에 불과합니다.",
+              q: "강연자가 강조하는 것은 무엇입니까?",
+              opts: ["많은 책을 읽는 것", "읽은 내용을 실천하는 것", "책을 사는 것", "도서관에 가는 것"], c: 1 }
+        ]
+    },
+    debate: {
+        icon: '💬', title: '토론/대화', subtitle: 'Дебаты и диалоги с противоположными мнениями',
+        items: [
+            { turns: [
+                { spk: 'W', t: "재택근무가 확산되면서 업무 효율이 높아졌다는 의견이 많습니다." },
+                { spk: 'M', t: "저는 생각이 좀 다릅니다. 재택근무가 개인의 자율성은 높여 주지만, 반면에 팀원 간의 소통 부족으로 오히려 협업의 질이 떨어질 수 있다고 봅니다." }
+              ],
+              q: "남자의 의견은 무엇입니까?",
+              opts: ["재택근무는 전적으로 긍정적이다", "재택근무는 자율성은 높이지만 협업의 질을 떨어뜨릴 수 있다", "재택근무는 즉시 폐지되어야 한다", "재택근무와 업무 효율은 무관하다"], c: 1 },
+            { turns: [
+                { spk: 'M', t: "온라인 교육이 확산되면서 시간과 장소의 제약이 사라졌다는 장점이 큽니다." },
+                { spk: 'W', t: "저는 조금 다르게 생각합니다. 온라인 교육은 편리하지만, 직접적인 상호작용이 줄어들어 학습 효과가 떨어질 수 있다고 봅니다." }
+              ],
+              q: "여자의 의견은 무엇입니까?",
+              opts: ["온라인 교육이 무조건 좋다", "온라인 교육은 상호작용 부족으로 학습 효과가 떨어질 수 있다", "대면 교육은 필요 없다", "교육은 중요하지 않다"], c: 1 },
+            { turns: [
+                { spk: 'M', t: "환경세를 도입하면 기업들의 부담이 커져서 오히려 경제에 악영향을 줄 수 있습니다." },
+                { spk: 'W', t: "하지만 장기적으로 보면 환경 오염으로 인한 사회적 비용이 더 크기 때문에 환경세는 반드시 필요하다고 생각합니다." }
+              ],
+              q: "여자가 환경세에 대해 주장하는 근거는 무엇입니까?",
+              opts: ["기업 부담이 크기 때문에", "환경 오염의 사회적 비용이 더 크기 때문에", "세금이 부족하기 때문에", "다른 나라도 하기 때문에"], c: 1 },
+            { turns: [
+                { spk: 'W', t: "인공지능 기술을 강하게 규제하면 혁신 속도가 느려질 위험이 있습니다." },
+                { spk: 'M', t: "그렇더라도 안전장치 없이 기술만 앞서가면 더 큰 사회적 문제를 낳을 수 있으므로 최소한의 규제는 반드시 필요합니다." }
+              ],
+              q: "남자의 주장은 무엇입니까?",
+              opts: ["규제는 전혀 필요 없다", "혁신 속도가 가장 중요하다", "안전을 위한 최소한의 규제가 필요하다", "인공지능을 완전히 금지해야 한다"], c: 2 },
+            { turns: [
+                { spk: 'M', t: "요즘은 기술과 실무 경험이 더 중요해져서 꼭 대학에 갈 필요는 없다고 봅니다." },
+                { spk: 'W', t: "분야에 따라 다르지만, 저는 대학에서 배우는 폭넓은 사고력과 인적 네트워크도 여전히 중요한 자산이라고 생각합니다." }
+              ],
+              q: "여자의 관점은 무엇입니까?",
+              opts: ["대학은 이제 필요 없다", "대학에서 얻는 사고력과 인맥도 중요한 자산이다", "기술만 배우면 충분하다", "모든 사람이 대학에 가야 한다"], c: 1 },
+            { turns: [
+                { spk: 'W', t: "최저임금을 인상하면 저소득 노동자들의 생활이 개선될 것입니다." },
+                { spk: 'M', t: "취지는 좋지만, 소규모 자영업자들에게는 인건비 부담이 커져서 오히려 고용이 줄어드는 부작용이 생길 수 있습니다." }
+              ],
+              q: "남자가 우려하는 것은 무엇입니까?",
+              opts: ["노동자의 생활 수준 저하", "소규모 자영업자의 부담 증가로 인한 고용 감소", "물가 하락", "정부 예산 부족"], c: 1 }
+        ]
+    },
+    announce: {
+        icon: '📢', title: '안내/공지', subtitle: 'Официальные объявления',
+        items: [
+            { script: "안내 말씀 드립니다. 다음 주 월요일부터 금요일까지 시스템 점검으로 인해 온라인 서비스 이용이 일시 중단됩니다. 이용에 불편을 드려 죄송하며, 양해 부탁드립니다.",
+              q: "안내문에 따르면 다음 주에 무슨 일이 있습니까?",
+              opts: ["온라인 서비스가 새로 시작된다", "시스템 점검으로 서비스가 중단된다", "서비스 요금이 인상된다", "직원을 새로 채용한다"], c: 1 },
+            { script: "탑승객 여러분께 안내 말씀 드립니다. 기상 악화로 인해 인천발 부산행 KE1234편의 출발이 한 시간 지연되었습니다. 이용에 불편을 드려 죄송합니다.",
+              q: "이 안내방송의 내용은 무엇입니까?",
+              opts: ["비행기가 예정대로 출발한다", "기상 악화로 비행기 출발이 지연되었다", "비행기가 취소되었다", "탑승구가 변경되었다"], c: 1 },
+            { script: "이용자 여러분께 안내드립니다. 다음 주부터 시험 기간에 따라 도서관 열람실 운영 시간이 24시간으로 연장됩니다. 많은 이용 바랍니다.",
+              q: "공지에 따르면 다음 주부터 무엇이 바뀝니까?",
+              opts: ["도서관이 문을 닫는다", "열람실 운영 시간이 24시간으로 늘어난다", "책 대출이 중단된다", "입장료가 생긴다"], c: 1 },
+            { script: "입주민 여러분께 안내드립니다. 내일 오전 9시부터 오후 1시까지 단수 예정이오니, 미리 물을 받아 두시기 바랍니다.",
+              q: "안내 내용에 따르면 입주민들이 해야 할 일은 무엇입니까?",
+              opts: ["대피해야 한다", "미리 물을 받아 두어야 한다", "이사를 가야 한다", "관리비를 내야 한다"], c: 1 }
+        ]
+    },
+    interview: {
+        icon: '🎙️', title: '인터뷰', subtitle: 'Интервью — скрытый смысл, а не только слова',
+        items: [
+            { turns: [
+                { spk: 'M', t: "이번 프로젝트가 예정보다 늦어지고 있는데, 일정에 대해 어떻게 생각하십니까?" },
+                { spk: 'W', t: "글쎄요, 최선을 다하고는 있습니다만... 모든 일이 계획대로만 되지는 않으니까요." }
+              ],
+              q: "대표의 말이 실제로 의미하는 바는 무엇입니까?",
+              opts: ["프로젝트가 일정대로 순조롭게 진행되고 있다", "프로젝트 지연을 인정하면서도 직접적으로 말하기를 꺼리고 있다", "프로젝트를 포기하겠다는 뜻이다", "일정에 전혀 관심이 없다는 뜻이다"], c: 1 },
+            { turns: [
+                { spk: 'M', t: "은퇴 후 계획이 있으신가요?" },
+                { spk: 'W', t: "글쎄요, 아직은... 하고 싶은 일이 너무 많아서 하나를 딱 정하기가 어렵네요." }
+              ],
+              q: "배우가 실제로 의미하는 바는 무엇입니까?",
+              opts: ["은퇴 후 아무것도 하지 않을 것이다", "은퇴 후에도 여러 가능성을 열어 두고 있다", "은퇴를 하지 않을 것이다", "이미 계획을 확정했다"], c: 1 },
+            { turns: [
+                { spk: 'M', t: "사업 실패 후에 힘들지 않으셨나요?" },
+                { spk: 'W', t: "힘들었죠... 그런데 돌이켜보면 그때의 실패가 없었다면 지금의 저도 없었을 겁니다." }
+              ],
+              q: "대표의 태도로 가장 알맞은 것은 무엇입니까?",
+              opts: ["실패를 후회하고 있다", "실패를 성장의 계기로 받아들이고 있다", "실패를 부정하고 있다", "다시는 도전하지 않을 것이다"], c: 1 },
+            { turns: [
+                { spk: 'M', t: "신제품 출시가 예상보다 늦어지고 있는데요?" },
+                { spk: 'W', t: "완벽하지 않은 제품을 서둘러 내놓기보다는, 조금 늦더라도 제대로 만드는 게 맞다고 생각합니다." }
+              ],
+              q: "개발자가 강조하는 것은 무엇입니까?",
+              opts: ["속도가 가장 중요하다", "완성도가 속도보다 중요하다", "제품을 포기하겠다는 뜻이다", "고객의 의견은 중요하지 않다"], c: 1 }
+        ]
+    }
+};
+
+var SPEAKER_LABEL = { W: '여자', M: '남자' };
+
+// ================================================================
+// STATE
+// ================================================================
+var LISTEN_KEY = 'koreanListeningPractice';
+var state = { catKey: null, speed: 1.0, idx: 0, score: 0, answers: [] };
+
+function loadStats() {
+    try { var d = localStorage.getItem(LISTEN_KEY); return d ? JSON.parse(d) : {}; }
+    catch (e) { console.error('[ERROR] loadStats:', e); return {}; }
+}
+function saveStats(stats) {
+    try { localStorage.setItem(LISTEN_KEY, JSON.stringify(stats)); }
+    catch (e) { console.error('[ERROR] saveStats:', e); }
+}
+function recordResult(catKey, score, total) {
+    var stats = loadStats();
+    var pct = Math.round((score / total) * 100);
+    var prev = stats[catKey] || { best: 0, attempts: 0 };
+    stats[catKey] = { best: Math.max(prev.best || 0, pct), attempts: (prev.attempts || 0) + 1, lastPct: pct };
+    saveStats(stats);
+}
+
+// ================================================================
+// TTS PLAYBACK
+// ================================================================
+function speak(text, rate, pitch, onend) {
+    if (!('speechSynthesis' in window)) { if (onend) onend(); return; }
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = 'ko-KR';
+    u.rate = rate;
+    u.pitch = pitch;
+    u.onend = function() { if (onend) onend(); };
+    u.onerror = function() { if (onend) onend(); };
+    window.speechSynthesis.speak(u);
+}
+
+function playItem(item, speakerEl) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    speakerEl.classList.add('playing');
+
+    if (item.script) {
+        speak(item.script, state.speed, 1.0, function() { speakerEl.classList.remove('playing'); });
+        return;
+    }
+
+    var turns = item.turns;
+    var i = 0;
+    function playNext() {
+        if (i >= turns.length) { speakerEl.classList.remove('playing'); return; }
+        var turn = turns[i];
+        var pitch = turn.spk === 'W' ? 1.25 : 0.82;
+        i++;
+        speak(turn.t, state.speed, pitch, function() {
+            setTimeout(playNext, 350);
+        });
+    }
+    playNext();
+}
+
+function getTranscript(item) {
+    if (item.script) return item.script;
+    return item.turns.map(function(t) { return SPEAKER_LABEL[t.spk] + ': ' + t.t; }).join('\n');
+}
+
+// ================================================================
+// CATEGORY GRID
+// ================================================================
+function renderGrid() {
+    var stats = loadStats();
+    var grid = document.getElementById('categoryGrid');
+    grid.innerHTML = '';
+    Object.keys(CATEGORIES).forEach(function(key) {
+        var cat = CATEGORIES[key];
+        var s = stats[key];
+        var card = document.createElement('div');
+        card.className = 'cat-card';
+        card.onclick = function() { openCategory(key); };
+        var metaText = cat.items.length + ' заданий';
+        if (s) metaText += ' <span class="cat-best">· лучший результат: ' + s.best + '%</span>';
+        card.innerHTML =
+            '<div class="cat-icon">' + cat.icon + '</div>' +
+            '<div class="cat-title">' + cat.title + '</div>' +
+            '<div class="cat-subtitle">' + cat.subtitle + '</div>' +
+            '<div class="cat-meta">' + metaText + '</div>';
+        grid.appendChild(card);
+    });
+}
+
+window.openCategory = function(key) {
+    state.catKey = key;
+    var cat = CATEGORIES[key];
+    document.getElementById('gridScreen').classList.add('hidden');
+    document.getElementById('startScreen').classList.remove('hidden');
+    document.getElementById('startEmoji').textContent = cat.icon;
+    document.getElementById('startTitle').textContent = cat.title + ' (' + cat.subtitle + ')';
+    document.getElementById('startDesc').textContent = cat.items.length + ' заданий на слух. Каждое можно переслушать сколько угодно раз.';
+};
+
+window.backToGrid = function() {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    document.getElementById('startScreen').classList.add('hidden');
+    document.getElementById('progressWrapper').classList.add('hidden');
+    document.getElementById('itemCard').classList.add('hidden');
+    document.getElementById('resultsCard').classList.add('hidden');
+    document.getElementById('gridScreen').classList.remove('hidden');
+    renderGrid();
+};
+
+window.setSpeed = function(val) {
+    state.speed = val;
+    document.getElementById('speedSlow').classList.toggle('active', val === 0.85);
+    document.getElementById('speedNormal').classList.toggle('active', val === 1.0);
+};
+
+// ================================================================
+// PRACTICE FLOW
+// ================================================================
+window.startCategory = function() {
+    state.idx = 0;
+    state.score = 0;
+    state.answers = [];
+
+    document.getElementById('startScreen').classList.add('hidden');
+    document.getElementById('resultsCard').classList.add('hidden');
+    document.getElementById('progressWrapper').classList.remove('hidden');
+    document.getElementById('itemCard').classList.remove('hidden');
+    renderItem();
+};
+
+function goNext() {
+    state.idx++;
+    var items = CATEGORIES[state.catKey].items;
+    if (state.idx < items.length) {
+        renderItem();
+    } else {
+        showResults();
+    }
+}
+
+function renderItem() {
+    var cat = CATEGORIES[state.catKey];
+    var item = cat.items[state.idx];
+    var total = cat.items.length;
+
+    document.getElementById('progressLabel').textContent = 'Задание ' + (state.idx + 1) + ' из ' + total;
+    document.getElementById('progressCat').textContent = cat.icon + ' ' + cat.title;
+    document.getElementById('progressFill').style.width = ((state.idx / total) * 100) + '%';
+
+    var card = document.getElementById('itemCard');
+    card.innerHTML = '';
+
+    var speaker = document.createElement('div');
+    speaker.className = 'audio-speaker';
+    speaker.textContent = '🔊';
+    speaker.onclick = function() { playItem(item, speaker); };
+    card.appendChild(speaker);
+
+    var hint = document.createElement('div');
+    hint.className = 'audio-hint';
+    hint.textContent = 'Нажмите на динамик, чтобы прослушать';
+    card.appendChild(hint);
+
+    var replayRow = document.createElement('div');
+    replayRow.className = 'replay-row';
+    var replayBtn = document.createElement('button');
+    replayBtn.className = 'replay-btn';
+    replayBtn.textContent = '🔁 Переслушать';
+    replayBtn.onclick = function() { playItem(item, speaker); };
+    replayRow.appendChild(replayBtn);
+    card.appendChild(replayRow);
+
+    var qEl = document.createElement('div');
+    qEl.className = 'question-text';
+    qEl.textContent = item.q;
+    card.appendChild(qEl);
+
+    var list = document.createElement('ul');
+    list.className = 'options-list';
+    item.opts.forEach(function(opt, i) {
+        var li = document.createElement('li');
+        var btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = opt;
+        btn.onclick = function() { answerItem(i, item, btn, list); };
+        li.appendChild(btn);
+        list.appendChild(li);
+    });
+    card.appendChild(list);
+
+    var toggleBtn = document.createElement('button');
+    toggleBtn.className = 'transcript-toggle';
+    toggleBtn.textContent = '스크립트 보기 (после ответа)';
+    toggleBtn.disabled = true;
+    var transcriptBox = document.createElement('div');
+    transcriptBox.className = 'transcript-box';
+    transcriptBox.textContent = getTranscript(item);
+    toggleBtn.onclick = function() { transcriptBox.classList.toggle('visible'); };
+    card.appendChild(toggleBtn);
+    card.appendChild(transcriptBox);
+
+    var next = document.createElement('button');
+    next.className = 'next-btn';
+    next.textContent = 'Далее →';
+    next.onclick = goNext;
+    card.appendChild(next);
+
+    // Autoplay once on render so listening doesn't require an extra click every time
+    setTimeout(function() { playItem(item, speaker); }, 300);
+}
+
+function answerItem(selected, item, btnEl, listEl) {
+    var buttons = listEl.querySelectorAll('.option-btn');
+    if (buttons[0].classList.contains('disabled')) return;
+    for (var i = 0; i < buttons.length; i++) buttons[i].classList.add('disabled');
+
+    var ok = selected === item.c;
+    btnEl.classList.add(ok ? 'correct' : 'wrong');
+    if (!ok) buttons[item.c].classList.add('correct');
+    if (ok) state.score++;
+
+    state.answers.push({ q: item.q, selected: item.opts[selected], correct: item.opts[item.c], ok: ok });
+
+    var card = document.getElementById('itemCard');
+    card.querySelector('.transcript-toggle').disabled = false;
+    card.querySelector('.next-btn').classList.add('visible');
+}
+
+// ================================================================
+// RESULTS
+// ================================================================
+function showResults() {
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    document.getElementById('progressWrapper').classList.add('hidden');
+    document.getElementById('itemCard').classList.add('hidden');
+    document.getElementById('resultsCard').classList.remove('hidden');
+
+    var cat = CATEGORIES[state.catKey];
+    var total = cat.items.length;
+    var pct = Math.round((state.score / total) * 100);
+    recordResult(state.catKey, state.score, total);
+
+    var emoji, title, verdictHtml, verdictClass;
+    if (pct >= 90) {
+        emoji = '🏆'; title = 'Отлично слышите на слух!';
+        verdictHtml = '<h3>🌟 Уверенное понимание на слух</h3><p>Попробуйте следующую категорию или увеличьте скорость воспроизведения для ещё большего вызова.</p>';
+        verdictClass = 'background:#e8f5e9;border-left:4px solid #4caf50;';
+    } else if (pct >= 70) {
+        emoji = '👍'; title = 'Хороший результат';
+        verdictHtml = '<h3>✅ Хорошее понимание на слух</h3><p>Разберите ошибки ниже, переслушайте скрипт и попробуйте снова через день-два.</p>';
+        verdictClass = 'background:#fff8e1;border-left:4px solid #ffc107;';
+    } else if (pct >= 50) {
+        emoji = '💪'; title = 'Есть над чем поработать';
+        verdictHtml = '<h3>📖 Средний результат</h3><p>Попробуйте режим 0.85x для тренировки, прежде чем переходить на реальную скорость.</p>';
+        verdictClass = 'background:#fff3e0;border-left:4px solid #ff9800;';
+    } else {
+        emoji = '📚'; title = 'Нужно больше практики';
+        verdictHtml = '<h3>🌱 Продолжайте тренироваться</h3><p>Понимание быстрой неотредактированной речи — самый сложный навык C2. Начните с медленной скорости и переслушивайте каждое задание несколько раз.</p>';
+        verdictClass = 'background:#ffebee;border-left:4px solid #f44336;';
+    }
+
+    document.getElementById('resultEmoji').textContent = emoji;
+    document.getElementById('resultTitle').textContent = title;
+    document.getElementById('resultScore').textContent = cat.icon + ' ' + cat.title + ': ' + state.score + ' из ' + total + ' (' + pct + '%)';
+    var verdict = document.getElementById('resultVerdict');
+    verdict.innerHTML = verdictHtml;
+    verdict.style.cssText = verdictClass + 'border-radius:0 14px 14px 0;padding:18px 20px;';
+
+    var list = document.getElementById('reviewList');
+    list.innerHTML = '';
+    state.answers.forEach(function(a, i) {
+        var div = document.createElement('div');
+        div.className = 'review-item ' + (a.ok ? 'correct-item' : 'wrong-item');
+        var html = '<strong>' + (i + 1) + '.</strong> ' + a.q + '<br>';
+        if (a.ok) {
+            html += 'Ваш ответ: <span style="color:#2e7d32">' + a.selected + '</span>';
+        } else {
+            html += 'Ваш ответ: <span style="color:#c62828;text-decoration:line-through">' + a.selected + '</span> → <span style="color:#2e7d32">' + a.correct + '</span>';
+        }
+        div.innerHTML = html;
+        list.appendChild(div);
+    });
+
+    console.log('[OK] Listening practice (' + state.catKey + '): ' + state.score + '/' + total);
+}
+
+window.toggleReview = function() {
+    var list = document.getElementById('reviewList');
+    var btn = document.getElementById('reviewToggle');
+    list.classList.toggle('open');
+    btn.textContent = list.classList.contains('open') ? 'Скрыть разбор ответов' : 'Показать разбор ответов';
+};
+
+renderGrid();
+
+})();
+</script>
+</body>
+</html>

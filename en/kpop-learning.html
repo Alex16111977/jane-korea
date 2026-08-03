@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Learn Korean through K-POP! Song lyrics from BLACKPINK, BTS with translation, pronunciation and vocabulary."/>
+    <meta property="og:title" content="K-POP — Learn Korean Through Music | Miso: 한국어 수업"/>
+    <meta property="og:description" content="Learn Korean through K-POP songs: lyrics, translations, pronunciation."/>
+    <meta name="theme-color" content="#667eea"/>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
+    <title>K-POP — Learn Korean Through Music | Miso: 한국어 수업</title>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px 50px;
+            position: relative;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5em;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.6em;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .hero-description {
+            font-size: 1.15em;
+            color: rgba(255,255,255,0.75);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ===== FILTER TABS ===== */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 35px 0 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 10px 28px;
+            border-radius: 25px;
+            border: 2px solid rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-tab:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        .filter-tab.active {
+            background: white;
+            color: #764ba2;
+            border-color: white;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.3);
+            font-weight: 700;
+        }
+
+        /* ===== GROUPS GRID ===== */
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .group-card {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            background: white;
+        }
+
+        .group-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .group-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+        }
+
+        .group-card.hidden {
+            display: none;
+        }
+
+        /* Card banner */
+        .card-banner {
+            padding: 35px 25px 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-banner::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -30%;
+            width: 60%;
+            height: 60%;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .card-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -20%;
+            width: 50%;
+            height: 50%;
+            background: rgba(255,255,255,0.07);
+            border-radius: 50%;
+        }
+
+        .card-banner .group-name {
+            font-size: 2em;
+            font-weight: 900;
+            color: white;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-banner .group-korean {
+            font-size: 1.15em;
+            color: rgba(255,255,255,0.85);
+            margin-top: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card-banner .group-tag {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 4px 14px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 20px;
+            font-size: 0.8em;
+            color: white;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Card info */
+        .card-info {
+            padding: 22px 25px 25px;
+        }
+
+        .card-meta {
+            font-size: 0.85em;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .card-hits {
+            font-size: 0.95em;
+            color: #555;
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .card-fandom {
+            font-size: 0.9em;
+            color: #ff6b9d;
+            font-weight: 500;
+            margin-bottom: 18px;
+        }
+
+        .card-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #ff6b9d, #764ba2);
+            color: white;
+            font-size: 1.05em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .card-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(255,107,157,0.4);
+        }
+
+        /* ===== POPULAR SONGS ===== */
+        .section-block {
+            background: rgba(255,255,255,0.95);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title .icon {
+            font-size: 1.1em;
+        }
+
+        .songs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .song-preview {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 18px;
+            background: #f8f9fa;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .song-preview:hover {
+            background: #eef0ff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .song-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            flex-shrink: 0;
+            color: white;
+        }
+
+        .song-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .song-name {
+            font-size: 1.05em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 3px;
+        }
+
+        .song-artist {
+            font-size: 0.9em;
+            color: #ff6b9d;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .song-level {
+            display: inline-block;
+            padding: 2px 10px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-radius: 10px;
+            font-size: 0.78em;
+            font-weight: 600;
+        }
+
+        .song-level.b1 {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .song-arrow {
+            color: #ccc;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        /* ===== K-POP FACTS ===== */
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .fact-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 28px;
+            border-radius: 18px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .fact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(102,126,234,0.3);
+        }
+
+        .fact-card::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -40%;
+            width: 80%;
+            height: 80%;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+        }
+
+        .fact-card:hover::before {
+            top: -20%;
+            right: -20%;
+        }
+
+        .fact-icon {
+            font-size: 2em;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .fact-title {
+            font-size: 1.15em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .fact-text {
+            font-size: 0.92em;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.88);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .groups-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 40px 15px 30px;
+            }
+
+            .hero-section h1 {
+                font-size: 2.4em;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2em;
+            }
+
+            .filter-tabs {
+                gap: 8px;
+            }
+
+            .filter-tab {
+                padding: 8px 18px;
+                font-size: 0.9em;
+            }
+
+            .groups-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .section-block {
+                padding: 25px;
+                border-radius: 20px;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+
+            .songs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .facts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-container {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 1.8em;
+            }
+
+            .hero-subtitle {
+                font-size: 1em;
+            }
+
+            .hero-description {
+                font-size: 0.95em;
+            }
+
+            .section-title {
+                font-size: 1.3em;
+            }
+
+            .filter-tab {
+                padding: 6px 14px;
+                font-size: 0.85em;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(50px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+
+        <!-- HERO SECTION -->
+        <div class="hero-section">
+            <h1>K-POP Learning</h1>
+            <div class="hero-subtitle">케이팝으로 한국어 배우기</div>
+            <p class="hero-description">Pick a group, explore songs, and learn Korean through your favorite music!</p>
+        </div>
+
+        <!-- FILTER TABS -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="girl">Girl Groups</button>
+            <button class="filter-tab" data-filter="boy">Boy Groups</button>
+            <button class="filter-tab" data-filter="solo">Solo</button>
+        </div>
+
+        <!-- GROUPS GRID -->
+        <div class="groups-grid" id="groupsGrid">
+
+            <!-- BLACKPINK -->
+            <div class="group-card" data-category="girl">
+                <div class="card-banner" style="background: linear-gradient(135deg, #e91e8c, #ff6bb5);">
+                    <div class="group-name">BLACKPINK</div>
+                    <div class="group-korean">블랙핑크</div>
+                    <span class="group-tag">Girl Group</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">YG Entertainment &middot; 2016</div>
+                    <div class="card-hits">DDU-DU DDU-DU &bull; Kill This Love &bull; How You Like That</div>
+                    <div class="card-fandom">&#x2764; Fandom: BLINK</div>
+                    <a href="../group-blackpink.html" class="card-btn">&#127925; Study &rarr;</a>
+                </div>
+            </div>
+
+            <!-- BTS -->
+            <div class="group-card" data-category="boy">
+                <div class="card-banner" style="background: linear-gradient(135deg, #6b4c9a, #9b59b6);">
+                    <div class="group-name">BTS</div>
+                    <div class="group-korean">방탄소년단</div>
+                    <span class="group-tag">Boy Group</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">HYBE &middot; 2013</div>
+                    <div class="card-hits">Dynamite &bull; Butter &bull; Spring Day</div>
+                    <div class="card-fandom">&#x1F49C; Fandom: ARMY</div>
+                    <a href="../group-bts.html" class="card-btn">&#127925; Study &rarr;</a>
+                </div>
+            </div>
+
+            <!-- NewJeans -->
+            <div class="group-card" data-category="girl">
+                <div class="card-banner" style="background: linear-gradient(135deg, #4a9eff, #66b3ff);">
+                    <div class="group-name">NewJeans</div>
+                    <div class="group-korean">뉴진스</div>
+                    <span class="group-tag">Girl Group</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">ADOR &middot; 2022</div>
+                    <div class="card-hits">Hype Boy &bull; Attention &bull; Ditto</div>
+                    <div class="card-fandom">&#x1F430; Fandom: Bunnies</div>
+                    <a href="../group-newjeans.html" class="card-btn">&#127925; Study &rarr;</a>
+                </div>
+            </div>
+
+            <!-- aespa -->
+            <div class="group-card" data-category="girl">
+                <div class="card-banner" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
+                    <div class="group-name">aespa</div>
+                    <div class="group-korean">에스파</div>
+                    <span class="group-tag">Girl Group</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">SM Entertainment &middot; 2020</div>
+                    <div class="card-hits">Next Level &bull; Savage &bull; Supernova</div>
+                    <div class="card-fandom">&#x1F5A4; Fandom: MY</div>
+                    <a href="../group-aespa.html" class="card-btn">&#127925; Study &rarr;</a>
+                </div>
+            </div>
+
+            <!-- Stray Kids -->
+            <div class="group-card" data-category="boy">
+                <div class="card-banner" style="background: linear-gradient(135deg, #ff5722, #ff8a50);">
+                    <div class="group-name">Stray Kids</div>
+                    <div class="group-korean">스트레이 키즈</div>
+                    <span class="group-tag">Boy Group</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">JYP Entertainment &middot; 2018</div>
+                    <div class="card-hits">God's Menu &bull; MANIAC &bull; S-Class</div>
+                    <div class="card-fandom">&#x1F4AB; Fandom: STAY</div>
+                    <a href="../group-straykids.html" class="card-btn">&#127925; Study &rarr;</a>
+                </div>
+            </div>
+
+            <!-- IU -->
+            <div class="group-card" data-category="solo">
+                <div class="card-banner" style="background: linear-gradient(135deg, #ff9eb5, #ffb8cc);">
+                    <div class="group-name">IU</div>
+                    <div class="group-korean">아이유</div>
+                    <span class="group-tag">Solo</span>
+                </div>
+                <div class="card-info">
+                    <div class="card-meta">EDAM Entertainment &middot; 2008</div>
+                    <div class="card-hits">Celebrity &bull; Blueming &bull; Love Poem</div>
+                    <div class="card-fandom">&#x1F338; Fandom: UAENA</div>
+                    <a href="../group-iu.html" class="card-btn">&#127925; Study &rarr;</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- POPULAR SONGS FOR LEARNING -->
+        <div class="section-block">
+            <h2 class="section-title">
+                <span class="icon">&#x1F3B6;</span>
+                Popular Songs for Learning
+            </h2>
+            <div class="songs-grid">
+                <a href="../group-blackpink.html" class="song-preview">
+                    <div class="song-icon" style="background: linear-gradient(135deg, #e91e8c, #ff6bb5);">&#x1F3B5;</div>
+                    <div class="song-details">
+                        <div class="song-name">DDU-DU DDU-DU</div>
+                        <div class="song-artist">BLACKPINK</div>
+                        <span class="song-level">A2</span>
+                    </div>
+                    <span class="song-arrow">&rarr;</span>
+                </a>
+
+                <a href="../group-bts.html" class="song-preview">
+                    <div class="song-icon" style="background: linear-gradient(135deg, #6b4c9a, #9b59b6);">&#x1F3B5;</div>
+                    <div class="song-details">
+                        <div class="song-name">Dynamite</div>
+                        <div class="song-artist">BTS</div>
+                        <span class="song-level">A1</span>
+                    </div>
+                    <span class="song-arrow">&rarr;</span>
+                </a>
+
+                <a href="../group-newjeans.html" class="song-preview">
+                    <div class="song-icon" style="background: linear-gradient(135deg, #4a9eff, #66b3ff);">&#x1F3B5;</div>
+                    <div class="song-details">
+                        <div class="song-name">Hype Boy</div>
+                        <div class="song-artist">NewJeans</div>
+                        <span class="song-level">A1</span>
+                    </div>
+                    <span class="song-arrow">&rarr;</span>
+                </a>
+
+                <a href="../group-straykids.html" class="song-preview">
+                    <div class="song-icon" style="background: linear-gradient(135deg, #ff5722, #ff8a50);">&#x1F3B5;</div>
+                    <div class="song-details">
+                        <div class="song-name">God's Menu</div>
+                        <div class="song-artist">Stray Kids</div>
+                        <span class="song-level b1">B1</span>
+                    </div>
+                    <span class="song-arrow">&rarr;</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- K-POP SECTIONS -->
+        <div class="section-block">
+            <h2 class="section-title">
+                <span class="icon">&#x1F4DA;</span>
+                K-POP Sections
+            </h2>
+            <div class="songs-grid">
+                <a href="../kpop-industry.html" class="song-preview">
+                    <div class="song-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">&#x1F3E2;</div>
+                    <div class="song-details">
+                        <div class="song-name">K-POP Industry</div>
+                        <div class="song-artist">Agencies, idol path, glossary</div>
+                    </div>
+                    <span class="song-arrow">&rarr;</span>
+                </a>
+
+                <a href="../kpop-song-learn.html" class="song-preview">
+                    <div class="song-icon" style="background: linear-gradient(135deg, #ff6b9d, #c44569);">&#x1F3B5;</div>
+                    <div class="song-details">
+                        <div class="song-name">Learn Through Songs</div>
+                        <div class="song-artist">Song lyrics, vocabulary, romanization</div>
+                    </div>
+                    <span class="song-arrow">&rarr;</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- INTERESTING K-POP FACTS -->
+        <div class="section-block">
+            <h2 class="section-title">
+                <span class="icon">&#x1F4A1;</span>
+                Interesting K-POP Facts
+            </h2>
+            <div class="facts-grid">
+                <div class="fact-card">
+                    <div class="fact-icon">&#x1F3AD;</div>
+                    <div class="fact-title">What is K-POP?</div>
+                    <div class="fact-text">K-POP (케이팝) is Korean pop music, a global phenomenon. It combines music, synchronized choreography, fashion, and cinematic music videos.</div>
+                </div>
+
+                <div class="fact-card">
+                    <div class="fact-icon">&#x1F3E2;</div>
+                    <div class="fact-title">The Big Three Agencies</div>
+                    <div class="fact-text">SM, JYP, and YG Entertainment are the biggest agencies that created most famous groups. Now HYBE has joined their ranks.</div>
+                </div>
+
+                <div class="fact-card">
+                    <div class="fact-icon">&#x1F4DA;</div>
+                    <div class="fact-title">Idol Training</div>
+                    <div class="fact-text">Future stars (연습생) train for 2 to 7 years: vocals, choreography, languages, and acting before their debut.</div>
+                </div>
+
+                <div class="fact-card">
+                    <div class="fact-icon">&#x1F30D;</div>
+                    <div class="fact-title">Korean Wave 한류</div>
+                    <div class="fact-text">Hallyu (한류) is the global spread of Korean culture: K-POP, dramas, cinema, food, and cosmetics are conquering the world.</div>
+                </div>
+
+                <div class="fact-card">
+                    <div class="fact-icon">&#x1F49C;</div>
+                    <div class="fact-title">Fandoms and Fans</div>
+                    <div class="fact-text">Each group has an official fandom: ARMY (BTS), BLINK (BLACKPINK), STAY (Stray Kids). Fans use lightsticks at concerts.</div>
+                </div>
+
+                <div class="fact-card">
+                    <div class="fact-icon">&#x1F3AC;</div>
+                    <div class="fact-title">Music Videos and Choreography</div>
+                    <div class="fact-text">K-POP music videos are like movies: multi-million budgets, intricate choreography, and trends that the whole world follows.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Audio elements (for compatibility with kpop-functions.js) -->
+    <div class="audio-container" style="display: none;">
+        <audio id="blackpink-audio" preload="metadata" playsinline>
+            <source src="../images/blackpink.mp4" type="audio/mp4">
+        </audio>
+        <audio id="bts-audio" preload="metadata" playsinline>
+            <source src="../images/bts.mp4" type="audio/mp4">
+        </audio>
+        <audio id="newjeans-audio" preload="metadata" playsinline>
+            <source src="../images/newjeans.mp4" type="audio/mp4">
+        </audio>
+        <audio id="aespa-audio" preload="metadata" playsinline>
+            <source src="../images/aespa.mp4" type="audio/mp4">
+        </audio>
+    </div>
+
+    <script src="../js/kpop-functions.js"></script>
+    <script>
+    (function() {
+        'use strict';
+
+        // === Card filtering ===
+        var tabs = document.querySelectorAll('.filter-tab');
+        var cards = document.querySelectorAll('.group-card');
+
+        tabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                // Remove active from all
+                tabs.forEach(function(t) { t.classList.remove('active'); });
+                tab.classList.add('active');
+
+                var filter = tab.getAttribute('data-filter');
+
+                cards.forEach(function(card) {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.classList.remove('hidden');
+                        // Re-trigger animation
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(function() {
+                            card.style.transition = 'all 0.4s ease';
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 50);
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // === Load animation ===
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('[OK] K-POP Learning page loaded');
+
+            // Staggered card appearance
+            cards.forEach(function(card, i) {
+                setTimeout(function() {
+                    card.style.transition = 'all 0.5s ease';
+                    card.classList.add('visible');
+                }, 150 + i * 100);
+            });
+
+            // Section animations
+            var sections = document.querySelectorAll('.section-block');
+            sections.forEach(function(section, i) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, 600 + i * 200);
+            });
+        });
+    })();
+    </script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <!-- Firebase modules -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+
+    <!-- Global navigation -->
+    <script src="../js/global-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Обращения и имена в корейском</title>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #eefaf1 0%, #d8f0e0 50%, #d8f0e0 100%);
+            position: relative; overflow-x: hidden; min-height: 100vh; color: #333;
+        }
+
+        body::before {
+            content: ''; position: fixed; top: 15%; right: 4%;
+            font-size: 115px; opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none; z-index: 0;
+        }
+        body::after {
+            content: ''; position: fixed; bottom: 11%; left: 3%;
+            font-size: 100px; opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none; z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3); transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #388e3c; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #4caf50; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.1em; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 {
+            color: #388e3c; margin-top: 0; font-size: 2em;
+            border-bottom: 3px solid #4caf50; padding-bottom: 10px;
+        }
+
+        .name-structure {
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px; margin: 30px 0; flex-wrap: wrap;
+        }
+        .name-part {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            color: white; padding: 20px 30px; border-radius: 15px;
+            text-align: center; min-width: 120px;
+        }
+        .name-part-korean { font-size: 2em; font-weight: 700; }
+        .name-part-label { font-size: 0.85em; opacity: 0.9; margin-top: 5px; }
+        .name-plus { font-size: 2em; color: #4caf50; font-weight: 700; }
+        .name-equals { font-size: 2em; color: #388e3c; font-weight: 700; }
+
+        .surname-grid {
+            display: grid; grid-template-columns: repeat(5, 1fr);
+            gap: 15px; margin: 25px 0;
+        }
+        .surname-card {
+            background: linear-gradient(135deg, #eefaf1, #d8f0e0);
+            border-radius: 12px; padding: 20px; text-align: center;
+            transition: transform 0.3s ease; border: 2px solid transparent;
+        }
+        .surname-card:hover { transform: translateY(-5px); border-color: #4caf50; }
+        .surname-korean { font-size: 2.2em; font-weight: 700; color: #2e7d32; }
+        .surname-roman { font-size: 0.9em; color: #666; margin-top: 5px; }
+        .surname-percent { font-size: 0.8em; color: #55506e; margin-top: 3px; }
+
+        .address-cards {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px; margin: 25px 0;
+        }
+        .address-card {
+            border-radius: 15px; padding: 25px; color: #ffffff;
+            position: relative; overflow: hidden; transition: transform 0.3s ease;
+        }
+        .address-card:hover { transform: translateY(-5px); }
+        .address-card-family { background: linear-gradient(135deg, #2e9e5b, #14663a); }
+        .address-card-formal { background: linear-gradient(135deg, #2e9e5b, #14663a); }
+        .address-card-casual { background: linear-gradient(135deg, #2e9e5b, #14663a); }
+        .address-card-title { font-size: 1.8em; font-weight: 700; margin-bottom: 10px; }
+        .address-card-romanization { font-size: 0.9em; opacity: 0.85; margin-bottom: 15px; }
+        .address-card-description { font-size: 1em; line-height: 1.6; }
+        .address-card-example {
+            background: rgba(255,255,255,0.15); padding: 12px;
+            border-radius: 8px; margin-top: 15px;
+        }
+        .address-card-example .example-korean { font-size: 1.2em; font-weight: 600; margin-bottom: 5px; }
+        .address-card-example .example-translation { font-size: 0.9em; opacity: 0.9; }
+
+        .comparison-table {
+            background: white; border-radius: 15px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin: 25px 0;
+        }
+        .table-header {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            color: white; padding: 20px; text-align: center;
+            font-size: 1.3em; font-weight: bold;
+        }
+        .table-row {
+            display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1px; background: #e9ecef;
+        }
+        .table-cell {
+            background: white; padding: 15px; text-align: center; font-size: 1em;
+        }
+        .table-cell.korean { color: #388e3c; font-weight: bold; font-size: 1.1em; }
+        .table-cell.header-cell { background: #f8f9fa; font-weight: bold; color: #495057; }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            color: white; padding: 25px; border-radius: 15px; margin: 25px 0;
+        }
+        .dialogue-title { font-size: 1.4em; font-weight: 700; margin-bottom: 15px; text-align: center; }
+        .dialogue-line { margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: bold; color: #ffffff; margin-bottom: 8px; }
+        .korean-text { font-size: 1.3em; margin-bottom: 5px; }
+        .translation { font-size: 1em; opacity: 0.9; }
+        .grammar-note { font-size: 0.85em; color: #2b2440; font-style: italic; margin-top: 5px; }
+
+        .practice-section {
+            background: linear-gradient(135deg, #edfafa, #d5f0f0);
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .practice-section h2 { color: #2e7d32; border-bottom-color: #2e7d32; }
+
+        .exercise {
+            background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px;
+            margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .exercise-number {
+            display: inline-block; background: #4caf50; color: white;
+            width: 30px; height: 30px; border-radius: 50%; text-align: center;
+            line-height: 30px; font-weight: 700; margin-right: 10px;
+        }
+        .question { font-size: 1.2em; color: #333; margin-bottom: 15px; }
+        .options { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .option {
+            background: #388e3c; color: white; padding: 10px 20px; border: none;
+            border-radius: 25px; cursor: pointer; font-size: 1.1em;
+            transition: all 0.3s ease; font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+        }
+        .option:hover:not(:disabled) { background: #4caf50; transform: translateY(-2px); }
+        .option.correct { background: #27ae60; }
+        .option.wrong { background: #e74c3c; }
+
+        .result {
+            margin-top: 15px; padding: 15px; border-radius: 10px;
+            text-align: center; font-weight: 500; display: none;
+        }
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px;
+            font-size: 1.1em; cursor: pointer; transition: all 0.3s ease;
+            flex-shrink: 0; display: inline-flex; align-items: center;
+            justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+
+        .dialogue-play-btn {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            border: none; padding: 12px 30px; font-size: 1.1em; font-weight: 600;
+            border-radius: 25px; cursor: pointer; transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 15px auto; display: block;
+        }
+        .dialogue-play-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(76,175,80,0.3); }
+
+        .remember-block {
+            background: linear-gradient(135deg, #eefaf1, #d8f0e0);
+            border: 2px solid #ffc107; border-radius: 15px;
+            padding: 25px; margin: 25px 0;
+        }
+        .remember-block h3 { color: #f57f17; margin-top: 0; font-size: 1.4em; }
+        .remember-block ul { line-height: 2; font-size: 1.05em; }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            border: none; padding: 18px 50px; font-size: 1.3em; font-weight: 700;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            display: block; margin: 30px auto;
+            box-shadow: 0 10px 30px rgba(76,175,80,0.3);
+        }
+        .complete-btn:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(76,175,80,0.4); }
+
+        .tip-box {
+            background: #e3f2fd; border-left: 4px solid #2196f3;
+            padding: 15px 20px; border-radius: 0 10px 10px 0;
+            margin: 15px 0; font-size: 1em; color: #1565c0;
+        }
+
+        .warning-box {
+            background: #fff3e0; border-left: 4px solid #ff9800;
+            padding: 15px 20px; border-radius: 0 10px 10px 0;
+            margin: 15px 0; font-size: 1em; color: #8a3200;
+        }
+
+        .culture-note {
+            background: #fce4ec; border-left: 4px solid #e91e63;
+            padding: 15px 20px; border-radius: 0 10px 10px 0;
+            margin: 15px 0; font-size: 1em; color: #880e4f;
+        }
+
+        @media (max-width: 768px) {
+            .surname-grid { grid-template-columns: repeat(3, 1fr); }
+            .address-cards { grid-template-columns: 1fr; }
+            .table-row { grid-template-columns: 1fr 1fr; }
+            .options { flex-direction: column; align-items: center; }
+            .header h1 { font-size: 1.8em; }
+            .name-structure { flex-direction: column; }
+            .content-section { padding: 20px; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body data-lesson="level1_lesson_korean_names">
+    <div class="container">
+        <div class="navigation">
+            <a href="../index.html">&#8592; Назад к 1급</a>
+            <a href="../../lessons.html">Все уроки</a>
+        </div>
+
+        <header class="header">
+            <h1>Обращения и имена</h1>
+            <div class="korean-title">호칭과 이름 [hochinggwa ireum]</div>
+            <div class="description">Как устроены корейские имена и как правильно обращаться к людям в Корее</div>
+        </header>
+
+        <!-- Секция 1: Структура имени -->
+        <div class="content-section">
+            <h2>Структура корейского имени</h2>
+            <p>Корейское имя состоит из <strong>фамилии</strong> (1 слог) и <strong>имени</strong> (обычно 2 слога). В отличие от русского, фамилия идёт ПЕРВОЙ!</p>
+
+            <div class="name-structure">
+                <div class="name-part">
+                    <div class="name-part-korean">김</div>
+                    <div class="name-part-label">Фамилия (1 слог)</div>
+                </div>
+                <div class="name-plus">+</div>
+                <div class="name-part">
+                    <div class="name-part-korean">민수</div>
+                    <div class="name-part-label">Имя (2 слога)</div>
+                </div>
+                <div class="name-equals">=</div>
+                <div class="name-part" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="name-part-korean">김민수</div>
+                    <div class="name-part-label">Полное имя [Kim Minsu]</div>
+                </div>
+            </div>
+
+            <p>Примеры полных имён:</p>
+            <ul style="line-height: 2.2; font-size: 1.1em;">
+                <li><strong>김민수</strong> [Kim Minsu] <button class="audio-btn" onclick="speakKorean('김민수')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button> &mdash; Ким Минсу (мужское)</li>
+                <li><strong>이지은</strong> [I Ji-eun] <button class="audio-btn" onclick="speakKorean('이지은')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button> &mdash; Ли Чиын (женское)</li>
+                <li><strong>박서연</strong> [Pak Seoyeon] <button class="audio-btn" onclick="speakKorean('박서연')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button> &mdash; Пак Соён (женское)</li>
+                <li><strong>최준호</strong> [Choe Junho] <button class="audio-btn" onclick="speakKorean('최준호')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button> &mdash; Чхве Чунхо (мужское)</li>
+                <li><strong>정하나</strong> [Jeong Hana] <button class="audio-btn" onclick="speakKorean('정하나')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button> &mdash; Чон Хана (женское)</li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>Интересно:</strong> Некоторые имена бывают и мужскими, и женскими &mdash; по имени не всегда можно определить пол. Например, 수현 (Сухён) может быть и мужским, и женским именем.
+            </div>
+        </div>
+
+        <!-- Секция 2: Популярные фамилии -->
+        <div class="content-section">
+            <h2>Топ-5 корейских фамилий</h2>
+            <p>Всего 5 фамилий покрывают почти <strong>50% населения</strong> Южной Кореи! Это гораздо меньше разнообразия, чем в русских фамилиях.</p>
+
+            <div class="surname-grid">
+                <div class="surname-card">
+                    <div class="surname-korean">김 <button class="audio-btn" onclick="speakKorean('김')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="surname-roman">Kim</div>
+                    <div class="surname-percent">~21%</div>
+                </div>
+                <div class="surname-card">
+                    <div class="surname-korean">이 <button class="audio-btn" onclick="speakKorean('이')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="surname-roman">Lee / I</div>
+                    <div class="surname-percent">~15%</div>
+                </div>
+                <div class="surname-card">
+                    <div class="surname-korean">박 <button class="audio-btn" onclick="speakKorean('박')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="surname-roman">Park / Pak</div>
+                    <div class="surname-percent">~8%</div>
+                </div>
+                <div class="surname-card">
+                    <div class="surname-korean">최 <button class="audio-btn" onclick="speakKorean('최')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="surname-roman">Choi / Choe</div>
+                    <div class="surname-percent">~4.5%</div>
+                </div>
+                <div class="surname-card">
+                    <div class="surname-korean">정 <button class="audio-btn" onclick="speakKorean('정')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="surname-roman">Jeong / Jung</div>
+                    <div class="surname-percent">~4%</div>
+                </div>
+            </div>
+
+            <div class="culture-note">
+                <strong>Культурная заметка:</strong> В Корее людей с одинаковой фамилией ОЧЕНЬ много. Поэтому фамилия сама по себе мало что говорит &mdash; важно полное имя. Также в Корее супруги сохраняют свои фамилии после свадьбы: жена остаётся Ким, а муж &mdash; Пак.
+            </div>
+        </div>
+
+        <!-- Секция 3: Почему нельзя по имени -->
+        <div class="content-section">
+            <h2>Почему НЕ называют по имени</h2>
+            <p>У нас нормально обращаться к знакомому по имени: "Саша, привет!" В Корее обращение по имени (без суффикса) &mdash; это <strong>грубо</strong>, даже между друзьями!</p>
+
+            <div class="warning-box">
+                <strong>Важно!</strong> Называть человека просто по имени (예: "민수야!") можно ТОЛЬКО если он ваш ровесник или младше вас. К старшему по имени обращаться &mdash; очень грубо. Даже друзья часто используют обращения вместо имён.
+            </div>
+
+            <p>Вместо имени используют <strong>обращения</strong>, которые зависят от:</p>
+            <ul style="line-height: 2; font-size: 1.05em;">
+                <li>Возраста собеседника (старше / младше / ровесник)</li>
+                <li>Вашего пола и пола собеседника</li>
+                <li>Степени близости (друг, коллега, незнакомец)</li>
+                <li>Социального статуса (клиент, начальник, учитель)</li>
+            </ul>
+        </div>
+
+        <!-- Секция 4: Семейные обращения -->
+        <div class="content-section">
+            <h2>"Старший брат" и "старшая сестра" &mdash; для ВСЕХ</h2>
+            <p>Эти слова используются не только для родственников! Корейцы так обращаются к <strong>любым</strong> старшим знакомым, друзьям, коллегам.</p>
+
+            <div class="address-cards">
+                <div class="address-card address-card-family">
+                    <div class="address-card-title">언니 <button class="audio-btn" onclick="speakKorean('언니')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="address-card-romanization">[eonni]</div>
+                    <div class="address-card-description">
+                        Старшая сестра / старшая знакомая<br>
+                        <strong>Говорит: девушка</strong><br>
+                        Кому: старшей девушке
+                    </div>
+                    <div class="address-card-example">
+                        <div class="example-korean">언니, 같이 밥 먹을래요? <button class="audio-btn" onclick="speakKorean('언니, 같이 밥 먹을래요?')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="example-translation">Онни, поедим вместе?</div>
+                    </div>
+                </div>
+
+                <div class="address-card address-card-family">
+                    <div class="address-card-title">오빠 <button class="audio-btn" onclick="speakKorean('오빠')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="address-card-romanization">[oppa]</div>
+                    <div class="address-card-description">
+                        Старший брат / старший знакомый<br>
+                        <strong>Говорит: девушка</strong><br>
+                        Кому: старшему парню
+                    </div>
+                    <div class="address-card-example">
+                        <div class="example-korean">오빠, 어디 가요? <button class="audio-btn" onclick="speakKorean('오빠, 어디 가요?')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="example-translation">Оппа, куда идёшь?</div>
+                    </div>
+                </div>
+
+                <div class="address-card address-card-family">
+                    <div class="address-card-title">형 <button class="audio-btn" onclick="speakKorean('형')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="address-card-romanization">[hyeong]</div>
+                    <div class="address-card-description">
+                        Старший брат / старший знакомый<br>
+                        <strong>Говорит: парень</strong><br>
+                        Кому: старшему парню
+                    </div>
+                    <div class="address-card-example">
+                        <div class="example-korean">형, 오늘 시간 있어요? <button class="audio-btn" onclick="speakKorean('형, 오늘 시간 있어요?')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="example-translation">Хён, есть время сегодня?</div>
+                    </div>
+                </div>
+
+                <div class="address-card address-card-family">
+                    <div class="address-card-title">누나 <button class="audio-btn" onclick="speakKorean('누나')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="address-card-romanization">[nuna]</div>
+                    <div class="address-card-description">
+                        Старшая сестра / старшая знакомая<br>
+                        <strong>Говорит: парень</strong><br>
+                        Кому: старшей девушке
+                    </div>
+                    <div class="address-card-example">
+                        <div class="example-korean">누나, 이거 뭐예요? <button class="audio-btn" onclick="speakKorean('누나, 이거 뭐예요?')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="example-translation">Нуна, что это?</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Как запомнить:</strong> Девушка говорит: 언니 (старшей девушке), 오빠 (старшему парню). Парень говорит: 누나 (старшей девушке), 형 (старшему парню). Эти слова часто слышны в K-POP и дорамах!
+            </div>
+        </div>
+
+        <!-- Секция 5: Вежливые обращения -->
+        <div class="content-section">
+            <h2>Вежливые обращения</h2>
+            <p>Помимо "семейных" обращений, в корейском есть суффиксы и слова для формальных ситуаций.</p>
+
+            <div class="address-cards">
+                <div class="address-card address-card-formal">
+                    <div class="address-card-title">선생님 <button class="audio-btn" onclick="speakKorean('선생님')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="address-card-romanization">[seonsaengnim]</div>
+                    <div class="address-card-description">
+                        Учитель / уважаемый человек. Универсальное вежливое обращение &mdash; можно использовать даже к незнакомцу, если хотите проявить уважение.
+                    </div>
+                    <div class="address-card-example">
+                        <div class="example-korean">선생님, 질문 있어요. <button class="audio-btn" onclick="speakKorean('선생님, 질문 있어요.')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="example-translation">Учитель, у меня есть вопрос.</div>
+                    </div>
+                </div>
+
+                <div class="address-card address-card-formal">
+                    <div class="address-card-title">씨 <button class="audio-btn" onclick="speakKorean('씨')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="address-card-romanization">[ssi]</div>
+                    <div class="address-card-description">
+                        Господин / госпожа. Вежливый суффикс после <strong>полного имени</strong> или имени. Нейтрально-вежливо, для равных.
+                    </div>
+                    <div class="address-card-example">
+                        <div class="example-korean">김민수 씨, 안녕하세요! <button class="audio-btn" onclick="speakKorean('김민수 씨, 안녕하세요!')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="example-translation">Ким Минсу-сси, здравствуйте!</div>
+                    </div>
+                </div>
+
+                <div class="address-card address-card-formal">
+                    <div class="address-card-title">님 <button class="audio-btn" onclick="speakKorean('님')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="address-card-romanization">[nim]</div>
+                    <div class="address-card-description">
+                        Сверхвежливый суффикс. Используется в сфере обслуживания, интернете и для должностей.
+                    </div>
+                    <div class="address-card-example">
+                        <div class="example-korean">고객님, 주문하시겠어요? <button class="audio-btn" onclick="speakKorean('고객님, 주문하시겠어요?')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="example-translation">Уважаемый клиент, будете заказывать?</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>Осторожно с 씨!</strong> Нельзя ставить 씨 после ТОЛЬКО фамилии! "김 씨" звучит грубо (как "эй, Ким!"). Правильно: <strong>김민수 씨</strong> (полное имя + 씨) или <strong>민수 씨</strong> (имя + 씨).
+            </div>
+        </div>
+
+        <!-- Секция 6: Обращения на улице -->
+        <div class="content-section">
+            <h2>Обращения к незнакомцам</h2>
+            <p>Как обратиться к человеку на улице, в магазине, в транспорте?</p>
+
+            <div class="address-cards">
+                <div class="address-card address-card-casual">
+                    <div class="address-card-title">아저씨 <button class="audio-btn" onclick="speakKorean('아저씨')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="address-card-romanization">[ajeossi]</div>
+                    <div class="address-card-description">
+                        Мужчина средних лет (примерно 40-60 лет). Можно обращаться к продавцу, таксисту, прохожему.
+                    </div>
+                    <div class="address-card-example">
+                        <div class="example-korean">아저씨, 이거 얼마예요? <button class="audio-btn" onclick="speakKorean('아저씨, 이거 얼마예요?')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="example-translation">Дяденька, сколько это стоит?</div>
+                    </div>
+                </div>
+
+                <div class="address-card address-card-casual">
+                    <div class="address-card-title">아줌마 <button class="audio-btn" onclick="speakKorean('아줌마')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="address-card-romanization">[ajumma]</div>
+                    <div class="address-card-description">
+                        Женщина средних лет. Используется на рынке, в кафе. Более вежливый вариант &mdash; 아주머니 [ajumeoni].
+                    </div>
+                    <div class="address-card-example">
+                        <div class="example-korean">아줌마, 김치찌개 하나 주세요! <button class="audio-btn" onclick="speakKorean('아줌마, 김치찌개 하나 주세요!')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="example-translation">Тётушка, одно кимчи-тиге, пожалуйста!</div>
+                    </div>
+                </div>
+
+                <div class="address-card address-card-casual">
+                    <div class="address-card-title">사장님 <button class="audio-btn" onclick="speakKorean('사장님')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="address-card-romanization">[sajangnim]</div>
+                    <div class="address-card-description">
+                        Директор / владелец. Часто используется к владельцу магазина или кафе &mdash; это лестное обращение.
+                    </div>
+                    <div class="address-card-example">
+                        <div class="example-korean">사장님, 여기 물 좀 주세요! <button class="audio-btn" onclick="speakKorean('사장님, 여기 물 좀 주세요!')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="example-translation">Хозяин, воды, пожалуйста!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="culture-note">
+                <strong>Совет для иностранцев:</strong> К вам в Корее обычно будут обращаться <strong>имя + 씨</strong>. Например, если вас зовут Анна, то скажут "안나 씨". Это стандартное вежливое обращение к иностранцу.
+            </div>
+        </div>
+
+        <!-- Секция 7: Таблица обращений -->
+        <div class="content-section">
+            <h2>Кого как называть?</h2>
+            <p>Сводная таблица обращений в зависимости от ситуации:</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Таблица обращений</div>
+                <div class="table-row">
+                    <div class="table-cell header-cell">Кто</div>
+                    <div class="table-cell header-cell">Обращение</div>
+                    <div class="table-cell header-cell">Произношение</div>
+                    <div class="table-cell header-cell">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Учитель / врач</div>
+                    <div class="table-cell korean">선생님</div>
+                    <div class="table-cell">seonsaengnim</div>
+                    <div class="table-cell">선생님, 감사합니다!</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Коллега / знакомый</div>
+                    <div class="table-cell korean">이름 + 씨</div>
+                    <div class="table-cell">ireum + ssi</div>
+                    <div class="table-cell">민수 씨, 안녕하세요!</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Начальник</div>
+                    <div class="table-cell korean">직함 + 님</div>
+                    <div class="table-cell">jikham + nim</div>
+                    <div class="table-cell">부장님, 보고서입니다</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Старший друг (м, от м)</div>
+                    <div class="table-cell korean">형</div>
+                    <div class="table-cell">hyeong</div>
+                    <div class="table-cell">형, 같이 가자!</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Старший друг (м, от ж)</div>
+                    <div class="table-cell korean">오빠</div>
+                    <div class="table-cell">oppa</div>
+                    <div class="table-cell">오빠, 도와주세요!</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Старшая подруга (от ж)</div>
+                    <div class="table-cell korean">언니</div>
+                    <div class="table-cell">eonni</div>
+                    <div class="table-cell">언니, 예쁘다!</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Старшая подруга (от м)</div>
+                    <div class="table-cell korean">누나</div>
+                    <div class="table-cell">nuna</div>
+                    <div class="table-cell">누나, 고마워!</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Продавец / таксист</div>
+                    <div class="table-cell korean">아저씨 / 아줌마</div>
+                    <div class="table-cell">ajeossi / ajumma</div>
+                    <div class="table-cell">아저씨, 여기요!</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Клиент (сфера услуг)</div>
+                    <div class="table-cell korean">고객님</div>
+                    <div class="table-cell">gogaengnim</div>
+                    <div class="table-cell">고객님, 감사합니다</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Диалог 1 -->
+        <div class="content-section">
+            <h2>Диалог 1: Знакомство в университете</h2>
+            <div class="dialogue-box">
+                <div class="dialogue-title">대학교에서 처음 만남 [daehakgyoeseo cheoeum mannam]</div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">수진 (Суджин, девушка, 22 года):</div>
+                    <div class="korean-text">안녕하세요! 저는 수진이에요. 이름이 뭐예요? <button class="audio-btn" onclick="speakKorean('안녕하세요! 저는 수진이에요. 이름이 뭐예요?')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Здравствуйте! Я Суджин. Как вас зовут?</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">민수 (Минсу, парень, 24 года):</div>
+                    <div class="korean-text">안녕하세요! 저는 김민수예요. 몇 살이에요? <button class="audio-btn" onclick="speakKorean('안녕하세요! 저는 김민수예요. 몇 살이에요?')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Здравствуйте! Я Ким Минсу. Сколько вам лет?</div>
+                    <div class="grammar-note">В Корее спрашивать возраст нормально &mdash; нужно знать, кто старше!</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">수진:</div>
+                    <div class="korean-text">스물두 살이에요. 민수 씨는요? <button class="audio-btn" onclick="speakKorean('스물두 살이에요. 민수 씨는요?')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Мне 22. А вам, Минсу-сси?</div>
+                    <div class="grammar-note">Пока не знает возраст &mdash; использует вежливое 씨</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">스물네 살이에요. 저가 두 살 더 많아요! <button class="audio-btn" onclick="speakKorean('스물네 살이에요. 저가 두 살 더 많아요!')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">24. Я на два года старше!</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">수진:</div>
+                    <div class="korean-text">아, 그러면 오빠라고 불러도 돼요? <button class="audio-btn" onclick="speakKorean('아, 그러면 오빠라고 불러도 돼요?')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">А, тогда можно называть вас "оппа"?</div>
+                    <div class="grammar-note">Девушка спрашивает разрешения называть старшего парня "оппа"</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">네, 물론이죠! 편하게 오빠라고 하세요. <button class="audio-btn" onclick="speakKorean('네, 물론이죠! 편하게 오빠라고 하세요.')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Да, конечно! Зовите меня "оппа" без стеснения.</div>
+                </div>
+
+                <button class="dialogue-play-btn" onclick="playDialogueSequence(['안녕하세요! 저는 수진이에요. 이름이 뭐예요?', '안녕하세요! 저는 김민수예요. 몇 살이에요?', '스물두 살이에요. 민수 씨는요?', '스물네 살이에요. 저가 두 살 더 많아요!', '아, 그러면 오빠라고 불러도 돼요?', '네, 물론이죠! 편하게 오빠라고 하세요.'])">Прослушать диалог</button>
+            </div>
+        </div>
+
+        <!-- Диалог 2 -->
+        <div class="content-section">
+            <h2>Диалог 2: Как мне вас называть?</h2>
+            <div class="dialogue-box">
+                <div class="dialogue-title">뭐라고 불러요? [mworago bulleoyo?] &mdash; Как обращаться?</div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">안나 (Анна, иностранка):</div>
+                    <div class="korean-text">안녕하세요, 저는 안나예요. 독일에서 왔어요. <button class="audio-btn" onclick="speakKorean('안녕하세요, 저는 안나예요. 독일에서 왔어요.')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Здравствуйте, я Анна. Я из Германии.</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">지은 (Чиын, кореянка):</div>
+                    <div class="korean-text">반가워요, 안나 씨! 저는 이지은이에요. <button class="audio-btn" onclick="speakKorean('반가워요, 안나 씨! 저는 이지은이에요.')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Приятно познакомиться, Анна-сси! Я Ли Чиын.</div>
+                    <div class="grammar-note">К иностранцу обращается имя + 씨</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">안나:</div>
+                    <div class="korean-text">지은 씨, 뭐라고 부르면 돼요? 선생님? <button class="audio-btn" onclick="speakKorean('지은 씨, 뭐라고 부르면 돼요? 선생님?')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Чиын-сси, как мне к вам обращаться? "Сонсэнним"?</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">지은:</div>
+                    <div class="korean-text">아니요, 지은 씨라고 하면 돼요! 우리 나이가 비슷해요. <button class="audio-btn" onclick="speakKorean('아니요, 지은 씨라고 하면 돼요! 우리 나이가 비슷해요.')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Нет, зовите "Чиын-сси"! У нас похожий возраст.</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">안나:</div>
+                    <div class="korean-text">아, 네! 지은 씨, 잘 부탁해요! <button class="audio-btn" onclick="speakKorean('아, 네! 지은 씨, 잘 부탁해요!')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">А, да! Чиын-сси, будем дружить!</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">지은:</div>
+                    <div class="korean-text">네, 안나 씨! 한국에서 즐거운 시간 보내세요! <button class="audio-btn" onclick="speakKorean('네, 안나 씨! 한국에서 즐거운 시간 보내세요!')" style="border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1);"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Да, Анна-сси! Приятного времени в Корее!</div>
+                </div>
+
+                <button class="dialogue-play-btn" onclick="playDialogueSequence(['안녕하세요, 저는 안나예요. 독일에서 왔어요.', '반가워요, 안나 씨! 저는 이지은이에요.', '지은 씨, 뭐라고 부르면 돼요? 선생님?', '아니요, 지은 씨라고 하면 돼요! 우리 나이가 비슷해요.', '아, 네! 지은 씨, 잘 부탁해요!', '네, 안나 씨! 한국에서 즐거운 시간 보내세요!'])">Прослушать диалог</button>
+            </div>
+        </div>
+
+        <!-- Упражнения -->
+        <div class="content-section practice-section">
+            <h2>Упражнения</h2>
+            <p style="color: #2e7d32;">Проверьте, как вы усвоили тему обращений и имён.</p>
+
+            <!-- Упражнение 1 -->
+            <div class="exercise">
+                <div class="question">
+                    <span class="exercise-number">1</span>
+                    Как устроено корейское имя 박서연?
+                </div>
+                <div class="options">
+                    <button class="option" data-correct="false">박서 (имя) + 연 (фамилия)</button>
+                    <button class="option" data-correct="true">박 (фамилия) + 서연 (имя)</button>
+                    <button class="option" data-correct="false">박서연 &mdash; это только имя, без фамилии</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <!-- Упражнение 2 -->
+            <div class="exercise">
+                <div class="question">
+                    <span class="exercise-number">2</span>
+                    Вы &mdash; девушка. Как обратиться к старшему знакомому парню?
+                </div>
+                <div class="options">
+                    <button class="option" data-correct="false">형</button>
+                    <button class="option" data-correct="true">오빠</button>
+                    <button class="option" data-correct="false">누나</button>
+                    <button class="option" data-correct="false">언니</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <!-- Упражнение 3 -->
+            <div class="exercise">
+                <div class="question">
+                    <span class="exercise-number">3</span>
+                    Вы &mdash; парень. Как обратиться к старшей знакомой девушке?
+                </div>
+                <div class="options">
+                    <button class="option" data-correct="false">오빠</button>
+                    <button class="option" data-correct="false">언니</button>
+                    <button class="option" data-correct="true">누나</button>
+                    <button class="option" data-correct="false">형</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <!-- Упражнение 4 -->
+            <div class="exercise">
+                <div class="question">
+                    <span class="exercise-number">4</span>
+                    Как правильно обратиться к коллеге Ким Минсу с вежливым суффиксом?
+                </div>
+                <div class="options">
+                    <button class="option" data-correct="false">김 씨</button>
+                    <button class="option" data-correct="true">민수 씨</button>
+                    <button class="option" data-correct="false">김 님</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <!-- Упражнение 5 -->
+            <div class="exercise">
+                <div class="question">
+                    <span class="exercise-number">5</span>
+                    Какая фамилия самая распространённая в Корее?
+                </div>
+                <div class="options">
+                    <button class="option" data-correct="false">이 (Lee)</button>
+                    <button class="option" data-correct="true">김 (Kim)</button>
+                    <button class="option" data-correct="false">박 (Park)</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <!-- Упражнение 6 -->
+            <div class="exercise">
+                <div class="question">
+                    <span class="exercise-number">6</span>
+                    Как обратиться к владельцу ресторана?
+                </div>
+                <div class="options">
+                    <button class="option" data-correct="false">아저씨</button>
+                    <button class="option" data-correct="true">사장님</button>
+                    <button class="option" data-correct="false">선생님</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <!-- Упражнение 7 -->
+            <div class="exercise">
+                <div class="question">
+                    <span class="exercise-number">7</span>
+                    Как обычно обращаются к иностранцу в Корее?
+                </div>
+                <div class="options">
+                    <button class="option" data-correct="false">오빠 / 언니</button>
+                    <button class="option" data-correct="false">아저씨 / 아줌마</button>
+                    <button class="option" data-correct="true">имя + 씨</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <!-- Упражнение 8 -->
+            <div class="exercise">
+                <div class="question">
+                    <span class="exercise-number">8</span>
+                    Вы &mdash; парень. К старшему знакомому парню вы обращаетесь:
+                </div>
+                <div class="options">
+                    <button class="option" data-correct="false">오빠</button>
+                    <button class="option" data-correct="false">누나</button>
+                    <button class="option" data-correct="true">형</button>
+                    <button class="option" data-correct="false">언니</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <!-- Блок "Запомни!" -->
+        <div class="content-section">
+            <div class="remember-block">
+                <h3>Запомни!</h3>
+                <ul>
+                    <li><strong>Фамилия + имя</strong> (не наоборот!): 김 (фамилия) + 민수 (имя) = 김민수</li>
+                    <li><strong>Топ-5 фамилий</strong>: 김, 이, 박, 최, 정 &mdash; почти 50% населения</li>
+                    <li><strong>Девушка говорит</strong>: 언니 (старшей девушке), 오빠 (старшему парню)</li>
+                    <li><strong>Парень говорит</strong>: 누나 (старшей девушке), 형 (старшему парню)</li>
+                    <li><strong>씨</strong> ставится после имени или полного имени, НИКОГДА после одной фамилии</li>
+                    <li><strong>선생님</strong> &mdash; универсальное уважительное обращение (не только к учителю)</li>
+                    <li><strong>님</strong> &mdash; сверхвежливо: 고객님 (клиент), 사장님 (директор)</li>
+                    <li><strong>К иностранцу</strong> обращаются: имя + 씨 (안나 씨)</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения -->
+        <div class="content-section" style="text-align: center;">
+            <h2>Урок завершён!</h2>
+            <p>Теперь вы знаете, как устроены корейские имена и как правильно обращаться к людям в Корее!</p>
+            <button class="complete-btn" id="completeLessonBtn" onclick="completeLesson()">Завершить урок</button>
+        </div>
+    </div>
+
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.speak(u);
+        }
+
+        function checkExercise(btn, isCorrect) {
+            var btns = btn.parentElement.querySelectorAll('button[onclick*="checkExercise"]');
+            btns.forEach(function(b) { b.disabled = true; });
+            if (isCorrect) {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                console.log('[+] Correct answer');
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                btns.forEach(function(b) {
+                    if (b.getAttribute('onclick').indexOf('true') !== -1) {
+                        b.style.background = '#4caf50'; b.style.color = 'white';
+                    }
+                });
+                console.log('[-] Wrong answer');
+            }
+        }
+
+        function playDialogueSequence(dialogueLines) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var i = 0;
+            function playNext() {
+                if (i >= dialogueLines.length) return;
+                var u = new SpeechSynthesisUtterance(dialogueLines[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+                var voices = window.speechSynthesis.getVoices();
+                u.onend = function() { i++; setTimeout(playNext, 500); };
+                window.speechSynthesis.speak(u);
+            }
+            playNext();
+        }
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_korean_names';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                            opt.disabled = true;
+                        });
+
+                        var isCorrect = this.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                            console.log('[+] Correct answer');
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Посмотрите правильный ответ.';
+                            console.log('[-] Wrong answer');
+
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>
