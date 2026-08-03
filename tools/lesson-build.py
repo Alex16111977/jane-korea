@@ -603,6 +603,171 @@ TEMPLATE = """<!DOCTYPE html>
             color: white;
         }}
 
+        /* --- Блоки продвинутого урока --- */
+        .src-box {{
+            background: #1f2430;
+            color: #e8e6f0;
+            padding: 25px;
+            border-radius: 15px;
+        }}
+
+        .src-origin {{
+            font-size: 0.85em;
+            opacity: 0.7;
+            margin-bottom: 18px;
+            letter-spacing: 0.03em;
+        }}
+
+        .src-line {{
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }}
+
+        .src-line:last-of-type {{ border-bottom: none; }}
+
+        .src-ko {{
+            font-size: 1.12em;
+            line-height: 1.75;
+            margin-bottom: 6px;
+        }}
+
+        .src-ko b {{
+            color: #ffd54f;
+            font-weight: 600;
+        }}
+
+        .src-ru {{
+            font-size: 0.95em;
+            opacity: 0.72;
+            font-style: italic;
+        }}
+
+        .src-note {{
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            font-size: 0.95em;
+            opacity: 0.85;
+        }}
+
+        .table-wrap {{
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }}
+
+        .compare table {{
+            width: 100%;
+            min-width: 560px;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }}
+
+        .compare th {{
+            background: linear-gradient(135deg, {c1}, {c2});
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-size: 0.95em;
+        }}
+
+        .compare td {{
+            padding: 13px 12px;
+            border-bottom: 1px solid #eceaf3;
+            vertical-align: top;
+            font-size: 0.97em;
+        }}
+
+        .compare tr:last-child td {{ border-bottom: none; }}
+        .compare tr:nth-child(even) td {{ background: rgba({rgb}, 0.05); }}
+
+        .mistake {{
+            background: white;
+            border-left: 4px solid #d64545;
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin: 15px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+        }}
+
+        .mistake .wrong {{
+            color: #c62828;
+            text-decoration: line-through;
+            text-decoration-color: rgba(198,40,40,0.4);
+            margin-bottom: 6px;
+        }}
+
+        .mistake .right {{
+            color: #2e7d32;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }}
+
+        .mistake .why {{
+            color: #55506e;
+            font-size: 0.93em;
+        }}
+
+        .quiz-item {{
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+        }}
+
+        .quiz-q {{
+            font-weight: 500;
+            margin-bottom: 14px;
+            color: #2d3748;
+        }}
+
+        .quiz-opts {{
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }}
+
+        .quiz-opt {{
+            text-align: left;
+            padding: 12px 16px;
+            border: 2px solid #e3e0ee;
+            background: #faf9fd;
+            border-radius: 10px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1em;
+            color: #2d3748;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }}
+
+        .quiz-opt:hover {{ border-color: {accent}; }}
+        .quiz-opt.ok {{ background: #4caf50; border-color: #4caf50; color: white; }}
+        .quiz-opt.no {{ background: #f44336; border-color: #f44336; color: white; }}
+        .quiz-opt[disabled] {{ cursor: default; }}
+
+        .quiz-why {{
+            margin-top: 12px;
+            padding: 12px 14px;
+            background: rgba({rgb}, 0.08);
+            border-radius: 8px;
+            font-size: 0.93em;
+            color: #55506e;
+            display: none;
+        }}
+
+        .quiz-why.show {{ display: block; }}
+
+        .quiz-score {{
+            text-align: center;
+            font-size: 1.15em;
+            font-weight: 600;
+            color: {accent};
+            margin-top: 18px;
+        }}
+
         footer {{
             text-align: center;
             padding: 20px;
@@ -655,12 +820,14 @@ TEMPLATE = """<!DOCTYPE html>
 {sections}
             </section>
 
+{authentic}
             <section class="examples">
                 <h2>📝 Примеры использования</h2>
 
 {examples}
             </section>
 
+{compare}{mistakes}{quiz}
             <section class="summary">
                 <h2>📋 Краткое содержание</h2>
                 <div class="summary-box">
@@ -704,6 +871,37 @@ TEMPLATE = """<!DOCTYPE html>
     <script src="../js/firebase-auth.js"></script>
     <script src="../js/progress-tracker.js"></script>
     <script>
+        // Мини-тест урока
+        var QUIZ_ANSWERS = {quiz_json};
+
+        document.addEventListener('DOMContentLoaded', function() {{
+            var answered = {{}};
+            document.querySelectorAll('.quiz-opt').forEach(function(btn) {{
+                btn.addEventListener('click', function() {{
+                    var q = +btn.dataset.q, o = +btn.dataset.o;
+                    if (answered[q] !== undefined) return;
+                    answered[q] = o;
+                    var correct = QUIZ_ANSWERS[q];
+                    document.querySelectorAll('.quiz-opt[data-q="' + q + '"]').forEach(function(b) {{
+                        b.disabled = true;
+                        if (+b.dataset.o === correct) b.classList.add('ok');
+                        else if (+b.dataset.o === o) b.classList.add('no');
+                    }});
+                    var why = document.getElementById('why' + q);
+                    if (why) why.classList.add('show');
+
+                    var done = Object.keys(answered).length;
+                    if (done === QUIZ_ANSWERS.length) {{
+                        var right = 0;
+                        for (var k in answered) if (answered[k] === QUIZ_ANSWERS[k]) right++;
+                        var score = document.getElementById('quizScore');
+                        if (score) score.textContent = 'Результат: ' + right + ' из ' + QUIZ_ANSWERS.length;
+                        console.log('[OK] Quiz finished:', right + '/' + QUIZ_ANSWERS.length);
+                    }}
+                }});
+            }});
+        }});
+
         // Кнопка завершения урока
         var LESSON_ID = '{lesson_id}';
 
