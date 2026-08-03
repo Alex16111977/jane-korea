@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="648 упражнений корейской грамматики с ключами: падежи, времена, причастия, косвенная речь. Проверка ответа сразу на странице."/>
+    <meta name="description" content="648 заданий по корейской грамматике с ключами, 19 диалогов и 17 текстов со словариками. Проверка ответа сразу на странице."/>
     <meta property="og:title" content="Упражнения по грамматике — Miso: 한국어 수업"/>
-    <meta property="og:description" content="21 урок, 89 упражнений, 648 заданий с ключами."/>
+    <meta property="og:description" content="21 урок, 89 упражнений, 648 заданий с ключами, диалоги и тексты."/>
     <meta name="theme-color" content="#667eea"/>
     <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
     <title>Упражнения по грамматике | Miso: 한국어 수업</title>
@@ -80,6 +80,22 @@
         .read-list { font-size: 1.1em; line-height: 2; color: #2c3e50; }
         .open-note { background: #fff8e6; border-left: 4px solid #f0a500; border-radius: 10px; padding: 14px 18px; color: #7a5c00; line-height: 1.55; }
 
+        /* ---- диалог, текст, словарик ---- */
+        .book-block { background: #fff; border-radius: 20px; padding: 28px; margin-bottom: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .book-block h2 { font-size: 1.25em; color: #2c3e50; margin: 0 0 6px; }
+        .book-block .book-hint { font-size: 0.85em; color: #6b6684; margin-bottom: 18px; }
+
+        .line-row { padding: 10px 0; border-bottom: 1px solid #eceaf5; }
+        .line-row:last-child { border-bottom: none; }
+        .line-ko { font-size: 1.12em; color: #2c3e50; line-height: 1.6; }
+        .line-ru { font-size: 0.97em; color: #55506e; margin-top: 4px; line-height: 1.5; }
+        .line-ru.hidden { display: none; }
+
+        .gloss-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+        .gloss-item { background: #f5f3fb; border-radius: 12px; padding: 10px 14px; font-size: 0.95em; }
+        .gloss-item b { display: block; color: #2c3e50; font-size: 1.1em; margin-bottom: 2px; }
+        .gloss-item span { color: #55506e; }
+
         .unit-links { background: rgba(255,255,255,0.95); border-radius: 20px; padding: 24px; margin-bottom: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .unit-links h3 { margin: 0 0 12px; font-size: 1.05em; color: #2c3e50; }
         .unit-links a { display: inline-block; margin: 4px 8px 4px 0; padding: 8px 16px; background: #eceaf5; color: #5b4bb5; border-radius: 18px; text-decoration: none; font-size: 0.9em; font-weight: 500; }
@@ -149,6 +165,15 @@
             return t;
         }
 
+        // Что ещё есть в уроке кроме упражнений — для карточки на хабе
+        function extras(u) {
+            var parts = [];
+            if (u.dialog && u.dialog.length) parts.push('диалог');
+            if (u.text && u.text.ko && u.text.ko.length) parts.push('текст');
+            if (u.glossary && u.glossary.length) parts.push('словарик');
+            return parts.length ? '<br>' + parts.join(' · ') : '';
+        }
+
         // =============================================
         // Список уроков
         // =============================================
@@ -162,6 +187,7 @@
                     '<p>21 урок, ' + units.reduce(function (a, u) { return a + u.ex.length; }, 0) +
                         ' упражнений и ' + units.reduce(function (a, u) { return a + countTasks(u); }, 0) +
                         ' заданий с ключами — от чтения патчхима до косвенной речи. ' +
+                        'В уроках также диалоги, тексты и словарики к ним. ' +
                         'Короткие ответы проверяются прямо на странице.</p>' +
                     '<div class="ex-source">По самоучителю А. В. Ана «Корейский язык без репетитора» (АСТ, 2019)</div>' +
                 '</div>' +
@@ -180,7 +206,7 @@
                             '<div class="unit-no">' + esc(u.name) + ' · ' + u.level + '급</div>' +
                             '<h3>' + esc(u.topic) + '</h3>' +
                             '<div class="unit-meta">' + u.ex.length + ' упражнений · ' +
-                                countTasks(u) + ' заданий</div>' +
+                                countTasks(u) + ' заданий' + extras(u) + '</div>' +
                             (isDone(u.n) ? '<div class="unit-done">[OK] Пройдено</div>' : '') +
                         '</a>';
             });
@@ -212,6 +238,55 @@
                     html += '<a href="' + esc(href) + '/index.html">' + esc(name) + '</a>';
                 });
                 html += '</div>';
+            }
+
+            if (u.dialog && u.dialog.length) {
+                html += '<div class="book-block" id="dialogBlock">' +
+                            '<h2>💬 Диалог урока</h2>' +
+                            '<div class="book-hint">Прочитайте вслух. Перевод скрыт — откройте, когда проверите себя.</div>';
+                u.dialog.forEach(function (row) {
+                    html += '<div class="line-row">' +
+                                '<div class="line-ko">' + esc(row.k) + '</div>' +
+                                (row.r ? '<div class="line-ru hidden">' + esc(row.r) + '</div>' : '') +
+                            '</div>';
+                });
+                html += '<div class="ex-actions">' +
+                            '<button class="btn btn-show" data-act="toggle-ru">Показать перевод</button>' +
+                        '</div></div>';
+            }
+
+            if (u.text && u.text.ko && u.text.ko.length) {
+                html += '<div class="book-block" id="textBlock">' +
+                            '<h2>📖 Текст урока</h2>' +
+                            '<div class="book-hint">' +
+                                (u.text.ru && u.text.ru.length
+                                    ? 'Прочитайте и переведите, затем сверьтесь с переводом.'
+                                    : 'Прочитайте и переведите. Перевода в книге нет — опирайтесь на словарик ниже.') +
+                            '</div>';
+                u.text.ko.forEach(function (line, i) {
+                    html += '<div class="line-row">' +
+                                '<div class="line-ko">' + esc(line) + '</div>' +
+                                (u.text.ru && u.text.ru[i]
+                                    ? '<div class="line-ru hidden">' + esc(u.text.ru[i]) + '</div>' : '') +
+                            '</div>';
+                });
+                if (u.text.ru && u.text.ru.length) {
+                    html += '<div class="ex-actions">' +
+                                '<button class="btn btn-show" data-act="toggle-ru">Показать перевод</button>' +
+                            '</div>';
+                }
+                html += '</div>';
+            }
+
+            if (u.glossary && u.glossary.length) {
+                html += '<div class="book-block">' +
+                            '<h2>🗂️ Словарик к тексту</h2>' +
+                            '<div class="book-hint">' + u.glossary.length + ' слов из этого урока</div>' +
+                            '<div class="gloss-grid">';
+                u.glossary.forEach(function (w) {
+                    html += '<div class="gloss-item"><b>' + esc(w.k) + '</b><span>' + esc(w.r) + '</span></div>';
+                });
+                html += '</div></div>';
             }
 
             u.ex.forEach(function (e, ei) {
@@ -287,6 +362,18 @@
         }
 
         function bindUnit(u) {
+            document.querySelectorAll('.book-block').forEach(function (block) {
+                var btn = block.querySelector('[data-act="toggle-ru"]');
+                if (!btn) return;
+                btn.addEventListener('click', function () {
+                    var hidden = block.querySelector('.line-ru.hidden');
+                    block.querySelectorAll('.line-ru').forEach(function (el) {
+                        el.classList.toggle('hidden', !hidden);
+                    });
+                    btn.textContent = hidden ? 'Скрыть перевод' : 'Показать перевод';
+                });
+            });
+
             document.querySelectorAll('.ex-block').forEach(function (block) {
                 var ex = u.ex[Number(block.dataset.ex)];
                 var score = block.querySelector('.ex-score');

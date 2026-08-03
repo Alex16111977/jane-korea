@@ -279,47 +279,16 @@ def split_ko_ru(body):
     return ko, ru
 
 
-WORDS = set()      # настоящие слова книги, см. load_word_index()
-
-
-def load_word_index(pdf_path):
-    """Словник из pdfplumber: он режет строку по реальным пробелам PDF.
-
-    pdftotext теряет информацию о том, был ли на конце строки пробел, поэтому
-    «회사에 갑니 / 다» и «물건을 / 사오셨어요» выглядят одинаково. Список
-    настоящих слов позволяет решить, склеивать перенос со пробелом или без.
-    """
-    try:
-        import pdfplumber
-    except ImportError:
-        print('[!] pdfplumber не установлен — переносы склеиваются по эвристике')
-        return
-    # pdfplumber отдаёт корейские глифы как «(cid:15187)» — это тот же
-    # идентификатор, что и в pdftotext, только числом
-    cid = re.compile(r'\(cid:(\d+)\)')
-
-    def from_cid(text):
-        return cid.sub(lambda m: chr(int(m.group(1)) + HANGUL_OFFSET), text)
-
-    with pdfplumber.open(pdf_path) as pdf:
-        for page in pdf.pages:
-            for w in page.extract_words(use_text_flow=True):
-                token = clean(from_cid(w['text'])).strip(' .,!?«»…')
-                if token and HAN.search(token):
-                    WORDS.add(token)
-    print('[+] Словник для переносов:', len(WORDS), 'слов')
-
-
 def glue(prev, nxt):
-    """Соединяет разорванную переносом строку: с пробелом или без."""
-    tail = prev.split(' ')[-1].strip('.,!?«»…')
-    head = nxt.split(' ')[0].strip('.,!?«»…')
-    if WORDS:
-        if tail + head in WORDS:
-            return prev + nxt
-        if tail in WORDS and head in WORDS:
-            return prev + ' ' + nxt
-    # без словника: корейский набор чаще рвёт слово посередине
+    """Соединяет строку, разорванную переносом.
+
+    В корейском наборе перенос чаще всего рвёт слово посередине
+    («회사에 갑니 / 다», «다음 / 에»), поэтому по умолчанию склеиваем без
+    пробела. Информации о том, был ли на конце строки пробел, в PDF не
+    остаётся: pdftotext её отбрасывает, а pdfplumber склеивает токены через
+    перенос. Поэтому в редких случаях, когда перенос попал на пробел, внутри
+    предложения остаётся лишний стык — на чтении это не сказывается.
+    """
     return prev + nxt
 
 
@@ -494,9 +463,7 @@ def main():
     ap.add_argument('--dry-run', action='store_true', help='только показать статистику')
     args = ap.parse_args()
 
-    pdf_path = os.path.expanduser(args.pdf)
-    load_word_index(pdf_path)
-    lines = extract_text(pdf_path).split('\n')
+    lines = extract_text(os.path.expanduser(args.pdf)).split('\n')
     i_keys = max(i for i, l in enumerate(lines) if re.match(r'^\s*Ключи\s*$', l))
 
     tasks = split_blocks(lines, 0, i_keys)
