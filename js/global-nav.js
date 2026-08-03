@@ -39,7 +39,7 @@
     // Категории словаря лежат в общей папке vocabulary/, поэтому уровень
     // из пути не виден. Источник: карточки в level_N/index.html.
     var VOCAB_LEVEL = {
-        adjectives: 1, animals: 1, basicfood: 1, bathroom: 1, body: 1, city: 1,
+        polite_formulas: 1, adjectives: 1, animals: 1, basicfood: 1, bathroom: 1, body: 1, city: 1,
         clothes: 1, colors: 1, conjunctions: 1, counters: 1, countries: 1,
         daily_routine: 1, date: 1, daystime: 1, emotions: 1, food: 1, health: 1,
         hobbies: 1, house: 1, kpop_fandom: 1, money: 1, opposites: 1, phone: 1,
@@ -49,7 +49,7 @@
         adverbs_spoken: 2, aegyo: 2, communication: 2, office: 2, personality: 2,
         romance: 2, sports: 2, symptoms: 2, taste_cooking: 2, travel_vocab: 2,
         verbs_actions: 2, everyday_nouns: 2,
-        beauty: 3, onomatopoeia: 3, party: 3, space: 3, weather: 3,
+        abstract_life: 3, beauty: 3, onomatopoeia: 3, party: 3, space: 3, weather: 3,
         topik3_adjectives: 3, topik3_adverbs: 3, topik3_nouns_1: 3,
         topik3_nouns_2: 3, topik3_nouns_3: 3, topik3_verbs_1: 3, topik3_verbs_2: 3,
         people_types: 4, religion: 4,
@@ -356,6 +356,8 @@
         { t: 'Упражнения по грамматике', u: 'exercises.html', k: 'упражнения задания практика ключи самоучитель тренажёр exercises падежи причастия косвенная речь' },
         { t: 'Словарь: Глаголы — второй круг', u: 'vocabulary/verbs_actions/index.html', k: 'глаголы действия verbs 설거지하다 그리워하다 추천하다 быт чувства работа' },
         { t: 'Словарь: Быт, вещи и заимствования', u: 'vocabulary/everyday_nouns/index.html', k: 'существительные вещи быт заимствования 외래어 리모컨 베개 도시락 강의 nouns' },
+        { t: 'Словарь: Вежливые формулы и фразы', u: 'vocabulary/polite_formulas/index.html', k: 'приветствия прощания благодарность извинения 안녕하세요 감사합니다 фразы вежливость' },
+        { t: 'Словарь: Понятия и служебные слова', u: 'vocabulary/abstract_life/index.html', k: 'абстрактные понятия 맥락 진리 덕분에 наречия служебные слова' },
         { t: 'Мой профиль и прогресс', u: 'profile.html', k: 'профиль прогресс статистика profile' },
         { t: 'Практика слов', u: 'vocabulary-learning.html', k: 'словарь слова vocabulary' },
         { t: 'Разговорные фразы', u: 'phrases.html', k: 'фразы разговорные phrases кафе такси врач магазин аэропорт отель ресторан ситуации' },
