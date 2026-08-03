@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Miso: 한국어 수업 — interactive platform for learning Korean. Levels 1급-6급, texts, grammar and vocabulary."/>
+    <meta name="keywords" content="Korean language, learn Korean, TOPIK, Korean grammar, 한국어"/>
+    <meta property="og:title" content="Miso: 한국어 수업 — Learn Korean"/>
+    <meta property="og:description" content="Interactive platform for learning Korean: texts, grammar, vocabulary. Levels from A1 to C2."/>
+    <meta property="og:type" content="website"/>
+    <meta name="theme-color" content="#ff6b9d"/>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
+    <title>Miso: 한국어 수업 — Learn Korean | 한국어 배우기</title>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <link href="../css/auth-styles.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; }
+    </style>
+</head>
+<body>
+    <!-- Auth messages -->
+    <div id="auth-message" class="auth-message"></div>
+
+    <!-- Offline indicator -->
+    <div class="offline-indicator" id="offline-indicator">
+        <span class="offline-icon">📶</span>
+        <span>You are offline. Data will sync when connection is restored</span>
+    </div>
+
+    <header class="header">
+        <div class="brand-mark">Miso Korean</div>
+        <h1>🌸 한국어 배우기</h1>
+        <div class="korean-title">Korean is beautiful!</div>
+        <p>Learn Korean by the Korean level system (1급-6급)</p>
+
+        <!-- Hero Image in Korean style -->
+        <div class="hero-section">
+            <div class="korean-frame">
+                <div class="hanbok-corners">
+                    <div class="corner corner-tl">🌸</div>
+                    <div class="corner corner-tr">🌸</div>
+                    <div class="corner corner-bl">🌸</div>
+                    <div class="corner corner-br">🌸</div>
+                </div>
+                <div class="image-container">
+                    <img src="../images/APT-Bruno-Mars-Rose.webp" alt="Bruno Mars & ROSÉ - APT" class="hero-image">
+                    <div class="korean-badge">미소 × 한국어</div>
+                    <div class="music-notes">
+                        <span class="note">🎵</span>
+                        <span class="note">🎶</span>
+                        <span class="note">🎵</span>
+                    </div>
+                </div>
+                <div class="korean-text-overlay">
+                    <span class="hangul-accent">함께 배워요!</span>
+                    <span class="translation">(Let's learn together!)</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- ============================================ -->
+        <!-- AUTHORIZED USER CONTENT -->
+        <!-- ============================================ -->
+        <div id="authorized-content" class="authorized-content" style="display: none;">
+
+            <!-- Personalized greeting block -->
+            <div class="greeting-block">
+                <div class="greeting-header">
+                    <span class="greeting-emoji">🌟</span>
+                    <div class="greeting-text">
+                        <h2>Hello, <span id="greeting-name">User</span>!</h2>
+                        <p id="greeting-streak">You've been studying Korean for <span id="streak-days">0</span> days in a row</p>
+                    </div>
+                    <div class="streak-badge" id="streak-badge">
+                        <span class="streak-fire">🔥</span>
+                        <span class="streak-text">Keep it up!</span>
+                    </div>
+                </div>
+                <div class="greeting-actions">
+                    <a href="#" id="continue-lesson-btn" class="continue-btn" onclick="continueLastLesson()">
+                        Continue lesson →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick access to continue -->
+            <div class="continue-learning-block">
+                <div class="continue-card">
+                    <div class="continue-icon">📚</div>
+                    <div class="continue-info">
+                        <h3>Pick up where you left off</h3>
+                        <p id="next-lesson-info">Your next lesson: <strong id="next-lesson-name">Loading...</strong></p>
+                    </div>
+                    <a href="#" id="continue-learning-link" class="continue-arrow" onclick="continueLastLesson()">→</a>
+                </div>
+            </div>
+
+            <!-- Daily tasks -->
+            <div class="daily-tasks-block" id="dailyTasksBlock">
+                <div class="daily-tasks-header">
+                    <span class="tasks-title">Today's tasks</span>
+                    <span class="tasks-progress" id="tasksProgress">0/5</span>
+                </div>
+                <div class="daily-tasks-list" id="dailyTasksList">
+                </div>
+                <div class="daily-tasks-bar">
+                    <div class="daily-tasks-fill" id="dailyTasksFill" style="width: 0%"></div>
+                </div>
+                <div class="daily-tasks-celebration hidden" id="tasksCelebration">
+                    All tasks completed! Great job!
+                </div>
+            </div>
+
+            <!-- Achievement banner -->
+            <div class="achievement-banner" id="achievement-banner" style="display: none;">
+                <div class="achievement-content">
+                    <span class="achievement-icon">🎉</span>
+                    <div class="achievement-text">
+                        <strong>New achievement!</strong>
+                        <span id="achievement-name">You earned "First Lesson"</span>
+                    </div>
+                    <a href="../profile.html#achievements" class="achievement-link">View all achievements →</a>
+                </div>
+                <button class="achievement-close" onclick="hideAchievementBanner()">×</button>
+            </div>
+
+            <!-- Streak reminder -->
+            <div class="streak-reminder" id="streak-reminder">
+                <span class="reminder-icon">🔥</span>
+                <div class="reminder-text">
+                    <strong id="streak-count">1 day in a row!</strong> Don't lose your streak!
+                    <p class="reminder-sub">Study tomorrow to keep going</p>
+                </div>
+            </div>
+
+            <!-- Mini dictionary - Word of the day -->
+            <div class="word-of-day-widget">
+                <div class="word-header">
+                    <span class="word-icon">💬</span>
+                    <span class="word-title">Word of the day</span>
+                </div>
+                <div class="word-content">
+                    <div class="word-korean" id="wod-korean">한복</div>
+                    <div class="word-romanization" id="wod-romanization">(hanbok)</div>
+                    <div class="word-translation" id="wod-translation">"Traditional Korean clothing"</div>
+                </div>
+                <button class="add-to-vocab-btn" onclick="addWordOfDayToVocab()">
+                    Add to vocabulary 📖
+                </button>
+            </div>
+
+            <!-- Recommended for you -->
+            <div class="recommended-section">
+                <h2>✨ Recommended for you</h2>
+                <div class="korean-subtitle">당신을 위한 추천</div>
+                <div class="recommendations-grid" id="recommendations-grid">
+                    <div class="recommendation-card" onclick="window.location.href='../reading-texts.html?level=1'">
+                        <div class="rec-icon">📚</div>
+                        <div class="rec-title">Text for your level</div>
+                        <div class="rec-description">Try a Level 1급 text</div>
+                    </div>
+                    <div class="recommendation-card" onclick="window.location.href='../lesson_01/index.html'">
+                        <div class="rec-icon">🔤</div>
+                        <div class="rec-title">Learn the alphabet</div>
+                        <div class="rec-description">Start with the basics of the Korean alphabet</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent activity -->
+            <div class="recent-activity-section">
+                <h2>📚 Recently studied</h2>
+                <div class="activity-list" id="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">📝</div>
+                        <div class="activity-text">
+                            <div class="activity-title">You haven't studied anything yet</div>
+                            <div class="activity-time">Start right now!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Korean level system explanation -->
+        <div class="levels-explanation">
+            <h2>🎓 Korean Level System</h2>
+            <p>Unlike the European system (A1, A2, B1, B2, C1, C2), Korea uses its own 6-level system (1급-6급):</p>
+            <div class="level-system-grid">
+                <div class="system-item">
+                    <span class="level-number">1급</span>
+                    <span class="level-description">Elementary</span>
+                    <small>Alphabet, basic phrases</small>
+                    <div class="cefr-level">A1</div>
+                </div>
+                <div class="system-item">
+                    <span class="level-number">2급</span>
+                    <span class="level-description">Basic</span>
+                    <small>Simple dialogues, grammar</small>
+                    <div class="cefr-level">A2</div>
+                </div>
+                <div class="system-item">
+                    <span class="level-number">3급</span>
+                    <span class="level-description">Intermediate</span>
+                    <small>Everyday communication</small>
+                    <div class="cefr-level">B1</div>
+                </div>
+                <div class="system-item">
+                    <span class="level-number">4급</span>
+                    <span class="level-description">Upper-Intermediate</span>
+                    <small>Advanced grammar</small>
+                    <div class="cefr-level">B2</div>
+                </div>
+                <div class="system-item">
+                    <span class="level-number">5급</span>
+                    <span class="level-description">Advanced</span>
+                    <small>Fluent communication</small>
+                    <div class="cefr-level">C1</div>
+                </div>
+                <div class="system-item">
+                    <span class="level-number">6급</span>
+                    <span class="level-description">Mastery</span>
+                    <small>Native-level proficiency</small>
+                    <div class="cefr-level">C2</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main learning section -->
+        <div class="main-learning-section">
+            <h2>📚 Learn Korean</h2>
+            <div class="korean-subtitle">한국어 공부</div>
+            <p>Choose your level and start learning Korean with a proven method!</p>
+
+            <!-- Main button to go to lessons -->
+            <div class="lessons-entry">
+                <div class="main-lessons-card" onclick="goToLessons()">
+                    <div class="card-icon">📖</div>
+                    <div class="card-content">
+                        <h3>Start learning</h3>
+                        <div class="card-korean">공부 시작하기</div>
+                        <p>From beginner to master</p>
+                        <div class="card-arrow">→</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Placement Test banner -->
+            <a href="../placement-test.html" class="placement-banner" style="display:flex;align-items:center;gap:15px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:18px 25px;border-radius:16px;text-decoration:none;margin-top:20px;box-shadow:0 8px 25px rgba(102,126,234,0.3);transition:all 0.3s ease;">
+                <span style="font-size:2em;">🎯</span>
+                <span style="flex:1;">
+                    <strong style="display:block;font-size:1.1em;margin-bottom:2px;">Not sure where to start?</strong>
+                    <span style="opacity:0.9;font-size:0.9em;">Take the placement test — only 5 minutes</span>
+                </span>
+                <span style="font-size:1.5em;opacity:0.8;">→</span>
+            </a>
+        </div>
+
+        <!-- Learn with texts section -->
+        <div class="reading-texts-section">
+            <h2>📖 Learn with texts</h2>
+            <div class="korean-subtitle">텍스트로 배우기</div>
+            <p>🌟 Read interesting Korean texts with translations and learn new words!</p>
+
+            <!-- Card to go to texts -->
+            <div class="texts-entry">
+                <div class="main-texts-card" onclick="goToTexts()">
+                    <div class="card-icon">📚</div>
+                    <div class="card-content">
+                        <h3>Read texts</h3>
+                        <div class="card-korean">텍스트 읽기</div>
+                        <p>Interactive texts with translation</p>
+                        <div class="features-list">
+                            <span class="feature">🎯 3 difficulty levels</span>
+                            <span class="feature">💬 Hover for hints</span>
+                            <span class="feature">📊 Progress tracking</span>
+                        </div>
+                        <div class="card-arrow">→</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Conversational Phrases -->
+        <div class="special-section" style="background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(255,152,0,0.1)); border: 2px solid rgba(255,107,53,0.2);">
+            <h2>🗣 Conversational Phrases</h2>
+            <div class="korean-subtitle">회화 표현</div>
+            <p>Ready-made phrases for real situations: cafe, taxi, doctor, shop, airport, hotel</p>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 15px 0;">
+                <span style="background: #FF6B35; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">🍽 Cafe</span>
+                <span style="background: #4CAF50; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">🚕 Taxi</span>
+                <span style="background: #2196F3; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">🏥 Doctor</span>
+                <span style="background: #9C27B0; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">🛒 Shop</span>
+                <span style="background: #E91E63; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">✈️ Airport</span>
+                <span style="background: #FF9800; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">🏨 Hotel</span>
+            </div>
+            <a href="../phrases.html">Go to phrases →</a>
+        </div>
+
+        <!-- Mini-games -->
+        <div class="special-section" style="background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(118,75,162,0.1)); border: 2px solid rgba(102,126,234,0.2);">
+            <h2>🎮 Mini-games</h2>
+            <div class="korean-subtitle">미니 게임</div>
+            <p>Learn Korean by playing! Match pairs, guess the word, build a word from syllables</p>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 15px 0;">
+                <span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">🃏 Match pairs</span>
+                <span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">🔤 Guess the word</span>
+                <span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">🧩 Build a word</span>
+            </div>
+            <a href="../games.html">Go to games →</a>
+        </div>
+
+        <!-- Phrase of the week -->
+        <div id="phrase-of-week" class="special-section" style="background: linear-gradient(135deg, rgba(255,152,0,0.12), rgba(255,87,34,0.12)); border: 2px solid rgba(255,152,0,0.3);">
+            <div style="display: inline-block; background: linear-gradient(135deg, #ff9800, #ff5722); color: white; padding: 6px 18px; border-radius: 20px; font-size: 0.85em; font-weight: 600; margin-bottom: 10px;">Phrase of the week</div>
+            <div id="pow-korean" style="font-size: 2.8em; font-weight: 700; color: #333; margin: 10px 0 5px;"></div>
+            <div id="pow-pronunciation" style="font-size: 1em; color: #888; margin-bottom: 8px;"></div>
+            <div id="pow-translation" style="font-size: 1.3em; color: #667eea; font-weight: 600; margin-bottom: 12px;"></div>
+            <div id="pow-explanation" style="font-size: 0.95em; color: #555; line-height: 1.6; margin-bottom: 12px; max-width: 600px; margin-left: auto; margin-right: auto;"></div>
+            <div style="background: rgba(255,255,255,0.7); border-radius: 12px; padding: 12px 20px; display: inline-block; margin-bottom: 10px;">
+                <div style="font-size: 0.8em; color: #888; margin-bottom: 4px;">Example:</div>
+                <div id="pow-example-kr" style="font-size: 1.1em; font-weight: 600; color: #333;"></div>
+                <div id="pow-example-ru" style="font-size: 0.9em; color: #666; margin-top: 3px;"></div>
+            </div>
+        </div>
+
+        <!-- Daily Korean -->
+        <div class="special-section" style="background: linear-gradient(135deg, rgba(121,85,72,0.1), rgba(141,110,99,0.1)); border: 2px solid rgba(121,85,72,0.2);">
+            <h2>🗣 Daily Korean</h2>
+            <div class="korean-subtitle">매일 한국어</div>
+            <p>Full dialogues for real-life situations with grammar breakdowns and audio</p>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 15px 0;">
+                <span style="background: #795548; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">☕ Coffee shop</span>
+                <span style="background: #1565C0; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">🚇 Subway</span>
+                <span style="background: #c62828; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">🏥 Doctor</span>
+                <span style="background: #E65100; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">🍽 Restaurant</span>
+            </div>
+            <a href="../daily-korean.html">Go to dialogues →</a>
+        </div>
+
+        <!-- Korean Writing & Culture -->
+        <div class="special-section" style="background: linear-gradient(135deg, rgba(76,175,80,0.1), rgba(56,142,60,0.1)); border: 2px solid rgba(76,175,80,0.2);">
+            <h2>✍ Korean Writing & Culture</h2>
+            <div class="korean-subtitle">한글 쓰기 & 한국 문화</div>
+            <p>Learn to beautifully write Hangul and immerse yourself in Korean culture</p>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 15px 0;">
+                <span style="background: #4CAF50; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">🖊 Stroke order</span>
+                <span style="background: #388E3C; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">👀 눈치</span>
+                <span style="background: #2E7D32; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">💕 정</span>
+                <span style="background: #1B5E20; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">⚡ 빨리빨리</span>
+            </div>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a href="../handwriting.html">Write Hangul →</a>
+                <a href="../korean-culture.html">Korean Culture →</a>
+            </div>
+        </div>
+
+        <!-- Motivation & Practice -->
+        <div class="special-section" style="background: linear-gradient(135deg, rgba(233,30,99,0.1), rgba(156,39,176,0.1)); border: 2px solid rgba(233,30,99,0.2);">
+            <h2>🔥 Motivation & Practice</h2>
+            <div class="korean-subtitle">동기부여 & 연습</div>
+            <p>30-day study plan and a journal for practicing writing in Korean</p>
+            <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 15px 0;">
+                <span style="background: #E91E63; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">📅 30 days</span>
+                <span style="background: #9C27B0; color: white; padding: 5px 12px; border-radius: 15px; font-size: 0.9em;">📝 Journal</span>
+            </div>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a href="../challenge.html">Start challenge →</a>
+                <a href="../diary.html">My journal →</a>
+            </div>
+        </div>
+
+        <!-- Spacer -->
+        <div style="margin: 50px 0;"></div>
+    </main>
+
+    <script>
+        // Loading animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hero section animation
+            const heroSection = document.querySelector('.hero-section');
+            if (heroSection) {
+                heroSection.style.opacity = '0';
+                heroSection.style.transform = 'scale(0.8) translateY(30px)';
+                setTimeout(() => {
+                    heroSection.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                    heroSection.style.opacity = '1';
+                    heroSection.style.transform = 'scale(1) translateY(0)';
+                }, 300);
+            }
+
+            // Level system animation
+            const systemItems = document.querySelectorAll('.system-item');
+            systemItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateX(-20px)';
+                setTimeout(() => {
+                    item.style.transition = 'all 0.4s ease';
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, index * 100);
+            });
+
+            // Main lessons card animation
+            const mainCard = document.querySelector('.main-lessons-card');
+            if (mainCard) {
+                mainCard.style.opacity = '0';
+                mainCard.style.transform = 'translateY(30px) scale(0.95)';
+                setTimeout(() => {
+                    mainCard.style.transition = 'all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                    mainCard.style.opacity = '1';
+                    mainCard.style.transform = 'translateY(0) scale(1)';
+                }, 500);
+            }
+        });
+
+        // Falling sakura petals
+        function createSakuraPetals() {
+            const header = document.querySelector('.header');
+            if (!header) return;
+
+            setInterval(() => {
+                const petal = document.createElement('div');
+                petal.innerHTML = '🌸';
+                petal.style.cssText = `
+                    position: absolute;
+                    top: -50px;
+                    left: ${Math.random() * 100}%;
+                    font-size: ${Math.random() * 20 + 15}px;
+                    opacity: ${Math.random() * 0.7 + 0.3};
+                    z-index: 1;
+                    animation: petalFall ${Math.random() * 3 + 4}s linear forwards;
+                    pointer-events: none;
+                `;
+
+                header.appendChild(petal);
+
+                setTimeout(() => {
+                    if (petal.parentNode) {
+                        petal.parentNode.removeChild(petal);
+                    }
+                }, 7000);
+            }, 2000);
+        }
+
+        // CSS animations for petals and level styles
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes petalFall {
+                to {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+
+
+
+            /* ========================================== */
+            /* OFFLINE INDICATOR */
+            /* ========================================== */
+            .offline-indicator {
+                display: none;
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #ff9800, #f57c00);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 30px;
+                font-size: 14px;
+                z-index: 10000;
+                box-shadow: 0 4px 20px rgba(255,152,0,0.4);
+                align-items: center;
+                gap: 10px;
+            }
+            .offline-indicator.show {
+                display: flex;
+                animation: slideUp 0.3s ease;
+            }
+            @keyframes slideUp {
+                from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+                to { transform: translateX(-50%) translateY(0); opacity: 1; }
+            }
+
+            /* ========================================== */
+            /* PERSONALIZED GREETING BLOCK */
+            /* ========================================== */
+            .authorized-content {
+                margin-bottom: 30px;
+            }
+            .greeting-block {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 25px;
+                padding: 30px;
+                margin-bottom: 20px;
+                color: white;
+                box-shadow: 0 15px 40px rgba(102,126,234,0.3);
+            }
+            .greeting-header {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                flex-wrap: wrap;
+            }
+            .greeting-emoji {
+                font-size: 3em;
+            }
+            .greeting-text h2 {
+                margin: 0;
+                font-size: 1.8em;
+            }
+            .greeting-text p {
+                margin: 5px 0 0;
+                opacity: 0.9;
+            }
+            .streak-badge {
+                background: rgba(255,255,255,0.15);
+                padding: 8px 16px;
+                border-radius: 20px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-left: auto;
+                pointer-events: none;
+                user-select: none;
+                font-size: 0.9em;
+                opacity: 0.9;
+            }
+            .streak-fire {
+                font-size: 1.5em;
+                animation: fireAnimation 0.5s infinite alternate;
+            }
+            @keyframes fireAnimation {
+                from { transform: scale(1); }
+                to { transform: scale(1.1); }
+            }
+            .greeting-actions {
+                margin-top: 20px;
+            }
+            .continue-btn {
+                display: inline-block;
+                background: white;
+                color: #667eea;
+                padding: 12px 30px;
+                border-radius: 25px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            }
+            .continue-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            }
+
+            /* ========================================== */
+            /* CONTINUE LEARNING BLOCK */
+            /* ========================================== */
+            .continue-learning-block {
+                margin-bottom: 20px;
+            }
+            .continue-card {
+                background: white;
+                border-radius: 20px;
+                padding: 25px;
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+                border-left: 5px solid #ff6b9d;
+                transition: all 0.3s ease;
+            }
+            .continue-card:hover {
+                transform: translateX(5px);
+                box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            }
+            .continue-icon {
+                font-size: 2.5em;
+            }
+            .continue-info h3 {
+                margin: 0 0 8px;
+                color: #333;
+            }
+            .continue-info p {
+                margin: 0;
+                color: #666;
+            }
+            .continue-arrow {
+                margin-left: auto;
+                font-size: 2em;
+                color: #ff6b9d;
+                text-decoration: none;
+                transition: transform 0.3s ease;
+            }
+            .continue-arrow:hover {
+                transform: translateX(5px);
+            }
+
+            /* ========================================== */
+            /* DAILY TASKS */
+            /* ========================================== */
+            .daily-tasks-block {
+                background: white;
+                border-radius: 16px;
+                padding: 20px;
+                margin: 15px 0;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            }
+            .daily-tasks-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+            .tasks-title {
+                font-size: 1.1em;
+                font-weight: 600;
+                color: #333;
+            }
+            .tasks-progress {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 4px 12px;
+                border-radius: 20px;
+                font-size: 0.85em;
+                font-weight: 600;
+            }
+            .daily-tasks-list {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+            .daily-task-item {
+                display: flex;
+                align-items: center;
+                padding: 10px 12px;
+                border-radius: 10px;
+                background: #f8f9fa;
+                transition: all 0.3s ease;
+                gap: 10px;
+            }
+            .daily-task-item.completed {
+                background: rgba(76,175,80,0.1);
+            }
+            .task-check {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                border: 2px solid #ccc;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                font-size: 0.7em;
+                transition: all 0.3s ease;
+            }
+            .daily-task-item.completed .task-check {
+                background: #4caf50;
+                border-color: #4caf50;
+                color: white;
+            }
+            .task-info {
+                flex: 1;
+            }
+            .task-name {
+                font-size: 0.9em;
+                color: #333;
+            }
+            .daily-task-item.completed .task-name {
+                color: #888;
+                text-decoration: line-through;
+            }
+            .task-count {
+                font-size: 0.75em;
+                color: #999;
+            }
+            .task-link {
+                color: #667eea;
+                text-decoration: none;
+                font-size: 0.8em;
+                padding: 4px 10px;
+                border-radius: 15px;
+                background: rgba(102,126,234,0.1);
+                transition: all 0.3s ease;
+                white-space: nowrap;
+            }
+            .task-link:hover {
+                background: rgba(102,126,234,0.2);
+            }
+            .daily-task-item.completed .task-link {
+                display: none;
+            }
+            .daily-tasks-bar {
+                height: 6px;
+                background: #e0e0e0;
+                border-radius: 3px;
+                overflow: hidden;
+            }
+            .daily-tasks-fill {
+                height: 100%;
+                background: linear-gradient(90deg, #667eea, #764ba2);
+                border-radius: 3px;
+                transition: width 0.5s ease;
+            }
+            .daily-tasks-celebration {
+                text-align: center;
+                padding: 12px;
+                margin-top: 12px;
+                background: linear-gradient(135deg, #4caf50, #66bb6a);
+                color: white;
+                border-radius: 10px;
+                font-weight: 600;
+                animation: fadeIn 0.5s ease;
+            }
+            .daily-tasks-celebration.hidden {
+                display: none;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            /* ========================================== */
+            /* ACHIEVEMENT BANNER */
+            /* ========================================== */
+            .achievement-banner {
+                background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+                border-radius: 20px;
+                padding: 20px 25px;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                box-shadow: 0 10px 30px rgba(253,203,110,0.3);
+            }
+            .achievement-content {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+            .achievement-icon {
+                font-size: 2em;
+            }
+            .achievement-text strong {
+                display: block;
+                color: #856404;
+                margin-bottom: 3px;
+            }
+            .achievement-text span {
+                color: #6c5b00;
+            }
+            .achievement-link {
+                color: #856404;
+                font-weight: 500;
+                text-decoration: none;
+                margin-left: 20px;
+            }
+            .achievement-link:hover {
+                text-decoration: underline;
+            }
+            .achievement-close {
+                background: none;
+                border: none;
+                font-size: 1.5em;
+                cursor: pointer;
+                color: #856404;
+                padding: 0 5px;
+            }
+
+            /* ========================================== */
+            /* STREAK REMINDER */
+            /* ========================================== */
+            .streak-reminder {
+                background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+                border-radius: 20px;
+                padding: 20px 25px;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                box-shadow: 0 10px 30px rgba(255,154,158,0.3);
+            }
+            .reminder-icon {
+                font-size: 2.5em;
+                animation: fireAnimation 0.5s infinite alternate;
+            }
+            .reminder-text strong {
+                display: block;
+                color: #c0392b;
+                font-size: 1.1em;
+            }
+            .reminder-sub {
+                margin: 5px 0 0;
+                color: #e74c3c;
+                font-size: 14px;
+            }
+
+            /* ========================================== */
+            /* WORD OF THE DAY */
+            /* ========================================== */
+            .word-of-day-widget {
+                background: white;
+                border-radius: 20px;
+                padding: 25px;
+                margin-bottom: 20px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+                text-align: center;
+                border-top: 5px solid #9b59b6;
+            }
+            .word-header {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            .word-icon {
+                font-size: 1.5em;
+            }
+            .word-title {
+                font-size: 1.2em;
+                font-weight: 600;
+                color: #9b59b6;
+            }
+            .word-korean {
+                font-size: 3em;
+                color: #333;
+                font-weight: 700;
+                margin-bottom: 5px;
+            }
+            .word-romanization {
+                font-size: 1.2em;
+                color: #888;
+                margin-bottom: 10px;
+            }
+            .word-translation {
+                font-size: 1.1em;
+                color: #666;
+                font-style: italic;
+                margin-bottom: 20px;
+            }
+            .add-to-vocab-btn {
+                background: linear-gradient(135deg, #9b59b6, #8e44ad);
+                color: white;
+                border: none;
+                padding: 12px 25px;
+                border-radius: 25px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .add-to-vocab-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(155,89,182,0.4);
+            }
+
+            /* ========================================== */
+            /* RECOMMENDATIONS */
+            /* ========================================== */
+            .recommended-section {
+                background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+                border-radius: 25px;
+                padding: 30px;
+                margin-bottom: 20px;
+                text-align: center;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            }
+            .recommended-section h2 {
+                color: #2c3e50;
+                margin-bottom: 10px;
+            }
+            .recommendations-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+                margin-top: 25px;
+            }
+            .recommendation-card {
+                background: white;
+                border-radius: 15px;
+                padding: 20px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-align: left;
+                border-left: 4px solid #ff6b9d;
+            }
+            .recommendation-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            }
+            .recommendation-card.skeleton {
+                pointer-events: none;
+            }
+            .skeleton-icon {
+                width: 50px;
+                height: 50px;
+                background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+                background-size: 200% 100%;
+                animation: shimmer 1.5s infinite;
+                border-radius: 10px;
+                margin-bottom: 15px;
+            }
+            .skeleton-text {
+                height: 20px;
+                background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+                background-size: 200% 100%;
+                animation: shimmer 1.5s infinite;
+                border-radius: 5px;
+            }
+            @keyframes shimmer {
+                0% { background-position: -200% 0; }
+                100% { background-position: 200% 0; }
+            }
+            .rec-icon {
+                font-size: 2em;
+                margin-bottom: 10px;
+            }
+            .rec-title {
+                font-weight: 600;
+                color: #333;
+                margin-bottom: 5px;
+            }
+            .rec-description {
+                font-size: 14px;
+                color: #666;
+            }
+
+            /* ========================================== */
+            /* RECENT ACTIVITY */
+            /* ========================================== */
+            .recent-activity-section {
+                background: white;
+                border-radius: 25px;
+                padding: 30px;
+                margin-bottom: 30px;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            }
+            .recent-activity-section h2 {
+                color: #2c3e50;
+                margin-bottom: 20px;
+            }
+            .activity-list {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+            .activity-item {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                padding: 15px;
+                background: #f9f9f9;
+                border-radius: 12px;
+                transition: all 0.2s ease;
+            }
+            .activity-item:hover {
+                background: #f0f0f0;
+            }
+            .activity-item.skeleton {
+                pointer-events: none;
+            }
+            .skeleton-dot {
+                width: 40px;
+                height: 40px;
+                background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+                background-size: 200% 100%;
+                animation: shimmer 1.5s infinite;
+                border-radius: 50%;
+            }
+            .activity-icon {
+                font-size: 1.5em;
+            }
+            .activity-text {
+                flex: 1;
+            }
+            .activity-title {
+                font-weight: 500;
+                color: #333;
+            }
+            .activity-time {
+                font-size: 12px;
+                color: #999;
+            }
+
+            /* ========================================== */
+            /* GUEST CONTENT */
+            /* ========================================== */
+            .guest-content {
+                margin-bottom: 30px;
+            }
+            .login-prompt-block {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 25px;
+                padding: 40px;
+                text-align: center;
+                color: white;
+                box-shadow: 0 15px 40px rgba(102,126,234,0.3);
+                margin-bottom: 30px;
+            }
+            .login-prompt-icon {
+                font-size: 4em;
+                margin-bottom: 15px;
+            }
+            .login-prompt-block h2 {
+                margin: 0 0 20px;
+                font-size: 1.8em;
+            }
+            .login-benefits {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+                margin-bottom: 25px;
+            }
+            .benefit-item {
+                background: rgba(255,255,255,0.2);
+                padding: 10px 20px;
+                border-radius: 20px;
+                font-size: 14px;
+            }
+            .login-prompt-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 10px;
+                background: white;
+                color: #667eea;
+                border: none;
+                padding: 15px 30px;
+                border-radius: 30px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            }
+            .login-prompt-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            }
+
+            /* ========================================== */
+            /* RESTRICTION BANNER */
+            /* ========================================== */
+            .restriction-banner {
+                background: rgba(255,255,255,0.9);
+                border-radius: 15px;
+                padding: 15px 20px;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                border: 2px dashed rgba(255,255,255,0.5);
+            }
+            .restriction-banner.guest-only {
+                display: none;
+            }
+            .restriction-icon {
+                font-size: 2em;
+            }
+            .restriction-text strong {
+                display: block;
+                color: #333;
+            }
+            .restriction-text p {
+                margin: 5px 0 0;
+                color: #666;
+                font-size: 14px;
+            }
+            .guest-actions {
+                display: none;
+                gap: 15px;
+                justify-content: center;
+                margin-top: 20px;
+            }
+            .guest-actions.guest-only {
+                display: none;
+            }
+            .try-btn {
+                background: rgba(255,255,255,0.9);
+                color: #667eea;
+                padding: 12px 25px;
+                border-radius: 25px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+            }
+            .try-btn:hover {
+                background: white;
+                transform: translateY(-2px);
+            }
+            .login-action-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: rgba(255,255,255,0.2);
+                color: white;
+                border: 2px solid rgba(255,255,255,0.5);
+                padding: 12px 25px;
+                border-radius: 25px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            .login-action-btn:hover {
+                background: rgba(255,255,255,0.3);
+            }
+
+            /* ========================================== */
+            /* LOADING STATES */
+            /* ========================================== */
+            .loading-spinner {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                border: 2px solid #f3f3f3;
+                border-top: 2px solid #ff6b9d;
+                border-radius: 50%;
+                animation: spin 0.8s linear infinite;
+            }
+            .content-loading {
+                text-align: center;
+                padding: 40px;
+                color: #999;
+            }
+            .error-block {
+                background: #ffebee;
+                border-radius: 15px;
+                padding: 20px;
+                text-align: center;
+                color: #c62828;
+                margin: 20px 0;
+            }
+            .error-block button {
+                background: #f44336;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 20px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+
+            /* ========================================== */
+            /* RESPONSIVE */
+            /* ========================================== */
+            @media (max-width: 900px) {
+                .greeting-header {
+                    flex-direction: column;
+                    text-align: center;
+                }
+                .streak-badge {
+                    margin-left: 0;
+                }
+            }
+            @media (max-width: 600px) {
+                .greeting-block {
+                    padding: 20px;
+                }
+                .greeting-emoji {
+                    font-size: 2em;
+                }
+                .greeting-text h2 {
+                    font-size: 1.4em;
+                }
+                .continue-card {
+                    flex-direction: column;
+                    text-align: center;
+                }
+                .continue-arrow {
+                    margin-left: 0;
+                }
+                .login-prompt-block {
+                    padding: 25px;
+                }
+                .login-benefits {
+                    flex-direction: column;
+                }
+                .recommendations-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .levels-explanation {
+                background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+                border-radius: 20px;
+                padding: 30px;
+                margin: 30px 0;
+                text-align: center;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+            .level-system-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                gap: 15px;
+                margin-top: 20px;
+            }
+            .system-item {
+                background: rgba(255,255,255,0.9);
+                border-radius: 15px;
+                padding: 15px 10px;
+                text-align: center;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                border: 2px solid #ff6b9d;
+                position: relative;
+            }
+            .level-number {
+                display: block;
+                font-size: 24px;
+                font-weight: bold;
+                color: #ff6b9d;
+                margin-bottom: 5px;
+            }
+            .level-description {
+                display: block;
+                font-weight: 500;
+                color: #333;
+                margin-bottom: 8px;
+            }
+            .cefr-level {
+                background: #667eea;
+                color: white;
+                font-size: 11px;
+                font-weight: bold;
+                padding: 4px 8px;
+                border-radius: 10px;
+                position: absolute;
+                top: 8px;
+                right: 8px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            }
+
+            .placement-banner:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 35px rgba(102,126,234,0.4);
+            }
+
+            .main-learning-section {
+                background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+                border-radius: 25px;
+                padding: 40px;
+                margin: 30px 0;
+                text-align: center;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            }
+
+            .main-learning-section h2 {
+                color: #2c3e50;
+                font-size: 2.5em;
+                margin-bottom: 15px;
+            }
+
+            .korean-subtitle {
+                font-size: 1.5em;
+                color: #e74c3c;
+                margin-bottom: 20px;
+                font-weight: 500;
+            }
+
+            .lessons-entry {
+                margin-top: 40px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .main-lessons-card {
+                background: white;
+                border-radius: 20px;
+                padding: 40px 50px;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+                cursor: pointer;
+                transition: all 0.4s ease;
+                border-top: 6px solid #ff6b9d;
+                position: relative;
+                overflow: hidden;
+                max-width: 500px;
+                text-align: center;
+            }
+
+            .main-lessons-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg, rgba(255, 107, 157, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%);
+                z-index: 0;
+            }
+
+            .card-icon, .card-content {
+                position: relative;
+                z-index: 1;
+            }
+
+            .main-lessons-card:hover {
+                transform: translateY(-10px) scale(1.02);
+                box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            }
+
+            .card-icon {
+                font-size: 4em;
+                margin-bottom: 20px;
+            }
+
+            .card-content h3 {
+                font-size: 2.2em;
+                margin-bottom: 10px;
+                color: #2c3e50;
+                font-weight: 600;
+            }
+
+            .card-korean {
+                font-size: 1.3em;
+                color: #ff6b9d;
+                margin-bottom: 15px;
+                font-weight: 500;
+            }
+
+            .card-content p {
+                font-size: 1.1em;
+                color: #666;
+                margin-bottom: 20px;
+                line-height: 1.5;
+            }
+
+            .card-arrow {
+                font-size: 1.8em;
+                color: #ff6b9d;
+                transition: all 0.3s ease;
+            }
+
+            .main-lessons-card:hover .card-arrow {
+                transform: translateX(10px);
+                color: #e74c3c;
+            }
+
+            /* Text section styles */
+            .reading-texts-section {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-radius: 25px;
+                padding: 40px;
+                margin: 30px 0;
+                text-align: center;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .reading-texts-section::before {
+                content: '📚';
+                position: absolute;
+                font-size: 300px;
+                opacity: 0.1;
+                right: -100px;
+                top: -100px;
+                transform: rotate(-15deg);
+            }
+
+            .reading-texts-section h2 {
+                color: white;
+                font-size: 2.5em;
+                margin-bottom: 15px;
+                position: relative;
+                z-index: 1;
+            }
+
+            .reading-texts-section .korean-subtitle {
+                color: rgba(255,255,255,0.9);
+                font-size: 1.5em;
+                margin-bottom: 20px;
+                font-weight: 500;
+                position: relative;
+                z-index: 1;
+            }
+
+            .reading-texts-section p {
+                color: rgba(255,255,255,0.8);
+                font-size: 1.2em;
+                margin-bottom: 30px;
+                position: relative;
+                z-index: 1;
+            }
+
+            .texts-entry {
+                margin-top: 40px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .main-texts-card {
+                background: white;
+                border-radius: 20px;
+                padding: 40px 50px;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+                cursor: pointer;
+                transition: all 0.4s ease;
+                border-top: 6px solid #667eea;
+                position: relative;
+                overflow: hidden;
+                max-width: 600px;
+                text-align: center;
+                z-index: 1;
+            }
+
+            .main-texts-card::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(255, 255, 255, 0.1) 100%);
+                z-index: 0;
+            }
+
+            .main-texts-card:hover {
+                transform: translateY(-10px) scale(1.02);
+                box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            }
+
+            .features-list {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin: 20px 0;
+            }
+
+            .feature {
+                color: #667eea;
+                font-size: 0.95em;
+                font-weight: 500;
+                background: rgba(102, 126, 234, 0.1);
+                padding: 8px 15px;
+                border-radius: 15px;
+                border: 1px solid rgba(102, 126, 234, 0.2);
+                transition: all 0.3s ease;
+            }
+
+            .main-texts-card:hover .feature {
+                background: rgba(102, 126, 234, 0.15);
+                transform: translateX(5px);
+            }
+
+            @media (max-width: 768px) {
+                .main-lessons-card, .main-texts-card {
+                    padding: 30px 25px;
+                    margin: 0 15px;
+                }
+                .card-icon {
+                    font-size: 3em;
+                }
+                .card-content h3 {
+                    font-size: 1.8em;
+                }
+                .card-korean {
+                    font-size: 1.1em;
+                }
+                .card-content p {
+                    font-size: 1em;
+                }
+                .features-list {
+                    gap: 6px;
+                }
+                .feature {
+                    font-size: 0.9em;
+                    padding: 6px 12px;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        setTimeout(createSakuraPetals, 2000);
+
+        // Navigate to lessons
+        window.goToLessons = function() {
+            console.log('[+] Navigating to lessons...');
+            const targetUrl = '../lessons.html?v=' + Date.now();
+            window.location.href = targetUrl;
+        };
+
+        // Navigate to texts
+        window.goToTexts = function() {
+            console.log('[+] Navigating to texts...');
+            const targetUrl = '../reading-texts.html?v=' + Date.now();
+            window.location.href = targetUrl;
+        };
+
+        // ========================================
+        // WORD OF THE DAY DATA
+        // ========================================
+        const wordsOfTheDay = [
+            { korean: '한복', romanization: 'hanbok', translation: 'Traditional Korean clothing' },
+            { korean: '사랑', romanization: 'sarang', translation: 'Love' },
+            { korean: '친구', romanization: 'chingu', translation: 'Friend' },
+            { korean: '행복', romanization: 'haengbok', translation: 'Happiness' },
+            { korean: '가족', romanization: 'gajok', translation: 'Family' },
+            { korean: '음식', romanization: 'eumsik', translation: 'Food' },
+            { korean: '학교', romanization: 'hakgyo', translation: 'School' },
+            { korean: '노래', romanization: 'norae', translation: 'Song' },
+            { korean: '바다', romanization: 'bada', translation: 'Sea' },
+            { korean: '하늘', romanization: 'haneul', translation: 'Sky' },
+            { korean: '별', romanization: 'byeol', translation: 'Star' },
+            { korean: '꽃', romanization: 'kkot', translation: 'Flower' },
+            { korean: '책', romanization: 'chaek', translation: 'Book' },
+            { korean: '영화', romanization: 'yeonghwa', translation: 'Movie' },
+            { korean: '커피', romanization: 'keopi', translation: 'Coffee' },
+            { korean: '물', romanization: 'mul', translation: 'Water' },
+            { korean: '시간', romanization: 'sigan', translation: 'Time' },
+            { korean: '마음', romanization: 'maeum', translation: 'Heart, soul' },
+            { korean: '꿈', romanization: 'kkum', translation: 'Dream' },
+            { korean: '여행', romanization: 'yeohaeng', translation: 'Travel' }
+        ];
+
+
+        // ========================================
+        // OFFLINE MODE
+        // ========================================
+        window.addEventListener('online', function() {
+            document.getElementById('offline-indicator').classList.remove('show');
+            showAuthMessage('Connection restored! Syncing data...', 'success');
+        });
+
+        window.addEventListener('offline', function() {
+            document.getElementById('offline-indicator').classList.add('show');
+        });
+
+        // Check on load
+        if (!navigator.onLine) {
+            document.getElementById('offline-indicator').classList.add('show');
+        }
+
+        // ========================================
+        // CONTENT MANAGEMENT (AUTH)
+        // ========================================
+        function updateUIForAuthState(isLoggedIn, user) {
+            const authorizedContent = document.getElementById('authorized-content');
+            const guestWarning = document.getElementById('guest-warning');
+            const notificationsContainer = document.getElementById('notifications-container');
+            const navProgressLink = document.getElementById('nav-progress-link');
+
+            if (isLoggedIn && user) {
+                if (authorizedContent) authorizedContent.style.display = 'block';
+                if (guestWarning) guestWarning.classList.add('hidden');
+                if (notificationsContainer) notificationsContainer.classList.add('show');
+                if (navProgressLink) navProgressLink.classList.add('show');
+
+                try { updateGreeting(user); } catch(e) { console.log('[ERROR] updateGreeting:', e); }
+                try { updateQuickStats(); } catch(e) { console.log('[ERROR] updateQuickStats:', e); }
+                try { renderDailyTasks(); } catch(e) { console.log('[ERROR] renderDailyTasks:', e); }
+                try { updateWordOfDay(); } catch(e) { console.log('[ERROR] updateWordOfDay:', e); }
+                try { loadRecommendations(); } catch(e) { console.log('[ERROR] loadRecommendations:', e); }
+                try { loadRecentActivity(); } catch(e) { console.log('[ERROR] loadRecentActivity:', e); }
+                try { checkNewAchievements(); } catch(e) { console.log('[ERROR] checkNewAchievements:', e); }
+                try { checkNotifications(); } catch(e) { console.log('[ERROR] checkNotifications:', e); }
+
+            } else {
+                if (authorizedContent) authorizedContent.style.display = 'none';
+                if (guestWarning) guestWarning.classList.remove('hidden');
+                if (notificationsContainer) notificationsContainer.classList.remove('show');
+                if (navProgressLink) navProgressLink.classList.remove('show');
+            }
+        }
+
+        // ========================================
+        // PERSONALIZATION
+        // ========================================
+        function updateGreeting(user) {
+            const name = user.displayName ? user.displayName.split(' ')[0] : 'User';
+            document.getElementById('greeting-name').textContent = name;
+
+            let progress = window.ProgressTracker ? window.ProgressTracker.get() : null;
+            if (!progress) {
+                try {
+                    const raw = localStorage.getItem('janeKoreaProgress');
+                    if (raw) progress = JSON.parse(raw);
+                } catch(e) {}
+            }
+            const stats = (progress && progress.stats) ? progress.stats : {};
+            const streak = stats.currentStreak || 0;
+            document.getElementById('streak-days').textContent = streak;
+            document.getElementById('streak-count').textContent = streak + ' ' + getDayWord(streak) + ' in a row!';
+
+            // Hide badge when streak is 0
+            const badge = document.getElementById('streak-badge');
+            if (badge) {
+                badge.style.display = streak > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function getDayWord(n) {
+            if (n === 1) return 'day';
+            return 'days';
+        }
+
+        function updateQuickStats() {
+            const progress = window.ProgressTracker ? window.ProgressTracker.get() : null;
+            if (progress && progress.stats) {
+                document.getElementById('stat-streak').textContent = progress.stats.currentStreak || 0;
+                document.getElementById('stat-lessons').textContent = progress.stats.totalLessons || 0;
+            }
+
+            const words = localStorage.getItem('koreanLearnedWords');
+            if (words) {
+                try {
+                    const wordsObj = JSON.parse(words);
+                    document.getElementById('stat-words').textContent = Object.keys(wordsObj).length;
+                } catch(e) {
+                    document.getElementById('stat-words').textContent = '0';
+                }
+            }
+        }
+
+        function renderDailyTasks() {
+            if (!window.DailyTasks) return;
+            var data = window.DailyTasks.getTasks();
+            var defs = window.DailyTasks.getDefinitions();
+            var stats = window.DailyTasks.getStats();
+            var list = document.getElementById('dailyTasksList');
+            if (!list) return;
+
+            var html = '';
+            defs.forEach(function(def) {
+                var task = data.tasks[def.id] || { current: 0, completed: false };
+                var isCompleted = task.completed;
+                html += '<div class="daily-task-item' + (isCompleted ? ' completed' : '') + '">' +
+                    '<div class="task-check">' + (isCompleted ? '[OK]' : '') + '</div>' +
+                    '<div class="task-info">' +
+                        '<div class="task-name">' + def.icon + ' ' + def.name + '</div>' +
+                        '<div class="task-count">' + task.current + '/' + def.target + '</div>' +
+                    '</div>' +
+                    '<a href="' + def.link + '" class="task-link">' + def.linkText + '</a>' +
+                    '</div>';
+            });
+            list.innerHTML = html;
+
+            var progress = document.getElementById('tasksProgress');
+            if (progress) progress.textContent = stats.completed + '/' + stats.total;
+
+            var fill = document.getElementById('dailyTasksFill');
+            if (fill) fill.style.width = stats.percentage + '%';
+
+            var celebration = document.getElementById('tasksCelebration');
+            if (celebration) {
+                if (data.allCompleted) {
+                    celebration.classList.remove('hidden');
+                } else {
+                    celebration.classList.add('hidden');
+                }
+            }
+        }
+
+        window.addEventListener('dailyTaskUpdated', function() {
+            renderDailyTasks();
+        });
+
+        function checkNotifications() {
+            if (!('Notification' in window)) return;
+            var pref = localStorage.getItem('janeKoreaNotifications');
+            if (pref === 'disabled') return;
+
+            if (Notification.permission === 'default') {
+                return;
+            }
+
+            if (Notification.permission === 'granted' && window.SRS) {
+                var stats = window.SRS.getStats();
+                if (stats.today > 0) {
+                    new Notification('Miso: 한국어 수업', {
+                        body: 'Time to review ' + stats.today + ' words!',
+                        icon: '../images/favicon.png'
+                    });
+                }
+            }
+        }
+
+        function requestNotificationPermission() {
+            if (!('Notification' in window)) return;
+            var pref = localStorage.getItem('janeKoreaNotifications');
+            if (pref === 'disabled') return;
+            if (Notification.permission === 'default') {
+                Notification.requestPermission().then(function(permission) {
+                    if (permission === 'granted') {
+                        localStorage.setItem('janeKoreaNotifications', 'enabled');
+                        console.log('[OK] Notifications enabled');
+                    }
+                });
+            }
+        }
+
+        function updateWordOfDay() {
+            const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+            const word = wordsOfTheDay[dayOfYear % wordsOfTheDay.length];
+
+            document.getElementById('wod-korean').textContent = word.korean;
+            document.getElementById('wod-romanization').textContent = '(' + word.romanization + ')';
+            document.getElementById('wod-translation').textContent = '"' + word.translation + '"';
+        }
+
+        window.addWordOfDayToVocab = function() {
+            const korean = document.getElementById('wod-korean').textContent;
+            const translation = document.getElementById('wod-translation').textContent.replace(/"/g, '');
+
+            let words = {};
+            try {
+                words = JSON.parse(localStorage.getItem('koreanLearnedWords') || '{}');
+            } catch(e) {}
+
+            const key = korean + '-wordofday';
+            if (!words[key]) {
+                words[key] = {
+                    korean: korean,
+                    russian: translation,
+                    addedAt: new Date().toISOString(),
+                    source: 'wordOfDay'
+                };
+                localStorage.setItem('koreanLearnedWords', JSON.stringify(words));
+                showAuthMessage('Word "' + korean + '" added to your vocabulary!', 'success');
+                updateQuickStats();
+            } else {
+                showAuthMessage('This word is already in your vocabulary', 'info');
+            }
+        };
+
+        // ========================================
+        // RECOMMENDATIONS
+        // ========================================
+        function loadRecommendations() {
+            const grid = document.getElementById('recommendations-grid');
+            const progress = window.ProgressTracker ? window.ProgressTracker.get() : null;
+
+            const recommendations = [];
+
+            const lessonsCompleted = progress?.stats?.totalLessons || 0;
+            let userLevel = 1;
+            if (lessonsCompleted >= 20) userLevel = 3;
+            else if (lessonsCompleted >= 10) userLevel = 2;
+
+            recommendations.push({
+                icon: '📚',
+                title: 'Text for your level',
+                description: 'Try a Level ' + userLevel + '급 text',
+                url: '../reading-texts.html?level=' + userLevel
+            });
+
+            if (lessonsCompleted < 5) {
+                recommendations.push({
+                    icon: '🔤',
+                    title: 'Learn the alphabet',
+                    description: 'Start with the basics of the Korean alphabet',
+                    url: '../lesson_01/index.html'
+                });
+            } else {
+                recommendations.push({
+                    icon: '📖',
+                    title: 'Next lesson',
+                    description: 'Continue studying grammar',
+                    url: '../lessons.html'
+                });
+            }
+
+            grid.innerHTML = recommendations.map(rec =>
+                '<div class="recommendation-card" onclick="window.location.href=\'' + rec.url + '\'">' +
+                '<div class="rec-icon">' + rec.icon + '</div>' +
+                '<div class="rec-title">' + rec.title + '</div>' +
+                '<div class="rec-description">' + rec.description + '</div>' +
+                '</div>'
+            ).join('');
+        }
+
+        // ========================================
+        // RECENT ACTIVITY
+        // ========================================
+        function loadRecentActivity() {
+            const list = document.getElementById('activity-list');
+            const progress = window.ProgressTracker ? window.ProgressTracker.get() : null;
+            const activities = [];
+
+            if (progress && progress.completedLessons) {
+                Object.entries(progress.completedLessons).forEach(([id, data]) => {
+                    if (data.completedAt) {
+                        activities.push({
+                            icon: '📖',
+                            title: 'Lesson: ' + id.replace('lesson_', '').replace(/_/g, ' '),
+                            time: new Date(data.completedAt),
+                            type: 'lesson'
+                        });
+                    }
+                });
+            }
+
+            const words = localStorage.getItem('koreanLearnedWords');
+            if (words) {
+                try {
+                    const wordsObj = JSON.parse(words);
+                    Object.entries(wordsObj).forEach(([key, data]) => {
+                        if (data.addedAt) {
+                            activities.push({
+                                icon: '💬',
+                                title: 'Word: ' + data.korean,
+                                time: new Date(data.addedAt),
+                                type: 'word'
+                            });
+                        }
+                    });
+                } catch(e) {}
+            }
+
+            activities.sort((a, b) => b.time - a.time);
+
+            if (activities.length === 0) {
+                list.innerHTML = '<div class="activity-item"><div class="activity-icon">📝</div><div class="activity-text"><div class="activity-title">No activity yet</div><div class="activity-time">Start learning!</div></div></div>';
+                return;
+            }
+
+            list.innerHTML = activities.slice(0, 5).map(a =>
+                '<div class="activity-item">' +
+                '<div class="activity-icon">' + a.icon + '</div>' +
+                '<div class="activity-text">' +
+                '<div class="activity-title">' + a.title + '</div>' +
+                '<div class="activity-time">' + formatTimeAgo(a.time) + '</div>' +
+                '</div></div>'
+            ).join('');
+        }
+
+        // ========================================
+        // ACHIEVEMENTS
+        // ========================================
+        function checkNewAchievements() {
+            const progress = window.ProgressTracker ? window.ProgressTracker.get() : null;
+            if (!progress) return;
+
+            const shownAchievements = JSON.parse(localStorage.getItem('shownAchievements') || '[]');
+
+            const achievements = [];
+            if (progress.stats.totalLessons >= 1 && !shownAchievements.includes('first_lesson')) {
+                achievements.push({ id: 'first_lesson', name: 'First Lesson' });
+            }
+            if (progress.stats.currentStreak >= 7 && !shownAchievements.includes('week_streak')) {
+                achievements.push({ id: 'week_streak', name: 'Week Streak' });
+            }
+            if (progress.stats.totalLessons >= 10 && !shownAchievements.includes('ten_lessons')) {
+                achievements.push({ id: 'ten_lessons', name: '10 Lessons' });
+            }
+
+            if (achievements.length > 0) {
+                const achievement = achievements[0];
+                document.getElementById('achievement-name').textContent = 'You earned "' + achievement.name + '"';
+                document.getElementById('achievement-banner').style.display = 'flex';
+
+                shownAchievements.push(achievement.id);
+                localStorage.setItem('shownAchievements', JSON.stringify(shownAchievements));
+
+                addNotification('New achievement: ' + achievement.name, 'achievement');
+            }
+        }
+
+        window.hideAchievementBanner = function() {
+            document.getElementById('achievement-banner').style.display = 'none';
+        };
+
+        // ========================================
+        // CONTINUE LEARNING
+        // ========================================
+        window.continueLastLesson = function() {
+            const progress = window.ProgressTracker ? window.ProgressTracker.get() : null;
+
+            let lastLesson = localStorage.getItem('lastViewedLesson');
+            if (lastLesson) {
+                window.location.href = lastLesson;
+                return;
+            }
+
+            window.location.href = '../lessons.html';
+        };
+
+        function updateNextLessonInfo() {
+            const progress = window.ProgressTracker ? window.ProgressTracker.get() : null;
+            const completedCount = progress?.stats?.totalLessons || 0;
+            const nextLessonNum = completedCount + 1;
+
+            const lessonNames = {
+                1: 'Hangul Alphabet',
+                2: 'Vowels',
+                3: 'Consonants',
+                4: 'Complex Vowels',
+                5: 'Greetings'
+            };
+
+            const name = lessonNames[nextLessonNum] || 'Lesson ' + nextLessonNum;
+            document.getElementById('next-lesson-name').textContent = '1급 Lesson ' + nextLessonNum + ': ' + name;
+        }
+
+        // ========================================
+        // INITIALIZATION ON AUTH
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUIForAuthState(false, null);
+            updateNextLessonInfo();
+
+            if (window.FirebaseAuth) {
+                setTimeout(function() {
+                    if (window.FirebaseAuth.onAuthStateChanged) {
+                        window.FirebaseAuth.onAuthStateChanged(function(user) {
+                            updateUIForAuthState(!!user, user);
+                        });
+                    }
+
+                    if (window.FirebaseAuth.getCurrentUser) {
+                        const user = window.FirebaseAuth.getCurrentUser();
+                        if (user) {
+                            updateUIForAuthState(true, user);
+                        }
+                    }
+                }, 500);
+            }
+        });
+
+        // Helper function for messages
+        function showAuthMessage(message, type) {
+            const msgEl = document.getElementById('auth-message');
+            if (msgEl) {
+                msgEl.textContent = message;
+                msgEl.className = 'auth-message show ' + type;
+                setTimeout(() => {
+                    msgEl.classList.remove('show');
+                }, 3000);
+            }
+        }
+    </script>
+
+    <!-- Phrase of the week -->
+    <script src="../js/weekly-phrases.js"></script>
+    <script>
+        (function() {
+            if (!window.WeeklyPhrasesData) return;
+            var phrase = window.WeeklyPhrasesData.getCurrentPhrase();
+            if (!phrase) return;
+            var el = function(id) { return document.getElementById(id); };
+            if (el('pow-korean')) el('pow-korean').textContent = phrase.korean;
+            if (el('pow-pronunciation')) el('pow-pronunciation').textContent = phrase.pronunciation;
+            if (el('pow-translation')) el('pow-translation').textContent = phrase.translation;
+            if (el('pow-explanation')) el('pow-explanation').textContent = phrase.explanation;
+            if (el('pow-example-kr')) el('pow-example-kr').textContent = phrase.exampleUsage.korean;
+            if (el('pow-example-ru')) el('pow-example-ru').textContent = phrase.exampleUsage.translation;
+            console.log('[OK] Phrase of the week rendered');
+        })();
+    </script>
+
+    <!-- Daily tasks -->
+    <script src="../js/daily-tasks.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <!-- Firebase modules -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+
+    <!-- Global navigation -->
+    <script src="../js/global-nav.js"></script>
+</body>
+</html>

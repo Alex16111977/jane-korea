@@ -13,7 +13,7 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #a8e6cf, #dcedc1, #ffd3e1);
+            background: linear-gradient(135deg, #edfafa, #d5f0f0, #d5f0f0);
             min-height: 100vh;
             color: #333;
         }
@@ -60,7 +60,7 @@
         
         .lesson-header h1 {
             font-size: 2.5em;
-            color: #a8e6cf;
+            color: #2b2440;
             margin-bottom: 10px;
         }
         
@@ -89,13 +89,13 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #a8e6cf, #dcedc1);
+            background: linear-gradient(90deg, #eefaf1, #d8f0e0);
         }
         
-        .word-card.happy::before { background: linear-gradient(90deg, #FFD93D, #6BCF7F); }
-        .word-card.sad::before { background: linear-gradient(90deg, #74b9ff, #0984e3); }
-        .word-card.angry::before { background: linear-gradient(90deg, #ff7675, #d63031); }
-        .word-card.neutral::before { background: linear-gradient(90deg, #ddd, #999); }
+        .word-card.happy::before { background: linear-gradient(90deg, #eefaf1, #d8f0e0); }
+        .word-card.sad::before { background: linear-gradient(90deg, #2f6fd0, #1a3f8f); }
+        .word-card.angry::before { background: linear-gradient(90deg, #0f8b8d, #0a5c5e); }
+        .word-card.neutral::before { background: linear-gradient(90deg, #6c5ce7, #4b3fb8); }
         
         .word-card:hover {
             transform: translateY(-5px);
@@ -105,7 +105,7 @@
         .korean-word {
             font-size: 2em;
             font-weight: bold;
-            color: #a8e6cf;
+            color: #2b2440;
             margin-bottom: 5px;
         }
         
@@ -201,7 +201,7 @@
         }
         
         .progress-fill {
-            background: linear-gradient(90deg, #a8e6cf, #dcedc1);
+            background: linear-gradient(90deg, #eefaf1, #d8f0e0);
             height: 100%;
             width: 0%;
             transition: width 0.5s;
@@ -270,10 +270,38 @@
         
         .filter-btn.active {
             background: #a8e6cf;
-            color: white;
+            color: #2b2440;
             border-color: #a8e6cf;
         }
+
+        .search-bar {
+            max-width: 500px;
+            margin: 0 auto 30px;
+            padding: 0 20px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .search-bar input:focus {
+            border-color: rgba(255,255,255,0.6);
+            background: rgba(255,255,255,0.25);
+        }
     </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
 </head>
 <body>
     <div class="container">
@@ -305,6 +333,11 @@
             <div class="progress-fill" id="progress"></div>
         </div>
         
+
+        <div class="search-bar">
+            <input type="text" id="vocabSearch" placeholder="🔍 Поиск слова..." oninput="filterVocabulary()">
+        </div>
+
         <div id="vocabulary-section">
             <div class="vocabulary-grid" id="vocabularyGrid">
                 <!-- Будет заполнено JS -->
@@ -320,7 +353,7 @@
             </div>
             <div style="text-align: center; margin-top: 20px;">
                 <button class="mode-btn" onclick="prevCard()">← Предыдущая</button>
-                <span id="card-counter">1 / 18</span>
+                <span id="card-counter">1 / 22</span>
                 <button class="mode-btn" onclick="nextCard()">Следующая →</button>
             </div>
         </div>
@@ -344,9 +377,35 @@
                 </div>
             </div>
         </div>
+    
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
     </div>
 
     <script>
+
+        function filterVocabulary() {
+            const query = document.getElementById('vocabSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.word-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
         const vocabulary = [
             {korean: '기쁘다', pronunciation: 'кипыдаа', translation: 'радоваться, быть счастливым', emoji: '😊', category: 'happy'},
             {korean: '슬프다', pronunciation: 'сылпыдаа', translation: 'грустить', emoji: '😢', category: 'sad'},
@@ -357,6 +416,10 @@
             {korean: '사랑하다', pronunciation: 'саранхада', translation: 'любить', emoji: '😍', category: 'happy'},
             {korean: '싫다', pronunciation: 'силта', translation: 'не нравиться', emoji: '😒', category: 'neutral'},
             {korean: '걱정하다', pronunciation: 'кокчонхада', translation: 'беспокоиться', emoji: '😟', category: 'sad'},
+            {korean: '스트레스', pronunciation: 'сытхырэсы', translation: 'стресс', emoji: '😵', category: 'sad'},
+            {korean: '기분', pronunciation: 'кибун', translation: 'настроение', emoji: '🙂', category: 'neutral'},
+            {korean: '공포', pronunciation: 'конпхо', translation: 'ужас, сильный страх', emoji: '😱', category: 'sad'},
+            {korean: '겁', pronunciation: 'коп', translation: 'страх, испуг', emoji: '😨', category: 'sad'},
             {korean: '외롭다', pronunciation: 'веропта', translation: 'одиноко', emoji: '😔', category: 'sad'},
             {korean: '부끄럽다', pronunciation: 'пыккырыпта', translation: 'стыдиться', emoji: '😳', category: 'neutral'},
             {korean: '신나다', pronunciation: 'синнада', translation: 'взволнованно, весело', emoji: '🤩', category: 'happy'},
@@ -605,6 +668,44 @@
                     nextCard();
                 } else if (e.code === 'ArrowLeft') {
                     prevCard();
+                }
+            }
+        });
+    </script>
+<script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        // Кнопка завершения урока
+        var LESSON_ID = 'vocabulary_emotions';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        // Проверяем статус при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
                 }
             }
         });

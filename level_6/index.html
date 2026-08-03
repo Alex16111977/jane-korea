@@ -9,18 +9,46 @@
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
         body { font-family: 'Noto Sans KR', sans-serif; }
         .level-header {
-            background: linear-gradient(135deg, #F44336, #9C27B0);
+            background: linear-gradient(135deg, #d81b60, #7b1030);
             color: white;
             text-align: center;
             padding: 40px 20px;
             margin-bottom: 30px;
             border-radius: 20px;
         }
+        .master-note {
+            background: linear-gradient(45deg, #fff8ec, #ffeccd);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 0 20px 20px;
+            text-align: center;
+            color: #333;
+            font-weight: bold;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            border-radius: 15px;
+            padding: 20px 25px;
+            margin: 30px 20px 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #F44336;
+        }
+        .section-header:first-of-type { margin-top: 10px; }
+        .section-info h2 { font-size: 1.4em; color: #333; margin-bottom: 4px; }
+        .section-info p { font-size: 0.9em; color: #2b2440; margin: 0; }
+        .section-progress { text-align: center; min-width: 70px; }
+        .section-progress .progress-count { font-size: 1.3em; font-weight: 700; color: #F44336; }
+        .section-progress .progress-label { font-size: 0.75em; color: #2b2440; display: block; }
+        .section-progress-bar { width: 100%; height: 4px; background: #e9ecef; border-radius: 2px; margin-top: 6px; overflow: hidden; }
+        .section-progress-bar .fill { height: 100%; background: #F44336; border-radius: 2px; transition: width 0.5s ease; }
         .lesson-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
-            padding: 20px;
+            padding: 0 20px 20px;
         }
         .lesson-item {
             background: white;
@@ -29,34 +57,30 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             border-left: 5px solid #F44336;
             transition: all 0.3s ease;
+            position: relative;
         }
-        .lesson-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        .lesson-item:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .lesson-item.completed { border-left-color: #B71C1C; background: linear-gradient(135deg, rgba(244,67,54,0.04) 0%, white 100%); }
+        .completion-badge {
+            position: absolute; top: 10px; right: 10px; width: 28px; height: 28px;
+            background: #F44336; color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: bold; box-shadow: 0 2px 6px rgba(244,67,54,0.4);
         }
-        .lesson-link {
-            background: linear-gradient(45deg, #F44336, #9C27B0);
-            color: white;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 25px;
-            display: inline-block;
-            transition: all 0.3s ease;
-            font-weight: bold;
+        .bonus-note {
+            background: #f5f5f5;
+            border-left: 4px solid #90a4ae;
+            border-radius: 0 12px 12px 0;
+            margin: 0 20px 20px;
+            padding: 14px 20px;
+            color: #2b2440;
+            font-size: 0.92em;
         }
-        .lesson-link:hover {
-            background: linear-gradient(45deg, #D32F2F, #8E24AA);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-        .master-note {
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            text-align: center;
-            color: #333;
-            font-weight: bold;
+        @media (max-width: 768px) {
+            .section-header { margin: 20px 10px 10px; padding: 15px 18px; }
+            .section-info h2 { font-size: 1.2em; }
+            .lesson-grid { padding: 0 10px 15px; }
+            .master-note { margin: 0 10px 15px; }
         }
     </style>
 </head>
@@ -69,106 +93,386 @@
             <a href="../lessons.html" style="color: white; text-decoration: underline; position: relative; z-index: 100; display: inline-block; padding: 10px; cursor: pointer; font-size: 1.1em; font-weight: bold; background: rgba(255,255,255,0.1); border-radius: 5px; transition: background 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.1)'">← Назад к выбору уровней</a>
         </div>
 
+        <a href="../level-test.html?level=6" style="display:flex;align-items:center;gap:15px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);color:white;padding:16px 22px;border-radius:16px;text-decoration:none;margin:0 0 15px;border:1px solid rgba(255,255,255,0.25);transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.25)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.15)';this.style.transform='none'">
+            <span style="font-size:1.8em;">📝</span>
+            <span style="flex:1;"><strong style="display:block;font-size:1.05em;">Проверьте свои знания 6급</strong><span style="opacity:0.85;font-size:0.9em;">10 вопросов по материалу уровня</span></span>
+            <span style="font-size:1.3em;opacity:0.8;">→</span>
+        </a>
+
+        <a href="topik-mock-exam.html" style="display:flex;align-items:center;gap:15px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);color:white;padding:16px 22px;border-radius:16px;text-decoration:none;margin:0 0 15px;border:1px solid rgba(255,255,255,0.25);transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.25)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.15)';this.style.transform='none'">
+            <span style="font-size:1.8em;">👑</span>
+            <span style="flex:1;"><strong style="display:block;font-size:1.05em;">TOPIK 6급 мини мок-экзамен</strong><span style="opacity:0.85;font-size:0.9em;">듣기 · 쓰기 · 읽기 — 18 заданий в формате настоящего экзамена</span></span>
+            <span style="font-size:1.3em;opacity:0.8;">→</span>
+        </a>
+
+        <a href="listening-practice.html" style="display:flex;align-items:center;gap:15px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);color:white;padding:16px 22px;border-radius:16px;text-decoration:none;margin:0 0 15px;border:1px solid rgba(255,255,255,0.25);transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.25)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.15)';this.style.transform='none'">
+            <span style="font-size:1.8em;">🎧</span>
+            <span style="flex:1;"><strong style="display:block;font-size:1.05em;">Аудирование 6급</strong><span style="opacity:0.85;font-size:0.9em;">뉴스 · 강연 · 토론 · 공지 · 인터뷰 — 26 заданий на слух, 5 категорий</span></span>
+            <span style="font-size:1.3em;opacity:0.8;">→</span>
+        </a>
+
+        <a href="speaking-practice.html" style="display:flex;align-items:center;gap:15px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);color:white;padding:16px 22px;border-radius:16px;text-decoration:none;margin:0 0 25px;border:1px solid rgba(255,255,255,0.25);transition:all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.25)';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='rgba(255,255,255,0.15)';this.style.transform='none'">
+            <span style="font-size:1.8em;">🗣️</span>
+            <span style="flex:1;"><strong style="display:block;font-size:1.05em;">Устная практика 6급</strong><span style="opacity:0.85;font-size:0.9em;">발음 훈련 · 주제 토론 · 즉흥 답변 — говорите вслух с распознаванием речи</span></span>
+            <span style="font-size:1.3em;opacity:0.8;">→</span>
+        </a>
+
         <div class="master-note">
-            🏆 Поздравляем! Вы дошли до высшего уровня! 
+            🏆 Поздравляем! Вы дошли до высшего уровня!
             <br>Эти уроки приблизят вас к уровню носителя языка
         </div>
 
-        <div class="lesson-grid">
-            <div class="lesson-item">
-                <h3>🔤 Урок 1: Неправильные глаголы ㅅ</h3>
-                <p>Особенности спряжения глаголов на ㅅ</p>
-                <a href="../lesson_76_irregular_siot/index.html" class="lesson-link">Изучить →</a>
+        <!-- Блок 1: Продвинутая грамматика -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>📖 Продвинутая грамматика</h2>
+                <p>사자성어, 존댓말/반말, риторика, омонимы, конструкции</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="grammar-count">0/18</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="grammar-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-grammar">
+            <div class="lesson-item" data-lesson="level6_lesson_mangjeong">
+                <h3>💎 Урок 1: Конструкция -을망정 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>"Пусть даже X, но уж точно не Y" — уступка с решительным контрастом</p>
+                <a href="lesson_mangjeong_concessive/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_geonman">
+                <h3>💠 Урок 2: Конструкция -건만 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Литературное противопоставление "хотя..., и всё же..." — сильнее -지만</p>
+                <a href="lesson_geonman_contrast/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_dasipi">
+                <h3>🔷 Урок 3: Конструкция -다시피 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>"Почти как" и "как вы знаете" — два значения одной формы</p>
+                <a href="lesson_dasipi_evidential/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>🔤 Урок 2: Неправильные глаголы ㅡ</h3>
-                <p>Глаголы с выпадающим ㅡ</p>
-                <a href="../lesson_77_irregular_eu/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="level6_lesson_tonge">
+                <h3>💥 Урок 4: Конструкция -는 통에 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>"В суматохе X" — негативное следствие из шумной, хлопотной ситуации</p>
+                <a href="lesson_tonge_circumstance/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>🔤 Урок 3: Неправильные глаголы ㅎ</h3>
-                <p>Особенности глаголов на ㅎ</p>
-                <a href="../lesson_78_irregular_hieut/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="level6_lesson_museopge">
+                <h3>⚡ Урок 5: Конструкция -기가 무섭게 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>"Не успел X, как тут же Y" — драматическое усиление -자마자</p>
+                <a href="lesson_museopge_immediacy/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>🔤 Урок 4: Неправильные глаголы ㄹ</h3>
-                <p>Глаголы с выпадающим ㄹ</p>
-                <a href="../lesson_79_irregular_rieul/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="level6_lesson_keonyeong">
+                <h3>🙅 Урок 6: Конструкция -기는커녕 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>"Куда там X, даже Y не..." — сильное опровержение ожидания</p>
+                <a href="lesson_keonyeong_farfrom/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>👑 Урок 5: Продвинутое владение</h3>
-                <p>Сложные случаи притяжательности</p>
-                <a href="../lesson_80_possession_advanced/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="level6_lesson_eumeurosseo">
+                <h3>🎯 Урок 7: Конструкция -음으로써 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>"Посредством того, что..." — способ действия (не путать с -음으로!)</p>
+                <a href="lesson_eumeurosseo_means/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>📊 Урок 6: Сравнительные конструкции</h3>
-                <p>보다 - сравнения и превосходная степень</p>
-                <a href="../lesson_81_comparative_constructions/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="level6_lesson_gie">
+                <h3>✍️ Урок 8: Конструкция -기에 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>"Раз уж..." — литературная причина, письменный аналог -길래</p>
+                <a href="lesson_gie_literary_cause/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>🔗 Урок 7: Причина и следствие</h3>
-                <p>기 때문에 - сложные причинные связи</p>
-                <a href="../lesson_82_reason_consequence/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="level6_lesson_sadong">
+                <h3>🎬 Урок 9: Нюансы каузатива (사동) <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>-이/히/리/기 vs -게 하다 vs 시키다 — три способа сказать "заставить/дать сделать"</p>
+                <a href="lesson_sadong_nuances/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>🔄 Урок 8: Пассивные конструкции</h3>
-                <p>이/히/리/기 - страдательный залог</p>
-                <a href="../lesson_83_passive_constructions/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="level6_lesson_pidong">
+                <h3>🪞 Урок 10: Нюансы пассива (피동) <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>-이/히/리/기 vs -아/어지다 vs 되다 — и почему "잊혀지다" технически неверно</p>
+                <a href="lesson_pidong_nuances/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>✨ Урок 9: Конструкции 는 대로</h3>
-                <p>"Как только", "по мере того как"</p>
-                <a href="../_old_beginner/lesson_84_constructions_neun_daero/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="level6_lesson_bokmun_nopim">
+                <h3>🙇 Урок 11: Расширенные правила 주체 높임 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>압존법, 간접 높임, 과잉 존대 — где заканчиваются границы вежливости</p>
+                <a href="lesson_bokmun_nopim/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>❓ Урок 10: Условное 다면</h3>
-                <p>Сложные условные предложения</p>
-                <a href="../_old_beginner/lesson_85_conditional_damyeon/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="level6_lesson_pair_distinctions">
+                <h3>🔬 Урок 12: Различение близких конструкций <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>-는가 하면/-반면에, -자/-자마자, -고자/-려고, -더니/-았더니 — как выбрать правильную форму</p>
+                <a href="lesson_pair_distinctions/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>⏰ Урок 11: Временные конструкции</h3>
-                <p>Сложные временные отношения в предложении</p>
-                <a href="../_old_beginner/lesson_86_time_constructions/index.html" class="lesson-link">Изучить →</a>
+            <div class="lesson-item" data-lesson="level6_lesson_gime_maryeon">
+                <h3>🔁 Урок 13: -는 김에 и -기 마련이다 <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>«Раз уж по пути» и «так уж заведено» — завершение семьи продвинутых связок</p>
+                <a href="lesson_gime_maryeon/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>📚 Урок 12: Академическая лексика</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_sajaseongeo">
+                <h3>🏮 Урок 14: 사자성어 — четырёхсимвольные идиомы <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>일석이조 (одним камнем двух птиц), 자업자득 (что посеешь, то пожнёшь)</p>
+                <a href="lesson_sajaseongeo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level6_lesson_jondaenmal_banmal">
+                <h3>🎩 Урок 15: 존댓말 vs 반말 — полная система <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>7 уровней вежливости, нюансы переключения, социальный контекст</p>
+                <a href="lesson_jondaenmal_banmal/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level6_lesson_rhetoric">
+                <h3>🗣️ Урок 16: Корейская риторика <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Аргументация, убеждение, дискуссия на корейском языке</p>
+                <a href="lesson_rhetoric/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level6_lesson_homonyms">
+                <h3>👯 Урок 17: Омонимы и паронимы <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>배 (груша/живот/корабль), 사과 (яблоко/извинение), 눈 (глаз/снег)</p>
+                <a href="lesson_homonyms/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level6_lesson_etymology">
+                <h3>🌱 Этимология (어원) <span class="lesson-difficulty grammar">Грамматика</span></h3>
+                <p>Происхождение корейских слов: исконные, китайские заимствования (한자어), английские</p>
+                <a href="lesson_etymology/index.html" class="lesson-link">Изучить →</a>
+            </div>
+        </div>
+
+        <!-- Блок 2: Продвинутые стили -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>🎭 Продвинутые стили</h2>
+                <p>Литература, диалекты, психология, академический стиль</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="styles-count">0/24</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="styles-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-styles">
+            <div class="lesson-item" data-lesson="level6_lesson_poetry_analysis">
+                <h3>🌙 Анализ поэзии и символизм <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>시 분석과 상징 — 심상, 은유, 상징, 화자</p>
+                <a href="lesson_poetry_analysis/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_official_documents">
+                <h3>🏛️ Судебные решения и госдокументы <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>판결문과 공문서 — 주문, 이유, официальные формулы</p>
+                <a href="lesson_official_documents/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_academic_writing">
+                <h3>🎓 Структура научной статьи <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>학술 논문 작성법 — 초록, хеджирование, цитирование</p>
+                <a href="lesson_academic_writing/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_diplomatic_language">
+                <h3>🤝 Язык дипломатии и переговоров <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>외교와 협상 — скрытые смыслы формальных фраз</p>
+                <a href="lesson_diplomatic_language/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_editorial_style">
+                <h3>📰 Стиль газетных передовиц <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>사설과 논평 — хеджированные аргументы, цитирование</p>
+                <a href="lesson_editorial_style/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_legal_language">
+                <h3>⚖️ Язык юридических документов <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>갑/을, 본 계약,제O조 — договоры и контракты</p>
+                <a href="lesson_legal_language/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_minwon_writing">
+                <h3>📮 Написание 민원 (гражданского обращения) <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>Структура, формулы и собственное упражнение с примером ответа и чек-листом</p>
+                <a href="lesson_minwon_writing/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_business_email_writing">
+                <h3>📧 Написание деловых писем (업무 이메일) <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>첨부, 회신 부탁드립니다, 참조 — формулы переписки + упражнение</p>
+                <a href="lesson_business_email_writing/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_jagi_sogaeseo_writing">
+                <h3>📝 Написание 자기소개서 <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>4 обязательных блока резюме-эссе + собственное упражнение</p>
+                <a href="lesson_jagi_sogaeseo_writing/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_hoeuirok_writing">
+                <h3>🗒️ Написание 회의록 <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>Протокол совещания: структура полей + собственное упражнение</p>
+                <a href="lesson_hoeuirok_writing/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_dopyo_tonggye">
+                <h3>📊 Описание графиков и статистики <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>도표·통계 해석 — безличный язык отчёта (TOPIK 쓰기 53번) + собственное упражнение</p>
+                <a href="lesson_dopyo_tonggye/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_hyeondaesa_baegyeong">
+                <h3>🗿 Культурно-исторический фон XX века <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>한국전쟁, 5·18, 87년 민주화, IMF 외환위기, 재벌의 역사 — на что ссылаются без пояснений</p>
+                <a href="lesson_hyeondaesa_baegyeong/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_ko_ru_translation">
+                <h3>🔀 Ловушки корейско-русского перевода <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>Порядок смысловых блоков, хеджирование, канцелярские клише + собственный перевод</p>
+                <a href="lesson_ko_ru_translation/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_balpyo_qna">
+                <h3>🎤 Публичное выступление и Q&A <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>발표와 질의응답 — структура доклада, формулы, ответы на неудобные вопросы из зала</p>
+                <a href="lesson_balpyo_qna/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_gugeo_sunhwa">
+                <h3>🏺 История языковой политики Кореи <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>조선어학회, стандартизация орфографии 1933/1988, 국어순화 운동, спор 한글전용/국한문혼용</p>
+                <a href="lesson_gugeo_sunhwa/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_topik_reading_strategy">
+                <h3>🧪 Стратегия чтения TOPIK 6급 <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>순서 배열, 빈칸에 들어갈 말, 밑줄 친 부분 — явный алгоритм для каждого типа + мини-тесты</p>
+                <a href="lesson_topik_reading_strategy/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_seosa_gibeop">
+                <h3>📖 Анализ повествовательной техники <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>서사 기법과 시점 — 4 типа точки зрения, 복선/반전, 직접/간접/자유간접화법 (пара к уроку о поэзии)</p>
+                <a href="lesson_seosa_gibeop/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_geosigyeongje">
+                <h3>📈 Макроэкономическая лексика <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>거시경제 용어 — 물가상승률/환율/기준금리/GDP성장률, отдельно от корпоративной стратегии</p>
+                <a href="lesson_geosigyeongje/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_guknae_jeongchi">
+                <h3>🗳️ Лексика внутренней политики <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>국내 정치 용어 — 국회/여야/법안 통과 과정/탄핵, отдельно от языка дипломатии</p>
+                <a href="lesson_guknae_jeongchi/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_sinche_gwanyongeo">
+                <h3>🖐️ Идиомы с частями тела <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>신체 관용어 — 눈치가 빠르다/손이 크다/입이 무겁다/발이 넓다, отдельно от пословиц и 사자성어</p>
+                <a href="lesson_sinche_gwanyongeo/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_literary">
+                <h3>📕 Урок 8: Литературный корейский <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>Поэтическая лексика, архаичные формы</p>
+                <a href="../level_5/literary_korean/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_dialects">
+                <h3>🗺️ Урок 9: Диалекты <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>Особенности региональных говоров Кореи</p>
+                <a href="../level_5/dialects/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_psychology">
+                <h3>🧠 Урок 10: Психология и культура <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>한, 정, 눈치, психологические состояния</p>
+                <a href="../level_5/psychology/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_academic">
+                <h3>🏫 Урок 11: Академический корейский <span class="lesson-difficulty advanced">Стиль</span></h3>
+                <p>Научная терминология</p>
+                <a href="../level_5/academic_korean/index.html" class="lesson-link">Изучить →</a>
+            </div>
+        </div>
+
+        <!-- Блок 3: Мастерская лексика -->
+        <div class="section-header">
+            <div class="section-info">
+                <h2>🎭 Мастерская лексика</h2>
+                <p>Академический, деловой и литературный стили</p>
+            </div>
+            <div class="section-progress">
+                <span class="progress-count" id="mastery-count">0/10</span>
+                <span class="progress-label">пройдено</span>
+                <div class="section-progress-bar"><div class="fill" id="mastery-bar" style="width:0%"></div></div>
+            </div>
+        </div>
+        <div class="lesson-grid" id="grid-mastery">
+            <div class="lesson-item" data-lesson="level6_lesson_12_academic">
+                <h3>📚 Урок 12: Академическая лексика <span class="lesson-difficulty vocabulary">Слова</span></h3>
                 <p>Научные термины, анализ, объективность</p>
-                <a href="lesson_academic_vocabulary/index.html" class="lesson-link">🎓 Изучить академический корейский</a>
+                <a href="lesson_academic_vocabulary/index.html" class="lesson-link">Изучить →</a>
             </div>
-
-            <div class="lesson-item">
-                <h3>🎭 Урок 13: Идиомы и фразеологизмы</h3>
+            <div class="lesson-item" data-lesson="level6_lesson_13_idioms">
+                <h3>🎭 Урок 13: Идиомы и фразеологизмы <span class="lesson-difficulty vocabulary">Слова</span></h3>
                 <p>Образные выражения корейского языка</p>
-                <a href="lesson_idioms/index.html" class="lesson-link">✨ Освоить идиомы</a>
+                <a href="lesson_idioms/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_14_business">
+                <h3>🏢 Урок 14: Корпоративная стратегия <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>M&A, акционеры, дистрибуция</p>
+                <a href="lesson_business_vocabulary/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_15_literary">
+                <h3>🖋️ Урок 15: Литературные выражения <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>한, 정 и уникальные корейские понятия</p>
+                <a href="lesson_literary_expressions/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>🏢 Урок 14: Деловая лексика</h3>
-                <p>Бизнес-термины, переговоры, инвестиции</p>
-                <a href="lesson_business_vocabulary/index.html" class="lesson-link">💼 Изучить деловой корейский</a>
+            <div class="lesson-item" data-lesson="level6_lesson_medical_vocabulary">
+                <h3>🏥 Урок 16: Медицинская лексика <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Диагноз, лечение, клинические испытания</p>
+                <a href="lesson_medical_vocabulary/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>📖 Урок 15: Литературные выражения</h3>
-                <p>Высокий стиль, поэтическая лексика</p>
-                <a href="lesson_literary_expressions/index.html" class="lesson-link">🌸 Постичь литературный стиль</a>
+            <div class="lesson-item" data-lesson="level6_lesson_classic_texts">
+                <h3>📜 Урок 17: Классические тексты <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Отрывки из 춘향전, 홍길동전, современная проза — чтение оригиналов</p>
+                <a href="lesson_classic_texts/index.html" class="lesson-link">Изучить →</a>
             </div>
 
-            <div class="lesson-item">
-                <h3>🌍 Урок 16: Социальные темы</h3>
-                <p>Общество, политика, культура</p>
-                <a href="lesson_social_topics/index.html" class="lesson-link">🗣️ Обсуждать важные темы</a>
+            <div class="lesson-item" data-lesson="level6_lesson_hanja">
+                <h3>🔤 Урок 18: 한자어 — китайские заимствования <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Нюансы 한자어 vs 순우리말: 약속/맹세, 감사/고마움, корни и оттенки</p>
+                <a href="lesson_hanja_nuances/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level6_lesson_honorifics_real">
+                <h3>👑 Урок 19: Гонорификативность в реальности <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Реальные ситуации: собеседование, свадьба, конфликт — когда какой стиль</p>
+                <a href="lesson_honorifics_real/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level6_lesson_it_vocabulary">
+                <h3>💻 Урок 20: IT-лексика <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Алгоритмы, кибербезопасность, облачные технологии</p>
+                <a href="lesson_it_vocabulary/index.html" class="lesson-link">Изучить →</a>
+            </div>
+
+            <div class="lesson-item" data-lesson="level6_lesson_legal_litigation">
+                <h3>👨‍⚖️ Урок 21: Юридическая лексика: судопроизводство <span class="lesson-difficulty vocabulary">Слова</span></h3>
+                <p>Иск, приговор, апелляция — язык суда, дополняет урок про договоры</p>
+                <a href="lesson_legal_litigation/index.html" class="lesson-link">Изучить →</a>
+            </div>
+        </div>
+
+        <!-- Блок 4: Факультатив -->
+        <div class="section-header" style="border-left-color:#90a4ae;">
+            <div class="section-info">
+                <h2>🎁 Факультатив</h2>
+                <p>Социолингвистическая эрудиция сверх обязательного минимума TOPIK 6급</p>
+            </div>
+        </div>
+        <div class="bonus-note">
+            Эти темы интересны и расширяют кругозор, но не входят в требования сертификации 6급/C2 — необязательны для прохождения, в отличие от грамматики и профессиональной лексики выше.
+        </div>
+        <div class="lesson-grid" id="grid-bonus">
+            <div class="lesson-item" data-lesson="level6_lesson_north_korean">
+                <h3>🇰🇵 Северокорейский язык (북한 말) <span class="lesson-difficulty bonus">Факультатив</span></h3>
+                <p>Различия в лексике, произношении и грамматике между Севером и Югом</p>
+                <a href="lesson_north_korean/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_humor">
+                <h3>😂 Корейский юмор и мемы <span class="lesson-difficulty bonus">Факультатив</span></h3>
+                <p>개드립, 아재개그, интернет-юмор, каламбуры и культурные отсылки</p>
+                <a href="lesson_korean_humor/index.html" class="lesson-link">Изучить →</a>
+            </div>
+            <div class="lesson-item" data-lesson="level6_lesson_street_korean">
+                <h3>🔞 Уличный корейский: понимать, но не говорить <span class="lesson-difficulty bonus">Факультатив</span></h3>
+                <p>Пассивный словарь C2: физиология, шкала грубости, 욕 под спойлером, 모욕죄 и приличные аналоги</p>
+                <a href="lesson_street_korean/index.html" class="lesson-link">Изучить →</a>
             </div>
         </div>
 
@@ -178,19 +482,71 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    <script src="../js/progress-tracker.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const lessons = document.querySelectorAll('.lesson-item');
-            lessons.forEach((lesson, index) => {
+            var lessons = document.querySelectorAll('.lesson-item');
+            lessons.forEach(function(lesson, index) {
                 lesson.style.opacity = '0';
                 lesson.style.transform = 'translateY(20px)';
-                setTimeout(() => {
+                setTimeout(function() {
                     lesson.style.transition = 'all 0.5s ease';
                     lesson.style.opacity = '1';
                     lesson.style.transform = 'translateY(0)';
-                }, index * 100);
+                }, index * 80);
             });
+
+            try {
+                if (window.ProgressTracker) {
+                    var progress = ProgressTracker.get();
+                    if (progress && progress.completedLessons) {
+                        function gridCount(gridId) {
+                            var grid = document.getElementById(gridId);
+                            return grid ? grid.querySelectorAll('.lesson-item').length : 0;
+                        }
+                        var sections = {
+                            grammar: { el: 'grammar', total: gridCount('grid-grammar'), done: 0 },
+                            styles: { el: 'styles', total: gridCount('grid-styles'), done: 0 },
+                            mastery: { el: 'mastery', total: gridCount('grid-mastery'), done: 0 }
+                        };
+                        lessons.forEach(function(card) {
+                            var lessonId = card.getAttribute('data-lesson');
+                            if (!lessonId) return;
+                            if (!!progress.completedLessons[lessonId]) {
+                                card.classList.add('completed');
+                                var badge = document.createElement('div');
+                                badge.className = 'completion-badge';
+                                badge.textContent = '\u2713';
+                                card.appendChild(badge);
+                                var grid = card.closest('.lesson-grid');
+                                if (grid) {
+                                    if (grid.id === 'grid-grammar') sections.grammar.done++;
+                                    else if (grid.id === 'grid-styles') sections.styles.done++;
+                                    else if (grid.id === 'grid-mastery') sections.mastery.done++;
+                                }
+                            }
+                        });
+                        Object.keys(sections).forEach(function(key) {
+                            var s = sections[key];
+                            var countEl = document.getElementById(s.el + '-count');
+                            var barEl = document.getElementById(s.el + '-bar');
+                            if (countEl) countEl.textContent = s.done + '/' + s.total;
+                            if (barEl) barEl.style.width = Math.round((s.done / s.total) * 100) + '%';
+                        });
+                        console.log('[OK] Level 6 progress loaded');
+                    }
+                }
+            } catch(e) { console.log('[ERROR] Progress loading failed:', e); }
+
+            // Галочка появляется только после кнопки завершения внутри урока
         });
     </script>
+<script src="../js/global-nav.js"></script>
 </body>
 </html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>-느라고 — из-за того, что был занят</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 80px),
+                linear-gradient(135deg, #6c5ce7 0%, #4b3fb8 100%);
+            min-height: 100vh; color: #333; overflow-x: hidden;
+        }
+        body::before { content: '느라고'; position: fixed; top: 14%; right: 5%; font-size: 100px; font-weight: 900; opacity: 0.04; animation: floatSlow 10s ease-in-out infinite; pointer-events: none; z-index: 0; }
+        body::after { content: '변명'; position: fixed; bottom: 12%; left: 4%; font-size: 90px; font-weight: 900; opacity: 0.04; animation: floatSlow 12s ease-in-out infinite reverse; pointer-events: none; z-index: 0; }
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-22px) scale(1.05); } }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; padding: 12px 25px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 15px; transition: all 0.3s ease; font-weight: 500; }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; margin-bottom: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .header h1 { margin: 0 0 15px 0; color: #6A1B9A; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #9C27B0; margin-bottom: 15px; font-weight: 500; }
+        .header .description { font-size: 1.05em; color: #666; }
+
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+        .content-section h2 { color: #6A1B9A; margin-top: 0; font-size: 2em; border-bottom: 3px solid #9C27B0; padding-bottom: 10px; }
+        .content-section h3 { color: #8E24AA; font-size: 1.4em; }
+        .content-section p { font-size: 1.05em; line-height: 1.7; }
+
+        .example-box { background: rgba(156,39,176,0.06); border-left: 5px solid #9C27B0; padding: 18px; margin: 14px 0; border-radius: 0 12px 12px 0; }
+        .example-box .korean-text { font-size: 1.25em; color: #6A1B9A; font-weight: bold; margin-bottom: 4px; }
+        .example-box .romanization { color: #9C27B0; font-size: 0.9em; font-style: italic; }
+        .example-box .translation { color: #555; font-size: 1.0em; }
+        .example-box .note { color: #55506e; font-size: 0.88em; margin-top: 5px; font-style: italic; }
+
+        .grammar-block { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; }
+        .grammar-block h3 { color: #2b2440; margin-top: 0; font-size: 1.5em; }
+        .grammar-pattern { background: rgba(255,255,255,0.25); padding: 15px; border-radius: 10px; font-size: 1.4em; font-weight: bold; text-align: center; margin: 15px 0; }
+        .grammar-example { background: rgba(255,255,255,0.15); padding: 13px; border-radius: 8px; margin: 10px 0; }
+        .grammar-example .kor { font-size: 1.2em; font-weight: bold; margin-bottom: 4px; }
+        .grammar-example .rom { font-size: 0.85em; opacity: 0.85; font-style: italic; }
+        .grammar-example .rus { font-size: 1em; margin-top: 4px; }
+
+        .tip-box { background: rgba(156,39,176,0.08); border-left: 4px solid #9C27B0; padding: 20px; border-radius: 0 12px 12px 0; margin: 20px 0; }
+        .tip-box strong { color: #6A1B9A; }
+
+        .comparison-table { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.12); margin: 20px 0; }
+        .table-header { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; padding: 18px 20px; text-align: center; font-size: 1.2em; font-weight: bold; }
+        .table-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: #e9ecef; }
+        .table-cell { background: white; padding: 12px 14px; font-size: 1.0em; }
+        .table-cell.korean { color: #6A1B9A; font-weight: bold; }
+        .table-cell.header-cell { background: #f8f9fa; font-weight: bold; color: #495057; text-align: center; }
+
+        .dialogue-box { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .dialogue-line { margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: bold; color: #ffffff; margin-bottom: 8px; }
+        .korean-text { font-size: 1.2em; margin-bottom: 5px; }
+        .translation { font-size: 1em; opacity: 0.9; }
+        .grammar-note { font-size: 0.8em; color: #2b2440; font-style: italic; margin-top: 5px; }
+
+        .dialogue-play-btn { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; margin: 15px auto; display: block; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif; }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(156,39,176,0.4); }
+
+        .audio-btn { background: rgba(156,39,176,0.15); border: 2px solid rgba(156,39,176,0.3); border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0; }
+        .audio-btn:hover { background: rgba(156,39,176,0.3); transform: scale(1.1); }
+
+        .remember-block { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; padding: 30px; border-radius: 20px; margin: 30px 0; box-shadow: 0 15px 40px rgba(156,39,176,0.3); }
+        .remember-block h2 { color: #2b2440; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-top: 0; }
+        .remember-item { background: rgba(255,255,255,0.15); padding: 15px; border-radius: 12px; margin: 10px 0; }
+        .remember-item strong { color: #2b2440; }
+
+        .exercise-item { background: rgba(255,255,255,0.95); padding: 22px; border-radius: 12px; margin: 15px 0; box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        .exercise-question { font-size: 1.15em; color: #333; margin-bottom: 15px; font-weight: 500; }
+        .exercise-options { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        .exercise-btn { background: #6A1B9A; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1.05em; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif; }
+        .exercise-btn:hover { background: #9C27B0; transform: translateY(-2px); }
+        .exercise-result { margin-top: 12px; font-weight: 600; font-size: 1.05em; min-height: 24px; }
+
+        .practice-section { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .practice-section h2 { color: #2b2440; margin-top: 0; text-align: center; }
+
+        .tense-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 25px 0; }
+        .tense-card { border-radius: 15px; padding: 25px; color: white; transition: transform 0.3s ease; }
+        .tense-card:hover { transform: translateY(-5px); }
+        .tense-card.present { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .tense-card.past { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .tense-card.future { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .tense-title { font-size: 1.4em; font-weight: bold; margin-bottom: 10px; }
+        .tense-pattern { background: rgba(255,255,255,0.2); padding: 12px; border-radius: 10px; font-size: 1.3em; font-weight: bold; text-align: center; margin: 10px 0; }
+        .tense-example { background: rgba(255,255,255,0.15); padding: 10px; border-radius: 8px; margin: 8px 0; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .exercise-options { flex-direction: column; align-items: center; }
+            .tense-cards { grid-template-columns: 1fr; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_4/index.html">← 4급 Уровень 4</a>
+            <a href="../../lessons.html">Все уроки</a>
+        </div>
+
+        <header class="header">
+            <h1>-느라고: был занят, поэтому...</h1>
+            <div class="korean-title">이유와 변명 [iyuwa byeonmyeong] — причина и оправдание</div>
+            <div class="description">«Делал домашку, поэтому не выспался» — конструкция для объяснений и оправданий, когда одно дело помешало другому.</div>
+        </header>
+
+        <div class="content-section">
+            <h2>1. Зачем нужна конструкция -느라고?</h2>
+            <p><strong>-느라고</strong> — это причина вида «был занят X, и из-за этого не смог Y». Она нужна, чтобы:</p>
+            <ul>
+                <li><strong>Оправдаться:</strong> «Работал сверхурочно, поэтому не смог прийти на встречу»</li>
+                <li><strong>Объяснить негативный результат:</strong> одно занятие «съело» время или силы, и второе дело пострадало</li>
+                <li><strong>Вежливо ответить на упрёк:</strong> «Прости, готовился к экзамену, поэтому не позвонил»</li>
+                <li><strong>Поблагодарить за усилия:</strong> устойчивое 오시느라고 수고하셨습니다 — «спасибо, что проделали такой путь»</li>
+            </ul>
+            <p>Обе части предложения относятся к <strong>одному и тому же человеку</strong>, а действия происходят <strong>одновременно</strong>.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>2. Образование</h2>
+
+            <div class="grammar-block">
+                <h3>Формула</h3>
+                <div class="grammar-pattern">Основа глагола действия + 느라고</div>
+                <p>Форма одинаковая после гласной и после согласной: 하다 → 하<strong>느라고</strong>, 먹다 → 먹<strong>느라고</strong>. У основ на ㄹ буква ㄹ выпадает: 놀다 → 노<strong>느라고</strong>, 만들다 → 만드<strong>느라고</strong>.</p>
+                <p>Важно: к первой части <strong>нельзя</strong> присоединять прошедшее время — только чистая основа!</p>
+
+                <div class="grammar-example">
+                    <div class="kor">숙제를 하느라고 못 잤어요. <button class="audio-btn" onclick="speakKorean('숙제를 하느라고 못 잤어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="rom">[sukjereul haneurago mot jasseoyo]</div>
+                    <div class="rus">Делал домашнее задание, поэтому не смог поспать.</div>
+                </div>
+                <div class="grammar-example">
+                    <div class="kor">일하느라고 전화를 못 받았어요. <button class="audio-btn" onclick="speakKorean('일하느라고 전화를 못 받았어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="rom">[ilhaneurago jeonhwareul mot badasseoyo]</div>
+                    <div class="rus">Работал, поэтому не смог ответить на звонок.</div>
+                </div>
+                <div class="grammar-example">
+                    <div class="kor">돈을 모으느라고 여행을 못 갔어요. <button class="audio-btn" onclick="speakKorean('돈을 모으느라고 여행을 못 갔어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="rom">[doneul moeuneurago yeohaengeul mot gasseoyo]</div>
+                    <div class="rus">Копил деньги, поэтому не смог поехать в путешествие.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>3. Примеры употребления</h2>
+
+            <div class="example-box">
+                <div class="korean-text">게임을 하느라고 숙제를 안 했어요. <button class="audio-btn" onclick="speakKorean('게임을 하느라고 숙제를 안 했어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[geimeul haneurago sukjereul an haesseoyo]</div>
+                <div class="translation">Играл в игры, поэтому не сделал домашнее задание.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">시험 공부를 하느라고 잠을 못 잤어요. <button class="audio-btn" onclick="speakKorean('시험 공부를 하느라고 잠을 못 잤어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[siheom gongbureul haneurago jameul mot jasseoyo]</div>
+                <div class="translation">Готовился к экзамену, поэтому не выспался.</div>
+                <div class="note">Классический контекст: занятость + 못 во второй части</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">요즘 이사 준비를 하느라고 정신이 없어요. <button class="audio-btn" onclick="speakKorean('요즘 이사 준비를 하느라고 정신이 없어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[yojeum isa junbireul haneurago jeongsini eopseoyo]</div>
+                <div class="translation">В последнее время готовлюсь к переезду, поэтому совсем зашиваюсь.</div>
+                <div class="note">Вторая часть — «тяжело/некогда»: 바쁘다, 힘들다, 정신이 없다</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">노느라고 전화 온 줄 몰랐어요. <button class="audio-btn" onclick="speakKorean('노느라고 전화 온 줄 몰랐어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[noneurago jeonhwa on jul mollasseoyo]</div>
+                <div class="translation">Заигрался и не заметил, что звонил телефон.</div>
+                <div class="note">놀다 → 노느라고: ㄹ выпадает перед ㄴ</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">아이를 돌보느라고 하루 종일 바빴어요. <button class="audio-btn" onclick="speakKorean('아이를 돌보느라고 하루 종일 바빴어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[aireul dolboneurago haru jongil bappasseoyo]</div>
+                <div class="translation">Присматривал за ребёнком, поэтому весь день был занят.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">먼 길 오시느라고 수고하셨습니다. <button class="audio-btn" onclick="speakKorean('먼 길 오시느라고 수고하셨습니다')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[meon gil osineurago sugohasyeotseumnida]</div>
+                <div class="translation">Спасибо, что проделали такой долгий путь.</div>
+                <div class="note">Устойчивое выражение благодарности за усилия — обязательно запомнить!</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>4. Ограничения и сравнение</h2>
+
+            <h3>Четыре строгих правила -느라고</h3>
+            <div class="tip-box">
+                <strong>1. Только глаголы действия.</strong> Нельзя с прилагательными и глаголами состояния. Неправильно: 아프느라고 학교에 못 갔어요. Правильно: 아파서 학교에 못 갔어요.
+            </div>
+            <div class="tip-box">
+                <strong>2. Один субъект в обеих частях.</strong> Тот, кто был занят, и тот, у кого не получилось, — один и тот же человек. Неправильно: 제가 요리하느라고 동생이 못 잤어요. Правильно: 동생이 게임을 하느라고 못 잤어요.
+            </div>
+            <div class="tip-box">
+                <strong>3. Нет прошедшего времени в первой части.</strong> Неправильно: 숙제를 했느라고 못 잤어요. Правильно: 숙제를 하느라고 못 잤어요 — время понятно по второй части.
+            </div>
+            <div class="tip-box">
+                <strong>4. Во второй части нет повелительного и пригласительного.</strong> Неправильно: 공부하느라고 일찍 자세요. Вторая часть обычно негативная (못, 안, 바쁘다, 힘들다) или контекст благодарности (수고했어요).
+            </div>
+
+            <h3>-느라고 vs -아서/어서 vs -기 때문에</h3>
+            <div class="comparison-table">
+                <div class="table-header">Три способа выразить причину</div>
+                <div class="table-row">
+                    <div class="table-cell header-cell">Конструкция</div>
+                    <div class="table-cell header-cell">Особенность</div>
+                    <div class="table-cell header-cell">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-느라고</div>
+                    <div class="table-cell">сам был занят делом; результат негативный; только глаголы действия; один субъект</div>
+                    <div class="table-cell korean">숙제를 하느라고 못 잤어요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-아서/어서</div>
+                    <div class="table-cell">универсальная нейтральная причина; любые слова; субъекты могут быть разными</div>
+                    <div class="table-cell korean">비가 와서 못 갔어요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-기 때문에</div>
+                    <div class="table-cell">объективная, подчёркнутая причина; звучит более формально и книжно</div>
+                    <div class="table-cell korean">시험이 있기 때문에 공부해야 해요</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>5. Диалог: Почему не пришёл?</h2>
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">미나 [Mina]:</div>
+                    <div class="korean-text">지훈 씨, 어제 왜 모임에 안 왔어요? <button class="audio-btn" onclick="speakKorean('지훈 씨, 어제 왜 모임에 안 왔어요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Джихун, почему вчера не пришли на встречу?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지훈 [Jihun]:</div>
+                    <div class="korean-text">미안해요. 회사에서 야근하느라고 못 갔어요. <button class="audio-btn" onclick="speakKorean('미안해요. 회사에서 야근하느라고 못 갔어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Простите. Работал сверхурочно, поэтому не смог прийти.</div>
+                    <div class="grammar-note">야근하느라고 + 못 — классическое оправдание: занятость + негативный результат</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">미나:</div>
+                    <div class="korean-text">요즘 많이 바쁜가 봐요. <button class="audio-btn" onclick="speakKorean('요즘 많이 바쁜가 봐요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Похоже, вы в последнее время очень заняты.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지훈:</div>
+                    <div class="korean-text">네, 새 프로젝트를 준비하느라고 주말에도 쉬지 못해요. <button class="audio-btn" onclick="speakKorean('네, 새 프로젝트를 준비하느라고 주말에도 쉬지 못해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Да, готовлю новый проект, поэтому даже в выходные не отдыхаю.</div>
+                    <div class="grammar-note">준비하느라고 — субъект обеих частей один: я готовлю, я не отдыхаю</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">미나:</div>
+                    <div class="korean-text">그래도 건강 챙기세요. 참, 발표 자료 만드느라고 수고했어요. <button class="audio-btn" onclick="speakKorean('그래도 건강 챙기세요. 참, 발표 자료 만드느라고 수고했어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Но всё же берегите здоровье. Кстати, спасибо за подготовку презентации!</div>
+                    <div class="grammar-note">만들다 → 만드느라고 (ㄹ выпадает) + 수고했어요 — благодарность за усилия</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지훈:</div>
+                    <div class="korean-text">고마워요. 오늘은 일찍 자야겠어요. <button class="audio-btn" onclick="speakKorean('고마워요. 오늘은 일찍 자야겠어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Спасибо. Сегодня надо лечь пораньше.</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать весь диалог</button>
+        </div>
+
+        <div class="remember-block">
+            <h2>📋 Запомни!</h2>
+            <div class="remember-item">
+                <strong>Формула:</strong> основа глагола + 느라고; у основ на ㄹ буква выпадает: 놀다 → 노느라고, 만들다 → 만드느라고
+            </div>
+            <div class="remember-item">
+                <strong>Только глаголы действия,</strong> и субъект обеих частей — один и тот же человек
+            </div>
+            <div class="remember-item">
+                <strong>Без прошедшего в первой части:</strong> 했느라고 — ошибка; правильно 하느라고, а время покажет вторая часть
+            </div>
+            <div class="remember-item">
+                <strong>Вторая часть обычно негативная:</strong> 못, 안, 바쁘다, 힘들다 — и без повелительного/пригласительного наклонения
+            </div>
+            <div class="remember-item">
+                <strong>Устойчивое выражение:</strong> 오시느라고 수고하셨습니다 — «спасибо, что проделали такой путь»
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-item">
+                <div class="exercise-question">1. «Делал домашку, поэтому не поспал»:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">숙제를 하느라고 못 잤어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">숙제를 했느라고 못 잤어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">숙제를 하느라고 잘 잤어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">2. Найди НЕПРАВИЛЬНОЕ предложение:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">영화를 보느라고 숙제를 못 했어요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">아프느라고 학교에 못 갔어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">일하느라고 전화를 못 받았어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">3. -느라고 присоединяется:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">к любым словам</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">только к глаголам действия</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">только к прилагательным</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">4. Можно ли сказать: 공부하느라고 일찍 자세요?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">Нельзя — повелительное во второй части запрещено</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Можно</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Можно, но только вежливо</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">5. 놀다 + 느라고 =</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">놀느라고</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">노느라고</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">놀았느라고</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">6. Что сказать гостю, который приехал издалека?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">오시느라고 수고하셨습니다</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">오셨느라고 수고하셨습니다</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">오시자마자 수고하셨습니다</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">7. Субъекты обеих частей предложения с -느라고:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">могут быть разными</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">только третье лицо</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">должны совпадать</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">8. Выбери правильное предложение:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">영화를 보느라고 전화를 못 받았어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">비가 오느라고 경기가 취소됐어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">숙제를 하느라고 일찍 오세요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A); color: white; border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(156,39,176,0.3); font-family: 'Noto Sans KR', sans-serif;">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level4_lesson_neurago';
+
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.speak(u);
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.previousElementSibling;
+            while (box && !box.classList.contains('dialogue-box')) box = box.previousElementSibling;
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line'); var i = 0; btn.disabled = true;
+            function playNext() {
+                if (i >= lines.length) { btn.disabled = false; return; }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(156,39,176,0.15)';
+                var text = lines[i].querySelector('.korean-text');
+                if (text) {
+                    var u = new SpeechSynthesisUtterance(text.textContent.replace(/🔊/g,'').trim());
+                    u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                    u.onend = function() { i++; setTimeout(playNext, 400); };
+                    window.speechSynthesis.speak(u);
+                } else { i++; setTimeout(playNext, 400); }
+            }
+            window.speechSynthesis.cancel(); playNext();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item'); var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) { if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; } });
+            }
+        }
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!'; btn.style.background = '#4A148C';
+                btn.style.cursor = 'default'; btn.disabled = true; btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) { btn.textContent = 'Пройдено!'; btn.style.background = '#4A148C'; btn.style.cursor = 'default'; btn.disabled = true; btn.style.opacity = '0.85'; }
+                }
+            }
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0'; section.style.transform = 'translateY(30px)';
+                setTimeout(function() { section.style.transition = 'all 0.6s ease'; section.style.opacity = '1'; section.style.transform = 'translateY(0)'; }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

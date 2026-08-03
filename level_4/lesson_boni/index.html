@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>-다 보니 — незаметно для себя...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 80px),
+                linear-gradient(135deg, #6c5ce7 0%, #4b3fb8 100%);
+            min-height: 100vh; color: #333; overflow-x: hidden;
+        }
+        body::before { content: '보니'; position: fixed; top: 14%; right: 5%; font-size: 100px; font-weight: 900; opacity: 0.04; animation: floatSlow 10s ease-in-out infinite; pointer-events: none; z-index: 0; }
+        body::after { content: '어느새'; position: fixed; bottom: 12%; left: 4%; font-size: 90px; font-weight: 900; opacity: 0.04; animation: floatSlow 12s ease-in-out infinite reverse; pointer-events: none; z-index: 0; }
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-22px) scale(1.05); } }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; padding: 12px 25px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 15px; transition: all 0.3s ease; font-weight: 500; }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; margin-bottom: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .header h1 { margin: 0 0 15px 0; color: #6A1B9A; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #9C27B0; margin-bottom: 15px; font-weight: 500; }
+        .header .description { font-size: 1.05em; color: #666; }
+
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+        .content-section h2 { color: #6A1B9A; margin-top: 0; font-size: 2em; border-bottom: 3px solid #9C27B0; padding-bottom: 10px; }
+        .content-section h3 { color: #8E24AA; font-size: 1.4em; }
+        .content-section p { font-size: 1.05em; line-height: 1.7; }
+
+        .example-box { background: rgba(156,39,176,0.06); border-left: 5px solid #9C27B0; padding: 18px; margin: 14px 0; border-radius: 0 12px 12px 0; }
+        .example-box .korean-text { font-size: 1.25em; color: #6A1B9A; font-weight: bold; margin-bottom: 4px; }
+        .example-box .romanization { color: #9C27B0; font-size: 0.9em; font-style: italic; }
+        .example-box .translation { color: #555; font-size: 1.0em; }
+        .example-box .note { color: #55506e; font-size: 0.88em; margin-top: 5px; font-style: italic; }
+
+        .grammar-block { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; }
+        .grammar-block h3 { color: #2b2440; margin-top: 0; font-size: 1.5em; }
+        .grammar-pattern { background: rgba(255,255,255,0.25); padding: 15px; border-radius: 10px; font-size: 1.4em; font-weight: bold; text-align: center; margin: 15px 0; }
+        .grammar-example { background: rgba(255,255,255,0.15); padding: 13px; border-radius: 8px; margin: 10px 0; }
+        .grammar-example .kor { font-size: 1.2em; font-weight: bold; margin-bottom: 4px; }
+        .grammar-example .rom { font-size: 0.85em; opacity: 0.85; font-style: italic; }
+        .grammar-example .rus { font-size: 1em; margin-top: 4px; }
+
+        .tip-box { background: rgba(156,39,176,0.08); border-left: 4px solid #9C27B0; padding: 20px; border-radius: 0 12px 12px 0; margin: 20px 0; }
+        .tip-box strong { color: #6A1B9A; }
+
+        .comparison-table { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.12); margin: 20px 0; }
+        .table-header { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; padding: 18px 20px; text-align: center; font-size: 1.2em; font-weight: bold; }
+        .table-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: #e9ecef; }
+        .table-cell { background: white; padding: 12px 14px; font-size: 1.0em; }
+        .table-cell.korean { color: #6A1B9A; font-weight: bold; }
+        .table-cell.header-cell { background: #f8f9fa; font-weight: bold; color: #495057; text-align: center; }
+
+        .dialogue-box { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .dialogue-line { margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: bold; color: #ffffff; margin-bottom: 8px; }
+        .korean-text { font-size: 1.2em; margin-bottom: 5px; }
+        .translation { font-size: 1em; opacity: 0.9; }
+        .grammar-note { font-size: 0.8em; color: #2b2440; font-style: italic; margin-top: 5px; }
+
+        .dialogue-play-btn { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; margin: 15px auto; display: block; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif; }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(156,39,176,0.4); }
+
+        .audio-btn { background: rgba(156,39,176,0.15); border: 2px solid rgba(156,39,176,0.3); border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0; }
+        .audio-btn:hover { background: rgba(156,39,176,0.3); transform: scale(1.1); }
+
+        .remember-block { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; padding: 30px; border-radius: 20px; margin: 30px 0; box-shadow: 0 15px 40px rgba(156,39,176,0.3); }
+        .remember-block h2 { color: #2b2440; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-top: 0; }
+        .remember-item { background: rgba(255,255,255,0.15); padding: 15px; border-radius: 12px; margin: 10px 0; }
+        .remember-item strong { color: #2b2440; }
+
+        .exercise-item { background: rgba(255,255,255,0.95); padding: 22px; border-radius: 12px; margin: 15px 0; box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        .exercise-question { font-size: 1.15em; color: #333; margin-bottom: 15px; font-weight: 500; }
+        .exercise-options { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        .exercise-btn { background: #6A1B9A; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1.05em; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif; }
+        .exercise-btn:hover { background: #9C27B0; transform: translateY(-2px); }
+        .exercise-result { margin-top: 12px; font-weight: 600; font-size: 1.05em; min-height: 24px; }
+
+        .practice-section { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .practice-section h2 { color: #2b2440; margin-top: 0; text-align: center; }
+
+        .tense-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 25px 0; }
+        .tense-card { border-radius: 15px; padding: 25px; color: white; transition: transform 0.3s ease; }
+        .tense-card:hover { transform: translateY(-5px); }
+        .tense-card.present { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .tense-card.past { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .tense-card.future { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .tense-title { font-size: 1.4em; font-weight: bold; margin-bottom: 10px; }
+        .tense-pattern { background: rgba(255,255,255,0.2); padding: 12px; border-radius: 10px; font-size: 1.3em; font-weight: bold; text-align: center; margin: 10px 0; }
+        .tense-example { background: rgba(255,255,255,0.15); padding: 10px; border-radius: 8px; margin: 8px 0; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .exercise-options { flex-direction: column; align-items: center; }
+            .tense-cards { grid-template-columns: 1fr; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_4/index.html">← 4급 Уровень 4</a>
+            <a href="../../lessons.html">Все уроки</a>
+        </div>
+
+        <header class="header">
+            <h1>-다 보니: незаметно для себя...</h1>
+            <div class="korean-title">점진적 결과 [jeomjinjeok gyeolgwa] — постепенный результат</div>
+            <div class="description">«Каждый день занимаясь спортом, незаметно для себя стал здоровым» — конструкция для постепенного, накопленного результата от повторяющегося действия.</div>
+        </header>
+
+        <div class="content-section">
+            <h2>1. Зачем нужна конструкция -다 보니?</h2>
+            <p><strong>-다 보니(까)</strong> состоит из соединительного окончания -다 (незавершённое действие) и 보다 «смотреть, пробовать» в форме -니(까). Буквально: «делая (что-то), и вот, оказывается...» Конструкция нужна, чтобы:</p>
+            <ul>
+                <li><strong>Показать постепенный результат от повторяющегося или длительного действия:</strong> не одно событие, а привычка, процесс, растянутый во времени</li>
+                <li><strong>Выразить неожиданное осознание:</strong> человек не планировал результат заранее, а обнаружил его, оглянувшись назад — «и вот, оказывается, я...»</li>
+                <li><strong>Порефлексировать над тем, как я изменился или к чему пришёл:</strong> часто используется в рассказах о карьере, привычках, отношениях, изучении языка</li>
+                <li><strong>Подчеркнуть накопительный эффект:</strong> результат — не от одного действия, а от суммы многих повторений</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>2. Образование</h2>
+
+            <div class="grammar-block">
+                <h3>Формула</h3>
+                <div class="grammar-pattern">Глагол (основа) + 다 보니(까)</div>
+                <p>Форма присоединяется напрямую к основе глагола, без учёта конечной согласной или гласной: 하다 → 하<strong>다 보니</strong>, 먹다 → 먹<strong>다 보니</strong>, 살다 → 살<strong>다 보니</strong>. Частица 까 в конце необязательна, но часто добавляется для усиления — 하다 보니까.</p>
+                <p><strong>Важное правило:</strong> действие в первой части должно быть <strong>повторяющимся или длительным</strong> — привычка, процесс, растянутый во времени. Нельзя использовать с однократным мгновенным действием (для этого есть -았/었더니).</p>
+
+                <div class="grammar-example">
+                    <div class="kor">매일 운동을 하다 보니까 건강해졌어요. <button class="audio-btn" onclick="speakKorean('매일 운동을 하다 보니까 건강해졌어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="rom">[maeil undongeul hada bonikka geonganghaejyeosseoyo]</div>
+                    <div class="rus">Каждый день занимаясь спортом, я незаметно стал здоровым.</div>
+                </div>
+                <div class="grammar-example">
+                    <div class="kor">한국 드라마를 자주 보다 보니 한국어에 관심이 생겼어요. <button class="audio-btn" onclick="speakKorean('한국 드라마를 자주 보다 보니 한국어에 관심이 생겼어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="rom">[hanguk deuramareul jaju boda boni hangugeoe gwansimi saenggyeosseoyo]</div>
+                    <div class="rus">Часто смотря корейские дорамы, я незаметно заинтересовался корейским языком.</div>
+                </div>
+                <div class="grammar-example">
+                    <div class="kor">같은 회사에서 오래 일하다 보니 승진했어요. <button class="audio-btn" onclick="speakKorean('같은 회사에서 오래 일하다 보니 승진했어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="rom">[gateun hoesaeseo orae ilhada boni seungjinhaesseoyo]</div>
+                    <div class="rus">Долго проработав в одной компании, я в итоге получил повышение.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Три особенности:</strong> 1) действие должно повторяться или продолжаться, а не быть единичным мгновенным событием; 2) результат часто неожиданный или непреднамеренный — говорящий сам «оглядывается назад» и осознаёт перемену; 3) вторая часть обычно выражает изменение состояния, вывод или открытие, часто в прошедшем времени.
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>3. Примеры употребления</h2>
+
+            <div class="example-box">
+                <div class="korean-text">아이를 키우다 보니 참을성이 많아졌어요. <button class="audio-btn" onclick="speakKorean('아이를 키우다 보니 참을성이 많아졌어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[aireul kiuda boni chameulseongi manajyeosseoyo]</div>
+                <div class="translation">Воспитывая ребёнка, я незаметно стал более терпеливым.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">매일 일기를 쓰다 보니 글쓰기 실력이 늘었어요. <button class="audio-btn" onclick="speakKorean('매일 일기를 쓰다 보니 글쓰기 실력이 늘었어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[maeil ilgireul sseuda boni geulsseugi sillyeogi neureosseoyo]</div>
+                <div class="translation">Каждый день ведя дневник, я постепенно улучшил навык письма.</div>
+                <div class="note">накопительный результат от привычки, растянутой во времени</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">혼자 여행을 다니다 보니 독립적인 성격이 됐어요. <button class="audio-btn" onclick="speakKorean('혼자 여행을 다니다 보니 독립적인 성격이 됐어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[honja yeohaengeul danida boni dongnipjeogin seonggyeogi dwaesseoyo]</div>
+                <div class="translation">Путешествуя в одиночку, я незаметно стал самостоятельным человеком.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">계속 늦게 자다 보니 건강이 나빠졌어요. <button class="audio-btn" onclick="speakKorean('계속 늦게 자다 보니 건강이 나빠졌어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[gyesok neutge jada boni geongangi nappajyeosseoyo]</div>
+                <div class="translation">Постоянно ложась спать поздно, я в итоге ослабил здоровье.</div>
+                <div class="note">результат бывает и негативным — постепенное ухудшение</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">사람들과 자주 대화하다 보니 자신감이 생겼어요. <button class="audio-btn" onclick="speakKorean('사람들과 자주 대화하다 보니 자신감이 생겼어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[saramdeulgwa jaju daehwahada boni jasingami saenggyeosseoyo]</div>
+                <div class="translation">Часто общаясь с людьми, у меня незаметно появилась уверенность в себе.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">이 일을 오래 하다 보면 전문가가 될 거예요. <button class="audio-btn" onclick="speakKorean('이 일을 오래 하다 보면 전문가가 될 거예요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[i ireul orae hada bomyeon jeonmungaga doel geoyeyo]</div>
+                <div class="translation">Если долго заниматься этим делом, со временем станешь экспертом.</div>
+                <div class="note">-다 보면 — родственная форма для будущего/гипотетического повторения</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>4. Сравнение: -다 보니 vs -았/었더니 vs -는 바람에</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Какую конструкцию выбрать?</div>
+                <div class="table-row">
+                    <div class="table-cell header-cell">Конструкция</div>
+                    <div class="table-cell header-cell">Особенность</div>
+                    <div class="table-cell header-cell">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-다 보니(까)</div>
+                    <div class="table-cell"><strong>повторяющееся/длительное</strong> действие субъекта → постепенный, накопленный, часто неожиданный результат</div>
+                    <div class="table-cell korean">매일 운동을 하다 보니 건강해졌어요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-았/었더니</div>
+                    <div class="table-cell"><strong>одно</strong> прошедшее действие субъекта → сразу же после него неожиданное открытие/результат</div>
+                    <div class="table-cell korean">창문을 열었더니 눈이 오고 있었어요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-는 바람에</div>
+                    <div class="table-cell"><strong>одна внешняя</strong> внезапная причина → негативный результат, субъект не виноват</div>
+                    <div class="table-cell korean">비가 오는 바람에 경기가 취소됐어요</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Типичные ошибки:</strong> 1) использование -다 보니 с однократным мгновенным действием — нельзя 문을 열다 보니 (это не привычка), правильно -았더니: 문을 열었더니; 2) путаница с -는 바람에 — -다 보니 не про внешнюю причину, а про собственное повторяющееся действие; 3) забывание, что -다 보니 подчёркивает именно ПОСТЕПЕННОСТЬ и НАКОПЛЕНИЕ, а не мгновенную реакцию.
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>5. Диалог: Как я изменился</h2>
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">민서 [Minseo]:</div>
+                    <div class="korean-text">오랜만이에요! 그런데 완전히 달라진 것 같아요. <button class="audio-btn" onclick="speakKorean('오랜만이에요! 그런데 완전히 달라진 것 같아요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Давно не виделись! Но вы, кажется, совсем изменились.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">준혁 [Junhyeok]:</div>
+                    <div class="korean-text">맞아요. 매일 아침 일찍 일어나다 보니 생활 습관이 다 바뀌었어요. <button class="audio-btn" onclick="speakKorean('맞아요. 매일 아침 일찍 일어나다 보니 생활 습관이 다 바뀌었어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Точно. Каждое утро рано вставая, я незаметно полностью изменил образ жизни.</div>
+                    <div class="grammar-note">일어나다 보니 — повторяющееся действие → постепенная перемена</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민서:</div>
+                    <div class="korean-text">저도 요즘 요리를 자주 하다 보니 요리사가 된 기분이에요. <button class="audio-btn" onclick="speakKorean('저도 요즘 요리를 자주 하다 보니 요리사가 된 기분이에요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Я тоже в последнее время, часто готовя, чувствую себя настоящим поваром.</div>
+                    <div class="grammar-note">하다 보니 — накопление опыта от повторения</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">준혁:</div>
+                    <div class="korean-text">신기하네요. 뭔가를 꾸준히 하다 보면 결국 실력이 느는 것 같아요. <button class="audio-btn" onclick="speakKorean('신기하네요. 뭔가를 꾸준히 하다 보면 결국 실력이 느는 것 같아요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Удивительно. Кажется, если что-то делать постоянно, в итоге навык всё равно растёт.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민서:</div>
+                    <div class="korean-text">맞아요. 저도 한국어를 매일 공부하다 보니 어느새 뉴스도 이해하게 됐어요. <button class="audio-btn" onclick="speakKorean('맞아요. 저도 한국어를 매일 공부하다 보니 어느새 뉴스도 이해하게 됐어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Точно. Я тоже, каждый день изучая корейский, незаметно начал понимать даже новости.</div>
+                    <div class="grammar-note">공부하다 보니 — снова накопительный результат от повторения</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">준혁:</div>
+                    <div class="korean-text">우리 둘 다 꾸준함의 힘을 느끼고 있네요. <button class="audio-btn" onclick="speakKorean('우리 둘 다 꾸준함의 힘을 느끼고 있네요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Мы оба чувствуем силу постоянства.</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать весь диалог</button>
+        </div>
+
+        <div class="remember-block">
+            <h2>📋 Запомни!</h2>
+            <div class="remember-item">
+                <strong>Формула:</strong> глагол + 다 보니(까) — присоединяется напрямую к основе, форма не меняется
+            </div>
+            <div class="remember-item">
+                <strong>Только повторяющееся/длительное действие:</strong> привычка, процесс, растянутый во времени — не единичное мгновенное событие
+            </div>
+            <div class="remember-item">
+                <strong>Результат постепенный и часто неожиданный:</strong> говорящий «оглядывается назад» и осознаёт перемену
+            </div>
+            <div class="remember-item">
+                <strong>Отличие от -았/었더니:</strong> -았/었더니 — одно прошедшее действие → мгновенное открытие; -다 보니 — повторение → накопленный результат
+            </div>
+            <div class="remember-item">
+                <strong>Отличие от -는 바람에:</strong> -는 바람에 — одна внешняя внезапная причина; -다 보니 — собственное повторяющееся действие субъекта
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-item">
+                <div class="exercise-question">1. «Каждый день занимаясь спортом, я стал здоровым»:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">매일 운동을 하다 보니까 건강해졌어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">매일 운동을 하는 바람에 건강해졌어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">매일 운동을 했더니 건강해졌어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">2. -다 보니 требует, чтобы действие в первой части было:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">однократным и мгновенным</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">повторяющимся или длительным</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">запланированным заранее</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">3. «Долго проработав в одной компании, я получил повышение»:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">같은 회사에서 오래 일했더니 승진했어요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">같은 회사에서 오래 일하다 보니 승진했어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">같은 회사에서 오래 일하는 바람에 승진했어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">4. -다 보니 присоединяется к основе глагола:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">напрямую, без учёта конечной согласной/гласной</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">только после гласной</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">только после согласной</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">5. Чем -다 보니 отличается от -았/었더니?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">-다 보니 — повторение → накопленный результат; -았/었더니 — одно действие → мгновенное открытие</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">разницы нет</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">-다 보니 используется только в будущем времени</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">6. «Часто общаясь с людьми, у меня появилась уверенность в себе»:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">사람들과 대화했더니 자신감이 생겼어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">사람들과 대화하는 바람에 자신감이 생겼어요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">사람들과 자주 대화하다 보니 자신감이 생겼어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">7. Найди НЕПРАВИЛЬНОЕ предложение (использовано с однократным мгновенным действием):</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">문을 열다 보니 눈이 오고 있었어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">매일 일기를 쓰다 보니 글쓰기 실력이 늘었어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">계속 늦게 자다 보니 건강이 나빠졌어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">8. Результат в конструкции -다 보니 обычно:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">мгновенный и запланированный</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">постепенный, накопленный и часто неожиданный для самого говорящего</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">всегда вызван внешней причиной</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A); color: white; border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(156,39,176,0.3); font-family: 'Noto Sans KR', sans-serif;">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level4_lesson_boni';
+
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.speak(u);
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.previousElementSibling;
+            while (box && !box.classList.contains('dialogue-box')) box = box.previousElementSibling;
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line'); var i = 0; btn.disabled = true;
+            function playNext() {
+                if (i >= lines.length) { btn.disabled = false; return; }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(156,39,176,0.15)';
+                var text = lines[i].querySelector('.korean-text');
+                if (text) {
+                    var u = new SpeechSynthesisUtterance(text.textContent.replace(/🔊/g,'').trim());
+                    u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                    u.onend = function() { i++; setTimeout(playNext, 400); };
+                    window.speechSynthesis.speak(u);
+                } else { i++; setTimeout(playNext, 400); }
+            }
+            window.speechSynthesis.cancel(); playNext();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item'); var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) { if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; } });
+            }
+        }
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!'; btn.style.background = '#4A148C';
+                btn.style.cursor = 'default'; btn.disabled = true; btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) { btn.textContent = 'Пройдено!'; btn.style.background = '#4A148C'; btn.style.cursor = 'default'; btn.disabled = true; btn.style.opacity = '0.85'; }
+                }
+            }
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0'; section.style.transform = 'translateY(30px)';
+                setTimeout(function() { section.style.transition = 'all 0.6s ease'; section.style.opacity = '1'; section.style.transform = 'translateY(0)'; }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

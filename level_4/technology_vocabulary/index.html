@@ -13,7 +13,7 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #2d3436, #00b894, #0984e3, #6c5ce7);
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f, #1a3f8f, #1a3f8f);
             min-height: 100vh;
             color: #333;
         }
@@ -70,7 +70,7 @@
             margin: 20px 0;
             overflow: hidden;
             border-radius: 15px;
-            background: linear-gradient(to bottom, #e8f4fd, #d1ecf1);
+            background: linear-gradient(to bottom, #edfafa, #d5f0f0);
         }
         
         .tech-icon {
@@ -137,11 +137,11 @@
             background: var(--card-color, #0984e3);
         }
         
-        .tech-card.hardware::before { background: linear-gradient(90deg, #2d3436, #636e72); }
-        .tech-card.software::before { background: linear-gradient(90deg, #0984e3, #74b9ff); }
-        .tech-card.internet::before { background: linear-gradient(90deg, #00b894, #00cec9); }
-        .tech-card.mobile::before { background: linear-gradient(90deg, #6c5ce7, #a29bfe); }
-        .tech-card.ai::before { background: linear-gradient(90deg, #fd79a8, #e84393); }
+        .tech-card.hardware::before { background: linear-gradient(90deg, #6c5ce7, #4b3fb8); }
+        .tech-card.software::before { background: linear-gradient(90deg, #2f6fd0, #1a3f8f); }
+        .tech-card.internet::before { background: linear-gradient(90deg, #0f8b8d, #0a5c5e); }
+        .tech-card.mobile::before { background: linear-gradient(90deg, #2f6fd0, #1a3f8f); }
+        .tech-card.ai::before { background: linear-gradient(90deg, #d81b60, #7b1030); }
         
         .tech-card:hover {
             transform: translateY(-5px) scale(1.02);
@@ -193,7 +193,7 @@
         }
         
         .level-dot.active {
-            background: linear-gradient(45deg, #0984e3, #74b9ff);
+            background: linear-gradient(45deg, #2f6fd0, #1a3f8f);
         }
         
         .example-sentence {
@@ -266,7 +266,7 @@
         
         .filter-btn.active {
             background: #0984e3;
-            color: white;
+            color: #ffffff;
             border-color: #0984e3;
         }
         
@@ -330,7 +330,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #0984e3, #74b9ff);
+            background: linear-gradient(90deg, #2f6fd0, #1a3f8f);
             border-radius: 20px 20px 0 0;
         }
         
@@ -344,8 +344,10 @@
             overflow-x: auto;
         }
     </style>
+    <link rel="stylesheet" href="../../css/visual-boost.css">
 </head>
 <body>
+<div class="jk-bg-decor" aria-hidden="true"><span class="jk-blob jk-blob-1"></span><span class="jk-blob jk-blob-2"></span><span class="jk-blob jk-blob-3"></span><span class="jk-han jk-han-1">한</span><span class="jk-han jk-han-2">글</span><span class="jk-han jk-han-3">안녕</span><span class="jk-han jk-han-4">사랑</span><span class="jk-han jk-han-5">꿈</span></div>
     <div class="container">
         <div class="nav">
             <a href="../index.html">← К 4급</a>
@@ -832,5 +834,64 @@
             }
         });
     </script>
+    <!-- Кнопка завершения урока -->
+    <div style="text-align: center; margin: 40px 0; padding: 30px;">
+        <button id="completeLessonBtn" onclick="completeLesson()" style="
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+            font-family: 'Noto Sans KR', sans-serif;
+        ">Отметить урок как пройденный</button>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level4_vocab_technology';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+<script src="../../js/dictionary.js"></script>
+<script src="../../js/dictionary-inject.js"></script>
+<script src="../../js/tts-voice.js"></script>
 </body>
 </html>

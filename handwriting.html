@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Корейский письменный — 한글 쓰기 연습</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        .page-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADER CARD ===== */
+        .header-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .header-card h1 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .header-card .subtitle-kr {
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 12px;
+        }
+
+        .header-card p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== SECTION TABS ===== */
+        .section-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .section-tab {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.25);
+            color: #fff;
+            font-size: 0.95em;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .section-tab:hover {
+            background: rgba(255,255,255,0.4);
+            transform: translateY(-2px);
+        }
+
+        .section-tab.active {
+            background: #fff;
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        /* ===== CHARACTER GRID ===== */
+        .char-grid-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .char-grid-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .char-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .char-btn {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .char-btn:hover {
+            transform: translateY(-3px);
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102,126,234,0.2);
+        }
+
+        .char-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: 0 5px 20px rgba(102,126,234,0.4);
+        }
+
+        .char-btn .char-main {
+            font-size: 2em;
+            line-height: 1;
+        }
+
+        .char-btn .char-name {
+            font-size: 0.55em;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        .char-btn.active .char-name {
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* ===== MAIN CONTENT AREA ===== */
+        .content-area {
+            display: none;
+        }
+
+        .content-area.visible {
+            display: block;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        /* ===== CHARACTER DISPLAY PANEL ===== */
+        .display-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .large-char {
+            font-size: 180px;
+            line-height: 1;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .char-info-name {
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .char-info-ru {
+            font-size: 1em;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .stroke-count {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+
+        .char-tip {
+            margin-top: 15px;
+            padding: 12px;
+            background: #f0f4ff;
+            border-radius: 12px;
+            font-size: 0.85em;
+            color: #555;
+            text-align: left;
+        }
+
+        /* ===== STROKE ORDER SVG ===== */
+        .stroke-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .stroke-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .svg-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .stroke-svg {
+            border: 2px solid #eee;
+            border-radius: 12px;
+            background: #fafafa;
+        }
+
+        .stroke-path-done {
+            fill: none;
+            stroke: #333;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .stroke-path-upcoming {
+            fill: none;
+            stroke: #e0e0e0;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .stroke-path-current {
+            fill: none;
+            stroke: #667eea;
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawStroke 0.8s ease forwards;
+        }
+
+        @keyframes drawStroke {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .stroke-number {
+            fill: #e53935;
+            font-size: 10px;
+            font-weight: 700;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .stroke-number-bg {
+            fill: #fff;
+            stroke: #e53935;
+            stroke-width: 1;
+        }
+
+        .stroke-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stroke-btn {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 25px;
+            font-size: 0.85em;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .stroke-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+
+        .stroke-btn.primary:hover {
+            box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+            transform: translateY(-1px);
+        }
+
+        .stroke-btn.secondary {
+            background: #f0f0f0;
+            color: #555;
+        }
+
+        .stroke-btn.secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .stroke-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .stroke-indicator {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        /* ===== PRACTICE CANVAS ===== */
+        .canvas-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            grid-column: 1 / -1;
+        }
+
+        .canvas-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .canvas-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .practice-canvas {
+            border: 2px solid #eee;
+            border-radius: 12px;
+            cursor: crosshair;
+            background: #fff;
+            touch-action: none;
+        }
+
+        .canvas-controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ===== TIPS CARD ===== */
+        .tips-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .tips-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .tips-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .tips-list li {
+            padding: 12px 15px;
+            background: #f8f9ff;
+            border-radius: 12px;
+            font-size: 0.9em;
+            color: #555;
+            line-height: 1.5;
+            border-left: 3px solid #667eea;
+        }
+
+        .tips-list li strong {
+            color: #333;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                padding-bottom: 100px;
+            }
+
+            .header-card {
+                padding: 25px 15px;
+            }
+
+            .header-card h1 {
+                font-size: 1.5em;
+            }
+
+            .section-tabs {
+                gap: 6px;
+            }
+
+            .section-tab {
+                padding: 8px 14px;
+                font-size: 0.85em;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .large-char {
+                font-size: 120px;
+            }
+
+            .char-btn {
+                width: 50px;
+                height: 50px;
+            }
+
+            .char-btn .char-main {
+                font-size: 1.6em;
+            }
+
+            .char-btn .char-name {
+                font-size: 0.5em;
+            }
+
+            .practice-canvas {
+                width: 280px !important;
+                height: 280px !important;
+            }
+
+            .tips-list {
+                grid-template-columns: 1fr;
+            }
+
+            .char-grid-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+    <!-- HEADER -->
+    <div class="header-card">
+        <h1>Корейский письменный</h1>
+        <div class="subtitle-kr">한글 쓰기 연습</div>
+        <p>Учитесь правильно писать корейские буквы (хангыль). Изучайте порядок штрихов, тренируйтесь на холсте и запоминайте правильную форму каждого символа.</p>
+    </div>
+
+    <!-- SECTION TABS -->
+    <div class="section-tabs">
+        <button class="section-tab active" data-section="vowels">Гласные</button>
+        <button class="section-tab" data-section="consonants">Согласные</button>
+        <button class="section-tab" data-section="double">Двойные согласные</button>
+        <button class="section-tab" data-section="compound">Составные гласные</button>
+    </div>
+
+    <!-- CHARACTER GRID -->
+    <div class="char-grid-card">
+        <h3 id="grid-title">Основные гласные</h3>
+        <div class="char-grid" id="char-grid"></div>
+    </div>
+
+    <!-- MAIN CONTENT (hidden until char selected) -->
+    <div class="content-area" id="content-area">
+        <div class="content-grid">
+            <!-- Character Display -->
+            <div class="display-card">
+                <div class="large-char" id="large-char"></div>
+                <div class="char-info-name" id="char-info-name"></div>
+                <div class="char-info-ru" id="char-info-ru"></div>
+                <div class="stroke-count" id="stroke-count"></div>
+                <div class="char-tip" id="char-tip"></div>
+            </div>
+
+            <!-- Stroke Order -->
+            <div class="stroke-card">
+                <h3>Порядок штрихов</h3>
+                <div class="stroke-indicator" id="stroke-indicator">Штрих 1 из 2</div>
+                <div class="svg-container">
+                    <svg class="stroke-svg" id="stroke-svg" viewBox="0 0 100 100" width="300" height="300"></svg>
+                </div>
+                <div class="stroke-controls">
+                    <button class="stroke-btn secondary" id="btn-prev" onclick="prevStroke()">Предыдущий</button>
+                    <button class="stroke-btn primary" id="btn-auto" onclick="autoPlay()">Автовоспроизведение</button>
+                    <button class="stroke-btn secondary" id="btn-next" onclick="nextStroke()">Следующий</button>
+                </div>
+            </div>
+
+            <!-- Practice Canvas -->
+            <div class="canvas-card">
+                <h3>Тренировка написания</h3>
+                <div class="canvas-wrapper">
+                    <canvas class="practice-canvas" id="practice-canvas" width="300" height="300"></canvas>
+                </div>
+                <div class="canvas-controls">
+                    <button class="stroke-btn secondary" onclick="clearCanvas()">Очистить</button>
+                    <button class="stroke-btn primary" id="btn-guide" onclick="toggleGuide()">Скрыть подсказку</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TIPS -->
+    <div class="tips-card">
+        <h3>Советы по каллиграфии хангыль</h3>
+        <ul class="tips-list">
+            <li><strong>Порядок штрихов:</strong> Всегда пишите сверху вниз и слева направо. Горизонтальные линии идут перед вертикальными.</li>
+            <li><strong>Пропорции:</strong> Все буквы должны вписываться в воображаемый квадрат одинакового размера, сохраняя баланс.</li>
+            <li><strong>Давление:</strong> Начинайте штрих мягко, усиливайте в середине и завершайте аккуратно. Это придает буквам живость.</li>
+            <li><strong>Гласные:</strong> Вертикальные гласные (ㅏ, ㅓ, ㅣ) пишутся справа от согласной, горизонтальные (ㅗ, ㅜ, ㅡ) — снизу.</li>
+            <li><strong>Согласные:</strong> Согласные обычно занимают верхнюю или левую часть слогового блока. Старайтесь писать их компактно.</li>
+            <li><strong>Ритм:</strong> Пишите в едином ритме, не торопитесь. Равномерная скорость помогает контролировать форму.</li>
+            <li><strong>Практика:</strong> Начните с простых символов (ㅇ, ㅡ, ㅣ) и постепенно переходите к сложным (ㄹ, ㅂ).</li>
+            <li><strong>Слоговые блоки:</strong> Корейский пишется блоками: согласная + гласная (+ финальная согласная). Практикуйте отдельные буквы перед переходом к блокам.</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+// ============================================
+// STROKE DATA — All 29 basic + 5 double + 9 compound characters
+// ============================================
+var HANGUL_DATA = {
+    // ============ VOWELS ============
+    'ㅏ': {
+        char: 'ㅏ', name: '아', nameRu: 'А', type: 'vowel',
+        strokes: [
+            'M 45 15 L 45 85',
+            'M 45 45 L 75 45'
+        ],
+        tip: 'Вертикальная линия сверху вниз, затем короткая горизонтальная линия вправо от середины.'
+    },
+    'ㅓ': {
+        char: 'ㅓ', name: '어', nameRu: 'О', type: 'vowel',
+        strokes: [
+            'M 55 45 L 25 45',
+            'M 55 15 L 55 85'
+        ],
+        tip: 'Короткая горизонтальная линия влево, затем вертикальная линия сверху вниз.'
+    },
+    'ㅗ': {
+        char: 'ㅗ', name: '오', nameRu: 'О', type: 'vowel',
+        strokes: [
+            'M 50 55 L 50 25',
+            'M 15 55 L 85 55'
+        ],
+        tip: 'Короткая вертикальная линия вверх от центра, затем длинная горизонтальная линия.'
+    },
+    'ㅜ': {
+        char: 'ㅜ', name: '우', nameRu: 'У', type: 'vowel',
+        strokes: [
+            'M 15 45 L 85 45',
+            'M 50 45 L 50 75'
+        ],
+        tip: 'Горизонтальная линия, затем короткая вертикальная линия вниз от центра.'
+    },
+    'ㅡ': {
+        char: 'ㅡ', name: '으', nameRu: 'Ы', type: 'vowel',
+        strokes: [
+            'M 15 50 L 85 50'
+        ],
+        tip: 'Одна горизонтальная линия слева направо. Самый простой символ в хангыль.'
+    },
+    'ㅣ': {
+        char: 'ㅣ', name: '이', nameRu: 'И', type: 'vowel',
+        strokes: [
+            'M 50 15 L 50 85'
+        ],
+        tip: 'Одна вертикальная линия сверху вниз. Пишите ровно, без наклона.'
+    },
+
+    // ============ CONSONANTS ============
+    'ㄱ': {
+        char: 'ㄱ', name: '기역', nameRu: 'Киёк', type: 'consonant',
+        strokes: [
+            'M 20 25 L 75 25',
+            'M 75 25 L 75 80'
+        ],
+        tip: 'Горизонтальная линия вправо, затем вертикальная линия вниз от конца. Угол должен быть четким.'
+    },
+    'ㄴ': {
+        char: 'ㄴ', name: '니은', nameRu: 'Ниын', type: 'consonant',
+        strokes: [
+            'M 25 20 L 25 75',
+            'M 25 75 L 80 75'
+        ],
+        tip: 'Вертикальная линия вниз, затем горизонтальная линия вправо. Как перевернутая буква Г.'
+    },
+    'ㄷ': {
+        char: 'ㄷ', name: '디귿', nameRu: 'Тигыт', type: 'consonant',
+        strokes: [
+            'M 20 25 L 75 25',
+            'M 20 25 L 20 75',
+            'M 20 75 L 75 75'
+        ],
+        tip: 'Верхняя горизонтальная линия, вертикальная вниз слева, нижняя горизонтальная вправо. Как буква П без правой стойки.'
+    },
+    'ㄹ': {
+        char: 'ㄹ', name: '리을', nameRu: 'Риыль', type: 'consonant',
+        strokes: [
+            'M 20 18 L 78 18',
+            'M 78 18 L 78 36',
+            'M 78 36 L 20 36',
+            'M 20 36 L 20 60',
+            'M 20 60 L 80 60'
+        ],
+        tip: 'Самый сложный символ: 5 штрихов зигзагом. Пишите аккуратно, сохраняя равные промежутки.'
+    },
+    'ㅁ': {
+        char: 'ㅁ', name: '미음', nameRu: 'Миым', type: 'consonant',
+        strokes: [
+            'M 22 20 L 22 78',
+            'M 22 78 L 78 78',
+            'M 78 78 L 78 20',
+            'M 78 20 L 22 20'
+        ],
+        tip: 'Квадрат: левая сторона вниз, нижняя вправо, правая вверх, верхняя влево. Стороны должны быть ровными.'
+    },
+    'ㅂ': {
+        char: 'ㅂ', name: '비읍', nameRu: 'Пиып', type: 'consonant',
+        strokes: [
+            'M 25 15 L 25 75',
+            'M 75 15 L 75 75',
+            'M 25 45 L 75 45',
+            'M 25 75 L 75 75'
+        ],
+        tip: 'Две вертикальные линии, горизонтальная перемычка в середине, горизонтальная линия внизу.'
+    },
+    'ㅅ': {
+        char: 'ㅅ', name: '시옷', nameRu: 'Сиот', type: 'consonant',
+        strokes: [
+            'M 50 20 L 20 80',
+            'M 50 20 L 80 80'
+        ],
+        tip: 'Две диагональные линии, расходящиеся от верхней точки вниз. Как перевернутая буква V.'
+    },
+    'ㅇ': {
+        char: 'ㅇ', name: '이응', nameRu: 'Иын', type: 'consonant',
+        strokes: [
+            'M 50 20 C 78 20 80 50 80 50 C 80 78 50 80 50 80 C 22 80 20 50 20 50 C 20 22 50 20 50 20 Z'
+        ],
+        tip: 'Круг одним движением. Начните сверху и рисуйте по часовой стрелке. Форма должна быть ровной.'
+    },
+    'ㅈ': {
+        char: 'ㅈ', name: '지읒', nameRu: 'Чиыт', type: 'consonant',
+        strokes: [
+            'M 20 25 L 80 25',
+            'M 50 35 L 20 80',
+            'M 50 35 L 80 80'
+        ],
+        tip: 'Горизонтальная линия сверху, затем две диагональные линии, расходящиеся из точки под линией.'
+    },
+
+    // ============ DOUBLE CONSONANTS ============
+    'ㄲ': {
+        char: 'ㄲ', name: '쌍기역', nameRu: 'Ссангиёк', type: 'double',
+        strokes: [
+            'M 10 25 L 42 25',
+            'M 42 25 L 42 80',
+            'M 55 25 L 88 25',
+            'M 88 25 L 88 80'
+        ],
+        tip: 'Две ㄱ рядом. Каждая занимает половину пространства. Пишите их одинакового размера.'
+    },
+    'ㄸ': {
+        char: 'ㄸ', name: '쌍디귿', nameRu: 'Ссантигыт', type: 'double',
+        strokes: [
+            'M 8 22 L 42 22',
+            'M 8 22 L 8 60',
+            'M 8 60 L 42 60',
+            'M 55 22 L 90 22',
+            'M 55 22 L 55 60',
+            'M 55 60 L 90 60'
+        ],
+        tip: 'Две ㄷ рядом. Каждая буква компактнее обычной, чтобы уместиться в блок.'
+    },
+    'ㅃ': {
+        char: 'ㅃ', name: '쌍비읍', nameRu: 'Ссанпиып', type: 'double',
+        strokes: [
+            'M 10 15 L 10 70',
+            'M 38 15 L 38 70',
+            'M 10 42 L 38 42',
+            'M 10 70 L 38 70',
+            'M 58 15 L 58 70',
+            'M 86 15 L 86 70',
+            'M 58 42 L 86 42',
+            'M 58 70 L 86 70'
+        ],
+        tip: 'Две ㅂ рядом. Сложный символ — тренируйте каждую ㅂ отдельно, затем комбинируйте.'
+    },
+    'ㅆ': {
+        char: 'ㅆ', name: '쌍시옷', nameRu: 'Ссансиот', type: 'double',
+        strokes: [
+            'M 30 20 L 12 80',
+            'M 30 20 L 48 80',
+            'M 68 20 L 50 80',
+            'M 68 20 L 88 80'
+        ],
+        tip: 'Две ㅅ рядом. Следите, чтобы вершины обоих символов были на одной высоте.'
+    },
+    'ㅉ': {
+        char: 'ㅉ', name: '쌍지읒', nameRu: 'Ссанчиыт', type: 'double',
+        strokes: [
+            'M 8 22 L 44 22',
+            'M 26 30 L 10 68',
+            'M 26 30 L 42 68',
+            'M 55 22 L 92 22',
+            'M 73 30 L 57 68',
+            'M 73 30 L 90 68'
+        ],
+        tip: 'Две ㅈ рядом. Начинайте с горизонтальных линий, затем добавляйте диагонали.'
+    },
+
+    // ============ COMPOUND VOWELS ============
+    'ㅐ': {
+        char: 'ㅐ', name: '애', nameRu: 'Э', type: 'compound',
+        strokes: [
+            'M 30 15 L 30 85',
+            'M 30 45 L 55 45',
+            'M 68 15 L 68 85'
+        ],
+        tip: 'Состоит из ㅏ + ㅣ. Вертикальная линия, горизонтальная вправо, ещё одна вертикальная линия.'
+    },
+    'ㅔ': {
+        char: 'ㅔ', name: '에', nameRu: 'Е', type: 'compound',
+        strokes: [
+            'M 45 45 L 30 45',
+            'M 45 15 L 45 85',
+            'M 68 15 L 68 85'
+        ],
+        tip: 'Состоит из ㅓ + ㅣ. Горизонтальная влево, вертикальная линия, ещё одна вертикальная линия справа.'
+    },
+    'ㅘ': {
+        char: 'ㅘ', name: '와', nameRu: 'Ва', type: 'compound',
+        strokes: [
+            'M 35 45 L 35 20',
+            'M 15 45 L 55 45',
+            'M 65 15 L 65 85',
+            'M 65 50 L 85 50'
+        ],
+        tip: 'Комбинация ㅗ + ㅏ. Сначала пишите ㅗ слева, затем ㅏ справа.'
+    },
+    'ㅙ': {
+        char: 'ㅙ', name: '왜', nameRu: 'Вэ', type: 'compound',
+        strokes: [
+            'M 25 42 L 25 18',
+            'M 10 42 L 42 42',
+            'M 55 15 L 55 85',
+            'M 55 48 L 72 48',
+            'M 82 15 L 82 85'
+        ],
+        tip: 'Комбинация ㅗ + ㅐ. Горизонтальная гласная слева и составная вертикальная справа.'
+    },
+    'ㅚ': {
+        char: 'ㅚ', name: '외', nameRu: 'Ве', type: 'compound',
+        strokes: [
+            'M 35 48 L 35 20',
+            'M 15 48 L 55 48',
+            'M 68 15 L 68 85'
+        ],
+        tip: 'Комбинация ㅗ + ㅣ. Пишите ㅗ слева, затем вертикальную линию ㅣ справа.'
+    },
+    'ㅝ': {
+        char: 'ㅝ', name: '워', nameRu: 'Во', type: 'compound',
+        strokes: [
+            'M 15 45 L 55 45',
+            'M 35 45 L 35 75',
+            'M 55 50 L 65 50',
+            'M 75 15 L 75 85'
+        ],
+        tip: 'Комбинация ㅜ + ㅓ. Горизонтальная с отростком вниз, горизонтальная влево и вертикальная.'
+    },
+    'ㅞ': {
+        char: 'ㅞ', name: '웨', nameRu: 'Ве', type: 'compound',
+        strokes: [
+            'M 10 38 L 42 38',
+            'M 25 38 L 25 65',
+            'M 55 45 L 45 45',
+            'M 55 15 L 55 85',
+            'M 75 15 L 75 85'
+        ],
+        tip: 'Комбинация ㅜ + ㅔ. Сначала пишите ㅜ слева, затем ㅔ справа.'
+    },
+    'ㅟ': {
+        char: 'ㅟ', name: '위', nameRu: 'Ви', type: 'compound',
+        strokes: [
+            'M 15 40 L 55 40',
+            'M 35 40 L 35 70',
+            'M 70 15 L 70 85'
+        ],
+        tip: 'Комбинация ㅜ + ㅣ. Пишите ㅜ слева, затем вертикальную линию ㅣ справа.'
+    },
+    'ㅢ': {
+        char: 'ㅢ', name: '의', nameRu: 'Ый', type: 'compound',
+        strokes: [
+            'M 15 40 L 55 40',
+            'M 70 15 L 70 85'
+        ],
+        tip: 'Комбинация ㅡ + ㅣ. Горизонтальная линия слева и вертикальная линия справа. Простой составной символ.'
+    }
+};
+
+// ============================================
+// SECTION DEFINITIONS
+// ============================================
+var SECTIONS = {
+    vowels: {
+        title: 'Основные гласные',
+        chars: ['ㅏ', 'ㅓ', 'ㅗ', 'ㅜ', 'ㅡ', 'ㅣ']
+    },
+    consonants: {
+        title: 'Основные согласные',
+        chars: ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ']
+    },
+    double: {
+        title: 'Двойные согласные',
+        chars: ['ㄲ', 'ㄸ', 'ㅃ', 'ㅆ', 'ㅉ']
+    },
+    compound: {
+        title: 'Составные гласные',
+        chars: ['ㅐ', 'ㅔ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅢ']
+    }
+};
+
+// ============================================
+// STATE
+// ============================================
+var currentSection = 'vowels';
+var selectedChar = null;
+var currentStrokeIndex = 0;
+var guideVisible = true;
+var isDrawing = false;
+var autoPlayTimer = null;
+var canvasCtx = null;
+
+// ============================================
+// INITIALIZATION
+// ============================================
+function init() {
+    renderGrid(currentSection);
+    setupCanvas();
+    bindTabs();
+    console.log('[OK] Handwriting page loaded');
+}
+
+// ============================================
+// TABS
+// ============================================
+function bindTabs() {
+    var tabs = document.querySelectorAll('.section-tab');
+    tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            tabs.forEach(function(t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+            currentSection = tab.getAttribute('data-section');
+            renderGrid(currentSection);
+            document.getElementById('content-area').classList.remove('visible');
+            selectedChar = null;
+            stopAutoPlay();
+        });
+    });
+}
+
+// ============================================
+// CHARACTER GRID
+// ============================================
+function renderGrid(section) {
+    var data = SECTIONS[section];
+    var grid = document.getElementById('char-grid');
+    var title = document.getElementById('grid-title');
+    title.textContent = data.title;
+    grid.innerHTML = '';
+
+    data.chars.forEach(function(ch) {
+        var info = HANGUL_DATA[ch];
+        var btn = document.createElement('button');
+        btn.className = 'char-btn';
+        btn.innerHTML = '<span class="char-main">' + info.char + '</span><span class="char-name">' + info.name + '</span>';
+        btn.addEventListener('click', function() {
+            selectChar(ch);
+            // update active state
+            grid.querySelectorAll('.char-btn').forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+        });
+        grid.appendChild(btn);
+    });
+}
+
+// ============================================
+// CHARACTER SELECTION
+// ============================================
+function selectChar(ch) {
+    selectedChar = ch;
+    currentStrokeIndex = 0;
+    stopAutoPlay();
+
+    var info = HANGUL_DATA[ch];
+    document.getElementById('large-char').textContent = info.char;
+    document.getElementById('char-info-name').textContent = info.name;
+    document.getElementById('char-info-ru').textContent = '(' + info.nameRu + ')';
+    document.getElementById('stroke-count').textContent = info.strokes.length + ' ' + getStrokeWord(info.strokes.length);
+    document.getElementById('char-tip').textContent = info.tip;
+
+    document.getElementById('content-area').classList.add('visible');
+
+    renderStrokes();
+    clearCanvas();
+    drawGuideChar();
+}
+
+function getStrokeWord(n) {
+    if (n === 1) return 'штрих';
+    if (n >= 2 && n <= 4) return 'штриха';
+    return 'штрихов';
+}
+
+// ============================================
+// STROKE ORDER VIEWER (SVG)
+// ============================================
+function renderStrokes() {
+    if (!selectedChar) return;
+    var info = HANGUL_DATA[selectedChar];
+    var svg = document.getElementById('stroke-svg');
+    var total = info.strokes.length;
+
+    document.getElementById('stroke-indicator').textContent = 'Штрих ' + (currentStrokeIndex + 1) + ' из ' + total;
+    document.getElementById('btn-prev').disabled = (currentStrokeIndex === 0);
+    document.getElementById('btn-next').disabled = (currentStrokeIndex >= total - 1);
+
+    var html = '';
+
+    // grid lines for guidance
+    html += '<line x1="50" y1="0" x2="50" y2="100" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="2,2"/>';
+    html += '<line x1="0" y1="50" x2="100" y2="50" stroke="#f0f0f0" stroke-width="0.5" stroke-dasharray="2,2"/>';
+
+    for (var i = 0; i < total; i++) {
+        var pathClass;
+        if (i < currentStrokeIndex) {
+            pathClass = 'stroke-path-done';
+        } else if (i === currentStrokeIndex) {
+            pathClass = 'stroke-path-current';
+        } else {
+            pathClass = 'stroke-path-upcoming';
+        }
+
+        html += '<path d="' + info.strokes[i] + '" class="' + pathClass + '"/>';
+
+        // stroke number at start of each completed or current stroke
+        if (i <= currentStrokeIndex) {
+            var startPoint = getPathStart(info.strokes[i]);
+            html += '<circle cx="' + startPoint.x + '" cy="' + startPoint.y + '" r="6" class="stroke-number-bg"/>';
+            html += '<text x="' + startPoint.x + '" y="' + (startPoint.y + 3.5) + '" text-anchor="middle" class="stroke-number">' + (i + 1) + '</text>';
+        }
+    }
+
+    svg.innerHTML = html;
+}
+
+function getPathStart(d) {
+    var match = d.match(/M\s*([\d.]+)\s+([\d.]+)/);
+    if (match) {
+        return { x: parseFloat(match[1]), y: parseFloat(match[2]) };
+    }
+    return { x: 10, y: 10 };
+}
+
+function nextStroke() {
+    if (!selectedChar) return;
+    var total = HANGUL_DATA[selectedChar].strokes.length;
+    if (currentStrokeIndex < total - 1) {
+        currentStrokeIndex++;
+        renderStrokes();
+    }
+}
+
+function prevStroke() {
+    if (currentStrokeIndex > 0) {
+        currentStrokeIndex--;
+        renderStrokes();
+    }
+}
+
+function autoPlay() {
+    if (!selectedChar) return;
+    stopAutoPlay();
+    currentStrokeIndex = 0;
+    renderStrokes();
+
+    var total = HANGUL_DATA[selectedChar].strokes.length;
+    var step = 0;
+
+    autoPlayTimer = setInterval(function() {
+        step++;
+        if (step >= total) {
+            stopAutoPlay();
+            return;
+        }
+        currentStrokeIndex = step;
+        renderStrokes();
+    }, 1000);
+}
+
+function stopAutoPlay() {
+    if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+    }
+}
+
+// ============================================
+// PRACTICE CANVAS
+// ============================================
+function setupCanvas() {
+    var canvas = document.getElementById('practice-canvas');
+    canvasCtx = canvas.getContext('2d');
+
+    // Mouse events
+    canvas.addEventListener('mousedown', startDraw);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', endDraw);
+    canvas.addEventListener('mouseleave', endDraw);
+
+    // Touch events
+    canvas.addEventListener('touchstart', function(e) {
+        e.preventDefault();
+        var touch = e.touches[0];
+        var rect = canvas.getBoundingClientRect();
+        var scaleX = canvas.width / rect.width;
+        var scaleY = canvas.height / rect.height;
+        startDraw({
+            offsetX: (touch.clientX - rect.left) * scaleX,
+            offsetY: (touch.clientY - rect.top) * scaleY
+        });
+    }, { passive: false });
+
+    canvas.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+        var touch = e.touches[0];
+        var rect = canvas.getBoundingClientRect();
+        var scaleX = canvas.width / rect.width;
+        var scaleY = canvas.height / rect.height;
+        draw({
+            offsetX: (touch.clientX - rect.left) * scaleX,
+            offsetY: (touch.clientY - rect.top) * scaleY
+        });
+    }, { passive: false });
+
+    canvas.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        endDraw();
+    });
+}
+
+function startDraw(e) {
+    isDrawing = true;
+    canvasCtx.beginPath();
+    canvasCtx.moveTo(e.offsetX, e.offsetY);
+}
+
+function draw(e) {
+    if (!isDrawing) return;
+    canvasCtx.lineWidth = 4;
+    canvasCtx.lineCap = 'round';
+    canvasCtx.lineJoin = 'round';
+    canvasCtx.strokeStyle = '#333';
+    canvasCtx.lineTo(e.offsetX, e.offsetY);
+    canvasCtx.stroke();
+}
+
+function endDraw() {
+    isDrawing = false;
+}
+
+function clearCanvas() {
+    var canvas = document.getElementById('practice-canvas');
+    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+    if (guideVisible) {
+        drawGuideChar();
+    }
+}
+
+function drawGuideChar() {
+    if (!selectedChar) return;
+    var canvas = document.getElementById('practice-canvas');
+    var ctx = canvasCtx;
+
+    // draw cross guides
+    ctx.save();
+    ctx.strokeStyle = '#f0f0f0';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath();
+    ctx.moveTo(canvas.width / 2, 0);
+    ctx.lineTo(canvas.width / 2, canvas.height);
+    ctx.moveTo(0, canvas.height / 2);
+    ctx.lineTo(canvas.width, canvas.height / 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+
+    if (guideVisible) {
+        ctx.save();
+        ctx.globalAlpha = 0.1;
+        ctx.font = '250px "Noto Sans KR"';
+        ctx.fillStyle = '#333';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(HANGUL_DATA[selectedChar].char, canvas.width / 2, canvas.height / 2);
+        ctx.restore();
+    }
+}
+
+function toggleGuide() {
+    guideVisible = !guideVisible;
+    var btn = document.getElementById('btn-guide');
+    btn.textContent = guideVisible ? 'Скрыть подсказку' : 'Показать подсказку';
+    clearCanvas();
+}
+
+// ============================================
+// START
+// ============================================
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+<script src="js/progress-tracker.js"></script>
+<script src="js/global-nav.js"></script>
+</body>
+</html>

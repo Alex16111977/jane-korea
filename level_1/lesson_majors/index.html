@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Специальность и учёба — 전공 | 1급 Корейский язык</title>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                linear-gradient(135deg, #2e9e5b 0%, #14663a 100%);
+            min-height: 100vh; color: #333;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: #2b2440; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #2e7031; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #2e7d32; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.05em; }
+        .header .lesson-number { font-size: 0.95em; color: #ffffff; margin-bottom: 10px; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 { color: #2e7031; margin-top: 0; font-size: 1.8em; border-bottom: 3px solid #4caf50; padding-bottom: 10px; }
+
+        .grammar-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0;
+        }
+        .grammar-table th { background: #4caf50; color: #2b2440; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+        .table-wrap { overflow-x: auto; }
+
+        .tip-box {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .warning-box {
+            background: #fff8e1; border-left: 4px solid #FFC107;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+            text-align: center; font-size: 1.4em; font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .example-card {
+            background: linear-gradient(135deg, #eefaf1, #d8f0e0);
+            border-left: 5px solid #4caf50;
+            padding: 20px 25px; border-radius: 12px; margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .example-card .korean { font-size: 1.3em; font-weight: 700; color: #2e7d32; margin-bottom: 8px; }
+        .example-card .pron { font-size: 0.95em; color: #4e7a29; font-style: italic; margin-bottom: 6px; }
+        .example-card .ru { font-size: 1em; color: #555; }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .korean-text { font-size: 1.1em; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; font-style: italic; }
+        .dialogue-play-btn {
+            background: rgba(255,255,255,0.25); color: #2b2440; border: 2px solid rgba(255,255,255,0.4);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer;
+            font-size: 1em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.3s ease; margin-bottom: 15px;
+        }
+        .dialogue-play-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .drop { background: rgba(244,67,54,0.15); color: #c62828; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+        .keep { background: rgba(76,175,80,0.25); padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .audio-btn-light {
+            background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn-light:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .rule-visual {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 20px; margin: 15px 0; flex-wrap: wrap;
+        }
+        .rule-block {
+            padding: 12px 20px; border-radius: 12px; font-weight: 700; font-size: 1.2em;
+            text-align: center;
+        }
+        .rule-stem { background: #e3f2fd; color: #1565c0; border: 2px solid #90caf9; }
+        .rule-cut { background: #ffebee; color: #c62828; border: 2px solid #ef9a9a; text-decoration: line-through; }
+        .rule-end { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+        .rule-arrow { font-size: 1.3em; color: #55506e; }
+
+        .practice-section {
+            background: linear-gradient(135deg, #eefaf1, #d8f0e0);
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .practice-section h2 { color: #1b5e20; margin-bottom: 20px; font-size: 1.5em; border-bottom: none; }
+
+        .exercise-block {
+            background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px;
+            margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .exercise-question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .exercise-options label {
+            display: block; padding: 10px 15px; margin: 6px 0;
+            background: #f5f5f5; border-radius: 10px; cursor: pointer;
+            transition: all 0.3s ease; font-size: 1em;
+        }
+        .exercise-options label:hover { background: #e8f5e9; }
+        .exercise-options input[type="radio"] { margin-right: 10px; accent-color: #4caf50; }
+        .exercise-check-btn {
+            background: #4caf50; color: #2b2440; padding: 10px 25px; border: none;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            transition: all 0.3s ease; margin-top: 10px;
+        }
+        .exercise-check-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .exercise-feedback { margin-top: 10px; padding: 8px; font-weight: 600; font-size: 1em; }
+
+        .summary-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
+        }
+        .summary-item {
+            background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+        }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .content-section { padding: 25px; }
+            .rule-visual { gap: 5px; }
+            .rule-block { padding: 8px 14px; font-size: 1em; }
+            .summary-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../index.html">&larr; Назад к 1급</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <div class="lesson-number">1급 | Лексика</div>
+            <h1>Специальность и учёба: 전공</h1>
+            <div class="korean-title">전공이 뭐예요? <button class="audio-btn" onclick="speakKorean('전공이 뭐예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+            <div class="description">Названия специальностей, слова об университете и готовые фразы, чтобы рассказать, что вы изучаете</div>
+        </header>
+
+        <!-- ====== СЕКЦИЯ 1 ====== -->
+        <div class="content-section">
+            <h2>1. Три способа спросить о специальности</h2>
+            <p>Это один из первых вопросов при знакомстве в Корее &mdash; сразу после имени и страны.</p>
+
+            <div class="example-card">
+                <div class="korean">전공이 뭐예요? <button class="audio-btn" onclick="speakKorean('전공이 뭐예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[чонгонъи мвойейо]</div>
+                <div class="ru">Какая у вас специальность? (самый частый вариант)</div>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">무엇을 전공하십니까? <button class="audio-btn" onclick="speakKorean('무엇을 전공하십니까?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[муосыль чонгонъхасимникка]</div>
+                <div class="ru">Что вы изучаете как специальность? (официально)</div>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">대학교에서 뭘 공부하세요? <button class="audio-btn" onclick="speakKorean('대학교에서 뭘 공부하세요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[тэхаккёэсо мволь конъбухасэйо]</div>
+                <div class="ru">Что вы изучаете в университете?</div>
+            </div>
+
+            <div class="formula-box">제 전공은 &nbsp;___&nbsp; 입니다 / 이에요</div>
+
+            <div class="tip-box">
+                Ответить можно двумя способами: <strong>제 전공은 경제학이에요</strong> (моя специальность &mdash; экономика) или <strong>경제학을 전공해요</strong> (я специализируюсь на экономике).
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 2 ====== -->
+        <div class="content-section">
+            <h2>2. Специальности: гуманитарные и общественные</h2>
+            <p>Обратите внимание на элемент <strong>-학</strong> в конце: он означает &laquo;наука, учение&raquo; и работает как русское &laquo;-логия&raquo;.</p>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Корейский</th><th>Чтение</th><th>Перевод</th><th>Звук</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>경제학</strong></td><td>[кёнджехак]</td><td>экономика</td><td><button class="audio-btn" onclick="speakKorean('경제학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>경영학</strong></td><td>[кёнъёнъхак]</td><td>менеджмент</td><td><button class="audio-btn" onclick="speakKorean('경영학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>법학</strong></td><td>[попхак]</td><td>юриспруденция</td><td><button class="audio-btn" onclick="speakKorean('법학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>정치학</strong></td><td>[чонъчхихак]</td><td>политология</td><td><button class="audio-btn" onclick="speakKorean('정치학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>역사학</strong></td><td>[ёкссахак]</td><td>история</td><td><button class="audio-btn" onclick="speakKorean('역사학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>사회학</strong></td><td>[сахвехак]</td><td>социология</td><td><button class="audio-btn" onclick="speakKorean('사회학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>심리학</strong></td><td>[симнихак]</td><td>психология</td><td><button class="audio-btn" onclick="speakKorean('심리학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>교육학</strong></td><td>[кёюкхак]</td><td>педагогика</td><td><button class="audio-btn" onclick="speakKorean('교육학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>영문학</strong></td><td>[ёнмунхак]</td><td>английская филология</td><td><button class="audio-btn" onclick="speakKorean('영문학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>국어국문학</strong></td><td>[кугоугунмунхак]</td><td>корейская филология</td><td><button class="audio-btn" onclick="speakKorean('국어국문학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>한국어학</strong></td><td>[хангугохак]</td><td>корейский язык (как специальность)</td><td><button class="audio-btn" onclick="speakKorean('한국어학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>신문방송학</strong></td><td>[синмунбанъсонъхак]</td><td>журналистика и медиа</td><td><button class="audio-btn" onclick="speakKorean('신문방송학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>무역학</strong></td><td>[муёкхак]</td><td>международная торговля</td><td><button class="audio-btn" onclick="speakKorean('무역학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 3 ====== -->
+        <div class="content-section">
+            <h2>3. Естественные науки, техника, искусство</h2>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Корейский</th><th>Чтение</th><th>Перевод</th><th>Звук</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>수학</strong></td><td>[сухак]</td><td>математика</td><td><button class="audio-btn" onclick="speakKorean('수학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>물리학</strong></td><td>[муллихак]</td><td>физика</td><td><button class="audio-btn" onclick="speakKorean('물리학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>화학</strong></td><td>[хвахак]</td><td>химия</td><td><button class="audio-btn" onclick="speakKorean('화학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>생물학</strong></td><td>[сэнмульхак]</td><td>биология</td><td><button class="audio-btn" onclick="speakKorean('생물학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>의학</strong></td><td>[ыйхак]</td><td>медицина</td><td><button class="audio-btn" onclick="speakKorean('의학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>컴퓨터 공학</strong></td><td>[кхомпхьютхо конъхак]</td><td>компьютерная инженерия</td><td><button class="audio-btn" onclick="speakKorean('컴퓨터 공학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>건축학</strong></td><td>[конъчхукхак]</td><td>архитектура</td><td><button class="audio-btn" onclick="speakKorean('건축학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>음악</strong></td><td>[ыма́к]</td><td>музыка</td><td><button class="audio-btn" onclick="speakKorean('음악')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>미술</strong></td><td>[мисуль]</td><td>изобразительное искусство</td><td><button class="audio-btn" onclick="speakKorean('미술')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>체육</strong></td><td>[чхеюк]</td><td>физкультура, спорт</td><td><button class="audio-btn" onclick="speakKorean('체육')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="tip-box">
+                <strong>공학</strong> &mdash; это &laquo;инженерное дело&raquo;. Отсюда 컴퓨터 공학, 전자 공학 (электроника), 기계 공학 (машиностроение).
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 4 ====== -->
+        <div class="content-section">
+            <h2>4. Специальность &rarr; профессия</h2>
+            <p>Эти пары легко запоминаются вместе и часто встречаются в диалогах о работе.</p>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Специальность</th><th>Профессия</th><th>Перевод профессии</th><th>Звук</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>법학</td><td><strong>변호사</strong></td><td>адвокат</td><td><button class="audio-btn" onclick="speakKorean('변호사')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>의학</td><td><strong>의사</strong></td><td>врач</td><td><button class="audio-btn" onclick="speakKorean('의사')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>간호학</td><td><strong>간호사</strong></td><td>медсестра, медбрат</td><td><button class="audio-btn" onclick="speakKorean('간호사')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>컴퓨터 공학</td><td><strong>프로그래머</strong></td><td>программист</td><td><button class="audio-btn" onclick="speakKorean('프로그래머')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>신문방송학</td><td><strong>기자</strong></td><td>журналист</td><td><button class="audio-btn" onclick="speakKorean('기자')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>교육학</td><td><strong>선생님</strong></td><td>учитель</td><td><button class="audio-btn" onclick="speakKorean('선생님')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>경영학</td><td><strong>회사원</strong></td><td>служащий компании</td><td><button class="audio-btn" onclick="speakKorean('회사원')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>경제학</td><td><strong>은행원</strong></td><td>банковский работник</td><td><button class="audio-btn" onclick="speakKorean('은행원')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>건축학</td><td><strong>건축가</strong></td><td>архитектор</td><td><button class="audio-btn" onclick="speakKorean('건축가')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>외국어</td><td><strong>통역사</strong></td><td>устный переводчик</td><td><button class="audio-btn" onclick="speakKorean('통역사')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="tip-box">
+                Суффиксы профессий: <strong>-사</strong> (변호사, 의사, 통역사) &mdash; специалист с квалификацией; <strong>-원</strong> (회사원, 은행원, 공무원) &mdash; сотрудник организации; <strong>-가</strong> (건축가, 작가, 화가) &mdash; мастер, творец.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 5 ====== -->
+        <div class="content-section">
+            <h2>5. Слова об университетской жизни</h2>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Слово</th><th>Перевод</th><th>Пример</th><th>Звук</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>대학교</strong></td><td>университет</td><td>연세대학교에 다녀요</td><td><button class="audio-btn" onclick="speakKorean('대학교')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>대학생</strong></td><td>студент</td><td>저는 대학생입니다</td><td><button class="audio-btn" onclick="speakKorean('대학생')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>대학원생</strong></td><td>магистрант, аспирант</td><td>대학원생이에요</td><td><button class="audio-btn" onclick="speakKorean('대학원생')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>학과</strong></td><td>факультет, кафедра</td><td>경제학과 학생이에요</td><td><button class="audio-btn" onclick="speakKorean('학과')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>학년</strong></td><td>курс, класс</td><td>이 학년이에요</td><td><button class="audio-btn" onclick="speakKorean('학년')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>학기</strong></td><td>семестр</td><td>이번 학기</td><td><button class="audio-btn" onclick="speakKorean('학기')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>수업</strong></td><td>занятие, урок</td><td>수업이 있어요</td><td><button class="audio-btn" onclick="speakKorean('수업')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>시험</strong></td><td>экзамен</td><td>시험을 봐요</td><td><button class="audio-btn" onclick="speakKorean('시험')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>숙제</strong></td><td>домашнее задание</td><td>숙제를 해요</td><td><button class="audio-btn" onclick="speakKorean('숙제')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>방학</strong></td><td>каникулы</td><td>여름 방학</td><td><button class="audio-btn" onclick="speakKorean('방학')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>입학하다</strong></td><td>поступать</td><td>대학교에 입학했어요</td><td><button class="audio-btn" onclick="speakKorean('입학하다')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>졸업하다</strong></td><td>заканчивать, выпускаться</td><td>작년에 졸업했어요</td><td><button class="audio-btn" onclick="speakKorean('졸업하다')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>장학금</strong></td><td>стипендия</td><td>장학금을 받아요</td><td><button class="audio-btn" onclick="speakKorean('장학금')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="warning-box">
+                <strong>Экзамен &laquo;сдают&raquo; глазами:</strong> по-корейски 시험을 <strong>봐요</strong> (буквально &laquo;смотрю экзамен&raquo;). А &laquo;сдал успешно&raquo; &mdash; 시험에 <strong>합격했어요</strong>.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 6 ====== -->
+        <div class="content-section">
+            <h2>6. Рассказ о себе: соберите три предложения</h2>
+
+            <div class="example-card">
+                <div class="korean">저는 연세대학교 학생입니다. 경영학을 전공합니다. <button class="audio-btn" onclick="speakKorean('저는 연세대학교 학생입니다. 경영학을 전공합니다')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[чонын ёнседэхаккё хэксэнъимнида. кёнъёнъхагыль чонгонъхамнида]</div>
+                <div class="ru">Я студент университета Ёнсе. Специализируюсь на менеджменте.</div>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">제 친구는 대학교에서 컴퓨터 공학을 공부해요. <button class="audio-btn" onclick="speakKorean('제 친구는 대학교에서 컴퓨터 공학을 공부해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[че чхингунын тэхаккёэсо кхомпхьютхо конъхагыль конъбухэйо]</div>
+                <div class="ru">Мой друг изучает в университете компьютерную инженерию.</div>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">이 학년이에요. 내년에 졸업해요. <button class="audio-btn" onclick="speakKorean('이 학년이에요. 내년에 졸업해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[и хамнёниейо. нэнёне чорёпхэйо]</div>
+                <div class="ru">Я на втором курсе. В следующем году выпускаюсь.</div>
+            </div>
+
+            <div class="tip-box">
+                Курс называют китайско-корейскими числами: 일 학년, 이 학년, 삼 학년, 사 학년.
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 7: Диалог ====== -->
+        <div class="content-section">
+            <h2>7. Диалог: знакомство в кампусе</h2>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">수진:</div>
+                    <div class="korean-text">이바노프 씨는 대학생이에요?</div>
+                    <div class="translation">Иванов, вы студент?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">이반:</div>
+                    <div class="korean-text">네, 삼 학년이에요. 전공은 한국어학이에요.</div>
+                    <div class="translation">Да, на третьем курсе. Специальность &mdash; корейский язык.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">수진:</div>
+                    <div class="korean-text">수업이 어때요? 어렵지 않아요?</div>
+                    <div class="translation">Как занятия? Не трудно?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">이반:</div>
+                    <div class="korean-text">조금 어려워요. 그런데 재미있어요. 수진 씨 전공은 뭐예요?</div>
+                    <div class="translation">Немного трудно. Но интересно. А у вас какая специальность?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">수진:</div>
+                    <div class="korean-text">저는 신문방송학을 공부해요. 기자가 되고 싶어요.</div>
+                    <div class="translation">Я изучаю журналистику. Хочу стать журналистом.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">이반:</div>
+                    <div class="korean-text">멋있어요! 언제 졸업하세요?</div>
+                    <div class="translation">Здорово! Когда выпускаетесь?</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 8: Упражнения ====== -->
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-block">
+                <div class="exercise-question">1. 경영학 &mdash; это...</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q1" value="0"> экономика</label>
+                    <label><input type="radio" name="q1" value="1"> менеджмент</label>
+                    <label><input type="radio" name="q1" value="2"> юриспруденция</label>
+                    <label><input type="radio" name="q1" value="3"> биология</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(1, 1)">Проверить</button>
+                <div class="exercise-feedback" id="feedback1"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">2. Какую специальность изучал 변호사?</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q2" value="0"> 의학</label>
+                    <label><input type="radio" name="q2" value="1"> 법학</label>
+                    <label><input type="radio" name="q2" value="2"> 화학</label>
+                    <label><input type="radio" name="q2" value="3"> 미술</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(2, 1)">Проверить</button>
+                <div class="exercise-feedback" id="feedback2"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">3. &laquo;Какая у вас специальность?&raquo; &mdash; выберите верное.</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q3" value="0"> 전공이 뭐예요?</label>
+                    <label><input type="radio" name="q3" value="1"> 학년이 뭐예요?</label>
+                    <label><input type="radio" name="q3" value="2"> 방학이 뭐예요?</label>
+                    <label><input type="radio" name="q3" value="3"> 숙제가 뭐예요?</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(3, 0)">Проверить</button>
+                <div class="exercise-feedback" id="feedback3"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">4. Что значит 졸업하다?</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q4" value="0"> поступать</label>
+                    <label><input type="radio" name="q4" value="1"> сдавать экзамен</label>
+                    <label><input type="radio" name="q4" value="2"> заканчивать учёбу</label>
+                    <label><input type="radio" name="q4" value="3"> получать стипендию</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(4, 2)">Проверить</button>
+                <div class="exercise-feedback" id="feedback4"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">5. 컴퓨터 공학 &mdash; это...</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q5" value="0"> компьютерная инженерия</label>
+                    <label><input type="radio" name="q5" value="1"> математика</label>
+                    <label><input type="radio" name="q5" value="2"> архитектура</label>
+                    <label><input type="radio" name="q5" value="3"> физика</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(5, 0)">Проверить</button>
+                <div class="exercise-feedback" id="feedback5"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">6. Как сказать &laquo;я на втором курсе&raquo;?</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q6" value="0"> 두 학년이에요</label>
+                    <label><input type="radio" name="q6" value="1"> 이 학년이에요</label>
+                    <label><input type="radio" name="q6" value="2"> 이 학기예요</label>
+                    <label><input type="radio" name="q6" value="3"> 둘 학년이에요</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(6, 1)">Проверить</button>
+                <div class="exercise-feedback" id="feedback6"></div>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 9: Запомни! ====== -->
+        <div class="content-section">
+            <h2>&#128203; Запомни!</h2>
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px;">
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <strong>&#127891; Вопрос</strong><br>
+                        전공이 뭐예요?<br>
+                        무엇을 전공하세요?
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#128218; Суффикс -학</strong><br>
+                        경제학, 법학, 의학<br>
+                        наука, учение
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#128187; -공학</strong><br>
+                        컴퓨터 공학<br>
+                        инженерное дело
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#128100; Профессии</strong><br>
+                        -사: 변호사, 의사<br>
+                        -원: 회사원, 은행원
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#128197; Учёба</strong><br>
+                        학과, 학년, 학기<br>
+                        수업, 시험, 방학
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#9989; Ответ</strong><br>
+                        제 전공은 ~이에요<br>
+                        ~을/를 전공해요
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" class="complete-btn">Урок пройден! &#10003;</button>
+        </div>
+    </div>
+
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.parentElement.querySelector('.dialogue-box');
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text');
+                if (k) {
+                    var t = k.textContent.replace(/\[.*?\]/g, '').trim();
+                    if (t) texts.push(t);
+                }
+            });
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.innerHTML = '&#9208; Воспроизводится...';
+            btn.disabled = true;
+            function next() {
+                if (i >= texts.length) {
+                    btn.innerHTML = '&#127917; Прослушать диалог';
+                    btn.disabled = false;
+                    lines.forEach(function(l) { l.style.background = ''; });
+                    return;
+                }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(255,255,255,0.15)';
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                u.onend = function() { i++; setTimeout(next, 400); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+
+        function checkExercise(num, correct) {
+            var radios = document.getElementsByName('q' + num);
+            var selected = -1;
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) selected = i;
+            }
+            if (selected === -1) {
+                if (window.JKToast) { JKToast.warning('Выберите ответ!'); }
+                return;
+            }
+            var feedback = document.getElementById('feedback' + num);
+            var labels = radios[0].parentElement.parentElement.getElementsByTagName('label');
+            if (selected === correct) {
+                feedback.textContent = '[OK] Правильно!';
+                feedback.style.color = '#4caf50';
+                labels[selected].style.color = '#4caf50';
+                labels[selected].style.fontWeight = 'bold';
+            } else {
+                feedback.textContent = '[-] Неправильно. Попробуйте ещё раз!';
+                feedback.style.color = '#f44336';
+                labels[selected].style.color = '#f44336';
+            }
+        }
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_majors';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

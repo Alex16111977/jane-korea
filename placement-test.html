@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест на уровень корейского — Miso: 한국어 수업</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(255,105,180,0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(147,112,219,0.1) 0%, transparent 50%),
+                repeating-linear-gradient(135deg, transparent, transparent 40px, rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 80px),
+                linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '🇰🇷';
+            position: fixed;
+            top: 12%;
+            right: 5%;
+            font-size: 120px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '🎓';
+            position: fixed;
+            bottom: 8%;
+            left: 4%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 13s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(5deg); }
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* === HEADER === */
+        .test-header {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 25px;
+        }
+
+        .test-header h1 {
+            color: white;
+            font-size: 1.8em;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            margin-bottom: 8px;
+        }
+
+        .test-header p {
+            color: rgba(255,255,255,0.85);
+            font-size: 1em;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover { color: white; }
+
+        /* === PROGRESS === */
+        .progress-wrapper {
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .progress-text {
+            color: white;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #ff6b9d, #ffc857);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        /* === QUESTION CARD === */
+        .question-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            animation: cardIn 0.4s ease;
+        }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .question-level {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.25em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .question-text .korean {
+            color: #764ba2;
+            font-size: 1.1em;
+        }
+
+        /* === OPTIONS === */
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 16px 20px;
+            background: #f8f9ff;
+            border: 2px solid #e8eaf6;
+            border-radius: 14px;
+            font-size: 1.05em;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: inherit;
+            position: relative;
+        }
+
+        .option-btn:hover:not(.disabled) {
+            background: #ede7f6;
+            border-color: #b39ddb;
+            transform: translateX(5px);
+        }
+
+        .option-btn.selected {
+            border-color: #7c4dff;
+            background: #ede7f6;
+        }
+
+        .option-btn.correct {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+            font-weight: 600;
+        }
+
+        .option-btn.correct::after {
+            content: ' [OK]';
+            color: #4caf50;
+            font-weight: 700;
+        }
+
+        .option-btn.wrong {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+
+        .option-btn.wrong::after {
+            content: ' [X]';
+            color: #f44336;
+            font-weight: 700;
+        }
+
+        .option-btn.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* === RESULTS === */
+        .results-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            text-align: center;
+            animation: cardIn 0.5s ease;
+        }
+
+        .result-emoji {
+            font-size: 4em;
+            margin-bottom: 10px;
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .result-level {
+            font-size: 2em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .result-sublevel {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .result-score {
+            font-size: 1.15em;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .result-bar-wrapper {
+            background: #f0f0f0;
+            border-radius: 10px;
+            height: 14px;
+            margin: 15px 0 25px;
+            overflow: hidden;
+        }
+
+        .result-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #ff6b9d, #ffc857, #4caf50);
+            transition: width 1s ease;
+        }
+
+        .result-description {
+            background: #f8f5ff;
+            border-left: 4px solid #764ba2;
+            padding: 15px 20px;
+            border-radius: 0 12px 12px 0;
+            text-align: left;
+            margin-bottom: 30px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .result-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .result-btn {
+            display: block;
+            width: 100%;
+            padding: 16px 20px;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.05em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .result-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 5px 20px rgba(102,126,234,0.4);
+        }
+
+        .result-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.5);
+        }
+
+        .result-btn.secondary {
+            background: #f0f0f0;
+            color: #555;
+        }
+
+        .result-btn.secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .result-btn.outline {
+            background: transparent;
+            color: #764ba2;
+            border: 2px solid #764ba2;
+        }
+
+        .result-btn.outline:hover {
+            background: #f8f5ff;
+        }
+
+        /* === START SCREEN === */
+        .start-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            text-align: center;
+            animation: cardIn 0.5s ease;
+        }
+
+        .start-card .start-emoji {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+        }
+
+        .start-card h2 {
+            font-size: 1.5em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .start-card p {
+            color: #666;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .start-card .start-info {
+            background: #f8f5ff;
+            border-radius: 14px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .start-card .start-info li {
+            color: #555;
+            margin-bottom: 6px;
+            list-style: none;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .start-card .start-info li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+        }
+
+        .start-btn {
+            display: inline-block;
+            padding: 16px 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.15em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-shadow: 0 5px 20px rgba(102,126,234,0.4);
+            margin-top: 10px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(102,126,234,0.5);
+        }
+
+        .previous-result {
+            background: linear-gradient(135deg, #fff3e0, #fff8e1);
+            border: 1px solid #ffe0b2;
+            border-radius: 14px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            color: #e65100;
+        }
+
+        .previous-result strong { color: #bf360c; }
+
+        /* === REVIEW === */
+        .review-section {
+            margin-top: 25px;
+        }
+
+        .review-toggle {
+            background: none;
+            border: none;
+            color: #764ba2;
+            font-size: 0.95em;
+            cursor: pointer;
+            font-family: inherit;
+            text-decoration: underline;
+            margin-bottom: 15px;
+        }
+
+        .review-list {
+            display: none;
+            text-align: left;
+        }
+
+        .review-list.open { display: block; }
+
+        .review-item {
+            background: #f8f9ff;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            border-left: 4px solid #ccc;
+        }
+
+        .review-item.correct-item { border-left-color: #4caf50; }
+        .review-item.wrong-item { border-left-color: #f44336; }
+
+        .review-item .q-text { font-weight: 600; color: #333; margin-bottom: 4px; }
+        .review-item .q-answer { color: #666; }
+        .review-item .q-answer .right { color: #4caf50; font-weight: 600; }
+        .review-item .q-answer .wrong-text { color: #f44336; text-decoration: line-through; }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .test-header h1 { font-size: 1.4em; }
+            .question-card { padding: 25px 20px; }
+            .question-text { font-size: 1.1em; }
+            .option-btn { padding: 14px 16px; font-size: 0.95em; }
+            .results-card { padding: 30px 20px; }
+            .result-level { font-size: 1.6em; }
+            body::before { font-size: 80px; }
+            body::after { font-size: 70px; }
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Главная</a>
+
+        <div class="test-header">
+            <h1>Тест на уровень корейского</h1>
+            <p>Определите свой уровень за 5 минут</p>
+        </div>
+
+        <!-- START SCREEN -->
+        <div id="startScreen" class="start-card">
+            <div class="start-emoji">🎯</div>
+            <h2>Placement Test</h2>
+            <p>Узнайте свой уровень корейского языка!</p>
+
+            <div id="previousResult" class="previous-result hidden"></div>
+
+            <div class="start-info">
+                <ul>
+                    <li>18 вопросов от простых к сложным</li>
+                    <li>Уровни от 1급 (A1) до 6급 (C2)</li>
+                    <li>Около 5 минут</li>
+                    <li>Нельзя вернуться к предыдущему вопросу</li>
+                </ul>
+            </div>
+
+            <button class="start-btn" onclick="startTest()">Начать тест</button>
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div id="progressWrapper" class="progress-wrapper hidden">
+            <div class="progress-text">
+                <span id="progressLabel">Вопрос 1 из 20</span>
+                <span id="progressLevel"></span>
+            </div>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- QUESTION CARD -->
+        <div id="questionCard" class="question-card hidden">
+            <div id="questionLevel" class="question-level"></div>
+            <div id="questionText" class="question-text"></div>
+            <ul id="optionsList" class="options-list"></ul>
+        </div>
+
+        <!-- RESULTS -->
+        <div id="resultsCard" class="results-card hidden">
+            <div class="result-emoji">🎯</div>
+            <div id="resultLevel" class="result-level"></div>
+            <div id="resultSublevel" class="result-sublevel"></div>
+            <div id="resultScore" class="result-score"></div>
+            <div class="result-bar-wrapper">
+                <div id="resultBarFill" class="result-bar-fill" style="width:0%"></div>
+            </div>
+            <div id="resultDescription" class="result-description"></div>
+
+            <div class="result-buttons">
+                <a id="btnStartLevel" class="result-btn primary" href="#">Начать с X급 →</a>
+                <button class="result-btn secondary" onclick="restartTest()">Пройти тест заново</button>
+                <a class="result-btn outline" href="level_1/index.html">Начать с начала (1급)</a>
+            </div>
+
+            <div class="review-section">
+                <button class="review-toggle" onclick="toggleReview()">Показать ответы</button>
+                <div id="reviewList" class="review-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/global-nav.js"></script>
+    <script>
+        // === QUESTIONS DATABASE ===
+        // 6 блоков по 3 вопроса = 18 вопросов
+        // Каждый блок проверяет конкретный навык уровня
+        // Вопросы идут от простого к сложному
+        const questions = [
+            // ===== 1급 — Алфавит, базовые слова, чтение хангыля =====
+            {
+                level: 1, levelLabel: '1급',
+                question: 'Прочитайте слово: <span class="korean">사랑</span>',
+                options: ['саранг', 'карам', 'парам', 'таран'],
+                correct: 0
+            },
+            {
+                level: 1, levelLabel: '1급',
+                question: 'Что значит <span class="korean">감사합니다</span>?',
+                options: ['Здравствуйте', 'Спасибо', 'До свидания', 'Извините'],
+                correct: 1
+            },
+            {
+                level: 1, levelLabel: '1급',
+                question: 'Выберите правильный перевод: <span class="korean">학생</span>',
+                options: ['учитель', 'друг', 'студент', 'врач'],
+                correct: 2
+            },
+            // ===== 2급 — Базовая грамматика, частицы, времена =====
+            {
+                level: 2, levelLabel: '2급',
+                question: 'Какой порядок слов в корейском предложении?',
+                options: ['Подлежащее-Глагол-Дополнение', 'Глагол-Подлежащее-Дополнение', 'Подлежащее-Дополнение-Глагол', 'Дополнение-Подлежащее-Глагол'],
+                correct: 2
+            },
+            {
+                level: 2, levelLabel: '2급',
+                question: '<span class="korean">저는 학생이에요</span> — что значит?',
+                options: ['Он студент', 'Я студент', 'Ты студент?', 'Мы студенты'],
+                correct: 1
+            },
+            {
+                level: 2, levelLabel: '2급',
+                question: '<span class="korean">어제 영화를 봤어요</span> — в каком времени предложение?',
+                options: ['настоящее', 'будущее', 'прошедшее', 'повелительное'],
+                correct: 2
+            },
+            // ===== 3급 — Частицы, соединение предложений, желания =====
+            {
+                level: 3, levelLabel: '3급',
+                question: '<span class="korean">서울에서 부산까지</span> — что означает 에서...까지?',
+                options: ['рядом с... около', 'от... до', 'вместо... тоже', 'внутри... снаружи'],
+                correct: 1
+            },
+            {
+                level: 3, levelLabel: '3급',
+                question: '<span class="korean">비가 오니까 우산을 가져가세요</span> — что выражает 니까?',
+                options: ['цель', 'время', 'причину', 'уступку'],
+                correct: 2
+            },
+            {
+                level: 3, levelLabel: '3급',
+                question: 'Как сказать "Я хочу поехать в Корею"?',
+                options: ['한국에 가야 해요', '한국에 가고 싶어요', '한국에 갈 수 있어요', '한국에 가면 돼요'],
+                correct: 1
+            },
+            // ===== 4급 — Сложная грамматика, запреты, условия =====
+            {
+                level: 4, levelLabel: '4급',
+                question: '<span class="korean">음악을 들으면서 공부해요</span> — что значит 면서?',
+                options: ['после того как', 'одновременно с', 'перед тем как', 'вместо того чтобы'],
+                correct: 1
+            },
+            {
+                level: 4, levelLabel: '4급',
+                question: '<span class="korean">여기서 사진을 찍으면 안 돼요</span> — переведите:',
+                options: ['Здесь можно фотографировать', 'Здесь нельзя фотографировать', 'Здесь нужно фотографировать', 'Здесь хочу фотографировать'],
+                correct: 1
+            },
+            {
+                level: 4, levelLabel: '4급',
+                question: '<span class="korean">내일 비가 올 것 같아요</span> — что выражает 것 같다?',
+                options: ['уверенность', 'предположение', 'желание', 'обязанность'],
+                correct: 1
+            },
+            // ===== 5급 — Продвинутая грамматика, нюансы =====
+            {
+                level: 5, levelLabel: '5급',
+                question: '<span class="korean">한국에 온 지 3년이 됐어요</span> — что выражает конструкция?',
+                options: ['Я приеду в Корею через 3 года', 'Прошло 3 года с приезда в Корею', 'Я буду в Корее 3 года', 'Я хочу быть в Корее 3 года'],
+                correct: 1
+            },
+            {
+                level: 5, levelLabel: '5급',
+                question: '<span class="korean">아무리 바빠도 운동을 해야 해요</span> — переведите:',
+                options: ['Когда не занят, нужно заниматься спортом', 'Если занят, не нужно заниматься спортом', 'Как бы ни был занят, нужно заниматься спортом', 'Потому что занят, занимаюсь спортом'],
+                correct: 2
+            },
+            {
+                level: 5, levelLabel: '5급',
+                question: 'Разница между <span class="korean">-(으)면</span> и <span class="korean">-다면</span>?',
+                options: ['-면 для прошлого, -다면 для будущего', '-면 для реальных условий, -다면 для гипотетических', 'Нет разницы, это синонимы', '-면 вежливая форма, -다면 разговорная'],
+                correct: 1
+            },
+            // ===== 6급 — Литературный стиль, сложные конструкции =====
+            {
+                level: 6, levelLabel: '6급',
+                question: '<span class="korean">노력했음에도 불구하고 시험에 떨어졌다</span> — переведите:',
+                options: ['Благодаря усилиям сдал экзамен', 'Несмотря на усилия, провалил экзамен', 'Из-за усилий устал на экзамене', 'После усилий сдам экзамен'],
+                correct: 1
+            },
+            {
+                level: 6, levelLabel: '6급',
+                question: '<span class="korean">그 사건을 계기로 법이 바뀌었다</span> — что значит 을 계기로?',
+                options: ['вопреки этому событию', 'до этого события', 'это событие стало поводом для', 'вместо этого события'],
+                correct: 2
+            },
+            {
+                level: 6, levelLabel: '6급',
+                question: '<span class="korean">경제가 나아질 수밖에 없다</span> — что выражает 수밖에 없다?',
+                options: ['невозможность', 'неизбежность (не может не...)', 'запрет', 'сожаление'],
+                correct: 1
+            }
+        ];
+
+        // === LEVEL DESCRIPTIONS ===
+        const levelInfo = {
+            1: { name: 'Начальный', emoji: '🌱', description: 'Начните с алфавита хангыль, базовых приветствий и простых слов. Вы быстро научитесь читать и произносить корейские слова!' },
+            2: { name: 'Элементарный', emoji: '🌿', description: 'Вы знаете хангыль и базовые слова. Пора учить порядок слов, частицы и строить первые предложения. Скоро сможете представиться по-корейски!' },
+            3: { name: 'Средний', emoji: '🌸', description: 'Вы уже строите предложения и знаете базовую грамматику! Время освоить соединение мыслей, выражение причин и желаний. Можно начинать читать простые тексты.' },
+            4: { name: 'Выше среднего', emoji: '🌺', description: 'Отличная база! Вы готовы к сложным конструкциям: одновременность действий, запреты, условия и предположения. Можно смотреть дорамы с корейскими субтитрами!' },
+            5: { name: 'Продвинутый', emoji: '🏆', description: 'Вы понимаете тонкости языка и сложные связи между предложениями. Осталось освоить нюансы и оттенки смысла. Дорамы уже можно смотреть без субтитров!' },
+            6: { name: 'Мастер', emoji: '👑', description: 'Впечатляет! Вы понимаете литературный корейский, сложные конструкции и абстрактные выражения. Ваш уровень позволяет читать книги, понимать новости и свободно общаться!' }
+        };
+
+        // === STATE ===
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = [];
+        let isAnswering = false;
+        let levelScores = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+
+        // === INIT ===
+        function init() {
+            const prev = localStorage.getItem('placementResult');
+            if (prev) {
+                try {
+                    const data = JSON.parse(prev);
+                    const el = document.getElementById('previousResult');
+                    const info = levelInfo[data.level] || levelInfo[1];
+                    el.innerHTML = '<strong>' + info.emoji + ' Вы проходили тест ранее</strong><br>Ваш уровень: <strong>' + data.level + '\uAE09 — ' + info.name + '</strong> (' + data.score + '/' + data.total + '). Пройти заново?';
+                    el.classList.remove('hidden');
+                } catch(e) {}
+            }
+        }
+
+        // === START ===
+        function startTest() {
+            currentQuestion = 0;
+            score = 0;
+            answers = [];
+            isAnswering = false;
+            levelScores = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('resultsCard').classList.add('hidden');
+            document.getElementById('progressWrapper').classList.remove('hidden');
+            document.getElementById('questionCard').classList.remove('hidden');
+
+            showQuestion();
+        }
+
+        // === SHOW QUESTION ===
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            const total = questions.length;
+
+            document.getElementById('progressLabel').textContent = 'Вопрос ' + (currentQuestion + 1) + ' из ' + total;
+            document.getElementById('progressLevel').textContent = q.levelLabel;
+            document.getElementById('progressFill').style.width = ((currentQuestion / total) * 100) + '%';
+
+            document.getElementById('questionLevel').textContent = q.levelLabel;
+            document.getElementById('questionText').innerHTML = q.question;
+
+            const list = document.getElementById('optionsList');
+            list.innerHTML = '';
+
+            q.options.forEach(function(opt, i) {
+                const li = document.createElement('li');
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = function() { selectAnswer(i); };
+                li.appendChild(btn);
+                list.appendChild(li);
+            });
+
+            // Re-animate card
+            const card = document.getElementById('questionCard');
+            card.style.animation = 'none';
+            card.offsetHeight; // trigger reflow
+            card.style.animation = 'cardIn 0.4s ease';
+        }
+
+        // === SELECT ANSWER ===
+        function selectAnswer(index) {
+            if (isAnswering) return;
+            isAnswering = true;
+
+            const q = questions[currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+
+            // Disable all
+            buttons.forEach(function(btn) { btn.classList.add('disabled'); });
+
+            // Mark correct
+            buttons[q.correct].classList.add('correct');
+
+            // Mark wrong if needed
+            if (index !== q.correct) {
+                buttons[index].classList.add('wrong');
+            } else {
+                score++;
+                levelScores[q.level]++;
+            }
+
+            answers.push({
+                question: q.question.replace(/<[^>]+>/g, ''),
+                selected: q.options[index],
+                correct: q.options[q.correct],
+                isCorrect: index === q.correct,
+                level: q.levelLabel
+            });
+
+            // Auto-advance after 800ms
+            setTimeout(function() {
+                currentQuestion++;
+                isAnswering = false;
+
+                if (currentQuestion < questions.length) {
+                    showQuestion();
+                } else {
+                    showResults();
+                }
+            }, 800);
+        }
+
+        // === DETERMINE LEVEL (smart) ===
+        // Уровень = самый высокий, где ответил хотя бы на 2 из 3
+        function getLevel(score) {
+            let level = 1;
+            for (let l = 6; l >= 1; l--) {
+                if (levelScores[l] >= 2) {
+                    level = l;
+                    break;
+                }
+            }
+            // Проверяем что все предыдущие уровни тоже пройдены
+            // Если пропустил базу — понижаем
+            for (let l = 1; l < level; l++) {
+                if (levelScores[l] < 2) {
+                    level = l;
+                    break;
+                }
+            }
+            return level;
+        }
+
+        // === SHOW RESULTS ===
+        function showResults() {
+            const level = getLevel(score);
+            const info = levelInfo[level];
+
+            document.getElementById('progressWrapper').classList.add('hidden');
+            document.getElementById('questionCard').classList.add('hidden');
+            document.getElementById('resultsCard').classList.remove('hidden');
+
+            document.querySelector('.result-emoji').textContent = info.emoji;
+            document.getElementById('resultLevel').textContent = level + '\uAE09 \u0423\u0440\u043e\u0432\u0435\u043d\u044c';
+            document.getElementById('resultSublevel').textContent = info.name;
+            document.getElementById('resultScore').textContent = 'Вы ответили правильно на ' + score + ' из ' + questions.length + ' вопросов';
+            document.getElementById('resultDescription').textContent = info.description;
+
+            setTimeout(function() {
+                document.getElementById('resultBarFill').style.width = ((score / questions.length) * 100) + '%';
+            }, 100);
+
+            const btnStart = document.getElementById('btnStartLevel');
+            btnStart.textContent = '\u041d\u0430\u0447\u0430\u0442\u044c \u0441 ' + level + '\uAE09 \u2192';
+            btnStart.href = 'level_' + level + '/index.html';
+
+            // Build review
+            buildReview();
+
+            // Save to localStorage
+            const result = {
+                level: level,
+                score: score,
+                total: questions.length,
+                date: new Date().toISOString()
+            };
+            localStorage.setItem('placementResult', JSON.stringify(result));
+
+            console.log('[OK] Placement test completed: level ' + level + ', score ' + score + '/20');
+        }
+
+        // === BUILD REVIEW ===
+        function buildReview() {
+            const list = document.getElementById('reviewList');
+            list.innerHTML = '';
+
+            answers.forEach(function(a, i) {
+                const div = document.createElement('div');
+                div.className = 'review-item ' + (a.isCorrect ? 'correct-item' : 'wrong-item');
+
+                let html = '<div class="q-text">' + (i + 1) + '. [' + a.level + '] ' + a.question + '</div>';
+                if (a.isCorrect) {
+                    html += '<div class="q-answer"><span class="right">' + a.correct + '</span></div>';
+                } else {
+                    html += '<div class="q-answer"><span class="wrong-text">' + a.selected + '</span> &rarr; <span class="right">' + a.correct + '</span></div>';
+                }
+
+                div.innerHTML = html;
+                list.appendChild(div);
+            });
+        }
+
+        // === TOGGLE REVIEW ===
+        function toggleReview() {
+            const list = document.getElementById('reviewList');
+            const btn = document.querySelector('.review-toggle');
+            list.classList.toggle('open');
+            btn.textContent = list.classList.contains('open') ? 'Скрыть ответы' : 'Показать ответы';
+        }
+
+        // === RESTART ===
+        function restartTest() {
+            document.getElementById('resultsCard').classList.add('hidden');
+            document.getElementById('startScreen').classList.remove('hidden');
+            document.getElementById('progressWrapper').classList.add('hidden');
+            document.getElementById('questionCard').classList.add('hidden');
+            init();
+        }
+
+        // Init on load
+        init();
+    </script>
+</body>
+</html>

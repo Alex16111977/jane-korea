@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой дневник на корейском — Miso: 한국어 수업</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .diary-header {
+            background: white;
+            border-radius: 20px;
+            max-width: 1000px;
+            margin: 0 auto 30px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .diary-header h1 {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .diary-header .subtitle-kr {
+            font-size: 1.3em;
+            color: #667eea;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .diary-header .description {
+            color: #666;
+            font-size: 1em;
+            max-width: 600px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+        }
+
+        .diary-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .diary-stat {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 0.95em;
+        }
+
+        .diary-stat span {
+            font-weight: 700;
+            font-size: 1.1em;
+        }
+
+        .sync-banner {
+            max-width: 1000px;
+            margin: 0 auto 20px;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-size: 0.92em;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .sync-banner.local {
+            background: #fff8e1;
+            color: #8a6d00;
+        }
+
+        .sync-banner.synced {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .sync-banner.syncing {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .sync-banner-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 16px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.92em;
+            cursor: pointer;
+        }
+
+        .diary-content {
+            max-width: 1000px;
+            margin: 0 auto 30px;
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+        }
+
+        .editor-section {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .editor-section h2 {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .date-picker-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .date-picker-wrapper label {
+            display: block;
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .date-picker-wrapper input[type="date"] {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1em;
+            color: #333;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .date-picker-wrapper input[type="date"]:focus {
+            border-color: #667eea;
+        }
+
+        .mood-picker-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .mood-picker-wrapper label {
+            display: block;
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .mood-picker {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .mood-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            background: white;
+            font-size: 1.3em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .mood-btn:hover {
+            border-color: #b3b3f0;
+            transform: translateY(-1px);
+        }
+
+        .mood-btn.selected {
+            border-color: #667eea;
+            background: #eef0ff;
+            transform: scale(1.08);
+        }
+
+        .editing-badge {
+            display: inline-block;
+            background: #fff3e0;
+            color: #e65100;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .btn-cancel-edit {
+            background: transparent;
+            color: #999;
+            border: 2px solid #ddd;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-cancel-edit:hover {
+            background: #f0f0f0;
+        }
+
+        .diary-textarea {
+            width: 100%;
+            min-height: 250px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #333;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .diary-textarea::placeholder {
+            color: #aaa;
+        }
+
+        .diary-textarea:focus {
+            border-color: #667eea;
+        }
+
+        .live-counters {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        .live-counters span {
+            font-weight: 500;
+            color: #667eea;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-clear {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-clear:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .save-message {
+            margin-top: 15px;
+            padding: 12px 20px;
+            background: #e8f5e9;
+            color: #388e3c;
+            border-radius: 12px;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: none;
+        }
+
+        .save-message.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        .save-message.fade-out {
+            opacity: 0;
+        }
+
+        /* Hints panel */
+        .hints-panel {
+            width: 280px;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .hints-panel h2 {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .accordion-section {
+            margin-bottom: 10px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: opacity 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            opacity: 0.9;
+        }
+
+        .accordion-arrow {
+            transition: transform 0.3s ease;
+            font-size: 0.8em;
+        }
+
+        .accordion-header.active .accordion-arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #fafafa;
+        }
+
+        .accordion-body.open {
+            max-height: 500px;
+        }
+
+        .hint-item {
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .hint-item:hover {
+            background: #f3e5f5;
+        }
+
+        .hint-korean {
+            font-size: 1em;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .hint-russian {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        /* Timeline */
+        .timeline-section {
+            max-width: 1000px;
+            margin: 0 auto 30px;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .timeline-section h2 {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .timeline-toolbar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .timeline-search {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.95em;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .timeline-search:focus {
+            border-color: #667eea;
+        }
+
+        .btn-export {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 10px 22px;
+            border-radius: 20px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.95em;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .btn-export:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .entry-mood {
+            font-size: 1.1em;
+            margin-right: 4px;
+        }
+
+        .timeline-empty {
+            text-align: center;
+            color: #aaa;
+            padding: 40px 20px;
+            font-size: 1.05em;
+        }
+
+        .entry-card {
+            background: white;
+            border-left: 4px solid #667eea;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .entry-card:hover {
+            box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+        }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .entry-date {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1em;
+        }
+
+        .entry-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85em;
+            color: #999;
+        }
+
+        .entry-preview {
+            color: #555;
+            line-height: 1.6;
+            font-size: 1em;
+            cursor: pointer;
+            word-break: break-word;
+        }
+
+        .entry-full-text {
+            display: none;
+            color: #333;
+            line-height: 1.8;
+            font-size: 1.05em;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .entry-full-text.expanded {
+            display: block;
+        }
+
+        .entry-actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-expand {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.9em;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-expand:hover {
+            background: #f0f0ff;
+        }
+
+        .btn-delete {
+            background: none;
+            border: none;
+            color: #e57373;
+            cursor: pointer;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.9em;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background: #ffebee;
+        }
+
+        .btn-edit {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 0.9em;
+            padding: 5px 10px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-edit:hover {
+            background: #f0f0ff;
+        }
+
+        /* Back link */
+        .back-link {
+            display: inline-block;
+            max-width: 1000px;
+            margin: 0 auto 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+        }
+
+        .back-link-wrapper {
+            max-width: 1000px;
+            margin: 0 auto 15px;
+        }
+
+        /* Scrollbar for hints */
+        .hints-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .hints-panel::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+
+        .hints-panel::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .diary-header {
+                padding: 25px 20px;
+                border-radius: 15px;
+            }
+
+            .diary-header h1 {
+                font-size: 1.5em;
+            }
+
+            .diary-content {
+                flex-direction: column;
+            }
+
+            .hints-panel {
+                width: 100%;
+                max-height: none;
+            }
+
+            .editor-section {
+                padding: 20px;
+            }
+
+            .diary-stats {
+                gap: 10px;
+            }
+
+            .diary-stat {
+                padding: 8px 16px;
+                font-size: 0.85em;
+            }
+
+            .editor-actions {
+                flex-direction: column;
+            }
+
+            .btn-save, .btn-clear, .btn-cancel-edit {
+                width: 100%;
+                text-align: center;
+            }
+
+            .timeline-toolbar {
+                flex-direction: column;
+            }
+
+            .timeline-section {
+                padding: 20px;
+            }
+
+            .entry-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="back-link-wrapper">
+        <a href="index.html" class="back-link">← На главную</a>
+    </div>
+
+    <header class="diary-header">
+        <h1>Мой дневник на корейском</h1>
+        <div class="subtitle-kr">나의 한국어 일기</div>
+        <p class="description">
+            Практикуйте письмо на корейском языке, ведя ежедневные записи в дневнике.
+            Используйте подсказки справа, чтобы составлять предложения, и следите за своим прогрессом.
+        </p>
+        <div class="diary-stats">
+            <div class="diary-stat">Записей: <span id="totalEntries">0</span></div>
+            <div class="diary-stat">Слов написано: <span id="totalWords">0</span></div>
+            <div class="diary-stat">Дней подряд: <span id="diaryStreak">0</span></div>
+        </div>
+    </header>
+
+    <div id="syncBanner" class="sync-banner local"></div>
+
+    <div class="diary-content">
+        <section class="editor-section">
+            <h2 id="editorTitle">Новая запись</h2>
+
+            <div class="date-picker-wrapper">
+                <label for="entryDate">Дата записи:</label>
+                <input type="date" id="entryDate">
+            </div>
+
+            <div class="mood-picker-wrapper">
+                <label>Настроение (необязательно):</label>
+                <div class="mood-picker" id="moodPicker"></div>
+            </div>
+
+            <textarea id="diaryTextarea" class="diary-textarea" placeholder="오늘은... (Сегодня...)"></textarea>
+
+            <div class="live-counters">
+                Символов: <span id="charCount">0</span> &nbsp;|&nbsp; Слов: <span id="wordCount">0</span>
+            </div>
+
+            <div class="editor-actions">
+                <button class="btn-save" onclick="saveEntry()">Сохранить запись</button>
+                <button class="btn-clear" onclick="clearEditor()">Очистить</button>
+                <button class="btn-cancel-edit" id="btnCancelEdit" onclick="cancelEdit()" style="display:none">Отменить редактирование</button>
+            </div>
+
+            <div id="saveMessage" class="save-message">Запись успешно сохранена!</div>
+        </section>
+
+        <aside class="hints-panel">
+            <h2>Подсказки</h2>
+            <div id="hintsContainer"></div>
+        </aside>
+    </div>
+
+    <section class="timeline-section">
+        <h2>Мои записи</h2>
+        <div class="timeline-toolbar">
+            <input type="text" id="diarySearch" class="timeline-search" placeholder="Поиск по записям...">
+            <button class="btn-export" onclick="exportDiaryFile()">Скачать дневник (.txt)</button>
+        </div>
+        <div id="timelineContainer">
+            <div class="timeline-empty">Пока нет записей. Начните писать!</div>
+        </div>
+    </section>
+
+    <script src="js/ui-components.js"></script>
+    <script src="js/progress-tracker.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/firebase-sync.js"></script>
+    <script src="js/firebase-auth.js"></script>
+
+    <script src="js/global-nav.js"></script>
+    <script>
+        var DIARY_KEY = 'koreanDiary';
+        var DIARY_DRAFT_KEY = 'koreanDiaryDraft';
+
+        var MOODS = ['😊', '🙂', '😐', '😢', '😡', '😴'];
+
+        var state = {
+            editingId: null,
+            mood: null
+        };
+
+        var hintsData = [
+            {
+                title: 'Начало записи',
+                items: [
+                    { korean: '오늘은...', russian: 'Сегодня...' },
+                    { korean: '어제는...', russian: 'Вчера...' },
+                    { korean: '이번 주에...', russian: 'На этой неделе...' },
+                    { korean: '오늘 아침에...', russian: 'Сегодня утром...' }
+                ]
+            },
+            {
+                title: 'Погода',
+                items: [
+                    { korean: '날씨가 좋았어요', russian: 'Погода была хорошей' },
+                    { korean: '비가 왔어요', russian: 'Шёл дождь' },
+                    { korean: '눈이 왔어요', russian: 'Шёл снег' },
+                    { korean: '바람이 불었어요', russian: 'Было ветрено' },
+                    { korean: '더웠어요', russian: 'Было жарко' },
+                    { korean: '추웠어요', russian: 'Было холодно' }
+                ]
+            },
+            {
+                title: 'Чувства',
+                items: [
+                    { korean: '기분이 좋아요', russian: 'Настроение хорошее' },
+                    { korean: '피곤해요', russian: 'Устал(а)' },
+                    { korean: '행복해요', russian: 'Счастлив(а)' },
+                    { korean: '슬퍼요', russian: 'Грустно' },
+                    { korean: '화가 나요', russian: 'Злюсь' },
+                    { korean: '기대돼요', russian: 'Жду с нетерпением' },
+                    { korean: '걱정돼요', russian: 'Волнуюсь' }
+                ]
+            },
+            {
+                title: 'Действия',
+                items: [
+                    { korean: '한국어를 공부했어요', russian: 'Учил(а) корейский' },
+                    { korean: '친구를 만났어요', russian: 'Встретил(а) друга' },
+                    { korean: '영화를 봤어요', russian: 'Смотрел(а) фильм' },
+                    { korean: '음악을 들었어요', russian: 'Слушал(а) музыку' },
+                    { korean: '운동을 했어요', russian: 'Занимался(лась) спортом' },
+                    { korean: '요리를 했어요', russian: 'Готовил(а) еду' },
+                    { korean: '책을 읽었어요', russian: 'Читал(а) книгу' },
+                    { korean: '산책을 했어요', russian: 'Гулял(а)' }
+                ]
+            },
+            {
+                title: 'Еда',
+                items: [
+                    { korean: '아침을 먹었어요', russian: 'Завтракал(а)' },
+                    { korean: '점심을 먹었어요', russian: 'Обедал(а)' },
+                    { korean: '저녁을 먹었어요', russian: 'Ужинал(а)' },
+                    { korean: '커피를 마셨어요', russian: 'Пил(а) кофе' },
+                    { korean: '맛있었어요', russian: 'Было вкусно' }
+                ]
+            },
+            {
+                title: 'Окончания',
+                items: [
+                    { korean: '좋은 하루였어요', russian: 'Это был хороший день' },
+                    { korean: '내일도 화이팅!', russian: 'Завтра тоже давай!' },
+                    { korean: '오늘 하루도 수고했어', russian: 'Сегодня тоже хорошо поработал(а)' }
+                ]
+            }
+        ];
+
+        function getDiary() {
+            var data = localStorage.getItem(DIARY_KEY);
+            return data ? JSON.parse(data) : { entries: [] };
+        }
+
+        function saveDiary(diary) {
+            localStorage.setItem(DIARY_KEY, JSON.stringify(diary));
+            if (window.FirebaseAuth && window.FirebaseAuth.isLoggedIn() && window.FirebaseSync) {
+                window.FirebaseSync.saveDiaryToCloud(diary).then(function(ok) {
+                    if (ok) updateSyncBanner();
+                });
+            }
+        }
+
+        // ===== Черновик текущей записи (защита от потери непрочтённого текста) =====
+        function saveDraft() {
+            var textarea = document.getElementById('diaryTextarea');
+            var dateInput = document.getElementById('entryDate');
+            var draft = {
+                text: textarea.value,
+                date: dateInput.value,
+                mood: state.mood,
+                editingId: state.editingId
+            };
+            try {
+                localStorage.setItem(DIARY_DRAFT_KEY, JSON.stringify(draft));
+            } catch (e) {
+                console.error('[ERROR] saveDraft:', e);
+            }
+        }
+
+        function restoreDraft() {
+            var raw = localStorage.getItem(DIARY_DRAFT_KEY);
+            if (!raw) return;
+            try {
+                var draft = JSON.parse(raw);
+                if (!draft.text || !draft.text.trim()) return;
+                document.getElementById('diaryTextarea').value = draft.text;
+                if (draft.date) document.getElementById('entryDate').value = draft.date;
+                if (draft.mood) setMood(draft.mood);
+                if (draft.editingId) startEditing(draft.editingId, true);
+            } catch (e) {
+                console.error('[ERROR] restoreDraft:', e);
+            }
+        }
+
+        function clearDraft() {
+            localStorage.removeItem(DIARY_DRAFT_KEY);
+        }
+
+        // ===== Настроение =====
+        function buildMoodPicker() {
+            var container = document.getElementById('moodPicker');
+            container.innerHTML = '';
+            MOODS.forEach(function(mood) {
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'mood-btn';
+                btn.textContent = mood;
+                btn.onclick = function() { setMood(state.mood === mood ? null : mood); };
+                container.appendChild(btn);
+            });
+        }
+
+        function setMood(mood) {
+            state.mood = mood;
+            var buttons = document.querySelectorAll('#moodPicker .mood-btn');
+            buttons.forEach(function(btn) {
+                btn.classList.toggle('selected', btn.textContent === mood);
+            });
+            saveDraft();
+        }
+
+        function countWords(text) {
+            return text.trim().split(/\s+/).filter(function(w) { return w.length > 0; }).length;
+        }
+
+        function countChars(text) {
+            return text.replace(/\s/g, '').length;
+        }
+
+        function updateCounters() {
+            var textarea = document.getElementById('diaryTextarea');
+            var text = textarea.value;
+            document.getElementById('charCount').textContent = countChars(text);
+            document.getElementById('wordCount').textContent = text.trim() === '' ? 0 : countWords(text);
+        }
+
+        function insertAtCursor(textarea, text) {
+            var start = textarea.selectionStart;
+            var end = textarea.selectionEnd;
+            var before = textarea.value.substring(0, start);
+            var after = textarea.value.substring(end);
+            var insert = (before.length > 0 && !before.endsWith(' ') && !before.endsWith('\n')) ? ' ' + text : text;
+            textarea.value = before + insert + after;
+            textarea.selectionStart = textarea.selectionEnd = start + insert.length;
+            textarea.focus();
+            updateCounters();
+            saveDraft();
+        }
+
+        function initDatePicker() {
+            var dateInput = document.getElementById('entryDate');
+            var today = new Date();
+            var yyyy = today.getFullYear();
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var dd = String(today.getDate()).padStart(2, '0');
+            dateInput.value = yyyy + '-' + mm + '-' + dd;
+        }
+
+        function buildHints() {
+            var container = document.getElementById('hintsContainer');
+            var textarea = document.getElementById('diaryTextarea');
+            container.innerHTML = '';
+
+            hintsData.forEach(function(section, sectionIndex) {
+                var sectionDiv = document.createElement('div');
+                sectionDiv.className = 'accordion-section';
+
+                var header = document.createElement('button');
+                header.className = 'accordion-header';
+                header.innerHTML = section.title + ' <span class="accordion-arrow">&#9660;</span>';
+                header.addEventListener('click', function() {
+                    var body = this.nextElementSibling;
+                    var isOpen = body.classList.contains('open');
+                    body.classList.toggle('open');
+                    this.classList.toggle('active');
+                });
+
+                var body = document.createElement('div');
+                body.className = 'accordion-body';
+
+                section.items.forEach(function(item) {
+                    var hint = document.createElement('div');
+                    hint.className = 'hint-item';
+                    hint.innerHTML = '<div class="hint-korean">' + item.korean + '</div>' +
+                                     '<div class="hint-russian">' + item.russian + '</div>';
+                    hint.addEventListener('click', function() {
+                        insertAtCursor(textarea, item.korean);
+                    });
+                    body.appendChild(hint);
+                });
+
+                sectionDiv.appendChild(header);
+                sectionDiv.appendChild(body);
+                container.appendChild(sectionDiv);
+            });
+        }
+
+        function saveEntry() {
+            var textarea = document.getElementById('diaryTextarea');
+            var dateInput = document.getElementById('entryDate');
+            var text = textarea.value.trim();
+
+            if (text === '') {
+                return;
+            }
+
+            var diary = getDiary();
+            var now = new Date();
+            var wasEditing = !!state.editingId;
+            var savedId = state.editingId;
+
+            if (state.editingId) {
+                var idx = -1;
+                for (var i = 0; i < diary.entries.length; i++) {
+                    if (diary.entries[i].id === state.editingId) { idx = i; break; }
+                }
+                if (idx !== -1) {
+                    diary.entries[idx].date = dateInput.value;
+                    diary.entries[idx].text = text;
+                    diary.entries[idx].mood = state.mood;
+                    diary.entries[idx].wordCount = countWords(text);
+                    diary.entries[idx].charCount = countChars(text);
+                    diary.entries[idx].updatedAt = now.toISOString();
+                } else {
+                    // Запись, которую редактировали, не найдена (например, удалена
+                    // в другой вкладке) - сохраняем как новую, а не теряем текст.
+                    wasEditing = false;
+                }
+            }
+
+            if (!wasEditing) {
+                var timeStr = String(now.getHours()).padStart(2, '0') +
+                              String(now.getMinutes()).padStart(2, '0') +
+                              String(now.getSeconds()).padStart(2, '0');
+                savedId = 'entry-' + dateInput.value + '-' + timeStr;
+                diary.entries.unshift({
+                    id: savedId,
+                    date: dateInput.value,
+                    text: text,
+                    mood: state.mood,
+                    createdAt: now.toISOString(),
+                    updatedAt: now.toISOString(),
+                    wordCount: countWords(text),
+                    charCount: countChars(text)
+                });
+            }
+
+            saveDiary(diary);
+            resetEditor();
+            updateStats();
+            renderTimeline();
+            showSaveMessage();
+
+            console.log('[OK] Entry saved: ' + savedId + (wasEditing ? ' (edited)' : ''));
+        }
+
+        function clearEditor() {
+            var textarea = document.getElementById('diaryTextarea');
+            textarea.value = '';
+            updateCounters();
+            saveDraft();
+            textarea.focus();
+        }
+
+        // ===== Режим редактирования (запись остаётся в списке, пока не сохранены изменения) =====
+        function startEditing(entryId, skipFieldPopulate) {
+            var diary = getDiary();
+            var exists = diary.entries.some(function(e) { return e.id === entryId; });
+            if (!exists) return;
+
+            if (!skipFieldPopulate) {
+                var entry = diary.entries.filter(function(e) { return e.id === entryId; })[0];
+                document.getElementById('diaryTextarea').value = entry.text;
+                document.getElementById('entryDate').value = entry.date;
+                setMood(entry.mood || null);
+            }
+
+            state.editingId = entryId;
+            document.getElementById('editorTitle').innerHTML =
+                'Редактирование записи <span class="editing-badge">изменение</span>';
+            document.getElementById('btnCancelEdit').style.display = 'inline-block';
+            updateCounters();
+            saveDraft();
+        }
+
+        function editEntry(entryId) {
+            startEditing(entryId, false);
+            document.getElementById('diaryTextarea').focus();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function cancelEdit() {
+            resetEditor();
+        }
+
+        function resetEditor() {
+            state.editingId = null;
+            state.mood = null;
+            document.getElementById('diaryTextarea').value = '';
+            initDatePicker();
+            document.querySelectorAll('#moodPicker .mood-btn').forEach(function(btn) {
+                btn.classList.remove('selected');
+            });
+            document.getElementById('editorTitle').textContent = 'Новая запись';
+            document.getElementById('btnCancelEdit').style.display = 'none';
+            updateCounters();
+            clearDraft();
+        }
+
+        function showSaveMessage() {
+            var msg = document.getElementById('saveMessage');
+            msg.classList.add('visible');
+            msg.classList.remove('fade-out');
+
+            setTimeout(function() {
+                msg.classList.add('fade-out');
+                setTimeout(function() {
+                    msg.classList.remove('visible');
+                    msg.classList.remove('fade-out');
+                }, 300);
+            }, 2000);
+        }
+
+        function formatDate(dateStr) {
+            var parts = dateStr.split('-');
+            var months = [
+                'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+                'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+            ];
+            var day = parseInt(parts[2], 10);
+            var monthIndex = parseInt(parts[1], 10) - 1;
+            var year = parts[0];
+            return day + ' ' + months[monthIndex] + ' ' + year;
+        }
+
+        function renderTimeline() {
+            var container = document.getElementById('timelineContainer');
+            var diary = getDiary();
+            var query = (document.getElementById('diarySearch').value || '').trim().toLowerCase();
+
+            if (diary.entries.length === 0) {
+                container.innerHTML = '<div class="timeline-empty">Пока нет записей. Начните писать!</div>';
+                return;
+            }
+
+            var entries = diary.entries;
+            if (query) {
+                entries = entries.filter(function(entry) {
+                    return entry.text.toLowerCase().indexOf(query) !== -1 ||
+                           formatDate(entry.date).toLowerCase().indexOf(query) !== -1;
+                });
+            }
+
+            if (entries.length === 0) {
+                container.innerHTML = '<div class="timeline-empty">Ничего не найдено по запросу «' + escapeHtml(query) + '».</div>';
+                return;
+            }
+
+            var html = '';
+            entries.forEach(function(entry) {
+                var preview = entry.text.length > 100 ? entry.text.substring(0, 100) + '...' : entry.text;
+                var needsExpand = entry.text.length > 100;
+                var moodHtml = entry.mood ? '<span class="entry-mood">' + entry.mood + '</span>' : '';
+
+                html += '<div class="entry-card" data-entry-id="' + entry.id + '">';
+                html += '  <div class="entry-header">';
+                html += '    <div class="entry-date">' + moodHtml + formatDate(entry.date) + '</div>';
+                html += '    <div class="entry-meta">';
+                html += '      <span>' + entry.wordCount + ' слов</span>';
+                html += '      <span>' + entry.charCount + ' символов</span>';
+                html += '    </div>';
+                html += '  </div>';
+                html += '  <div class="entry-preview" onclick="toggleEntry(\'' + entry.id + '\')">' + escapeHtml(preview) + '</div>';
+                html += '  <div class="entry-full-text" id="full-' + entry.id + '">' + escapeHtml(entry.text) + '</div>';
+                html += '  <div class="entry-actions">';
+                if (needsExpand) {
+                    html += '    <button class="btn-expand" id="btn-expand-' + entry.id + '" onclick="toggleEntry(\'' + entry.id + '\')">Развернуть</button>';
+                }
+                html += '    <button class="btn-edit" onclick="editEntry(\'' + entry.id + '\')">Редактировать</button>';
+                html += '    <button class="btn-delete" onclick="deleteEntry(\'' + entry.id + '\')">Удалить</button>';
+                html += '  </div>';
+                html += '</div>';
+            });
+
+            container.innerHTML = html;
+        }
+
+        function escapeHtml(text) {
+            var div = document.createElement('div');
+            div.appendChild(document.createTextNode(text));
+            return div.innerHTML;
+        }
+
+        function toggleEntry(entryId) {
+            var fullText = document.getElementById('full-' + entryId);
+            var btn = document.getElementById('btn-expand-' + entryId);
+            if (fullText) {
+                var isExpanded = fullText.classList.contains('expanded');
+                fullText.classList.toggle('expanded');
+                if (btn) {
+                    btn.textContent = isExpanded ? 'Развернуть' : 'Свернуть';
+                }
+            }
+        }
+
+        function deleteEntry(entryId) {
+            JKModal.open({
+                type: 'warning',
+                icon: '🗑️',
+                title: 'Удалить запись?',
+                body: 'Это действие нельзя отменить.',
+                buttons: [
+                    { text: 'Отмена' },
+                    { text: 'Удалить', primary: true, onClick: function() {
+                        deleteEntryById(entryId);
+                        console.log('[OK] Entry deleted: ' + entryId);
+                    } }
+                ]
+            });
+        }
+
+        function deleteEntryById(entryId) {
+            var diary = getDiary();
+            diary.entries = diary.entries.filter(function(e) {
+                return e.id !== entryId;
+            });
+            saveDiary(diary);
+            if (state.editingId === entryId) {
+                resetEditor();
+            }
+            updateStats();
+            renderTimeline();
+        }
+
+        // ===== Серия дней подряд с записью =====
+        function pad2(n) {
+            return String(n).padStart(2, '0');
+        }
+
+        function toDateStr(d) {
+            return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+        }
+
+        function calculateDiaryStreak(entries) {
+            var dates = {};
+            entries.forEach(function(entry) { dates[entry.date] = true; });
+
+            var cursor = new Date();
+            if (!dates[toDateStr(cursor)]) {
+                cursor.setDate(cursor.getDate() - 1);
+            }
+
+            var streak = 0;
+            while (dates[toDateStr(cursor)]) {
+                streak++;
+                cursor.setDate(cursor.getDate() - 1);
+            }
+            return streak;
+        }
+
+        function updateStats() {
+            var diary = getDiary();
+            var totalEntries = diary.entries.length;
+            var totalWords = 0;
+            diary.entries.forEach(function(entry) {
+                totalWords += entry.wordCount;
+            });
+            document.getElementById('totalEntries').textContent = totalEntries;
+            document.getElementById('totalWords').textContent = totalWords;
+            document.getElementById('diaryStreak').textContent = calculateDiaryStreak(diary.entries);
+        }
+
+        // ===== Синхронизация с облаком =====
+        function updateSyncBanner() {
+            var el = document.getElementById('syncBanner');
+            var loggedIn = window.FirebaseAuth && window.FirebaseAuth.isLoggedIn();
+            if (loggedIn) {
+                el.className = 'sync-banner synced';
+                el.innerHTML = '☁️ Дневник синхронизирован с облаком — записи не потеряются при очистке браузера';
+            } else {
+                el.className = 'sync-banner local';
+                el.innerHTML = '🔐 Записи пока хранятся только в этом браузере. Войдите через Google, чтобы дневник дублировался в облаке ' +
+                    '<button class="sync-banner-btn" onclick="window.FirebaseAuth && window.FirebaseAuth.signInWithGoogle()">Войти</button>';
+            }
+        }
+
+        // ===== Экспорт в файл (дополнительная страховка на случай потери доступа) =====
+        function exportDiaryFile() {
+            var diary = getDiary();
+            if (diary.entries.length === 0) return;
+
+            var lines = diary.entries.slice().reverse().map(function(entry) {
+                return '=== ' + formatDate(entry.date) + (entry.mood ? '  ' + entry.mood : '') + ' ===\n' + entry.text + '\n';
+            });
+
+            var blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'korean-diary-' + new Date().toISOString().split('T')[0] + '.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            console.log('[OK] Diary exported');
+        }
+
+        function init() {
+            initDatePicker();
+            buildHints();
+            buildMoodPicker();
+            restoreDraft();
+            updateStats();
+            renderTimeline();
+            updateCounters();
+            updateSyncBanner();
+
+            var textarea = document.getElementById('diaryTextarea');
+            textarea.addEventListener('input', function() {
+                updateCounters();
+                saveDraft();
+            });
+
+            document.getElementById('entryDate').addEventListener('change', saveDraft);
+            document.getElementById('diarySearch').addEventListener('input', renderTimeline);
+
+            if (window.FirebaseAuth && window.FirebaseAuth.onAuthStateChanged) {
+                window.FirebaseAuth.onAuthStateChanged(function(user) {
+                    updateSyncBanner();
+                    if (user) {
+                        // Даём время фоновой синхронизации (merge облака и локальных
+                        // данных в firebase-sync.js) применить объединённые записи.
+                        setTimeout(function() {
+                            updateStats();
+                            renderTimeline();
+                            updateSyncBanner();
+                        }, 1500);
+                    }
+                });
+            }
+
+            console.log('[OK] Diary page loaded');
+        }
+
+        init();
+    </script>
+</body>
+</html>

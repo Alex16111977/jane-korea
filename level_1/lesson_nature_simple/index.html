@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Простая природа | 1급 Корейский язык</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #eefaf1 0%, #d8f0e0 50%, #d8f0e0 100%);
+            min-height: 100vh; color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; top: 15%; right: 4%;
+            font-size: 115px; opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none; z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #388e3c; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #4caf50; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.05em; }
+        .header .lesson-number { font-size: 0.95em; color: #ffffff; margin-bottom: 10px; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 { color: #388e3c; margin-top: 0; font-size: 1.8em; border-bottom: 3px solid #4caf50; padding-bottom: 10px; }
+
+        .grammar-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0;
+        }
+        .grammar-table th { background: #4caf50; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+
+        .example-card {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 20px; border-radius: 15px; margin: 12px 0;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+        }
+        .example-korean { font-size: 1.5em; font-weight: 700; }
+        .example-romanization { font-size: 0.9em; opacity: 0.85; margin-top: 4px; }
+        .example-meaning { font-size: 1em; opacity: 0.95; }
+        .example-info { flex: 1; min-width: 200px; }
+
+        .tip-box {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .nature-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px; margin: 20px 0;
+        }
+        .nature-card {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 18px; border-radius: 15px; text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .nature-card:hover { transform: translateY(-5px); }
+        .nature-korean { font-size: 1.5em; font-weight: 700; }
+        .nature-romanization { font-size: 0.85em; opacity: 0.85; margin: 4px 0; }
+        .nature-meaning { font-size: 0.95em; }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .korean-text { font-size: 1.1em; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; font-style: italic; }
+        .dialogue-play-btn {
+            background: rgba(255,255,255,0.25); color: #2b2440; border: 2px solid rgba(255,255,255,0.4);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer;
+            font-size: 1em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.3s ease; margin-bottom: 15px;
+        }
+        .dialogue-play-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .audio-btn-light {
+            background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn-light:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .practice-section {
+            background: linear-gradient(135deg, #eefaf1, #d8f0e0);
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .practice-section h2 { color: #1b5e20; margin-bottom: 20px; font-size: 1.5em; border-bottom: none; }
+
+        .exercise-item { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .exercise-question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .exercise-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .exercise-btn {
+            background: #4caf50; color: white; padding: 10px 20px; border: none;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .exercise-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .exercise-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .exercise-result { margin-top: 10px; padding: 10px; border-radius: 8px; font-weight: 600; }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+        }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .content-section { padding: 25px; }
+            .exercise-options { flex-direction: column; }
+            .nature-grid { grid-template-columns: repeat(2, 1fr); }
+            .example-card { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_1/index.html">&#8592; 1&#44553; Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <div class="lesson-number">1&#44553; | Простая природа</div>
+            <h1>Природа по-корейски</h1>
+            <div class="korean-title">자연 [jayeon]</div>
+            <div class="description">Учимся называть природные объекты и описывать их простыми фразами</div>
+        </header>
+
+        <!-- Секция 1: Основные слова — ландшафт -->
+        <div class="content-section">
+            <h2>1. Ландшафт</h2>
+            <p>Начнём с основных природных объектов, которые вы увидите в Корее:</p>
+
+            <div class="nature-grid">
+                <div class="nature-card">
+                    <div class="nature-korean">산 <button class="audio-btn-light" onclick="speakKorean('산')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="nature-romanization">[san]</div>
+                    <div class="nature-meaning">гора</div>
+                </div>
+                <div class="nature-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="nature-korean">바다 <button class="audio-btn-light" onclick="speakKorean('바다')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="nature-romanization">[bada]</div>
+                    <div class="nature-meaning">море</div>
+                </div>
+                <div class="nature-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="nature-korean">강 <button class="audio-btn-light" onclick="speakKorean('강')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="nature-romanization">[gang]</div>
+                    <div class="nature-meaning">река</div>
+                </div>
+                <div class="nature-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                    <div class="nature-korean">호수 <button class="audio-btn-light" onclick="speakKorean('호수')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="nature-romanization">[hosu]</div>
+                    <div class="nature-meaning">озеро</div>
+                </div>
+                <div class="nature-card" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                    <div class="nature-korean">공원 <button class="audio-btn-light" onclick="speakKorean('공원')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="nature-romanization">[gongwon]</div>
+                    <div class="nature-meaning">парк</div>
+                </div>
+                <div class="nature-card">
+                    <div class="nature-korean">숲 <button class="audio-btn-light" onclick="speakKorean('숲')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="nature-romanization">[суп / sup] — конечная ㅍ звучит как [п]</div>
+                    <div class="nature-meaning">лес</div>
+                </div>
+                <div class="nature-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="nature-korean">섬 <button class="audio-btn-light" onclick="speakKorean('섬')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="nature-romanization">[seom]</div>
+                    <div class="nature-meaning">остров</div>
+                </div>
+                <div class="nature-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="nature-korean">들 <button class="audio-btn-light" onclick="speakKorean('들')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="nature-romanization">[deul]</div>
+                    <div class="nature-meaning">поле</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Интересный факт:</strong> Корея на 70% состоит из гор! Поэтому слово 산 (гора) — одно из самых частых в корейском языке. Например, 부산 (Пусан) буквально означает «котёл-гора» (釜 = котёл, 山 = гора).
+            </div>
+        </div>
+
+        <!-- Секция 2: Растения и небо -->
+        <div class="content-section">
+            <h2>2. Растения и небо</h2>
+            <p>Теперь выучим слова для описания того, что мы видим вокруг:</p>
+
+            <div class="nature-grid">
+                <div class="nature-card">
+                    <div class="nature-korean">꽃 <button class="audio-btn-light" onclick="speakKorean('꽃')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="nature-romanization">[kkot]</div>
+                    <div class="nature-meaning">цветок</div>
+                </div>
+                <div class="nature-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="nature-korean">나무 <button class="audio-btn-light" onclick="speakKorean('나무')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="nature-romanization">[namu]</div>
+                    <div class="nature-meaning">дерево</div>
+                </div>
+                <div class="nature-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="nature-korean">하늘 <button class="audio-btn-light" onclick="speakKorean('하늘')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="nature-romanization">[haneul]</div>
+                    <div class="nature-meaning">небо</div>
+                </div>
+                <div class="nature-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                    <div class="nature-korean">구름 <button class="audio-btn-light" onclick="speakKorean('구름')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="nature-romanization">[gureum]</div>
+                    <div class="nature-meaning">облако</div>
+                </div>
+            </div>
+
+            <p>Дополнительные полезные слова:</p>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>&#54620;&#44397;&#50612;</th>
+                        <th>Произношение</th>
+                        <th>Перевод</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>풀 <button class="audio-btn" onclick="speakKorean('풀')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[pul]</td>
+                        <td>трава</td>
+                    </tr>
+                    <tr>
+                        <td>잎 <button class="audio-btn" onclick="speakKorean('잎')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[ip]</td>
+                        <td>лист</td>
+                    </tr>
+                    <tr>
+                        <td>돌 <button class="audio-btn" onclick="speakKorean('돌')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[dol]</td>
+                        <td>камень</td>
+                    </tr>
+                    <tr>
+                        <td>별 <button class="audio-btn" onclick="speakKorean('별')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[byeol]</td>
+                        <td>звезда</td>
+                    </tr>
+                    <tr>
+                        <td>달 <button class="audio-btn" onclick="speakKorean('달')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[dal]</td>
+                        <td>луна</td>
+                    </tr>
+                    <tr>
+                        <td>해 <button class="audio-btn" onclick="speakKorean('해')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[хэ / hae]</td>
+                        <td>солнце</td>
+                    </tr>
+                    <tr>
+                        <td>비 <button class="audio-btn" onclick="speakKorean('비')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[пи / bi]</td>
+                        <td>дождь</td>
+                    </tr>
+                    <tr>
+                        <td>땅 <button class="audio-btn" onclick="speakKorean('땅')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[ттан / ttang]</td>
+                        <td>земля, почва</td>
+                    </tr>
+                    <tr>
+                        <td>모래 <button class="audio-btn" onclick="speakKorean('모래')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[морэ / morae]</td>
+                        <td>песок</td>
+                    </tr>
+                    <tr>
+                        <td>폭포 <button class="audio-btn" onclick="speakKorean('폭포')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[пхокпхо / pokpo]</td>
+                        <td>водопад</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Секция 3: Описание природы -->
+        <div class="content-section">
+            <h2>3. Описываем природу</h2>
+            <p>Используйте простые прилагательные, чтобы описать природу. Формула: <strong>[существительное] + 이/가 + [прилагательное]</strong></p>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">산이 높아요.</div>
+                    <div class="example-romanization">[sani nopayo]</div>
+                    <div class="example-meaning">Гора высокая.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('산이 높아요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">바다가 넓어요.</div>
+                    <div class="example-romanization">[badaga neolbeoyo]</div>
+                    <div class="example-meaning">Море широкое.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('바다가 넓어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">꽃이 예뻐요.</div>
+                    <div class="example-romanization">[kkochi yeppeoyo]</div>
+                    <div class="example-meaning">Цветок красивый.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('꽃이 예뻐요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">하늘이 파래요.</div>
+                    <div class="example-romanization">[haneuri paraeyo]</div>
+                    <div class="example-meaning">Небо голубое.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('하늘이 파래요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                <div class="example-info">
+                    <div class="example-korean">나무가 커요.</div>
+                    <div class="example-romanization">[namuga keoyo]</div>
+                    <div class="example-meaning">Дерево большое.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('나무가 커요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">강이 길어요.</div>
+                    <div class="example-romanization">[gangi gireoyo]</div>
+                    <div class="example-meaning">Река длинная.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('강이 길어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">공원이 조용해요.</div>
+                    <div class="example-romanization">[gongwoni joyonghaeyo]</div>
+                    <div class="example-meaning">Парк тихий.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('공원이 조용해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="tip-box">
+                <strong>Полезные прилагательные:</strong><br>
+                높다 [nopda] — высокий | 넓다 [neolda] — широкий | 예쁘다 [yeppeuda] — красивый<br>
+                크다 [keuda] — большой | 작다 [jakda] — маленький | 길다 [gilda] — длинный<br>
+                조용하다 [joyonghada] — тихий | 깨끗하다 [kkaekkeuthada] — чистый
+            </div>
+        </div>
+
+        <!-- Секция 4: Куда идём? -->
+        <div class="content-section">
+            <h2>4. Куда идём? — [место]에 가요</h2>
+            <p>Чтобы сказать "иду в [место]", используйте формулу: <strong>[место] + 에 + 가요</strong></p>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">산에 가요.</div>
+                    <div class="example-romanization">[sane gayo]</div>
+                    <div class="example-meaning">Иду в горы.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('산에 가요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">바다에 가요.</div>
+                    <div class="example-romanization">[badae gayo]</div>
+                    <div class="example-meaning">Иду на море.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('바다에 가요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">공원에 가요.</div>
+                    <div class="example-romanization">[gongwone gayo]</div>
+                    <div class="example-meaning">Иду в парк.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('공원에 가요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">숲에 가요.</div>
+                    <div class="example-romanization">[supe gayo]</div>
+                    <div class="example-meaning">Иду в лес.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('숲에 가요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="tip-box">
+                <strong>Обратите внимание:</strong> 에 — это частица направления. Она ставится после места: 산<strong>에</strong> (в горы), 바다<strong>에</strong> (на море), 공원<strong>에</strong> (в парк).
+            </div>
+        </div>
+
+        <!-- Секция 5: Что делаем на природе -->
+        <div class="content-section">
+            <h2>5. Что делаем на природе?</h2>
+            <p>Полезные глаголы для описания прогулки:</p>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>&#54620;&#44397;&#50612;</th>
+                        <th>Произношение</th>
+                        <th>Перевод</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>산책해요 <button class="audio-btn" onclick="speakKorean('산책해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[sanchaekhaeyo]</td>
+                        <td>гуляю</td>
+                    </tr>
+                    <tr>
+                        <td>걸어요 <button class="audio-btn" onclick="speakKorean('걸어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[georeoyo]</td>
+                        <td>хожу / иду пешком</td>
+                    </tr>
+                    <tr>
+                        <td>수영해요 <button class="audio-btn" onclick="speakKorean('수영해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[suyeonghaeyo]</td>
+                        <td>плаваю</td>
+                    </tr>
+                    <tr>
+                        <td>사진을 찍어요 <button class="audio-btn" onclick="speakKorean('사진을 찍어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[sajineul jjigeoyo]</td>
+                        <td>фотографирую</td>
+                    </tr>
+                    <tr>
+                        <td>쉬어요 <button class="audio-btn" onclick="speakKorean('쉬어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[swieoyo]</td>
+                        <td>отдыхаю</td>
+                    </tr>
+                    <tr>
+                        <td>올라가요 <button class="audio-btn" onclick="speakKorean('올라가요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[ollagayo]</td>
+                        <td>поднимаюсь (в гору)</td>
+                    </tr>
+                    <tr>
+                        <td>등산해요 <button class="audio-btn" onclick="speakKorean('등산해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[deungsanhaeyo]</td>
+                        <td>хожу в поход (в горы)</td>
+                    </tr>
+                    <tr>
+                        <td>낚시해요 <button class="audio-btn" onclick="speakKorean('낚시해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[naksihaeyo]</td>
+                        <td>рыбачу</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>Примеры фраз:</p>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">공원에서 산책해요.</div>
+                    <div class="example-romanization">[gongwoneseo sanchaekhaeyo]</div>
+                    <div class="example-meaning">Гуляю в парке.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('공원에서 산책해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">바다에서 수영해요.</div>
+                    <div class="example-romanization">[badaeseo suyeonghaeyo]</div>
+                    <div class="example-meaning">Плаваю в море.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('바다에서 수영해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">산에서 사진을 찍어요.</div>
+                    <div class="example-romanization">[saneseo sajineul jjigeoyo]</div>
+                    <div class="example-meaning">Фотографирую в горах.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('산에서 사진을 찍어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="tip-box">
+                <strong>에 vs 에서 — ключевое различие:</strong><br><br>
+                <strong>에</strong> — направление, «куда?» (с глаголами движения: 가다, 오다)<br>
+                <strong>에서</strong> — место действия, «где?» (с глаголами действия: 산책하다, 수영하다, 낚시하다)<br><br>
+                Сравните контрастные пары:<br>
+                &bull; 산<strong>에</strong> 가요 (иду <em>в</em> горы) vs 산<strong>에서</strong> 등산해요 (хожу в поход <em>в</em> горах)<br>
+                &bull; 바다<strong>에</strong> 가요 (еду <em>на</em> море) vs 바다<strong>에서</strong> 수영해요 (плаваю <em>в</em> море)<br>
+                &bull; 강<strong>에</strong> 가요 (иду <em>к</em> реке) vs 강<strong>에서</strong> 낚시해요 (рыбачу <em>на</em> реке)<br>
+                &bull; 공원<strong>에</strong> 가요 (иду <em>в</em> парк) vs 공원<strong>에서</strong> 산책해요 (гуляю <em>в</em> парке)<br><br>
+                <em>Подсказка:</em> если можно заменить на «куда?» — ставьте 에. Если на «где?» — ставьте 에서.
+            </div>
+        </div>
+
+        <!-- Секция 6: Мини-диалоги -->
+        <div class="content-section">
+            <h2>6. Мини-диалоги</h2>
+
+            <h3 style="color: #388e3c;">Диалог 1: Планы на выходные</h3>
+            <div class="dialogue-box">
+                <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+                <div class="dialogue-line">
+                    <div class="speaker">A:</div>
+                    <div class="korean-text">주말에 뭐 해요?</div>
+                    <div class="translation">Что делаете на выходных?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">B:</div>
+                    <div class="korean-text">산에 가요. 같이 가요?</div>
+                    <div class="translation">Иду в горы. Пойдём вместе?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">A:</div>
+                    <div class="korean-text">좋아요! 산이 어디에 있어요?</div>
+                    <div class="translation">Отлично! Где горы?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">B:</div>
+                    <div class="korean-text">서울 근처에 있어요. 산이 정말 높아요.</div>
+                    <div class="translation">Недалеко от Сеула. Горы очень высокие.</div>
+                </div>
+            </div>
+
+            <h3 style="color: #388e3c;">Диалог 2: На прогулке в парке</h3>
+            <div class="dialogue-box" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+                <div class="dialogue-line">
+                    <div class="speaker">A:</div>
+                    <div class="korean-text">공원이 정말 예뻐요!</div>
+                    <div class="translation">Парк очень красивый!</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">B:</div>
+                    <div class="korean-text">네, 꽃이 많아요. 하늘도 파래요.</div>
+                    <div class="translation">Да, много цветов. Небо тоже голубое.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">A:</div>
+                    <div class="korean-text">나무 아래에서 쉬어요.</div>
+                    <div class="translation">Давайте отдохнём под деревом.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">B:</div>
+                    <div class="korean-text">좋아요. 사진도 찍어요!</div>
+                    <div class="translation">Хорошо. И фотографии сделаем!</div>
+                </div>
+            </div>
+
+            <h3 style="color: #388e3c;">Диалог 3: На море</h3>
+            <div class="dialogue-box" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+                <div class="dialogue-line">
+                    <div class="speaker">A:</div>
+                    <div class="korean-text">바다가 정말 넓어요!</div>
+                    <div class="translation">Море очень широкое!</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">B:</div>
+                    <div class="korean-text">수영할까요?</div>
+                    <div class="translation">Будем плавать?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">A:</div>
+                    <div class="korean-text">네! 물이 따뜻해요.</div>
+                    <div class="translation">Да! Вода тёплая.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">B:</div>
+                    <div class="korean-text">저 섬도 예뻐요. 보세요!</div>
+                    <div class="translation">Тот остров тоже красивый. Посмотрите!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 7: Упражнения -->
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-item">
+                <div class="exercise-question">1. Как сказать "гора" по-корейски?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">바다</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">산</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">강</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">숲</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">2. Что означает "바다가 넓어요"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Гора высокая</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">Море широкое</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Река длинная</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Парк тихий</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">3. Как сказать "иду в парк"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">공원에서 가요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">공원이 가요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">공원에 가요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">공원을 가요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">4. Что такое "꽃"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">дерево</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">трава</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">цветок</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">облако</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">5. Какую частицу нужно использовать: "공원___ 산책해요" (гуляю в парке)?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">에</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">에서</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">이</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">을</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">6. Что означает "하늘"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">море</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">облако</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">небо</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">звезда</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">7. Как сказать "Цветок красивый"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">꽃을 예뻐요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">꽃이 예뻐요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">꽃은 예뻐요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">꽃에 예뻐요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">8. Что означает "산책해요"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">плаваю</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">фотографирую</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">отдыхаю</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">гуляю</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+        </div>
+
+        <!-- Запомни блок -->
+        <div class="content-section">
+            <div style="background: linear-gradient(135deg, rgba(76,175,80,0.08), rgba(76,175,80,0.15)); border-left: 4px solid #4caf50; border-radius: 12px; padding: 20px; margin: 20px 0;">
+                <h3 style="color: #2e7d32;">&#128204; Запомни</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(76,175,80,0.1); padding: 15px; border-radius: 10px;">
+                        <strong>Природа</strong><br>
+                        산 — гора, 바다 — море<br>
+                        강 — река, 호수 — озеро<br>
+                        꽃 — цветок, 나무 — дерево
+                    </div>
+                    <div style="background: rgba(76,175,80,0.1); padding: 15px; border-radius: 10px;">
+                        <strong>Описание</strong><br>
+                        산이 높아요 — гора высокая<br>
+                        바다가 넓어요 — море широкое<br>
+                        꽃이 예뻐요 — цветок красивый
+                        <button class="audio-btn" onclick="speakKorean('꽃이 예뻐요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                    </div>
+                    <div style="background: rgba(76,175,80,0.1); padding: 15px; border-radius: 10px;">
+                        <strong>Направление</strong><br>
+                        [место] + 에 가요 = иду в...<br>
+                        산에 가요 — иду в горы<br>
+                        바다에 가요 — иду на море
+                        <button class="audio-btn" onclick="speakKorean('산에 가요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                    </div>
+                    <div style="background: rgba(76,175,80,0.1); padding: 15px; border-radius: 10px;">
+                        <strong>Действие на месте</strong><br>
+                        [место] + 에서 + [глагол]<br>
+                        공원에서 산책해요<br>
+                        바다에서 수영해요
+                        <button class="audio-btn" onclick="speakKorean('공원에서 산책해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" class="complete-btn">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.closest('.dialogue-box');
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text');
+                if (k) {
+                    var t = k.textContent.replace(/\[.*?\]/g, '').replace(/\uD83D\uDD0A/g, '').trim();
+                    if (t) texts.push(t);
+                }
+            });
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.innerHTML = '&#9208; Воспроизводится...';
+            btn.disabled = true;
+            function next() {
+                if (i >= texts.length) {
+                    btn.innerHTML = '&#127917; Прослушать диалог';
+                    btn.disabled = false;
+                    lines.forEach(function(l) { l.style.background = ''; });
+                    return;
+                }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(255,255,255,0.15)';
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                var v = window.speechSynthesis.getVoices();
+                u.onend = function() { i++; setTimeout(next, 400); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item');
+            var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '\u2705 Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '\u274C Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) {
+                    if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; }
+                });
+            }
+        }
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_nature';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

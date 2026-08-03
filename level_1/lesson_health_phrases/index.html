@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Здоровье и самочувствие | 1급 Корейский язык</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #eefaf1 0%, #d8f0e0 50%, #d8f0e0 100%);
+            min-height: 100vh; color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; top: 15%; right: 4%;
+            font-size: 115px; opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none; z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #388e3c; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #4caf50; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.05em; }
+        .header .lesson-number { font-size: 0.95em; color: #ffffff; margin-bottom: 10px; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 { color: #388e3c; margin-top: 0; font-size: 1.8em; border-bottom: 3px solid #4caf50; padding-bottom: 10px; }
+
+        .grammar-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0;
+        }
+        .grammar-table th { background: #4caf50; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+
+        .example-card {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 20px; border-radius: 15px; margin: 12px 0;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+        }
+        .example-korean { font-size: 1.5em; font-weight: 700; }
+        .example-romanization { font-size: 0.9em; opacity: 0.85; margin-top: 4px; }
+        .example-meaning { font-size: 1em; opacity: 0.95; }
+        .example-info { flex: 1; min-width: 200px; }
+
+        .tip-box {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .body-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px; margin: 20px 0;
+        }
+        .body-card {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 18px; border-radius: 15px; text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .body-card:hover { transform: translateY(-5px); }
+        .body-korean { font-size: 1.5em; font-weight: 700; }
+        .body-romanization { font-size: 0.85em; opacity: 0.85; margin: 4px 0; }
+        .body-meaning { font-size: 0.95em; }
+
+        .pain-card {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 20px; border-radius: 15px; margin: 12px 0;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+        }
+        .pain-info { flex: 1; min-width: 200px; }
+        .pain-korean { font-size: 1.4em; font-weight: 700; }
+        .pain-romanization { font-size: 0.9em; opacity: 0.85; margin-top: 4px; }
+        .pain-meaning { font-size: 1em; opacity: 0.95; margin-top: 4px; }
+
+        .pattern-highlight {
+            background: #e8f5e9; border: 1px solid #4caf50; border-radius: 8px;
+            padding: 4px 10px; display: inline-block; font-weight: 600; color: #2e7d32; margin: 2px;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .korean-text { font-size: 1.1em; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; font-style: italic; }
+        .dialogue-play-btn {
+            background: rgba(255,255,255,0.25); color: #2b2440; border: 2px solid rgba(255,255,255,0.4);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer;
+            font-size: 1em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.3s ease; margin-bottom: 15px;
+        }
+        .dialogue-play-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .audio-btn-light {
+            background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn-light:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .practice-section {
+            background: linear-gradient(135deg, #eefaf1, #d8f0e0);
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .practice-section h2 { color: #1b5e20; margin-bottom: 20px; font-size: 1.5em; border-bottom: none; }
+
+        .exercise-item { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .exercise-question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .exercise-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .exercise-btn {
+            background: #4caf50; color: white; padding: 10px 20px; border: none;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .exercise-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .exercise-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .exercise-result { margin-top: 10px; padding: 10px; border-radius: 8px; font-weight: 600; }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+        }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        .symptom-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px; margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .content-section { padding: 25px; }
+            .exercise-options { flex-direction: column; }
+            .body-grid { grid-template-columns: repeat(2, 1fr); }
+            .example-card, .pain-card { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_1/index.html">&#8592; 1&#44553; Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+            <a href="../lesson_counters_basic/index.html">&#8592; Урок 21</a>
+            <a href="../lesson_phone_numbers/index.html">Урок 23 &#8594;</a>
+        </div>
+
+        <header class="header">
+            <div class="lesson-number">1&#44553; | Урок 22</div>
+            <h1>Здоровье и самочувствие</h1>
+            <div class="korean-title">건강과 몸 상태 [geonganggwa mom sangtae]</div>
+            <div class="description">Учимся говорить о самочувствии, называть части тела и объяснять, что болит</div>
+        </header>
+
+        <!-- Секция 1: Как спросить о самочувствии -->
+        <div class="content-section">
+            <h2>1. Как спросить о самочувствии</h2>
+            <p>Вы уже знаете 잘 지내요? (Как дела?). Вот ещё полезные фразы:</p>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">괜찮아요?</div>
+                    <div class="example-romanization">[gwaenchanayo?]</div>
+                    <div class="example-meaning">Всё в порядке? / Вы в порядке?</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('괜찮아요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">어디 아파요?</div>
+                    <div class="example-romanization">[eodi apayo?]</div>
+                    <div class="example-meaning">Где болит? / Что болит?</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('어디 아파요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">몸이 안 좋아요.</div>
+                    <div class="example-romanization">[momi an joayo]</div>
+                    <div class="example-meaning">Я плохо себя чувствую.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('몸이 안 좋아요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">괜찮아요. 걱정 마세요.</div>
+                    <div class="example-romanization">[gwaenchanayo. geokjeong maseyo]</div>
+                    <div class="example-meaning">Всё в порядке. Не волнуйтесь.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('괜찮아요. 걱정 마세요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+        </div>
+
+        <!-- Секция 2: Части тела -->
+        <div class="content-section">
+            <h2>2. Части тела</h2>
+            <p>Основные части тела, которые нужно знать:</p>
+
+            <div class="body-grid">
+                <div class="body-card">
+                    <div class="body-korean">머리 <button class="audio-btn-light" onclick="speakKorean('머리')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="body-romanization">[meori]</div>
+                    <div class="body-meaning">голова</div>
+                </div>
+                <div class="body-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="body-korean">눈 <button class="audio-btn-light" onclick="speakKorean('눈')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="body-romanization">[nun]</div>
+                    <div class="body-meaning">глаза</div>
+                </div>
+                <div class="body-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="body-korean">코 <button class="audio-btn-light" onclick="speakKorean('코')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="body-romanization">[ko]</div>
+                    <div class="body-meaning">нос</div>
+                </div>
+                <div class="body-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                    <div class="body-korean">입 <button class="audio-btn-light" onclick="speakKorean('입')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="body-romanization">[ip]</div>
+                    <div class="body-meaning">рот</div>
+                </div>
+                <div class="body-card" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                    <div class="body-korean">귀 <button class="audio-btn-light" onclick="speakKorean('귀')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="body-romanization">[gwi]</div>
+                    <div class="body-meaning">уши</div>
+                </div>
+                <div class="body-card">
+                    <div class="body-korean">목 <button class="audio-btn-light" onclick="speakKorean('목')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="body-romanization">[mok]</div>
+                    <div class="body-meaning">горло / шея</div>
+                </div>
+                <div class="body-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="body-korean">배 <button class="audio-btn-light" onclick="speakKorean('배')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="body-romanization">[bae]</div>
+                    <div class="body-meaning">живот</div>
+                </div>
+                <div class="body-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="body-korean">이 <button class="audio-btn-light" onclick="speakKorean('이')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="body-romanization">[i]</div>
+                    <div class="body-meaning">зубы</div>
+                </div>
+                <div class="body-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                    <div class="body-korean">손 <button class="audio-btn-light" onclick="speakKorean('손')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="body-romanization">[son]</div>
+                    <div class="body-meaning">рука (кисть)</div>
+                </div>
+                <div class="body-card" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                    <div class="body-korean">발 <button class="audio-btn-light" onclick="speakKorean('발')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="body-romanization">[bal]</div>
+                    <div class="body-meaning">нога (ступня)</div>
+                </div>
+                <div class="body-card">
+                    <div class="body-korean">등 <button class="audio-btn-light" onclick="speakKorean('등')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="body-romanization">[deung]</div>
+                    <div class="body-meaning">спина</div>
+                </div>
+                <div class="body-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="body-korean">다리 <button class="audio-btn-light" onclick="speakKorean('다리')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="body-romanization">[dari]</div>
+                    <div class="body-meaning">нога</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 3: Паттерн "болит" -->
+        <div class="content-section">
+            <h2>3. Паттерн: [часть тела] + 이/가 아파요</h2>
+            <p>Чтобы сказать, что что-то болит, используйте формулу:</p>
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px; margin: 15px 0; text-align: center; font-size: 1.2em;">
+                <span class="pattern-highlight" style="color: #2e7d32;">[часть тела]</span>
+                + <span class="pattern-highlight" style="color: #2e7d32;">이/가</span>
+                + <span class="pattern-highlight" style="color: #2e7d32;">아파요</span>
+                <br><br>
+                <div style="font-size: 0.9em; opacity: 0.9;">이 = после согласной, 가 = после гласной</div>
+            </div>
+
+            <div class="pain-card">
+                <div class="pain-info">
+                    <div class="pain-korean">머리가 아파요.</div>
+                    <div class="pain-romanization">[meoriga apayo]</div>
+                    <div class="pain-meaning">Голова болит. (Головная боль)</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('머리가 아파요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="pain-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="pain-info">
+                    <div class="pain-korean">배가 아파요.</div>
+                    <div class="pain-romanization">[baega apayo]</div>
+                    <div class="pain-meaning">Живот болит.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('배가 아파요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="pain-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="pain-info">
+                    <div class="pain-korean">목이 아파요.</div>
+                    <div class="pain-romanization">[mogi apayo]</div>
+                    <div class="pain-meaning">Горло болит.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('목이 아파요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="pain-card" style="background: linear-gradient(135deg, #388e3c, #4caf50);">
+                <div class="pain-info">
+                    <div class="pain-korean">이가 아파요.</div>
+                    <div class="pain-romanization">[iga apayo]</div>
+                    <div class="pain-meaning">Зуб болит.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('이가 아파요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="pain-card" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                <div class="pain-info">
+                    <div class="pain-korean">등이 아파요.</div>
+                    <div class="pain-romanization">[deungi apayo]</div>
+                    <div class="pain-meaning">Спина болит.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('등이 아파요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="tip-box">
+                <strong>Обратите внимание:</strong> 머리<strong>가</strong> (после гласной &#8594; 가), 목<strong>이</strong> (после согласной &#8594; 이). Это та же частица подлежащего, которую вы уже учили!
+            </div>
+        </div>
+
+        <!-- Секция 4: Заболевания -->
+        <div class="content-section">
+            <h2>4. Распространённые заболевания</h2>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">감기에 걸렸어요.</div>
+                    <div class="example-romanization">[gamgie geollyeosseoyo]</div>
+                    <div class="example-meaning">Я простудился(ась). / Я подхватил(а) простуду.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('감기에 걸렸어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">열이 나요.</div>
+                    <div class="example-romanization">[yeori nayo]</div>
+                    <div class="example-meaning">У меня температура. / У меня жар.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('열이 나요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">기침을 해요.</div>
+                    <div class="example-romanization">[gichimeul haeyo]</div>
+                    <div class="example-meaning">Я кашляю.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('기침을 해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">콧물이 나요.</div>
+                    <div class="example-romanization">[konmuri nayo]</div>
+                    <div class="example-meaning">У меня насморк.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('콧물이 나요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">어지러워요.</div>
+                    <div class="example-romanization">[eojireoweoyo]</div>
+                    <div class="example-meaning">У меня кружится голова.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('어지러워요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+        </div>
+
+        <!-- Секция 5: В аптеке и у врача -->
+        <div class="content-section">
+            <h2>5. В аптеке и у врача</h2>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>&#54620;&#44397;&#50612;</th>
+                        <th>Произношение</th>
+                        <th>Перевод</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>약 주세요 <button class="audio-btn" onclick="speakKorean('약 주세요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[yak juseyo]</td>
+                        <td>Дайте лекарство, пожалуйста</td>
+                    </tr>
+                    <tr>
+                        <td>두통약 <button class="audio-btn" onclick="speakKorean('두통약')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[dutongyak]</td>
+                        <td>лекарство от головной боли</td>
+                    </tr>
+                    <tr>
+                        <td>감기약 <button class="audio-btn" onclick="speakKorean('감기약')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[gamgiyak]</td>
+                        <td>лекарство от простуды</td>
+                    </tr>
+                    <tr>
+                        <td>소화제 <button class="audio-btn" onclick="speakKorean('소화제')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[sohwaje]</td>
+                        <td>средство для пищеварения</td>
+                    </tr>
+                    <tr>
+                        <td>병원에 가야 해요 <button class="audio-btn" onclick="speakKorean('병원에 가야 해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[byeongwone gaya haeyo]</td>
+                        <td>Нужно идти в больницу</td>
+                    </tr>
+                    <tr>
+                        <td>어디가 아프세요? <button class="audio-btn" onclick="speakKorean('어디가 아프세요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[eodiga apeuseyo?]</td>
+                        <td>Где у вас болит? (вежл.)</td>
+                    </tr>
+                    <tr>
+                        <td>약국 <button class="audio-btn" onclick="speakKorean('약국')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[yakguk]</td>
+                        <td>аптека</td>
+                    </tr>
+                    <tr>
+                        <td>병원 <button class="audio-btn" onclick="speakKorean('병원')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[byeongwon]</td>
+                        <td>больница</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Полезный паттерн:</strong> Название болезни + 약 = лекарство от...
+                <br>두통 (головная боль) + 약 (лекарство) = <strong>두통약</strong> (лекарство от головной боли)
+                <button class="audio-btn" onclick="speakKorean('두통약 주세요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+        </div>
+
+        <!-- Секция 6: Мини-диалог -->
+        <div class="content-section">
+            <h2>6. Мини-диалог: у врача</h2>
+
+            <div class="dialogue-box">
+                <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+                <div class="dialogue-line">
+                    <div class="speaker">의사 (Врач):</div>
+                    <div class="korean-text">어디가 아프세요?</div>
+                    <div class="translation">Где у вас болит?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">환자 (Пациент):</div>
+                    <div class="korean-text">머리가 아프고 열이 나요.</div>
+                    <div class="translation">Голова болит и температура.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">의사:</div>
+                    <div class="korean-text">언제부터 아팠어요?</div>
+                    <div class="translation">С каких пор болит?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">환자:</div>
+                    <div class="korean-text">어제부터요. 기침도 해요.</div>
+                    <div class="translation">С вчерашнего дня. Ещё кашляю.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">의사:</div>
+                    <div class="korean-text">감기에 걸리셨네요. 약을 드릴게요.</div>
+                    <div class="translation">Вы простудились. Я выпишу лекарство.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">환자:</div>
+                    <div class="korean-text">감사합니다. 약은 어떻게 먹어요?</div>
+                    <div class="translation">Спасибо. Как принимать лекарство?</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 7: Упражнения -->
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-item">
+                <div class="exercise-question">1. Как сказать "голова болит"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">머리를 아파요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">머리가 아파요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">머리는 아파요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">머리에 아파요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">2. Что означает "배가 아파요"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Спина болит</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Горло болит</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">Живот болит</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Нога болит</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">3. Как сказать "Я простудился"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">감기를 해요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">감기에 걸렸어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">감기가 아파요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">감기를 먹었어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">4. Какая частица ставится после 목 (горло)?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">이 (목이 아파요)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">가 (목가 아파요)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">을 (목을 아파요)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">는 (목는 아파요)</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">5. Что означает "열이 나요"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">У меня кашель</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">У меня температура</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">У меня насморк</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">У меня болит живот</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">6. Что такое "두통약"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Лекарство от простуды</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">Лекарство от головной боли</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Лекарство от живота</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Лекарство от кашля</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">7. Как сказать "Дайте лекарство, пожалуйста"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">약을 먹어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">약이 있어요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">약 주세요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">약을 해요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">8. "Зуб болит" по-корейски:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">눈이 아파요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">귀가 아파요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">코가 아파요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">이가 아파요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+        </div>
+
+        <!-- Запомни блок -->
+        <div class="content-section">
+            <h2>&#128203; Запомни!</h2>
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Формула боли</strong><br>
+                        [часть тела] + 이/가 아파요<br>
+                        <em>머리가 아파요</em>
+                        <button class="audio-btn-light" onclick="speakKorean('머리가 아파요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Простуда</strong><br>
+                        감기에 걸렸어요<br>
+                        <em>Я простудился</em>
+                        <button class="audio-btn-light" onclick="speakKorean('감기에 걸렸어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>У врача</strong><br>
+                        어디가 아프세요?<br>
+                        <em>Где болит? (вежл.)</em>
+                        <button class="audio-btn-light" onclick="speakKorean('어디가 아프세요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>В аптеке</strong><br>
+                        약 주세요<br>
+                        <em>Дайте лекарство</em>
+                        <button class="audio-btn-light" onclick="speakKorean('약 주세요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" class="complete-btn">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.closest('.dialogue-box');
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text');
+                if (k) {
+                    var t = k.textContent.replace(/\[.*?\]/g, '').replace(/\uD83D\uDD0A/g, '').trim();
+                    if (t) texts.push(t);
+                }
+            });
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.innerHTML = '&#9208; Воспроизводится...';
+            btn.disabled = true;
+            function next() {
+                if (i >= texts.length) {
+                    btn.innerHTML = '&#127917; Прослушать диалог';
+                    btn.disabled = false;
+                    lines.forEach(function(l) { l.style.background = ''; });
+                    return;
+                }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(255,255,255,0.15)';
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                var v = window.speechSynthesis.getVoices();
+                u.onend = function() { i++; setTimeout(next, 400); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item');
+            var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) {
+                    if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; }
+                });
+            }
+        }
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_health_phrases';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

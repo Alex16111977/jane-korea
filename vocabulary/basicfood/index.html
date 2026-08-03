@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Еда и напитки (базовая)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #d97706, #92400e);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .nav {
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav a {
+            background: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 10px;
+            margin: 0 10px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .nav a:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .lesson-header {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .lesson-header h1 {
+            font-size: 2.5em;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .vocabulary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .word-card {
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .word-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .korean-word {
+            font-size: 2em;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 5px;
+        }
+
+        .pronunciation {
+            font-size: 1.2em;
+            color: #f39c12;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .translation {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .speak-btn {
+            background: #f39c12;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .speak-btn:hover {
+            background: #e67e22;
+        }
+
+        .quiz-section {
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .quiz-option:hover {
+            background: #e9ecef;
+        }
+
+        .quiz-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .quiz-option.wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #d97706, #92400e);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .study-mode {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            background: #f39c12;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: #e74c3c;
+        }
+
+        .flashcard {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .flashcard:hover {
+            transform: rotateY(5deg);
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* ===== Audio player (Слушать) ===== */
+        .audio-mode-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+        .audio-mode-toggle button {
+            padding: 9px 18px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.25s ease;
+        }
+        .audio-mode-toggle button:hover { background: rgba(255,255,255,0.25); }
+        .audio-mode-toggle button.active { background: #e74c3c; border-color: #e74c3c; }
+
+        .audio-player {
+            background: rgba(255,255,255,0.97);
+            border-radius: 22px;
+            padding: 45px 35px;
+            margin: 15px auto 0;
+            max-width: 480px;
+            min-height: 200px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .audio-player.speaking { box-shadow: 0 15px 45px rgba(231,76,60,0.35); }
+
+        .audio-dot {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 14px;
+        }
+        .audio-korean { font-size: 2.3em; font-weight: 700; color: #2c3e50; }
+        .audio-romanization { font-size: 1.1em; color: #6b6684; font-style: italic; margin-top: 4px; }
+        .audio-translation { font-size: 1.4em; color: #555; margin-top: 8px; }
+
+        .audio-example {
+            display: none;
+            font-size: 1.05em;
+            color: #1565c0;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+            line-height: 1.5;
+        }
+        .audio-example.show { display: block; }
+        .audio-example .ax-tr { font-size: 0.9em; color: #55506e; margin-top: 4px; }
+
+        .audio-progress {
+            max-width: 480px;
+            margin: 18px auto 8px;
+            height: 6px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .audio-progress-bar {
+            height: 100%;
+            background: #e74c3c;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .audio-counter {
+            text-align: center;
+            color: rgba(255,255,255,0.85);
+            font-size: 0.9em;
+            margin-bottom: 18px;
+        }
+
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+        }
+        .audio-ctrl-btn {
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.25);
+            color: white;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .audio-ctrl-btn:hover { background: rgba(255,255,255,0.28); transform: scale(1.05); }
+        .audio-ctrl-btn.play { width: 58px; height: 58px; font-size: 1.3em; background: #e74c3c; border-color: #e74c3c; }
+        .audio-ctrl-btn.play:hover { background: #E32F1D; }
+        .audio-ctrl-btn.repeat.active { background: #e74c3c; border-color: #e74c3c; }
+
+        /* ===== Grammar section ===== */
+        .grammar-toggle { text-align: center; margin-bottom: 20px; }
+        .grammar-toggle button {
+            padding: 11px 28px;
+            background: rgba(255,255,255,0.25);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.4); }
+
+        .grammar-block {
+            background: rgba(255,255,255,0.97);
+            border-radius: 22px;
+            padding: 0;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .grammar-block h3 {
+            color: white;
+            background: linear-gradient(135deg, #d97706, #92400e);
+            padding: 18px 30px;
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+        .grammar-inner { padding: 25px 30px 30px; }
+
+        .section-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #6b6684;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+        .section-label:first-child { margin-top: 0; }
+
+        .formula-card {
+            background: linear-gradient(135deg, #fff8ec, #ffeccd);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border: 1px solid #ffd3b6;
+        }
+        .formula-card .fc-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+        }
+        .fc-word {
+            background: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .fc-word.highlight { background: #fff3e0; color: #e65100; }
+        .fc-word.result { background: linear-gradient(135deg, #d97706, #92400e); color: white; }
+        .fc-word.particle { background: #ffe0b2; color: #bf360c; font-weight: 700; }
+        .fc-plus { color: #e74c3c; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #e74c3c; font-size: 1.3em; }
+        .fc-desc { color: #55506e; font-size: 0.9em; margin-top: 4px; }
+
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .usage-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 16px;
+            border: 1px solid #ffd3b6;
+        }
+        .ui-kr { color: #c0392b; font-weight: 600; font-size: 1.05em; }
+        .ui-tr { color: #55506e; font-size: 0.85em; margin-top: 3px; }
+
+        /* ===== Word details (expand) ===== */
+        .word-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+            margin: 12px -20px -20px;
+            border-radius: 0 0 15px 15px;
+        }
+        .word-details.open { max-height: 250px; }
+        .word-details-inner { padding: 14px 20px; }
+
+        .detail-example {
+            padding: 10px 14px;
+            background: #fff3e0;
+            border-radius: 10px;
+            border-left: 3px solid #e74c3c;
+        }
+        .detail-example .ex-kr { color: #c0392b; font-weight: 600; font-size: 1em; }
+        .detail-example .ex-tr { color: #55506e; font-size: 0.88em; margin-top: 3px; }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 4px 8px;
+            transition: transform 0.3s;
+            color: #6b6684;
+            line-height: 1;
+        }
+        .expand-btn:hover { color: #e74c3c; }
+        .expand-btn.open { transform: rotate(180deg); color: #e74c3c; }
+
+        .search-bar {
+            background: rgba(255,255,255,0.95);
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .search-bar input {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .search-bar input:focus {
+            border-color: #999;
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <a href="../../level_1/index.html">← К 1급</a>
+            <a href="../../index.html">🏠 Главная</a>
+        </div>
+
+        <div class="lesson-header">
+            <h1>🍎 Еда и напитки (음식과 음료)</h1>
+            <p>Изучаем базовые продукты и напитки</p>
+        </div>
+
+        <!-- Grammar toggle -->
+        <div class="grammar-toggle">
+            <button onclick="toggleGrammar()">📖 Как говорить о еде по-корейски</button>
+        </div>
+
+        <!-- Grammar block -->
+        <div class="grammar-block" id="grammar-block" style="display: none;">
+            <h3>💡 Как использовать еду в корейской речи</h3>
+            <div class="grammar-inner">
+
+                <!-- Rule 1: eating -->
+                <div class="section-label">Правило 1: Есть (кушать)</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">еда</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">먹어요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">밥을 먹어요</span>
+                    </div>
+                    <div class="fc-desc">«Ем рис». Глагол 먹다 (есть). 을 — после согласной, 를 — после гласной.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">김치를 먹어요</div><div class="ui-tr">Ем кимчи</div></div>
+                    <div class="usage-item"><div class="ui-kr">빵을 먹어요</div><div class="ui-tr">Ем хлеб</div></div>
+                    <div class="usage-item"><div class="ui-kr">국수를 먹어요</div><div class="ui-tr">Ем лапшу</div></div>
+                </div>
+
+                <!-- Rule 2: drinking -->
+                <div class="section-label">Правило 2: Пить</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">напиток</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">마셔요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">물을 마셔요</span>
+                    </div>
+                    <div class="fc-desc">«Пью воду». Глагол 마시다 используется только для напитков.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">커피를 마셔요</div><div class="ui-tr">Пью кофе</div></div>
+                    <div class="usage-item"><div class="ui-kr">우유를 마셔요</div><div class="ui-tr">Пью молоко</div></div>
+                    <div class="usage-item"><div class="ui-kr">차를 마셔요</div><div class="ui-tr">Пью чай</div></div>
+                </div>
+
+                <!-- Rule 3: like food -->
+                <div class="section-label">Правило 3: Любить еду</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">еда</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">좋아해요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">김치를 좋아해요</span>
+                    </div>
+                    <div class="fc-desc">«Люблю кимчи». Глагол 좋아하다 — любить (что-то).</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">사과를 좋아해요</div><div class="ui-tr">Люблю яблоки</div></div>
+                    <div class="usage-item"><div class="ui-kr">고기를 좋아해요</div><div class="ui-tr">Люблю мясо</div></div>
+                    <div class="usage-item"><div class="ui-kr">커피를 좋아해요</div><div class="ui-tr">Люблю кофе</div></div>
+                </div>
+
+                <!-- Rule 4: delicious -->
+                <div class="section-label">Правило 4: Вкусно / невкусно</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word">еда</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word particle">이/가</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word highlight">맛있어요 / 맛없어요</span>
+                    </div>
+                    <div class="fc-desc">이 음식이 맛있어요 — «Эта еда вкусная». 맛있다 — вкусно, 맛없다 — невкусно.</div>
+                </div>
+                <div class="usage-grid">
+                    <div class="usage-item"><div class="ui-kr">김치가 맛있어요</div><div class="ui-tr">Кимчи вкусное</div></div>
+                    <div class="usage-item"><div class="ui-kr">빵이 맛있어요</div><div class="ui-tr">Хлеб вкусный</div></div>
+                    <div class="usage-item"><div class="ui-kr">이 수프가 맛없어요</div><div class="ui-tr">Этот суп невкусный</div></div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="study-mode">
+            <button class="mode-btn active" onclick="showVocabulary()">📚 Словарь</button>
+            <button class="mode-btn" onclick="showFlashcards()">🃏 Карточки</button>
+            <button class="mode-btn" onclick="showQuiz()">🎯 Тест</button>
+            <button class="mode-btn" onclick="showAudio()">🎧 Слушать</button>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="vocabSearch" placeholder="🔍 Поиск слова..." oninput="filterVocabulary()">
+        </div>
+        <div id="vocabulary-section">
+            <div class="vocabulary-grid" id="vocabularyGrid">
+            </div>
+        </div>
+
+        <div id="flashcard-section" style="display: none;">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div id="flashcard-content">
+                    <div class="korean-word" id="flashcard-korean">사과</div>
+                    <button class="speak-btn" onclick="speak('사과')">🔊</button>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="mode-btn" onclick="prevCard()">← Предыдущая</button>
+                <span id="card-counter">1 / 63</span>
+                <button class="mode-btn" onclick="nextCard()">Следующая →</button>
+            </div>
+        </div>
+
+        <div id="quiz-section" style="display: none;">
+            <div class="quiz-section">
+                <h2>🎯 Тест: Еда и напитки</h2>
+                <div class="quiz-question" id="quiz-question">
+                    Как по-корейски "яблоко"?
+                </div>
+                <div class="quiz-options" id="quiz-options">
+                </div>
+                <div class="result" id="quiz-result"></div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="mode-btn" onclick="nextQuestion()">Следующий вопрос</button>
+                    <button class="mode-btn" onclick="restartQuiz()">Начать заново</button>
+                </div>
+                <div id="quiz-stats" style="text-align: center; margin-top: 20px;">
+                    Правильных ответов: <span id="correct-count">0</span> из <span id="total-count">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Audio Section (Слушать) -->
+        <div id="audio-section" style="display: none;">
+            <div class="audio-mode-toggle">
+                <button id="audio-mode-word" class="active" onclick="setAudioMode('word')">&#128292; Просто</button>
+                <button id="audio-mode-translation" onclick="setAudioMode('translation')">&#127760; С переводом</button>
+                <button id="audio-mode-example" onclick="setAudioMode('example')">&#128172; С примерами</button>
+            </div>
+
+            <div class="audio-player" id="audio-player">
+                <div class="audio-korean" id="audio-korean"></div>
+                <div class="audio-romanization" id="audio-romanization"></div>
+                <div class="audio-translation" id="audio-translation"></div>
+                <div class="audio-example" id="audio-example"></div>
+            </div>
+
+            <div class="audio-progress"><div class="audio-progress-bar" id="audio-progress-bar"></div></div>
+            <div class="audio-counter" id="audio-counter">1 / 63</div>
+
+            <div class="audio-controls">
+                <button class="audio-ctrl-btn" onclick="playerPrev()" title="Предыдущий">&#9198;</button>
+                <button class="audio-ctrl-btn play" id="audio-play-btn" onclick="togglePlayPause()" title="Воспроизвести / пауза">&#9654;</button>
+                <button class="audio-ctrl-btn" onclick="playerNext()" title="Следующий">&#9197;</button>
+                <button class="audio-ctrl-btn repeat active" id="audio-repeat-btn" onclick="toggleRepeat()" title="Повторять весь список по кругу">&#128257;</button>
+            </div>
+
+            <div style="text-align: center; color: rgba(255,255,255,0.6); margin-top: 12px; font-size: 0.85em;">Плеер озвучит все слова по очереди &mdash; удобно слушать по дороге, не глядя в телефон. Пробел = play/пауза, &#8592;&#8594; = пред./след.</div>
+        </div>
+
+        <!-- Кросс-ссылки на грамматику -->
+        <div style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 25px; border-radius: 15px; margin: 25px 0; border-left: 5px solid #1976d2;">
+            <h3 style="color: #1565c0; margin-top: 0;">📖 Используйте эти слова в грамматике:</h3>
+            <p style="color: #555; margin-bottom: 15px;">Составьте предложения с едой и напитками:</p>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <a href="../../level_1/lesson_sov_order/index.html" style="padding: 10px 18px; background: white; border-radius: 20px; color: #1976d2; text-decoration: none; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+                    📐 Порядок слов SOV — "저는 사과를 먹어요"
+                </a>
+                <a href="../../lesson_15_demonstratives_practice/index.html" style="padding: 10px 18px; background: white; border-radius: 20px; color: #1976d2; text-decoration: none; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+                    ✅ 있어요/없어요 — "우유 있어요?"
+                </a>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            {korean: '사과', pronunciation: 'сагва', translation: 'яблоко', example: '사과를 먹어요.', exampleTr: 'Ем яблоко.'},
+            {korean: '참외', pronunciation: 'чхамвэ', translation: 'корейская дыня', example: '참외가 달아요.', exampleTr: 'Корейская дыня сладкая.'},
+            {korean: '초콜릿', pronunciation: 'чхокхолльит', translation: 'шоколад', example: '초콜릿을 선물했어요.', exampleTr: 'Подарил шоколад.'},
+            {korean: '콜라', pronunciation: 'кхолла', translation: 'кола', example: '콜라를 마셔요.', exampleTr: 'Пью колу.'},
+            {korean: '케이크', pronunciation: 'кхеикхы', translation: 'торт', example: '생일 케이크를 샀어요.', exampleTr: 'Купил торт на день рождения.'},
+            {korean: '파인애플', pronunciation: 'пхаинэпхыль', translation: 'ананас', example: '파인애플이 시원해요.', exampleTr: 'Ананас освежает.'},
+            {korean: '피자', pronunciation: 'пхича', translation: 'пицца', example: '피자를 시켰어요.', exampleTr: 'Заказал пиццу.'},
+            {korean: '햄버거', pronunciation: 'хэмбого', translation: 'гамбургер', example: '햄버거를 먹었어요.', exampleTr: 'Съел гамбургер.'},
+            {korean: '홍차', pronunciation: 'хончха', translation: 'чёрный чай', example: '홍차를 마셔요.', exampleTr: 'Пью чёрный чай.'},
+            {korean: '후추', pronunciation: 'хучху', translation: 'чёрный перец', example: '후추를 뿌려요.', exampleTr: 'Посыпаю перцем.'},
+            {korean: '후식', pronunciation: 'хусик', translation: 'десерт', example: '후식으로 과일을 먹어요.', exampleTr: 'На десерт едим фрукты.'},
+            {korean: '자장면', pronunciation: 'чачжанмён', translation: 'чачжанмён, лапша в чёрном соусе', example: '자장면을 배달시켰어요.', exampleTr: 'Заказал чачжанмён на дом.'},
+            {korean: '잡채', pronunciation: 'чапчхэ', translation: 'чапчхэ, стеклянная лапша с овощами', example: '잡채가 맛있어요.', exampleTr: 'Чапчхэ вкусное.'},
+            {korean: '찌개', pronunciation: 'ччигэ', translation: 'ччигэ, густой суп', example: '된장찌개를 끓였어요.', exampleTr: 'Сварил тведянччигэ.'},
+            {korean: '재료', pronunciation: 'чэрё', translation: 'ингредиенты, продукты', example: '재료를 준비했어요.', exampleTr: 'Подготовил ингредиенты.'},
+            {korean: '식빵', pronunciation: 'сикппан', translation: 'тостовый хлеб', example: '식빵을 구웠어요.', exampleTr: 'Поджарил тостовый хлеб.'},
+            {korean: '아이스크림', pronunciation: 'аисыкхырим', translation: 'мороженое', example: '아이스크림이 녹아요.', exampleTr: 'Мороженое тает.'},
+            {korean: '오렌지', pronunciation: 'орэнчжи', translation: 'апельсин', example: '오렌지 주스를 마셔요.', exampleTr: 'Пью апельсиновый сок.'},
+            {korean: '오이', pronunciation: 'ои', translation: 'огурец', example: '오이를 썰어요.', exampleTr: 'Режу огурец.'},
+            {korean: '오징어', pronunciation: 'очжино', translation: 'кальмар', example: '오징어가 쫄깃해요.', exampleTr: 'Кальмар упругий.'},
+            {korean: '옥수수', pronunciation: 'оксусу', translation: 'кукуруза', example: '옥수수를 삶았어요.', exampleTr: 'Сварил кукурузу.'},
+            {korean: '인삼', pronunciation: 'инсам', translation: 'женьшень', example: '인삼차를 마셔요.', exampleTr: 'Пью чай с женьшенем.'},
+            {korean: '복숭아', pronunciation: 'поксуна', translation: 'персик', example: '복숭아가 달아요.', exampleTr: 'Персик сладкий.'},
+            {korean: '사이다', pronunciation: 'саида', translation: 'лимонад (спрайт)', example: '사이다를 마셔요.', exampleTr: 'Пью лимонад.'},
+            {korean: '사탕', pronunciation: 'сатхан', translation: 'конфета', example: '사탕을 좋아해요.', exampleTr: 'Люблю конфеты.'},
+            {korean: '빈대떡', pronunciation: 'пиндэтток', translation: 'биндэтток, бобовые оладьи', example: '빈대떡을 부쳤어요.', exampleTr: 'Пожарил биндэтток.'},
+            {korean: '소고기', pronunciation: 'когоги', translation: 'говядина', example: '소고기를 구워요.', exampleTr: 'Жарю говядину.'},
+            {korean: '설탕', pronunciation: 'сольтхан', translation: 'сахар', example: '설탕을 넣지 마세요.', exampleTr: 'Не кладите сахар.'},
+            {korean: '설렁탕', pronunciation: 'соллонтхан', translation: 'соллонтхан, суп на костном бульоне', example: '설렁탕이 뜨거워요.', exampleTr: 'Соллонтхан горячий.'},
+            {korean: '스파게티', pronunciation: 'сыпхагетхи', translation: 'спагетти', example: '스파게티를 만들었어요.', exampleTr: 'Приготовил спагетти.'},
+            {korean: '만두', pronunciation: 'манду', translation: 'манду, пельмени', example: '만두를 쪄요.', exampleTr: 'Готовлю манду на пару.'},
+            {korean: '매운탕', pronunciation: 'мэунтхан', translation: 'острый рыбный суп', example: '매운탕이 얼큰해요.', exampleTr: 'Мэунтхан остренький.'},
+            {korean: '물냉면', pronunciation: 'мульнэнмён', translation: 'холодная лапша в бульоне', example: '여름에 물냉면을 먹어요.', exampleTr: 'Летом ем мульнэнмён.'},
+            {korean: '미역', pronunciation: 'миёк', translation: 'морская капуста', example: '미역국을 끓여요.', exampleTr: 'Варю суп из морской капусты.'},
+            {korean: '껌', pronunciation: 'ком', translation: 'жевательная резинка', example: '껌을 씹어요.', exampleTr: 'Жую жвачку.'},
+            {korean: '꿀', pronunciation: 'ккуль', translation: 'мёд', example: '차에 꿀을 넣어요.', exampleTr: 'Добавляю мёд в чай.'},
+            {korean: '녹차', pronunciation: 'нокчха', translation: 'зелёный чай', example: '녹차를 마셔요.', exampleTr: 'Пью зелёный чай.'},
+            {korean: '과자', pronunciation: 'кваджа', translation: 'печенье, снеки', example: '과자를 좋아해요.', exampleTr: 'Люблю печенье.'},
+            {korean: '국물', pronunciation: 'кунмуль', translation: 'бульон, суповая основа', example: '국물이 시원해요.', exampleTr: 'Бульон освежающий.'},
+            {korean: '귤', pronunciation: 'кюль', translation: 'мандарин', example: '겨울에 귤을 먹어요.', exampleTr: 'Зимой едим мандарины.'},
+            {korean: '기름', pronunciation: 'кирым', translation: 'масло (растительное)', example: '기름에 볶아요.', exampleTr: 'Жарю на масле.'},
+            {korean: '그릇', pronunciation: 'кырыт', translation: 'посуда, миска', example: '그릇을 씻어요.', exampleTr: 'Мою посуду.'},
+            {korean: '감자', pronunciation: 'камджа', translation: 'картофель', example: '감자를 삶아요.', exampleTr: 'Варю картошку.'},
+            {korean: '고추', pronunciation: 'кочху', translation: 'острый перец', example: '고추가 매워요.', exampleTr: 'Перец острый.'},
+            {korean: '간장', pronunciation: 'канджан', translation: 'соевый соус', example: '간장을 조금 넣어요.', exampleTr: 'Добавляю немного соевого соуса.'},
+            {korean: '간식', pronunciation: 'кансик', translation: 'перекус, снек', example: '오후에 간식을 먹어요.', exampleTr: 'Днём перекусываю.'},
+            {korean: '바나나', pronunciation: 'панана', translation: 'банан', example: '바나나가 맛있어요.', exampleTr: 'Банан вкусный.'},
+            {korean: '딸기', pronunciation: 'ттальги', translation: 'клубника', example: '딸기를 좋아해요.', exampleTr: 'Люблю клубнику.'},
+            {korean: '포도', pronunciation: 'пходо', translation: 'виноград', example: '포도가 달아요.', exampleTr: 'Виноград сладкий.'},
+            {korean: '수박', pronunciation: 'субак', translation: 'арбуз', example: '여름에 수박을 먹어요.', exampleTr: 'Летом ем арбуз.'},
+            {korean: '당근', pronunciation: 'танккын', translation: 'морковь', example: '당근이 몸에 좋아요.', exampleTr: 'Морковь полезна для здоровья.'},
+            {korean: '토마토', pronunciation: 'тхоматхо', translation: 'помидор', example: '토마토를 샀어요.', exampleTr: 'Купил помидоры.'},
+            {korean: '양파', pronunciation: 'янпха', translation: 'лук', example: '양파가 매워요.', exampleTr: 'Лук острый.'},
+            {korean: '밥', pronunciation: 'пап', translation: 'рис (варёный)', example: '저는 밥을 먹어요.', exampleTr: 'Я ем рис.'},
+            {korean: '빵', pronunciation: 'ппан', translation: 'хлеб', example: '아침에 빵을 먹어요.', exampleTr: 'Утром ем хлеб.'},
+            {korean: '고기', pronunciation: 'коги', translation: 'мясо', example: '저는 고기를 좋아해요.', exampleTr: 'Я люблю мясо.'},
+            {korean: '생선', pronunciation: 'сэнсон', translation: 'рыба', example: '생선이 신선해요.', exampleTr: 'Рыба свежая.'},
+            {korean: '계란', pronunciation: 'керан', translation: 'яйцо', example: '계란을 삶아요.', exampleTr: 'Варю яйцо.'},
+            {korean: '물', pronunciation: 'муль', translation: 'вода', example: '물을 마셔요.', exampleTr: 'Пью воду.'},
+            {korean: '우유', pronunciation: 'ую', translation: 'молоко', example: '매일 우유를 마셔요.', exampleTr: 'Каждый день пью молоко.'},
+            {korean: '커피', pronunciation: 'кхопхи', translation: 'кофе', example: '아침에 커피를 마셔요.', exampleTr: 'Утром пью кофе.'},
+            {korean: '차', pronunciation: 'чха', translation: 'чай', example: '따뜻한 차를 마셔요.', exampleTr: 'Пью тёплый чай.'},
+            {korean: '주스', pronunciation: 'чусы', translation: 'сок', example: '오렌지 주스를 좋아해요.', exampleTr: 'Люблю апельсиновый сок.'}
+        ];
+
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let quizCurrentIndex = 0;
+        let correctAnswers = 0;
+        let totalQuestions = 0;
+
+        function filterVocabulary() {
+            const query = document.getElementById('vocabSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.word-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        function toggleGrammar() {
+            const block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            const details = document.getElementById('details-' + id);
+            const btn = document.getElementById('expand-' + id);
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+
+        function loadVocabulary() {
+            const grid = document.getElementById('vocabularyGrid');
+            grid.innerHTML = '';
+
+            vocabulary.forEach((word, i) => {
+                const card = document.createElement('div');
+                card.className = 'word-card';
+                card.onclick = null;
+                const exHtml = word.example
+                    ? `<div class="detail-example"><div class="ex-kr">${word.example}</div><div class="ex-tr">${word.exampleTr}</div></div>`
+                    : '';
+                card.innerHTML = `
+                    <div class="korean-word">${word.korean}</div>
+                    <div class="pronunciation">${word.pronunciation}</div>
+                    <div class="translation">${word.translation}</div>
+                    <div style="display: flex; justify-content: center; gap: 8px; margin-top: 10px;">
+                        <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">&#128264;</button>
+                        <button class="expand-btn" id="expand-${i}" onclick="toggleDetails(event, ${i})">&#9660;</button>
+                    </div>
+                    <div class="word-details" id="details-${i}">
+                        <div class="word-details-inner">${exHtml}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            updateProgress();
+        }
+
+        function speak(text) {
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            // voice умышленно не задаём — на сайте уже есть общий js/tts-voice.js
+            // (подключается через global-nav.js), который для корейских фраз либо
+            // включает готовую студийную MP3-запись, либо сам подбирает лучший
+            // синтезированный голос и отсеивает "роботов"/голоса-персонажи. Он
+            // применяет свой выбор только если utterance.voice ещё не задан.
+            speechSynthesis.speak(utterance);
+        }
+
+        // ===== Голос для перевода (RU), фолбэк =====
+        let cachedRuVoice = null;
+
+        const RU_VOICE_PRIORITY = [
+            /online.*natural/i,
+            /neural/i,
+            /(premium|enhanced)/i,
+            /dariya/i,
+            /pavel/i,
+            /milena/i,
+            /yuri/i,
+            /google/i
+        ];
+
+        function pickBestVoice(voices, lang, priorityPatterns) {
+            const prefix = lang.split('-')[0];
+            const list = voices.filter(v => v.lang === lang || v.lang.startsWith(prefix));
+            if (!list.length) return null;
+            for (const pattern of priorityPatterns) {
+                const match = list.find(v => pattern.test(v.name));
+                if (match) return match;
+            }
+            return list.find(v => !/compact/i.test(v.name)) || list[0];
+        }
+
+        function refreshVoices() {
+            if (!('speechSynthesis' in window)) return;
+            const voices = speechSynthesis.getVoices();
+            if (!voices.length) return;
+            cachedRuVoice = pickBestVoice(voices, 'ru-RU', RU_VOICE_PRIORITY);
+        }
+
+        if ('speechSynthesis' in window) {
+            refreshVoices();
+            speechSynthesis.onvoiceschanged = refreshVoices;
+        }
+
+        // ===== Готовая озвучка переводов (edge-tts, ru-RU-SvetlanaNeural) =====
+        // Браузерные ru-RU голоса сильно разнятся по качеству (часто старый/роботизированный
+        // голос по умолчанию), поэтому для переводов используем такие же готовые MP3,
+        // как и для корейского — см. audio/tts/manifest.json → filesRu. Если манифест
+        // недоступен (нет сети и т.п.) — тихо откатываемся на синтезированный голос выше.
+        let ruMp3Files = null;
+        let ruPlayer = null;
+        let ruSettleCurrent = null;
+
+        fetch('../../audio/tts/manifest.json')
+            .then(r => r.ok ? r.json() : null)
+            .then(j => { if (j && j.filesRu) ruMp3Files = j.filesRu; })
+            .catch(() => { /* нет манифеста — говорим синтезированным голосом */ });
+
+        function stopRuMp3() {
+            if (ruPlayer) {
+                try { ruPlayer.pause(); ruPlayer.currentTime = 0; } catch (e) {}
+            }
+            if (ruSettleCurrent) {
+                const settle = ruSettleCurrent;
+                ruSettleCurrent = null;
+                settle();
+            }
+        }
+
+        function playRuMp3(text) {
+            const file = ruMp3Files && ruMp3Files[text];
+            if (!file) return null;
+            return new Promise(resolve => {
+                if (!ruPlayer) ruPlayer = new Audio();
+                stopRuMp3();
+                ruSettleCurrent = resolve;
+                const settle = () => {
+                    if (ruSettleCurrent !== resolve) return;
+                    ruSettleCurrent = null;
+                    resolve();
+                };
+                ruPlayer.onended = settle;
+                ruPlayer.onerror = settle;
+                ruPlayer.src = '../../audio/tts/' + file;
+                const p = ruPlayer.play();
+                if (p && p.catch) p.catch(settle);
+            });
+        }
+
+        // Произнести фразу и дождаться окончания — для непрерывного плеера "Слушать"
+        function speakOne(text, lang) {
+            if (lang !== 'ko-KR') {
+                const mp3 = playRuMp3(text);
+                if (mp3) return mp3;
+            }
+            return new Promise(resolve => {
+                if (!('speechSynthesis' in window)) { resolve(); return; }
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = lang;
+                if (lang === 'ko-KR') {
+                    utter.rate = 0.85;
+                    utter.pitch = 1.05;
+                } else {
+                    utter.rate = 1.0;
+                    utter.pitch = 1.0;
+                    if (cachedRuVoice) utter.voice = cachedRuVoice;
+                }
+                utter.onend = () => resolve();
+                utter.onerror = () => resolve();
+                speechSynthesis.speak(utter);
+            });
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function showVocabulary() {
+            document.getElementById('vocabulary-section').style.display = 'block';
+            document.getElementById('flashcard-section').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('audio-section').style.display = 'none';
+            updateActiveButton(0);
+            pausePlayback();
+        }
+
+        function showFlashcards() {
+            document.getElementById('vocabulary-section').style.display = 'none';
+            document.getElementById('flashcard-section').style.display = 'block';
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('audio-section').style.display = 'none';
+            updateActiveButton(1);
+            updateFlashcard();
+            pausePlayback();
+        }
+
+        function showQuiz() {
+            document.getElementById('vocabulary-section').style.display = 'none';
+            document.getElementById('flashcard-section').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'block';
+            document.getElementById('audio-section').style.display = 'none';
+            updateActiveButton(2);
+            generateQuizQuestion();
+            pausePlayback();
+        }
+
+        function showAudio() {
+            document.getElementById('vocabulary-section').style.display = 'none';
+            document.getElementById('flashcard-section').style.display = 'none';
+            document.getElementById('quiz-section').style.display = 'none';
+            document.getElementById('audio-section').style.display = 'block';
+            updateActiveButton(3);
+            updatePlayerUI();
+        }
+
+        function updateActiveButton(index) {
+            const buttons = document.querySelectorAll('.mode-btn');
+            buttons.forEach((btn, i) => {
+                if (i === index) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        function updateFlashcard() {
+            const word = vocabulary[currentCardIndex];
+            const content = document.getElementById('flashcard-content');
+
+            if (isFlipped) {
+                content.innerHTML = `
+                    <div class="pronunciation">${word.pronunciation}</div>
+                    <div class="translation">${word.translation}</div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="korean-word">${word.korean}</div>
+                    <button class="speak-btn" onclick="speak('${word.korean}')">🔊</button>
+                `;
+            }
+
+            document.getElementById('card-counter').textContent = `${currentCardIndex + 1} / ${vocabulary.length}`;
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            updateFlashcard();
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % vocabulary.length;
+            isFlipped = false;
+            updateFlashcard();
+        }
+
+        function prevCard() {
+            currentCardIndex = (currentCardIndex - 1 + vocabulary.length) % vocabulary.length;
+            isFlipped = false;
+            updateFlashcard();
+        }
+
+        // ===== Аудио-плеер "Слушать" — непрерывное озвучивание всех слов =====
+        let audioOrder = vocabulary.map((_, i) => i);
+        let player = { gen: 0, playing: false, index: 0, mode: 'word', repeat: true };
+        let wakeLock = null;
+
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                }
+            } catch (e) { /* не критично, если экран нельзя удержать включенным */ }
+        }
+
+        function releaseWakeLock() {
+            if (wakeLock) {
+                wakeLock.release().catch(() => {});
+                wakeLock = null;
+            }
+        }
+
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible' && player.playing && !wakeLock) {
+                requestWakeLock();
+            }
+        });
+
+        function updatePlayerUI() {
+            const word = vocabulary[audioOrder[player.index]];
+            document.getElementById('audio-korean').textContent = word.korean;
+            document.getElementById('audio-romanization').textContent = word.pronunciation;
+            document.getElementById('audio-translation').textContent = word.translation;
+
+            const exampleEl = document.getElementById('audio-example');
+            if (player.mode === 'example' && word.example) {
+                exampleEl.innerHTML = word.example + '<div class="ax-tr">' + word.exampleTr + '</div>';
+                exampleEl.classList.add('show');
+            } else {
+                exampleEl.classList.remove('show');
+                exampleEl.innerHTML = '';
+            }
+
+            document.getElementById('audio-counter').textContent = (player.index + 1) + ' / ' + audioOrder.length;
+            document.getElementById('audio-progress-bar').style.width = (player.index / audioOrder.length * 100) + '%';
+            document.getElementById('audio-play-btn').innerHTML = player.playing ? '&#9208;' : '&#9654;';
+            document.getElementById('audio-player').classList.toggle('speaking', player.playing);
+        }
+
+        async function runPlayer(startIndex) {
+            const gen = ++player.gen;
+            player.playing = true;
+            player.index = startIndex;
+            requestWakeLock();
+
+            while (player.gen === gen) {
+                updatePlayerUI();
+                const word = vocabulary[audioOrder[player.index]];
+
+                await speakOne(word.korean, 'ko-KR');
+                if (player.gen !== gen) return;
+
+                if (player.mode === 'translation') {
+                    await sleep(300);
+                    if (player.gen !== gen) return;
+                    await speakOne(word.translation, 'ru-RU');
+                } else if (player.mode === 'example' && word.example) {
+                    await sleep(300);
+                    if (player.gen !== gen) return;
+                    await speakOne(word.translation, 'ru-RU');
+                    if (player.gen !== gen) return;
+                    await sleep(400);
+                    if (player.gen !== gen) return;
+                    await speakOne(word.example, 'ko-KR');
+                    if (player.gen !== gen) return;
+                    await sleep(300);
+                    if (player.gen !== gen) return;
+                    await speakOne(word.exampleTr, 'ru-RU');
+                }
+                if (player.gen !== gen) return;
+
+                await sleep(1000);
+                if (player.gen !== gen) return;
+
+                player.index++;
+                if (player.index >= audioOrder.length) {
+                    if (player.repeat) {
+                        player.index = 0;
+                    } else {
+                        player.index = audioOrder.length - 1;
+                        break;
+                    }
+                }
+            }
+
+            if (player.gen === gen) {
+                player.playing = false;
+                releaseWakeLock();
+                updatePlayerUI();
+            }
+        }
+
+        function pausePlayback() {
+            player.playing = false;
+            player.gen++;
+            if ('speechSynthesis' in window) speechSynthesis.cancel();
+            stopRuMp3();
+            releaseWakeLock();
+            updatePlayerUI();
+        }
+
+        function togglePlayPause() {
+            if (!('speechSynthesis' in window)) {
+                alert('Ваш браузер не поддерживает озвучивание текста (Web Speech API).');
+                return;
+            }
+            if (player.playing) {
+                pausePlayback();
+            } else {
+                runPlayer(player.index);
+            }
+        }
+
+        function playerNext() {
+            const wasPlaying = player.playing;
+            player.gen++;
+            if ('speechSynthesis' in window) speechSynthesis.cancel();
+            stopRuMp3();
+            player.index = (player.index + 1) % audioOrder.length;
+            if (wasPlaying) { runPlayer(player.index); } else { updatePlayerUI(); }
+        }
+
+        function playerPrev() {
+            const wasPlaying = player.playing;
+            player.gen++;
+            if ('speechSynthesis' in window) speechSynthesis.cancel();
+            stopRuMp3();
+            player.index = (player.index - 1 + audioOrder.length) % audioOrder.length;
+            if (wasPlaying) { runPlayer(player.index); } else { updatePlayerUI(); }
+        }
+
+        function toggleRepeat() {
+            player.repeat = !player.repeat;
+            document.getElementById('audio-repeat-btn').classList.toggle('active', player.repeat);
+        }
+
+        function setAudioMode(mode) {
+            player.mode = mode;
+            ['word', 'translation', 'example'].forEach(m => {
+                document.getElementById('audio-mode-' + m).classList.toggle('active', m === mode);
+            });
+            const wasPlaying = player.playing;
+            updatePlayerUI();
+            if (wasPlaying) runPlayer(player.index);
+        }
+
+        function generateQuizQuestion() {
+            const word = vocabulary[quizCurrentIndex % vocabulary.length];
+            const options = [word];
+
+            while (options.length < 4) {
+                const randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+                if (!options.includes(randomWord)) {
+                    options.push(randomWord);
+                }
+            }
+
+            options.sort(() => Math.random() - 0.5);
+
+            document.getElementById('quiz-question').textContent = `Как по-корейски "${word.translation}"?`;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            options.forEach(option => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'quiz-option';
+                optionDiv.textContent = `${option.korean} (${option.pronunciation})`;
+                optionDiv.onclick = () => selectAnswer(option, word);
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            document.getElementById('quiz-result').textContent = '';
+        }
+
+        function selectAnswer(selected, correct) {
+            totalQuestions++;
+            const options = document.querySelectorAll('.quiz-option');
+
+            options.forEach(option => {
+                option.onclick = null;
+                if (option.textContent.includes(correct.korean)) {
+                    option.classList.add('correct');
+                } else if (option.textContent.includes(selected.korean)) {
+                    option.classList.add('wrong');
+                }
+            });
+
+            if (selected.korean === correct.korean) {
+                correctAnswers++;
+                document.getElementById('quiz-result').innerHTML = '[OK] Правильно!';
+                document.getElementById('quiz-result').style.color = '#28a745';
+            } else {
+                document.getElementById('quiz-result').innerHTML = '[X] Неправильно!';
+                document.getElementById('quiz-result').style.color = '#dc3545';
+            }
+
+            document.getElementById('correct-count').textContent = correctAnswers;
+            document.getElementById('total-count').textContent = totalQuestions;
+        }
+
+        function nextQuestion() {
+            quizCurrentIndex++;
+            generateQuizQuestion();
+        }
+
+        function restartQuiz() {
+            quizCurrentIndex = 0;
+            correctAnswers = 0;
+            totalQuestions = 0;
+            document.getElementById('correct-count').textContent = '0';
+            document.getElementById('total-count').textContent = '0';
+            generateQuizQuestion();
+        }
+
+        function updateProgress() {
+            const progress = Math.min(100, (vocabulary.length / 18) * 100);
+            document.getElementById('progress').style.width = progress + '%';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVocabulary();
+            updateFlashcard();
+            generateQuizQuestion();
+            updatePlayerUI();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('flashcard-section').style.display !== 'none') {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    flipCard();
+                } else if (e.code === 'ArrowRight') {
+                    nextCard();
+                } else if (e.code === 'ArrowLeft') {
+                    prevCard();
+                }
+            } else if (document.getElementById('audio-section').style.display !== 'none') {
+                if (e.code === 'Space') { e.preventDefault(); togglePlayPause(); }
+                else if (e.code === 'ArrowRight') { playerNext(); }
+                else if (e.code === 'ArrowLeft') { playerPrev(); }
+            }
+        });
+    </script>
+<script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        // Кнопка завершения урока
+        var LESSON_ID = 'vocabulary_basicfood';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        // Проверяем статус при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1646 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Времена года и месяцы - 계절과 달</title>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: linear-gradient(135deg, #2e9e5b 0%, #14663a 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .vocab-header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 35px 40px 25px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .vocab-header h1 {
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin: 0 0 8px;
+        }
+
+        .korean-title {
+            font-size: 1.6em;
+            color: #e67e22;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .vocab-header p {
+            color: #55506e;
+            margin: 0;
+        }
+
+        /* ===== Mode buttons ===== */
+        .study-mode {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 11px 22px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 25px;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .mode-btn:hover { background: rgba(255,255,255,0.25); }
+        .mode-btn.active { background: #e67e22; border-color: #e67e22; }
+
+        /* ===== Grammar section ===== */
+        .grammar-toggle {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .grammar-toggle button {
+            padding: 11px 28px;
+            background: rgba(255,255,255,0.18);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .grammar-toggle button:hover { background: rgba(255,255,255,0.3); }
+
+        .grammar-block {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(10px);
+            border-radius: 22px;
+            padding: 0;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .grammar-block h3 {
+            color: white;
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            padding: 18px 30px;
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .grammar-inner { padding: 25px 30px 30px; }
+
+        .formula-card {
+            background: linear-gradient(135deg, #edfafa, #d5f0f0);
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            border: 1px solid #f0e3d8;
+        }
+
+        .formula-card .fc-label {
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #5f5a75;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .formula-card .fc-formula {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+        }
+
+        .fc-word {
+            background: white;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .fc-word.highlight { background: #fff3e0; color: #e67e22; }
+        .fc-word.result { background: linear-gradient(135deg, #2e9e5b, #14663a); color: white; }
+        .fc-word.particle { background: #f3e5f5; color: #8e44ad; }
+        .fc-word.strike { text-decoration: line-through; color: #6b6684; font-weight: 400; }
+        .fc-plus { color: #e67e22; font-weight: 700; font-size: 1.2em; }
+        .fc-arrow { color: #8e44ad; font-size: 1.3em; }
+        .fc-desc { color: #55506e; font-size: 0.9em; margin-top: 4px; }
+
+        .section-label {
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #6b6684;
+            font-weight: 600;
+            margin: 22px 0 10px;
+        }
+        .section-label:first-child { margin-top: 0; }
+
+        /* Weather usage */
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .usage-item {
+            background: white;
+            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid #eee;
+            border-left: 4px solid #e67e22;
+        }
+        .ui-kr { color: #e67e22; font-weight: 700; font-size: 1.05em; margin-bottom: 4px; }
+        .ui-tr { color: #55506e; font-size: 0.88em; }
+
+        /* Month formation */
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .month-item {
+            background: white;
+            border-radius: 10px;
+            padding: 10px 12px;
+            border: 1px solid #eee;
+            text-align: center;
+            font-size: 0.92em;
+        }
+        .month-item.exception {
+            background: #fff3e0;
+            border-color: #ffb74d;
+        }
+        .month-item .mi-num { color: #8e44ad; font-weight: 700; margin-right: 4px; }
+        .month-item .mi-kr { color: #2c3e50; font-weight: 600; }
+        .month-item .mi-rom { color: #6b6684; font-size: 0.8em; display: block; margin-top: 2px; font-style: italic; }
+        .month-item.exception .mi-kr { color: #e65100; }
+
+        /* Holidays */
+        .holiday-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .holiday-card {
+            background: linear-gradient(135deg, #fff0f5, #ffe0ea);
+            border-radius: 12px;
+            padding: 12px 16px;
+            border-left: 4px solid #8e44ad;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .holiday-card .hc-badge {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 18px;
+            font-size: 0.8em;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .holiday-card .hc-info { flex: 1; min-width: 0; }
+        .holiday-card .hc-kr { color: #2c3e50; font-weight: 700; font-size: 1em; }
+        .holiday-card .hc-ru { color: #55506e; font-size: 0.83em; margin-top: 2px; }
+
+        /* Special seasons */
+        .special-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .special-card {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            border-radius: 14px;
+            padding: 14px 16px;
+            color: white;
+        }
+        .special-card .sc-emoji { font-size: 1.8em; margin-bottom: 4px; }
+        .special-card .sc-kr { font-size: 1.15em; font-weight: 700; margin-bottom: 2px; }
+        .special-card .sc-rom { font-size: 0.78em; opacity: 0.7; font-style: italic; margin-bottom: 6px; }
+        .special-card .sc-ru { font-size: 0.88em; opacity: 0.9; }
+        .special-card .sc-when {
+            background: rgba(255,255,255,0.12);
+            border-radius: 8px;
+            padding: 5px 10px;
+            font-size: 0.8em;
+            margin-top: 8px;
+        }
+
+        /* ===== Vocabulary grid ===== */
+        .vocab-section {
+            margin-bottom: 25px;
+        }
+        .vocab-section-header {
+            color: white;
+            font-size: 1.05em;
+            font-weight: 600;
+            padding: 10px 18px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .vocab-section-header .vsh-count {
+            background: rgba(255,255,255,0.25);
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+        }
+
+        .vocabulary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .word-card {
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        .word-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+
+        .word-card-top {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 20px;
+        }
+
+        .word-color-dot {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            font-weight: 700;
+        }
+
+        .word-info { flex: 1; min-width: 0; }
+        .word-korean {
+            font-size: 1.35em;
+            font-weight: 700;
+            color: #2c3e50;
+            line-height: 1.2;
+        }
+        .word-sub {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 3px;
+            flex-wrap: wrap;
+        }
+        .word-romanization {
+            font-size: 0.85em;
+            color: #6b6684;
+            font-style: italic;
+        }
+        .word-translation {
+            font-size: 0.9em;
+            color: #55506e;
+            font-weight: 500;
+        }
+
+        .word-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .speak-btn {
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.2s;
+            line-height: 1;
+        }
+        .speak-btn:hover { transform: scale(1.2); }
+
+        .expand-btn {
+            background: none;
+            border: none;
+            font-size: 1em;
+            cursor: pointer;
+            padding: 4px;
+            transition: transform 0.3s;
+            color: #6b6684;
+            line-height: 1;
+        }
+        .expand-btn:hover { color: #e67e22; }
+        .expand-btn.open { transform: rotate(180deg); color: #e67e22; }
+
+        .word-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease;
+            background: #fafbfc;
+            border-top: 1px solid #f0f0f0;
+        }
+        .word-details.open { max-height: 260px; }
+        .word-details-inner { padding: 14px 20px; }
+
+        .detail-example {
+            padding: 10px 14px;
+            background: #fff3e0;
+            border-radius: 10px;
+            border-left: 3px solid #e67e22;
+        }
+        .detail-example .ex-kr {
+            color: #e67e22;
+            font-weight: 600;
+            font-size: 1em;
+        }
+        .detail-example .ex-tr {
+            color: #55506e;
+            font-size: 0.88em;
+            margin-top: 3px;
+        }
+
+        /* ===== Search ===== */
+        .search-bar {
+            max-width: 450px;
+            margin: 0 auto 20px;
+            padding: 0 15px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 11px 20px;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 25px;
+            background: rgba(255,255,255,0.12);
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .search-bar input::placeholder { color: rgba(255,255,255,0.5); }
+        .search-bar input:focus { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.2); }
+
+        /* ===== Dots ===== */
+        .dot-spring { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .dot-summer { background: linear-gradient(135deg, #0f8b8d, #0a5c5e); }
+        .dot-autumn { background: linear-gradient(135deg, #d97706, #92400e); }
+        .dot-winter { background: linear-gradient(135deg, #2f6fd0, #1a3f8f); }
+        .dot-month { background: linear-gradient(135deg, #2f6fd0, #1a3f8f); font-size: 1.1em !important; }
+        .dot-util { background: linear-gradient(135deg, #2f6fd0, #1a3f8f); }
+        .dot-special { background: linear-gradient(135deg, #0f8b8d, #0a5c5e); }
+
+        /* ===== Flashcard ===== */
+        .flashcard {
+            background: rgba(255,255,255,0.97);
+            padding: 45px 35px;
+            border-radius: 22px;
+            margin: 15px auto;
+            max-width: 480px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            user-select: none;
+        }
+        .flashcard:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+        .flashcard .card-korean { font-size: 2.3em; font-weight: 700; color: #2c3e50; margin-bottom: 8px; }
+        .flashcard .card-romanization { font-size: 1.1em; color: #6b6684; font-style: italic; }
+        .flashcard .card-translation { font-size: 1.4em; color: #555; margin-top: 8px; }
+        .flashcard .card-example {
+            font-size: 1em;
+            color: #e67e22;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+            line-height: 1.5;
+            text-align: center;
+        }
+        .flashcard .card-example-tr { font-size: 0.85em; color: #55506e; margin-top: 4px; }
+
+        .flashcard-nav {
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+        }
+        .flashcard-nav .mode-btn { min-width: 120px; }
+
+        .card-counter {
+            color: white;
+            font-size: 1em;
+            font-weight: 500;
+            min-width: 70px;
+            text-align: center;
+        }
+
+        .card-hint {
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            margin-top: 12px;
+            font-size: 0.85em;
+        }
+
+        /* ===== Audio player (Слушать) ===== */
+        .audio-mode-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+        .audio-mode-toggle button {
+            padding: 9px 18px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.25);
+            border-radius: 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.25s ease;
+        }
+        .audio-mode-toggle button:hover { background: rgba(255,255,255,0.25); }
+        .audio-mode-toggle button.active { background: #e67e22; border-color: #e67e22; }
+
+        .audio-player {
+            background: rgba(255,255,255,0.97);
+            border-radius: 22px;
+            padding: 45px 35px;
+            margin: 15px auto 0;
+            max-width: 480px;
+            min-height: 200px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .audio-player.speaking { box-shadow: 0 15px 45px rgba(230,126,34,0.35); }
+
+        .audio-dot {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 14px;
+        }
+        .audio-korean { font-size: 2.3em; font-weight: 700; color: #2c3e50; }
+        .audio-romanization { font-size: 1.1em; color: #6b6684; font-style: italic; margin-top: 4px; }
+        .audio-translation { font-size: 1.4em; color: #555; margin-top: 8px; }
+
+        .audio-example {
+            display: none;
+            font-size: 1.05em;
+            color: #e67e22;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+            line-height: 1.5;
+        }
+        .audio-example.show { display: block; }
+        .audio-example .ax-tr { font-size: 0.9em; color: #55506e; margin-top: 4px; }
+
+        .audio-progress {
+            max-width: 480px;
+            margin: 18px auto 8px;
+            height: 6px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .audio-progress-bar {
+            height: 100%;
+            background: #e67e22;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .audio-counter {
+            text-align: center;
+            color: rgba(255,255,255,0.85);
+            font-size: 0.9em;
+            margin-bottom: 18px;
+        }
+
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+        }
+        .audio-ctrl-btn {
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.25);
+            color: white;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .audio-ctrl-btn:hover { background: rgba(255,255,255,0.28); transform: scale(1.05); }
+        .audio-ctrl-btn.play { width: 58px; height: 58px; font-size: 1.3em; background: #e67e22; border-color: #e67e22; }
+        .audio-ctrl-btn.play:hover { background: #D16E18; }
+        .audio-ctrl-btn.repeat.active { background: #e67e22; border-color: #e67e22; }
+
+        /* ===== Quiz ===== */
+        .quiz-section {
+            background: rgba(255,255,255,0.97);
+            border-radius: 22px;
+            padding: 35px;
+            max-width: 550px;
+            margin: 15px auto;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question {
+            font-size: 1.3em;
+            color: #2c3e50;
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            padding: 14px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-align: center;
+            font-size: 1.05em;
+        }
+        .quiz-option:hover { background: #e9ecef; transform: translateY(-2px); }
+        .quiz-option.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+        .quiz-option.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+
+        .quiz-result {
+            text-align: center;
+            font-size: 1.1em;
+            margin-top: 18px;
+            font-weight: 500;
+        }
+
+        .quiz-stats { text-align: center; margin-top: 12px; color: #55506e; font-size: 0.95em; }
+
+        .quiz-buttons {
+            text-align: center;
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .quiz-buttons button {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 12px;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .quiz-buttons .next-btn { background: #e67e22; color: white; }
+        .quiz-buttons .restart-btn { background: #6c757d; color: white; }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .vocab-header h1 { font-size: 1.7em; }
+            .korean-title { font-size: 1.3em; }
+            .vocabulary-grid { grid-template-columns: 1fr; gap: 10px; }
+            .flashcard { padding: 30px 20px; min-height: 170px; }
+            .flashcard .card-korean { font-size: 1.9em; }
+            .audio-player { padding: 30px 20px; min-height: 170px; }
+            .audio-korean { font-size: 1.9em; }
+            .quiz-options { grid-template-columns: 1fr; }
+            .grammar-inner { padding: 18px 20px 22px; }
+            .formula-card .fc-formula { font-size: 1em; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;">
+            <a href="../../level_1/index.html" style="color: white; text-decoration: none; font-size: 1em; padding: 10px 22px; background: rgba(255,255,255,0.12); border-radius: 15px; transition: all 0.3s ease; backdrop-filter: blur(10px);">&#8592; 1급</a>
+        </div>
+
+        <div class="vocab-header">
+            <h1>Времена года и месяцы</h1>
+            <div class="korean-title">계절과 달 [кеджоль-гва таль]</div>
+            <p>Сезоны, месяцы, праздники и особенности корейского года</p>
+        </div>
+
+        <!-- Grammar toggle -->
+        <div class="grammar-toggle">
+            <button onclick="toggleGrammar()">📖 Как использовать в речи</button>
+        </div>
+
+        <!-- Grammar block -->
+        <div class="grammar-block" id="grammar-block" style="display: none;">
+            <h3>💡 Сезоны, месяцы и время года</h3>
+            <div class="grammar-inner">
+
+                <!-- Month formation -->
+                <div class="section-label">🔢 Как образуются месяцы</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">숫자 (сино-кор.)</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">월</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">месяц</span>
+                    </div>
+                    <div class="fc-desc">Берём китайско-корейское число (일, 이, 삼...) и добавляем <strong>월</strong> (юэ — «месяц/луна»). Два исключения подсвечены.</div>
+                    <div class="month-grid">
+                        <div class="month-item"><span class="mi-num">1</span><span class="mi-kr">1월</span><span class="mi-rom">irwol</span></div>
+                        <div class="month-item"><span class="mi-num">2</span><span class="mi-kr">2월</span><span class="mi-rom">iwol</span></div>
+                        <div class="month-item"><span class="mi-num">3</span><span class="mi-kr">3월</span><span class="mi-rom">samwol</span></div>
+                        <div class="month-item"><span class="mi-num">4</span><span class="mi-kr">4월</span><span class="mi-rom">sawol</span></div>
+                        <div class="month-item"><span class="mi-num">5</span><span class="mi-kr">5월</span><span class="mi-rom">owol</span></div>
+                        <div class="month-item exception"><span class="mi-num">6</span><span class="mi-kr">6월</span><span class="mi-rom">yuwol (не 육월!)</span></div>
+                        <div class="month-item"><span class="mi-num">7</span><span class="mi-kr">7월</span><span class="mi-rom">chirwol</span></div>
+                        <div class="month-item"><span class="mi-num">8</span><span class="mi-kr">8월</span><span class="mi-rom">parwol</span></div>
+                        <div class="month-item"><span class="mi-num">9</span><span class="mi-kr">9월</span><span class="mi-rom">guwol</span></div>
+                        <div class="month-item exception"><span class="mi-num">10</span><span class="mi-kr">10월</span><span class="mi-rom">siwol (не 십월!)</span></div>
+                        <div class="month-item"><span class="mi-num">11</span><span class="mi-kr">11월</span><span class="mi-rom">sibirwol</span></div>
+                        <div class="month-item"><span class="mi-num">12</span><span class="mi-kr">12월</span><span class="mi-rom">sibiwol</span></div>
+                    </div>
+                </div>
+
+                <!-- Rule 1: like season -->
+                <div class="section-label">Любить время года</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">봄</span>
+                        <span class="fc-word particle">을/를</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">좋아해요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">봄을 좋아해요</span>
+                    </div>
+                    <div class="fc-desc">«Люблю весну». После времени года — 을/를 (винительный), затем 좋아하다 (любить).</div>
+                </div>
+
+                <!-- Rule 2: in season -->
+                <div class="section-label">В [время года] + действие</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">여름</span>
+                        <span class="fc-word particle">에</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">바다에 가요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">여름에 바다에 가요</span>
+                    </div>
+                    <div class="fc-desc">«Летом еду на море». Частица <strong>에</strong> указывает время: «в», «во время».</div>
+                </div>
+
+                <!-- Rule 3: season is... -->
+                <div class="section-label">Какая [время года]?</div>
+                <div class="formula-card">
+                    <div class="fc-formula">
+                        <span class="fc-word highlight">겨울</span>
+                        <span class="fc-word particle">이/가</span>
+                        <span class="fc-plus">+</span>
+                        <span class="fc-word">추워요</span>
+                        <span class="fc-arrow">→</span>
+                        <span class="fc-word result">겨울이 추워요</span>
+                    </div>
+                    <div class="fc-desc">«Зима холодная». 이/가 — именительный падеж, после — прилагательное.</div>
+                </div>
+
+                <!-- Rule 4: weather by season (FIXED) -->
+                <div class="section-label">🌤 Погода по сезонам</div>
+                <div class="usage-grid">
+                    <div class="usage-item">
+                        <div class="ui-kr">봄에는 따뜻해요</div>
+                        <div class="ui-tr">Весной тепло [бомэнын ттаттыттхэё]</div>
+                    </div>
+                    <div class="usage-item">
+                        <div class="ui-kr">여름에는 더워요</div>
+                        <div class="ui-tr">Летом жарко [ёрымэнын тоуоё]</div>
+                    </div>
+                    <div class="usage-item">
+                        <div class="ui-kr">가을에는 시원해요</div>
+                        <div class="ui-tr">Осенью прохладно [каырэнын сиуонхэё]</div>
+                    </div>
+                    <div class="usage-item">
+                        <div class="ui-kr">겨울에는 추워요</div>
+                        <div class="ui-tr">Зимой холодно [кёурэнын чхууоё]</div>
+                    </div>
+                </div>
+
+                <!-- Korean holidays -->
+                <div class="section-label">🎎 Корейские праздники по месяцам</div>
+                <div class="holiday-grid">
+                    <div class="holiday-card">
+                        <div class="hc-badge">1–2월</div>
+                        <div class="hc-info">
+                            <div class="hc-kr">설날 [соллаль]</div>
+                            <div class="hc-ru">Лунный Новый год (по лунному календарю)</div>
+                        </div>
+                    </div>
+                    <div class="holiday-card">
+                        <div class="hc-badge">5월 5일</div>
+                        <div class="hc-info">
+                            <div class="hc-kr">어린이날 [орини наль]</div>
+                            <div class="hc-ru">День детей — выходной</div>
+                        </div>
+                    </div>
+                    <div class="holiday-card">
+                        <div class="hc-badge">5월 8일</div>
+                        <div class="hc-info">
+                            <div class="hc-kr">어버이날 [обои наль]</div>
+                            <div class="hc-ru">День родителей</div>
+                        </div>
+                    </div>
+                    <div class="holiday-card">
+                        <div class="hc-badge">6월 6일</div>
+                        <div class="hc-info">
+                            <div class="hc-kr">현충일 [хёнчхунъиль]</div>
+                            <div class="hc-ru">День памяти павших</div>
+                        </div>
+                    </div>
+                    <div class="holiday-card">
+                        <div class="hc-badge">8월 15일</div>
+                        <div class="hc-info">
+                            <div class="hc-kr">광복절 [кванбокчоль]</div>
+                            <div class="hc-ru">День освобождения Кореи</div>
+                        </div>
+                    </div>
+                    <div class="holiday-card">
+                        <div class="hc-badge">9–10월</div>
+                        <div class="hc-info">
+                            <div class="hc-kr">추석 [чхусок]</div>
+                            <div class="hc-ru">Праздник урожая — «корейский день благодарения»</div>
+                        </div>
+                    </div>
+                    <div class="holiday-card">
+                        <div class="hc-badge">10월 9일</div>
+                        <div class="hc-info">
+                            <div class="hc-kr">한글날 [хангыль наль]</div>
+                            <div class="hc-ru">День хангыля — корейского алфавита</div>
+                        </div>
+                    </div>
+                    <div class="holiday-card">
+                        <div class="hc-badge">12월 25일</div>
+                        <div class="hc-info">
+                            <div class="hc-kr">크리스마스 [кхырисымасы]</div>
+                            <div class="hc-ru">Рождество — выходной</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Special Korean seasons -->
+                <div class="section-label">🌏 Особые сезоны Кореи</div>
+                <div class="special-grid">
+                    <div class="special-card">
+                        <div class="sc-emoji">🌧️</div>
+                        <div class="sc-kr">장마</div>
+                        <div class="sc-rom">[чанма] jangma</div>
+                        <div class="sc-ru">Сезон дождей — муссон</div>
+                        <div class="sc-when">Конец июня — середина июля</div>
+                    </div>
+                    <div class="special-card">
+                        <div class="sc-emoji">💨</div>
+                        <div class="sc-kr">황사</div>
+                        <div class="sc-rom">[хванса] hwangsa</div>
+                        <div class="sc-ru">Жёлтый песок из Китая</div>
+                        <div class="sc-when">Весна, март – май</div>
+                    </div>
+                    <div class="special-card">
+                        <div class="sc-emoji">🍁</div>
+                        <div class="sc-kr">단풍</div>
+                        <div class="sc-rom">[танпхун] danpung</div>
+                        <div class="sc-ru">Красная и жёлтая осенняя листва</div>
+                        <div class="sc-when">Октябрь – начало ноября</div>
+                    </div>
+                    <div class="special-card">
+                        <div class="sc-emoji">🌸</div>
+                        <div class="sc-kr">벚꽃</div>
+                        <div class="sc-rom">[почкот] beotkkot</div>
+                        <div class="sc-ru">Цветение сакуры (вишни)</div>
+                        <div class="sc-when">Начало – середина апреля</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="study-mode">
+            <button class="mode-btn active" onclick="showMode('vocabulary')">📚 Словарь</button>
+            <button class="mode-btn" onclick="showMode('flashcards')">🃏 Карточки</button>
+            <button class="mode-btn" onclick="showMode('quiz')">🎯 Тест</button>
+            <button class="mode-btn" onclick="showMode('audio')">🎧 Слушать</button>
+        </div>
+
+        <!-- Vocabulary Section -->
+        <div id="vocabulary-section">
+            <div class="search-bar">
+                <input type="text" id="vocabSearch" placeholder="🔍 Поиск слова..." oninput="filterVocabulary()">
+            </div>
+            <div id="vocabularyContainer"></div>
+        </div>
+
+        <!-- Flashcard Section -->
+        <div id="flashcard-section" style="display: none;">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div id="flashcard-content"></div>
+            </div>
+            <div class="flashcard-nav">
+                <button class="mode-btn" onclick="prevCard()">← Назад</button>
+                <span class="card-counter" id="card-counter">1 / 30</span>
+                <button class="mode-btn" onclick="nextCard()">Далее →</button>
+            </div>
+            <div style="text-align:center; margin-top: 10px;">
+                <button class="mode-btn" onclick="shuffleCards()">🔀 Перемешать</button>
+            </div>
+            <div class="card-hint">Клик или пробел = перевернуть. ←→ = навигация</div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz-section" style="display: none;">
+            <div class="quiz-section">
+                <div class="quiz-question" id="quiz-question"></div>
+                <div class="quiz-options" id="quiz-options"></div>
+                <div class="quiz-result" id="quiz-result"></div>
+                <div class="quiz-buttons">
+                    <button class="next-btn" onclick="nextQuestion()">→ Дальше</button>
+                    <button class="restart-btn" onclick="restartQuiz()">Заново</button>
+                </div>
+                <div class="quiz-stats" id="quiz-stats">✓ <span id="correct-count">0</span> / <span id="total-count">0</span></div>
+            </div>
+        </div>
+
+        <!-- Audio Section (Слушать по дороге) -->
+        <div id="audio-section" style="display: none;">
+            <div class="audio-mode-toggle">
+                <button id="audio-mode-word" class="active" onclick="setAudioMode('word')">🔤 Просто</button>
+                <button id="audio-mode-translation" onclick="setAudioMode('translation')">🌐 С переводом</button>
+                <button id="audio-mode-example" onclick="setAudioMode('example')">💬 С примерами</button>
+            </div>
+
+            <div class="audio-player" id="audio-player">
+                <div class="audio-dot word-color-dot" id="audio-dot"></div>
+                <div class="audio-korean" id="audio-korean"></div>
+                <div class="audio-romanization" id="audio-romanization"></div>
+                <div class="audio-translation" id="audio-translation"></div>
+                <div class="audio-example" id="audio-example"></div>
+            </div>
+
+            <div class="audio-progress"><div class="audio-progress-bar" id="audio-progress-bar"></div></div>
+            <div class="audio-counter" id="audio-counter">1 / 30</div>
+
+            <div class="audio-controls">
+                <button class="audio-ctrl-btn" onclick="playerPrev()" title="Предыдущий">⏮</button>
+                <button class="audio-ctrl-btn play" id="audio-play-btn" onclick="togglePlayPause()" title="Воспроизвести / пауза">▶</button>
+                <button class="audio-ctrl-btn" onclick="playerNext()" title="Следующий">⏭</button>
+                <button class="audio-ctrl-btn repeat active" id="audio-repeat-btn" onclick="toggleRepeat()" title="Повторять весь список по кругу">🔁</button>
+            </div>
+
+            <div class="card-hint">Плеер озвучит все слова по очереди — удобно слушать по дороге, не глядя в телефон. Пробел = play/пауза, ←→ = пред./след.</div>
+        </div>
+
+        <div style="text-align: center; margin: 35px 0 10px;">
+            <a href="../../level_1/index.html" style="display: inline-block; background: rgba(255,255,255,0.15); color: white; padding: 13px 28px; border-radius: 25px; text-decoration: none; font-size: 1em; font-weight: 500; transition: all 0.3s ease; border: 2px solid rgba(255,255,255,0.2);">
+                ← К урокам 1급
+            </a>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 20px 0 40px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 16px 36px;
+                font-size: 1.1em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить как пройденный</button>
+        </div>
+    </div>
+
+    <script>
+        const vocabulary = [
+            // ===== Сезоны =====
+            {section: 'seasons', dotClass: 'dot-spring', dotContent: '🌸', korean: '봄', romanization: 'bom', translation: 'весна', example: '봄에 꽃이 피어요.', exampleTr: 'Весной распускаются цветы.'},
+            {section: 'seasons', dotClass: 'dot-summer', dotContent: '🌿', korean: '잎', romanization: 'ip', translation: 'лист (растения)', example: '잎이 푸르러요.', exampleTr: 'Листья зелёные.'},
+            {section: 'seasons', dotClass: 'dot-summer', dotContent: '🌹', korean: '장미', romanization: 'jangmi', translation: 'роза', example: '장미가 피었어요.', exampleTr: 'Розы расцвели.'},
+            {section: 'seasons', dotClass: 'dot-summer', dotContent: '🌊', korean: '여름', romanization: 'yeoreum', translation: 'лето', example: '여름에 바다에 가요.', exampleTr: 'Летом еду на море.'},
+            {section: 'seasons', dotClass: 'dot-autumn', dotContent: '🍂', korean: '가을', romanization: 'gaeul', translation: 'осень', example: '가을에는 시원해요.', exampleTr: 'Осенью прохладно.'},
+            {section: 'seasons', dotClass: 'dot-winter', dotContent: '❄️', korean: '겨울', romanization: 'gyeoul', translation: 'зима', example: '겨울이 추워요.', exampleTr: 'Зима холодная.'},
+
+            // ===== Месяцы =====
+            {section: 'months', dotClass: 'dot-month', dotContent: '1', korean: '1월', romanization: 'irwol', translation: 'январь', example: '1월에 눈이 와요.', exampleTr: 'В январе идёт снег.'},
+            {section: 'months', dotClass: 'dot-month', dotContent: '2', korean: '2월', romanization: 'iwol', translation: 'февраль', example: '2월은 짧아요.', exampleTr: 'Февраль короткий.'},
+            {section: 'months', dotClass: 'dot-month', dotContent: '3', korean: '3월', romanization: 'samwol', translation: 'март', example: '3월에 학교가 시작해요.', exampleTr: 'В марте начинается школа.'},
+            {section: 'months', dotClass: 'dot-month', dotContent: '4', korean: '4월', romanization: 'sawol', translation: 'апрель', example: '4월에 벚꽃이 피어요.', exampleTr: 'В апреле цветёт сакура.'},
+            {section: 'months', dotClass: 'dot-month', dotContent: '5', korean: '5월', romanization: 'owol', translation: 'май', example: '5월은 따뜻해요.', exampleTr: 'Май тёплый.'},
+            {section: 'months', dotClass: 'dot-month', dotContent: '6', korean: '6월', romanization: 'yuwol', translation: 'июнь', example: '6월에 장마가 시작해요.', exampleTr: 'В июне начинается сезон дождей.'},
+            {section: 'months', dotClass: 'dot-month', dotContent: '7', korean: '7월', romanization: 'chirwol', translation: 'июль', example: '7월은 아주 더워요.', exampleTr: 'Июль очень жаркий.'},
+            {section: 'months', dotClass: 'dot-month', dotContent: '8', korean: '8월', romanization: 'parwol', translation: 'август', example: '8월에 휴가를 가요.', exampleTr: 'В августе еду в отпуск.'},
+            {section: 'months', dotClass: 'dot-month', dotContent: '9', korean: '9월', romanization: 'guwol', translation: 'сентябрь', example: '9월에 학기가 시작해요.', exampleTr: 'В сентябре начинается семестр.'},
+            {section: 'months', dotClass: 'dot-month', dotContent: '10', korean: '10월', romanization: 'siwol', translation: 'октябрь', example: '10월에 단풍이 들어요.', exampleTr: 'В октябре листья краснеют.'},
+            {section: 'months', dotClass: 'dot-month', dotContent: '11', korean: '11월', romanization: 'sibirwol', translation: 'ноябрь', example: '11월은 쌀쌀해요.', exampleTr: 'Ноябрь прохладный.'},
+            {section: 'months', dotClass: 'dot-month', dotContent: '12', korean: '12월', romanization: 'sibiwol', translation: 'декабрь', example: '12월에 크리스마스가 있어요.', exampleTr: 'В декабре Рождество.'},
+
+            // ===== Полезные выражения =====
+            {section: 'utility', dotClass: 'dot-util', dotContent: '🌦', korean: '계절', romanization: 'gyejeol', translation: 'время года, сезон', example: '무슨 계절을 좋아해요?', exampleTr: 'Какое время года вам нравится?'},
+            {section: 'utility', dotClass: 'dot-util', dotContent: '🌙', korean: '달', romanization: 'dal', translation: 'месяц, луна', example: '한 달에 한 번 만나요.', exampleTr: 'Встречаемся раз в месяц.'},
+            {section: 'utility', dotClass: 'dot-util', dotContent: '📅', korean: '올해', romanization: 'olhae', translation: 'этот год', example: '올해는 2026년이에요.', exampleTr: 'Этот год — 2026.'},
+            {section: 'utility', dotClass: 'dot-util', dotContent: '⬅️', korean: '작년', romanization: 'jangnyeon', translation: 'прошлый год', example: '작년에 한국에 갔어요.', exampleTr: 'В прошлом году ездил в Корею.'},
+            {section: 'utility', dotClass: 'dot-util', dotContent: '➡️', korean: '내년', romanization: 'naenyeon', translation: 'следующий год', example: '내년에 졸업해요.', exampleTr: 'В следующем году выпускаюсь.'},
+            {section: 'utility', dotClass: 'dot-util', dotContent: '📌', korean: '이번 달', romanization: 'ibeon dal', translation: 'этот месяц', example: '이번 달은 바빠요.', exampleTr: 'В этом месяце занят.'},
+            {section: 'utility', dotClass: 'dot-util', dotContent: '◀️', korean: '지난달', romanization: 'jinandal', translation: 'прошлый месяц', example: '지난달에 이사했어요.', exampleTr: 'В прошлом месяце переехал.'},
+            {section: 'utility', dotClass: 'dot-util', dotContent: '▶️', korean: '다음 달', romanization: 'daeum dal', translation: 'следующий месяц', example: '다음 달에 시험이 있어요.', exampleTr: 'В следующем месяце экзамен.'},
+
+            // ===== Особенности корейского года =====
+            {section: 'special', dotClass: 'dot-special', dotContent: '🌧', korean: '장마', romanization: 'jangma', translation: 'сезон дождей', example: '장마가 시작되었어요.', exampleTr: 'Сезон дождей начался.'},
+            {section: 'special', dotClass: 'dot-special', dotContent: '💨', korean: '황사', romanization: 'hwangsa', translation: 'жёлтый песок (пыль из Китая)', example: '봄에는 황사가 심해요.', exampleTr: 'Весной сильный жёлтый песок.'},
+            {section: 'special', dotClass: 'dot-special', dotContent: '🍁', korean: '단풍', romanization: 'danpung', translation: 'осенняя листва', example: '10월에 단풍이 들어요.', exampleTr: 'В октябре появляется осенняя листва.'},
+            {section: 'special', dotClass: 'dot-special', dotContent: '🌸', korean: '벚꽃', romanization: 'beotkkot', translation: 'сакура, цветы вишни', example: '4월에 벚꽃이 피어요.', exampleTr: 'В апреле цветёт сакура.'}
+        ];
+
+        const SECTION_META = {
+            seasons: {title: '🌦 Времена года', count: 4},
+            months: {title: '📅 Месяцы', count: 12},
+            utility: {title: '📌 Полезные выражения', count: 8},
+            special: {title: '🌏 Особенности корейского года', count: 4}
+        };
+
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let quizCurrentIndex = 0;
+        let correctAnswers = 0;
+        let totalQuestions = 0;
+        let cardOrder = [];
+        let quizOrder = [];
+
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function buildCardOrder() {
+            cardOrder = shuffleArray(vocabulary.map((_, i) => i));
+        }
+
+        function buildQuizOrder() {
+            quizOrder = shuffleArray(vocabulary.map((_, i) => i));
+        }
+
+        // ===== Голос для перевода (RU) =====
+        // Корейский голос НЕ выбираем сами: на сайте уже есть общий js/tts-voice.js
+        // (подключается через global-nav.js), который для корейских фраз либо включает
+        // готовую студийную MP3-запись, либо сам подбирает лучший синтезированный голос
+        // и отсеивает "роботов"/голоса-персонажи. Он применяет свой выбор только если
+        // utterance.voice ещё не задан — поэтому ниже для ko-KR мы его не трогаем.
+        let cachedRuVoice = null;
+
+        const RU_VOICE_PRIORITY = [
+            /online.*natural/i,
+            /neural/i,
+            /(premium|enhanced)/i,
+            /dariya/i,
+            /pavel/i,
+            /milena/i,
+            /yuri/i,
+            /google/i
+        ];
+
+        function pickBestVoice(voices, lang, priorityPatterns) {
+            const prefix = lang.split('-')[0];
+            const list = voices.filter(v => v.lang === lang || v.lang.startsWith(prefix));
+            if (!list.length) return null;
+            for (const pattern of priorityPatterns) {
+                const match = list.find(v => pattern.test(v.name));
+                if (match) return match;
+            }
+            return list.find(v => !/compact/i.test(v.name)) || list[0];
+        }
+
+        function refreshVoices() {
+            if (!('speechSynthesis' in window)) return;
+            const voices = speechSynthesis.getVoices();
+            if (!voices.length) return;
+            cachedRuVoice = pickBestVoice(voices, 'ru-RU', RU_VOICE_PRIORITY);
+        }
+
+        if ('speechSynthesis' in window) {
+            refreshVoices();
+            speechSynthesis.onvoiceschanged = refreshVoices;
+        }
+
+        // ===== Готовая озвучка переводов (edge-tts, ru-RU-SvetlanaNeural) =====
+        // Браузерные ru-RU голоса сильно разнятся по качеству (часто старый/роботизированный
+        // голос по умолчанию), поэтому для переводов используем такие же готовые MP3,
+        // как и для корейского — см. audio/tts/manifest.json → filesRu. Если манифест
+        // недоступен (нет сети и т.п.) — тихо откатываемся на синтезированный голос выше.
+        let ruMp3Files = null;
+        let ruPlayer = null;
+        let ruSettleCurrent = null;
+
+        fetch('../../audio/tts/manifest.json')
+            .then(r => r.ok ? r.json() : null)
+            .then(j => { if (j && j.filesRu) ruMp3Files = j.filesRu; })
+            .catch(() => { /* нет манифеста — говорим синтезированным голосом */ });
+
+        function stopRuMp3() {
+            if (ruPlayer) {
+                try { ruPlayer.pause(); ruPlayer.currentTime = 0; } catch (e) {}
+            }
+            if (ruSettleCurrent) {
+                const settle = ruSettleCurrent;
+                ruSettleCurrent = null;
+                settle();
+            }
+        }
+
+        function playRuMp3(text) {
+            const file = ruMp3Files && ruMp3Files[text];
+            if (!file) return null;
+            return new Promise(resolve => {
+                if (!ruPlayer) ruPlayer = new Audio();
+                stopRuMp3();
+                ruSettleCurrent = resolve;
+                const settle = () => {
+                    if (ruSettleCurrent !== resolve) return;
+                    ruSettleCurrent = null;
+                    resolve();
+                };
+                ruPlayer.onended = settle;
+                ruPlayer.onerror = settle;
+                ruPlayer.src = '../../audio/tts/' + file;
+                const p = ruPlayer.play();
+                if (p && p.catch) p.catch(settle);
+            });
+        }
+
+        function speak(text) {
+            if (!('speechSynthesis' in window)) return;
+            speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.05;
+            // voice умышленно не задаём — см. комментарий про js/tts-voice.js выше
+            speechSynthesis.speak(utterance);
+        }
+
+        // Произнести фразу и дождаться окончания — для непрерывного плеера "Слушать"
+        function speakOne(text, lang) {
+            if (lang !== 'ko-KR') {
+                const mp3 = playRuMp3(text);
+                if (mp3) return mp3;
+            }
+            return new Promise(resolve => {
+                if (!('speechSynthesis' in window)) { resolve(); return; }
+                const utter = new SpeechSynthesisUtterance(text);
+                utter.lang = lang;
+                if (lang === 'ko-KR') {
+                    utter.rate = 0.85;
+                    utter.pitch = 1.05;
+                } else {
+                    utter.rate = 1.0;
+                    utter.pitch = 1.0;
+                    if (cachedRuVoice) utter.voice = cachedRuVoice;
+                }
+                utter.onend = () => resolve();
+                utter.onerror = () => resolve();
+                speechSynthesis.speak(utter);
+            });
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function toggleGrammar() {
+            const block = document.getElementById('grammar-block');
+            block.style.display = block.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function toggleDetails(e, id) {
+            e.stopPropagation();
+            const details = document.getElementById('details-' + id);
+            const btn = document.getElementById('expand-' + id);
+            details.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+
+        function filterVocabulary() {
+            const query = document.getElementById('vocabSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.word-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        function loadVocabulary() {
+            const container = document.getElementById('vocabularyContainer');
+            container.innerHTML = '';
+
+            const sections = {};
+            vocabulary.forEach((word, i) => {
+                if (!sections[word.section]) sections[word.section] = [];
+                sections[word.section].push({word, index: i});
+            });
+
+            Object.keys(SECTION_META).forEach(sectionKey => {
+                if (!sections[sectionKey]) return;
+                const meta = SECTION_META[sectionKey];
+                const sectionDiv = document.createElement('div');
+                sectionDiv.className = 'vocab-section';
+
+                const header = document.createElement('div');
+                header.className = 'vocab-section-header';
+                header.innerHTML = `<span>${meta.title}</span><span class="vsh-count">${meta.count}</span>`;
+                sectionDiv.appendChild(header);
+
+                const grid = document.createElement('div');
+                grid.className = 'vocabulary-grid';
+
+                sections[sectionKey].forEach(({word, index}) => {
+                    const card = document.createElement('div');
+                    card.className = 'word-card';
+
+                    const exHtml = word.example
+                        ? `<div class="detail-example"><div class="ex-kr">${word.example}</div><div class="ex-tr">${word.exampleTr}</div></div>`
+                        : '';
+
+                    card.innerHTML = `
+                        <div class="word-card-top">
+                            <div class="word-color-dot ${word.dotClass}">${word.dotContent || ''}</div>
+                            <div class="word-info">
+                                <div class="word-korean">${word.korean}</div>
+                                <div class="word-sub">
+                                    <span class="word-romanization">${word.romanization}</span>
+                                    <span class="word-translation">${word.translation}</span>
+                                </div>
+                            </div>
+                            <div class="word-card-actions">
+                                <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">🔊</button>
+                                <button class="expand-btn" id="expand-${index}" onclick="toggleDetails(event, ${index})">▼</button>
+                            </div>
+                        </div>
+                        <div class="word-details" id="details-${index}">
+                            <div class="word-details-inner">${exHtml}</div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+                sectionDiv.appendChild(grid);
+                container.appendChild(sectionDiv);
+            });
+        }
+
+        function showMode(mode) {
+            document.getElementById('vocabulary-section').style.display = mode === 'vocabulary' ? 'block' : 'none';
+            document.getElementById('flashcard-section').style.display = mode === 'flashcards' ? 'block' : 'none';
+            document.getElementById('quiz-section').style.display = mode === 'quiz' ? 'block' : 'none';
+            document.getElementById('audio-section').style.display = mode === 'audio' ? 'block' : 'none';
+
+            const buttons = document.querySelectorAll('.study-mode .mode-btn');
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle('active',
+                    (mode === 'vocabulary' && i === 0) ||
+                    (mode === 'flashcards' && i === 1) ||
+                    (mode === 'quiz' && i === 2) ||
+                    (mode === 'audio' && i === 3)
+                );
+            });
+
+            if (mode === 'flashcards') {
+                buildCardOrder();
+                currentCardIndex = 0;
+                isFlipped = false;
+                updateFlashcard();
+            }
+            if (mode === 'quiz') {
+                buildQuizOrder();
+                quizCurrentIndex = 0;
+                generateQuizQuestion();
+            }
+            if (mode === 'audio') {
+                updatePlayerUI();
+            } else {
+                pausePlayback();
+            }
+        }
+
+        function updateFlashcard() {
+            if (!cardOrder.length) buildCardOrder();
+            const word = vocabulary[cardOrder[currentCardIndex]];
+            const content = document.getElementById('flashcard-content');
+
+            if (isFlipped) {
+                content.innerHTML = `
+                    <div class="card-romanization">${word.romanization}</div>
+                    <div class="card-translation">${word.translation}</div>
+                    <div class="card-example">${word.example}</div>
+                    <div class="card-example-tr">${word.exampleTr}</div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div class="card-korean">${word.korean}</div>
+                    <button class="speak-btn" onclick="event.stopPropagation(); speak('${word.korean}')">🔊</button>
+                `;
+            }
+
+            document.getElementById('card-counter').textContent = `${currentCardIndex + 1} / ${cardOrder.length}`;
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            updateFlashcard();
+        }
+
+        function nextCard() {
+            currentCardIndex++;
+            if (currentCardIndex >= cardOrder.length) {
+                buildCardOrder();
+                currentCardIndex = 0;
+            }
+            isFlipped = false;
+            updateFlashcard();
+        }
+
+        function prevCard() {
+            currentCardIndex = (currentCardIndex - 1 + cardOrder.length) % cardOrder.length;
+            isFlipped = false;
+            updateFlashcard();
+        }
+
+        function shuffleCards() {
+            buildCardOrder();
+            currentCardIndex = 0;
+            isFlipped = false;
+            updateFlashcard();
+        }
+
+        // ===== Аудио-плеер "Слушать" — непрерывное озвучивание всех слов =====
+        let audioOrder = vocabulary.map((_, i) => i);
+        let player = { gen: 0, playing: false, index: 0, mode: 'word', repeat: true };
+        let wakeLock = null;
+
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                }
+            } catch (e) { /* не критично, если экран нельзя удержать включенным */ }
+        }
+
+        function releaseWakeLock() {
+            if (wakeLock) {
+                wakeLock.release().catch(() => {});
+                wakeLock = null;
+            }
+        }
+
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible' && player.playing && !wakeLock) {
+                requestWakeLock();
+            }
+        });
+
+        function updatePlayerUI() {
+            const word = vocabulary[audioOrder[player.index]];
+            const dotEl = document.getElementById('audio-dot');
+            dotEl.className = 'audio-dot word-color-dot ' + word.dotClass;
+            dotEl.textContent = word.dotContent || '';
+            document.getElementById('audio-korean').textContent = word.korean;
+            document.getElementById('audio-romanization').textContent = word.romanization;
+            document.getElementById('audio-translation').textContent = word.translation;
+
+            const exampleEl = document.getElementById('audio-example');
+            if (player.mode === 'example' && word.example) {
+                exampleEl.innerHTML = word.example + '<div class="ax-tr">' + word.exampleTr + '</div>';
+                exampleEl.classList.add('show');
+            } else {
+                exampleEl.classList.remove('show');
+                exampleEl.innerHTML = '';
+            }
+
+            document.getElementById('audio-counter').textContent = (player.index + 1) + ' / ' + audioOrder.length;
+            document.getElementById('audio-progress-bar').style.width = (player.index / audioOrder.length * 100) + '%';
+            document.getElementById('audio-play-btn').innerHTML = player.playing ? '⏸' : '▶';
+            document.getElementById('audio-player').classList.toggle('speaking', player.playing);
+        }
+
+        async function runPlayer(startIndex) {
+            const gen = ++player.gen;
+            player.playing = true;
+            player.index = startIndex;
+            requestWakeLock();
+
+            while (player.gen === gen) {
+                updatePlayerUI();
+                const word = vocabulary[audioOrder[player.index]];
+
+                await speakOne(word.korean, 'ko-KR');
+                if (player.gen !== gen) return;
+
+                if (player.mode === 'translation') {
+                    await sleep(300);
+                    if (player.gen !== gen) return;
+                    await speakOne(word.translation, 'ru-RU');
+                } else if (player.mode === 'example' && word.example) {
+                    await sleep(300);
+                    if (player.gen !== gen) return;
+                    await speakOne(word.translation, 'ru-RU');
+                    if (player.gen !== gen) return;
+                    await sleep(400);
+                    if (player.gen !== gen) return;
+                    await speakOne(word.example, 'ko-KR');
+                    if (player.gen !== gen) return;
+                    await sleep(300);
+                    if (player.gen !== gen) return;
+                    await speakOne(word.exampleTr, 'ru-RU');
+                }
+                if (player.gen !== gen) return;
+
+                await sleep(1000);
+                if (player.gen !== gen) return;
+
+                player.index++;
+                if (player.index >= audioOrder.length) {
+                    if (player.repeat) {
+                        player.index = 0;
+                    } else {
+                        player.index = audioOrder.length - 1;
+                        break;
+                    }
+                }
+            }
+
+            if (player.gen === gen) {
+                player.playing = false;
+                releaseWakeLock();
+                updatePlayerUI();
+            }
+        }
+
+        function pausePlayback() {
+            player.playing = false;
+            player.gen++;
+            if ('speechSynthesis' in window) speechSynthesis.cancel();
+            stopRuMp3();
+            releaseWakeLock();
+            updatePlayerUI();
+        }
+
+        function togglePlayPause() {
+            if (!('speechSynthesis' in window)) {
+                alert('Ваш браузер не поддерживает озвучивание текста (Web Speech API).');
+                return;
+            }
+            if (player.playing) {
+                pausePlayback();
+            } else {
+                runPlayer(player.index);
+            }
+        }
+
+        function playerNext() {
+            const wasPlaying = player.playing;
+            player.gen++;
+            if ('speechSynthesis' in window) speechSynthesis.cancel();
+            stopRuMp3();
+            player.index = (player.index + 1) % audioOrder.length;
+            if (wasPlaying) { runPlayer(player.index); } else { updatePlayerUI(); }
+        }
+
+        function playerPrev() {
+            const wasPlaying = player.playing;
+            player.gen++;
+            if ('speechSynthesis' in window) speechSynthesis.cancel();
+            stopRuMp3();
+            player.index = (player.index - 1 + audioOrder.length) % audioOrder.length;
+            if (wasPlaying) { runPlayer(player.index); } else { updatePlayerUI(); }
+        }
+
+        function toggleRepeat() {
+            player.repeat = !player.repeat;
+            document.getElementById('audio-repeat-btn').classList.toggle('active', player.repeat);
+        }
+
+        function setAudioMode(mode) {
+            player.mode = mode;
+            ['word', 'translation', 'example'].forEach(m => {
+                document.getElementById('audio-mode-' + m).classList.toggle('active', m === mode);
+            });
+            const wasPlaying = player.playing;
+            updatePlayerUI();
+            if (wasPlaying) runPlayer(player.index);
+        }
+
+        function generateQuizQuestion() {
+            if (!quizOrder.length) buildQuizOrder();
+            if (quizCurrentIndex >= quizOrder.length) {
+                buildQuizOrder();
+                quizCurrentIndex = 0;
+            }
+            const word = vocabulary[quizOrder[quizCurrentIndex]];
+            const options = [word];
+
+            while (options.length < 4) {
+                const rw = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+                if (!options.includes(rw)) options.push(rw);
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            document.getElementById('quiz-question').textContent = 'Как по-корейски \u00ab' + word.translation + '\u00bb?';
+
+            const container = document.getElementById('quiz-options');
+            container.innerHTML = '';
+            options.forEach(opt => {
+                const div = document.createElement('div');
+                div.className = 'quiz-option';
+                div.dataset.korean = opt.korean;
+                div.textContent = opt.korean;
+                div.onclick = () => checkAnswer(opt, word);
+                container.appendChild(div);
+            });
+
+            document.getElementById('quiz-result').textContent = '';
+        }
+
+        function checkAnswer(selected, correct) {
+            totalQuestions++;
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(opt => {
+                opt.onclick = null;
+                if (opt.dataset.korean === correct.korean) {
+                    opt.classList.add('correct');
+                } else if (opt.dataset.korean === selected.korean) {
+                    opt.classList.add('wrong');
+                }
+            });
+
+            if (selected.korean === correct.korean) {
+                correctAnswers++;
+                document.getElementById('quiz-result').innerHTML = '✅ Правильно!';
+                document.getElementById('quiz-result').style.color = '#28a745';
+            } else {
+                document.getElementById('quiz-result').innerHTML = '❌ Неправильно! Правильно: ' + correct.korean;
+                document.getElementById('quiz-result').style.color = '#dc3545';
+            }
+
+            document.getElementById('correct-count').textContent = correctAnswers;
+            document.getElementById('total-count').textContent = totalQuestions;
+        }
+
+        function nextQuestion() {
+            quizCurrentIndex++;
+            generateQuizQuestion();
+        }
+
+        function restartQuiz() {
+            buildQuizOrder();
+            quizCurrentIndex = 0;
+            correctAnswers = 0;
+            totalQuestions = 0;
+            document.getElementById('correct-count').textContent = '0';
+            document.getElementById('total-count').textContent = '0';
+            generateQuizQuestion();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVocabulary();
+            updateFlashcard();
+            updatePlayerUI();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('flashcard-section').style.display !== 'none') {
+                if (e.code === 'Space') { e.preventDefault(); flipCard(); }
+                else if (e.code === 'ArrowRight') { nextCard(); }
+                else if (e.code === 'ArrowLeft') { prevCard(); }
+            } else if (document.getElementById('audio-section').style.display !== 'none') {
+                if (e.code === 'Space') { e.preventDefault(); togglePlayPause(); }
+                else if (e.code === 'ArrowRight') { playerNext(); }
+                else if (e.code === 'ArrowLeft') { playerPrev(); }
+            }
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        // Кнопка завершения урока
+        var LESSON_ID = 'vocabulary_seasons';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
