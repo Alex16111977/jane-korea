@@ -58,11 +58,20 @@ def decode(text):
 def clean(text):
     for bad, good in SYMBOLS.items():
         text = text.replace(bad, good)
-    # «S» и «U» — разделитель и точка в списках слов
-    text = re.sub(r'(?<=[가-힣])S(?=\s|$)', ',', text)
-    text = re.sub(r'(?<=[가-힣])U(?=\s|$)', '.', text)
+    # Латинские буквы на месте знаков препинания — только рядом с хангылем,
+    # иначе пострадают «TV», «A학점», «K-POP»
+    text = re.sub(r'(?<=[가-힣])S(?=[\s»]|$)', ',', text)
+    text = re.sub(r'(?<=[가-힣])U(?=[\s»]|$)', '.', text)
+    text = re.sub(r'(?<=[가-힣])f(?=[\s»]|$)', '?', text)
+    text = re.sub(r'(?<=[가-힣])H(?=[\s»]|$)', '!', text)
+    text = re.sub(r'\bc(?=[가-힣])', '«', text)
+    text = re.sub(r'(?<=[가-힣.,?!])e\b', '»', text)
     text = re.sub(r'\s+b\s+', ', ', text)
     return re.sub(r'[ \t]+', ' ', text)
+
+
+def has_hangul(line):
+    return bool(HAN.search(line))
 
 
 def extract_text(pdf_path):
@@ -223,6 +232,101 @@ def answer_to_check(answer):
 
 
 # =============================================
+# Диалоги, тексты и словарики к ним
+# =============================================
+
+SECTION_STOP = (r'^\s*(ТЕКСТ|ДИАЛОГ[И]?|УПРАЖНЕНИЯ|СЛОВАРЬ УРОКА|СЛОВАРИК К ТЕКСТУ|'
+                r'ПОЛЕЗНЫЕ ВЫРАЖЕНИЯ|Урок \d+|Ключи|Приложения)\s*$')
+
+
+def section_blocks(lines, head, limit=90):
+    """Все блоки заданного раздела с номером урока, к которому они относятся."""
+    out = []
+    for i, line in enumerate(lines):
+        if not re.match(r'^\s*' + head + r'\s*$', line):
+            continue
+        body = []
+        for x in lines[i + 1:i + limit]:
+            if re.match(SECTION_STOP, x):
+                break
+            if not x.strip() or re.match(r'^\s*\d{1,3}\s*$', x):
+                continue
+            body.append(x.strip())
+        num = None
+        for j in range(i, max(0, i - 400), -1):
+            m = re.match(r'^\s*Урок (\d+)\s*$', lines[j])
+            if m:
+                num = int(m.group(1))
+                break
+        out.append((num, body))
+    return out
+
+
+def split_ko_ru(body):
+    """Делит блок на корейскую и русскую половины: перевод идёт следом."""
+    ko, ru, seen_ru = [], [], False
+    for line in body:
+        if has_hangul(line):
+            if seen_ru:            # корейский после перевода — новый кусок, склеиваем
+                ko.append(line)
+            else:
+                ko.append(line)
+        else:
+            if re.match(r'^\s*(Прочитайте|Переведите|Дочитайте|Ответьте|Выучите)', line):
+                continue
+            seen_ru = True
+            ru.append(line)
+    return ko, ru
+
+
+def join_wrapped(lines):
+    """Склеивает строки, разорванные переносом внутри реплики/предложения."""
+    out = []
+    for line in lines:
+        starts_new = line.startswith('—') or line.startswith('«') or not out
+        if starts_new:
+            out.append(line)
+        else:
+            out[-1] = out[-1] + ' ' + line
+    return [re.sub(r'\s+', ' ', x).strip() for x in out]
+
+
+def build_dialogs(lines):
+    result = {}
+    for num, body in section_blocks(lines, r'ДИАЛОГ[И]?'):
+        ko, ru = split_ko_ru(body)
+        ko, ru = join_wrapped(ko), join_wrapped(ru)
+        rows = [{'k': ko[i], 'r': ru[i] if i < len(ru) else None}
+                for i in range(len(ko))]
+        if rows:
+            result.setdefault(num or 0, []).extend(rows)
+    return result
+
+
+def build_texts(lines):
+    """Текст + словарик к нему. Перевода в книге у большинства текстов нет."""
+    texts, glossary = {}, {}
+    for num, body in section_blocks(lines, r'ТЕКСТ', limit=120):
+        ko, ru = split_ko_ru(body)
+        ko, ru = join_wrapped(ko), join_wrapped(ru)
+        if ko:
+            texts.setdefault(num or 0, {'ko': [], 'ru': []})
+            texts[num or 0]['ko'].extend(ko)
+            texts[num or 0]['ru'].extend(ru)
+    rx = re.compile(r'([가-힣][가-힣\s]*?)\s+([А-Яа-яЁё][^가-힣]*?)(?=\s{2,}[가-힣]|\s*$)')
+    for num, body in section_blocks(lines, r'СЛОВАРИК К ТЕКСТУ', limit=60):
+        words = []
+        for line in body:
+            for m in rx.finditer(line):
+                ru = m.group(2).strip(' ,.')
+                if ru:
+                    words.append({'k': m.group(1).strip(), 'r': ru})
+        if words:
+            glossary.setdefault(num or 0, []).extend(words)
+    return texts, glossary
+
+
+# =============================================
 # Уроки
 # =============================================
 
@@ -230,16 +334,17 @@ UNITS = [
     (0, 'Вводный урок', 'Корейский алфавит, основы чтения и письма', 1,
      ['lesson_02_alphabet']),
     (1, 'Урок 1', 'Пары согласных, ассимиляция согласных', 1,
-     ['lesson_02_alphabet']),
+     ['lesson_104_consonant_assimilation', 'lesson_02_alphabet', 'vocabulary/polite_formulas']),
     (2, 'Урок 2', 'Числительные, дата и время, счётные комплексы', 1,
      ['lesson_04_numbers', 'lesson_93_large_numbers', 'vocabulary/counters', 'vocabulary/date']),
     (3, 'Урок 3', 'Местоимения, порядок слов, именное сказуемое, стили вежливости', 1,
      ['lesson_08_politeness', 'lesson_10_copula', 'lesson_14_demonstratives']),
     (4, 'Урок 4', 'Падежи, частицы и послелоги', 1,
      ['lesson_20_accusative_case', 'lesson_21_location_ending', 'lesson_22_direction_ending',
-      'lesson_32_dative_case', 'lesson_33_possessive_case']),
+      'lesson_32_dative_case', 'lesson_33_possessive_case', 'vocabulary/everyday_nouns']),
     (5, 'Урок 5', 'Глаголы, отрицание, чередования в основах глаголов', 2,
-     ['lesson_09_negation', 'lesson_17_verb_conjugation', 'lesson_87_not_vs_cant']),
+     ['lesson_09_negation', 'lesson_17_verb_conjugation', 'lesson_87_not_vs_cant',
+      'vocabulary/verbs_actions']),
     (6, 'Урок 6', 'Вторая основа, разговорно-вежливый стиль, прошедшее время', 2,
      ['lesson_18_informal_verbs', 'lesson_27_past_tense']),
     (7, 'Урок 7', 'Причастия (определительные формы), желательный вид', 2,
@@ -255,17 +360,20 @@ UNITS = [
     (12, 'Урок 12', 'Повелительное и пригласительное наклонение, -(으)니까', 2,
      ['lesson_59_suggestion_eulkayo', 'lesson_82_reason_consequence']),
     (13, 'Урок 13', 'Служебные слова, отглагольные послелоги', 3,
-     ['lesson_82_reason_consequence', 'lesson_86_time_constructions']),
+     ['lesson_109_verbal_postpositions', 'lesson_82_reason_consequence',
+      'lesson_86_time_constructions', 'vocabulary/abstract_life']),
     (14, 'Урок 14', 'Субстантивация, конструкции с 기', 3, []),
     (15, 'Урок 15', 'Предположение -(으)ㄴ/는/(으)ㄹ 것 같다, 나 보다', 3,
      ['lesson_73_supposition']),
     (16, 'Урок 16', 'Опыт -(으)ㄴ 적이 있다/없다, время -(으)ㄴ 지 되다', 3,
      ['lesson_70_trying_experience']),
     (17, 'Урок 17', 'Прилагательные, степени сравнения, словообразование', 3,
-     ['lesson_24_adjective_conjugation', 'lesson_81_comparative_constructions']),
+     ['lesson_110_adjective_derivation', 'lesson_24_adjective_conjugation',
+      'lesson_81_comparative_constructions']),
     (18, 'Урок 18', 'Наречия', 3, ['lesson_88_time_adverbs']),
     (19, 'Урок 19', 'Нейтрально-книжный стиль 한다체', 4, []),
-    (20, 'Урок 20', 'Косвенная речь, конструкция -다면서/라면서', 4, []),
+    (20, 'Урок 20', 'Косвенная речь, конструкция -다면서/라면서', 4,
+     ['lesson_108_hearsay_damyeonseo']),
 ]
 
 
@@ -325,6 +433,11 @@ def main():
     keys = split_blocks(lines, i_keys, len(lines))
     print('[+] Заданий:', len(tasks), '| ключей:', len(keys))
 
+    dialogs = build_dialogs(lines[:i_keys])
+    texts, glossary = build_texts(lines[:i_keys])
+    print('[+] Диалогов:', len(dialogs), '| текстов:', len(texts),
+          '| словариков:', len(glossary))
+
     parsed = {}
     for num, body in tasks.items():
         title, questions = numbered(body)
@@ -358,12 +471,23 @@ def main():
             if items:
                 entry['items'] = items
             exercises.append(entry)
-        units.append({'n': n, 'name': name, 'topic': topic,
-                      'level': level, 'links': links, 'ex': exercises})
+        unit = {'n': n, 'name': name, 'topic': topic,
+                'level': level, 'links': links, 'ex': exercises}
+        if dialogs.get(n):
+            unit['dialog'] = dialogs[n]
+        if texts.get(n) and texts[n]['ko']:
+            unit['text'] = texts[n]
+        if glossary.get(n):
+            unit['glossary'] = glossary[n]
+        units.append(unit)
 
     total_ex = sum(len(u['ex']) for u in units)
     total_items = sum(len(e.get('items', [])) for u in units for e in u['ex'])
+    total_dialog = sum(len(u.get('dialog', [])) for u in units)
+    total_text = sum(len(u.get('text', {}).get('ko', [])) for u in units)
     print('[+] Уроков:', len(units), '| упражнений:', total_ex, '| заданий:', total_items)
+    print('[+] Реплик в диалогах:', total_dialog, '| строк в текстах:', total_text,
+          '| слов в словариках:', sum(len(u.get('glossary', [])) for u in units))
 
     if args.dump_vocab:
         dump_vocab(lines, args.dump_vocab)

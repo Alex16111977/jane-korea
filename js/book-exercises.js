@@ -82,7 +82,9 @@ window.bookExercises = [
   "topic": "Пары согласных, ассимиляция согласных",
   "level": 1,
   "links": [
-   "lesson_02_alphabet"
+   "lesson_104_consonant_assimilation",
+   "lesson_02_alphabet",
+   "vocabulary/polite_formulas"
   ],
   "ex": [
    {
@@ -556,7 +558,8 @@ window.bookExercises = [
    "lesson_21_location_ending",
    "lesson_22_direction_ending",
    "lesson_32_dative_case",
-   "lesson_33_possessive_case"
+   "lesson_33_possessive_case",
+   "vocabulary/everyday_nouns"
   ],
   "ex": [
    {
@@ -842,7 +845,8 @@ window.bookExercises = [
   "links": [
    "lesson_09_negation",
    "lesson_17_verb_conjugation",
-   "lesson_87_not_vs_cant"
+   "lesson_87_not_vs_cant",
+   "vocabulary/verbs_actions"
   ],
   "ex": [
    {
@@ -2219,8 +2223,10 @@ window.bookExercises = [
   "topic": "Служебные слова, отглагольные послелоги",
   "level": 3,
   "links": [
+   "lesson_109_verbal_postpositions",
    "lesson_82_reason_consequence",
-   "lesson_86_time_constructions"
+   "lesson_86_time_constructions",
+   "vocabulary/abstract_life"
   ],
   "ex": [
    {
@@ -2829,6 +2835,7 @@ window.bookExercises = [
   "topic": "Прилагательные, степени сравнения, словообразование",
   "level": 3,
   "links": [
+   "lesson_110_adjective_derivation",
    "lesson_24_adjective_conjugation",
    "lesson_81_comparative_constructions"
   ],
@@ -3530,7 +3537,9 @@ window.bookExercises = [
   "name": "Урок 20",
   "topic": "Косвенная речь, конструкция -다면서/라면서",
   "level": 4,
-  "links": [],
+  "links": [
+   "lesson_108_hearsay_damyeonseo"
+  ],
   "ex": [
    {
     "id": "20.1",
