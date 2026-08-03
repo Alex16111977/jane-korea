@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOV: Порядок слов в корейском языке</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #eefaf1 0%, #d8f0e0 50%, #d8f0e0 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #388e3c;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #4caf50;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #388e3c;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #4caf50;
+            padding-bottom: 10px;
+        }
+
+        .order-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .form-card {
+            border-radius: 15px;
+            padding: 25px;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .form-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-with-bachim {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+        }
+
+        .form-without-bachim {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+        }
+
+        .form-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-pattern {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 1.5em;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .form-description {
+            font-size: 1.1em;
+            margin: 15px 0;
+            opacity: 0.9;
+        }
+
+        .form-examples {
+            margin-top: 20px;
+        }
+
+        .form-example {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .korean-verb {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .verb-translation {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .sentence-structure {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            color: #ffffff;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .structure-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .structure-example {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .word-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .word-part {
+            background: rgba(255,255,255,0.3);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .korean-word {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .word-meaning {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .table-cell.korean {
+            color: #388e3c;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.8em;
+            color: #2b2440;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .question-forms {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #4caf50;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #edfafa, #d5f0f0);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #388e3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .option:hover {
+            background: #4caf50;
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: #27ae60;
+        }
+
+        .option.wrong {
+            background: #e74c3c;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct {
+            background: #d5f5d5;
+            color: #27ae60;
+            display: block;
+        }
+
+        .result.wrong {
+            background: #fdd5d5;
+            color: #e74c3c;
+            display: block;
+        }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15);
+            border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
+            margin-left: 8px;
+            padding: 0;
+        }
+        .audio-btn:hover {
+            background: rgba(76,175,80,0.3);
+            transform: scale(1.1);
+        }
+
+        .sentence-builder { margin: 15px 0; }
+        .word-bank {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            min-height: 50px;
+            padding: 15px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 12px;
+            border: 2px dashed #ccc;
+        }
+        .drag-word {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        .drag-word:hover {
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+        .drop-zone {
+            min-height: 60px;
+            padding: 15px;
+            background: rgba(76, 175, 80, 0.08);
+            border: 2px dashed #4caf50;
+            border-radius: 12px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            transition: background 0.3s ease;
+        }
+        .drop-placeholder {
+            color: #5f5a75;
+            font-style: italic;
+        }
+        .builder-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .builder-result {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-weight: bold;
+            display: none;
+        }
+        .builder-result.correct {
+            background: #c8e6c9;
+            color: #2e7d32;
+            display: block;
+        }
+        .builder-result.wrong {
+            background: #ffcdd2;
+            color: #c62828;
+            display: block;
+        }
+
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+            gap: 15px;
+        }
+        .lesson-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .lesson-nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .order-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 2px;
+            }
+
+            .options {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .word-breakdown {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .lesson-nav {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body data-lesson="level1_lesson_sov_order">
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_1/index.html">&#8592; Уровень 1</a>
+            <a href="../../lessons.html">Все уроки</a>
+        </div>
+
+        <header class="header">
+            <h1>SOV: Порядок слов в корейском</h1>
+            <div class="korean-title">주어 + 목적어 + 동사 [jueo + mogjeogeo + dongsa]</div>
+            <div class="description">Учимся строить предложения по корейским правилам</div>
+        </header>
+
+        <!-- Секция 1: Введение в SOV -->
+        <div class="content-section">
+            <h2>Что такое SOV?</h2>
+            <p>В русском языке мы говорим: <strong>"Я ем яблоко"</strong> (Подлежащее + Глагол + Дополнение = SVO). В корейском языке порядок другой: <strong>"Я яблоко ем"</strong> (Подлежащее + Дополнение + Глагол = SOV).</p>
+            <p>Главное правило: <strong>глагол ВСЕГДА стоит в конце предложения!</strong></p>
+
+            <div class="order-cards">
+                <div class="form-card form-with-bachim">
+                    <div class="form-title">S - Subject</div>
+                    <div class="form-pattern">주어 [jueo]</div>
+                    <div class="form-description">
+                        <strong>Подлежащее</strong> - кто делает действие. Стоит в начале предложения.
+                    </div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">저는 [jeoneun]</div>
+                            <div class="verb-translation">Я (вежливо)</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">민수는 [minsuneun]</div>
+                            <div class="verb-translation">Минсу</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="form-title">O - Object</div>
+                    <div class="form-pattern">목적어 [mogjeogeo]</div>
+                    <div class="form-description">
+                        <strong>Дополнение</strong> - на что направлено действие. Стоит в середине.
+                    </div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">사과를 [sagwareul]</div>
+                            <div class="verb-translation">яблоко (+ частица дополнения)</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">물을 [mureul]</div>
+                            <div class="verb-translation">воду (+ частица дополнения)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card form-without-bachim">
+                    <div class="form-title">V - Verb</div>
+                    <div class="form-pattern">동사 [dongsa]</div>
+                    <div class="form-description">
+                        <strong>Глагол</strong> - действие. ВСЕГДА стоит в конце предложения!
+                    </div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">먹어요 [meogeoyo]</div>
+                            <div class="verb-translation">ем, кушаю</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">마셔요 [masyeoyo]</div>
+                            <div class="verb-translation">пью</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 2: Сравнение с русским -->
+        <div class="content-section">
+            <h2>Сравнение: русский vs корейский</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">
+                    Порядок слов: русский (SVO) vs корейский (SOV)
+                </div>
+                <div class="table-row">
+                    <div class="table-cell header">Русский</div>
+                    <div class="table-cell header">Корейский</div>
+                    <div class="table-cell header">Дословно</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Я ем рис</div>
+                    <div class="table-cell korean">저는 밥을 먹어요</div>
+                    <div class="table-cell">Я рис ем</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Я п'ю воду</div>
+                    <div class="table-cell korean">저는 물을 마셔요</div>
+                    <div class="table-cell">Я воду п'ю</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Я читаю книгу</div>
+                    <div class="table-cell korean">저는 책을 읽어요</div>
+                    <div class="table-cell">Я книгу читаю</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Я смотрю фильм</div>
+                    <div class="table-cell korean">저는 영화를 봐요</div>
+                    <div class="table-cell">Я фильм смотрю</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Я слухаю музику</div>
+                    <div class="table-cell korean">저는 음악을 들어요</div>
+                    <div class="table-cell">Я музику слухаю</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 3: Разбор предложений -->
+        <div class="content-section">
+            <h2>Разбор предложений по частям</h2>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Пример 1: Я ем рис</div>
+
+                <div class="structure-example">
+                    <div class="korean-text">저는 밥을 먹어요. [jeoneun babeul meogeoyo] <button class="audio-btn" onclick="speakKorean('저는 밥을 먹어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Я ем рис.</div>
+
+                    <div class="word-breakdown">
+                        <div class="word-part">
+                            <div class="korean-word">저는</div>
+                            <div class="word-meaning">S: я (+ тема)</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">밥을</div>
+                            <div class="word-meaning">O: рис (+ дополнение)</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">먹어요</div>
+                            <div class="word-meaning">V: ем</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="structure-example">
+                    <div class="korean-text">민수는 커피를 마셔요. [minsuneun keopireul masyeoyo] <button class="audio-btn" onclick="speakKorean('민수는 커피를 마셔요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Минсу пьёт кофе.</div>
+
+                    <div class="word-breakdown">
+                        <div class="word-part">
+                            <div class="korean-word">민수는</div>
+                            <div class="word-meaning">S: Минсу (+ тема)</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">커피를</div>
+                            <div class="word-meaning">O: кофе (+ дополнение)</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">마셔요</div>
+                            <div class="word-meaning">V: пьёт</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="structure-example">
+                    <div class="korean-text">언니는 한국어를 공부해요. [eonnineun hangugeo-reul gongbuhaeyo] <button class="audio-btn" onclick="speakKorean('언니는 한국어를 공부해요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Старшая сестра учит корейский.</div>
+
+                    <div class="word-breakdown">
+                        <div class="word-part">
+                            <div class="korean-word">언니는</div>
+                            <div class="word-meaning">S: старшая сестра</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">한국어를</div>
+                            <div class="word-meaning">O: корейский язык</div>
+                        </div>
+                        <div class="word-part">
+                            <div class="korean-word">공부해요</div>
+                            <div class="word-meaning">V: учит</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 4: Простые предложения без дополнения -->
+        <div class="content-section">
+            <h2>Простые предложения (S + V)</h2>
+            <p>Не все предложения имеют дополнение. Иногда достаточно подлежащего и глагола:</p>
+
+            <div class="question-forms">
+                <h3>Формула: подлежащее + глагол</h3>
+
+                <div class="comparison-table" style="margin-top: 15px;">
+                    <div class="table-header">Предложения без дополнения</div>
+                    <div class="table-row">
+                        <div class="table-cell header">Корейский</div>
+                        <div class="table-cell header">Произношение</div>
+                        <div class="table-cell header">Перевод</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell korean">저는 가요</div>
+                        <div class="table-cell">jeoneun gayo</div>
+                        <div class="table-cell">Я иду</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell korean">아이가 자요</div>
+                        <div class="table-cell">aiga jayo</div>
+                        <div class="table-cell">Ребёнок спит</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell korean">비가 와요</div>
+                        <div class="table-cell">biga wayo</div>
+                        <div class="table-cell">Идёт дождь</div>
+                    </div>
+                    <div class="table-row">
+                        <div class="table-cell korean">친구가 와요</div>
+                        <div class="table-cell">chinguga wayo</div>
+                        <div class="table-cell">Друг приходит</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 5: Диалог -->
+        <div class="content-section">
+            <h2>Диалог: В кафе</h2>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">직원 (сотрудник):</div>
+                    <div class="korean-text">안녕하세요! 뭐 드실래요? [annyeonghaseyo! mwo deusillaeyo?] <button class="audio-btn" onclick="speakKorean('안녕하세요! 뭐 드실래요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Здравствуйте! Что будете?</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">수진:</div>
+                    <div class="korean-text">저는 커피를 마셔요. [jeoneun keopireul masyeoyo] <button class="audio-btn" onclick="speakKorean('저는 커피를 마셔요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Я пью кофе. (= Мне кофе, пожалуйста)</div>
+                    <div class="grammar-note">S(저는) + O(커피를) + V(마셔요) - классический порядок SOV</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">저는 빵을 먹어요. [jeoneun ppangeul meogeoyo] <button class="audio-btn" onclick="speakKorean('저는 빵을 먹어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Я ем хлеб. (= Мне хлеб, пожалуйста)</div>
+                    <div class="grammar-note">S(저는) + O(빵을) + V(먹어요) - глагол в конце!</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">네, 알겠습니다! [ne, algetsseumnida!] <button class="audio-btn" onclick="speakKorean('네, 알겠습니다!')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Хорошо, понял!</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 15px;">
+                <button class="option" onclick="playDialogueSequence()" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 1.1em;">&#128266; Прослушать весь диалог</button>
+            </div>
+        </div>
+
+        <!-- Секция 6: Важные замечания -->
+        <div class="content-section">
+            <h2>Важные правила</h2>
+
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px; margin: 20px 0;">
+                <h3 style="margin-top: 0;">Запомните!</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Правило 1</strong><br>
+                        Глагол ВСЕГДА в конце<br>
+                        <em>저는 밥을 먹어요</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Правило 2</strong><br>
+                        Подлежащее обычно первое<br>
+                        <em>민수는 공부해요</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Правило 3</strong><br>
+                        Дополнение перед глаголом<br>
+                        <em>책을 읽어요</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-forms">
+                <h3>Частая ошибка</h3>
+                <p>Не ставьте глагол в середину предложения! Это звучит неестественно для корейцев.</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                    <div style="background: #fdd5d5; padding: 15px; border-radius: 10px; color: #c62828;">
+                        <strong>Неправильно:</strong><br>
+                        저는 먹어요 밥을<br>
+                        <em>(Я ем рис)</em>
+                    </div>
+                    <div style="background: #d5f5d5; padding: 15px; border-radius: 10px; color: #2e7d32;">
+                        <strong>Правильно:</strong><br>
+                        저는 밥을 먹어요<br>
+                        <em>(Я рис ем)</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Практика -->
+        <div class="practice-section">
+            <h3>Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. Выберите правильное предложение "Мама читает газету":</div>
+                <div class="options">
+                    <button class="option" data-correct="false">엄마는 읽어요 신문을</button>
+                    <button class="option" data-correct="true">엄마는 신문을 읽어요</button>
+                    <button class="option" data-correct="false">엄마는 신문을 읽다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. Какую частицу получает дополнение (объект действия) в предложении?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">은/는</button>
+                    <button class="option" data-correct="true">을/를</button>
+                    <button class="option" data-correct="false">이/가</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. Расставьте слова: 마셔요 / 친구는 / 커피를 / 카페에서</div>
+                <div class="options">
+                    <button class="option" data-correct="false">친구는 마셔요 커피를 카페에서</button>
+                    <button class="option" data-correct="false">카페에서 마셔요 친구는 커피를</button>
+                    <button class="option" data-correct="true">친구는 카페에서 커피를 마셔요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. Что стоит в КОНЦЕ корейского предложения?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">подлежащее (주어)</button>
+                    <button class="option" data-correct="true">глагол (동사)</button>
+                    <button class="option" data-correct="false">дополнение (목적어)</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. "저는 학교에서 한국어를 공부해요" — какой порядок здесь использован?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">S + O + место + V</button>
+                    <button class="option" data-correct="true">S + место + O + V</button>
+                    <button class="option" data-correct="false">S + V + место + O</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. Переведите: "Я слушаю музыку" <button class="audio-btn" onclick="speakKorean('저는 음악을 들어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="options">
+                    <button class="option" data-correct="false">저는 들어요 음악을</button>
+                    <button class="option" data-correct="true">저는 음악을 들어요</button>
+                    <button class="option" data-correct="false">음악을 저는 들어요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">7. Какое предложение НЕ следует порядку SOV?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">저는 밥을 먹어요</button>
+                    <button class="option" data-correct="true">먹어요 저는 밥을</button>
+                    <button class="option" data-correct="false">엄마는 책을 읽어요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">8. "Старшая сестра пьёт воду" — выберите правильный вариант: <button class="audio-btn" onclick="speakKorean('언니는 물을 마셔요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="options">
+                    <button class="option" data-correct="false">언니는 마셔요 물을</button>
+                    <button class="option" data-correct="false">물을 언니는 마셔요</button>
+                    <button class="option" data-correct="true">언니는 물을 마셔요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <h3 style="margin-top: 30px;">Составь предложение</h3>
+
+            <div class="exercise" id="sb-1">
+                <h4>Составьте предложение: "Я ем рис"</h4>
+                <div class="sentence-builder">
+                    <div class="word-bank">
+                        <div class="drag-word" data-word="먹어요">먹어요</div>
+                        <div class="drag-word" data-word="저는">저는</div>
+                        <div class="drag-word" data-word="밥을">밥을</div>
+                    </div>
+                    <div class="drop-zone" data-answer="저는,밥을,먹어요">
+                        <span class="drop-placeholder">Нажмите на слова выше, чтобы составить предложение</span>
+                    </div>
+                    <div class="builder-controls">
+                        <button class="option" onclick="checkSentence('sb-1')" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 10px 25px; border-radius: 25px; cursor: pointer;">Проверить</button>
+                        <button class="option" onclick="resetSentence('sb-1')" style="background: #757575; color: white; border: none; padding: 10px 25px; border-radius: 25px; cursor: pointer;">Сбросить</button>
+                    </div>
+                    <div class="builder-result"></div>
+                </div>
+            </div>
+
+            <div class="exercise" id="sb-2">
+                <h4>Составьте предложение: "Мама читает книгу"</h4>
+                <div class="sentence-builder">
+                    <div class="word-bank">
+                        <div class="drag-word" data-word="읽어요">읽어요</div>
+                        <div class="drag-word" data-word="엄마는">엄마는</div>
+                        <div class="drag-word" data-word="책을">책을</div>
+                    </div>
+                    <div class="drop-zone" data-answer="엄마는,책을,읽어요">
+                        <span class="drop-placeholder">Нажмите на слова выше, чтобы составить предложение</span>
+                    </div>
+                    <div class="builder-controls">
+                        <button class="option" onclick="checkSentence('sb-2')" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 10px 25px; border-radius: 25px; cursor: pointer;">Проверить</button>
+                        <button class="option" onclick="resetSentence('sb-2')" style="background: #757575; color: white; border: none; padding: 10px 25px; border-radius: 25px; cursor: pointer;">Сбросить</button>
+                    </div>
+                    <div class="builder-result"></div>
+                </div>
+            </div>
+
+            <div class="exercise" id="sb-3">
+                <h4>Составьте предложение: "Друг смотрит фильм"</h4>
+                <div class="sentence-builder">
+                    <div class="word-bank">
+                        <div class="drag-word" data-word="봐요">봐요</div>
+                        <div class="drag-word" data-word="영화를">영화를</div>
+                        <div class="drag-word" data-word="친구는">친구는</div>
+                    </div>
+                    <div class="drop-zone" data-answer="친구는,영화를,봐요">
+                        <span class="drop-placeholder">Нажмите на слова выше, чтобы составить предложение</span>
+                    </div>
+                    <div class="builder-controls">
+                        <button class="option" onclick="checkSentence('sb-3')" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 10px 25px; border-radius: 25px; cursor: pointer;">Проверить</button>
+                        <button class="option" onclick="resetSentence('sb-3')" style="background: #757575; color: white; border: none; padding: 10px 25px; border-radius: 25px; cursor: pointer;">Сбросить</button>
+                    </div>
+                    <div class="builder-result"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Заключение -->
+        <div class="content-section">
+            <h2>Заключение</h2>
+            <p>Теперь вы знаете главное правило корейского порядка слов: <strong>SOV - подлежащее, дополнение, глагол</strong>. Глагол всегда в конце предложения!</p>
+            <p style="font-size: 1.2em; text-align: center; color: #2c3e50;">Практикуйте каждый день! 화이팅! [hwaiting!]</p>
+        </div>
+
+        <!-- Навигация между уроками -->
+        <div class="lesson-nav">
+            <a href="../../lesson_15_demonstratives_practice/index.html">&#8592; Указательные местоимения</a>
+            <a href="../lesson_topic_particle/index.html">Частица темы 은/는 &#8594;</a>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        // === Audio / TTS ===
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR';
+            u.rate = 0.7;
+            u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence() {
+            var lines = [
+                '안녕하세요! 뭐 드실래요?',
+                '저는 커피를 마셔요.',
+                '저는 빵을 먹어요.',
+                '네, 알겠습니다!'
+            ];
+            var i = 0;
+            function playNext() {
+                if (i >= lines.length) return;
+                var u = new SpeechSynthesisUtterance(lines[i]);
+                u.lang = 'ko-KR';
+                u.rate = 0.7;
+                u.pitch = 1.0;
+                var voices = window.speechSynthesis.getVoices();
+                u.onend = function() {
+                    i++;
+                    setTimeout(playNext, 600);
+                };
+                window.speechSynthesis.speak(u);
+            }
+            window.speechSynthesis.cancel();
+            playNext();
+        }
+
+        // === Sentence Builder ===
+        function initSentenceBuilders() {
+            var builders = document.querySelectorAll('.sentence-builder');
+            builders.forEach(function(builder) {
+                var bank = builder.querySelector('.word-bank');
+                var zone = builder.querySelector('.drop-zone');
+                var words = bank.querySelectorAll('.drag-word');
+
+                words.forEach(function(word) {
+                    word.addEventListener('click', function() {
+                        var placeholder = zone.querySelector('.drop-placeholder');
+                        if (placeholder) placeholder.remove();
+                        zone.appendChild(word);
+                    });
+                });
+
+                zone.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('drag-word')) {
+                        bank.appendChild(e.target);
+                        if (zone.querySelectorAll('.drag-word').length === 0) {
+                            zone.innerHTML = '<span class="drop-placeholder">Нажмите на слова выше, чтобы составить предложение</span>';
+                        }
+                    }
+                });
+            });
+        }
+
+        function checkSentence(builderId) {
+            var builder = document.getElementById(builderId);
+            var zone = builder.querySelector('.drop-zone');
+            var answer = zone.dataset.answer.split(',');
+            var placed = [];
+            zone.querySelectorAll('.drag-word').forEach(function(el) {
+                placed.push(el.dataset.word);
+            });
+            var result = builder.querySelector('.builder-result');
+            if (placed.length === 0) {
+                result.className = 'builder-result wrong';
+                result.textContent = 'Нажмите на слова, чтобы составить предложение!';
+                return;
+            }
+            var isCorrect = placed.length === answer.length && placed.every(function(w, i) { return w === answer[i]; });
+            if (isCorrect) {
+                result.className = 'builder-result correct';
+                result.textContent = '[OK] Правильно! ' + answer.join(' ');
+                speakKorean(answer.join(' '));
+            } else {
+                result.className = 'builder-result wrong';
+                result.textContent = '[ERROR] Неправильно. Правильный порядок: ' + answer.join(' ');
+            }
+        }
+
+        function resetSentence(builderId) {
+            var builder = document.getElementById(builderId);
+            var zone = builder.querySelector('.drop-zone');
+            var bank = builder.querySelector('.word-bank');
+            zone.querySelectorAll('.drag-word').forEach(function(w) { bank.appendChild(w); });
+            zone.innerHTML = '<span class="drop-placeholder">Нажмите на слова выше, чтобы составить предложение</span>';
+            builder.querySelector('.builder-result').className = 'builder-result';
+            builder.querySelector('.builder-result').textContent = '';
+        }
+    </script>
+    <script>
+        var LESSON_ID = 'level1_lesson_sov_order';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+                if (!result) return;
+
+                options.forEach(function(option) {
+                    if (option.dataset.correct === undefined) return;
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+
+                        var isCorrect = this.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            initSentenceBuilders();
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

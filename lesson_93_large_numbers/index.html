@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 93: Большие числа и деньги -- 큰 숫자와 돈</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #2f6fd0 0%, #1a3f8f 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #1565C0;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #2196F3;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .description {
+            font-size: 1.05em;
+            color: #666;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #1565C0;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #2196F3;
+            padding-bottom: 10px;
+        }
+
+        .grammar-rule {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .grammar-rule .rule-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .grammar-rule .rule-formula {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 15px 0;
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .grammar-rule .rule-note {
+            font-size: 0.95em;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .example-box {
+            background: #f5f7ff;
+            border-left: 5px solid #2196F3;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 15px 0;
+        }
+
+        .example-box .korean-text {
+            font-size: 1.3em;
+            color: #1565C0;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .example-box .pronunciation {
+            font-size: 0.95em;
+            color: #55506e;
+            margin-bottom: 5px;
+        }
+
+        .example-box .translation {
+            font-size: 1em;
+            color: #555;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-row.two-cols {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .table-row.four-cols {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+
+        .table-row.five-cols {
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .table-cell.korean {
+            color: #1565C0;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.8em;
+            color: #2b2440;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .question-forms {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #2196F3;
+        }
+
+        .sentence-structure {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .structure-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .structure-example {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .word-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .word-part {
+            background: rgba(255,255,255,0.3);
+            padding: 10px 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .korean-word {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .word-meaning {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        .warning-box h3 {
+            color: #e65100;
+            margin-top: 0;
+        }
+
+        .compare-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .compare-block.three-cols {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .compare-item {
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .compare-item.cause {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            color: #ffffff;
+        }
+
+        .compare-item.contrast {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            color: white;
+        }
+
+        .compare-item.conditional {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            color: white;
+        }
+
+        .compare-item .compare-label {
+            font-size: 0.9em;
+            opacity: 0.85;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .compare-item .compare-korean {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .compare-item .compare-translation {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        .practice-item {
+            background: #f5f7ff;
+            border: 2px solid #e3e8f7;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .practice-item:hover {
+            border-color: #2196F3;
+            box-shadow: 0 4px 15px rgba(33,150,243,0.2);
+        }
+
+        .practice-question {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #1565C0;
+            margin-bottom: 10px;
+        }
+
+        .practice-answer {
+            display: none;
+            padding-top: 10px;
+            border-top: 1px dashed #ccc;
+            margin-top: 10px;
+        }
+
+        .practice-answer .korean-text {
+            font-size: 1.2em;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .practice-answer .pronunciation {
+            font-size: 0.95em;
+            color: #55506e;
+        }
+
+        .practice-item.revealed .practice-answer {
+            display: block;
+        }
+
+        .practice-item.revealed {
+            border-color: #4caf50;
+            background: #f1f8e9;
+        }
+
+        @media (max-width: 768px) {
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .table-row.two-cols { grid-template-columns: 1fr; }
+            .table-row.four-cols { grid-template-columns: 1fr; }
+            .table-row.five-cols { grid-template-columns: 1fr; }
+            .compare-block { grid-template-columns: 1fr; }
+            .compare-block.three-cols { grid-template-columns: 1fr; }
+            .word-breakdown { flex-direction: column; align-items: center; }
+            .header h1 { font-size: 1.8em; }
+        }
+    </style>
+    <link rel="stylesheet" href="../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../index.html">Главная</a>
+            <a href="../lessons.html">Все уроки</a>
+            <a href="../lesson_92_traditions/index.html">&larr; Урок 92</a>
+            <a href="../lesson_94_medicine/index.html">Урок 94 &rarr;</a>
+        </div>
+
+        <header class="header">
+            <h1>Урок 93: Большие числа и деньги</h1>
+            <div class="korean-title">큰 숫자와 돈 [keun sutjawa don]</div>
+            <div class="description">Корейская система больших чисел, реальные цены, валюта и полезные выражения для покупок</div>
+        </header>
+
+        <!-- Section 1: Система больших чисел -->
+        <div class="content-section">
+            <h2>1. Система больших чисел в корейском</h2>
+
+            <p>В корейском языке числа группируются <strong>по 4 разряда</strong>, а не по 3, как в западной системе. Базовая единица -- не тысяча (1,000), а <strong>만 (10,000)</strong>.</p>
+
+            <div class="grammar-rule">
+                <div class="rule-title">Ключевое правило</div>
+                <div class="rule-formula">한국어는 4자리마다 단위가 바뀝니다</div>
+                <div class="rule-note">В корейском единицы меняются каждые 4 разряда</div>
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Основные единицы счёта</div>
+                <div class="word-breakdown">
+                    <div class="word-part">
+                        <div class="korean-word">만</div>
+                        <div class="word-meaning">10 000 (десять тысяч)</div>
+                    </div>
+                    <div class="word-part">
+                        <div class="korean-word">억</div>
+                        <div class="word-meaning">100 000 000 (сто миллионов)</div>
+                    </div>
+                    <div class="word-part">
+                        <div class="korean-word">조</div>
+                        <div class="word-meaning">1 000 000 000 000 (триллион)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-table">
+                <div class="table-header">Корейская vs Западная система группировки</div>
+                <div class="table-row four-cols">
+                    <div class="table-cell header">Число</div>
+                    <div class="table-cell header">Западная система</div>
+                    <div class="table-cell header">Корейская система</div>
+                    <div class="table-cell header">Чтение</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">10,000</div>
+                    <div class="table-cell">10 thousand</div>
+                    <div class="table-cell korean">1만</div>
+                    <div class="table-cell korean">만 [man]</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">100,000</div>
+                    <div class="table-cell">100 thousand</div>
+                    <div class="table-cell korean">10만</div>
+                    <div class="table-cell korean">십만 [simman]</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">1,000,000</div>
+                    <div class="table-cell">1 million</div>
+                    <div class="table-cell korean">100만</div>
+                    <div class="table-cell korean">백만 [baengman]</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">100,000,000</div>
+                    <div class="table-cell">100 million</div>
+                    <div class="table-cell korean">1억</div>
+                    <div class="table-cell korean">일억 [ireok]</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">1,000,000,000,000</div>
+                    <div class="table-cell">1 trillion</div>
+                    <div class="table-cell korean">1조</div>
+                    <div class="table-cell korean">일조 [iljo]</div>
+                </div>
+            </div>
+
+            <div class="question-forms">
+                <h3>Почему это важно?</h3>
+                <p>Когда кореец говорит <strong>5만</strong>, он имеет в виду 50,000. Когда вы видите цену <strong>12억</strong>, это 1,200,000,000 (1.2 миллиарда). Без понимания этой системы легко ошибиться на несколько порядков!</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Чтение больших чисел -->
+        <div class="content-section">
+            <h2>2. Чтение больших чисел</h2>
+
+            <p>Числа строятся по принципу: <strong>количество + единица</strong>. Внутри каждой группы из 4 разрядов используются привычные 천 (тысяча), 백 (сто), 십 (десять).</p>
+
+            <div class="example-box">
+                <div class="korean-text">50,000 = 5만 -- 오만</div>
+                <div class="pronunciation">[oman]</div>
+                <div class="translation">Пятьдесят тысяч (5 раз по 10 000)</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">100,000 = 10만 -- 십만</div>
+                <div class="pronunciation">[simman]</div>
+                <div class="translation">Сто тысяч (10 раз по 10 000)</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">1,000,000 = 100만 -- 백만</div>
+                <div class="pronunciation">[baengman]</div>
+                <div class="translation">Один миллион (100 раз по 10 000)</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">10,000,000 = 1,000만 -- 천만</div>
+                <div class="pronunciation">[cheonman]</div>
+                <div class="translation">Десять миллионов (1 000 раз по 10 000)</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">100,000,000 = 1억 -- 일억</div>
+                <div class="pronunciation">[ireok]</div>
+                <div class="translation">Сто миллионов (новая единица: 억)</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">1,000,000,000 = 10억 -- 십억</div>
+                <div class="pronunciation">[sibeok]</div>
+                <div class="translation">Один миллиард (10 раз по 억)</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">1,000,000,000,000 = 1조 -- 일조</div>
+                <div class="pronunciation">[iljo]</div>
+                <div class="translation">Один триллион (новая единица: 조)</div>
+            </div>
+
+            <div class="warning-box">
+                <h3>Как разбирать сложные числа</h3>
+                <p>Разделите число на группы по 4 цифры справа налево:</p>
+                <p><strong>45,230,000</strong> = <strong>4523</strong> | <strong>0000</strong> = 4523만 = 사천오백이십삼만</p>
+                <p><strong>3,500,000,000</strong> = <strong>35</strong> | <strong>0000</strong> | <strong>0000</strong> = 35억 = 삼십오억</p>
+            </div>
+        </div>
+
+        <!-- Section 3: Реальные цены в Корее -->
+        <div class="content-section">
+            <h2>3. Реальные цены в Корее</h2>
+
+            <p>Корейская вона (원, &#8361;) -- основная валюта. 1 доллар -- примерно 1,300원. Вот типичные цены:</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Цены на повседневные товары и услуги</div>
+                <div class="table-row four-cols">
+                    <div class="table-cell header">Товар / услуга</div>
+                    <div class="table-cell header">Цена</div>
+                    <div class="table-cell header">По-корейски</div>
+                    <div class="table-cell header">Чтение</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">&#9749; Кофе (커피 한 잔)</div>
+                    <div class="table-cell">4,500원</div>
+                    <div class="table-cell korean">사천오백 원</div>
+                    <div class="table-cell">[sacheonobaek won]</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">&#127835; Кимпап (김밥 한 줄)</div>
+                    <div class="table-cell">3,000원</div>
+                    <div class="table-cell korean">삼천 원</div>
+                    <div class="table-cell">[samcheon won]</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">&#127869; Обед (점심 한 끼)</div>
+                    <div class="table-cell">9,000원</div>
+                    <div class="table-cell korean">구천 원</div>
+                    <div class="table-cell">[gucheon won]</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">&#128241; Смартфон (스마트폰)</div>
+                    <div class="table-cell">1,200,000원</div>
+                    <div class="table-cell korean">백이십만 원</div>
+                    <div class="table-cell">[baegisimman won]</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">&#128176; Средняя зарплата (월급)</div>
+                    <div class="table-cell">3,500,000원</div>
+                    <div class="table-cell korean">삼백오십만 원</div>
+                    <div class="table-cell">[sambaegosimman won]</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">&#127960; Квартира в Сеуле (서울 아파트)</div>
+                    <div class="table-cell">12억 원</div>
+                    <div class="table-cell korean">십이억 원</div>
+                    <div class="table-cell">[sibieok won]</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">&#127468;&#127479; ВВП Кореи (한국 GDP)</div>
+                    <div class="table-cell">~2,000조 원</div>
+                    <div class="table-cell korean">약 이천조 원</div>
+                    <div class="table-cell">[yak icheonjo won]</div>
+                </div>
+            </div>
+
+            <div class="question-forms">
+                <h3>Совет</h3>
+                <p>Для быстрого перевода в гривны/доллары: уберите последние два нуля и умножьте на 3 -- получите примерную сумму в гривнах. Например: 9,000원 -- ~270 гривен, 50,000원 -- ~1,500 гривен (курс приблизительный).</p>
+            </div>
+        </div>
+
+        <!-- Section 4: Sino-Korean vs Native Korean -->
+        <div class="content-section">
+            <h2>4. 한 числительные vs 중 числительные</h2>
+
+            <p>В корейском две системы числительных: <strong>исконно корейская</strong> (고유어) и <strong>китайско-корейская</strong> (한자어). Важно знать, когда какую использовать.</p>
+
+            <div class="grammar-rule">
+                <div class="rule-title">Главное правило</div>
+                <div class="rule-formula">Деньги (돈) = всегда 한자어!</div>
+                <div class="rule-note">Для денег, дат, номеров телефонов, адресов -- всегда китайско-корейские числительные</div>
+            </div>
+
+            <div class="comparison-table">
+                <div class="table-header">Сравнение двух систем (1-10)</div>
+                <div class="table-row four-cols">
+                    <div class="table-cell header">Число</div>
+                    <div class="table-cell header">Китайско-корейская (한자어)</div>
+                    <div class="table-cell header">Исконно корейская (고유어)</div>
+                    <div class="table-cell header">Когда используется 고유어</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">1</div>
+                    <div class="table-cell korean">일 [il]</div>
+                    <div class="table-cell korean">하나 [hana]</div>
+                    <div class="table-cell">+ счётное слово: 한 개</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">2</div>
+                    <div class="table-cell korean">이 [i]</div>
+                    <div class="table-cell korean">둘 [dul]</div>
+                    <div class="table-cell">+ счётное слово: 두 명</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">3</div>
+                    <div class="table-cell korean">삼 [sam]</div>
+                    <div class="table-cell korean">셋 [set]</div>
+                    <div class="table-cell">+ счётное слово: 세 마리</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">4</div>
+                    <div class="table-cell korean">사 [sa]</div>
+                    <div class="table-cell korean">넷 [net]</div>
+                    <div class="table-cell">+ счётное слово: 네 잔</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">5</div>
+                    <div class="table-cell korean">오 [o]</div>
+                    <div class="table-cell korean">다섯 [daseot]</div>
+                    <div class="table-cell">+ счётное слово: 다섯 병</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">6</div>
+                    <div class="table-cell korean">육 [yuk]</div>
+                    <div class="table-cell korean">여섯 [yeoseot]</div>
+                    <div class="table-cell">+ счётное слово</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">7</div>
+                    <div class="table-cell korean">칠 [chil]</div>
+                    <div class="table-cell korean">일곱 [ilgop]</div>
+                    <div class="table-cell">+ счётное слово</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">8</div>
+                    <div class="table-cell korean">팔 [pal]</div>
+                    <div class="table-cell korean">여덟 [yeodeol]</div>
+                    <div class="table-cell">+ счётное слово</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">9</div>
+                    <div class="table-cell korean">구 [gu]</div>
+                    <div class="table-cell korean">아홉 [ahop]</div>
+                    <div class="table-cell">+ счётное слово</div>
+                </div>
+                <div class="table-row four-cols">
+                    <div class="table-cell">10</div>
+                    <div class="table-cell korean">십 [sip]</div>
+                    <div class="table-cell korean">열 [yeol]</div>
+                    <div class="table-cell">+ счётное слово</div>
+                </div>
+            </div>
+
+            <div class="compare-block">
+                <div class="compare-item cause">
+                    <div class="compare-label">한자어 -- используется для:</div>
+                    <div class="compare-korean">돈, 날짜, 전화번호, 층, 번</div>
+                    <div class="compare-translation">Деньги, даты, телефоны, этажи, номера</div>
+                </div>
+                <div class="compare-item contrast">
+                    <div class="compare-label">고유어 -- используется для:</div>
+                    <div class="compare-korean">개, 명, 마리, 잔, 병, 살, 시</div>
+                    <div class="compare-translation">Счётные слова: штуки, люди, животные, чашки, бутылки, возраст, часы</div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <h3>Возраст -- два варианта</h3>
+                <p>Возраст можно выразить двумя способами:</p>
+                <p><strong>고유어 + 살:</strong> 스물한 살 [seumulhan sal] -- 21 год (разговорный)</p>
+                <p><strong>한자어 + 세:</strong> 이십일 세 [isibil se] -- 21 год (официальный, в документах)</p>
+            </div>
+        </div>
+
+        <!-- Section 5: Полезные выражения с деньгами -->
+        <div class="content-section">
+            <h2>5. Полезные выражения с деньгами</h2>
+
+            <div class="example-box">
+                <div class="korean-text">얼마예요?</div>
+                <div class="pronunciation">[eolmayeyo?]</div>
+                <div class="translation">Сколько стоит?</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">할인해 주세요.</div>
+                <div class="pronunciation">[harinhae juseyo]</div>
+                <div class="translation">Сделайте скидку, пожалуйста.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">카드로 결제할게요.</div>
+                <div class="pronunciation">[kadeuro gyeoljehalgeyo]</div>
+                <div class="translation">Я оплачу картой.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">현금으로 할게요.</div>
+                <div class="pronunciation">[hyeongeumeuro halgeyo]</div>
+                <div class="translation">Я заплачу наличными.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">영수증 주세요.</div>
+                <div class="pronunciation">[yeongsujeung juseyo]</div>
+                <div class="translation">Чек, пожалуйста.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">거스름돈이 없어요.</div>
+                <div class="pronunciation">[geoseureumdoni eopseoyo]</div>
+                <div class="translation">У меня нет сдачи.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">환전하고 싶어요.</div>
+                <div class="pronunciation">[hwanjeonhago sipeoyo]</div>
+                <div class="translation">Хочу обменять валюту.</div>
+            </div>
+
+            <div class="dialogue-box">
+                <div style="text-align: center; font-weight: bold; font-size: 1.1em; margin-bottom: 15px;">Диалог: В магазине одежды</div>
+                <div class="dialogue-line">
+                    <div class="speaker">손님 (Покупатель):</div>
+                    <div class="korean-text">이 티셔츠 얼마예요?</div>
+                    <div class="translation">Сколько стоит эта футболка?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원 (Продавец):</div>
+                    <div class="korean-text">삼만 오천 원이에요.</div>
+                    <div class="translation">35,000 вон.</div>
+                    <div class="grammar-note">3만 5천 = 35,000</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">손님:</div>
+                    <div class="korean-text">좀 비싸네요. 할인해 주실 수 있어요?</div>
+                    <div class="translation">Дороговато. Можно скидку?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">두 장 사시면 오만 원에 드릴게요.</div>
+                    <div class="translation">Если возьмёте две, отдам за 50,000 вон.</div>
+                    <div class="grammar-note">5만 = 50,000</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">손님:</div>
+                    <div class="korean-text">좋아요! 그럼 두 장 주세요. 카드로 결제할게요.</div>
+                    <div class="translation">Хорошо! Тогда дайте две. Оплачу картой.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">네, 오만 원입니다. 영수증 필요하세요?</div>
+                    <div class="translation">Да, 50,000 вон. Нужен чек?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">손님:</div>
+                    <div class="korean-text">네, 영수증 주세요.</div>
+                    <div class="translation">Да, чек, пожалуйста.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 6: Практика -->
+        <div class="content-section">
+            <h2>6. Практика</h2>
+
+            <p>Нажмите на задание, чтобы увидеть ответ. Попробуйте сначала ответить самостоятельно!</p>
+
+            <h3>Чтение чисел</h3>
+
+            <div class="practice-item" onclick="this.classList.toggle('revealed')">
+                <div class="practice-question">1. Прочитайте по-корейски: 30,000</div>
+                <div class="practice-answer">
+                    <div class="korean-text">삼만 (3만)</div>
+                    <div class="pronunciation">[samman]</div>
+                </div>
+            </div>
+
+            <div class="practice-item" onclick="this.classList.toggle('revealed')">
+                <div class="practice-question">2. Прочитайте по-корейски: 250,000</div>
+                <div class="practice-answer">
+                    <div class="korean-text">이십오만 (25만)</div>
+                    <div class="pronunciation">[isiboman]</div>
+                </div>
+            </div>
+
+            <div class="practice-item" onclick="this.classList.toggle('revealed')">
+                <div class="practice-question">3. Прочитайте по-корейски: 7,800,000</div>
+                <div class="practice-answer">
+                    <div class="korean-text">칠백팔십만 (780만)</div>
+                    <div class="pronunciation">[chilbaekpalsimman]</div>
+                </div>
+            </div>
+
+            <div class="practice-item" onclick="this.classList.toggle('revealed')">
+                <div class="practice-question">4. Прочитайте по-корейски: 500,000,000</div>
+                <div class="practice-answer">
+                    <div class="korean-text">오억 (5억)</div>
+                    <div class="pronunciation">[oeok]</div>
+                </div>
+            </div>
+
+            <div class="practice-item" onclick="this.classList.toggle('revealed')">
+                <div class="practice-question">5. Прочитайте по-корейски: 23,000,000,000</div>
+                <div class="practice-answer">
+                    <div class="korean-text">이백삼십억 (230억)</div>
+                    <div class="pronunciation">[ibaeksamsibeok]</div>
+                </div>
+            </div>
+
+            <div class="practice-item" onclick="this.classList.toggle('revealed')">
+                <div class="practice-question">6. Прочитайте по-корейски: 4,000,000,000,000</div>
+                <div class="practice-answer">
+                    <div class="korean-text">사조 (4조)</div>
+                    <div class="pronunciation">[sajo]</div>
+                </div>
+            </div>
+
+            <div class="practice-item" onclick="this.classList.toggle('revealed')">
+                <div class="practice-question">7. Прочитайте по-корейски: 15,600</div>
+                <div class="practice-answer">
+                    <div class="korean-text">만 오천육백 (1만 5600)</div>
+                    <div class="pronunciation">[man ocheonnyukbaek]</div>
+                </div>
+            </div>
+
+            <div class="practice-item" onclick="this.classList.toggle('revealed')">
+                <div class="practice-question">8. Прочитайте по-корейски: 1,230,000</div>
+                <div class="practice-answer">
+                    <div class="korean-text">백이십삼만 (123만)</div>
+                    <div class="pronunciation">[baegisipsam man]</div>
+                </div>
+            </div>
+
+            <h3>Чтение цен</h3>
+
+            <div class="practice-item" onclick="this.classList.toggle('revealed')">
+                <div class="practice-question">9. Вы в кафе. На ценнике: 아메리카노 5,500원. Прочитайте цену.</div>
+                <div class="practice-answer">
+                    <div class="korean-text">오천오백 원</div>
+                    <div class="pronunciation">[ocheonobaek won]</div>
+                </div>
+            </div>
+
+            <div class="practice-item" onclick="this.classList.toggle('revealed')">
+                <div class="practice-question">10. Цена ноутбука: 1,850,000원. Как сказать цену?</div>
+                <div class="practice-answer">
+                    <div class="korean-text">백팔십오만 원</div>
+                    <div class="pronunciation">[baekpalsiboman won]</div>
+                </div>
+            </div>
+
+            <div class="practice-item" onclick="this.classList.toggle('revealed')">
+                <div class="practice-question">11. Аренда квартиры: 월세 80만 원. Как прочитать?</div>
+                <div class="practice-answer">
+                    <div class="korean-text">월세 팔십만 원 (800,000원)</div>
+                    <div class="pronunciation">[wolse palsimman won]</div>
+                </div>
+            </div>
+
+            <div class="practice-item" onclick="this.classList.toggle('revealed')">
+                <div class="practice-question">12. Друг говорит: "차를 샀어요. 3천만 원이었어요." Сколько стоила машина?</div>
+                <div class="practice-answer">
+                    <div class="korean-text">3천만 원 = 30,000,000원 (тридцать миллионов вон)</div>
+                    <div class="pronunciation">[samcheonman won]</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #2196F3, #1565C0);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(33,150,243,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="../js/dictionary.js"></script>
+    <script src="../js/dictionary-inject.js"></script>
+    <script src="../js/global-nav.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    <script src="../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'lesson_93_large_numbers';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#1565C0';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#1565C0';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+
+            console.log('[OK] Lesson loaded: lesson_93_large_numbers');
+        });
+    </script>
+</body>
+</html>

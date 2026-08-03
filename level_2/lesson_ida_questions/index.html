@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 15: 이다 в вопросах — 누구예요? 뭐예요? 어디예요?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #2f6fd0 0%, #1a3f8f 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #1565C0;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #2196F3;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .description {
+            font-size: 1.05em;
+            color: #666;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #1565C0;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #2196F3;
+            padding-bottom: 10px;
+        }
+
+        .question-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .q-card {
+            border-radius: 15px;
+            padding: 25px;
+            color: #ffffff;
+            transition: transform 0.3s ease;
+        }
+
+        .q-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .q-card-who { background: linear-gradient(135deg, #2f6fd0, #1a3f8f); }
+        .q-card-what { background: linear-gradient(135deg, #2f6fd0, #1a3f8f); }
+        .q-card-where { background: linear-gradient(135deg, #2f6fd0, #1a3f8f); }
+
+        .q-card-title {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .q-card-pronunciation {
+            font-size: 1em;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        .q-card-meaning {
+            font-size: 1.2em;
+            background: rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .q-card-example {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .korean-verb {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .verb-translation {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.1em;
+        }
+
+        .table-cell.korean {
+            color: #1565C0;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.8em;
+            color: #2b2440;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .question-forms {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #2196F3;
+        }
+
+        .sentence-structure {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .structure-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .structure-example {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #1565C0;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .option:hover {
+            background: #2196F3;
+            transform: translateY(-2px);
+        }
+
+        .option.correct { background: #27ae60; }
+        .option.wrong { background: #e74c3c; }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15);
+            border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px;
+            font-size: 1.1em; cursor: pointer; transition: all 0.3s ease;
+            flex-shrink: 0; display: inline-flex; align-items: center;
+            justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .dialogue-play-btn {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
+            color: white; border: none; padding: 12px 25px;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            margin: 15px auto; display: block; transition: all 0.3s ease;
+        }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(102,126,234,0.4); }
+
+        .remember-block {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            color: white; padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .remember-block h3 { margin-top: 0; font-size: 1.4em; text-align: center; }
+        .remember-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px; }
+        .remember-card { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 12px; }
+        .remember-card strong { display: block; margin-bottom: 5px; font-size: 1.1em; }
+
+        @media (max-width: 768px) {
+            .question-cards { grid-template-columns: 1fr; }
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .options { flex-direction: column; align-items: center; }
+            .header h1 { font-size: 1.8em; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_2/index.html">← 2급 Все уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>Урок 15: 이다 в вопросах</h1>
+            <div class="korean-title">누구예요? 뭐예요? 어디예요? [nugueyyo? mwoyeyo? eodiyeyo?]</div>
+            <div class="description">Как задавать вопросы "Кто?", "Что?" и "Где?" со связкой 이다</div>
+        </header>
+
+        <div class="content-section">
+            <h2>Три главных вопроса</h2>
+            <p>Связка <strong>이다</strong> (быть, являться) превращается в <strong>이에요/예요</strong> в вежливой форме. С вопросительными словами мы получаем самые частые вопросы корейского языка.</p>
+
+            <div class="question-cards">
+                <div class="q-card q-card-who">
+                    <div class="q-card-title">누구예요?</div>
+                    <div class="q-card-pronunciation">[nugueyyo?]</div>
+                    <div class="q-card-meaning">Кто это?</div>
+                    <div class="q-card-example">
+                        <div class="korean-verb">이 분이 누구예요? <button class="audio-btn" onclick="speakKorean('이 분이 누구예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="verb-translation">Кто этот человек? (вежливо)</div>
+                    </div>
+                    <div class="q-card-example">
+                        <div class="korean-verb">저 사람이 누구예요? <button class="audio-btn" onclick="speakKorean('저 사람이 누구예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="verb-translation">Кто тот человек?</div>
+                    </div>
+                    <div class="q-card-example">
+                        <div class="korean-verb">선생님이 누구예요? <button class="audio-btn" onclick="speakKorean('선생님이 누구예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="verb-translation">Кто учитель?</div>
+                    </div>
+                </div>
+
+                <div class="q-card q-card-what">
+                    <div class="q-card-title">뭐예요?</div>
+                    <div class="q-card-pronunciation">[mwoyeyo?]</div>
+                    <div class="q-card-meaning">Что это?</div>
+                    <div class="q-card-example">
+                        <div class="korean-verb">이거 뭐예요? <button class="audio-btn" onclick="speakKorean('이거 뭐예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="verb-translation">Что это? (указывая на предмет)</div>
+                    </div>
+                    <div class="q-card-example">
+                        <div class="korean-verb">직업이 뭐예요? <button class="audio-btn" onclick="speakKorean('직업이 뭐예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="verb-translation">Какая у вас профессия?</div>
+                    </div>
+                    <div class="q-card-example">
+                        <div class="korean-verb">이름이 뭐예요? <button class="audio-btn" onclick="speakKorean('이름이 뭐예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="verb-translation">Как вас зовут? (букв. Имя -- что?)</div>
+                    </div>
+                </div>
+
+                <div class="q-card q-card-where">
+                    <div class="q-card-title">어디예요?</div>
+                    <div class="q-card-pronunciation">[eodiyeyo?]</div>
+                    <div class="q-card-meaning">Где это? / Куда?</div>
+                    <div class="q-card-example">
+                        <div class="korean-verb">화장실이 어디예요? <button class="audio-btn" onclick="speakKorean('화장실이 어디예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="verb-translation">Где туалет?</div>
+                    </div>
+                    <div class="q-card-example">
+                        <div class="korean-verb">학교가 어디예요? <button class="audio-btn" onclick="speakKorean('학교가 어디예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="verb-translation">Где школа?</div>
+                    </div>
+                    <div class="q-card-example">
+                        <div class="korean-verb">집이 어디예요? <button class="audio-btn" onclick="speakKorean('집이 어디예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="verb-translation">Где (ваш) дом?</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Полная форма: 무엇 vs 뭐</h2>
+
+            <div class="question-forms">
+                <h3>Запомните:</h3>
+                <p><strong>무엇</strong> [mueot] -- полная форма слова "что". Используется в письменной речи и формальных ситуациях.</p>
+                <p><strong>뭐</strong> [mwo] -- сокращённая разговорная форма. Используется в повседневной речи.</p>
+            </div>
+
+            <div class="comparison-table">
+                <div class="table-header">무엇이에요? vs 뭐예요?</div>
+                <div class="table-row">
+                    <div class="table-cell header">Письменная/формальная</div>
+                    <div class="table-cell header">Разговорная</div>
+                    <div class="table-cell header">Перевод</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">이것은 무엇이에요? <button class="audio-btn" onclick="speakKorean('이것은 무엇이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="table-cell korean">이거 뭐예요? <button class="audio-btn" onclick="speakKorean('이거 뭐예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="table-cell">Что это?</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">직업이 무엇이에요? <button class="audio-btn" onclick="speakKorean('직업이 무엇이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="table-cell korean">직업이 뭐예요? <button class="audio-btn" onclick="speakKorean('직업이 뭐예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="table-cell">Какая профессия?</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">취미가 무엇이에요? <button class="audio-btn" onclick="speakKorean('취미가 무엇이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="table-cell korean">취미가 뭐예요? <button class="audio-btn" onclick="speakKorean('취미가 뭐예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="table-cell">Какое хобби?</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Дополнительные вопросительные слова</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Вопросительные слова со связкой 이다</div>
+                <div class="table-row">
+                    <div class="table-cell header">Вопрос</div>
+                    <div class="table-cell header">Произношение</div>
+                    <div class="table-cell header">Значение</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">언제예요? <button class="audio-btn" onclick="speakKorean('언제예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="table-cell">[eonjeyeyo?]</div>
+                    <div class="table-cell">Когда (это)?</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">얼마예요? <button class="audio-btn" onclick="speakKorean('얼마예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="table-cell">[eolmayeyo?]</div>
+                    <div class="table-cell">Сколько стоит?</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">몇 번이에요? <button class="audio-btn" onclick="speakKorean('몇 번이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="table-cell">[myeot beonieyo?]</div>
+                    <div class="table-cell">Какой номер?</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">어느 나라예요? <button class="audio-btn" onclick="speakKorean('어느 나라예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="table-cell">[eoneu narayeyo?]</div>
+                    <div class="table-cell">Какая страна?</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Как отвечать на вопросы</h2>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Вопрос и ответ -- простая схема</div>
+
+                <div class="structure-example">
+                    <div class="korean-text">Q: 이름이 뭐예요? <button class="audio-btn" onclick="speakKorean('이름이 뭐예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Как вас зовут?</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">A: 제 이름은 민지예요. <button class="audio-btn" onclick="speakKorean('제 이름은 민지예요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">(Меня зовут) Минджи.</div>
+                </div>
+
+                <div class="structure-example" style="margin-top: 20px;">
+                    <div class="korean-text">Q: 이거 뭐예요? <button class="audio-btn" onclick="speakKorean('이거 뭐예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Что это?</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">A: 김치예요. <button class="audio-btn" onclick="speakKorean('김치예요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">(Это) кимчи.</div>
+                </div>
+
+                <div class="structure-example" style="margin-top: 20px;">
+                    <div class="korean-text">Q: 화장실이 어디예요? <button class="audio-btn" onclick="speakKorean('화장실이 어디예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Где туалет?</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">A: 저기예요. 2층이에요. <button class="audio-btn" onclick="speakKorean('저기예요. 2층이에요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Вон там. / На втором этаже.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Диалог: В кафе</h2>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">손님 (гость):</div>
+                    <div class="korean-text">저기요, 이거 뭐예요? <button class="audio-btn" onclick="speakKorean('저기요, 이거 뭐예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Извините, что это?</div>
+                    <div class="grammar-note">뭐예요? -- "Что?" со связкой в вежливой форме</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">직원 (сотрудник):</div>
+                    <div class="korean-text">그건 떡볶이예요. 아주 맛있어요! <button class="audio-btn" onclick="speakKorean('그건 떡볶이예요. 아주 맛있어요!')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Это ттокпокки. Очень вкусно!</div>
+                    <div class="grammar-note">떡볶이 заканчивается на гласную --> 예요</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">손님:</div>
+                    <div class="korean-text">얼마예요? <button class="audio-btn" onclick="speakKorean('얼마예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Сколько стоит?</div>
+                    <div class="grammar-note">얼마 + 예요 = "сколько (это) является?"</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">5천 원이에요. <button class="audio-btn" onclick="speakKorean('5천 원이에요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">5000 вон.</div>
+                    <div class="grammar-note">원 заканчивается на согласную --> 이에요</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">손님:</div>
+                    <div class="korean-text">화장실이 어디예요? <button class="audio-btn" onclick="speakKorean('화장실이 어디예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Где туалет?</div>
+                </div>
+
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">저쪽이에요. 오른쪽이에요. <button class="audio-btn" onclick="speakKorean('저쪽이에요. 오른쪽이에요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Вон там. Справа.</div>
+                    <div class="grammar-note">저쪽, 오른쪽 -- оканчиваются на ㄱ (согласная) --> 이에요</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать диалог</button>
+        </div>
+
+        <div class="content-section">
+            <h2>Практические фразы для жизни</h2>
+
+            <div style="background: linear-gradient(135deg, #1565C0, #2196F3); color: white; padding: 25px; border-radius: 15px; margin: 20px 0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>В магазине:</strong><br>
+                        이거 뭐예요? -- Что это?<br>
+                        얼마예요? -- Сколько стоит?<br>
+                        어디예요? -- Где находится?
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>При знакомстве:</strong><br>
+                        이름이 뭐예요? -- Как зовут?<br>
+                        직업이 뭐예요? -- Какая профессия?<br>
+                        어느 나라 사람이에요? -- Из какой страны?
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>На улице:</strong><br>
+                        이 건물이 뭐예요? -- Что это за здание?<br>
+                        역이 어디예요? -- Где станция?<br>
+                        몇 번 버스예요? -- Какой номер автобуса?
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <h3>Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. "이것은 ___ 거예요? — 제 거예요." (Чьё это?) — Заполните пропуск:</div>
+                <div class="options">
+                    <button class="option" data-correct="true">누구</button>
+                    <button class="option" data-correct="false">뭐</button>
+                    <button class="option" data-correct="false">어디</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. "이 사람은 선생님___?" (Этот человек — учитель?) — Какой конец правильный?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">이에요</button>
+                    <button class="option" data-correct="false">예요</button>
+                    <button class="option" data-correct="false">있어요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. "오늘이 ___요일이에요?" (Какой сегодня день?) — Какое вопросительное слово?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">무슨</button>
+                    <button class="option" data-correct="false">뭐</button>
+                    <button class="option" data-correct="false">어떤</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. "___에 한국어 수업이 있어요?" (Когда урок корейского?) — Заполните пропуск:</div>
+                <div class="options">
+                    <button class="option" data-correct="true">언제</button>
+                    <button class="option" data-correct="false">얼마</button>
+                    <button class="option" data-correct="false">어디</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. "가방 안에 ___이/가 있어요?" (Что есть в сумке?) — Какой вопрос правильный?</div>
+                <div class="options">
+                    <button class="option" data-correct="true">뭐가 있어요</button>
+                    <button class="option" data-correct="false">누가 있어요</button>
+                    <button class="option" data-correct="false">어디가 있어요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <div class="remember-block">
+            <h3>Запомни!</h3>
+            <div class="remember-cards">
+                <div class="remember-card">
+                    <strong>누구예요? <button class="audio-btn" onclick="speakKorean('누구예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></strong>
+                    Кто это? -- Вопрос о человеке. Ответ: имя/роль + 이에요/예요.
+                </div>
+                <div class="remember-card">
+                    <strong>뭐예요? <button class="audio-btn" onclick="speakKorean('뭐예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></strong>
+                    Что это? -- Разговорная форма от 무엇이에요. Используйте в повседневной речи.
+                </div>
+                <div class="remember-card">
+                    <strong>어디예요? <button class="audio-btn" onclick="speakKorean('어디예요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></strong>
+                    Где это? -- Вопрос о месте. Ответ: место + 이에요/예요.
+                </div>
+                <div class="remember-card">
+                    <strong>이에요 vs 예요</strong>
+                    После согласной -- 이에요 (선생님이에요). После гласной -- 예요 (커피예요).
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #2196F3, #1565C0);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(33,150,243,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function(){});
+        }
+
+        function playDialogueSequence(btn) {
+            var section = btn.closest('.content-section') || btn.parentElement;
+            var lines = section.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text') || l.querySelector('.dialogue-korean');
+                if (k) texts.push(k.textContent.replace(/🔊/g,'').trim());
+            });
+            if (!texts.length) return;
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.textContent = '⏸ Воспроизводится...';
+            function next() {
+                if (i >= texts.length) { btn.textContent = '🎭 Прослушать диалог'; return; }
+                lines[i].style.background = 'rgba(255,235,59,0.3)';
+                if (i > 0) lines[i-1].style.background = '';
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = i%2===0 ? 1.1 : 0.9;
+                var v = window.speechSynthesis.getVoices();
+                u.onend = function() { lines[i].style.background = ''; i++; setTimeout(next,800); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+    </script>
+    <script>
+        var LESSON_ID = 'level2_lesson_ida_questions';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#1565C0';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#1565C0';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+
+                        var isCorrect = this.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+
+            console.log('[OK] Lesson loaded: level2_lesson_ida_questions');
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

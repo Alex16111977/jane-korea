@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Косвенная речь (базовая)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; margin: 0; padding: 0; background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%), repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px), linear-gradient(135deg, #2f6fd0 0%, #1a3f8f 100%); position: relative; overflow-x: hidden; min-height: 100vh; color: #333; }
+        body::before { content: '💬'; position: fixed; top: 15%; right: 4%; font-size: 115px; opacity: 0.04; animation: floatSlow 11s ease-in-out infinite; pointer-events: none; z-index: 0; }
+        body::after { content: '🗣️'; position: fixed; bottom: 11%; left: 3%; font-size: 100px; opacity: 0.04; animation: floatSlow 10s ease-in-out infinite reverse; pointer-events: none; z-index: 0; }
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-22px) scale(1.05); } }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; padding: 12px 25px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 15px; transition: all 0.3s ease; font-weight: 500; }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; margin-bottom: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .header h1 { margin: 0 0 15px 0; color: #E65100; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #FF9800; margin-bottom: 15px; font-weight: 500; }
+        .header .description { font-size: 1.05em; color: #666; }
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+        .content-section h2 { color: #E65100; margin-top: 0; font-size: 2em; border-bottom: 3px solid #FF9800; padding-bottom: 10px; }
+        .content-section h3 { color: #F57C00; font-size: 1.4em; }
+        .content-section p { font-size: 1.05em; line-height: 1.7; }
+        .grammar-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin: 30px 0; }
+        .form-card { border-radius: 15px; padding: 25px; color: #ffffff; position: relative; overflow: hidden; transition: transform 0.3s ease; }
+        .form-card:hover { transform: translateY(-5px); }
+        .card-aseo { background: linear-gradient(135deg, #d97706, #92400e); }
+        .card-eoseo { background: linear-gradient(135deg, #d97706, #92400e); }
+        .form-title { font-size: 1.8em; font-weight: bold; margin-bottom: 20px; }
+        .form-pattern { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 15px 0; font-size: 1.5em; text-align: center; font-weight: bold; }
+        .form-description { font-size: 1.1em; margin: 15px 0; opacity: 0.95; }
+        .form-examples { margin-top: 20px; }
+        .form-example { background: rgba(255,255,255,0.15); padding: 12px; border-radius: 8px; margin: 8px 0; }
+        .korean-verb { font-size: 1.2em; font-weight: bold; margin-bottom: 5px; }
+        .verb-translation { font-size: 0.9em; opacity: 0.9; }
+        .sentence-structure { background: linear-gradient(135deg, #d97706, #92400e); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .structure-title { font-size: 1.5em; font-weight: bold; margin-bottom: 20px; text-align: center; }
+        .structure-example { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; }
+        .comparison-table { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); margin: 25px 0; }
+        .table-header { background: linear-gradient(135deg, #d97706, #92400e); color: white; padding: 20px; text-align: center; font-size: 1.3em; font-weight: bold; }
+        .table-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: #e9ecef; }
+        .table-cell { background: white; padding: 15px; text-align: center; font-size: 1.05em; }
+        .table-cell.korean { color: #E65100; font-weight: bold; }
+        .table-cell.header { background: #f8f9fa; font-weight: bold; color: #495057; }
+        .dialogue-box { background: linear-gradient(135deg, #d97706, #92400e); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .dialogue-line { margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: bold; color: #ffffff; margin-bottom: 8px; }
+        .korean-text { font-size: 1.3em; margin-bottom: 5px; }
+        .translation { font-size: 1em; opacity: 0.9; }
+        .grammar-note { font-size: 0.85em; color: #2b2440; font-style: italic; margin-top: 5px; }
+        .tip-box { background: #fff3e0; border-left: 5px solid #FF9800; padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0; }
+        .tip-box strong { color: #E65100; }
+        .practice-section { background: linear-gradient(135deg, #fff8ec, #ffeccd); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .exercise { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 20px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+        .question { font-size: 1.2em; color: #333; margin-bottom: 15px; }
+        .options { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .option { background: #E65100; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1.1em; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif; }
+        .option:hover { background: #FF9800; transform: translateY(-2px); }
+        .option.correct { background: #4caf50; }
+        .option.wrong { background: #f44336; }
+        .result { margin-top: 15px; padding: 15px; border-radius: 10px; text-align: center; font-weight: 500; display: none; }
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+        .audio-btn { background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3); border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0; }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .dialogue-play-btn { background: linear-gradient(135deg, #d97706, #92400e); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; margin: 15px auto; display: block; transition: all 0.3s ease; }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(255,152,0,0.4); }
+        .remember-block { background: linear-gradient(135deg, #d97706, #92400e); color: white; padding: 30px; border-radius: 20px; margin: 30px 0; box-shadow: 0 15px 40px rgba(255,152,0,0.3); }
+        .remember-block h2 { color: #2b2440; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-top: 0; }
+        .remember-item { background: rgba(255,255,255,0.15); padding: 15px; border-radius: 12px; margin: 10px 0; }
+        .remember-item strong { color: #2b2440; }
+        @media (max-width: 768px) { .grammar-cards { grid-template-columns: 1fr; } .table-row { grid-template-columns: 1fr; gap: 2px; } .options { flex-direction: column; align-items: center; } .header h1 { font-size: 1.8em; } }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_3/index.html">← Уровень 3</a>
+            <a href="../../lessons.html">Все уроки</a>
+        </div>
+
+        <div class="header">
+            <h1>Косвенная речь (базовая)</h1>
+            <div class="korean-title">간접 화법 기초 -다고 하다</div>
+            <div class="description">"Он сказал, что...", "Она спросила, ..." — передача чужих слов</div>
+        </div>
+
+        <div class="content-section">
+            <h2>Сначала: прямая речь (직접 화법)</h2>
+            <p><strong>Прямая речь</strong> (직접 화법 [jikjeop hwabeop]) — дословная цитата. Слова человека берутся в кавычки и не меняются вообще, а после них ставится <strong>-라고</strong> и глагол речи.</p>
+
+            <div class="example-box">
+                <div class="korean-text">민수 씨가 "내일 갈게요."라고 했어요. <button class="audio-btn" onclick="speakKorean('민수 씨가 내일 갈게요 라고 했어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="translation">Минсу сказал: «Завтра приду». (дословно, как он сам сказал)</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">선생님이 "숙제를 하세요."라고 말씀하셨어요. <button class="audio-btn" onclick="speakKorean('선생님이 숙제를 하세요 라고 말씀하셨어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="translation">Учитель сказал: «Делайте домашнее задание».</div>
+            </div>
+            <div class="example-box">
+                <div class="korean-text">친구가 "배고파?"라고 물었어요. <button class="audio-btn" onclick="speakKorean('친구가 배고파 라고 물었어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="translation">Друг спросил: «Голоден?»</div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Ключевое отличие:</strong> в прямой речи <strong>-라고</strong> ставится после любого предложения без изменений — неважно, глагол там или прилагательное, вопрос или приказ. Форма одна. В косвенной речи (о ней — дальше) окончание нужно перестраивать под тип высказывания.
+            </div>
+
+            <div class="tip-box">
+                <strong>Сравните одну и ту же мысль:</strong><br>
+                Прямая: 민수 씨가 <strong>"내일 갈게요."라고</strong> 했어요<br>
+                Косвенная: 민수 씨가 <strong>내일 간다고</strong> 했어요<br>
+                Смысл один, но в косвенной исчезли кавычки и вежливость говорящего, а окончание изменилось.
+            </div>
+
+            <div class="tip-box">
+                <strong>Где используется:</strong> прямая речь в разговоре звучит редко — в основном в письменной речи, в новостях и когда важно передать точную формулировку. В обычной беседе корейцы почти всегда выбирают косвенную.
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Что такое 간접 화법?</h2>
+            <p><strong>Косвенная речь</strong> (간접 화법 [ganjeop hwapbeop]) — это способ передать чужие слова, не цитируя их дословно. В русском мы говорим: "Он <strong>сказал, что</strong> придёт", "Она <strong>спросила</strong>, что я ем". В корейском для этого используются специальные конструкции с <strong>-다고 하다</strong>.</p>
+
+            <p>Косвенная речь в корейском бывает четырёх типов, в зависимости от типа исходного высказывания:</p>
+
+            <div class="grammar-cards">
+                <div class="form-card card-aseo">
+                    <div class="form-title">4 типа</div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">1. Утверждение: -다고 하다</div>
+                            <div class="verb-translation">"Сказал, что..."</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">2. Вопрос: -냐고 하다</div>
+                            <div class="verb-translation">"Спросил, ..."</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">3. Предложение: -자고 하다</div>
+                            <div class="verb-translation">"Предложил..."</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">4. Приказ: -(으)라고 하다</div>
+                            <div class="verb-translation">"Сказал (чтобы)..."</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Утверждение: -다고 하다</h2>
+            <p>Самый распространённый тип косвенной речи. Используется, когда кто-то <strong>сообщает факт</strong> или <strong>высказывает мнение</strong>.</p>
+
+            <h3>Глаголы действия (동사)</h3>
+
+            <div class="comparison-table">
+                <div class="table-header">Глаголы действия + -다고 하다</div>
+                <div class="table-row">
+                    <div class="table-cell header">Время</div>
+                    <div class="table-cell header">Формула</div>
+                    <div class="table-cell header">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Настоящее</div>
+                    <div class="table-cell korean">V-ㄴ/는다고</div>
+                    <div class="table-cell korean">간다고 (говорит, что идёт)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Прошедшее</div>
+                    <div class="table-cell korean">V-았/었다고</div>
+                    <div class="table-cell korean">갔다고 (сказал, что пошёл)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Будущее</div>
+                    <div class="table-cell korean">V-(으)ㄹ 거라고</div>
+                    <div class="table-cell korean">갈 거라고 (сказал, что пойдёт)</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Правило для настоящего времени глаголов действия:</strong> Основа на согласную + ㄴ다고: 먹다 → 먹는다고. Основа на гласную + ㄴ다고: 가다 → 간다고. Это форма <strong>반말 утверждения</strong>, которая используется в косвенной речи.
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Примеры с глаголами действия</div>
+                <div class="structure-example">
+                    <div class="korean-text">친구가 내일 온다고 했어요. <button class="audio-btn" onclick="speakKorean('친구가 내일 온다고 했어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[chinguga naeil ondago haesseoyo]</div>
+                    <div class="translation">Друг сказал, что придёт завтра.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">동생이 공부한다고 했어요. <button class="audio-btn" onclick="speakKorean('동생이 공부한다고 했어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[dongsaengi gongbuhandago haesseoyo]</div>
+                    <div class="translation">Младший брат/сестра сказал(а), что учится.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">민수가 어제 영화를 봤다고 했어요. <button class="audio-btn" onclick="speakKorean('민수가 어제 영화를 봤다고 했어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[minsuga eoje yeonghwareul bwatdago haesseoyo]</div>
+                    <div class="translation">Минсу сказал, что вчера смотрел фильм.</div>
+                </div>
+            </div>
+
+            <h3>Описательные глаголы (형용사) и 이다</h3>
+
+            <div class="comparison-table">
+                <div class="table-header">Описательные глаголы + -다고 / 이다 + -(이)라고</div>
+                <div class="table-row">
+                    <div class="table-cell header">Тип</div>
+                    <div class="table-cell header">Формула</div>
+                    <div class="table-cell header">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Прилагательное (наст.)</div>
+                    <div class="table-cell korean">A-다고</div>
+                    <div class="table-cell korean">좋다고 (говорит, что хорошо)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Прилагательное (прош.)</div>
+                    <div class="table-cell korean">A-았/었다고</div>
+                    <div class="table-cell korean">좋았다고 (сказал, что было хорошо)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">이다 (наст.)</div>
+                    <div class="table-cell korean">N-(이)라고</div>
+                    <div class="table-cell korean">학생이라고 (говорит, что студент)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">아니다 (наст.)</div>
+                    <div class="table-cell korean">N-이/가 아니라고</div>
+                    <div class="table-cell korean">학생이 아니라고 (говорит, что не студент)</div>
+                </div>
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Примеры с прилагательными и 이다</div>
+                <div class="structure-example">
+                    <div class="korean-text">수진이가 한국 음식이 맛있다고 했어요. <button class="audio-btn" onclick="speakKorean('수진이가 한국 음식이 맛있다고 했어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[sujiniga hanguk eumsigi masitdago haesseoyo]</div>
+                    <div class="translation">Суджин сказала, что корейская еда вкусная.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">그 사람이 의사라고 했어요. <button class="audio-btn" onclick="speakKorean('그 사람이 의사라고 했어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[geu sarami uisarago haesseoyo]</div>
+                    <div class="translation">Он сказал, что он врач.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">날씨가 추웠다고 했어요. <button class="audio-btn" onclick="speakKorean('날씨가 추웠다고 했어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[nalssiga chuwotdago haesseoyo]</div>
+                    <div class="translation">Сказали, что погода была холодной.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Вопрос: -냐고 하다</h2>
+            <p>Когда передаём чужой <strong>вопрос</strong>, используем <strong>-냐고 하다</strong> или <strong>-(으)냐고 물어보다/묻다</strong>.</p>
+
+            <div class="grammar-cards">
+                <div class="form-card card-aseo">
+                    <div class="form-title">-냐고</div>
+                    <div class="form-pattern">V/A + -냐고 하다</div>
+                    <div class="form-description">Универсальная форма для передачи вопросов. Подходит для глаголов действия и описательных.</div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">뭐 먹냐고 물었어요.</div>
+                            <div class="verb-translation">Спросил, что я ем.</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">괜찮냐고 물었어요.</div>
+                            <div class="verb-translation">Спросил, всё ли в порядке.</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">어디 갔냐고 물었어요.</div>
+                            <div class="verb-translation">Спросил, куда ходил.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Примеры в предложениях</div>
+                <div class="structure-example">
+                    <div class="korean-text">엄마가 밥 먹었냐고 물었어요. <button class="audio-btn" onclick="speakKorean('엄마가 밥 먹었냐고 물었어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[eommaga bap meogeonnyago mureosseoyo]</div>
+                    <div class="translation">Мама спросила, поел(а) ли я.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">선생님이 숙제 했냐고 물었어요. <button class="audio-btn" onclick="speakKorean('선생님이 숙제 했냐고 물었어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[seonsaengnimi sukje haennyago mureosseoyo]</div>
+                    <div class="translation">Учитель спросил, сделал ли я домашнее задание.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">친구가 주말에 뭐 하냐고 했어요. <button class="audio-btn" onclick="speakKorean('친구가 주말에 뭐 하냐고 했어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[chinguga jumare mwo hanyago haesseoyo]</div>
+                    <div class="translation">Друг спросил, что я делаю на выходных.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>이다 в вопросе:</strong> Для 이다 используется -(이)냐고: 학생이냐고 물었어요 (спросил, студент ли он).
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Предложение: -자고 하다</h2>
+            <p>Когда передаём чьё-то <strong>предложение</strong> сделать что-то вместе, используем <strong>-자고 하다</strong>.</p>
+
+            <div class="grammar-cards">
+                <div class="form-card card-eoseo">
+                    <div class="form-title">-자고</div>
+                    <div class="form-pattern">основа глагола + 자고 하다</div>
+                    <div class="form-description">Только для глаголов действия. Передаёт предложение: "Давай..."</div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">같이 가자고 했어요.</div>
+                            <div class="verb-translation">Предложил пойти вместе.</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">영화 보자고 했어요.</div>
+                            <div class="verb-translation">Предложил посмотреть фильм.</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">내일 만나자고 했어요.</div>
+                            <div class="verb-translation">Предложил встретиться завтра.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Примеры в предложениях</div>
+                <div class="structure-example">
+                    <div class="korean-text">수호가 점심 같이 먹자고 했어요. <button class="audio-btn" onclick="speakKorean('수호가 점심 같이 먹자고 했어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[suhoga jeomsim gati meokjago haesseoyo]</div>
+                    <div class="translation">Сухо предложил пообедать вместе.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">친구가 주말에 등산하자고 했어요. <button class="audio-btn" onclick="speakKorean('친구가 주말에 등산하자고 했어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[chinguga jumare deungsanhajago haesseoyo]</div>
+                    <div class="translation">Друг предложил сходить в горы на выходных.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Приказ/просьба: -(으)라고 하다</h2>
+            <p>Когда передаём чей-то <strong>приказ</strong> или <strong>просьбу</strong>, используем <strong>-(으)라고 하다</strong>.</p>
+
+            <div class="grammar-cards">
+                <div class="form-card card-aseo">
+                    <div class="form-title">-(으)라고</div>
+                    <div class="form-pattern">основа на гласную + 라고 / согласную + 으라고</div>
+                    <div class="form-description">Только для глаголов действия. Передаёт приказ или указание.</div>
+                    <div class="form-examples">
+                        <div class="form-example">
+                            <div class="korean-verb">빨리 오라고 했어요.</div>
+                            <div class="verb-translation">Сказал прийти быстрее.</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">조용히 하라고 했어요.</div>
+                            <div class="verb-translation">Сказал вести себя тихо.</div>
+                        </div>
+                        <div class="form-example">
+                            <div class="korean-verb">문을 닫으라고 했어요.</div>
+                            <div class="verb-translation">Сказал закрыть дверь.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Примеры в предложениях</div>
+                <div class="structure-example">
+                    <div class="korean-text">선생님이 책을 읽으라고 했어요. <button class="audio-btn" onclick="speakKorean('선생님이 책을 읽으라고 했어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[seonsaengnimi chaegeul ilgeurago haesseoyo]</div>
+                    <div class="translation">Учитель сказал читать книгу.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">엄마가 일찍 자라고 했어요. <button class="audio-btn" onclick="speakKorean('엄마가 일찍 자라고 했어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[eommaga iljjik jarago haesseoyo]</div>
+                    <div class="translation">Мама сказала ложиться спать рано.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">의사가 약을 먹으라고 했어요. <button class="audio-btn" onclick="speakKorean('의사가 약을 먹으라고 했어요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[uisaga yageul meogeurago haesseoyo]</div>
+                    <div class="translation">Врач сказал принимать лекарство.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Запрет в косвенной речи:</strong> "Сказал не делать" — V-지 말라고 했어요: 떠들지 말라고 했어요 [tteodeulji mallago haesseoyo] (Сказал не шуметь).
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Сводная таблица</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">Все типы косвенной речи</div>
+                <div class="table-row">
+                    <div class="table-cell header">Тип</div>
+                    <div class="table-cell header">Конструкция</div>
+                    <div class="table-cell header">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Утверждение (V)</div>
+                    <div class="table-cell korean">V-ㄴ/는다고</div>
+                    <div class="table-cell korean">간다고 했어요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Утверждение (A)</div>
+                    <div class="table-cell korean">A-다고</div>
+                    <div class="table-cell korean">좋다고 했어요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Утверждение (N)</div>
+                    <div class="table-cell korean">N-(이)라고</div>
+                    <div class="table-cell korean">학생이라고 했어요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Вопрос</div>
+                    <div class="table-cell korean">V/A-냐고</div>
+                    <div class="table-cell korean">뭐 하냐고 물었어요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Предложение</div>
+                    <div class="table-cell korean">V-자고</div>
+                    <div class="table-cell korean">같이 가자고 했어요</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Приказ</div>
+                    <div class="table-cell korean">V-(으)라고</div>
+                    <div class="table-cell korean">빨리 오라고 했어요</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Сокращённые формы (разговорные)</h2>
+            <p>В повседневной речи корейцы часто сокращают -다고 해요 до более коротких форм. Это <strong>очень важно</strong> для понимания живой речи!</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Полные и сокращённые формы</div>
+                <div class="table-row">
+                    <div class="table-cell header">Полная форма</div>
+                    <div class="table-cell header">Сокращённая</div>
+                    <div class="table-cell header">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">-다고 해요</div>
+                    <div class="table-cell korean">-대요</div>
+                    <div class="table-cell korean">간대요 (говорят, идёт)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">-냐고 해요</div>
+                    <div class="table-cell korean">-냬요</div>
+                    <div class="table-cell korean">뭐 하냬요 (спрашивают, что делаешь)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">-자고 해요</div>
+                    <div class="table-cell korean">-재요</div>
+                    <div class="table-cell korean">같이 가재요 (предлагают пойти вместе)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">-(으)라고 해요</div>
+                    <div class="table-cell korean">-래요</div>
+                    <div class="table-cell korean">빨리 오래요 (говорят прийти быстрее)</div>
+                </div>
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Примеры сокращённых форм</div>
+                <div class="structure-example">
+                    <div class="korean-text">민수가 내일 바쁘대요. <button class="audio-btn" onclick="speakKorean('민수가 내일 바쁘대요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[minsuga naeil bappeudaeyo]</div>
+                    <div class="translation">Минсу говорит, что завтра занят.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">언제 오냬요. <button class="audio-btn" onclick="speakKorean('언제 오냬요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[eonje onwaeyo]</div>
+                    <div class="translation">Спрашивают, когда придёшь.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">주말에 만나재요. <button class="audio-btn" onclick="speakKorean('주말에 만나재요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[jumare mannajaeyo]</div>
+                    <div class="translation">Предлагают встретиться на выходных.</div>
+                </div>
+                <div class="structure-example">
+                    <div class="korean-text">조용히 하래요. <button class="audio-btn" onclick="speakKorean('조용히 하래요.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[joyonghi haraeyo]</div>
+                    <div class="translation">Говорят вести себя тихо.</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Подсказка:</strong> Сокращённые формы чаще всего используются в <strong>настоящем времени</strong>, когда вы передаёте то, что кто-то <strong>только что</strong> сказал или <strong>обычно</strong> говорит.
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Диалог: Пересказ чужих слов</h2>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">지민:</div>
+                    <div class="korean-text">수호 만났어? 뭐라고 했어? <button class="audio-btn" onclick="speakKorean('수호 만났어? 뭐라고 했어?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[suho mannasseo? mworago haesseo] — Ты встретил Сухо? Что он сказал?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">유나:</div>
+                    <div class="korean-text">응, 다음 주에 한국에 간다고 했어. <button class="audio-btn" onclick="speakKorean('응, 다음 주에 한국에 간다고 했어.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[eung, daeum jue hanguge gandago haesseo] — Да, сказал, что на следующей неделе едет в Корею.</div>
+                    <div class="grammar-note">간다고 = 가다 + ㄴ다고 (утверждение, настоящее)</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지민:</div>
+                    <div class="korean-text">진짜? 혼자 가냐고 물어봤어? <button class="audio-btn" onclick="speakKorean('진짜? 혼자 가냐고 물어봤어?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[jinjja? honja ganyago mureo bwasseo] — Правда? Ты спросила, один ли он едет?</div>
+                    <div class="grammar-note">가냐고 = 가다 + 냐고 (вопрос)</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">유나:</div>
+                    <div class="korean-text">응, 친구랑 같이 간대. 그리고 우리도 같이 가자고 했어. <button class="audio-btn" onclick="speakKorean('응, 친구랑 같이 간대. 그리고 우리도 같이 가자고 했어.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[eung, chingurang gati gandae. geurigo urido gati gajago haesseo] — Говорит, едет с другом. И предложил нам тоже поехать вместе.</div>
+                    <div class="grammar-note">간대 = 간다고 해 (сокращённая форма), 가자고 (предложение)</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지민:</div>
+                    <div class="korean-text">좋겠다! 수호한테 나도 간다고 말해 줘. <button class="audio-btn" onclick="speakKorean('좋겠다! 수호한테 나도 간다고 말해 줘.')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">[jokgetda! suhohante nado gandago malhae jwo] — Здорово! Скажи Сухо, что я тоже еду.</div>
+                    <div class="grammar-note">간다고 말해 줘 = скажи (ему), что я еду</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать диалог</button>
+        </div>
+
+        <div class="practice-section">
+            <h3>Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. "Друг сказал, что завтра придёт." — Выберите правильную форму 오다:</div>
+                <div class="options">
+                    <button class="option" data-correct="true">친구가 내일 온다고 했어요.</button>
+                    <button class="option" data-correct="false">친구가 내일 오다고 했어요.</button>
+                    <button class="option" data-correct="false">친구가 내일 왔다고 했어요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. "Мама спросила, ел ли я." — Выберите правильный вариант:</div>
+                <div class="options">
+                    <button class="option" data-correct="false">엄마가 밥 먹다고 물었어요.</button>
+                    <button class="option" data-correct="true">엄마가 밥 먹었냐고 물었어요.</button>
+                    <button class="option" data-correct="false">엄마가 밥 먹자고 물었어요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. "Предложил вместе посмотреть фильм." — Какую конструкцию использовать?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">영화를 보다고 했어요.</button>
+                    <button class="option" data-correct="false">영화를 보라고 했어요.</button>
+                    <button class="option" data-correct="true">영화를 보자고 했어요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. "Учитель сказал читать книгу." — Это приказ. Какая форма?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">선생님이 책을 읽다고 했어요.</button>
+                    <button class="option" data-correct="true">선생님이 책을 읽으라고 했어요.</button>
+                    <button class="option" data-correct="false">선생님이 책을 읽자고 했어요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. Сокращённая форма -다고 해요:</div>
+                <div class="options">
+                    <button class="option" data-correct="false">-래요</button>
+                    <button class="option" data-correct="true">-대요</button>
+                    <button class="option" data-correct="false">-재요</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. "Он сказал, что он студент." — Какую форму использовать с 이다?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">학생이다고 했어요.</button>
+                    <button class="option" data-correct="true">학생이라고 했어요.</button>
+                    <button class="option" data-correct="false">학생다고 했어요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">7. "Сказал не шуметь." — Запрет в косвенной речи:</div>
+                <div class="options">
+                    <button class="option" data-correct="false">떠들지 않다고 했어요.</button>
+                    <button class="option" data-correct="true">떠들지 말라고 했어요.</button>
+                    <button class="option" data-correct="false">떠들지 마라고 했어요.</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Заключение</h2>
+            <p>Косвенная речь — одна из самых важных и часто используемых грамматических конструкций в корейском языке. Она нужна каждый раз, когда вы пересказываете чужие слова.</p>
+
+            <div style="background: linear-gradient(135deg, #E65100, #FF9800); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; text-align: center;">
+                <h3 style="margin-top: 0;">Краткий обзор</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>-다고 / -(이)라고</strong><br>
+                        Утверждение<br>
+                        <em>좋다고, 간다고, 학생이라고</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>-냐고</strong><br>
+                        Вопрос<br>
+                        <em>뭐 하냐고, 갔냐고</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>-자고 / -(으)라고</strong><br>
+                        Предложение / Приказ<br>
+                        <em>가자고, 오라고</em>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Блок "Запомни" -->
+        <div class="remember-block">
+            <h2>Запомни</h2>
+            <div class="remember-item">
+                <strong>Утверждение:</strong> V-ㄴ/는다고 (간다고), A-다고 (좋다고), N-(이)라고 (학생이라고). Прошедшее: V/A-았/었다고 (갔다고).
+            </div>
+            <div class="remember-item">
+                <strong>Вопрос:</strong> V/A-냐고 (뭐 하냐고, 좋냐고). С 이다: N-(이)냐고 (학생이냐고).
+            </div>
+            <div class="remember-item">
+                <strong>Предложение:</strong> V-자고 (같이 가자고). Только с глаголами действия!
+            </div>
+            <div class="remember-item">
+                <strong>Приказ:</strong> V-(으)라고 (빨리 오라고). Запрет: V-지 말라고 (떠들지 말라고).
+            </div>
+            <div class="remember-item">
+                <strong>Сокращения:</strong> -대요 (утверждение), -냬요 (вопрос), -재요 (предложение), -래요 (приказ). Очень часто в разговорной речи!
+            </div>
+        </div>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #FF9800, #E65100);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(255,152,0,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level3_lesson_indirect_speech_basic';
+
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR';
+            u.rate = 0.7;
+            u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence(btn) {
+            var section = btn.closest('.content-section') || btn.parentElement;
+            var lines = section.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text') || l;
+                var t = k.textContent.replace(/🔊/g, '').trim();
+                if (t) texts.push(t);
+            });
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.textContent = '⏸ Воспроизводится...';
+            function next() {
+                if (i >= texts.length) { btn.textContent = '🎭 Прослушать диалог'; return; }
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = i % 2 === 0 ? 1.1 : 0.9;
+                var v = window.speechSynthesis.getVoices();
+                u.onend = function() { i++; setTimeout(next, 800); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#E65100';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            } else {
+                console.log('[ERROR] ProgressTracker not found');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#E65100';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+
+                        var isCorrect = this.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+
+            console.log('[OK] Lesson loaded: level3_lesson_indirect_speech_basic');
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

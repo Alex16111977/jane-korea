@@ -1,0 +1,214 @@
+/**
+ * Miso: 한국어 수업 — Visual Boost
+ * Живой фон (аврора + парящий хангыль) и эффекты кнопок.
+ * Подключается автоматически из global-nav.js на всех страницах.
+ */
+
+/* =============================================
+   ФОНОВЫЙ ДЕКОР
+   Рисуется позади контента (z-index: -1),
+   поверх фонового градиента страницы.
+   ============================================= */
+.jk-bg-decor {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.jk-bg-decor .jk-blob {
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.4;
+    will-change: transform;
+    animation: jk-drift 26s ease-in-out infinite alternate;
+}
+
+.jk-blob-1 {
+    width: 46vmax; height: 46vmax;
+    top: -18vmax; right: -14vmax;
+    background: radial-gradient(circle at 30% 30%, #ff6b9d, #c44569 70%);
+}
+
+.jk-blob-2 {
+    width: 38vmax; height: 38vmax;
+    bottom: -16vmax; left: -12vmax;
+    background: radial-gradient(circle at 60% 40%, #4facfe, #667eea 70%);
+    animation-duration: 34s;
+    animation-delay: -9s;
+}
+
+.jk-blob-3 {
+    width: 28vmax; height: 28vmax;
+    top: 38%; left: 56%;
+    background: radial-gradient(circle at 40% 40%, #a8e6cf, #58c9b9 70%);
+    opacity: 0.28;
+    animation-duration: 40s;
+    animation-delay: -18s;
+}
+
+.jk-bg-decor .jk-han {
+    position: absolute;
+    font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.10);
+    text-shadow: 0 4px 24px rgba(70, 50, 130, 0.14);
+    user-select: none;
+    will-change: transform;
+    animation: jk-float 18s ease-in-out infinite alternate;
+}
+
+.jk-han-1 { font-size: 16vmin; top: 8%;  left: 4%;  animation-delay: -2s; }
+.jk-han-2 { font-size: 11vmin; top: 60%; left: 86%; animation-duration: 24s; animation-delay: -7s; }
+.jk-han-3 { font-size: 12vmin; top: 76%; left: 10%; animation-duration: 21s; animation-delay: -12s; }
+.jk-han-4 { font-size: 9vmin;  top: 16%; left: 72%; animation-duration: 27s; animation-delay: -4s; }
+.jk-han-5 { font-size: 8vmin;  top: 44%; left: 38%; opacity: 0.7; animation-duration: 30s; animation-delay: -15s; }
+
+@keyframes jk-drift {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(6vw, 4vh) scale(1.12); }
+}
+
+@keyframes jk-float {
+    from { transform: translateY(0) rotate(-6deg); }
+    to   { transform: translateY(-5vh) rotate(7deg); }
+}
+
+@media (max-width: 768px) {
+    .jk-bg-decor .jk-blob { filter: blur(48px); opacity: 0.3; }
+    .jk-han-4, .jk-han-5 { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .jk-bg-decor .jk-blob,
+    .jk-bg-decor .jk-han { animation: none; }
+}
+
+/* =============================================
+   КНОПКИ — упругий отклик
+   Только transform/shadow/filter: цвета и
+   размеры остаются из стилей страницы.
+   ============================================= */
+.exercise-btn, .answer-btn, .mode-btn, .complete-btn, .exercise-check-btn,
+.trainer-btn, .restart-btn, .next-btn, .start-btn, .card-btn, .back-btn,
+.btn-back, .btn-check, .vocab-mode-btn, .dialogue-play-btn, .writing-hint-btn,
+.filter-btn, .diff-btn, .control-btn, .toggle-btn, .play-btn, .tab, .option {
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.25s ease,
+                filter 0.25s ease,
+                background 0.3s ease,
+                color 0.3s ease,
+                border-color 0.3s ease;
+}
+
+.exercise-btn:hover, .answer-btn:hover, .mode-btn:hover, .complete-btn:hover,
+.exercise-check-btn:hover, .trainer-btn:hover, .restart-btn:hover, .next-btn:hover,
+.start-btn:hover, .card-btn:hover, .back-btn:hover, .btn-back:hover, .btn-check:hover,
+.vocab-mode-btn:hover, .dialogue-play-btn:hover, .writing-hint-btn:hover,
+.filter-btn:hover, .diff-btn:hover, .control-btn:hover, .toggle-btn:hover,
+.play-btn:hover, .tab:hover, .option:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.06) saturate(1.06);
+    box-shadow: 0 10px 24px rgba(60, 50, 120, 0.28);
+}
+
+.exercise-btn:active, .answer-btn:active, .mode-btn:active, .complete-btn:active,
+.exercise-check-btn:active, .trainer-btn:active, .restart-btn:active, .next-btn:active,
+.start-btn:active, .card-btn:active, .back-btn:active, .btn-back:active, .btn-check:active,
+.vocab-mode-btn:active, .dialogue-play-btn:active, .writing-hint-btn:active,
+.filter-btn:active, .diff-btn:active, .control-btn:active, .toggle-btn:active,
+.play-btn:active, .tab:active, .option:active {
+    transform: translateY(0) scale(0.96);
+    box-shadow: 0 3px 10px rgba(60, 50, 120, 0.2);
+}
+
+/* Маленькие круглые кнопки озвучки: лёгкий "поп" вместо подъёма */
+.audio-btn, .audio-btn-light, .speak-btn, .expand-btn, .speed-btn {
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.2s ease,
+                filter 0.2s ease;
+}
+
+.audio-btn:hover, .audio-btn-light:hover, .speak-btn:hover, .expand-btn:hover, .speed-btn:hover {
+    transform: scale(1.15);
+    filter: brightness(1.1);
+    box-shadow: 0 4px 14px rgba(60, 50, 120, 0.3);
+}
+
+.audio-btn:active, .audio-btn-light:active, .speak-btn:active, .expand-btn:active, .speed-btn:active {
+    transform: scale(0.9);
+}
+
+/* Блик, пробегающий по крупным кнопкам при наведении */
+.mode-btn, .tab, .dialogue-play-btn, .complete-btn, .start-btn, .exercise-check-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.mode-btn::after, .tab::after, .dialogue-play-btn::after,
+.complete-btn::after, .start-btn::after, .exercise-check-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -80%;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: skewX(-20deg);
+    pointer-events: none;
+    transition: left 0.55s ease;
+}
+
+.mode-btn:hover::after, .tab:hover::after, .dialogue-play-btn:hover::after,
+.complete-btn:hover::after, .start-btn:hover::after, .exercise-check-btn:hover::after {
+    left: 130%;
+}
+
+/* Видимый фокус с клавиатуры */
+.exercise-btn:focus-visible, .answer-btn:focus-visible, .mode-btn:focus-visible,
+.complete-btn:focus-visible, .tab:focus-visible, .option:focus-visible,
+.audio-btn:focus-visible, .dialogue-play-btn:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mode-btn::after, .tab::after, .dialogue-play-btn::after,
+    .complete-btn::after, .start-btn::after, .exercise-check-btn::after {
+        display: none;
+    }
+}
+
+/* ============================================================
+   Цветные пятна фона по уровням (data-level ставит global-nav.js).
+   Без этого на зелёном фоне 1급 висело бы розовое пятно от бренда.
+   Специфичность html[data-level] выше базовых .jk-blob-N,
+   поэтому порядок подключения файлов роли не играет.
+   ============================================================ */
+html[data-level="1"] .jk-blob-1 { background: radial-gradient(circle at 30% 30%, #6ee7a8, #2e9e5b 70%); }
+html[data-level="1"] .jk-blob-2 { background: radial-gradient(circle at 60% 40%, #a7f3d0, #14b8a6 70%); }
+html[data-level="1"] .jk-blob-3 { background: radial-gradient(circle at 40% 40%, #d9f99d, #84cc16 70%); }
+
+html[data-level="2"] .jk-blob-1 { background: radial-gradient(circle at 30% 30%, #7dd3fc, #2f6fd0 70%); }
+html[data-level="2"] .jk-blob-2 { background: radial-gradient(circle at 60% 40%, #a5b4fc, #4f46e5 70%); }
+html[data-level="2"] .jk-blob-3 { background: radial-gradient(circle at 40% 40%, #99f6e4, #0ea5e9 70%); }
+
+html[data-level="3"] .jk-blob-1 { background: radial-gradient(circle at 30% 30%, #fdba74, #e07a1f 70%); }
+html[data-level="3"] .jk-blob-2 { background: radial-gradient(circle at 60% 40%, #fde68a, #f59e0b 70%); }
+html[data-level="3"] .jk-blob-3 { background: radial-gradient(circle at 40% 40%, #fecaca, #fb7185 70%); }
+
+html[data-level="4"] .jk-blob-1 { background: radial-gradient(circle at 30% 30%, #d8b4fe, #8e44c9 70%); }
+html[data-level="4"] .jk-blob-2 { background: radial-gradient(circle at 60% 40%, #c4b5fd, #7c3aed 70%); }
+html[data-level="4"] .jk-blob-3 { background: radial-gradient(circle at 40% 40%, #f0abfc, #c026d3 70%); }
+
+html[data-level="5"] .jk-blob-1 { background: radial-gradient(circle at 30% 30%, #fda4af, #d81b60 70%); }
+html[data-level="5"] .jk-blob-2 { background: radial-gradient(circle at 60% 40%, #f9a8d4, #be185d 70%); }
+html[data-level="5"] .jk-blob-3 { background: radial-gradient(circle at 40% 40%, #fcd34d, #f59e0b 70%); }
+
+html[data-level="6"] .jk-blob-1 { background: radial-gradient(circle at 30% 30%, #fca5a5, #d84343 70%); }
+html[data-level="6"] .jk-blob-2 { background: radial-gradient(circle at 60% 40%, #fdba74, #ea580c 70%); }
+html[data-level="6"] .jk-blob-3 { background: radial-gradient(circle at 40% 40%, #fbbf24, #b91c1c 70%); }

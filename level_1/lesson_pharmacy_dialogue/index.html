@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>В аптеке и больнице | 1급 Корейский язык</title>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #eefaf1 0%, #d8f0e0 50%, #d8f0e0 100%);
+            min-height: 100vh; color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; top: 15%; right: 4%;
+            font-size: 115px; opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none; z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #388e3c; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #4caf50; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.05em; }
+        .header .lesson-number { font-size: 0.95em; color: #ffffff; margin-bottom: 10px; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 { color: #388e3c; margin-top: 0; font-size: 1.8em; border-bottom: 3px solid #4caf50; padding-bottom: 10px; }
+        .content-section h3 { color: #388e3c; }
+
+        .grammar-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0;
+        }
+        .grammar-table th { background: #4caf50; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+
+        .example-card {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 20px; border-radius: 15px; margin: 12px 0;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+        }
+        .example-korean { font-size: 1.5em; font-weight: 700; }
+        .example-romanization { font-size: 0.9em; opacity: 0.85; margin-top: 4px; }
+        .example-meaning { font-size: 1em; opacity: 0.95; }
+        .example-info { flex: 1; min-width: 200px; }
+
+        .tip-box {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .korean-text { font-size: 1.1em; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; font-style: italic; }
+        .dialogue-play-btn {
+            background: rgba(255,255,255,0.25); color: #2b2440; border: 2px solid rgba(255,255,255,0.4);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer;
+            font-size: 1em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.3s ease; margin-bottom: 15px;
+        }
+        .dialogue-play-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .audio-btn-light {
+            background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn-light:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .practice-section {
+            background: linear-gradient(135deg, #eefaf1, #d8f0e0);
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .practice-section h2 { color: #1b5e20; margin-bottom: 20px; font-size: 1.5em; border-bottom: none; }
+
+        .exercise-item { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .exercise-question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .exercise-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .exercise-btn {
+            background: #4caf50; color: white; padding: 10px 20px; border: none;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .exercise-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .exercise-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .exercise-result { margin-top: 10px; padding: 10px; border-radius: 8px; font-weight: 600; }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+        }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        .symptom-checklist {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px; margin: 20px 0;
+        }
+        .symptom-card {
+            background: white; border-radius: 15px; padding: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-left: 4px solid #4caf50;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .symptom-icon {
+            font-size: 2em; width: 50px; height: 50px;
+            display: flex; align-items: center; justify-content: center;
+            background: #e8f5e9; border-radius: 50%; flex-shrink: 0;
+        }
+        .symptom-info { flex: 1; }
+        .symptom-korean { font-weight: 700; font-size: 1.15em; color: #2e7d32; }
+        .symptom-romanization { font-size: 0.85em; color: #55506e; margin-top: 2px; }
+        .symptom-meaning { font-size: 0.95em; color: #555; margin-top: 4px; }
+
+        .body-parts-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px; margin: 20px 0;
+        }
+        .body-part-item {
+            background: linear-gradient(135deg, #2e9e5b, #14663a);
+            color: white; padding: 15px; border-radius: 12px;
+            text-align: center; transition: transform 0.3s ease;
+        }
+        .body-part-item:hover { transform: translateY(-3px); }
+        .body-part-korean { font-size: 1.4em; font-weight: 700; }
+        .body-part-rom { font-size: 0.85em; opacity: 0.85; margin-top: 3px; }
+        .body-part-meaning { font-size: 0.9em; opacity: 0.9; margin-top: 5px; }
+
+        .remember-box {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .remember-box h2 { color: white; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-top: 0; }
+        .remember-item { margin: 12px 0; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .content-section { padding: 25px; }
+            .exercise-options { flex-direction: column; }
+            .example-card { flex-direction: column; align-items: flex-start; }
+            .symptom-checklist { grid-template-columns: 1fr; }
+            .body-parts-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../index.html">&#8592; &#1053;&#1072;&#1079;&#1072;&#1076; &#1082; 1&#44553;</a>
+            <a href="../../lessons.html">&#1042;&#1089;&#1077; &#1091;&#1088;&#1086;&#1074;&#1085;&#1080;</a>
+        </div>
+
+        <header class="header">
+            <div class="lesson-number">1&#44553; | &#1044;&#1080;&#1072;&#1083;&#1086;&#1075;-&#1087;&#1088;&#1072;&#1082;&#1090;&#1080;&#1082;&#1072;</div>
+            <h1>&#1042; &#1072;&#1087;&#1090;&#1077;&#1082;&#1077; &#1080; &#1073;&#1086;&#1083;&#1100;&#1085;&#1080;&#1094;&#1077;</h1>
+            <div class="korean-title">&#50557;&#44397;&#44284; &#48337;&#50896; [yakgukkwa byeongwon]</div>
+            <div class="description">&#1059;&#1095;&#1080;&#1084;&#1089;&#1103; &#1086;&#1087;&#1080;&#1089;&#1099;&#1074;&#1072;&#1090;&#1100; &#1089;&#1080;&#1084;&#1087;&#1090;&#1086;&#1084;&#1099;, &#1087;&#1086;&#1082;&#1091;&#1087;&#1072;&#1090;&#1100; &#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;&#1072; &#1080; &#1086;&#1073;&#1097;&#1072;&#1090;&#1100;&#1089;&#1103; &#1089; &#1074;&#1088;&#1072;&#1095;&#1086;&#1084;</div>
+        </header>
+
+        <!-- Section 1: Body Parts -->
+        <div class="content-section">
+            <h2>1. &#1063;&#1072;&#1089;&#1090;&#1080; &#1090;&#1077;&#1083;&#1072;</h2>
+            <p>&#1055;&#1086;&#1074;&#1090;&#1086;&#1088;&#1080;&#1084; &#1086;&#1089;&#1085;&#1086;&#1074;&#1085;&#1099;&#1077; &#1089;&#1083;&#1086;&#1074;&#1072;, &#1095;&#1090;&#1086;&#1073;&#1099; &#1086;&#1073;&#1098;&#1103;&#1089;&#1085;&#1080;&#1090;&#1100;, &#1095;&#1090;&#1086; &#1080;&#1084;&#1077;&#1085;&#1085;&#1086; &#1073;&#1086;&#1083;&#1080;&#1090;:</p>
+
+            <div class="body-parts-grid">
+                <div class="body-part-item" onclick="speakKorean('&#47672;&#47532;')">
+                    <div class="body-part-korean">&#47672;&#47532;</div>
+                    <div class="body-part-rom">[meori]</div>
+                    <div class="body-part-meaning">&#1075;&#1086;&#1083;&#1086;&#1074;&#1072;</div>
+                </div>
+                <div class="body-part-item" onclick="speakKorean('&#48176;')" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="body-part-korean">&#48176;</div>
+                    <div class="body-part-rom">[bae]</div>
+                    <div class="body-part-meaning">&#1078;&#1080;&#1074;&#1086;&#1090;</div>
+                </div>
+                <div class="body-part-item" onclick="speakKorean('&#47785;')" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="body-part-korean">&#47785;</div>
+                    <div class="body-part-rom">[mok]</div>
+                    <div class="body-part-meaning">&#1075;&#1086;&#1088;&#1083;&#1086;</div>
+                </div>
+                <div class="body-part-item" onclick="speakKorean('&#51060;')" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                    <div class="body-part-korean">&#51060; / &#52824;&#50500;</div>
+                    <div class="body-part-rom">[i / chia]</div>
+                    <div class="body-part-meaning">&#1079;&#1091;&#1073;</div>
+                </div>
+                <div class="body-part-item" onclick="speakKorean('&#54728;&#47532;')">
+                    <div class="body-part-korean">&#54728;&#47532;</div>
+                    <div class="body-part-rom">[heori]</div>
+                    <div class="body-part-meaning">&#1087;&#1086;&#1103;&#1089;&#1085;&#1080;&#1094;&#1072; / &#1089;&#1087;&#1080;&#1085;&#1072;</div>
+                </div>
+                <div class="body-part-item" onclick="speakKorean('&#45576;')" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="body-part-korean">&#45576;</div>
+                    <div class="body-part-rom">[nun]</div>
+                    <div class="body-part-meaning">&#1075;&#1083;&#1072;&#1079;</div>
+                </div>
+                <div class="body-part-item" onclick="speakKorean('&#44480;')" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="body-part-korean">&#44480;</div>
+                    <div class="body-part-rom">[gwi]</div>
+                    <div class="body-part-meaning">&#1091;&#1093;&#1086;</div>
+                </div>
+                <div class="body-part-item" onclick="speakKorean('&#53076;')" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                    <div class="body-part-korean">&#53076;</div>
+                    <div class="body-part-rom">[ko]</div>
+                    <div class="body-part-meaning">&#1085;&#1086;&#1089;</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>&#1050;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103; &#171;&#1041;&#1086;&#1083;&#1080;&#1090;&#187;:</strong> [&#1095;&#1072;&#1089;&#1090;&#1100; &#1090;&#1077;&#1083;&#1072;] + <strong>&#44032;/&#51060;</strong> + <strong>&#50500;&#54028;&#50836;</strong>
+                <br>&#47672;&#47532;<strong>&#44032;</strong> &#50500;&#54028;&#50836; &mdash; &#1075;&#1086;&#1083;&#1086;&#1074;&#1072; &#1073;&#1086;&#1083;&#1080;&#1090; (&#1087;&#1086;&#1089;&#1083;&#1077; &#1075;&#1083;&#1072;&#1089;&#1085;&#1086;&#1081; &mdash; &#44032;)
+                <br>&#48176;<strong>&#44032;</strong> &#50500;&#54028;&#50836; &mdash; &#1078;&#1080;&#1074;&#1086;&#1090; &#1073;&#1086;&#1083;&#1080;&#1090; (&#1087;&#1086;&#1089;&#1083;&#1077; &#1075;&#1083;&#1072;&#1089;&#1085;&#1086;&#1081; &mdash; &#44032;)
+                <br>&#47785;<strong>&#51060;</strong> &#50500;&#54028;&#50836; &mdash; &#1075;&#1086;&#1088;&#1083;&#1086; &#1073;&#1086;&#1083;&#1080;&#1090; (&#1087;&#1086;&#1089;&#1083;&#1077; &#1089;&#1086;&#1075;&#1083;&#1072;&#1089;&#1085;&#1086;&#1081; &mdash; &#51060;)
+            </div>
+        </div>
+
+        <!-- Section 2: Symptoms -->
+        <div class="content-section">
+            <h2>2. &#1054;&#1087;&#1080;&#1089;&#1072;&#1085;&#1080;&#1077; &#1089;&#1080;&#1084;&#1087;&#1090;&#1086;&#1084;&#1086;&#1074;</h2>
+            <p>&#1042;&#1086;&#1090; &#1082;&#1072;&#1082; &#1088;&#1072;&#1089;&#1089;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100; &#1074;&#1088;&#1072;&#1095;&#1091; &#1080;&#1083;&#1080; &#1092;&#1072;&#1088;&#1084;&#1072;&#1094;&#1077;&#1074;&#1090;&#1091; &#1086; &#1089;&#1074;&#1086;&#1080;&#1093; &#1089;&#1080;&#1084;&#1087;&#1090;&#1086;&#1084;&#1072;&#1093;:</p>
+
+            <div class="symptom-checklist">
+                <div class="symptom-card">
+                    <div class="symptom-icon">&#9898;</div>
+                    <div class="symptom-info">
+                        <div class="symptom-korean">&#47672;&#47532;&#44032; &#50500;&#54028;&#50836; <button class="audio-btn" onclick="speakKorean('&#47672;&#47532;&#44032; &#50500;&#54028;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="symptom-romanization">[meoriga apayo]</div>
+                        <div class="symptom-meaning">&#1043;&#1086;&#1083;&#1086;&#1074;&#1072; &#1073;&#1086;&#1083;&#1080;&#1090;</div>
+                    </div>
+                </div>
+                <div class="symptom-card">
+                    <div class="symptom-icon">&#9898;</div>
+                    <div class="symptom-info">
+                        <div class="symptom-korean">&#48176;&#44032; &#50500;&#54028;&#50836; <button class="audio-btn" onclick="speakKorean('&#48176;&#44032; &#50500;&#54028;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="symptom-romanization">[baega apayo]</div>
+                        <div class="symptom-meaning">&#1046;&#1080;&#1074;&#1086;&#1090; &#1073;&#1086;&#1083;&#1080;&#1090;</div>
+                    </div>
+                </div>
+                <div class="symptom-card">
+                    <div class="symptom-icon">&#9898;</div>
+                    <div class="symptom-info">
+                        <div class="symptom-korean">&#50676;&#51060; &#45208;&#50836; <button class="audio-btn" onclick="speakKorean('&#50676;&#51060; &#45208;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="symptom-romanization">[yeori nayo]</div>
+                        <div class="symptom-meaning">&#1058;&#1077;&#1084;&#1087;&#1077;&#1088;&#1072;&#1090;&#1091;&#1088;&#1072; (&#1078;&#1072;&#1088;)</div>
+                    </div>
+                </div>
+                <div class="symptom-card">
+                    <div class="symptom-icon">&#9898;</div>
+                    <div class="symptom-info">
+                        <div class="symptom-korean">&#44592;&#52840;&#51060; &#45208;&#50836; <button class="audio-btn" onclick="speakKorean('&#44592;&#52840;&#51060; &#45208;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="symptom-romanization">[gichimi nayo]</div>
+                        <div class="symptom-meaning">&#1050;&#1072;&#1096;&#1077;&#1083;&#1100;</div>
+                    </div>
+                </div>
+                <div class="symptom-card">
+                    <div class="symptom-icon">&#9898;</div>
+                    <div class="symptom-info">
+                        <div class="symptom-korean">&#53111;&#47932;&#51060; &#45208;&#50836; <button class="audio-btn" onclick="speakKorean('&#53111;&#47932;&#51060; &#45208;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="symptom-romanization">[konmuri nayo]</div>
+                        <div class="symptom-meaning">&#1053;&#1072;&#1089;&#1084;&#1086;&#1088;&#1082;</div>
+                    </div>
+                </div>
+                <div class="symptom-card">
+                    <div class="symptom-icon">&#9898;</div>
+                    <div class="symptom-info">
+                        <div class="symptom-korean">&#44048;&#44592;&#50640; &#44152;&#47160;&#50612;&#50836; <button class="audio-btn" onclick="speakKorean('&#44048;&#44592;&#50640; &#44152;&#47160;&#50612;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="symptom-romanization">[gamgie geollyeosseoyo]</div>
+                        <div class="symptom-meaning">&#1071; &#1087;&#1088;&#1086;&#1089;&#1090;&#1091;&#1076;&#1080;&#1083;&#1089;&#1103;(-&#1072;&#1089;&#1100;)</div>
+                    </div>
+                </div>
+                <div class="symptom-card">
+                    <div class="symptom-icon">&#9898;</div>
+                    <div class="symptom-info">
+                        <div class="symptom-korean">&#50508;&#47112;&#47476;&#44592;&#44032; &#51080;&#50612;&#50836; <button class="audio-btn" onclick="speakKorean('&#50508;&#47112;&#47476;&#44592;&#44032; &#51080;&#50612;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="symptom-romanization">[allereugi-ga isseoyo]</div>
+                        <div class="symptom-meaning">&#1059; &#1084;&#1077;&#1085;&#1103; &#1072;&#1083;&#1083;&#1077;&#1088;&#1075;&#1080;&#1103;</div>
+                    </div>
+                </div>
+                <div class="symptom-card">
+                    <div class="symptom-icon">&#9898;</div>
+                    <div class="symptom-info">
+                        <div class="symptom-korean">&#47785;&#51060; &#50500;&#54028;&#50836; <button class="audio-btn" onclick="speakKorean('&#47785;&#51060; &#50500;&#54028;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                        <div class="symptom-romanization">[mogi apayo]</div>
+                        <div class="symptom-meaning">&#1043;&#1086;&#1088;&#1083;&#1086; &#1073;&#1086;&#1083;&#1080;&#1090;</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Pharmacy Phrases -->
+        <div class="content-section">
+            <h2>3. &#1060;&#1088;&#1072;&#1079;&#1099; &#1074; &#1072;&#1087;&#1090;&#1077;&#1082;&#1077;</h2>
+            <p>&#1055;&#1086;&#1083;&#1077;&#1079;&#1085;&#1099;&#1077; &#1092;&#1088;&#1072;&#1079;&#1099; &#1076;&#1083;&#1103; &#1087;&#1086;&#1082;&#1091;&#1087;&#1082;&#1080; &#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;:</p>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">&#50557; &#51452;&#49464;&#50836;.</div>
+                    <div class="example-romanization">[yak juseyo]</div>
+                    <div class="example-meaning">&#1044;&#1072;&#1081;&#1090;&#1077; &#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;&#1086;, &#1087;&#1086;&#1078;&#1072;&#1083;&#1091;&#1081;&#1089;&#1090;&#1072;.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#50557; &#51452;&#49464;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">&#46160;&#53685;&#50557; &#51080;&#50612;&#50836;?</div>
+                    <div class="example-romanization">[dutongyak isseoyo?]</div>
+                    <div class="example-meaning">&#1045;&#1089;&#1090;&#1100; &#1086;&#1073;&#1077;&#1079;&#1073;&#1086;&#1083;&#1080;&#1074;&#1072;&#1102;&#1097;&#1077;&#1077;?</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#46160;&#53685;&#50557; &#51080;&#50612;&#50836;?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">&#44048;&#44592;&#50557; &#51452;&#49464;&#50836;.</div>
+                    <div class="example-romanization">[gamgiyak juseyo]</div>
+                    <div class="example-meaning">&#1044;&#1072;&#1081;&#1090;&#1077; &#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;&#1086; &#1086;&#1090; &#1087;&#1088;&#1086;&#1089;&#1090;&#1091;&#1076;&#1099;.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#44048;&#44592;&#50557; &#51452;&#49464;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">&#54616;&#47336;&#50640; &#47751; &#48264; &#47673;&#50612;&#50836;?</div>
+                    <div class="example-romanization">[harue myeot beon meogeoyo?]</div>
+                    <div class="example-meaning">&#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1088;&#1072;&#1079; &#1074; &#1076;&#1077;&#1085;&#1100; &#1087;&#1088;&#1080;&#1085;&#1080;&#1084;&#1072;&#1090;&#1100;?</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#54616;&#47336;&#50640; &#47751; &#48264; &#47673;&#50612;&#50836;?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                <div class="example-info">
+                    <div class="example-korean">&#49885;&#54980;&#50640; &#46300;&#49464;&#50836;.</div>
+                    <div class="example-romanization">[sikhue deuseyo]</div>
+                    <div class="example-meaning">&#1055;&#1088;&#1080;&#1085;&#1080;&#1084;&#1072;&#1081;&#1090;&#1077; &#1087;&#1086;&#1089;&#1083;&#1077; &#1077;&#1076;&#1099;.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#49885;&#54980;&#50640; &#46300;&#49464;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">&#49885;&#51204;&#50640; &#46300;&#49464;&#50836;.</div>
+                    <div class="example-romanization">[sikjeone deuseyo]</div>
+                    <div class="example-meaning">&#1055;&#1088;&#1080;&#1085;&#1080;&#1084;&#1072;&#1081;&#1090;&#1077; &#1076;&#1086; &#1077;&#1076;&#1099;.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('&#49885;&#51204;&#50640; &#46300;&#49464;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <h3>&#1058;&#1080;&#1087;&#1099; &#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;</h3>
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>&#54620;&#44397;&#50612;</th>
+                        <th>&#1055;&#1088;&#1086;&#1080;&#1079;&#1085;&#1086;&#1096;&#1077;&#1085;&#1080;&#1077;</th>
+                        <th>&#1055;&#1077;&#1088;&#1077;&#1074;&#1086;&#1076;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>&#50557; <button class="audio-btn" onclick="speakKorean('&#50557;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[yak]</td>
+                        <td>&#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;&#1086;</td>
+                    </tr>
+                    <tr>
+                        <td>&#46160;&#53685;&#50557; <button class="audio-btn" onclick="speakKorean('&#46160;&#53685;&#50557;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[dutongyak]</td>
+                        <td>&#1086;&#1073;&#1077;&#1079;&#1073;&#1086;&#1083;&#1080;&#1074;&#1072;&#1102;&#1097;&#1077;&#1077;</td>
+                    </tr>
+                    <tr>
+                        <td>&#44048;&#44592;&#50557; <button class="audio-btn" onclick="speakKorean('&#44048;&#44592;&#50557;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[gamgiyak]</td>
+                        <td>&#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;&#1086; &#1086;&#1090; &#1087;&#1088;&#1086;&#1089;&#1090;&#1091;&#1076;&#1099;</td>
+                    </tr>
+                    <tr>
+                        <td>&#49548;&#54868;&#51228; <button class="audio-btn" onclick="speakKorean('&#49548;&#54868;&#51228;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[sohwaje]</td>
+                        <td>&#1089;&#1088;&#1077;&#1076;&#1089;&#1090;&#1074;&#1086; &#1076;&#1083;&#1103; &#1087;&#1080;&#1097;&#1077;&#1074;&#1072;&#1088;&#1077;&#1085;&#1080;&#1103;</td>
+                    </tr>
+                    <tr>
+                        <td>&#48152;&#52285;&#44256; <button class="audio-btn" onclick="speakKorean('&#48152;&#52285;&#44256;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[banchanggo]</td>
+                        <td>&#1087;&#1083;&#1072;&#1089;&#1090;&#1099;&#1088;&#1100;</td>
+                    </tr>
+                    <tr>
+                        <td>&#50672;&#44256; <button class="audio-btn" onclick="speakKorean('&#50672;&#44256;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[yeongo]</td>
+                        <td>&#1084;&#1072;&#1079;&#1100;</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>&#50557;&#44397; vs &#48337;&#50896;:</strong> &#50557;&#44397; [yakguk] &mdash; &#1072;&#1087;&#1090;&#1077;&#1082;&#1072;. &#1047;&#1076;&#1077;&#1089;&#1100; &#1084;&#1086;&#1078;&#1085;&#1086; &#1082;&#1091;&#1087;&#1080;&#1090;&#1100; &#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;&#1072; &#1073;&#1077;&#1079; &#1088;&#1077;&#1094;&#1077;&#1087;&#1090;&#1072;. &#48337;&#50896; [byeongwon] &mdash; &#1073;&#1086;&#1083;&#1100;&#1085;&#1080;&#1094;&#1072;. &#1042; &#1050;&#1086;&#1088;&#1077;&#1077; &#1074;&#1088;&#1072;&#1095; &#1076;&#1072;&#1105;&#1090; &#1088;&#1077;&#1094;&#1077;&#1087;&#1090; (&#52376;&#48169;&#51204;), &#1080; &#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;&#1072; &#1087;&#1086;&#1082;&#1091;&#1087;&#1072;&#1102;&#1090; &#1074; &#1072;&#1087;&#1090;&#1077;&#1082;&#1077;.
+            </div>
+        </div>
+
+        <!-- Section 4: Dialogue 1 - At Pharmacy -->
+        <div class="content-section">
+            <h2>4. &#1044;&#1080;&#1072;&#1083;&#1086;&#1075; 1: &#1042; &#1072;&#1087;&#1090;&#1077;&#1082;&#1077;</h2>
+            <p>&#1057;&#1080;&#1090;&#1091;&#1072;&#1094;&#1080;&#1103;: &#1059; &#1074;&#1072;&#1089; &#1073;&#1086;&#1083;&#1080;&#1090; &#1075;&#1086;&#1083;&#1086;&#1074;&#1072;, &#1074;&#1099; &#1087;&#1088;&#1080;&#1096;&#1083;&#1080; &#1074; &#1072;&#1087;&#1090;&#1077;&#1082;&#1091;.</p>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">&#49552;&#45784; (&#1055;&#1086;&#1082;&#1091;&#1087;&#1072;&#1090;&#1077;&#1083;&#1100;):</div>
+                    <div class="korean-text">&#50504;&#45397;&#54616;&#49464;&#50836;. &#47672;&#47532;&#44032; &#50500;&#54028;&#50836;.</div>
+                    <div class="translation">&#1047;&#1076;&#1088;&#1072;&#1074;&#1089;&#1090;&#1074;&#1091;&#1081;&#1090;&#1077;. &#1059; &#1084;&#1077;&#1085;&#1103; &#1073;&#1086;&#1083;&#1080;&#1090; &#1075;&#1086;&#1083;&#1086;&#1074;&#1072;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#50557;&#49324; (&#1060;&#1072;&#1088;&#1084;&#1072;&#1094;&#1077;&#1074;&#1090;):</div>
+                    <div class="korean-text">&#50616;&#51228;&#48512;&#53552; &#50500;&#54032;&#49464;&#50836;?</div>
+                    <div class="translation">&#1057; &#1082;&#1072;&#1082;&#1086;&#1075;&#1086; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080; &#1073;&#1086;&#1083;&#1080;&#1090;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#49552;&#45784;:</div>
+                    <div class="korean-text">&#50612;&#51228;&#48512;&#53552; &#50500;&#54028;&#50836;. &#46160;&#53685;&#50557; &#51080;&#50612;&#50836;?</div>
+                    <div class="translation">&#1057;&#1086; &#1074;&#1095;&#1077;&#1088;&#1072;&#1096;&#1085;&#1077;&#1075;&#1086; &#1076;&#1085;&#1103;. &#1045;&#1089;&#1090;&#1100; &#1086;&#1073;&#1077;&#1079;&#1073;&#1086;&#1083;&#1080;&#1074;&#1072;&#1102;&#1097;&#1077;&#1077;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#50557;&#49324;:</div>
+                    <div class="korean-text">&#45348;, &#51060; &#50557; &#46300;&#49464;&#50836;. &#54616;&#47336;&#50640; &#49464; &#48264;, &#49885;&#54980;&#50640; &#46300;&#49464;&#50836;.</div>
+                    <div class="translation">&#1044;&#1072;, &#1087;&#1088;&#1080;&#1085;&#1080;&#1084;&#1072;&#1081;&#1090;&#1077; &#1101;&#1090;&#1086;. &#1058;&#1088;&#1080; &#1088;&#1072;&#1079;&#1072; &#1074; &#1076;&#1077;&#1085;&#1100;, &#1087;&#1086;&#1089;&#1083;&#1077; &#1077;&#1076;&#1099;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#49552;&#45784;:</div>
+                    <div class="korean-text">&#50620;&#47560;&#50696;&#50836;?</div>
+                    <div class="translation">&#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1089;&#1090;&#1086;&#1080;&#1090;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#50557;&#49324;:</div>
+                    <div class="korean-text">&#49340;&#52380;&#50896;&#51060;&#50640;&#50836;.</div>
+                    <div class="translation">3 000 &#1074;&#1086;&#1085;.</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#9654; &#1055;&#1088;&#1086;&#1089;&#1083;&#1091;&#1096;&#1072;&#1090;&#1100; &#1076;&#1080;&#1072;&#1083;&#1086;&#1075;</button>
+        </div>
+
+        <!-- Section 5: Dialogue 2 - Hospital Reception -->
+        <div class="content-section">
+            <h2>5. &#1044;&#1080;&#1072;&#1083;&#1086;&#1075; 2: &#1042; &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1090;&#1091;&#1088;&#1077; &#1073;&#1086;&#1083;&#1100;&#1085;&#1080;&#1094;&#1099;</h2>
+            <p>&#1057;&#1080;&#1090;&#1091;&#1072;&#1094;&#1080;&#1103;: &#1042;&#1099; &#1087;&#1088;&#1080;&#1096;&#1083;&#1080; &#1074; &#1087;&#1086;&#1083;&#1080;&#1082;&#1083;&#1080;&#1085;&#1080;&#1082;&#1091; &#1089; &#1087;&#1088;&#1086;&#1089;&#1090;&#1091;&#1076;&#1086;&#1081;.</p>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">&#54872;&#51088; (&#1055;&#1072;&#1094;&#1080;&#1077;&#1085;&#1090;):</div>
+                    <div class="korean-text">&#50504;&#45397;&#54616;&#49464;&#50836;. &#51652;&#47308; &#48155;&#44256; &#49910;&#50612;&#50836;.</div>
+                    <div class="translation">&#1047;&#1076;&#1088;&#1072;&#1074;&#1089;&#1090;&#1074;&#1091;&#1081;&#1090;&#1077;. &#1071; &#1093;&#1086;&#1090;&#1077;&#1083;(-&#1072;) &#1073;&#1099; &#1085;&#1072; &#1087;&#1088;&#1080;&#1105;&#1084;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#44036;&#54840;&#49324; (&#1052;&#1077;&#1076;&#1089;&#1077;&#1089;&#1090;&#1088;&#1072;):</div>
+                    <div class="korean-text">&#50612;&#46356;&#44032; &#50500;&#54028;&#49464;&#50836;?</div>
+                    <div class="translation">&#1063;&#1090;&#1086; &#1091; &#1074;&#1072;&#1089; &#1073;&#1086;&#1083;&#1080;&#1090;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#54872;&#51088;:</div>
+                    <div class="korean-text">&#44048;&#44592;&#50640; &#44152;&#47160;&#50612;&#50836;. &#44592;&#52840;&#51060; &#45208;&#44256; &#53111;&#47932;&#51060; &#45208;&#50836;.</div>
+                    <div class="translation">&#1071; &#1087;&#1088;&#1086;&#1089;&#1090;&#1091;&#1076;&#1080;&#1083;&#1089;&#1103;(-&#1072;&#1089;&#1100;). &#1050;&#1072;&#1096;&#1083;&#1103;&#1102; &#1080; &#1085;&#1072;&#1089;&#1084;&#1086;&#1088;&#1082;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#44036;&#54840;&#49324;:</div>
+                    <div class="korean-text">&#50676;&#51060; &#51080;&#51004;&#49464;&#50836;?</div>
+                    <div class="translation">&#1058;&#1077;&#1084;&#1087;&#1077;&#1088;&#1072;&#1090;&#1091;&#1088;&#1072; &#1077;&#1089;&#1090;&#1100;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#54872;&#51088;:</div>
+                    <div class="korean-text">&#45348;, &#50612;&#51228;&#48512;&#53552; &#50676;&#51060; &#45208;&#50836;.</div>
+                    <div class="translation">&#1044;&#1072;, &#1089;&#1086; &#1074;&#1095;&#1077;&#1088;&#1072; &#1090;&#1077;&#1084;&#1087;&#1077;&#1088;&#1072;&#1090;&#1091;&#1088;&#1072;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#44036;&#54840;&#49324;:</div>
+                    <div class="korean-text">&#50508;&#44192;&#49845;&#45768;&#45796;. &#51104;&#44620;&#47564; &#44592;&#45796;&#47140; &#51452;&#49464;&#50836;.</div>
+                    <div class="translation">&#1055;&#1086;&#1085;&#1103;&#1090;&#1085;&#1086;. &#1055;&#1086;&#1076;&#1086;&#1078;&#1076;&#1080;&#1090;&#1077;, &#1087;&#1086;&#1078;&#1072;&#1083;&#1091;&#1081;&#1089;&#1090;&#1072;.</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#9654; &#1055;&#1088;&#1086;&#1089;&#1083;&#1091;&#1096;&#1072;&#1090;&#1100; &#1076;&#1080;&#1072;&#1083;&#1086;&#1075;</button>
+        </div>
+
+        <!-- Section 6: Dialogue 3 - Describing Symptoms to Doctor -->
+        <div class="content-section">
+            <h2>6. &#1044;&#1080;&#1072;&#1083;&#1086;&#1075; 3: &#1053;&#1072; &#1087;&#1088;&#1080;&#1105;&#1084;&#1077; &#1091; &#1074;&#1088;&#1072;&#1095;&#1072;</h2>
+            <p>&#1057;&#1080;&#1090;&#1091;&#1072;&#1094;&#1080;&#1103;: &#1042;&#1088;&#1072;&#1095; &#1086;&#1089;&#1084;&#1072;&#1090;&#1088;&#1080;&#1074;&#1072;&#1077;&#1090; &#1074;&#1072;&#1089; &#1080; &#1085;&#1072;&#1079;&#1085;&#1072;&#1095;&#1072;&#1077;&#1090; &#1083;&#1077;&#1095;&#1077;&#1085;&#1080;&#1077;.</p>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">&#51032;&#49324; (&#1042;&#1088;&#1072;&#1095;):</div>
+                    <div class="korean-text">&#50612;&#46356;&#44032; &#50500;&#54028;&#49464;&#50836;?</div>
+                    <div class="translation">&#1063;&#1090;&#1086; &#1091; &#1074;&#1072;&#1089; &#1073;&#1086;&#1083;&#1080;&#1090;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#54872;&#51088; (&#1055;&#1072;&#1094;&#1080;&#1077;&#1085;&#1090;):</div>
+                    <div class="korean-text">&#48176;&#44032; &#50500;&#54028;&#50836;. &#50612;&#51228;&#48512;&#53552; &#50500;&#54032;&#50612;&#50836;.</div>
+                    <div class="translation">&#1046;&#1080;&#1074;&#1086;&#1090; &#1073;&#1086;&#1083;&#1080;&#1090;. &#1041;&#1086;&#1083;&#1080;&#1090; &#1089;&#1086; &#1074;&#1095;&#1077;&#1088;&#1072;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#51032;&#49324;:</div>
+                    <div class="korean-text">&#50612;&#51228; &#47784; &#47673;&#50632;&#50612;&#50836;?</div>
+                    <div class="translation">&#1063;&#1090;&#1086; &#1074;&#1099; &#1074;&#1095;&#1077;&#1088;&#1072; &#1077;&#1083;&#1080;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#54872;&#51088;:</div>
+                    <div class="korean-text">&#47588;&#50868; &#51020;&#49885;&#51012; &#47673;&#50632;&#50612;&#50836;.</div>
+                    <div class="translation">&#1071; &#1077;&#1083;(-&#1072;) &#1086;&#1089;&#1090;&#1088;&#1091;&#1102; &#1077;&#1076;&#1091;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#51032;&#49324;:</div>
+                    <div class="korean-text">&#49548;&#54868;&#44032; &#50504; &#46104;&#45716; &#44163; &#44057;&#50500;&#50836;. &#50557;&#51012; &#52376;&#48169;&#54644; &#46300;&#47540;&#44172;&#50836;.</div>
+                    <div class="translation">&#1055;&#1086;&#1093;&#1086;&#1078;&#1077; &#1085;&#1072; &#1085;&#1077;&#1089;&#1074;&#1072;&#1088;&#1077;&#1085;&#1080;&#1077;. &#1071; &#1074;&#1099;&#1087;&#1080;&#1096;&#1091; &#1074;&#1072;&#1084; &#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;&#1086;.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#54872;&#51088;:</div>
+                    <div class="korean-text">&#44048;&#49324;&#54633;&#45768;&#45796;. &#50557;&#51008; &#50612;&#46356;&#49436; &#48155;&#50500;&#50836;?</div>
+                    <div class="translation">&#1057;&#1087;&#1072;&#1089;&#1080;&#1073;&#1086;. &#1043;&#1076;&#1077; &#1087;&#1086;&#1083;&#1091;&#1095;&#1080;&#1090;&#1100; &#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;&#1086;?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">&#51032;&#49324;:</div>
+                    <div class="korean-text">1&#52789; &#50557;&#44397;&#50640;&#49436; &#48155;&#51004;&#49464;&#50836;. &#54616;&#47336;&#50640; &#49464; &#48264;, &#49885;&#54980;&#50640; &#46300;&#49464;&#50836;.</div>
+                    <div class="translation">&#1042; &#1072;&#1087;&#1090;&#1077;&#1082;&#1077; &#1085;&#1072; 1 &#1101;&#1090;&#1072;&#1078;&#1077;. &#1058;&#1088;&#1080; &#1088;&#1072;&#1079;&#1072; &#1074; &#1076;&#1077;&#1085;&#1100;, &#1087;&#1086;&#1089;&#1083;&#1077; &#1077;&#1076;&#1099;.</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#9654; &#1055;&#1088;&#1086;&#1089;&#1083;&#1091;&#1096;&#1072;&#1090;&#1100; &#1076;&#1080;&#1072;&#1083;&#1086;&#1075;</button>
+
+            <div class="tip-box">
+                <strong>&#52376;&#48169;&#51204; [cheobanggeon]</strong> &mdash; &#1088;&#1077;&#1094;&#1077;&#1087;&#1090;. &#1042; &#1050;&#1086;&#1088;&#1077;&#1077; &#1074;&#1088;&#1072;&#1095; &#1074;&#1099;&#1087;&#1080;&#1089;&#1099;&#1074;&#1072;&#1077;&#1090; &#1101;&#1083;&#1077;&#1082;&#1090;&#1088;&#1086;&#1085;&#1085;&#1099;&#1081; &#1088;&#1077;&#1094;&#1077;&#1087;&#1090;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1081; &#1072;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1080; &#1087;&#1086;&#1089;&#1090;&#1091;&#1087;&#1072;&#1077;&#1090; &#1074; &#1072;&#1087;&#1090;&#1077;&#1082;&#1091;. &#1055;&#1088;&#1086;&#1089;&#1090;&#1086; &#1085;&#1072;&#1079;&#1086;&#1074;&#1080;&#1090;&#1077; &#1089;&#1074;&#1086;&#1105; &#1080;&#1084;&#1103; &#1074; &#1072;&#1087;&#1090;&#1077;&#1082;&#1077;.
+            </div>
+        </div>
+
+        <!-- Section 7: Useful expressions -->
+        <div class="content-section">
+            <h2>7. &#1055;&#1086;&#1083;&#1077;&#1079;&#1085;&#1099;&#1077; &#1074;&#1099;&#1088;&#1072;&#1078;&#1077;&#1085;&#1080;&#1103;</h2>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>&#54620;&#44397;&#50612;</th>
+                        <th>&#1055;&#1088;&#1086;&#1080;&#1079;&#1085;&#1086;&#1096;&#1077;&#1085;&#1080;&#1077;</th>
+                        <th>&#1055;&#1077;&#1088;&#1077;&#1074;&#1086;&#1076;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>&#50500;&#54028;&#50836; <button class="audio-btn" onclick="speakKorean('&#50500;&#54028;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[apayo]</td>
+                        <td>&#1073;&#1086;&#1083;&#1080;&#1090;</td>
+                    </tr>
+                    <tr>
+                        <td>&#50612;&#51228;&#48512;&#53552; <button class="audio-btn" onclick="speakKorean('&#50612;&#51228;&#48512;&#53552;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[eojebuteo]</td>
+                        <td>&#1089;&#1086; &#1074;&#1095;&#1077;&#1088;&#1072;</td>
+                    </tr>
+                    <tr>
+                        <td>&#50724;&#45720;&#48512;&#53552; <button class="audio-btn" onclick="speakKorean('&#50724;&#45720;&#48512;&#53552;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[oneulbuteo]</td>
+                        <td>&#1089; &#1089;&#1077;&#1075;&#1086;&#1076;&#1085;&#1103;</td>
+                    </tr>
+                    <tr>
+                        <td>&#51312;&#44552; <button class="audio-btn" onclick="speakKorean('&#51312;&#44552;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[jogeum]</td>
+                        <td>&#1085;&#1077;&#1084;&#1085;&#1086;&#1075;&#1086;</td>
+                    </tr>
+                    <tr>
+                        <td>&#47566;&#51060; <button class="audio-btn" onclick="speakKorean('&#47566;&#51060;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[mani]</td>
+                        <td>&#1089;&#1080;&#1083;&#1100;&#1085;&#1086; / &#1084;&#1085;&#1086;&#1075;&#1086;</td>
+                    </tr>
+                    <tr>
+                        <td>&#47566;&#51060; &#50500;&#54028;&#50836; <button class="audio-btn" onclick="speakKorean('&#47566;&#51060; &#50500;&#54028;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[mani apayo]</td>
+                        <td>&#1089;&#1080;&#1083;&#1100;&#1085;&#1086; &#1073;&#1086;&#1083;&#1080;&#1090;</td>
+                    </tr>
+                    <tr>
+                        <td>&#47932;&#51012; &#47566;&#51060; &#47560;&#49464;&#50836; <button class="audio-btn" onclick="speakKorean('&#47932;&#51012; &#47566;&#51060; &#47560;&#49464;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[mureul mani maseyo]</td>
+                        <td>&#1055;&#1077;&#1081;&#1090;&#1077; &#1073;&#1086;&#1083;&#1100;&#1096;&#1077; &#1074;&#1086;&#1076;&#1099;</td>
+                    </tr>
+                    <tr>
+                        <td>&#54392; &#49772;&#49464;&#50836; <button class="audio-btn" onclick="speakKorean('&#54392; &#49772;&#49464;&#50836;')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                        <td>[puk swiseyo]</td>
+                        <td>&#1061;&#1086;&#1088;&#1086;&#1096;&#1086; &#1086;&#1090;&#1076;&#1086;&#1093;&#1085;&#1080;&#1090;&#1077;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section 8: Exercises -->
+        <div class="content-section">
+            <h2>8. &#1059;&#1087;&#1088;&#1072;&#1078;&#1085;&#1077;&#1085;&#1080;&#1103;</h2>
+
+            <div class="practice-section">
+                <!-- Exercise 1 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">1. &#1050;&#1072;&#1082; &#1089;&#1082;&#1072;&#1079;&#1072;&#1090;&#1100; &#171;&#1043;&#1086;&#1083;&#1086;&#1074;&#1072; &#1073;&#1086;&#1083;&#1080;&#1090;&#187;?</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#47672;&#47532;&#51060; &#50500;&#54028;&#50836;</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#47672;&#47532;&#44032; &#50500;&#54028;&#50836;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#47672;&#47532;&#47484; &#50500;&#54028;&#50836;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#47672;&#47532;&#50640; &#50500;&#54028;&#50836;</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 2 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">2. &#171;&#44048;&#44592;&#50640; &#44152;&#47160;&#50612;&#50836;&#187; &#1086;&#1079;&#1085;&#1072;&#1095;&#1072;&#1077;&#1090;:</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1059; &#1084;&#1077;&#1085;&#1103; &#1072;&#1083;&#1083;&#1077;&#1088;&#1075;&#1080;&#1103;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1059; &#1084;&#1077;&#1085;&#1103; &#1090;&#1077;&#1084;&#1087;&#1077;&#1088;&#1072;&#1090;&#1091;&#1088;&#1072;</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#1071; &#1087;&#1088;&#1086;&#1089;&#1090;&#1091;&#1076;&#1080;&#1083;&#1089;&#1103;(-&#1072;&#1089;&#1100;)</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1059; &#1084;&#1077;&#1085;&#1103; &#1082;&#1072;&#1096;&#1077;&#1083;&#1100;</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 3 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">3. &#1042;&#1099; &#1093;&#1086;&#1090;&#1080;&#1090;&#1077; &#1082;&#1091;&#1087;&#1080;&#1090;&#1100; &#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;&#1086; &#1086;&#1090; &#1087;&#1088;&#1086;&#1089;&#1090;&#1091;&#1076;&#1099;. &#1063;&#1090;&#1086; &#1074;&#1099; &#1089;&#1082;&#1072;&#1078;&#1077;&#1090;&#1077;?</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#46160;&#53685;&#50557; &#51452;&#49464;&#50836;</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#44048;&#44592;&#50557; &#51452;&#49464;&#50836;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#49548;&#54868;&#51228; &#51452;&#49464;&#50836;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#48152;&#52285;&#44256; &#51452;&#49464;&#50836;</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 4 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">4. &#171;&#49885;&#54980;&#50640; &#46300;&#49464;&#50836;&#187; &#1086;&#1079;&#1085;&#1072;&#1095;&#1072;&#1077;&#1090;:</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1055;&#1088;&#1080;&#1085;&#1080;&#1084;&#1072;&#1081;&#1090;&#1077; &#1076;&#1086; &#1077;&#1076;&#1099;</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#1055;&#1088;&#1080;&#1085;&#1080;&#1084;&#1072;&#1081;&#1090;&#1077; &#1087;&#1086;&#1089;&#1083;&#1077; &#1077;&#1076;&#1099;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1055;&#1088;&#1080;&#1085;&#1080;&#1084;&#1072;&#1081;&#1090;&#1077; &#1087;&#1077;&#1088;&#1077;&#1076; &#1089;&#1085;&#1086;&#1084;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1055;&#1088;&#1080;&#1085;&#1080;&#1084;&#1072;&#1081;&#1090;&#1077; &#1091;&#1090;&#1088;&#1086;&#1084;</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 5 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">5. &#1050;&#1072;&#1082; &#1089;&#1087;&#1088;&#1086;&#1089;&#1080;&#1090;&#1100; &#171;&#1057;&#1082;&#1086;&#1083;&#1100;&#1082;&#1086; &#1088;&#1072;&#1079; &#1074; &#1076;&#1077;&#1085;&#1100; &#1087;&#1088;&#1080;&#1085;&#1080;&#1084;&#1072;&#1090;&#1100;?&#187;</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#50620;&#47560;&#50696;&#50836;?</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#47751; &#49884;&#50640; &#47673;&#50612;&#50836;?</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#54616;&#47336;&#50640; &#47751; &#48264; &#47673;&#50612;&#50836;?</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#50612;&#46356;&#49436; &#47673;&#50612;&#50836;?</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 6 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">6. &#171;&#53111;&#47932;&#51060; &#45208;&#50836;&#187; &mdash; &#1101;&#1090;&#1086;:</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1082;&#1072;&#1096;&#1077;&#1083;&#1100;</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#1085;&#1072;&#1089;&#1084;&#1086;&#1088;&#1082;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1090;&#1077;&#1084;&#1087;&#1077;&#1088;&#1072;&#1090;&#1091;&#1088;&#1072;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1075;&#1086;&#1083;&#1086;&#1074;&#1085;&#1072;&#1103; &#1073;&#1086;&#1083;&#1100;</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 7 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">7. &#1043;&#1076;&#1077; &#1087;&#1086;&#1082;&#1091;&#1087;&#1072;&#1102;&#1090; &#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;&#1072; &#1087;&#1086; &#1088;&#1077;&#1094;&#1077;&#1087;&#1090;&#1091; &#1074; &#1050;&#1086;&#1088;&#1077;&#1077;?</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#48337;&#50896;&#50640;&#49436;</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#50557;&#44397;&#50640;&#49436;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#54200;&#51032;&#51216;&#50640;&#49436;</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#47560;&#53944;&#50640;&#49436;</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+
+                <!-- Exercise 8 -->
+                <div class="exercise-item">
+                    <div class="exercise-question">8. &#1042;&#1088;&#1072;&#1095; &#1089;&#1087;&#1088;&#1072;&#1096;&#1080;&#1074;&#1072;&#1077;&#1090; &#171;&#50612;&#46356;&#44032; &#50500;&#54028;&#49464;&#50836;?&#187;. &#1063;&#1090;&#1086; &#1101;&#1090;&#1086; &#1086;&#1079;&#1085;&#1072;&#1095;&#1072;&#1077;&#1090;?</div>
+                    <div class="exercise-options">
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1050;&#1091;&#1076;&#1072; &#1074;&#1099; &#1080;&#1076;&#1105;&#1090;&#1077;?</button>
+                        <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">&#1063;&#1090;&#1086; &#1091; &#1074;&#1072;&#1089; &#1073;&#1086;&#1083;&#1080;&#1090;?</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1050;&#1072;&#1082; &#1074;&#1072;&#1089; &#1079;&#1086;&#1074;&#1091;&#1090;?</button>
+                        <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">&#1043;&#1076;&#1077; &#1074;&#1099; &#1078;&#1080;&#1074;&#1105;&#1090;&#1077;?</button>
+                    </div>
+                    <div class="exercise-result"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Remember Block -->
+        <div class="remember-box">
+            <h2>&#1047;&#1072;&#1087;&#1086;&#1084;&#1085;&#1080;!</h2>
+            <div class="remember-item">
+                <strong>&#50557;&#44397; [yakguk]</strong> &mdash; &#1072;&#1087;&#1090;&#1077;&#1082;&#1072;. &#1042; &#1050;&#1086;&#1088;&#1077;&#1077; &#1072;&#1087;&#1090;&#1077;&#1082;&#1080; &#1077;&#1089;&#1090;&#1100; &#1087;&#1086;&#1074;&#1089;&#1102;&#1076;&#1091;. &#1052;&#1085;&#1086;&#1075;&#1080;&#1077; &#1087;&#1088;&#1086;&#1089;&#1090;&#1099;&#1077; &#1083;&#1077;&#1082;&#1072;&#1088;&#1089;&#1090;&#1074;&#1072; &#1087;&#1088;&#1086;&#1076;&#1072;&#1102;&#1090; &#1073;&#1077;&#1079; &#1088;&#1077;&#1094;&#1077;&#1087;&#1090;&#1072;.
+            </div>
+            <div class="remember-item">
+                <strong>&#1057;&#1093;&#1077;&#1084;&#1072; &#171;&#1073;&#1086;&#1083;&#1080;&#1090;&#187;:</strong> &#1095;&#1072;&#1089;&#1090;&#1100; &#1090;&#1077;&#1083;&#1072; + &#44032;/&#51060; + &#50500;&#54028;&#50836;. &#1043;&#1083;&#1072;&#1089;&#1085;&#1072;&#1103; &rarr; &#44032;, &#1089;&#1086;&#1075;&#1083;&#1072;&#1089;&#1085;&#1072;&#1103; &rarr; &#51060;.
+            </div>
+            <div class="remember-item">
+                <strong>&#46300;&#49464;&#50836; vs &#47673;&#50612;&#50836;:</strong> &#46300;&#49464;&#50836; &mdash; &#1074;&#1077;&#1078;&#1083;&#1080;&#1074;&#1072;&#1103; &#1092;&#1086;&#1088;&#1084;&#1072; &#171;&#1087;&#1088;&#1080;&#1085;&#1080;&#1084;&#1072;&#1081;&#1090;&#1077;/&#1082;&#1091;&#1096;&#1072;&#1081;&#1090;&#1077;&#187;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1091;&#1102; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1102;&#1090; &#1074;&#1088;&#1072;&#1095;&#1080; &#1080; &#1092;&#1072;&#1088;&#1084;&#1072;&#1094;&#1077;&#1074;&#1090;&#1099;. &#47673;&#50612;&#50836; &mdash; &#1086;&#1073;&#1099;&#1095;&#1085;&#1086;&#1077; &#171;&#1077;&#1089;&#1090;&#1100;&#187;.
+            </div>
+            <div class="remember-item">
+                <strong>&#49885;&#54980; / &#49885;&#51204;:</strong> &#49885;&#54980; [sikhu] &mdash; &#1087;&#1086;&#1089;&#1083;&#1077; &#1077;&#1076;&#1099;, &#49885;&#51204; [sikjeon] &mdash; &#1076;&#1086; &#1077;&#1076;&#1099;. &#1069;&#1090;&#1080; &#1089;&#1083;&#1086;&#1074;&#1072; &#1074;&#1099; &#1073;&#1091;&#1076;&#1077;&#1090;&#1077; &#1089;&#1083;&#1099;&#1096;&#1072;&#1090;&#1100; &#1095;&#1072;&#1089;&#1090;&#1086; &#1074; &#1072;&#1087;&#1090;&#1077;&#1082;&#1077;.
+            </div>
+        </div>
+
+        <!-- Complete Lesson Button -->
+        <div style="text-align: center; margin: 40px 0;">
+            <button class="complete-btn" id="completeLessonBtn" onclick="completeLesson()">&#1059;&#1088;&#1086;&#1082; &#1087;&#1088;&#1086;&#1081;&#1076;&#1077;&#1085;!</button>
+        </div>
+    </div>
+
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.speak(u);
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.previousElementSibling;
+            while (box && !box.classList.contains('dialogue-box')) box = box.previousElementSibling;
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var i = 0; btn.disabled = true;
+            function playNext() {
+                if (i >= lines.length) { btn.disabled = false; return; }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(76,175,80,0.15)';
+                var text = lines[i].querySelector('.korean-text');
+                if (text) {
+                    var u = new SpeechSynthesisUtterance(text.textContent.trim());
+                    u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                    u.onend = function() { i++; setTimeout(playNext, 400); };
+                    window.speechSynthesis.speak(u);
+                } else { i++; setTimeout(playNext, 400); }
+            }
+            window.speechSynthesis.cancel(); playNext();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item');
+            var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) {
+                    if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; }
+                });
+            }
+        }
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_pharmacy_dialogue';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

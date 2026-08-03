@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="281 Korean lessons — from beginner to advanced level. Particles, tenses, constructions and much more."/>
+    <meta property="og:title" content="Korean Grammar Lessons — Miso: 한국어 수업"/>
+    <meta property="og:description" content="281 Korean lessons with exercises and examples."/>
+    <meta name="theme-color" content="#ff6b9d"/>
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg"/>
+    <title>Korean Language Lessons - 한국어 수업 | Miso: 한국어 수업</title>
+    <link href="../css/style.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="../css/progress.css">
+    <link href="../css/auth-styles.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: #fafafa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            min-height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.06) 0%, transparent 40%);
+            z-index: 1;
+        }
+
+        .header h1, .header p, .back-btn {
+            position: relative;
+            z-index: 2;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+
+
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .placement-banner {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 18px 25px;
+            border-radius: 16px;
+            text-decoration: none;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(102,126,234,0.3);
+            transition: all 0.3s ease;
+        }
+        .placement-banner:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(102,126,234,0.4);
+        }
+        .placement-banner-icon { font-size: 2em; }
+        .placement-banner-text { flex: 1; }
+        .placement-banner-text strong { display: block; font-size: 1.1em; margin-bottom: 2px; }
+        .placement-banner-text span { opacity: 0.9; font-size: 0.9em; }
+        .placement-banner-arrow { font-size: 1.5em; opacity: 0.8; transition: transform 0.3s; }
+        .placement-banner:hover .placement-banner-arrow { transform: translateX(5px); }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .level-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-top: 5px solid;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .level-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0.75) 100%);
+            z-index: 0;
+        }
+
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            z-index: 0;
+        }
+
+        .level-header, .level-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .level-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .level-1 { border-top-color: #4CAF50; }
+        .level-2 { border-top-color: #2196F3; }
+        .level-3 { border-top-color: #FF9800; }
+        .level-4 { border-top-color: #9C27B0; }
+        .level-5 { border-top-color: #E91E63; }
+        .level-6 { border-top-color: #F44336; }
+
+        .level-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .level-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+
+        .level-badge {
+            background: #ff6b9d;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .level-content h3 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .level-korean {
+            font-size: 1.1em;
+            color: #e74c3c;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .level-lessons {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .level-topics {
+            font-size: 0.9em;
+            color: #888;
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .level-action {
+            position: relative;
+            z-index: 1;
+            margin-top: 15px;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #333;
+            border: 2px solid #e9ecef;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+
+        .start-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-color: #dee2e6;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .start-btn:hover::before {
+            left: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .levels-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .level-card {
+                padding: 25px;
+            }
+            .level-card::after {
+                background: linear-gradient(to bottom, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 60%, rgba(255,255,255,0.85) 100%);
+            }
+            .level-content h3 {
+                text-shadow: 0 0 8px rgba(255,255,255,0.8);
+            }
+            .back-btn {
+                position: static;
+                transform: none;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+            .level-card {
+                padding: 20px;
+            }
+            .start-btn {
+                padding: 10px 20px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header" style="position: relative;">
+        <h1>한국어 수업</h1>
+        <p>Choose your level to start learning Korean</p>
+    </header>
+
+    <!-- Progress Dashboard -->
+    <div class="container">
+        <div id="progressDashboard"></div>
+    </div>
+
+    <div class="container">
+        <a href="../placement-test.html" class="placement-banner">
+            <span class="placement-banner-icon">🎯</span>
+            <span class="placement-banner-text">
+                <strong>Not sure where to start?</strong>
+                <span>Take a placement test — only 5 minutes</span>
+            </span>
+            <span class="placement-banner-arrow">→</span>
+        </a>
+        <div class="levels-grid">
+            <div class="level-card level-1" style="background-image: url('../images/кот.jpg');">
+                <div class="level-header">
+                    <div class="level-icon">🌱</div>
+                    <div class="level-badge">1급</div>
+                </div>
+                <div class="level-content">
+                    <h3>Elementary</h3>
+                    <div class="level-korean">첫 번째</div>
+                    <div class="level-lessons">92 lessons</div>
+                    <div class="level-topics">Alphabet • Numbers • 은/는, 이/가 • SOV • Copula 이다 • Vocabulary</div>
+                    <div class="level-action">
+                        <button class="start-btn" onclick="navigateToLevel('level_1', event)">START</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-card level-2" style="background-image: url('../images/кот2 (1).jpg');">
+                <div class="level-header">
+                    <div class="level-icon">🌿</div>
+                    <div class="level-badge">2급</div>
+                </div>
+                <div class="level-content">
+                    <h3>Basic</h3>
+                    <div class="level-korean">두 번째</div>
+                    <div class="level-lessons">62 lessons</div>
+                    <div class="level-topics">Verbs • Tenses • Negation • Conjunctions • Adverbs • Progressive • Vocabulary (12 topics)</div>
+                    <div class="level-action">
+                        <button class="start-btn" onclick="navigateToLevel('level_2', event)">START</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-card level-3" style="background-image: url('../images/кот2 (2).jpg');">
+                <div class="level-header">
+                    <div class="level-icon">🍃</div>
+                    <div class="level-badge">3급</div>
+                </div>
+                <div class="level-content">
+                    <h3>Intermediate</h3>
+                    <div class="level-korean">세 번째</div>
+                    <div class="level-lessons">57 lessons</div>
+                    <div class="level-topics">Cases • Irregular verbs • Future tense • Honorific speech • Practical situations</div>
+                    <div class="level-action">
+                        <button class="start-btn" onclick="navigateToLevel('level_3', event)">START</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-card level-4" style="background-image: url('../images/кот2 (3).jpg');">
+                <div class="level-header">
+                    <div class="level-icon">🌺</div>
+                    <div class="level-badge">4급</div>
+                </div>
+                <div class="level-content">
+                    <h3>Upper-Intermediate</h3>
+                    <div class="level-korean">네 번째</div>
+                    <div class="level-lessons">31 lessons</div>
+                    <div class="level-topics">Passive voice • Causative • Nominalization • Indirect speech • Business vocabulary</div>
+                    <div class="level-action">
+                        <button class="start-btn" onclick="navigateToLevel('level_4', event)">START</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-card level-5" style="background-image: url('../images/кот2 (4).jpg');">
+                <div class="level-header">
+                    <div class="level-icon">🌸</div>
+                    <div class="level-badge">5급</div>
+                </div>
+                <div class="level-content">
+                    <h3>Advanced</h3>
+                    <div class="level-korean">다섯 번째</div>
+                    <div class="level-lessons">20 lessons</div>
+                    <div class="level-topics">사동/피동 • Subjunctive • Rhetoric • Speech styles</div>
+                    <div class="level-action">
+                        <button class="start-btn" onclick="navigateToLevel('level_5', event)">START</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-card level-6" style="background-image: url('../images/кот3.jpg');">
+                <div class="level-header">
+                    <div class="level-icon">💎</div>
+                    <div class="level-badge">6급</div>
+                </div>
+                <div class="level-content">
+                    <h3>Mastery</h3>
+                    <div class="level-korean">여섯 번째</div>
+                    <div class="level-lessons">22 lessons</div>
+                    <div class="level-topics">사자성어 • 존댓말/반말 • Rhetoric • Homonyms • Literary style</div>
+                    <div class="level-action">
+                        <button class="start-btn" onclick="navigateToLevel('level_6', event)">START</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Card animation on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const levelCards = document.querySelectorAll('.level-card');
+            levelCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+        });
+
+        // Navigation function with file check
+        window.navigateToLevel = function(levelFolder, event) {
+            if (event) event.stopPropagation();
+            console.log('[OK] Navigating to level:', levelFolder);
+
+            // Navigate to level folder (go up from /en/ to root)
+            const targetUrl = '../' + levelFolder + '/index.html';
+
+            // Try to navigate to the file
+            const testImg = new Image();
+            testImg.onload = function() {
+                window.location.href = targetUrl;
+            };
+            testImg.onerror = function() {
+                console.log('File exists, navigating...');
+                window.location.href = targetUrl;
+            };
+            testImg.src = targetUrl + '?test=' + Date.now();
+
+            // Fallback - navigate via timeout
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 200);
+        };
+
+        // Back to main page
+        window.goBackToMain = function() {
+            console.log('[OK] Returning to main page...');
+            const targetUrl = 'index.html?from=lessons&v=' + Date.now();
+            console.log('[OK] Navigating to:', targetUrl);
+            window.location.href = targetUrl;
+        };
+    </script>
+
+    <!-- Progress Tracking -->
+    <script src="../js/progress-tracker.js"></script>
+    <script src="../js/progress-dashboard.js"></script>
+    <script src="../js/level-lessons.js"></script>
+    <script>
+        // Render progress dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            ProgressDashboard.render('progressDashboard');
+            markCompletedLessons();
+
+            // Refresh lesson counts and progress map from the level pages
+            LevelLessons.load('../').then(function(map) {
+                levelLessonsMap = map;
+                updateLessonCounts(map);
+                markCompletedLessons();
+            }).catch(function(err) {
+                console.log('[!] LevelLessons: level pages unavailable, using built-in map', err);
+            });
+        });
+
+        // Updates "N lessons" on the level cards
+        function updateLessonCounts(map) {
+            document.querySelectorAll('.level-card').forEach(function(card) {
+                var button = card.querySelector('.start-btn');
+                var label = card.querySelector('.level-lessons');
+                if (!button || !label) return;
+
+                var match = (button.getAttribute('onclick') || '').match(/navigateToLevel\('([^']+)'/);
+                if (!match || !map[match[1]]) return;
+
+                label.textContent = LevelLessons.enCount(map[match[1]].length);
+            });
+
+            var totalEl = document.getElementById('lessons-total');
+            if (totalEl) totalEl.textContent = LevelLessons.enCount(LevelLessons.total(map));
+        }
+
+        // Lesson IDs for each level (from data-lesson attributes in level_N/index.html)
+        var levelLessonsMap = {
+            'level_1': [
+                'lesson_01_korea','lesson_02_alphabet','lesson_03_greetings','lesson_04_numbers','lesson_05_family','level1_lesson_daily_routine',
+                'level1_lesson_korean_keyboard','level1_lesson_pronunciation','level1_lesson_minimal_pairs','level1_lesson_stroke_order','level1_lesson_korean_vs_russian','lesson_06_grammar',
+                'lesson_10_copula','lesson_11_informal_copula','lesson_12_formal_copula','lesson_13_copula_negation','lesson_14_demonstratives','lesson_15_demonstratives_practice',
+                'level1_lesson_sov_order','level1_lesson_topic_particle','level1_lesson_subject_particle','level1_lesson_pronouns','level1_lesson_place_prepositions','level1_lesson_particle_e',
+                'level1_lesson_particle_do','level1_lesson_question_sentences','level1_lesson_counters_basic','level1_lesson_health_phrases','level1_lesson_phone_numbers','level1_lesson_object_particle',
+                'level1_lesson_location_eseo','level1_lesson_yes_no','level1_lesson_time_age','level1_lesson_from_eseo','level1_lesson_direction_euro','level1_lesson_future_georeyeo',
+                'level1_lesson_verb_conjugation','level1_lesson_particle_ege','level1_lesson_negation','level1_lesson_want_gosipda','level1_lesson_adverbs_degree','level1_lesson_connecting_go',
+                'level1_lesson_particle_man','level1_lesson_possessive_ui','level1_lesson_not_but_anira','vocabulary_colors','vocabulary_body','vocabulary_adjectives',
+                'vocabulary_verbs','vocabulary_professions','vocabulary_house','vocabulary_school','vocabulary_countries','vocabulary_basicfood',
+                'vocabulary_seasons','vocabulary_transport','vocabulary_daystime','vocabulary_questions','vocabulary_conjunctions','vocabulary_city',
+                'vocabulary_hobbies','vocabulary_clothes','vocabulary_money','level1_lesson_weather','level1_lesson_emotions','level1_lesson_nature',
+                'level1_lesson_antonyms','level1_lesson_korean_food','level1_lesson_numbers_life','level1_lesson_english_loanwords','level1_lesson_describe_person','level1_lesson_confusing_words',
+                'level1_lesson_movement_verbs','vocabulary_time_adverbs','vocabulary_date','vocabulary_animals','level1_lesson_introduction','level1_lesson_cafe_shopping',
+                'level1_lesson_about_me','level1_lesson_transport_dialogue','level1_lesson_pharmacy_dialogue','level1_lesson_sms_chat','level1_lesson_russian_mistakes','level1_lesson_shopping_clothes',
+                'level1_lesson_directions_basic','level1_lesson_fill_form','level1_lesson_etiquette','level1_lesson_holidays','level1_lesson_kdrama_phrases','level1_lesson_korean_names',
+                'level1_lesson_korean_age','level1_lesson_casual_slang','level1_lesson_01_grammar','level1_lesson_numbers_units'
+            ],
+            'level_2': [
+                'level2_lesson_03_politeness','level2_lesson_04_negation','level2_lesson_09_adj_conjugation','lesson_87_not_vs_cant','lesson_88_time_adverbs',
+                'lesson_89_conjunctions_practice','level2_lesson_particle_ege','level2_lesson_connecting_go','level2_lesson_go_sipahada','level2_lesson_adjective_modifier','level2_lesson_aseo_cause',
+                'level2_lesson_condition_myeon','level2_lesson_but_jiman','level2_lesson_past_questions','level2_lesson_05_location_verbs','level2_lesson_irregular_verbs','level2_lesson_07_informal_verbs',
+                'level2_lesson_08_formal_verbs','level2_lesson_10_past_tense','level2_lesson_11_future_tense','level2_lesson_ida_questions','level2_lesson_uncertainty','level2_lesson_requests',
+                'level2_lesson_counters','level2_lesson_emotions','level2_lesson_shopping','level2_lesson_weather_talk','level2_lesson_progressive','lesson_61_helping_actions',
+                'lesson_69_intention_promise','lesson_70_trying_experience','lesson_68_inability_ji_moshada','lesson_62_obligation','lesson_71_from_whom','level2_lesson_when_ttae',
+                'level2_lesson_before_after','level2_lesson_confirmation_jyo','level2_lesson_personality','level2_lesson_education','level2_lesson_daily_detail','level2_lesson_restaurant_dialogue',
+                'level2_lesson_tense_comparison','level2_lesson_meeting_friend','level2_vocab_time','level2_vocab_travel','level2_vocab_sports',
+                'level2_vocab_office','level2_vocab_communication','level2_lesson_adverbs_degree','level2_lesson_time_frequency_adverbs','level2_lesson_abstract_nouns','level2_lesson_spoken_shortcuts',
+                'level2_lesson_weather_detailed','level2_lesson_nature_environment','level2_lesson_state_adjectives','level2_lesson_filler_words',
+                'level2_lesson_nature','level2_lesson_sports','level2_lesson_experience_jeoki','level2_lesson_seems_like','level2_lesson_if_myeon'
+            ],
+            'level_3': [
+                'level3_lesson_02_location','level3_lesson_07_dative','level3_lesson_08_possessive','level3_lesson_13_also','level3_lesson_14_only','level3_lesson_10_hago',
+                'level3_lesson_11_particles','level3_lesson_12_go','level3_lesson_ability','level3_lesson_comparative','level3_lesson_instrumental','level3_lesson_sequence',
+                'level3_lesson_contrast','level3_lesson_topic_subject_deep','level3_lesson_because_aseo','level3_lesson_not_but_anira','level3_lesson_phone_talk',
+                'level3_lesson_question_particles','level3_lesson_appearance','level3_lesson_inability','level3_lesson_indirect_question','level3_lesson_daga','level3_lesson_myeonseo',
+                'level3_lesson_irregular_verbs_intro','level3_lesson_future_geoyeyo','level3_lesson_intention_ryeogo','level3_lesson_permission_prohibition','level3_lesson_experience_jeok','level3_lesson_must_deep',
+                'level3_lesson_attributive_forms','level3_lesson_honorific_si','level3_lesson_indirect_speech_basic','level3_lesson_medical','level3_lesson_bank','level3_lesson_directions',
+                'level3_lesson_hotel','level3_vocab_weather','level3_vocab_animals','level3_vocab_clothes',
+                'level3_lesson_transport_detail','level3_lesson_work_university','level3_lesson_nominalization','level3_lesson_jamaja','level3_lesson_aseo_vs_nikka','level3_lesson_cooking','level3_lesson_rhetorical','level3_lesson_social_topics'
+            ],
+            'level_4': [
+                'level4_irregular_bieup','level4_irregular_digeut','level4_irregular_siot','level4_irregular_eu','level4_irregular_hieut','level4_irregular_rieul',
+                'level4_lesson_02_simultaneous','level4_lesson_03_after','level4_lesson_05_before','level4_lesson_06_after_formal','level4_lesson_04_conditional','level4_lesson_permission',
+                'level4_lesson_01_prohibition','level4_lesson_09_purpose','level4_lesson_10_honorific','level4_lesson_12_choice_ina','level4_lesson_13_choice_geona','level4_lesson_14_suggestion',
+                'level4_lesson_passive','level4_lesson_indirect_speech','level4_lesson_causative','level4_lesson_internet_slang','level4_lesson_writing_messages',
+                'level4_vocab_technology','level4_vocab_culture',
+                'level4_vocab_health','level4_lesson_symptoms','level4_lesson_finance','level4_lesson_legal_basics','level4_lesson_through',
+                'level4_lesson_dedaga','level4_lesson_semida','level4_lesson_maryeonida','level4_lesson_deoni','level4_lesson_gime','level4_lesson_boni'
+            ],
+            'level_5': [
+                'level5_lesson_01_helping','level5_lesson_02_obligation','level5_lesson_05_minimum','level5_lesson_08_inability','level5_lesson_09_promise','level5_lesson_15_speculation',
+                'level5_lesson_10_trying','level5_lesson_11_from_whom','level5_lesson_12_future','level5_lesson_reason','level5_lesson_possession','level5_lesson_causative_passive_full',
+                'level5_lesson_narrative_style','level5_lesson_punctuation','level5_lesson_not_only','level5_lesson_banmyeon','level5_lesson_subjunctive',
+                'level5_lesson_16_business','level5_lesson_17_honorifics','level5_lesson_18_newspaper','level5_lesson_19_causality','level5_lesson_20_contrasts',
+                'level5_lesson_proverbs','level5_lesson_dialects','level5_vocab_business','level5_vocab_society','level5_vocab_ecology','level5_lesson_media',
+                'level5_lesson_emotions_deep',
+                'level5_lesson_isang','level5_lesson_doe','level5_lesson_goja','level5_lesson_neuni','level5_lesson_mangjeong','level5_lesson_neunba'
+            ],
+            'level_6': [
+                'level6_lesson_09_daero','level6_lesson_10_damyeon','level6_lesson_11_time','level6_lesson_sajaseongeo','level6_lesson_jondaenmal_banmal','level6_lesson_rhetoric',
+                'level6_lesson_homonyms','level6_lesson_north_korean','level6_lesson_etymology','level6_lesson_literary','level6_lesson_dialects','level6_lesson_psychology',
+                'level6_lesson_academic','level6_lesson_12_academic','level6_lesson_13_idioms','level6_lesson_14_business','level6_lesson_15_literary',
+                'level6_lesson_classic_texts','level6_lesson_hanja','level6_lesson_humor','level6_lesson_honorifics_real',
+                'level6_lesson_legal_language','level6_lesson_editorial_style','level6_lesson_diplomatic_language','level6_lesson_academic_writing','level6_lesson_official_documents','level6_lesson_poetry_analysis'
+            ]
+        };
+
+        // Checkmark on level appears ONLY when ALL lessons in that level are completed
+        function markCompletedLessons() {
+            var progress = ProgressTracker.get();
+            console.log('[OK] Checking level completion');
+
+            // Remove badges and progress bars from a previous run
+            document.querySelectorAll('.level-card .completion-badge, .level-card .level-progress-info').forEach(function(el) {
+                el.remove();
+            });
+
+            document.querySelectorAll('.level-card').forEach(function(card) {
+                card.style.borderLeft = '';
+                var button = card.querySelector('.start-btn');
+                if (!button) return;
+
+                var onclick = button.getAttribute('onclick');
+                if (!onclick) return;
+
+                var match = onclick.match(/navigateToLevel\('([^']+)'/);
+                if (!match) return;
+
+                var levelId = match[1];
+                var lessons = levelLessonsMap[levelId];
+                if (!lessons || lessons.length === 0) return;
+
+                // Count completed lessons
+                var completedCount = 0;
+                lessons.forEach(function(lessonId) {
+                    if (progress.completedLessons[lessonId]) {
+                        completedCount++;
+                    }
+                });
+
+                var totalCount = lessons.length;
+
+                // Show level progress (always, even if 0)
+                var levelContent = card.querySelector('.level-content');
+                if (levelContent) {
+                    var progressInfo = document.createElement('div');
+                    progressInfo.className = 'level-progress-info';
+                    progressInfo.style.cssText = 'margin-top: 8px; position: relative; z-index: 1;';
+                    progressInfo.innerHTML = '<div style="font-size: 0.85em; color: #666; margin-bottom: 5px; font-weight: 500;">Completed: ' + completedCount + ' / ' + totalCount + '</div>' +
+                        '<div style="background: #e0e0e0; border-radius: 10px; height: 6px; overflow: hidden;">' +
+                        '<div style="background: ' + (completedCount === totalCount ? '#4caf50' : '#667eea') + '; height: 100%; border-radius: 10px; width: ' + Math.round((completedCount / totalCount) * 100) + '%; transition: width 0.5s ease;"></div>' +
+                        '</div>';
+                    levelContent.appendChild(progressInfo);
+                }
+
+                // Checkmark only if ALL lessons are completed
+                if (completedCount === totalCount) {
+                    card.style.borderLeft = '6px solid #4caf50';
+
+                    var badge = document.createElement('div');
+                    badge.className = 'completion-badge';
+                    badge.style.cssText = 'position:absolute;top:15px;right:15px;background:#4caf50;color:white;width:35px;height:35px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;box-shadow:0 2px 8px rgba(76,175,80,0.4);z-index:10;';
+                    badge.innerHTML = '&#10003;';
+                    card.style.position = 'relative';
+                    card.insertBefore(badge, card.firstChild);
+
+                    console.log('[+] Level fully completed:', levelId);
+                }
+            });
+
+            console.log('[OK] Level completion checked');
+        }
+    </script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <!-- Firebase modules -->
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+
+    <!-- Global Navigation -->
+    <script src="../js/global-nav.js"></script>
+</body>
+</html>

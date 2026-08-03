@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Стратегия чтения TOPIK 6급 — 6급</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #2f6fd0 0%, #1a3f8f 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 10px 20px;
+            background: rgba(255,255,255,0.15); border-radius: 25px;
+            font-weight: 500; transition: all 0.3s ease; backdrop-filter: blur(10px);
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            border-radius: 20px; padding: 30px; margin-bottom: 30px; text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .header h1 { color: #F44336; font-size: 2.2em; margin-bottom: 10px; }
+        .header .subtitle { color: #666; font-size: 1.05em; }
+
+        main {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            border-radius: 25px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        section { margin-bottom: 40px; }
+
+        h2 {
+            color: #4a5568; font-size: 1.5em; margin-bottom: 20px; padding-bottom: 10px;
+            border-bottom: 3px solid #F44336;
+        }
+        h3 { color: #2d3748; font-size: 1.15em; margin-bottom: 12px; margin-top: 20px; }
+        h4 { color: #4a5568; font-size: 1.05em; margin-bottom: 10px; font-weight: 600; }
+
+        .lesson-intro {
+            background: linear-gradient(135deg, #d81b6015, #7b103015);
+            padding: 25px; border-radius: 15px; border-left: 5px solid #F44336;
+        }
+        .lesson-intro ul { list-style: none; }
+        .lesson-intro li { padding: 8px 0; padding-left: 30px; position: relative; }
+        .lesson-intro li::before { content: '✓'; position: absolute; left: 0; color: #F44336; font-weight: bold; }
+
+        .structure-box {
+            background: rgba(244, 67, 54, 0.06); border-radius: 14px; padding: 20px; margin: 14px 0;
+            border-left: 4px solid #F44336;
+        }
+        .structure-box .part-label { font-weight: 700; color: #D32F2F; margin-bottom: 4px; }
+        .structure-box .part-text { color: #333; }
+
+        .sample-box {
+            background: #fafafa; border: 1px solid #e0e0e0; border-radius: 14px;
+            padding: 20px; margin: 16px 0; white-space: pre-line; font-size: 0.98em;
+        }
+        .sample-box .analysis { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc; color: #555; font-size: 0.93em; white-space: normal; }
+
+        .practice-section { background: linear-gradient(135deg, #2e9e5b12, #14663a12); padding: 22px; border-radius: 15px; margin: 18px 0; }
+        .exercise { background: white; padding: 18px 20px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); }
+        .question { font-size: 1.05em; font-weight: 600; margin-bottom: 14px; color: #2d3748; white-space: pre-line; }
+        .options { display: flex; flex-direction: column; gap: 8px; }
+        .option {
+            background: #764ba2; color: white; padding: 10px 18px; border: none; border-radius: 10px;
+            cursor: pointer; font-size: 0.95em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.2s ease; text-align: left;
+        }
+        .option:hover { filter: brightness(1.1); }
+        .option.correct { background: #2e7d32; }
+        .option.wrong { background: #e53935; }
+        .result { margin-top: 12px; padding: 12px; border-radius: 10px; text-align: center; font-weight: 500; display: none; }
+        .result.correct { background: #d5f5d5; color: #27ae60; display: block; }
+        .result.wrong { background: #fdd5d5; color: #e74c3c; display: block; }
+
+        .summary-box { background: linear-gradient(135deg, #d81b60, #7b1030); color: white; padding: 25px; border-radius: 15px; }
+        .summary-box ul { list-style: none; }
+        .summary-box li { padding: 8px 0; padding-left: 25px; position: relative; }
+        .summary-box li::before { content: '📌'; position: absolute; left: 0; }
+
+        .next-step-box {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f); color: white;
+            padding: 20px; border-radius: 15px; text-align: center; margin-top: 16px;
+        }
+        .next-step-box a { color: white; font-weight: 700; text-decoration: underline; }
+
+        footer { text-align: center; padding: 20px; color: white; font-size: 0.9em; }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../index.html">🏠 Главная</a>
+            <a href="../index.html">🎓 6급 Уровень</a>
+        </div>
+
+        <div class="header">
+            <h1>🎯 Стратегия чтения TOPIK 6급</h1>
+            <p class="subtitle">Не содержание, а механика: как решать три самых частых типа заданий</p>
+        </div>
+
+        <main>
+            <section class="lesson-intro">
+                <h2>📖 Что мы изучаем</h2>
+                <p>В мок-экзамене вы уже практиковали задания на чтение. Здесь — другое: явный разбор МЕХАНИКИ трёх типов заданий, а не ещё один прогон содержания. Зная алгоритм, вы решаете быстрее и увереннее, даже если тема текста незнакома.</p>
+                <ul>
+                    <li>순서 배열 — расставить абзацы/предложения по порядку</li>
+                    <li>빈칸에 들어갈 말 고르기 — подобрать пропущенное слово/фразу</li>
+                    <li>밑줄 친 부분의 의미 — истолковать подчёркнутый фрагмент</li>
+                    <li>В каждом разделе — алгоритм, разбор примера и мини-тест на закрепление</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>1. 순서 배열 — расстановка по порядку</h2>
+                <p>Проверяется умение распознавать связность текста через маркеры последовательности и анафорические ссылки (이/그/이러한 + существительное).</p>
+                <div class="structure-box">
+                    <div class="part-label">Алгоритм</div>
+                    <div class="part-text">
+                        1. Найдите предложение БЕЗ анафоры (이, 그, 이러한) — оно не может ссылаться на то, что ещё не упомянуто, и обычно задаёт тему первым.<br>
+                        2. Ищите слова последовательности: 먼저/우선 → 그다음/이어서 → 마지막으로.<br>
+                        3. Предложения с "이러한/그 결과/따라서" НЕ могут идти первыми — им нужен антецедент.<br>
+                        4. Соберите цепочку методом исключения, начиная с самого "нейтрального" предложения.
+                    </div>
+                </div>
+                <div class="sample-box">(가) 이러한 변화는 소비자들의 구매 패턴에도 큰 영향을 미쳤다.
+(나) 최근 온라인 쇼핑이 급격히 증가하고 있다.
+(다) 결과적으로 오프라인 매장들은 새로운 전략을 모색해야 하는 상황에 놓였다.
+(라) 특히 젊은 세대를 중심으로 이러한 흐름이 뚜렷하게 나타난다.
+
+Правильный порядок: 나 → 라 → 가 → 다
+<div class="analysis">(나) — общее утверждение без анафоры → первое. (라) "이러한 흐름" отсылает к онлайн-шопингу из (나). (가) "이러한 변화" продолжает ту же мысль. (다) начинается с "결과적으로" (как результат) → логичный финал.</div></div>
+
+                <div class="practice-section">
+                    <div class="exercise">
+                        <div class="question">Мини-тест: какое из предложений должно идти ПЕРВЫМ?</div>
+                        <div class="options">
+                            <button class="option" data-correct="false">이러한 현상은 특히 대도시에서 두드러진다.</button>
+                            <button class="option" data-correct="true">최근 1인 가구가 빠르게 늘고 있다.</button>
+                            <button class="option" data-correct="false">따라서 관련 정책도 변화가 필요하다는 지적이 나온다.</button>
+                            <button class="option" data-correct="false">그 결과 소형 주택에 대한 수요도 증가했다.</button>
+                        </div>
+                        <div class="result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>2. 빈칸에 들어갈 말 고르기</h2>
+                <p>Проверяется понимание логической связи между тем, что ДО пропуска, и тем, что ПОСЛЕ него — противопоставление, причина-следствие, дополнение.</p>
+                <div class="structure-box">
+                    <div class="part-label">Алгоритм</div>
+                    <div class="part-text">
+                        1. Читайте не весь абзац, а только предложение НЕПОСРЕДСТВЕННО до и после пропуска.<br>
+                        2. Определите тип связи: противопоставление (그러나/반면/하지만), причина-следствие (따라서/그러므로), дополнение (게다가/또한).<br>
+                        3. Отбрасывайте варианты, которые лексически близки тексту, но противоречат найденной связи.<br>
+                        4. Мысленно подставьте оставшийся вариант и проверьте, держится ли смысл абзаца целиком.
+                    </div>
+                </div>
+                <div class="sample-box">이 정책은 단기적으로 효과가 있어 보인다. ( 그러나 ) 장기적으로는 오히려 부작용을 낳을 수 있다는 우려도 제기된다.
+<div class="analysis">До пропуска — позитивная оценка ("есть эффект"), после — негативная ("могут быть побочные эффекты"). Это противопоставление → нужен коннектор типа 그러나/하지만, а не 따라서 (следствие) или 게다가 (добавление).</div></div>
+
+                <div class="practice-section">
+                    <div class="exercise">
+                        <div class="question">Мини-тест:
+"이 제품은 가격이 저렴하다. ( ) 내구성이 떨어진다는 단점이 있다."
+빈칸에 들어갈 가장 알맞은 말은?</div>
+                        <div class="options">
+                            <button class="option" data-correct="false">게다가</button>
+                            <button class="option" data-correct="true">그러나</button>
+                            <button class="option" data-correct="false">따라서</button>
+                            <button class="option" data-correct="false">예를 들어</button>
+                        </div>
+                        <div class="result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>3. 밑줄 친 부분의 의미</h2>
+                <p>Проверяется умение понять переносное/идиоматическое значение выражения, а не только словарный перевод отдельных слов.</p>
+                <div class="structure-box">
+                    <div class="part-label">Алгоритм</div>
+                    <div class="part-text">
+                        1. Не переводите подчёркнутое дословно в первую очередь — проверьте, не идиома ли это.<br>
+                        2. Прочитайте соседние предложения: часто следующее перефразирует ту же мысль другими словами — это и есть подсказка.<br>
+                        3. Ищите вариант, передающий РОЛЬ выражения в контексте (отношение, эмоцию), а не буквальное совпадение слов.<br>
+                        4. Остерегайтесь вариантов, частично похожих по смыслу — TOPIK специально ставит такие ловушки.
+                    </div>
+                </div>
+                <div class="sample-box">그는 시험 결과를 듣고 <u>가슴을 쓸어내렸다</u>.
+<div class="analysis">가슴을 쓸어내리다 — идиома, буквально "провести рукой по груди", по смыслу — "вздохнуть с облегчением". Контекст (услышал результат экзамена) подсказывает положительную развязку, а не физическое действие.</div></div>
+
+                <div class="practice-section">
+                    <div class="exercise">
+                        <div class="question">Мини-тест: "가슴을 쓸어내렸다" ближе всего по смыслу к:</div>
+                        <div class="options">
+                            <button class="option" data-correct="false">매우 화가 났다</button>
+                            <button class="option" data-correct="true">안도하며 마음을 놓았다</button>
+                            <button class="option" data-correct="false">크게 실망했다</button>
+                            <button class="option" data-correct="false">몹시 슬퍼했다</button>
+                        </div>
+                        <div class="result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div class="next-step-box">
+                    Теперь, зная алгоритм для всех трёх типов, закрепите его на реальных заданиях: <a href="../topik-mock-exam.html">TOPIK 6급 мини мок-экзамен →</a>
+                </div>
+            </section>
+
+            <section>
+                <h2>📋 Краткое содержание</h2>
+                <div class="summary-box">
+                    <ul>
+                        <li>순서 배열: ищите предложение без анафоры для старта, дальше — по связкам последовательности и ссылкам</li>
+                        <li>빈칸: читайте только соседние предложения, определяйте тип логической связи ДО подбора варианта</li>
+                        <li>밑줄 친 부분: проверяйте контекст на идиоматичность, не берите первое словарное значение</li>
+                        <li>Все три типа — это распознавание СВЯЗНОСТИ текста, а не проверка отдельных слов</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Корейский язык с Джейн. Все права защищены.</p>
+        </footer>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white; border: none; padding: 18px 40px; font-size: 1.2em;
+                font-weight: 600; border-radius: 30px; cursor: pointer;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level6_lesson_topik_reading_strategy';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            document.querySelectorAll('.exercise').forEach(function(ex) {
+                ex.querySelectorAll('.option').forEach(function(opt) {
+                    opt.addEventListener('click', function() {
+                        var opts = ex.querySelectorAll('.option');
+                        opts.forEach(function(o) { o.classList.remove('correct', 'wrong'); });
+                        var r = ex.querySelector('.result');
+                        if (this.dataset.correct === 'true') {
+                            this.classList.add('correct');
+                            r.className = 'result correct';
+                            r.textContent = 'Правильно!';
+                        } else {
+                            this.classList.add('wrong');
+                            r.className = 'result wrong';
+                            r.textContent = 'Неправильно!';
+                            opts.forEach(function(o) { if (o.dataset.correct === 'true') o.classList.add('correct'); });
+                        }
+                        r.style.display = 'block';
+                    });
+                });
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

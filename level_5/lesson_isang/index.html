@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>-는 이상 — раз уж так, поскольку</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #2f6fd0 0%, #1a3f8f 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        body::before {
+            content: '⚖️';
+            position: fixed;
+            top: 15%;
+            right: 4%;
+            font-size: 115px;
+            opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '📜';
+            position: fixed;
+            bottom: 11%;
+            left: 3%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .navigation a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            margin: 0 0 15px 0;
+            color: #E91E63;
+            font-size: 2.5em;
+        }
+
+        .header .korean-title {
+            font-size: 1.3em;
+            color: #F06292;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .header .description {
+            font-size: 1.05em;
+            color: #666;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+
+        .content-section h2 {
+            color: #E91E63;
+            margin-top: 0;
+            font-size: 2em;
+            border-bottom: 3px solid #F06292;
+            padding-bottom: 10px;
+        }
+
+        .content-section h3 {
+            color: #AD1457;
+            margin-top: 25px;
+        }
+
+        .content-section p {
+            line-height: 1.8;
+            font-size: 1.05em;
+        }
+
+        .grammar-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .grammar-card {
+            border-radius: 15px;
+            padding: 25px;
+            color: #2b2440;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .grammar-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-verb {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+        }
+
+        .card-adj {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+        }
+
+        .card-noun {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+        }
+
+        .card-title {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-pattern {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 1.5em;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .card-description {
+            font-size: 1.1em;
+            margin: 15px 0;
+            opacity: 0.9;
+        }
+
+        .card-examples {
+            margin-top: 20px;
+        }
+
+        .card-example {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+
+        .korean-verb {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .verb-translation {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .comparison-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 25px 0;
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1px;
+            background: #e9ecef;
+        }
+
+        .table-row.three-col {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .table-cell {
+            background: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.05em;
+        }
+
+        .table-cell.korean {
+            color: #E91E63;
+            font-weight: bold;
+        }
+
+        .table-cell.header {
+            background: #fce4ec;
+            font-weight: bold;
+            color: #880E4F;
+        }
+
+        .sentence-structure {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .structure-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .structure-example {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .korean-text {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .translation {
+            font-size: 1em;
+            opacity: 0.9;
+        }
+
+        .grammar-note {
+            font-size: 0.85em;
+            color: #2b2440;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .info-box {
+            background: #fce4ec;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 5px solid #E91E63;
+        }
+
+        .info-box h3 {
+            color: #AD1457;
+            margin-top: 0;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-line {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+
+        .speaker {
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .practice-section {
+            background: linear-gradient(135deg, #d81b60, #7b1030);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .practice-section h3 {
+            color: #880E4F;
+            font-size: 1.5em;
+            margin-top: 0;
+        }
+
+        .exercise {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .question {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option {
+            background: #E91E63;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .option:hover {
+            background: #F06292;
+            transform: translateY(-2px);
+        }
+
+        .option.correct {
+            background: #4caf50;
+        }
+
+        .option.wrong {
+            background: #f44336;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result.correct {
+            background: #d5f5d5;
+            color: #27ae60;
+            display: block;
+        }
+
+        .result.wrong {
+            background: #fdd5d5;
+            color: #e74c3c;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .grammar-cards { grid-template-columns: 1fr; }
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .options { flex-direction: column; align-items: center; }
+            .content-section { padding: 20px; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_5/index.html">← 5급 Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <h1>-는 이상 — раз уж так, поскольку</h1>
+            <div class="korean-title">-는 이상: логическая связка "раз уж это так -- то..."</div>
+            <div class="description">Формальная конструкция для выражения неизменной предпосылки, из которой логически вытекает следствие</div>
+        </header>
+
+        <!-- Секция 1: Введение -->
+        <div class="content-section">
+            <h2>Что такое -는 이상?</h2>
+            <p>
+                이상 [isang] буквально означает "выше, сверх" (以上), но в составе конструкции <strong>-는 이상</strong> оно превращается в грамматический показатель со значением
+                <strong>"раз уж (это) так; коль скоро; поскольку это -- неизменный факт"</strong>. Это не просто причина, а <strong>твёрдая логическая предпосылка</strong>:
+                первая часть предложения называет факт или ситуацию, которую <strong>нельзя изменить или отменить</strong>, а вторая часть -- это неизбежное следствие,
+                обязательство или решение, которое из неё вытекает.
+            </p>
+            <p>
+                Конструкция характерна для <strong>официальной, письменной и деловой речи</strong>: юридические документы, деловые переговоры, публичные заявления,
+                этические и моральные рассуждения. В разговорной речи почти не используется -- там предпочитают -(으)니까 или -기 때문에.
+            </p>
+            <div class="grammar-cards">
+                <div class="grammar-card card-verb">
+                    <div class="card-title">-는 이상 [neun isang]</div>
+                    <div class="card-pattern">"раз уж... то обязательно..."</div>
+                    <div class="card-description">
+                        Подчёркивает, что предпосылка -- это <strong>объективный, неизменный факт</strong>, не зависящий от желания говорящего. Вывод логически необходим,
+                        а не просто желателен.
+                    </div>
+                    <div class="card-examples">
+                        <div class="card-example">
+                            <div class="korean-verb">계약을 맺은 이상 [gyeyageul maejeun isang]</div>
+                            <div class="verb-translation">раз уж договор заключён (значит, его нужно исполнять)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="info-box">
+                <h3>Ключевая идея</h3>
+                <p>
+                    -는 이상 отвечает не на вопрос "почему?", а на вопрос <strong>"учитывая, что это уже так -- что из этого неизбежно следует?"</strong>.
+                    Это связка не причины, а <strong>логической необходимости</strong>: "коль скоро A -- истина/факт, то B становится обязательным".
+                </p>
+            </div>
+        </div>
+
+        <!-- Секция 2: Формация -->
+        <div class="content-section">
+            <h2>Образование конструкции</h2>
+            <p>Форма присоединения зависит от части речи и от того, идёт ли речь о текущем состоянии/незавершённом действии или о завершённом факте.</p>
+
+            <div class="comparison-table">
+                <div class="table-header">Правила образования -는/-(으)ㄴ/인 이상</div>
+                <div class="table-row">
+                    <div class="table-cell header">Часть речи</div>
+                    <div class="table-cell header">Форма</div>
+                    <div class="table-cell header">Пример</div>
+                    <div class="table-cell header">Значение основы</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Глагол (наст./общий факт)</div>
+                    <div class="table-cell korean">основа + 는 이상</div>
+                    <div class="table-cell korean">맡는 이상 [manneun isang]</div>
+                    <div class="table-cell">раз уж (кто-то) берёт на себя (обязанность)</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Глагол (завершённое действие/состояние)</div>
+                    <div class="table-cell korean">основа + -(으)ㄴ 이상</div>
+                    <div class="table-cell korean">맺은 이상 [maejeun isang]</div>
+                    <div class="table-cell">раз уж (нечто) уже заключено / произошло</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Прилагательное</div>
+                    <div class="table-cell korean">основа + -(으)ㄴ 이상</div>
+                    <div class="table-cell korean">확실한 이상 [hwaksilhan isang]</div>
+                    <div class="table-cell">раз уж это точно / несомненно</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell">Существительное</div>
+                    <div class="table-cell korean">사람 + 인 이상</div>
+                    <div class="table-cell korean">전문가인 이상 [jeonmungain isang]</div>
+                    <div class="table-cell">раз уж (кто-то) является специалистом</div>
+                </div>
+            </div>
+
+            <div class="sentence-structure">
+                <div class="structure-title">Модель предложения</div>
+                <div class="structure-example">
+                    <div class="korean-text">[Неизменный факт/решение] -는/-(으)ㄴ 이상, [неизбежное следствие/обязательство].</div>
+                    <div class="translation">Раз уж [факт установлен], то [следствие обязательно].</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>Важно!</h3>
+                <p>
+                    Вторая часть предложения почти всегда содержит модальность долженствования, решимости или запрета: -어야 하다 (должен), -겠다 (обязательно сделаю),
+                    -지 않겠다 (не буду делать), -(으)ㄹ 수밖에 없다 (не остаётся ничего, кроме как) и т. п. Конструкция редко используется для простого описания факта без вывода-обязательства.
+                </p>
+            </div>
+        </div>
+
+        <!-- Секция 3: Примеры -->
+        <div class="content-section">
+            <h2>Примеры предложений (C1)</h2>
+
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="korean-text">네가 이미 결정한 이상, 나는 더 이상 반대하지 않겠다.</div>
+                    <div class="translation">Раз уж ты уже принял решение, я больше не буду возражать.</div>
+                    <div class="grammar-note">결정한 이상 [gyeoljeonghan isang] -- раз уж решение принято (завершённое действие)</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="korean-text">계약서에 서명한 이상, 계약 조건을 반드시 이행해야 할 법적 의무가 있습니다.</div>
+                    <div class="translation">Раз уж договор подписан, существует юридическая обязанность неукоснительно выполнять его условия.</div>
+                    <div class="grammar-note">서명한 이상 [seomyeonghan isang] -- раз уж подпись поставлена; юридический контекст</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="korean-text">공직자인 이상, 사적인 이익을 위해 권한을 남용해서는 안 된다.</div>
+                    <div class="translation">Раз уж (человек) является государственным должностным лицом, он не должен злоупотреблять полномочиями ради личной выгоды.</div>
+                    <div class="grammar-note">공직자인 이상 [gongjikjain isang] -- раз уж (кто-то) чиновник; существительное + 인 이상</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="korean-text">회사의 대표를 맡은 이상, 직원들의 생계에 대한 책임을 회피할 수 없습니다.</div>
+                    <div class="translation">Раз уж (я) взял на себя должность руководителя компании, я не могу уклоняться от ответственности за жизнеобеспечение сотрудников.</div>
+                    <div class="grammar-note">맡은 이상 [mateun isang] -- раз уж обязанность возложена на себя (завершённое действие)</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="korean-text">이 프로젝트에 회사의 명운이 걸려 있는 이상, 실패는 절대로 용납될 수 없다.</div>
+                    <div class="translation">Раз уж от этого проекта зависит судьба компании, провал абсолютно недопустим.</div>
+                    <div class="grammar-note">걸려 있는 이상 [geollyeo inneun isang] -- раз уж (судьба) поставлена на карту; текущее состояние</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="korean-text">증거가 명백한 이상, 피고인은 자신의 혐의를 부인할 근거가 없다.</div>
+                    <div class="translation">Раз уж улики очевидны, у обвиняемого нет оснований отрицать свою вину.</div>
+                    <div class="grammar-note">명백한 이상 [myeongbaekhan isang] -- раз уж это очевидно; прилагательное + -(으)ㄴ 이상</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="korean-text">한번 약속을 한 이상, 어떤 어려움이 있더라도 반드시 지켜야 한다는 것이 제 원칙입니다.</div>
+                    <div class="translation">Мой принцип таков: раз уж обещание дано, его необходимо сдержать, какие бы трудности ни возникли.</div>
+                    <div class="grammar-note">약속을 한 이상 [yaksogeul han isang] -- раз уж обещание дано; принципы и моральные обязательства</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 4: Сравнение -->
+        <div class="content-section">
+            <h2>Сравнение: -는 이상 vs -(으)니까 vs -기 때문에</h2>
+            <p>
+                Все три конструкции можно перевести как "поскольку / так как", но они различаются по силе логической связи и по стилистическому регистру.
+            </p>
+
+            <div class="comparison-table">
+                <div class="table-header">-는 이상 vs -(으)니까 vs -기 때문에</div>
+                <div class="table-row three-col">
+                    <div class="table-cell header">-는 이상</div>
+                    <div class="table-cell header">-(으)니까</div>
+                    <div class="table-cell header">-기 때문에</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell">Формальная, логически весомая связка: "раз уж это -- неизменный факт, следствие неизбежно"</div>
+                    <div class="table-cell">Нейтральная причина, часто субъективная, разговорная; вводит совет/просьбу/вывод говорящего</div>
+                    <div class="table-cell">Нейтральная объективная причина, стилистически универсальная, часто в письменной речи</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell korean">Только официальный/письменный стиль</div>
+                    <div class="table-cell korean">Разговорный и нейтральный стиль</div>
+                    <div class="table-cell korean">Нейтральный и официальный стиль</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell">Вторая часть -- обязательство, решимость, запрет (модальность долженствования)</div>
+                    <div class="table-cell">Вторая часть -- любое следствие: приказ, совет, просьба, вывод</div>
+                    <div class="table-cell">Вторая часть -- просто следствие-факт, без модальности необходимости</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell korean">계약한 이상 지켜야 한다.</div>
+                    <div class="table-cell korean">비가 오니까 우산을 가져가세요.</div>
+                    <div class="table-cell korean">비가 오기 때문에 길이 막혔다.</div>
+                </div>
+                <div class="table-row three-col">
+                    <div class="table-cell">Раз уж договор заключён -- его нужно соблюдать (нельзя иначе)</div>
+                    <div class="table-cell">Идёт дождь, возьмите зонт (совет)</div>
+                    <div class="table-cell">Из-за дождя образовалась пробка (простая причина)</div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>Главное отличие</h3>
+                <p>
+                    -(으)니까 и -기 때문에 просто указывают <strong>причину</strong>. -는 이상 указывает на <strong>неизменную предпосылку, из которой логически и морально/юридически
+                    вытекает необходимость</strong> -- это связка более высокого, "аргументированного" уровня, характерная для рассуждений о долге, законе, принципах и решениях.
+                </p>
+            </div>
+        </div>
+
+        <!-- Секция 5: Диалог -->
+        <div class="content-section">
+            <h2>Диалог: Этическая дискуссия на работе</h2>
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">박 부장:</div>
+                    <div class="korean-text">이 대리, 이미 고객과 계약을 체결한 이상, 이제 와서 조건을 바꿀 수는 없습니다.</div>
+                    <div class="translation">Менеджер И, раз уж договор с клиентом уже заключён, менять условия на этом этапе нельзя.</div>
+                    <div class="grammar-note">체결한 이상 [chegyeolhan isang] -- раз уж договор заключён</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">이 대리:</div>
+                    <div class="korean-text">하지만 부장님, 원자재 가격이 이렇게 폭등한 이상 손해를 감수하고 진행하는 게 맞을까요?</div>
+                    <div class="translation">Но, начальник, раз уж цены на сырьё так резко выросли, правильно ли продолжать, неся убытки?</div>
+                    <div class="grammar-note">폭등한 이상 [pokdeunghan isang] -- раз уж (цены) резко подскочили</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">박 부장:</div>
+                    <div class="korean-text">우리가 한번 서명한 이상, 신뢰를 지키는 것이 회사의 원칙입니다.</div>
+                    <div class="translation">Раз уж мы однажды поставили подпись, соблюдение доверия -- это принцип нашей компании.</div>
+                    <div class="grammar-note">서명한 이상 [seomyeonghan isang] -- раз уж подпись уже поставлена (повторное употребление конструкции)</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">이 대리:</div>
+                    <div class="korean-text">알겠습니다. 책임자인 이상 부장님의 판단을 따르겠습니다.</div>
+                    <div class="translation">Понял. Раз уж вы -- ответственное лицо, я последую вашему решению.</div>
+                    <div class="grammar-note">책임자인 이상 [chaegimjain isang] -- раз уж (кто-то) ответственное лицо; существительное + 인 이상</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">박 부장:</div>
+                    <div class="korean-text">대신 이런 상황이 반복되지 않도록 계약서 검토 절차를 강화하겠습니다.</div>
+                    <div class="translation">Взамен, чтобы подобная ситуация не повторялась, я усилю процедуру проверки договоров.</div>
+                    <div class="grammar-note">반복되지 않도록 [banbokdoeji anhdorok] -- чтобы не повторялось</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 6: Запомнить -->
+        <div class="content-section">
+            <h2>Запомните</h2>
+            <div style="background: linear-gradient(135deg, #AD1457, #E91E63); color: white; padding: 25px; border-radius: 15px; margin: 20px 0;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Глагол</strong><br>
+                        -는 이상 (общий факт)<br>
+                        -(으)ㄴ 이상 (завершённое)
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Прилагательное</strong><br>
+                        -(으)ㄴ 이상<br>
+                        <em>확실한 이상</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Существительное</strong><br>
+                        인 이상<br>
+                        <em>전문가인 이상</em>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;">
+                        <strong>Смысл</strong><br>
+                        неизменная предпосылка →<br>
+                        неизбежное следствие/долг
+                    </div>
+                </div>
+            </div>
+            <div class="info-box">
+                <h3>Итог</h3>
+                <p>
+                    -는 이상 -- это конструкция для строгих, формальных рассуждений: "раз уж A -- бесспорный факт, то B неизбежно/обязательно".
+                    Вторая часть предложения почти всегда содержит модальность долга или твёрдого решения. Используйте её в деловой переписке,
+                    юридических и этических рассуждениях -- избегайте в повседневной разговорной речи.
+                </p>
+            </div>
+        </div>
+
+        <!-- Практика -->
+        <div class="practice-section">
+            <h3>Практические упражнения</h3>
+
+            <div class="exercise">
+                <div class="question">1. 이미 계약을 ___ 이상, 조건을 함부로 바꿀 수 없습니다.</div>
+                <div class="options">
+                    <button class="option" data-correct="true">체결한</button>
+                    <button class="option" data-correct="false">체결하는</button>
+                    <button class="option" data-correct="false">체결하니까</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">2. Как правильно присоединить -는 이상 к прилагательному 확실하다 (быть несомненным)?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">확실는 이상</button>
+                    <button class="option" data-correct="true">확실한 이상</button>
+                    <button class="option" data-correct="false">확실이상</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">3. 전문가___ 이상, 자신의 판단에 책임을 져야 한다. (전문가 -- специалист)</div>
+                <div class="options">
+                    <button class="option" data-correct="false">는</button>
+                    <button class="option" data-correct="false">한</button>
+                    <button class="option" data-correct="true">인</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">4. Чем -는 이상 принципиально отличается от -(으)니까 и -기 때문에?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">Используется только в вопросах</button>
+                    <button class="option" data-correct="true">Указывает на неизменную предпосылку, из которой неизбежно следует обязательство</button>
+                    <button class="option" data-correct="false">Означает то же самое, различий нет</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">5. Выберите наиболее уместное продолжение: 그가 책임자인 이상, ___.</div>
+                <div class="options">
+                    <button class="option" data-correct="true">모든 결과에 대한 책임을 져야 한다</button>
+                    <button class="option" data-correct="false">아마 책임자일 수도 있다</button>
+                    <button class="option" data-correct="false">책임자가 되고 싶어 한다</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">6. 한번 약속을 ___ 이상, 반드시 지켜야 한다는 것이 제 원칙입니다. (약속을 하다 -- дать обещание)</div>
+                <div class="options">
+                    <button class="option" data-correct="false">하는</button>
+                    <button class="option" data-correct="true">한</button>
+                    <button class="option" data-correct="false">해서</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">7. В каком стиле речи чаще всего используется -는 이상?</div>
+                <div class="options">
+                    <button class="option" data-correct="false">В повседневной болтовне с друзьями</button>
+                    <button class="option" data-correct="true">В формальной, деловой и юридической речи</button>
+                    <button class="option" data-correct="false">Только в детских сказках</button>
+                </div>
+                <div class="result"></div>
+            </div>
+
+            <div class="exercise">
+                <div class="question">8. 증거가 명백___ 이상, 혐의를 부인할 근거가 없다. (명백하다 -- быть очевидным)</div>
+                <div class="options">
+                    <button class="option" data-correct="true">한</button>
+                    <button class="option" data-correct="false">하는</button>
+                    <button class="option" data-correct="false">해서</button>
+                </div>
+                <div class="result"></div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #E91E63, #AD1457);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(233,30,99,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level5_lesson_isang';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var exercises = document.querySelectorAll('.exercise');
+            exercises.forEach(function(exercise) {
+                var options = exercise.querySelectorAll('.option');
+                var result = exercise.querySelector('.result');
+                options.forEach(function(option) {
+                    option.addEventListener('click', function() {
+                        options.forEach(function(opt) {
+                            opt.classList.remove('correct', 'wrong');
+                        });
+                        var isCorrect = this.dataset.correct === 'true';
+                        if (isCorrect) {
+                            this.classList.add('correct');
+                            result.className = 'result correct';
+                            result.textContent = 'Правильно! Отлично!';
+                        } else {
+                            this.classList.add('wrong');
+                            result.className = 'result wrong';
+                            result.textContent = 'Неправильно. Попробуйте ещё раз!';
+                            options.forEach(function(opt) {
+                                if (opt.dataset.correct === 'true') {
+                                    opt.classList.add('correct');
+                                }
+                            });
+                        }
+                        result.style.display = 'block';
+                    });
+                });
+            });
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

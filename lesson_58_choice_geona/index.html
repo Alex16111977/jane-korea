@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок 13: Выбор 거나 - Корейский язык</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at 85% 15%, rgba(255,255,255,0.12) 0%, transparent 45%),
+                radial-gradient(circle at 15% 85%, rgba(255,111,0,0.2) 0%, transparent 50%),
+                repeating-linear-gradient(135deg, transparent, transparent 35px, rgba(255,255,255,0.02) 35px, rgba(255,255,255,0.02) 70px),
+                linear-gradient(135deg, #d97706 0%, #92400e 50%, #92400e 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '🔀';
+            position: fixed;
+            top: 13%;
+            right: 4%;
+            font-size: 108px;
+            opacity: 0.04;
+            animation: floatSlow 8s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '🔥';
+            position: fixed;
+            bottom: 10%;
+            left: 3%;
+            font-size: 92px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-18px) rotate(-3deg); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            text-align: center;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        main {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        section {
+            margin-bottom: 40px;
+            animation: slideInLeft 0.6s ease;
+            animation-fill-mode: both;
+        }
+
+        section:nth-child(2) { animation-delay: 0.2s; }
+        section:nth-child(3) { animation-delay: 0.4s; }
+        section:nth-child(4) { animation-delay: 0.6s; }
+        section:nth-child(5) { animation-delay: 0.8s; }
+
+        h2 {
+            color: #4a5568;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff8f00;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #ff6f00;
+        }
+
+        h3 {
+            color: #2d3748;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+
+        h4 {
+            color: #4a5568;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .lesson-intro {
+            background: linear-gradient(135deg, #d9770615, #92400e15);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #ff8f00;
+        }
+
+        .lesson-intro ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .lesson-intro li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .lesson-intro li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #ff8f00;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .dialogue {
+            background: linear-gradient(135deg, #fff8ec, #ffeccd);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-box {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .dialogue-box p {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .dialogue-box strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .translation {
+            color: #ffffff;
+            font-style: italic;
+            margin-left: 20px;
+        }
+
+        .grammar-rule {
+            background: rgba(255, 143, 0, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 4px solid #ff8f00;
+        }
+
+        .example {
+            background: rgba(255, 111, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .example p {
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .note, .grammar-note {
+            color: #4a5568;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .korean-example {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #ff6f00;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .korean-example:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .korean-example p:first-child {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .choice-concept {
+            background: linear-gradient(135deg, #d97706, #92400e);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .choice-concept h3 {
+            color: white;
+        }
+
+        .stem-rule {
+            background: linear-gradient(135deg, #fff8ec, #ffeccd);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid #ff8f00;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #d97706, #92400e);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .summary-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .summary-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .summary-box li::before {
+            content: '📌';
+            position: absolute;
+            left: 0;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .navigation a {
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .prev-lesson, .next-lesson {
+            background: linear-gradient(135deg, #d97706, #92400e);
+            color: white;
+        }
+
+        .prev-lesson:hover, .next-lesson:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 143, 0, 0.4);
+        }
+
+        .lessons-index {
+            background: rgba(255, 143, 0, 0.1);
+            color: #ff8f00;
+            border: 2px solid #ff8f00;
+        }
+
+        .lessons-index:hover {
+            background: #ff8f00;
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            font-size: 0.9em;
+        }
+    </style>
+    <link rel="stylesheet" href="../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <a href="../index.html">🏠 Главная</a>
+                <a href="../level_4/index.html">🌸 4급 Уровень</a>
+            </nav>
+            <h1>Урок 13: Выбор 거나</h1>
+        </header>
+
+        <main>
+            <section class="lesson-intro">
+                <h2>🔀 Что мы изучаем</h2>
+                <p>Сегодня мы изучим грамматическую конструкцию <strong>-거나</strong>, которая присоединяется к основе глагола или прилагательного и используется для:</p>
+                <ul>
+                    <li>Выражения выбора между действиями ("или")</li>
+                    <li>Перечисления альтернативных действий или состояний</li>
+                    <li>Создания условий с несколькими вариантами</li>
+                </ul>
+            </section>
+
+            <section class="dialogue">
+                <h2>💬 Диалог урока</h2>
+                <div class="dialogue-box">
+                    <p><strong>민지:</strong> 주말에 뭐 해요?</p>
+                    <p class="translation">Минджи: Что делаешь на выходных?</p>
+                    <p><strong>준호:</strong> 운동하거나 영화를 봐요.</p>
+                    <p class="translation">Чжунхо: Занимаюсь спортом или смотрю фильмы.</p>
+                </div>
+            </section>
+
+            <section class="grammar-explanation">
+                <h2>📚 Грамматическое объяснение</h2>
+
+                <div class="choice-concept">
+                    <h3>🔑 Концепция выбора между действиями</h3>
+                    <p>Конструкция <strong>-거나</strong> присоединяется к основе <strong>любого</strong> глагола или прилагательного и выражает выбор между действиями или состояниями. В отличие от <strong>이나/나</strong>, которая работает с существительными, <strong>-거나</strong> соединяет именно <strong>глаголы и прилагательные</strong>. Переводится как "или".</p>
+                </div>
+
+                <h3>Правила образования</h3>
+
+                <div class="stem-rule">
+                    <h4>Основа глагола/прилагательного + 거나</h4>
+                    <p>Правило простое — <strong>-거나</strong> присоединяется к <strong>любой</strong> основе без исключений:</p>
+                    <div class="example">
+                        <p>먹다 (есть) → 먹 + 거나 = <strong>먹거나</strong> (есть или...)</p>
+                        <p>가다 (идти) → 가 + 거나 = <strong>가거나</strong> (идти или...)</p>
+                        <p>크다 (большой) → 크 + 거나 = <strong>크거나</strong> (большой или...)</p>
+                        <p>작다 (маленький) → 작 + 거나 = <strong>작거나</strong> (маленький или...)</p>
+                        <p class="grammar-note">Не зависит от окончания основы — всегда просто + 거나</p>
+                    </div>
+                </div>
+
+                <div class="grammar-rule">
+                    <h4>Сравнение с 이나/나</h4>
+                    <div class="example">
+                        <p><strong>이나/나</strong> — для существительных: 커피<strong>나</strong> 차 (кофе или чай)</p>
+                        <p><strong>거나</strong> — для глаголов/прилагательных: 먹<strong>거나</strong> 마시다 (есть или пить)</p>
+                        <p class="grammar-note">Выбирайте частицу в зависимости от части речи</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="examples">
+                <h2>📝 Примеры использования</h2>
+
+                <div class="korean-example">
+                    <p>주말에 쉬거나 여행을 가요.</p>
+                    <p class="translation">На выходных отдыхаю или еду в путешествие.</p>
+                </div>
+
+                <div class="korean-example">
+                    <p>아프거나 피곤하면 쉬세요.</p>
+                    <p class="translation">Если больны или устали, отдохните.</p>
+                </div>
+
+                <div class="korean-example">
+                    <p>전화하거나 문자 보내세요.</p>
+                    <p class="translation">Позвоните или отправьте сообщение.</p>
+                </div>
+
+                <div class="korean-example">
+                    <p>걸어가거나 버스를 타세요.</p>
+                    <p class="translation">Идите пешком или садитесь на автобус.</p>
+                </div>
+            </section>
+
+            <section class="summary">
+                <h2>📋 Краткое содержание</h2>
+                <div class="summary-box">
+                    <ul>
+                        <li><strong>-거나</strong> — выбор между действиями/состояниями</li>
+                        <li><strong>Любая основа + 거나:</strong> 먹거나, 가거나, 크거나</li>
+                        <li>Значение: "или" (между глаголами/прилагательными)</li>
+                        <li>Отличие от 이나/나: работает с глаголами, а не существительными</li>
+                        <li>Можно использовать в условных предложениях</li>
+                    </ul>
+                </div>
+            </section>
+
+            <div class="navigation">
+                <a href="../lesson_57_choice_ina/index.html" class="prev-lesson">← Урок 12</a>
+                <a href="../level_4/index.html" class="lessons-index">🌸 4급 Уровень</a>
+                <a href="../lesson_59_suggestion_eulkayo/index.html" class="next-lesson">Урок 14 →</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Корейский язык с Джейн. Все права защищены.</p>
+        </footer>
+    
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+</div>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    <script src="../js/progress-tracker.js"></script>
+    <script>
+        // Кнопка завершения урока
+        var LESSON_ID = 'lesson_58_choice_geona';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        // Проверяем статус при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+<script src="../js/dictionary.js"></script>
+    <script src="../js/dictionary-inject.js"></script>
+    <script src="../js/global-nav.js"></script>
+</body>
+</html>

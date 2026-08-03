@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>분리수거 — сортировка мусора — 2급 Корейский</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        :root {
+            --ink: #2b2440; --muted: #6f6a85; --line: #ece9f6;
+            --brand: #6C5CE7; --brand-dk: #4b3fb8; --accent: #E91E63; --accent-sf: #fff0f5;
+            --lav: #f6f4ff; --radius: 18px;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif; margin: 0; padding: 0; background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%), linear-gradient(135deg, #2f6fd0 0%, #1a3f8f 100%); min-height: 100vh; color: var(--ink); -webkit-font-smoothing: antialiased; }
+        .container { max-width: 940px; margin: 0 auto; padding: 18px 20px 40px; }
+        .navigation { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; background: rgba(255,255,255,0.18); padding: 8px 16px; border-radius: 20px; font-size: 0.88em; font-weight: 500; transition: all .25s ease; backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.18); }
+        .navigation a:hover { background: rgba(255,255,255,0.32); transform: translateY(-1px); }
+
+        .header { background: #fff; border-radius: 22px; padding: 30px 34px 26px; text-align: center; margin-bottom: 18px; box-shadow: 0 18px 40px rgba(45,30,90,0.16); }
+        .korean-title { display: inline-block; font-size: 0.88em; font-weight: 700; color: var(--brand-dk); background: var(--lav); border: 1px solid #e3ddff; padding: 5px 14px; border-radius: 999px; margin-bottom: 12px; letter-spacing: .01em; }
+        .header h1 { font-size: 1.85em; line-height: 1.25; color: var(--ink); margin: 0 0 10px; font-weight: 700; letter-spacing: -0.01em; }
+        .description { color: var(--muted); font-size: 0.97em; line-height: 1.6; max-width: 660px; margin: 0 auto; }
+
+        .content-section { background: #fff; border-radius: var(--radius); padding: 26px 30px 28px; margin-bottom: 16px; box-shadow: 0 10px 28px rgba(45,30,90,0.10); }
+        .content-section h2 { color: var(--ink); margin: 0 0 14px; font-size: 1.22em; font-weight: 700; padding-left: 14px; position: relative; line-height: 1.35; }
+        .content-section h2::before { content: ''; position: absolute; left: 0; top: .18em; bottom: .18em; width: 4px; border-radius: 3px; background: linear-gradient(180deg, var(--brand), var(--accent)); }
+        .content-section > p { color: var(--muted); font-size: 0.95em; line-height: 1.65; }
+
+        .grammar-card { background: linear-gradient(135deg, #eefaf1, #d8f0e0); border: 1px solid #e6e0ff; border-left: 4px solid var(--brand); border-radius: 14px; padding: 16px 18px; margin: 14px 0; }
+        .grammar-card .korean { font-size: 1.15em; font-weight: 700; color: var(--brand-dk); margin-bottom: 4px; line-height: 1.45; }
+        .grammar-card .romanization { font-size: 0.85em; color: var(--muted); margin-bottom: 4px; }
+        .grammar-card .meaning { color: #4a4560; font-size: 0.94em; line-height: 1.6; }
+
+        .grammar-table { width: 100%; border-collapse: collapse; margin: 0; font-size: 0.93em; }
+        .grammar-table th { background: linear-gradient(135deg, var(--brand), var(--brand-dk)); color: #fff; padding: 12px 14px; text-align: center; font-weight: 600; font-size: 0.95em; white-space: nowrap; }
+        .grammar-table th:first-child { border-top-left-radius: 12px; }
+        .grammar-table th:last-child { border-top-right-radius: 12px; }
+        .grammar-table td { padding: 11px 14px; border-bottom: 1px solid var(--line); text-align: center; color: #45405c; line-height: 1.5; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tbody tr:nth-child(even) { background: #faf9ff; }
+        .grammar-table tbody tr:hover { background: var(--lav); }
+        .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 16px 0; border: 1px solid var(--line); border-radius: 13px; }
+        .table-scroll .grammar-table { min-width: 460px; }
+
+        .example-box { background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 12px; padding: 14px 16px; margin: 10px 0; transition: all .2s ease; }
+        .example-box:hover { border-color: #e0d9ff; box-shadow: 0 6px 18px rgba(45,30,90,0.08); }
+        .example-box .ex-korean { font-size: 1.08em; font-weight: 700; color: var(--ink); margin-bottom: 3px; line-height: 1.5; }
+        .example-box .ex-romanization { font-size: 0.82em; color: #9a95ad; font-style: italic; margin-bottom: 3px; }
+        .example-box .ex-meaning { color: #55506e; font-size: 0.92em; line-height: 1.55; }
+
+        .tip-box { background: var(--lav); border: 1px solid #e3ddff; border-radius: 13px; padding: 15px 18px; margin: 16px 0; color: #4a4560; font-size: 0.93em; line-height: 1.65; }
+        .tip-box strong { color: var(--brand-dk); }
+        .nuance-card { background: var(--accent-sf); border: 1px solid #ffd6e6; border-radius: 14px; padding: 16px 18px; margin: 16px 0; }
+        .nuance-card h3 { color: #b3175a; margin: 0 0 10px; font-size: 1.02em; font-weight: 700; }
+        .nuance-card p, .nuance-card div { font-size: 0.93em; line-height: 1.6; }
+        .nuance-card .example-box { background: rgba(255,255,255,0.85); border-left-color: #f06292; }
+        .error-card { background: #fff5f5; border: 1px solid #ffd4d4; border-radius: 14px; padding: 16px 18px; margin: 16px 0; }
+        .error-card h3 { color: #c62828; margin: 0 0 10px; font-size: 1.02em; font-weight: 700; }
+        .error-card p { margin: 6px 0; font-size: 0.93em; line-height: 1.6; color: #4a4560; }
+        .wrong { color: #d32f2f; font-weight: 700; }
+        .right { color: #2e7d32; font-weight: 700; }
+        .sound { color: var(--accent); font-weight: 700; }
+
+        .word-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(206px, 1fr)); gap: 12px; margin: 16px 0; }
+        .word-card { position: relative; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 15px 44px 15px 16px; transition: all .25s ease; }
+        .word-card::after { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 0 3px 3px 0; background: linear-gradient(180deg, var(--brand), var(--accent)); opacity: 0; transition: opacity .25s ease; }
+        .word-card:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(45,30,90,0.13); border-color: #e0d9ff; }
+        .word-card:hover::after { opacity: 1; }
+        .word-card .wc-korean { font-size: 1.25em; font-weight: 700; color: var(--ink); margin-bottom: 2px; line-height: 1.35; }
+        .word-card .wc-rom { font-size: 0.78em; color: #a09bb2; font-style: italic; margin-bottom: 6px; }
+        .word-card .wc-meaning { color: #55506e; font-size: 0.9em; line-height: 1.45; }
+        .word-card .wc-audio { position: absolute; top: 12px; right: 12px; margin: 0; }
+
+        .audio-btn { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; border: none; border-radius: 50%; background: var(--lav); color: var(--brand); cursor: pointer; vertical-align: middle; margin-left: 7px; transition: all .2s ease; flex: 0 0 auto; }
+        .audio-btn:hover { background: var(--brand); color: #2b2440; transform: scale(1.12); }
+        .audio-btn svg { width: 15px; height: 15px; display: block; }
+        .grammar-table .audio-btn { background: #efecfd; }
+        .dialogue-box .audio-btn { background: rgba(255,255,255,0.22); color: #2b2440; }
+        .dialogue-box .audio-btn:hover { background: #fff; color: var(--brand-dk); }
+        .remember-phrase .audio-btn { background: rgba(230,81,0,0.12); color: #e65100; }
+        .remember-phrase .audio-btn:hover { background: #e65100; color: #fff; }
+
+        .dialogue-box { background: linear-gradient(140deg, #6c5ce7 0%, #4b3fb8 55%, #4b3fb8 100%); color: #fff; padding: 20px; border-radius: 16px; margin: 16px 0; }
+        .dialogue-line { margin: 9px 0; padding: 12px 14px; background: rgba(255,255,255,0.13); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); transition: background .3s ease; }
+        .speaker { font-weight: 700; font-size: 0.8em; text-transform: uppercase; letter-spacing: .05em; opacity: .85; margin-bottom: 4px; }
+        .korean-text { font-size: 1.02em; font-weight: 500; line-height: 1.5; }
+        .translation { font-size: 0.87em; opacity: 0.82; margin-top: 5px; line-height: 1.5; }
+        .dialogue-play-btn { background: #fff; color: var(--brand-dk); border: none; padding: 11px 26px; border-radius: 22px; cursor: pointer; font-size: 0.93em; font-weight: 700; font-family: inherit; margin: 4px auto 0; display: block; transition: all .25s ease; box-shadow: 0 6px 18px rgba(45,30,90,0.18); }
+        .dialogue-play-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(45,30,90,0.26); }
+        .dialogue-play-btn:disabled { opacity: .65; cursor: default; transform: none; }
+
+        .practice-section { background: #fff; border-radius: var(--radius); padding: 26px 30px 28px; margin-bottom: 16px; box-shadow: 0 10px 28px rgba(45,30,90,0.10); }
+        .practice-section h2 { color: var(--ink); margin: 0 0 16px; font-size: 1.22em; font-weight: 700; padding-left: 14px; position: relative; }
+        .practice-section h2::before { content: ''; position: absolute; left: 0; top: .18em; bottom: .18em; width: 4px; border-radius: 3px; background: linear-gradient(180deg, var(--brand), var(--accent)); }
+        .exercise-item { background: #fbfaff; border: 1px solid var(--line); padding: 16px 18px; border-radius: 14px; margin: 11px 0; }
+        .exercise-item .question { font-size: 0.98em; font-weight: 600; margin-bottom: 12px; color: var(--ink); line-height: 1.5; }
+        .exercise-item .options { display: flex; flex-wrap: wrap; gap: 8px; }
+        .exercise-btn { background: #fff; color: #4a4560; padding: 9px 17px; border: 1.5px solid #e2ddf2; border-radius: 20px; cursor: pointer; font-size: 0.9em; font-family: inherit; font-weight: 500; transition: all .2s ease; }
+        .exercise-btn:hover:not(:disabled) { border-color: var(--brand); color: var(--brand-dk); background: var(--lav); }
+        .exercise-btn:disabled { cursor: default; opacity: .95; }
+        .exercise-result { margin-top: 9px; font-weight: 600; font-size: 0.9em; min-height: 18px; }
+
+        .remember-block { background: linear-gradient(140deg, #fff8ec, #ffeccd); border: 1px solid #ffd9a8; border-radius: var(--radius); padding: 26px 30px; margin-bottom: 16px; box-shadow: 0 10px 28px rgba(120,70,10,0.09); }
+        .remember-block h2 { color: #d9591a; margin: 0 0 14px; font-size: 1.28em; font-weight: 700; }
+        .remember-phrase { background: rgba(255,255,255,0.75); border: 1px solid #ffe0b8; border-radius: 12px; padding: 13px 16px; margin: 9px 0; }
+        .remember-phrase .rp-korean { font-size: 1.03em; font-weight: 700; color: #b04513; margin-bottom: 3px; line-height: 1.45; }
+        .remember-phrase .rp-meaning { color: #6a6156; font-size: 0.89em; line-height: 1.5; }
+
+        .complete-section { text-align: center; padding: 14px 0 8px; }
+        .complete-btn { background: linear-gradient(135deg, var(--brand), var(--accent)); color: #fff; border: none; padding: 15px 44px; border-radius: 26px; font-size: 1em; font-weight: 700; cursor: pointer; transition: all .25s ease; font-family: inherit; box-shadow: 0 10px 26px rgba(108,92,231,0.35); }
+        .complete-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(108,92,231,0.45); }
+        .complete-btn:disabled { opacity: .8; cursor: default; transform: none; }
+
+        .nav-lessons { display: flex; justify-content: space-between; margin-top: 14px; flex-wrap: wrap; gap: 10px; }
+        .nav-lessons a { color: #fff; text-decoration: none; background: rgba(255,255,255,0.18); padding: 11px 22px; border-radius: 22px; font-size: 0.92em; font-weight: 500; transition: all .25s ease; backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.18); }
+        .nav-lessons a:hover { background: rgba(255,255,255,0.32); transform: translateY(-1px); }
+
+        @media (max-width: 768px) {
+            .container { padding: 14px 14px 30px; }
+            .header { padding: 24px 20px 22px; }
+            .header h1 { font-size: 1.4em; }
+            .content-section, .practice-section, .remember-block { padding: 22px 18px; }
+            .word-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .exercise-item .options { flex-direction: column; }
+            .exercise-btn { width: 100%; text-align: center; }
+        }
+        @media (max-width: 420px) { .word-grid { grid-template-columns: 1fr; } }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+<div class="container">
+    <div class="navigation">
+        <a href="../index.html">← 2급 Уроки</a>
+        <a href="../../lessons.html">Все уровни</a>
+    </div>
+
+    <div class="header">
+        <div class="korean-title">분리수거와 쓰레기 종량제</div>
+        <h1>분리수거 — как сортировать мусор в Корее</h1>
+        <div class="description">Система 종량제, пакеты за деньги, пищевые отходы отдельно и штрафы за ошибки. Слова + реальные правила жизни в Корее.</div>
+    </div>
+
+    <div class="content-section">
+        <h2>1. Виды мусора</h2>
+        <p style="color:#666; margin-bottom:20px;">В Корее мусор делят минимум на четыре потока.</p>
+        <div class="word-grid"><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('쓰레기')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">쓰레기</div><div class="wc-rom">sseuregi</div><div class="wc-meaning">мусор</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('일반 쓰레기')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">일반 쓰레기</div><div class="wc-rom">ilban sseuregi</div><div class="wc-meaning">обычный (несортируемый) мусор</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('음식물 쓰레기')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">음식물 쓰레기</div><div class="wc-rom">eumsingmul sseuregi</div><div class="wc-meaning">пищевые отходы</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('재활용')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">재활용</div><div class="wc-rom">jaehwaryong</div><div class="wc-meaning">вторсырьё, переработка</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('대형 폐기물')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">대형 폐기물</div><div class="wc-rom">daehyeong pyegimul</div><div class="wc-meaning">крупногабаритный мусор</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('분리수거')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">분리수거</div><div class="wc-rom">bullisugeo</div><div class="wc-meaning">раздельный сбор мусора</div></div></div>
+    </div>
+    <div class="content-section">
+        <h2>2. Материалы для переработки</h2>
+        <div class="word-grid"><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('플라스틱')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">플라스틱</div><div class="wc-rom">peullaseutik</div><div class="wc-meaning">пластик</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('비닐')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">비닐</div><div class="wc-rom">binil</div><div class="wc-meaning">полиэтилен, пакеты</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('유리병')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">유리병</div><div class="wc-rom">yuribyeong</div><div class="wc-meaning">стеклянная бутылка</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('캔')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">캔</div><div class="wc-rom">kaen</div><div class="wc-meaning">банка (жестяная)</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('종이')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">종이</div><div class="wc-rom">jongi</div><div class="wc-meaning">бумага</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('종이팩')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">종이팩</div><div class="wc-rom">jongipaek</div><div class="wc-meaning">тетрапак</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('스티로폼')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">스티로폼</div><div class="wc-rom">seutiropom</div><div class="wc-meaning">пенопласт</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('고철')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">고철</div><div class="wc-rom">gocheol</div><div class="wc-meaning">металлолом</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('페트병')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">페트병</div><div class="wc-rom">petbyeong</div><div class="wc-meaning">ПЭТ-бутылка</div></div><div class="word-card"><button class="audio-btn wc-audio" onclick="speakKorean('폐건전지')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button><div class="wc-korean">폐건전지</div><div class="wc-rom">pyegeonjeonji</div><div class="wc-meaning">использованные батарейки</div></div></div>
+    </div>
+    <div class="content-section">
+        <h2>3. Система 종량제 — платишь за объём</h2>
+        <p style="color:#666; margin-bottom:20px;">Главная особенность Кореи: обычный мусор можно выбрасывать только в специальном платном пакете.</p>
+        <div class="grammar-card"><div class="korean">종량제 봉투 — платный мусорный пакет</div><div class="meaning">Покупается в круглосуточном магазине или супермаркете. Цена пакета = плата за вывоз мусора. У каждого района свои пакеты!</div></div>
+        <div class="table-scroll"><table class="grammar-table"><thead><tr><th>Тип мусора</th><th>Куда</th><th>Пакет</th></tr></thead><tbody><tr><td>일반 쓰레기</td><td>общий контейнер</td><td>종량제 봉투 (платный)</td></tr><tr><td>음식물 쓰레기</td><td>отдельный бак</td><td>음식물 전용 봉투 или 전용 용기</td></tr><tr><td>재활용</td><td>по видам материала</td><td>бесплатно, прозрачный пакет</td></tr><tr><td>대형 폐기물</td><td>по заявке</td><td>наклейка 스티커 за отдельную плату</td></tr></tbody></table></div>
+        <div class="example-box"><div class="ex-korean">종량제 봉투 20리터 하나 주세요. <button class="audio-btn" onclick="speakKorean('종량제 봉투 20리터 하나 주세요')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="ex-meaning">Дайте один пакет на 20 литров.</div></div>
+        <div class="example-box"><div class="ex-korean">이 봉투는 우리 구에서 못 써요. <button class="audio-btn" onclick="speakKorean('이 봉투는 우리 구에서 못 써요.')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="ex-meaning">Этот пакет в нашем районе не действует.</div></div>
+        <div class="error-card"><h3>Штраф — это реально</h3><p>과태료 (административный штраф) за неправильную сортировку — от 100 000 вон.</p><p>Самая частая ошибка иностранцев: выбросить обычный мусор в простом чёрном пакете. Его просто не заберут, а на подъезде появится наклейка с предупреждением.</p></div>
+    </div>
+    <div class="content-section">
+        <h2>4. Глаголы и действия</h2>
+        <div class="table-scroll"><table class="grammar-table"><thead><tr><th>Глагол</th><th>Перевод</th><th>Пример</th><th>Звук</th></tr></thead><tbody><tr><td>버리다</td><td>выбрасывать</td><td>쓰레기를 버려요</td><td><button class="audio-btn" onclick="speakKorean('쓰레기를 버려요')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr><tr><td>분리하다</td><td>разделять, сортировать</td><td>종류별로 분리해요</td><td><button class="audio-btn" onclick="speakKorean('종류별로 분리해요')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr><tr><td>배출하다</td><td>выставлять (мусор наружу)</td><td>화요일에 배출해요</td><td><button class="audio-btn" onclick="speakKorean('화요일에 배출해요')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr><tr><td>씻다</td><td>мыть (перед сдачей)</td><td>병을 씻어서 버리세요</td><td><button class="audio-btn" onclick="speakKorean('병을 씻어서 버리세요')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr><tr><td>말리다</td><td>сушить</td><td>비닐은 말려서 버려요</td><td><button class="audio-btn" onclick="speakKorean('비닐은 말려서 버려요')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr><tr><td>떼다</td><td>снимать (этикетку)</td><td>라벨을 떼고 버리세요</td><td><button class="audio-btn" onclick="speakKorean('라벨을 떼고 버리세요')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr></tbody></table></div>
+        <div class="tip-box"><strong>Правило трёх шагов для бутылки:</strong> 씻다 (помыть) → 라벨을 떼다 (снять этикетку) → 눌러서 버리다 (смять и выбросить). Крышку — отдельно, в пластик.</div>
+    </div>
+    <div class="content-section">
+        <h2>5. Полезные фразы</h2>
+        <div class="example-box"><div class="ex-korean">음식물 쓰레기는 어디에 버려요? <button class="audio-btn" onclick="speakKorean('음식물 쓰레기는 어디에 버려요?')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="ex-meaning">Куда выбрасывать пищевые отходы?</div></div>
+        <div class="example-box"><div class="ex-korean">재활용은 무슨 요일에 배출해요? <button class="audio-btn" onclick="speakKorean('재활용은 무슨 요일에 배출해요?')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="ex-meaning">В какой день выставляют вторсырьё?</div></div>
+        <div class="example-box"><div class="ex-korean">종량제 봉투는 편의점에서 팔아요. <button class="audio-btn" onclick="speakKorean('종량제 봉투는 편의점에서 팔아요.')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="ex-meaning">Платные пакеты продают в круглосуточном.</div></div>
+        <div class="example-box"><div class="ex-korean">이건 일반 쓰레기예요, 재활용이에요? <button class="audio-btn" onclick="speakKorean('이건 일반 쓰레기예요, 재활용이에요?')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="ex-meaning">Это обычный мусор или вторсырьё?</div></div>
+        <div class="example-box"><div class="ex-korean">침대를 버리려면 스티커를 사야 해요. <button class="audio-btn" onclick="speakKorean('침대를 버리려면 스티커를 사야 해요.')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="ex-meaning">Чтобы выбросить кровать, надо купить наклейку.</div></div>
+    </div>
+    <div class="content-section">
+        <h2>6. Диалог: новый сосед разбирается с мусором (대화)</h2>
+        <div class="dialogue-box">
+            <div class="dialogue-line"><div class="speaker">안톤</div><div class="korean-text">죄송한데, 쓰레기를 어디에 버려요? <button class="audio-btn" onclick="speakKorean('죄송한데, 쓰레기를 어디에 버려요?')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="translation">Извините, а куда выбрасывать мусор?</div></div>
+            <div class="dialogue-line"><div class="speaker">이웃</div><div class="korean-text">일반 쓰레기는 종량제 봉투에 넣어서 버리세요. <button class="audio-btn" onclick="speakKorean('일반 쓰레기는 종량제 봉투에 넣어서 버리세요.')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="translation">Обычный мусор — в платный пакет.</div></div>
+            <div class="dialogue-line"><div class="speaker">안톤</div><div class="korean-text">종량제 봉투는 어디에서 사요? <button class="audio-btn" onclick="speakKorean('종량제 봉투는 어디에서 사요?')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="translation">А где купить такой пакет?</div></div>
+            <div class="dialogue-line"><div class="speaker">이웃</div><div class="korean-text">편의점이나 마트에서 팔아요. 우리 구 봉투를 사야 돼요. <button class="audio-btn" onclick="speakKorean('편의점이나 마트에서 팔아요. 우리 구 봉투를 사야 돼요.')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="translation">В магазине у дома или в супермаркете. Нужен пакет нашего района.</div></div>
+            <div class="dialogue-line"><div class="speaker">안톤</div><div class="korean-text">음식물 쓰레기도 같이 버려도 돼요? <button class="audio-btn" onclick="speakKorean('음식물 쓰레기도 같이 버려도 돼요?')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="translation">Пищевые отходы можно вместе?</div></div>
+            <div class="dialogue-line"><div class="speaker">이웃</div><div class="korean-text">아니요, 따로 버려야 해요. 저기 노란 통에 넣으세요. <button class="audio-btn" onclick="speakKorean('아니요, 따로 버려야 해요. 저기 노란 통에 넣으세요.')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="translation">Нет, отдельно. Вон в тот жёлтый бак.</div></div>
+            <div class="dialogue-line"><div class="speaker">안톤</div><div class="korean-text">재활용은요? <button class="audio-btn" onclick="speakKorean('재활용은요?')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="translation">А вторсырьё?</div></div>
+            <div class="dialogue-line"><div class="speaker">이웃</div><div class="korean-text">화요일하고 금요일에 배출해요. 씻어서 내놓으세요. <button class="audio-btn" onclick="speakKorean('화요일하고 금요일에 배출해요. 씻어서 내놓으세요.')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="translation">По вторникам и пятницам. Выставляйте вымытым.</div></div>
+        </div>
+        <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать диалог</button>
+    </div>
+    <div class="practice-section">
+        <h2>Упражнения (연습문제)</h2>
+        <div class="exercise-item">
+            <div class="question">1. 종량제 봉투 — это:</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">бесплатный пакет</button>
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">платный мусорный пакет</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">пакет для покупок</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">бак для отходов</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">2. «Пищевые отходы» по-корейски:</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">일반 쓰레기</button>
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">음식물 쓰레기</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">재활용</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">대형 폐기물</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">3. Что делают с бутылкой перед сдачей?</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Ничего</button>
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">Моют и снимают этикетку</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Разбивают</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">Кладут в 종량제 봉투</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">4. Чтобы выбросить старый шкаф, нужно:</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">положить в 종량제 봉투</button>
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">купить наклейку 스티커</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">выставить в среду</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">отнести в магазин</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">5. 배출하다 означает:</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">покупать</button>
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">выставлять мусор наружу</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">мыть</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">сортировать</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">6. 과태료 — это:</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">пакет</button>
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">штраф</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">наклейка</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">бак</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">7. «Куда выбрасывать пищевые отходы?» —</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">음식물 쓰레기는 어디에 버려요?</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">음식물 쓰레기는 언제 사요?</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">음식물 쓰레기는 어디에 팔아요?</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">음식물 쓰레기는 어떻게 씻어요?</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+        <div class="exercise-item">
+            <div class="question">8. Пакет из другого района:</div>
+            <div class="options">
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">подходит везде</button>
+                <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">не действует в вашем районе</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">бесплатный</button>
+                <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">только для вторсырья</button>
+            </div>
+            <div class="exercise-result"></div>
+        </div>
+    </div>
+    <div class="remember-block">
+        <h2>📋 Запомни!</h2>
+        <div class="remember-phrase"><div class="rp-korean">종량제 봉투 = плата за мусор <button class="audio-btn" onclick="speakKorean('종량제 봉투')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="rp-meaning">Покупаете пакет своего района. Другой район — не примут</div></div>
+        <div class="remember-phrase"><div class="rp-korean">4 потока: 일반 · 음식물 · 재활용 · 대형 <button class="audio-btn" onclick="speakKorean('일반 쓰레기, 음식물 쓰레기, 재활용')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="rp-meaning">Смешивать нельзя — не заберут</div></div>
+        <div class="remember-phrase"><div class="rp-korean">씻다 → 떼다 → 버리다 <button class="audio-btn" onclick="speakKorean('씻어서 버리세요')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="rp-meaning">Помыть, снять этикетку, выбросить. Так делают с бутылками и банками</div></div>
+        <div class="remember-phrase"><div class="rp-korean">재활용은 무슨 요일에 배출해요? <button class="audio-btn" onclick="speakKorean('재활용은 무슨 요일에 배출해요?')" aria-label="Прослушать"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div><div class="rp-meaning">Спросите соседа в первый же день — дни у каждого дома свои</div></div>
+        <div class="remember-phrase"><div class="rp-korean">과태료 от 100 000 원 </div><div class="rp-meaning">Штраф за нарушение реальный, не формальность</div></div>
+        <div style="margin-top: 15px; padding: 15px; background: rgba(230,81,0,0.1); border-radius: 10px;"><strong>Совет:</strong> В первый день на новом месте сфотографируйте объявление у мусорной площадки — там расписаны дни вывоза. Это сэкономит месяц вопросов.</div>
+    </div>
+
+    <div class="complete-section">
+        <button class="complete-btn" id="completeLessonBtn" onclick="completeLesson()">Отметить урок как пройденный</button>
+    </div>
+
+    <div class="nav-lessons">
+        <a href="../lesson_vocab_lost_items/index.html">← 분실</a>
+        <a href="../lesson_vocab_cooking/index.html">요리 →</a>
+    </div>
+</div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+<script>
+    function speakKorean(text) {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = 'ko-KR'; u.rate = 0.8; u.pitch = 1.1;
+        window.speechSynthesis.speak(u);
+    }
+    if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.addEventListener('voiceschanged', function(){});
+    }
+
+    function playDialogueSequence(btn) {
+        var section = btn.closest('.content-section') || btn.parentElement;
+        var box = section.querySelector('.dialogue-box');
+        if (!box) return;
+        var lines = box.querySelectorAll('.dialogue-line');
+        var texts = [];
+        lines.forEach(function(l) {
+            var k = l.querySelector('.korean-text');
+            if (k) texts.push(k.textContent.replace(/\ud83d\udd0a/g,'').trim());
+        });
+        if (!texts.length) return;
+        window.speechSynthesis.cancel();
+        var i = 0;
+        btn.textContent = '\u23f8 \u0412\u043e\u0441\u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0438\u0442\u0441\u044f...';
+        btn.disabled = true;
+        function next() {
+            if (i >= texts.length) { btn.textContent = '\ud83c\udfad \u041f\u0440\u043e\u0441\u043b\u0443\u0448\u0430\u0442\u044c \u0434\u0438\u0430\u043b\u043e\u0433'; btn.disabled = false; lines.forEach(function(l){l.style.background='';}); return; }
+            lines.forEach(function(l){l.style.background='';});
+            lines[i].style.background = 'rgba(255,255,255,0.34)';
+            var u = new SpeechSynthesisUtterance(texts[i]);
+            u.lang = 'ko-KR'; u.rate = 0.8; u.pitch = i%2===0 ? 1.1 : 0.95;
+            u.onend = function() { i++; setTimeout(next,600); };
+            window.speechSynthesis.speak(u);
+        }
+        next();
+    }
+
+    function checkExercise(btn) {
+        var parent = btn.closest('.exercise-item');
+        var result = parent.querySelector('.exercise-result');
+        var buttons = parent.querySelectorAll('.exercise-btn');
+        buttons.forEach(function(b) { b.disabled = true; });
+        if (btn.getAttribute('data-correct') === 'true') {
+            btn.style.background = '#43a047'; btn.style.color = 'white'; btn.style.borderColor = '#43a047';
+            result.textContent = '[OK] \u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e!'; result.style.color = '#2e7d32';
+        } else {
+            btn.style.background = '#e53935'; btn.style.color = 'white'; btn.style.borderColor = '#e53935';
+            result.textContent = '[-] \u041d\u0435\u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e.'; result.style.color = '#c62828';
+            buttons.forEach(function(b) {
+                if (b.getAttribute('data-correct') === 'true') { b.style.background = '#43a047'; b.style.color = 'white'; b.style.borderColor = '#43a047'; }
+            });
+        }
+    }
+
+    var LESSON_ID = 'level2_lesson_vocab_recycling';
+    function completeLesson() {
+        if (window.ProgressTracker) {
+            if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+            var btn = document.getElementById('completeLessonBtn');
+            btn.textContent = '\u041f\u0440\u043e\u0439\u0434\u0435\u043d\u043e!';
+            btn.style.background = 'linear-gradient(135deg,#8e8e9e,#b0aac4)';
+            btn.disabled = true;
+            console.log('[OK] Lesson completed:', LESSON_ID);
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.ProgressTracker) {
+            var progress = ProgressTracker.get();
+            if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                var btn = document.getElementById('completeLessonBtn');
+                if (btn) { btn.textContent = '\u041f\u0440\u043e\u0439\u0434\u0435\u043d\u043e!'; btn.style.background = 'linear-gradient(135deg,#8e8e9e,#b0aac4)'; btn.disabled = true; }
+            }
+        }
+        document.querySelectorAll('.content-section').forEach(function(s, i) {
+            s.style.opacity = '0'; s.style.transform = 'translateY(30px)';
+            setTimeout(function() {
+                s.style.transition = 'all 0.6s ease'; s.style.opacity = '1'; s.style.transform = 'translateY(0)';
+            }, i * 200);
+        });
+        console.log('[OK] Lesson loaded:', LESSON_ID);
+    });
+</script>
+<script src="../../js/global-nav.js"></script>
+</body>
+</html>

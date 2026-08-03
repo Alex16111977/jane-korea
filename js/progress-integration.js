@@ -1,5 +1,5 @@
 /**
- * Jane Korea - Progress Integration for reading-content.html
+ * Miso: 한국어 수업 - Progress Integration for reading-content.html
  * Версія: 1.0
  */
 
@@ -45,23 +45,26 @@ function showCompletionCelebration(score) {
     const totalTexts = progress.stats.totalTexts;
     const streak = progress.stats.currentStreak;
     
-    let message = `🎉 Вітаємо! Текст завершено!\n\n`;
-    message += `📊 Результат: ${score}%\n`;
-    message += `📚 Всього текстів пройдено: ${totalTexts}\n`;
-    message += `🔥 Серія днів: ${streak}`;
-    
+    let message = `📊 Результат: ${score}%\n`;
+    message += `📚 Всего текстов пройдено: ${totalTexts}\n`;
+    message += `🔥 Серия дней: ${streak}`;
+
     // Проверка новых достижений
     if (totalTexts === 1) {
-        message += `\n\n🥇 НОВЕ ДОСЯГНЕННЯ: Перший текст!`;
+        message += `\n\n🥇 НОВОЕ ДОСТИЖЕНИЕ: Первый текст!`;
     }
     if (score === 100) {
-        message += `\n\n💯 НОВЕ ДОСЯГНЕННЯ: Ідеальний результат!`;
+        message += `\n\n💯 НОВОЕ ДОСТИЖЕНИЕ: Идеальный результат!`;
     }
     if (streak === 7) {
-        message += `\n\n🔥 НОВЕ ДОСЯГНЕННЯ: Тижнева серія!`;
+        message += `\n\n🔥 НОВОЕ ДОСТИЖЕНИЕ: Недельная серия!`;
     }
-    
-    alert(message);
+
+    if (window.JKModal) {
+        window.JKModal.success(message, 'Поздравляем! Текст завершён!');
+    } else {
+        alert('🎉 Поздравляем! Текст завершён!\n\n' + message);
+    }
 }
 
 console.log('[OK] Progress integration loaded');

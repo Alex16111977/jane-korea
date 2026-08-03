@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Учи корейский по дорамам - 드라마로 배우는 한국어</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== HEADER ===== */
+        .page-header {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .page-header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .page-header .korean-subtitle {
+            font-size: 1.8em;
+            color: #764ba2;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .page-header .description {
+            font-size: 1.1em;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== BACK LINK ===== */
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.9);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* ===== DRAMA CARDS ===== */
+        .drama-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .drama-card:hover {
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .drama-card[data-theme="crash"] { border-left: 4px solid #E91E63; }
+        .drama-card[data-theme="itaewon"] { border-left: 4px solid #FF5722; }
+        .drama-card[data-theme="squid"] { border-left: 4px solid #F44336; }
+        .drama-card[data-theme="glory"] { border-left: 4px solid #9C27B0; }
+        .drama-card[data-theme="tears"] { border-left: 4px solid #2196F3; }
+        .drama-card[data-theme="goblin"] { border-left: 4px solid #607D8B; }
+
+        /* ===== CARD HEADER (collapsed) ===== */
+        .drama-header {
+            padding: 25px 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: background 0.3s ease;
+            user-select: none;
+        }
+
+        .drama-header:hover {
+            background: #f8f9fa;
+        }
+
+        .drama-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .drama-card[data-theme="crash"] .drama-icon { background: linear-gradient(135deg, #E91E63, #F06292); }
+        .drama-card[data-theme="itaewon"] .drama-icon { background: linear-gradient(135deg, #FF5722, #FF8A65); }
+        .drama-card[data-theme="squid"] .drama-icon { background: linear-gradient(135deg, #F44336, #EF5350); }
+        .drama-card[data-theme="glory"] .drama-icon { background: linear-gradient(135deg, #9C27B0, #BA68C8); }
+        .drama-card[data-theme="tears"] .drama-icon { background: linear-gradient(135deg, #2196F3, #64B5F6); }
+        .drama-card[data-theme="goblin"] .drama-icon { background: linear-gradient(135deg, #607D8B, #90A4AE); }
+
+        .drama-header-text {
+            flex: 1;
+        }
+
+        .drama-korean-title {
+            font-size: 2em;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 2px;
+        }
+
+        .drama-card[data-theme="crash"] .drama-korean-title { color: #E91E63; }
+        .drama-card[data-theme="itaewon"] .drama-korean-title { color: #FF5722; }
+        .drama-card[data-theme="squid"] .drama-korean-title { color: #F44336; }
+        .drama-card[data-theme="glory"] .drama-korean-title { color: #9C27B0; }
+        .drama-card[data-theme="tears"] .drama-korean-title { color: #2196F3; }
+        .drama-card[data-theme="goblin"] .drama-korean-title { color: #607D8B; }
+
+        .drama-russian-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 6px;
+        }
+
+        .drama-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .drama-year {
+            font-size: 0.9em;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .genre-tag {
+            display: inline-block;
+            padding: 3px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .drama-card[data-theme="crash"] .genre-tag { background: #FCE4EC; color: #E91E63; }
+        .drama-card[data-theme="itaewon"] .genre-tag { background: #FBE9E7; color: #FF5722; }
+        .drama-card[data-theme="squid"] .genre-tag { background: #FFEBEE; color: #F44336; }
+        .drama-card[data-theme="glory"] .genre-tag { background: #F3E5F5; color: #9C27B0; }
+        .drama-card[data-theme="tears"] .genre-tag { background: #E3F2FD; color: #2196F3; }
+        .drama-card[data-theme="goblin"] .genre-tag { background: #ECEFF1; color: #607D8B; }
+
+        .expand-indicator {
+            font-size: 20px;
+            color: #aaa;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            font-weight: 700;
+        }
+
+        .drama-card.expanded .expand-indicator {
+            transform: rotate(180deg);
+        }
+
+        /* ===== CARD BODY (expanded) ===== */
+        .drama-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .drama-card.expanded .drama-body {
+            max-height: 3000px;
+        }
+
+        .drama-content {
+            padding: 0 30px 30px;
+        }
+
+        /* ===== PHRASES SECTION ===== */
+        .phrases-section {
+            background: #f8f9fa;
+            border-left: 4px solid #2196F3;
+            border-radius: 0 12px 12px 0;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+        }
+
+        .phrases-title {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .phrase-item {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .phrase-item:last-child {
+            border-bottom: none;
+        }
+
+        .phrase-number {
+            font-size: 0.85em;
+            font-weight: 700;
+            color: #aaa;
+            min-width: 24px;
+        }
+
+        .phrase-korean {
+            font-size: 1.15em;
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 180px;
+        }
+
+        .phrase-translation {
+            font-size: 0.95em;
+            color: #666;
+        }
+
+        /* ===== GRAMMAR NOTE ===== */
+        .grammar-note {
+            background: #E8F5E9;
+            border-left: 4px solid #4CAF50;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin-bottom: 20px;
+        }
+
+        .grammar-note-title {
+            font-weight: 700;
+            font-size: 0.95em;
+            color: #2E7D32;
+            margin-bottom: 8px;
+        }
+
+        .grammar-note-text {
+            font-size: 0.95em;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        /* ===== CULTURAL CONTEXT ===== */
+        .cultural-context {
+            background: #FFF8E1;
+            border-left: 4px solid #FFC107;
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin-bottom: 20px;
+        }
+
+        .cultural-context-title {
+            font-weight: 700;
+            font-size: 0.95em;
+            color: #F57F17;
+            margin-bottom: 8px;
+        }
+
+        .cultural-context-text {
+            font-size: 0.95em;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        /* ===== TOGGLE BUTTON ===== */
+        .toggle-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            background: #667eea;
+            color: white;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .toggle-btn:hover {
+            background: #5a6fd6;
+            transform: translateY(-1px);
+        }
+
+        /* ===== KOREAN WORD TOOLTIP ===== */
+        .korean-word {
+            display: inline;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 3px;
+            padding: 2px 1px;
+            position: relative;
+        }
+
+        .korean-word:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .korean-word.clicked {
+            background: #c8e6c9;
+            color: #388e3c;
+        }
+
+        .word-tooltip {
+            position: fixed;
+            background: #2c3e50;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            max-width: 300px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            line-height: 1.5;
+        }
+
+        .word-tooltip.visible {
+            opacity: 1;
+        }
+
+        .word-tooltip .tooltip-korean {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .word-tooltip .tooltip-pronunciation {
+            font-size: 12px;
+            color: #adb5bd;
+            margin-bottom: 4px;
+        }
+
+        .word-tooltip .tooltip-translation {
+            font-size: 13px;
+            color: #e9ecef;
+        }
+
+        /* ===== FOOTER ===== */
+        .page-footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255,255,255,0.6);
+            font-size: 14px;
+        }
+
+        .page-footer a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+
+        .page-footer a:hover {
+            color: white;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 10px;
+            }
+
+            .page-header {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+
+            .page-header h1 {
+                font-size: 1.8em;
+            }
+
+            .page-header .korean-subtitle {
+                font-size: 1.4em;
+            }
+
+            .drama-header {
+                padding: 18px 20px;
+                gap: 14px;
+            }
+
+            .drama-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 20px;
+            }
+
+            .drama-korean-title {
+                font-size: 1.5em;
+            }
+
+            .drama-russian-title {
+                font-size: 1.05em;
+            }
+
+            .drama-content {
+                padding: 0 20px 20px;
+            }
+
+            .phrase-item {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .phrase-korean {
+                min-width: auto;
+            }
+
+            .drama-card {
+                border-radius: 15px;
+            }
+
+            .phrases-section {
+                padding: 15px 18px;
+            }
+
+            .grammar-note,
+            .cultural-context {
+                padding: 14px 16px;
+            }
+
+            .drama-meta {
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+
+    <a href="index.html" class="back-link">&larr; На главную</a>
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h1>Учи корейский по дорамам</h1>
+        <div class="korean-subtitle">드라마로 배우는 한국어</div>
+        <p class="description">Учи корейский с популярными дорамами! Запоминай фразы из любимых сериалов</p>
+    </div>
+
+    <!-- DRAMA 1: Crash Landing on You -->
+    <div class="drama-card" data-theme="crash">
+        <div class="drama-header" onclick="toggleDrama(this)">
+            <div class="drama-icon">&#x1F496;</div>
+            <div class="drama-header-text">
+                <div class="drama-korean-title">사랑의 불시착</div>
+                <div class="drama-russian-title">Аварийная посадка на тебя</div>
+                <div class="drama-meta">
+                    <span class="drama-year">2019</span>
+                    <span class="genre-tag">romance</span>
+                    <span class="genre-tag">drama</span>
+                </div>
+            </div>
+            <div class="expand-indicator">&#x25BC;</div>
+        </div>
+        <div class="drama-body">
+            <div class="drama-content">
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Ключевые фразы из дорамы:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">1.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Я тебя люблю" data-pronunciation="사랑해요 [saranghaeyo]">사랑해요</span></span>
+                        <span class="phrase-translation">— Я тебя люблю</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">2.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Я скучал(а) по тебе" data-pronunciation="보고 싶었어요 [bogo sipeoSSeoyo]">보고 싶었어요</span></span>
+                        <span class="phrase-translation">— Я скучал(а) по тебе</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">3.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Не волнуйтесь" data-pronunciation="걱정하지 마세요 [geokjeonghaji maseyo]">걱정하지 마세요</span></span>
+                        <span class="phrase-translation">— Не волнуйтесь</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">4.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Пойдём вместе" data-pronunciation="같이 가요 [gachi gayo]">같이 가요</span></span>
+                        <span class="phrase-translation">— Пойдём вместе</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">5.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Пожалуйста, поверьте мне" data-pronunciation="믿어 주세요 [mideo juseyo]">믿어 주세요</span></span>
+                        <span class="phrase-translation">— Пожалуйста, поверьте мне</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">6.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Вы в порядке?" data-pronunciation="괜찮아요? [gwaenchanayo?]">괜찮아요?</span></span>
+                        <span class="phrase-translation">— Вы в порядке?</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">7.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Я обещаю" data-pronunciation="약속해요 [yaksokhaeyo]">약속해요</span></span>
+                        <span class="phrase-translation">— Я обещаю</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">8.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Я буду ждать" data-pronunciation="기다릴게요 [gidarilgeyo]">기다릴게요</span></span>
+                        <span class="phrase-translation">— Я буду ждать</span>
+                    </div>
+                </div>
+
+                <div class="grammar-note">
+                    <div class="grammar-note-title">Грамматика: V-아/어 주세요</div>
+                    <div class="grammar-note-text">
+                        Форма вежливой просьбы. Добавляется к основе глагола для обозначения просьбы сделать что-то для кого-то.
+                        Пример: <span class="korean-word" data-translation="верить" data-pronunciation="믿다 [mitda]">믿다</span> (верить) &rarr; <span class="korean-word" data-translation="Пожалуйста, поверьте мне" data-pronunciation="믿어 주세요 [mideo juseyo]">믿어 주세요</span> (пожалуйста, поверьте).
+                    </div>
+                </div>
+
+                <div class="cultural-context">
+                    <div class="cultural-context-title">Культурный контекст</div>
+                    <div class="cultural-context-text">
+                        Дорама показывает культурные различия между Северной и Южной Кореей: быт, еда, язык и обычаи. Несмотря на один язык, диалекты и повседневная жизнь сильно отличаются по обе стороны границы.
+                    </div>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleDrama(this.closest('.drama-card').querySelector('.drama-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DRAMA 2: Itaewon Class -->
+    <div class="drama-card" data-theme="itaewon">
+        <div class="drama-header" onclick="toggleDrama(this)">
+            <div class="drama-icon">&#x1F525;</div>
+            <div class="drama-header-text">
+                <div class="drama-korean-title">이태원 클라쓰</div>
+                <div class="drama-russian-title">Итхэвон Класс</div>
+                <div class="drama-meta">
+                    <span class="drama-year">2020</span>
+                    <span class="genre-tag">business</span>
+                    <span class="genre-tag">youth drama</span>
+                </div>
+            </div>
+            <div class="expand-indicator">&#x25BC;</div>
+        </div>
+        <div class="drama-body">
+            <div class="drama-content">
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Ключевые фразы из дорамы:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">1.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Не сдавайся" data-pronunciation="포기하지 마 [pogihaji ma]">포기하지 마</span></span>
+                        <span class="phrase-translation">— Не сдавайся</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">2.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Я буду стараться изо всех сил" data-pronunciation="열심히 하겠습니다 [yeolsimhi hagetseumnida]">열심히 하겠습니다</span></span>
+                        <span class="phrase-translation">— Я буду стараться изо всех сил</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">3.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Какая у тебя мечта?" data-pronunciation="꿈이 뭐예요? [kkumi mwoyeyo?]">꿈이 뭐예요?</span></span>
+                        <span class="phrase-translation">— Какая у тебя мечта?</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">4.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Ты добьёшься успеха" data-pronunciation="성공할 거예요 [seonggonghal geoyeyo]">성공할 거예요</span></span>
+                        <span class="phrase-translation">— Ты добьёшься успеха</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">5.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Будь уверен в себе" data-pronunciation="자신감을 가져 [jasingameul gajyeo]">자신감을 가져</span></span>
+                        <span class="phrase-translation">— Будь уверен в себе</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">6.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Бросьте вызов себе" data-pronunciation="도전하세요 [dojeonhaseyo]">도전하세요</span></span>
+                        <span class="phrase-translation">— Бросьте вызов себе</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">7.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Давайте вместе" data-pronunciation="함께 해요 [hamkke haeyo]">함께 해요</span></span>
+                        <span class="phrase-translation">— Давайте вместе</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">8.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Я дойду до конца" data-pronunciation="끝까지 가겠습니다 [kkeutkkaji gagetseumnida]">끝까지 가겠습니다</span></span>
+                        <span class="phrase-translation">— Я дойду до конца</span>
+                    </div>
+                </div>
+
+                <div class="grammar-note">
+                    <div class="grammar-note-title">Грамматика: V-겠습니다</div>
+                    <div class="grammar-note-text">
+                        Выражает сильное намерение или решимость сделать что-то. Формальный стиль, часто используется в деловой среде.
+                        Пример: <span class="korean-word" data-translation="делать" data-pronunciation="하다 [hada]">하다</span> (делать) &rarr; <span class="korean-word" data-translation="Я буду стараться изо всех сил" data-pronunciation="열심히 하겠습니다 [yeolsimhi hagetseumnida]">열심히 하겠습니다</span> (я буду стараться).
+                    </div>
+                </div>
+
+                <div class="cultural-context">
+                    <div class="cultural-context-title">Культурный контекст</div>
+                    <div class="cultural-context-text">
+                        Дорама раскрывает корейскую стартап-культуру и район Итхэвон в Сеуле -- один из самых мультикультурных районов города, известный ресторанами, барами и интернациональной атмосферой.
+                    </div>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleDrama(this.closest('.drama-card').querySelector('.drama-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DRAMA 3: Squid Game -->
+    <div class="drama-card" data-theme="squid">
+        <div class="drama-header" onclick="toggleDrama(this)">
+            <div class="drama-icon">&#x1F3AF;</div>
+            <div class="drama-header-text">
+                <div class="drama-korean-title">오징어 게임</div>
+                <div class="drama-russian-title">Игра в кальмара</div>
+                <div class="drama-meta">
+                    <span class="drama-year">2021</span>
+                    <span class="genre-tag">thriller</span>
+                    <span class="genre-tag">survival</span>
+                </div>
+            </div>
+            <div class="expand-indicator">&#x25BC;</div>
+        </div>
+        <div class="drama-body">
+            <div class="drama-content">
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Ключевые фразы из дорамы:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">1.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Пошевелишься -- умрёшь" data-pronunciation="움직이면 죽어 [umjigimyeon jugeo]">움직이면 죽어</span></span>
+                        <span class="phrase-translation">— Пошевелишься -- умрёшь</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">2.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Мы начинаем игру" data-pronunciation="게임을 시작하겠습니다 [geimeul sijakhageseumnida]">게임을 시작하겠습니다</span></span>
+                        <span class="phrase-translation">— Мы начинаем игру</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">3.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Вы выбываете" data-pronunciation="탈락입니다 [tallarimnida]">탈락입니다</span></span>
+                        <span class="phrase-translation">— Вы выбываете</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">4.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Проход / Прошёл" data-pronunciation="통과 [tonggwa]">통과</span></span>
+                        <span class="phrase-translation">— Проход / Прошёл</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">5.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Сделайте свой выбор" data-pronunciation="선택하세요 [seontaekhaseyo]">선택하세요</span></span>
+                        <span class="phrase-translation">— Сделайте свой выбор</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">6.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Времени нет" data-pronunciation="시간이 없어요 [sigani eopseoyo]">시간이 없어요</span></span>
+                        <span class="phrase-translation">— Времени нет</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">7.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Помогите мне" data-pronunciation="도와주세요 [dowajuseyo]">도와주세요</span></span>
+                        <span class="phrase-translation">— Помогите мне</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">8.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Я хочу жить" data-pronunciation="살고 싶어요 [salgo sipeoyo]">살고 싶어요</span></span>
+                        <span class="phrase-translation">— Я хочу жить</span>
+                    </div>
+                </div>
+
+                <div class="grammar-note">
+                    <div class="grammar-note-title">Грамматика: V-(으)면</div>
+                    <div class="grammar-note-text">
+                        Условная форма -- «если». Присоединяется к основе глагола для создания условия.
+                        Пример: <span class="korean-word" data-translation="двигаться" data-pronunciation="움직이다 [umjigida]">움직이다</span> (двигаться) &rarr; <span class="korean-word" data-translation="если пошевелишься" data-pronunciation="움직이면 [umjigimyeon]">움직이면</span> (если пошевелишься).
+                    </div>
+                </div>
+
+                <div class="cultural-context">
+                    <div class="cultural-context-title">Культурный контекст</div>
+                    <div class="cultural-context-text">
+                        Дорама поднимает тему экономического неравенства в корейском обществе: долговые проблемы, социальное расслоение и давление на рядовых граждан в условиях высокой конкуренции.
+                    </div>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleDrama(this.closest('.drama-card').querySelector('.drama-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DRAMA 4: The Glory -->
+    <div class="drama-card" data-theme="glory">
+        <div class="drama-header" onclick="toggleDrama(this)">
+            <div class="drama-icon">&#x2694;&#xFE0F;</div>
+            <div class="drama-header-text">
+                <div class="drama-korean-title">더 글로리</div>
+                <div class="drama-russian-title">Слава</div>
+                <div class="drama-meta">
+                    <span class="drama-year">2022-2023</span>
+                    <span class="genre-tag">revenge</span>
+                    <span class="genre-tag">thriller</span>
+                </div>
+            </div>
+            <div class="expand-indicator">&#x25BC;</div>
+        </div>
+        <div class="drama-body">
+            <div class="drama-content">
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Ключевые фразы из дорамы:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">1.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Я отомщу" data-pronunciation="복수할 거예요 [boksuhal geoyeyo]">복수할 거예요</span></span>
+                        <span class="phrase-translation">— Я отомщу</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">2.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Вы помните?" data-pronunciation="기억나요? [gieongayo?]">기억나요?</span></span>
+                        <span class="phrase-translation">— Вы помните?</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">3.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Не врите" data-pronunciation="거짓말하지 마세요 [geojinmalhaji maseyo]">거짓말하지 마세요</span></span>
+                        <span class="phrase-translation">— Не врите</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">4.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Я хочу знать правду" data-pronunciation="진실을 알고 싶어요 [jinsireul algo sipeoyo]">진실을 알고 싶어요</span></span>
+                        <span class="phrase-translation">— Я хочу знать правду</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">5.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Я никогда не забуду" data-pronunciation="절대 잊지 않겠습니다 [jeoldae itji anketseumnida]">절대 잊지 않겠습니다</span></span>
+                        <span class="phrase-translation">— Я никогда не забуду</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">6.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Вы должны заплатить цену" data-pronunciation="대가를 치러야 해요 [daegareul chirheoya haeyo]">대가를 치러야 해요</span></span>
+                        <span class="phrase-translation">— Вы должны заплатить за это</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">7.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Всё кончено" data-pronunciation="모든 것이 끝났어요 [modeun geosi kkeutnaSSeoyo]">모든 것이 끝났어요</span></span>
+                        <span class="phrase-translation">— Всё кончено</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">8.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Справедливость побеждает" data-pronunciation="정의는 이긴다 [jeonguineun iginda]">정의는 이긴다</span></span>
+                        <span class="phrase-translation">— Справедливость побеждает</span>
+                    </div>
+                </div>
+
+                <div class="grammar-note">
+                    <div class="grammar-note-title">Грамматика: V-(으)ㄹ 거예요</div>
+                    <div class="grammar-note-text">
+                        Будущее время для выражения планов и намерений. Добавляется к основе глагола.
+                        Пример: <span class="korean-word" data-translation="мстить" data-pronunciation="복수하다 [boksuhada]">복수하다</span> (мстить) &rarr; <span class="korean-word" data-translation="Я отомщу" data-pronunciation="복수할 거예요 [boksuhal geoyeyo]">복수할 거예요</span> (я отомщу).
+                    </div>
+                </div>
+
+                <div class="cultural-context">
+                    <div class="cultural-context-title">Культурный контекст</div>
+                    <div class="cultural-context-text">
+                        Дорама затрагивает проблему школьного буллинга в Корее и системные недостатки, которые позволяют обидчикам избегать ответственности. Тема мести и справедливости глубоко резонирует с корейским чувством хан.
+                    </div>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleDrama(this.closest('.drama-card').querySelector('.drama-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DRAMA 5: Queen of Tears -->
+    <div class="drama-card" data-theme="tears">
+        <div class="drama-header" onclick="toggleDrama(this)">
+            <div class="drama-icon">&#x1F4A7;</div>
+            <div class="drama-header-text">
+                <div class="drama-korean-title">눈물의 여왕</div>
+                <div class="drama-russian-title">Королева слёз</div>
+                <div class="drama-meta">
+                    <span class="drama-year">2024</span>
+                    <span class="genre-tag">romance</span>
+                    <span class="genre-tag">comedy</span>
+                </div>
+            </div>
+            <div class="expand-indicator">&#x25BC;</div>
+        </div>
+        <div class="drama-body">
+            <div class="drama-content">
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Ключевые фразы из дорамы:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">1.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Не плачьте" data-pronunciation="울지 마세요 [ulji maseyo]">울지 마세요</span></span>
+                        <span class="phrase-translation">— Не плачьте</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">2.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Я был(а) счастлив(а)" data-pronunciation="행복했어요 [haengbokaesseoyo]">행복했어요</span></span>
+                        <span class="phrase-translation">— Я был(а) счастлив(а)</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">3.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Простите" data-pronunciation="미안해요 [mianhaeyo]">미안해요</span></span>
+                        <span class="phrase-translation">— Простите</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">4.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Хочу быть вместе" data-pronunciation="함께 있고 싶어요 [hamkke itgo sipeoyo]">함께 있고 싶어요</span></span>
+                        <span class="phrase-translation">— Хочу быть вместе</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">5.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Хочу развестись" data-pronunciation="이혼하고 싶어요 [ihonhago sipeoyo]">이혼하고 싶어요</span></span>
+                        <span class="phrase-translation">— Хочу развестись</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">6.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Любовь не меняется" data-pronunciation="사랑은 변하지 않아요 [sarangeun byeonhaji anayo]">사랑은 변하지 않아요</span></span>
+                        <span class="phrase-translation">— Любовь не меняется</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">7.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Вы не знаете моих чувств?" data-pronunciation="제 마음을 몰라요? [je maeumeul mollayo?]">제 마음을 몰라요?</span></span>
+                        <span class="phrase-translation">— Вы не знаете моих чувств?</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">8.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Давайте начнём сначала" data-pronunciation="다시 시작해요 [dasi sijakhaeyo]">다시 시작해요</span></span>
+                        <span class="phrase-translation">— Давайте начнём сначала</span>
+                    </div>
+                </div>
+
+                <div class="grammar-note">
+                    <div class="grammar-note-title">Грамматика: V-고 싶다</div>
+                    <div class="grammar-note-text">
+                        Выражает желание сделать что-либо -- «хочу (сделать)». Присоединяется к основе глагола.
+                        Пример: <span class="korean-word" data-translation="быть, находиться" data-pronunciation="있다 [itda]">있다</span> (быть) &rarr; <span class="korean-word" data-translation="Хочу быть вместе" data-pronunciation="함께 있고 싶어요 [hamkke itgo sipeoyo]">함께 있고 싶어요</span> (хочу быть вместе).
+                    </div>
+                </div>
+
+                <div class="cultural-context">
+                    <div class="cultural-context-title">Культурный контекст</div>
+                    <div class="cultural-context-text">
+                        Дорама отражает особенности корейских семейных отношений: влияние семей чеболей, давление общества на пары и важность семейного одобрения в браке. Показывает контраст между богатыми семьями и простыми людьми.
+                    </div>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleDrama(this.closest('.drama-card').querySelector('.drama-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DRAMA 6: Goblin -->
+    <div class="drama-card" data-theme="goblin">
+        <div class="drama-header" onclick="toggleDrama(this)">
+            <div class="drama-icon">&#x1F56F;&#xFE0F;</div>
+            <div class="drama-header-text">
+                <div class="drama-korean-title">도깨비</div>
+                <div class="drama-russian-title">Токкеби / Гоблин</div>
+                <div class="drama-meta">
+                    <span class="drama-year">2016-2017</span>
+                    <span class="genre-tag">fantasy</span>
+                    <span class="genre-tag">romance</span>
+                </div>
+            </div>
+            <div class="expand-indicator">&#x25BC;</div>
+        </div>
+        <div class="drama-body">
+            <div class="drama-content">
+
+                <div class="phrases-section">
+                    <div class="phrases-title">Ключевые фразы из дорамы:</div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">1.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Пойдёт ли первый снег?" data-pronunciation="첫눈이 올까요? [cheonnuni olkkayo?]">첫눈이 올까요?</span></span>
+                        <span class="phrase-translation">— Пойдёт ли первый снег?</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">2.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Грустно и красиво" data-pronunciation="슬프고 아름다운 [seulpeugo areumdaun]">슬프고 아름다운</span></span>
+                        <span class="phrase-translation">— Грустно и красиво</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">3.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Будьте вместе вечно" data-pronunciation="영원히 함께 해요 [yeongwonhi hamkke haeyo]">영원히 함께 해요</span></span>
+                        <span class="phrase-translation">— Будьте вместе вечно</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">4.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Это судьба" data-pronunciation="운명이에요 [unmyeongieyo]">운명이에요</span></span>
+                        <span class="phrase-translation">— Это судьба</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">5.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Произошло чудо" data-pronunciation="기적이 일어났어요 [gijeogi ireonaSSeoyo]">기적이 일어났어요</span></span>
+                        <span class="phrase-translation">— Произошло чудо</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">6.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="До свидания / Счастливого пути" data-pronunciation="잘 가요 [jal gayo]">잘 가요</span></span>
+                        <span class="phrase-translation">— До свидания / Счастливого пути</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">7.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Рад(а) был(а) познакомиться" data-pronunciation="만나서 반가웠어요 [mannaseo bangawosseoyo]">만나서 반가웠어요</span></span>
+                        <span class="phrase-translation">— Рад(а) был(а) познакомиться</span>
+                    </div>
+                    <div class="phrase-item">
+                        <span class="phrase-number">8.</span>
+                        <span class="phrase-korean"><span class="korean-word" data-translation="Запомните этот момент" data-pronunciation="이 순간을 기억해요 [i sunganeul gieokhaeyo]">이 순간을 기억해요</span></span>
+                        <span class="phrase-translation">— Запомните этот момент</span>
+                    </div>
+                </div>
+
+                <div class="grammar-note">
+                    <div class="grammar-note-title">Грамматика: V-(으)ㄹ까요?</div>
+                    <div class="grammar-note-text">
+                        Используется для вопроса-предположения («интересно, ...?») или предложения сделать что-то вместе («может, нам...?»).
+                        Пример: <span class="korean-word" data-translation="приходить, идти" data-pronunciation="오다 [oda]">오다</span> (приходить) &rarr; <span class="korean-word" data-translation="Пойдёт ли (снег)?" data-pronunciation="올까요? [olkkayo?]">올까요?</span> (пойдёт ли?).
+                    </div>
+                </div>
+
+                <div class="cultural-context">
+                    <div class="cultural-context-title">Культурный контекст</div>
+                    <div class="cultural-context-text">
+                        Дорама основана на корейской мифологии о токкеби -- духах-гоблинах из корейского фольклора. Первый снег в Корее имеет особое романтическое значение: считается, что если загадать желание при первом снеге, оно сбудется.
+                    </div>
+                </div>
+
+                <button class="toggle-btn" onclick="toggleDrama(this.closest('.drama-card').querySelector('.drama-header'))">Свернуть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="page-footer">
+        <a href="index.html">Miso: 한국어 수업</a> — Изучение корейского языка
+    </div>
+
+</div>
+
+<!-- Tooltip element -->
+<div class="word-tooltip" id="wordTooltip"></div>
+
+<script src="js/progress-tracker.js"></script>
+<script src="js/global-nav.js"></script>
+<script>
+    // ===== TOGGLE DRAMAS =====
+    function toggleDrama(headerEl) {
+        var card = headerEl.closest('.drama-card');
+        if (!card) return;
+
+        var wasExpanded = card.classList.contains('expanded');
+
+        if (wasExpanded) {
+            card.classList.remove('expanded');
+        } else {
+            card.classList.add('expanded');
+        }
+    }
+
+    // ===== WORD TOOLTIP =====
+    (function() {
+        var tooltip = document.getElementById('wordTooltip');
+        var allWords = document.querySelectorAll('.korean-word');
+
+        allWords.forEach(function(word) {
+            word.addEventListener('click', function(e) {
+                e.stopPropagation();
+
+                var koreanText = this.textContent.trim();
+                var translation = this.dataset.translation || '';
+                var pronunciation = this.dataset.pronunciation || '';
+
+                // Remove previous active state
+                document.querySelectorAll('.korean-word.clicked').forEach(function(w) {
+                    w.classList.remove('clicked');
+                });
+                this.classList.add('clicked');
+
+                // Build tooltip content
+                tooltip.innerHTML =
+                    '<div class="tooltip-korean">' + koreanText + '</div>' +
+                    (pronunciation ? '<div class="tooltip-pronunciation">' + pronunciation + '</div>' : '') +
+                    '<div class="tooltip-translation">' + translation + '</div>';
+
+                // Position tooltip
+                var rect = this.getBoundingClientRect();
+                var tooltipWidth = 250;
+                var left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
+                var top = rect.top - 10;
+
+                // Keep within viewport
+                if (left < 10) left = 10;
+                if (left + tooltipWidth > window.innerWidth - 10) {
+                    left = window.innerWidth - tooltipWidth - 10;
+                }
+
+                tooltip.style.left = left + 'px';
+                tooltip.style.width = tooltipWidth + 'px';
+                tooltip.style.top = 'auto';
+                tooltip.style.bottom = (window.innerHeight - top) + 'px';
+
+                tooltip.classList.add('visible');
+            });
+        });
+
+        // Hide tooltip on click outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.classList.contains('korean-word')) {
+                tooltip.classList.remove('visible');
+                document.querySelectorAll('.korean-word.clicked').forEach(function(w) {
+                    w.classList.remove('clicked');
+                });
+            }
+        });
+    })();
+
+    console.log('[OK] Dramas page loaded');
+</script>
+
+</body>
+</html>

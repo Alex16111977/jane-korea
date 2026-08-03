@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Написание 민원 (гражданского обращения) — 6급</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #2f6fd0 0%, #1a3f8f 100%);
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 10px 20px;
+            background: rgba(255,255,255,0.15); border-radius: 25px;
+            font-weight: 500; transition: all 0.3s ease; backdrop-filter: blur(10px);
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.25); transform: translateY(-2px); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            border-radius: 20px; padding: 30px; margin-bottom: 30px; text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        .header h1 { color: #F44336; font-size: 2.2em; margin-bottom: 10px; }
+        .header .subtitle { color: #666; font-size: 1.05em; }
+
+        main {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(20px);
+            border-radius: 25px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        section { margin-bottom: 40px; }
+
+        h2 {
+            color: #4a5568; font-size: 1.6em; margin-bottom: 20px; padding-bottom: 10px;
+            border-bottom: 3px solid #F44336;
+        }
+        h3 { color: #2d3748; font-size: 1.2em; margin-bottom: 12px; margin-top: 20px; }
+        h4 { color: #4a5568; font-size: 1.05em; margin-bottom: 10px; font-weight: 600; }
+
+        .lesson-intro {
+            background: linear-gradient(135deg, #d81b6015, #7b103015);
+            padding: 25px; border-radius: 15px; border-left: 5px solid #F44336;
+        }
+        .lesson-intro ul { list-style: none; }
+        .lesson-intro li { padding: 8px 0; padding-left: 30px; position: relative; }
+        .lesson-intro li::before { content: '✓'; position: absolute; left: 0; color: #F44336; font-weight: bold; }
+
+        .structure-box {
+            background: rgba(244, 67, 54, 0.06); border-radius: 14px; padding: 20px; margin: 14px 0;
+            border-left: 4px solid #F44336;
+        }
+        .structure-box .part-label { font-weight: 700; color: #D32F2F; margin-bottom: 4px; }
+        .structure-box .part-text { color: #333; }
+
+        .phrase-item {
+            background: white; padding: 14px 18px; border-radius: 10px; margin: 10px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08); border-left: 4px solid #764ba2;
+        }
+        .phrase-item .korean { font-size: 1.1em; font-weight: 500; color: #2d3748; }
+        .phrase-item .meaning { color: #4a5568; font-size: 0.92em; margin-top: 3px; }
+
+        .sample-box {
+            background: #fafafa; border: 1px solid #e0e0e0; border-radius: 14px;
+            padding: 20px; margin: 16px 0; white-space: pre-line; font-size: 0.98em;
+        }
+
+        .practice-prompt {
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f); color: white;
+            padding: 22px; border-radius: 15px; margin-bottom: 16px;
+        }
+        .practice-prompt h4 { color: white; margin-bottom: 8px; }
+
+        .essay-textarea {
+            width: 100%; min-height: 180px; padding: 16px; border: 2px solid #d1c4e9;
+            border-radius: 14px; font-family: inherit; font-size: 1em; line-height: 1.7;
+            resize: vertical; outline: none;
+        }
+        .essay-textarea:focus { border-color: #764ba2; }
+        .essay-counter { text-align: right; font-size: 0.85em; color: #55506e; margin: 6px 0 16px; }
+        .essay-counter.ok { color: #2e7d32; font-weight: 600; }
+        .essay-counter.low { color: #c62828; }
+
+        .reveal-btn {
+            padding: 12px 24px; border: 2px solid #764ba2; background: transparent; color: #764ba2;
+            border-radius: 12px; font-weight: 600; cursor: pointer; font-family: inherit; font-size: 1em;
+        }
+        .reveal-btn:hover { background: #764ba2; color: white; }
+        .reveal-btn:disabled { opacity: 0.5; cursor: default; background: transparent; color: #764ba2; }
+
+        .model-answer-box {
+            display: none; margin-top: 18px; background: #e8f5e9; border-radius: 14px; padding: 18px 20px;
+        }
+        .model-answer-box.visible { display: block; }
+        .model-answer-box h4 { color: #2e7d32; margin-bottom: 8px; }
+        .model-answer-text { white-space: pre-line; font-size: 0.96em; margin-bottom: 14px; }
+        .checklist { list-style: none; padding: 0; }
+        .checklist li { font-size: 0.9em; color: #444; margin-bottom: 6px; padding-left: 22px; position: relative; }
+        .checklist li::before { content: '☑'; position: absolute; left: 0; color: #4caf50; }
+
+        .summary-box { background: linear-gradient(135deg, #d81b60, #7b1030); color: white; padding: 25px; border-radius: 15px; }
+        .summary-box ul { list-style: none; }
+        .summary-box li { padding: 8px 0; padding-left: 25px; position: relative; }
+        .summary-box li::before { content: '📌'; position: absolute; left: 0; }
+
+        footer { text-align: center; padding: 20px; color: white; font-size: 0.9em; }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../index.html">🏠 Главная</a>
+            <a href="../index.html">🎓 6급 Уровень</a>
+        </div>
+
+        <div class="header">
+            <h1>✍️ Написание 민원 (гражданского обращения)</h1>
+            <p class="subtitle">От чтения к письму: составляем официальное обращение в госорган самостоятельно</p>
+        </div>
+
+        <main>
+            <section class="lesson-intro">
+                <h2>📖 Что мы изучаем</h2>
+                <p>민원 — официальное письменное обращение гражданина в госорган (жалоба, просьба, запрос). В отличие от урока про язык госдокументов, где вы учились ПОНИМАТЬ такие тексты, здесь вы напишете 민원 самостоятельно — по фиксированной структуре и с готовыми формулами.</p>
+                <ul>
+                    <li>Структура: 제목 → описание ситуации → конкретная просьба → вежливая формула-концовка</li>
+                    <li>Ключевые формулы: 민원을 제기하다, 조치를 취해 주시기 바랍니다, 조속한 처리 부탁드립니다</li>
+                    <li>В конце — своё упражнение с примером ответа и чек-листом для самопроверки</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>🏗️ Структура 민원</h2>
+                <div class="structure-box">
+                    <div class="part-label">1. 제목 (заголовок)</div>
+                    <div class="part-text">Кратко и по существу: чего касается обращение — "OO 수리 요청" (просьба о ремонте OO)</div>
+                </div>
+                <div class="structure-box">
+                    <div class="part-label">2. 현황 설명 (описание ситуации)</div>
+                    <div class="part-text">Что произошло, когда, где — конкретно и без эмоций</div>
+                </div>
+                <div class="structure-box">
+                    <div class="part-label">3. 요청 사항 (конкретная просьба)</div>
+                    <div class="part-text">Чего именно вы хотите добиться — не жалуйтесь абстрактно, а сформулируйте требование</div>
+                </div>
+                <div class="structure-box">
+                    <div class="part-label">4. 맺음 (вежливая концовка)</div>
+                    <div class="part-text">Формула с просьбой рассмотреть обращение и принять меры</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>🗝️ Ключевые формулы</h2>
+                <div class="phrase-item">
+                    <div class="korean">민원을 제기하다</div>
+                    <div class="meaning">подать/оформить обращение (официальный термин для самого действия)</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">~에 대하여 다음과 같이 신청합니다</div>
+                    <div class="meaning">настоящим подаю обращение относительно ~ следующего содержания</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">조치를 취해 주시기 바랍니다</div>
+                    <div class="meaning">прошу принять меры</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">조속한 처리 부탁드립니다</div>
+                    <div class="meaning">прошу о скорейшем рассмотрении</div>
+                </div>
+                <div class="phrase-item">
+                    <div class="korean">검토 후 회신해 주시기 바랍니다</div>
+                    <div class="meaning">прошу дать ответ после рассмотрения</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>📄 Образец</h2>
+                <div class="sample-box">제목: 아파트 앞 가로등 고장 수리 요청
+
+안녕하십니까. 저는 OO아파트 101동에 거주하는 주민입니다. 다름이 아니라 저희 아파트 정문 앞 가로등이 약 2주 전부터 고장 나 밤마다 주변이 매우 어두운 상태입니다. 특히 늦은 시간에 귀가하는 주민들의 안전이 우려되는 상황입니다.
+
+이에 신속한 수리 조치를 취해 주시기를 요청드립니다. 조속한 처리 부탁드리며, 검토 후 회신해 주시면 감사하겠습니다.</div>
+            </section>
+
+            <section>
+                <h2>✍️ Ваша очередь</h2>
+                <div class="practice-prompt">
+                    <h4>Задание</h4>
+                    <p>당신이 사는 아파트 단지 놀이터의 운동기구가 오래되어 녹슬고 위험합니다. 구청에 교체를 요청하는 민원을 작성하세요. (200자 이상)</p>
+                    <p style="margin-top:8px; opacity:0.9;">Во дворе вашего дома проржавели и стали опасными спортивные тренажёры на детской площадке. Напишите обращение в районную администрацию с просьбой их заменить. (200+ символов)</p>
+                </div>
+                <textarea class="essay-textarea" id="userEssay" placeholder="여기에 민원을 작성하십시오..."></textarea>
+                <div class="essay-counter" id="essayCounter">0 / 200자 이상</div>
+                <button class="reveal-btn" id="revealBtn">Показать пример ответа и чек-лист</button>
+                <div class="model-answer-box" id="modelBox">
+                    <h4>Пример ответа:</h4>
+                    <div class="model-answer-text">제목: 놀이터 운동기구 교체 요청
+
+안녕하십니까. 저는 OO아파트 주민입니다. 저희 단지 놀이터에 설치된 운동기구들이 오래되어 곳곳이 녹슬고 일부는 고정 부분이 헐거워져 안전사고의 위험이 있습니다. 특히 어린이들이 자주 이용하는 시설이라 더욱 걱정됩니다.
+
+이에 노후 운동기구를 안전한 제품으로 교체해 주시기를 요청드립니다. 조속한 처리 부탁드리며, 검토 후 회신해 주시면 감사하겠습니다.</div>
+                    <h4>Проверьте себя:</h4>
+                    <ul class="checklist">
+                        <li>제목(주제)을 명시했는가?</li>
+                        <li>현재 상황(문제)을 구체적으로 설명했는가?</li>
+                        <li>구체적인 요청 사항을 밝혔는가?</li>
+                        <li>"~요청드립니다/부탁드립니다" 등 공손한 표현을 사용했는가?</li>
+                        <li>200자 이상 작성했는가?</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2>📋 Краткое содержание</h2>
+                <div class="summary-box">
+                    <ul>
+                        <li>Структура 민원: 제목 → 현황 설명 → 요청 사항 → 맺음 (вежливая формула)</li>
+                        <li>Просьба должна быть конкретной, не абстрактной жалобой</li>
+                        <li>Ключевые формулы: 조치를 취해 주시기 바랍니다, 조속한 처리 부탁드립니다</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Корейский язык с Джейн. Все права защищены.</p>
+        </footer>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white; border: none; padding: 18px 40px; font-size: 1.2em;
+                font-weight: 600; border-radius: 30px; cursor: pointer;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level6_lesson_minwon_writing';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var MIN_LEN = 200;
+            var textarea = document.getElementById('userEssay');
+            var counter = document.getElementById('essayCounter');
+            textarea.addEventListener('input', function() {
+                var len = textarea.value.replace(/\s/g, '').length;
+                counter.textContent = len + ' / ' + MIN_LEN + '자 이상';
+                counter.className = 'essay-counter' + (len >= MIN_LEN ? ' ok' : ' low');
+            });
+
+            var revealBtn = document.getElementById('revealBtn');
+            revealBtn.addEventListener('click', function() {
+                document.getElementById('modelBox').classList.add('visible');
+                revealBtn.disabled = true;
+                revealBtn.textContent = '모범 답안 확인 완료';
+            });
+        });
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

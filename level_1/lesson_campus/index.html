@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Университет: аудитория и кампус | 1급 Корейский язык</title>
+    <link href="../../css/style.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                linear-gradient(135deg, #2e9e5b 0%, #14663a 100%);
+            min-height: 100vh; color: #333;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: #2b2440; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #2e7031; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #2e7d32; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.05em; }
+        .header .lesson-number { font-size: 0.95em; color: #ffffff; margin-bottom: 10px; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 { color: #2e7031; margin-top: 0; font-size: 1.8em; border-bottom: 3px solid #4caf50; padding-bottom: 10px; }
+
+        .grammar-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0;
+        }
+        .grammar-table th { background: #4caf50; color: #2b2440; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+        .table-wrap { overflow-x: auto; }
+
+        .tip-box {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .warning-box {
+            background: #fff8e1; border-left: 4px solid #FFC107;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .formula-box {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+            text-align: center; font-size: 1.4em; font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .example-card {
+            background: linear-gradient(135deg, #eefaf1, #d8f0e0);
+            border-left: 5px solid #4caf50;
+            padding: 20px 25px; border-radius: 12px; margin: 15px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .example-card .korean { font-size: 1.3em; font-weight: 700; color: #2e7d32; margin-bottom: 8px; }
+        .example-card .pron { font-size: 0.95em; color: #4e7a29; font-style: italic; margin-bottom: 6px; }
+        .example-card .ru { font-size: 1em; color: #555; }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .korean-text { font-size: 1.1em; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; font-style: italic; }
+        .dialogue-play-btn {
+            background: rgba(255,255,255,0.25); color: #2b2440; border: 2px solid rgba(255,255,255,0.4);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer;
+            font-size: 1em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.3s ease; margin-bottom: 15px;
+        }
+        .dialogue-play-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .drop { background: rgba(244,67,54,0.15); color: #c62828; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+        .keep { background: rgba(76,175,80,0.25); padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .audio-btn-light {
+            background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn-light:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .rule-visual {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 20px; margin: 15px 0; flex-wrap: wrap;
+        }
+        .rule-block {
+            padding: 12px 20px; border-radius: 12px; font-weight: 700; font-size: 1.2em;
+            text-align: center;
+        }
+        .rule-stem { background: #e3f2fd; color: #1565c0; border: 2px solid #90caf9; }
+        .rule-cut { background: #ffebee; color: #c62828; border: 2px solid #ef9a9a; text-decoration: line-through; }
+        .rule-end { background: #e8f5e9; color: #2e7d32; border: 2px solid #a5d6a7; }
+        .rule-arrow { font-size: 1.3em; color: #55506e; }
+
+        .practice-section {
+            background: linear-gradient(135deg, #eefaf1, #d8f0e0);
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .practice-section h2 { color: #1b5e20; margin-bottom: 20px; font-size: 1.5em; border-bottom: none; }
+
+        .exercise-block {
+            background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px;
+            margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .exercise-question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .exercise-options label {
+            display: block; padding: 10px 15px; margin: 6px 0;
+            background: #f5f5f5; border-radius: 10px; cursor: pointer;
+            transition: all 0.3s ease; font-size: 1em;
+        }
+        .exercise-options label:hover { background: #e8f5e9; }
+        .exercise-options input[type="radio"] { margin-right: 10px; accent-color: #4caf50; }
+        .exercise-check-btn {
+            background: #4caf50; color: #2b2440; padding: 10px 25px; border: none;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            transition: all 0.3s ease; margin-top: 10px;
+        }
+        .exercise-check-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .exercise-feedback { margin-top: 10px; padding: 8px; font-weight: 600; font-size: 1em; }
+
+        .summary-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
+        }
+        .summary-item {
+            background: rgba(255,255,255,0.2); padding: 15px; border-radius: 10px;
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+        }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .content-section { padding: 25px; }
+            .rule-visual { gap: 5px; }
+            .rule-block { padding: 8px 14px; font-size: 1em; }
+            .summary-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../index.html">&larr; Назад к 1급</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <div class="lesson-number">1급 | Лексика</div>
+            <h1>Университет: аудитория, кампус, этажи</h1>
+            <div class="korean-title">교실과 학교 &mdash; 어디에 있어요? <button class="audio-btn" onclick="speakKorean('도서관이 어디에 있어요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+            <div class="description">Слова, без которых нельзя ни найти аудиторию, ни спросить, где столовая</div>
+        </header>
+
+        <!-- ====== СЕКЦИЯ 1 ====== -->
+        <div class="content-section">
+            <h2>1. Что в аудитории</h2>
+            <p>Оглянитесь вокруг на занятии &mdash; вот весь список.</p>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Корейский</th><th>Чтение</th><th>Перевод</th><th>Звук</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>칠판</strong></td><td>[чхильпхан]</td><td>доска</td><td><button class="audio-btn" onclick="speakKorean('칠판')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>분필</strong></td><td>[бунпхиль]</td><td>мел</td><td><button class="audio-btn" onclick="speakKorean('분필')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>책상</strong></td><td>[чхэксанъ]</td><td>парта, стол</td><td><button class="audio-btn" onclick="speakKorean('책상')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>의자</strong></td><td>[ыйджа]</td><td>стул</td><td><button class="audio-btn" onclick="speakKorean('의자')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>문</strong></td><td>[мун]</td><td>дверь</td><td><button class="audio-btn" onclick="speakKorean('문')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>창문</strong></td><td>[чханмун]</td><td>окно</td><td><button class="audio-btn" onclick="speakKorean('창문')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>시계</strong></td><td>[сиге]</td><td>часы</td><td><button class="audio-btn" onclick="speakKorean('시계')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>달력</strong></td><td>[тальлёк]</td><td>календарь</td><td><button class="audio-btn" onclick="speakKorean('달력')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>지도</strong></td><td>[чидо]</td><td>карта</td><td><button class="audio-btn" onclick="speakKorean('지도')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>그림</strong></td><td>[кырим]</td><td>картина, рисунок</td><td><button class="audio-btn" onclick="speakKorean('그림')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>옷걸이</strong></td><td>[откори]</td><td>вешалка</td><td><button class="audio-btn" onclick="speakKorean('옷걸이')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>텔레비전</strong></td><td>[тхеллебиджон]</td><td>телевизор</td><td><button class="audio-btn" onclick="speakKorean('텔레비전')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>컴퓨터</strong></td><td>[кхомпхьютхо]</td><td>компьютер</td><td><button class="audio-btn" onclick="speakKorean('컴퓨터')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>에어컨</strong></td><td>[еокхон]</td><td>кондиционер</td><td><button class="audio-btn" onclick="speakKorean('에어컨')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">교실에 칠판하고 책상이 있습니다. <button class="audio-btn" onclick="speakKorean('교실에 칠판하고 책상이 있습니다')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[кёсире чхильпханхаго чхэксанъи иссымнида]</div>
+                <div class="ru">В аудитории есть доска и парты.</div>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">창문 옆에 지도가 있어요. <button class="audio-btn" onclick="speakKorean('창문 옆에 지도가 있어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[чханмун ёпхе чидога иссойо]</div>
+                <div class="ru">Рядом с окном висит карта.</div>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 2 ====== -->
+        <div class="content-section">
+            <h2>2. Что в сумке</h2>
+            <p>Эти слова постоянно нужны в диалогах &laquo;чьё это?&raquo; и &laquo;у вас есть...?&raquo;.</p>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Корейский</th><th>Перевод</th><th>Корейский</th><th>Перевод</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>가방</strong></td><td>сумка</td><td><strong>지갑</strong></td><td>кошелёк</td></tr>
+                    <tr><td><strong>여권</strong></td><td>паспорт (загран.)</td><td><strong>신분증</strong></td><td>удостоверение личности</td></tr>
+                    <tr><td><strong>교과서</strong></td><td>учебник</td><td><strong>공책</strong></td><td>тетрадь</td></tr>
+                    <tr><td><strong>사전</strong></td><td>словарь</td><td><strong>수첩</strong></td><td>записная книжка</td></tr>
+                    <tr><td><strong>연필</strong></td><td>карандаш</td><td><strong>볼펜</strong></td><td>ручка</td></tr>
+                    <tr><td><strong>지우개</strong></td><td>ластик</td><td><strong>자</strong></td><td>линейка</td></tr>
+                    <tr><td><strong>열쇠</strong></td><td>ключ</td><td><strong>거울</strong></td><td>зеркало</td></tr>
+                    <tr><td><strong>휴지</strong></td><td>салфетки, бумага</td><td><strong>손수건</strong></td><td>носовой платок</td></tr>
+                    <tr><td><strong>우산</strong></td><td>зонт</td><td><strong>카드</strong></td><td>карта (банковская)</td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">가방 안에 지갑하고 여권이 있어요. <button class="audio-btn" onclick="speakKorean('가방 안에 지갑하고 여권이 있어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[кабанъ ане чигапхаго ёккуони иссойо]</div>
+                <div class="ru">В сумке кошелёк и паспорт.</div>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">이것이 누구 우산이에요? <button class="audio-btn" onclick="speakKorean('이것이 누구 우산이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[игоси нугу усаниейо]</div>
+                <div class="ru">Чей это зонт?</div>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 3 ====== -->
+        <div class="content-section">
+            <h2>3. Помещения кампуса</h2>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Корейский</th><th>Чтение</th><th>Перевод</th><th>Звук</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>교실</strong></td><td>[кёсиль]</td><td>класс, аудитория</td><td><button class="audio-btn" onclick="speakKorean('교실')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>강의실</strong></td><td>[канъыйсиль]</td><td>лекционная аудитория</td><td><button class="audio-btn" onclick="speakKorean('강의실')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>도서관</strong></td><td>[тосогван]</td><td>библиотека</td><td><button class="audio-btn" onclick="speakKorean('도서관')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>서점</strong></td><td>[соджом]</td><td>книжный магазин</td><td><button class="audio-btn" onclick="speakKorean('서점')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>식당</strong></td><td>[сиктанъ]</td><td>столовая, ресторан</td><td><button class="audio-btn" onclick="speakKorean('식당')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>매점</strong></td><td>[мэджом]</td><td>киоск, буфет</td><td><button class="audio-btn" onclick="speakKorean('매점')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>사무실</strong></td><td>[самусиль]</td><td>офис, канцелярия</td><td><button class="audio-btn" onclick="speakKorean('사무실')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>학생회관</strong></td><td>[хэксэнъхвэгван]</td><td>студенческий центр</td><td><button class="audio-btn" onclick="speakKorean('학생회관')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>기숙사</strong></td><td>[кисукса]</td><td>общежитие</td><td><button class="audio-btn" onclick="speakKorean('기숙사')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>화장실</strong></td><td>[хваджанъсиль]</td><td>туалет</td><td><button class="audio-btn" onclick="speakKorean('화장실')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>운동장</strong></td><td>[ундонъджанъ]</td><td>стадион, спортплощадка</td><td><button class="audio-btn" onclick="speakKorean('운동장')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>체육관</strong></td><td>[чхеюкгван]</td><td>спортзал</td><td><button class="audio-btn" onclick="speakKorean('체육관')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>주차장</strong></td><td>[чучхаджанъ]</td><td>парковка</td><td><button class="audio-btn" onclick="speakKorean('주차장')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td><strong>정문</strong></td><td>[чонъмун]</td><td>главные ворота</td><td><button class="audio-btn" onclick="speakKorean('정문')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="tip-box">
+                Полезная логика иероглифических корней: <strong>-실</strong> = комната (교실, 사무실, 화장실), <strong>-관</strong> = здание (도서관, 체육관, 학생회관), <strong>-장</strong> = площадка (운동장, 주차장).
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 4 ====== -->
+        <div class="content-section">
+            <h2>4. Этажи: 몇 층이에요?</h2>
+            <p>Этажи считаются китайско-корейскими числами + счётное слово <strong>층</strong>.</p>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Запись</th><th>Чтение</th><th>Перевод</th><th>Звук</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1층</td><td>일 층</td><td>первый этаж</td><td><button class="audio-btn" onclick="speakKorean('일 층')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>2층</td><td>이 층</td><td>второй этаж</td><td><button class="audio-btn" onclick="speakKorean('이 층')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>3층</td><td>삼 층</td><td>третий этаж</td><td><button class="audio-btn" onclick="speakKorean('삼 층')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>지하 1층</td><td>지하 일 층</td><td>минус первый этаж</td><td><button class="audio-btn" onclick="speakKorean('지하 일 층')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                    <tr><td>몇 층</td><td>몇 층</td><td>какой этаж</td><td><button class="audio-btn" onclick="speakKorean('몇 층이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">서점은 학생회관 지하에 있습니다. <button class="audio-btn" onclick="speakKorean('서점은 학생회관 지하에 있습니다')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[соджомын хэксэнъхвэгван чихае иссымнида]</div>
+                <div class="ru">Книжный магазин в цокольном этаже студенческого центра.</div>
+            </div>
+
+            <div class="example-card">
+                <div class="korean">사무실이 몇 층에 있어요? &mdash; 삼 층에 있어요. <button class="audio-btn" onclick="speakKorean('사무실이 몇 층에 있어요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[самусири мёт чхынъе иссойо]</div>
+                <div class="ru">На каком этаже офис? &mdash; На третьем.</div>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 5 ====== -->
+        <div class="content-section">
+            <h2>5. Двигаемся по зданию</h2>
+            <p>Корейские глаголы движения собираются из двух частей: направление + 가다 (туда) или 오다 (сюда).</p>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Глагол</th><th>Перевод</th><th>Глагол</th><th>Перевод</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>들어가다</strong></td><td>входить (туда)</td><td><strong>들어오다</strong></td><td>входить (сюда)</td></tr>
+                    <tr><td><strong>나가다</strong></td><td>выходить (туда)</td><td><strong>나오다</strong></td><td>выходить (сюда)</td></tr>
+                    <tr><td><strong>올라가다</strong></td><td>подниматься</td><td><strong>올라오다</strong></td><td>подниматься сюда</td></tr>
+                    <tr><td><strong>내려가다</strong></td><td>спускаться</td><td><strong>내려오다</strong></td><td>спускаться сюда</td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="tip-box">
+                <strong>가다 или 오다?</strong> Выбор зависит от того, где находится говорящий. Если преподаватель в аудитории зовёт вас внутрь &mdash; он скажет <strong>들어오세요</strong>. Если вы рассказываете, что зашли в библиотеку, &mdash; 도서관에 <strong>들어갔어요</strong>.
+            </div>
+
+            <div class="example-card">
+                <div class="korean">삼 층으로 올라가세요. <button class="audio-btn" onclick="speakKorean('삼 층으로 올라가세요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="pron">[сам чхынъыро оллагасэйо]</div>
+                <div class="ru">Поднимитесь на третий этаж.</div>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 6 ====== -->
+        <div class="content-section">
+            <h2>6. Спрашиваем, где что находится</h2>
+
+            <div class="formula-box">место + 이/가 어디에 있어요?</div>
+
+            <div class="table-wrap">
+            <table class="grammar-table">
+                <thead>
+                    <tr><th>Вопрос</th><th>Ответ</th><th>Перевод ответа</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>화장실이 어디에 있어요?</td><td>이 층에 있어요</td><td>На этом этаже</td></tr>
+                    <tr><td>은행이 어디에 있습니까?</td><td>학생회관에 있습니다</td><td>В студенческом центре</td></tr>
+                    <tr><td>도서관이 어디예요?</td><td>운동장 옆이에요</td><td>Рядом со стадионом</td></tr>
+                    <tr><td>매점이 어디에 있어요?</td><td>기숙사 앞에 있어요</td><td>Перед общежитием</td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="tip-box">
+                Слова положения, которые тут работают: 앞 (перед), 뒤 (за), 옆 (рядом), 위 (на), 아래/밑 (под), 안 (внутри), 밖 (снаружи), 사이 (между), 근처 (около).
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 7: Диалог ====== -->
+        <div class="content-section">
+            <h2>7. Диалог: первый день в кампусе</h2>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">다니엘:</div>
+                    <div class="korean-text">실례합니다. 학생 식당이 어디에 있어요?</div>
+                    <div class="translation">Извините. Где студенческая столовая?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">학생회관 지하 일 층에 있어요.</div>
+                    <div class="translation">В цокольном этаже студенческого центра.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">다니엘:</div>
+                    <div class="korean-text">학생회관은 어디예요?</div>
+                    <div class="translation">А где студенческий центр?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">도서관 앞에 있어요. 정문에서 오 분쯤 걸려요.</div>
+                    <div class="translation">Перед библиотекой. От главных ворот минут пять.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">다니엘:</div>
+                    <div class="korean-text">서점도 거기에 있어요?</div>
+                    <div class="translation">Книжный магазин тоже там?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">직원:</div>
+                    <div class="korean-text">네, 이 층으로 올라가세요. 사무실 옆이에요.</div>
+                    <div class="translation">Да, поднимитесь на второй этаж. Рядом с офисом.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 8: Упражнения ====== -->
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-block">
+                <div class="exercise-question">1. 칠판 &mdash; это...</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q1" value="0"> мел</label>
+                    <label><input type="radio" name="q1" value="1"> доска</label>
+                    <label><input type="radio" name="q1" value="2"> парта</label>
+                    <label><input type="radio" name="q1" value="3"> окно</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(1, 1)">Проверить</button>
+                <div class="exercise-feedback" id="feedback1"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">2. Где живут студенты?</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q2" value="0"> 매점</label>
+                    <label><input type="radio" name="q2" value="1"> 사무실</label>
+                    <label><input type="radio" name="q2" value="2"> 기숙사</label>
+                    <label><input type="radio" name="q2" value="3"> 서점</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(2, 2)">Проверить</button>
+                <div class="exercise-feedback" id="feedback2"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">3. Как прочитать 3층?</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q3" value="0"> 세 층</label>
+                    <label><input type="radio" name="q3" value="1"> 삼 층</label>
+                    <label><input type="radio" name="q3" value="2"> 셋 층</label>
+                    <label><input type="radio" name="q3" value="3"> 삼 개 층</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(3, 1)">Проверить</button>
+                <div class="exercise-feedback" id="feedback3"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">4. Преподаватель в аудитории зовёт вас войти. Что он скажет?</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q4" value="0"> 들어가세요</label>
+                    <label><input type="radio" name="q4" value="1"> 나가세요</label>
+                    <label><input type="radio" name="q4" value="2"> 들어오세요</label>
+                    <label><input type="radio" name="q4" value="3"> 내려가세요</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(4, 2)">Проверить</button>
+                <div class="exercise-feedback" id="feedback4"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">5. 지갑 лежит в 가방. Что где?</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q5" value="0"> Кошелёк в сумке</label>
+                    <label><input type="radio" name="q5" value="1"> Сумка в кошельке</label>
+                    <label><input type="radio" name="q5" value="2"> Ключ в кармане</label>
+                    <label><input type="radio" name="q5" value="3"> Зонт на столе</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(5, 0)">Проверить</button>
+                <div class="exercise-feedback" id="feedback5"></div>
+            </div>
+
+            <div class="exercise-block">
+                <div class="exercise-question">6. Как спросить &laquo;Где библиотека?&raquo;</div>
+                <div class="exercise-options">
+                    <label><input type="radio" name="q6" value="0"> 도서관이 무엇입니까?</label>
+                    <label><input type="radio" name="q6" value="1"> 도서관이 어디에 있습니까?</label>
+                    <label><input type="radio" name="q6" value="2"> 도서관이 어떻습니까?</label>
+                    <label><input type="radio" name="q6" value="3"> 도서관이 몇 층입니까?</label>
+                </div>
+                <button class="exercise-check-btn" onclick="checkExercise(6, 1)">Проверить</button>
+                <div class="exercise-feedback" id="feedback6"></div>
+            </div>
+        </div>
+
+        <!-- ====== СЕКЦИЯ 9: Запомни! ====== -->
+        <div class="content-section">
+            <h2>&#128203; Запомни!</h2>
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px;">
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <strong>&#128218; Аудитория</strong><br>
+                        칠판, 분필, 책상<br>
+                        의자, 창문, 달력
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#127890; Кампус</strong><br>
+                        도서관, 식당, 매점<br>
+                        학생회관, 기숙사
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#127970; Корни</strong><br>
+                        -실 комната<br>
+                        -관 здание, -장 площадка
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#128290; Этажи</strong><br>
+                        일 층, 이 층<br>
+                        지하 일 층, 몇 층
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#128694; Движение</strong><br>
+                        들어가다 / 들어오다<br>
+                        올라가다 / 내려가다
+                    </div>
+                    <div class="summary-item">
+                        <strong>&#10067; Вопрос</strong><br>
+                        ~이/가 어디에 있어요?<br>
+                        &mdash; ~ 앞에 있어요
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" class="complete-btn">Урок пройден! &#10003;</button>
+        </div>
+    </div>
+
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.parentElement.querySelector('.dialogue-box');
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text');
+                if (k) {
+                    var t = k.textContent.replace(/\[.*?\]/g, '').trim();
+                    if (t) texts.push(t);
+                }
+            });
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.innerHTML = '&#9208; Воспроизводится...';
+            btn.disabled = true;
+            function next() {
+                if (i >= texts.length) {
+                    btn.innerHTML = '&#127917; Прослушать диалог';
+                    btn.disabled = false;
+                    lines.forEach(function(l) { l.style.background = ''; });
+                    return;
+                }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(255,255,255,0.15)';
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                u.onend = function() { i++; setTimeout(next, 400); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+
+        function checkExercise(num, correct) {
+            var radios = document.getElementsByName('q' + num);
+            var selected = -1;
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) selected = i;
+            }
+            if (selected === -1) {
+                if (window.JKToast) { JKToast.warning('Выберите ответ!'); }
+                return;
+            }
+            var feedback = document.getElementById('feedback' + num);
+            var labels = radios[0].parentElement.parentElement.getElementsByTagName('label');
+            if (selected === correct) {
+                feedback.textContent = '[OK] Правильно!';
+                feedback.style.color = '#4caf50';
+                labels[selected].style.color = '#4caf50';
+                labels[selected].style.fontWeight = 'bold';
+            } else {
+                feedback.textContent = '[-] Неправильно. Попробуйте ещё раз!';
+                feedback.style.color = '#f44336';
+                labels[selected].style.color = '#f44336';
+            }
+        }
+    </script>
+    <script src="../../js/dictionary.js"></script>
+    <script src="../../js/dictionary-inject.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_campus';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

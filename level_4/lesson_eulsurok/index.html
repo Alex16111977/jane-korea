@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>-(으)ㄹ수록 — чем..., тем...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(-45deg, transparent, transparent 40px, rgba(255,255,255,0.02) 40px, rgba(255,255,255,0.02) 80px),
+                linear-gradient(135deg, #6c5ce7 0%, #4b3fb8 100%);
+            min-height: 100vh; color: #333; overflow-x: hidden;
+        }
+        body::before { content: '수록'; position: fixed; top: 14%; right: 5%; font-size: 100px; font-weight: 900; opacity: 0.04; animation: floatSlow 10s ease-in-out infinite; pointer-events: none; z-index: 0; }
+        body::after { content: '점점'; position: fixed; bottom: 12%; left: 4%; font-size: 90px; font-weight: 900; opacity: 0.04; animation: floatSlow 12s ease-in-out infinite reverse; pointer-events: none; z-index: 0; }
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-22px) scale(1.05); } }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a { color: white; text-decoration: none; padding: 12px 25px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); border-radius: 15px; transition: all 0.3s ease; font-weight: 500; }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 40px; margin-bottom: 30px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .header h1 { margin: 0 0 15px 0; color: #6A1B9A; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #9C27B0; margin-bottom: 15px; font-weight: 500; }
+        .header .description { font-size: 1.05em; color: #666; }
+
+        .content-section { background: rgba(255,255,255,0.95); backdrop-filter: blur(15px); border-radius: 20px; padding: 35px; margin-bottom: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); }
+        .content-section h2 { color: #6A1B9A; margin-top: 0; font-size: 2em; border-bottom: 3px solid #9C27B0; padding-bottom: 10px; }
+        .content-section h3 { color: #8E24AA; font-size: 1.4em; }
+        .content-section p { font-size: 1.05em; line-height: 1.7; }
+
+        .example-box { background: rgba(156,39,176,0.06); border-left: 5px solid #9C27B0; padding: 18px; margin: 14px 0; border-radius: 0 12px 12px 0; }
+        .example-box .korean-text { font-size: 1.25em; color: #6A1B9A; font-weight: bold; margin-bottom: 4px; }
+        .example-box .romanization { color: #9C27B0; font-size: 0.9em; font-style: italic; }
+        .example-box .translation { color: #555; font-size: 1.0em; }
+        .example-box .note { color: #55506e; font-size: 0.88em; margin-top: 5px; font-style: italic; }
+
+        .grammar-block { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; }
+        .grammar-block h3 { color: #2b2440; margin-top: 0; font-size: 1.5em; }
+        .grammar-pattern { background: rgba(255,255,255,0.25); padding: 15px; border-radius: 10px; font-size: 1.4em; font-weight: bold; text-align: center; margin: 15px 0; }
+        .grammar-example { background: rgba(255,255,255,0.15); padding: 13px; border-radius: 8px; margin: 10px 0; }
+        .grammar-example .kor { font-size: 1.2em; font-weight: bold; margin-bottom: 4px; }
+        .grammar-example .rom { font-size: 0.85em; opacity: 0.85; font-style: italic; }
+        .grammar-example .rus { font-size: 1em; margin-top: 4px; }
+
+        .tip-box { background: rgba(156,39,176,0.08); border-left: 4px solid #9C27B0; padding: 20px; border-radius: 0 12px 12px 0; margin: 20px 0; }
+        .tip-box strong { color: #6A1B9A; }
+
+        .comparison-table { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.12); margin: 20px 0; }
+        .table-header { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; padding: 18px 20px; text-align: center; font-size: 1.2em; font-weight: bold; }
+        .table-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: #e9ecef; }
+        .table-cell { background: white; padding: 12px 14px; font-size: 1.0em; }
+        .table-cell.korean { color: #6A1B9A; font-weight: bold; }
+        .table-cell.header-cell { background: #f8f9fa; font-weight: bold; color: #495057; text-align: center; }
+
+        .dialogue-box { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; padding: 25px; border-radius: 15px; margin: 25px 0; }
+        .dialogue-line { margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: bold; color: #ffffff; margin-bottom: 8px; }
+        .korean-text { font-size: 1.2em; margin-bottom: 5px; }
+        .translation { font-size: 1em; opacity: 0.9; }
+        .grammar-note { font-size: 0.8em; color: #2b2440; font-style: italic; margin-top: 5px; }
+
+        .dialogue-play-btn { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; margin: 15px auto; display: block; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif; }
+        .dialogue-play-btn:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(156,39,176,0.4); }
+
+        .audio-btn { background: rgba(156,39,176,0.15); border: 2px solid rgba(156,39,176,0.3); border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em; cursor: pointer; transition: all 0.3s ease; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin-left: 8px; padding: 0; }
+        .audio-btn:hover { background: rgba(156,39,176,0.3); transform: scale(1.1); }
+
+        .remember-block { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); color: white; padding: 30px; border-radius: 20px; margin: 30px 0; box-shadow: 0 15px 40px rgba(156,39,176,0.3); }
+        .remember-block h2 { color: #2b2440; border-bottom: 2px solid rgba(255,255,255,0.3); padding-bottom: 10px; margin-top: 0; }
+        .remember-item { background: rgba(255,255,255,0.15); padding: 15px; border-radius: 12px; margin: 10px 0; }
+        .remember-item strong { color: #2b2440; }
+
+        .exercise-item { background: rgba(255,255,255,0.95); padding: 22px; border-radius: 12px; margin: 15px 0; box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        .exercise-question { font-size: 1.15em; color: #333; margin-bottom: 15px; font-weight: 500; }
+        .exercise-options { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        .exercise-btn { background: #6A1B9A; color: white; padding: 10px 20px; border: none; border-radius: 25px; cursor: pointer; font-size: 1.05em; transition: all 0.3s ease; font-family: 'Noto Sans KR', sans-serif; }
+        .exercise-btn:hover { background: #9C27B0; transform: translateY(-2px); }
+        .exercise-result { margin-top: 12px; font-weight: 600; font-size: 1.05em; min-height: 24px; }
+
+        .practice-section { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); padding: 30px; border-radius: 15px; margin: 25px 0; }
+        .practice-section h2 { color: #2b2440; margin-top: 0; text-align: center; }
+
+        .tense-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 25px 0; }
+        .tense-card { border-radius: 15px; padding: 25px; color: white; transition: transform 0.3s ease; }
+        .tense-card:hover { transform: translateY(-5px); }
+        .tense-card.present { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .tense-card.past { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .tense-card.future { background: linear-gradient(135deg, #6c5ce7, #4b3fb8); }
+        .tense-title { font-size: 1.4em; font-weight: bold; margin-bottom: 10px; }
+        .tense-pattern { background: rgba(255,255,255,0.2); padding: 12px; border-radius: 10px; font-size: 1.3em; font-weight: bold; text-align: center; margin: 10px 0; }
+        .tense-example { background: rgba(255,255,255,0.15); padding: 10px; border-radius: 8px; margin: 8px 0; }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .table-row { grid-template-columns: 1fr; gap: 2px; }
+            .exercise-options { flex-direction: column; align-items: center; }
+            .tense-cards { grid-template-columns: 1fr; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_4/index.html">← 4급 Уровень 4</a>
+            <a href="../../lessons.html">Все уроки</a>
+        </div>
+
+        <header class="header">
+            <h1>-(으)ㄹ수록 — чем..., тем...</h1>
+            <div class="korean-title">비례 표현 [birye pyohyeon] — выражение пропорции</div>
+            <div class="description">Как сказать «чем больше учишь, тем интереснее» — конструкция пропорциональной зависимости, обязательная для TOPIK II!</div>
+        </header>
+
+        <div class="content-section">
+            <h2>1. Зачем нужна конструкция -(으)ㄹ수록?</h2>
+            <p>Конструкция <strong>-(으)ㄹ수록</strong> показывает: чем сильнее первое действие или признак, тем сильнее второе. Она позволяет:</p>
+            <ul>
+                <li>Выразить пропорциональную зависимость: «Чем больше учишь, тем интереснее»</li>
+                <li>Описать изменение со временем: «Чем дальше, тем лучше»</li>
+                <li>Дать совет или обобщение: «Чем дороже вещь, тем лучше качество»</li>
+                <li>Употреблять пословицы и устойчивые выражения: 다다익선 — «чем больше, тем лучше»</li>
+            </ul>
+            <p>Работает и с глаголами, и с прилагательными, и даже с 이다.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>2. Образование</h2>
+
+            <div class="grammar-block">
+                <h3>Формула</h3>
+                <div class="grammar-pattern">Основа + -(으)ㄹ수록</div>
+                <p>После <strong>гласной</strong> и основ на <strong>ㄹ</strong> → <strong>-ㄹ수록</strong>. После <strong>согласной</strong> → <strong>-을수록</strong>. С 이다 → <strong>일수록</strong>.</p>
+
+                <div class="grammar-example">
+                    <div class="kor">배우다 → 배울수록</div>
+                    <div class="rom">[baeuda → baeulsurok]</div>
+                    <div class="rus">учить → чем больше учишь (основа на гласную + ㄹ수록)</div>
+                </div>
+                <div class="grammar-example">
+                    <div class="kor">많다 → 많을수록</div>
+                    <div class="rom">[manta → maneulsurok]</div>
+                    <div class="rus">много → чем больше (основа на согласную + 을수록)</div>
+                </div>
+                <div class="grammar-example">
+                    <div class="kor">살다 → 살수록</div>
+                    <div class="rom">[salda → salsurok]</div>
+                    <div class="rus">жить → чем дольше живёшь (основа на ㄹ: просто + 수록)</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>С 이다:</strong> существительное + <strong>일수록</strong> — 좋은 물건<strong>일수록</strong> 비싸요 (чем лучше вещь, тем она дороже).
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>3. Примеры употребления</h2>
+
+            <div class="example-box">
+                <div class="korean-text">한국어는 배울수록 재미있어요. <button class="audio-btn" onclick="speakKorean('한국어는 배울수록 재미있어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[hangugeoneun baeulsurok jaemiisseoyo]</div>
+                <div class="translation">Корейский — чем больше учишь, тем интереснее.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">시간이 지날수록 한국 생활이 좋아져요. <button class="audio-btn" onclick="speakKorean('시간이 지날수록 한국 생활이 좋아져요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[sigani jinalsurok hanguk saenghwari joajyeoyo]</div>
+                <div class="translation">Чем больше проходит времени, тем больше нравится жизнь в Корее.</div>
+                <div class="note">지나다 → 지날수록</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">물건은 비쌀수록 품질이 좋아요. <button class="audio-btn" onclick="speakKorean('물건은 비쌀수록 품질이 좋아요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[mulgeoneun bissalsurok pumjiri joayo]</div>
+                <div class="translation">Чем дороже вещь, тем лучше качество.</div>
+                <div class="note">비싸다 → 비쌀수록 (прилагательное — работает так же)</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">사람이 많을수록 좋아요. <button class="audio-btn" onclick="speakKorean('사람이 많을수록 좋아요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[sarami maneulsurok joayo]</div>
+                <div class="translation">Чем больше людей, тем лучше.</div>
+                <div class="note">Есть даже поговорка из ханчи: 다다익선 [dadaikseon] — «чем больше, тем лучше»</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">나이가 들수록 시간이 빨리 가는 것 같아요. <button class="audio-btn" onclick="speakKorean('나이가 들수록 시간이 빨리 가는 것 같아요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[naiga deulsurok sigani ppalli ganeun geot gatayo]</div>
+                <div class="translation">Чем старше становишься, тем быстрее, кажется, летит время.</div>
+                <div class="note">들다 → 들수록 (основа на ㄹ)</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>4. Усиленная форма: -(으)면 -(으)ㄹ수록</h2>
+            <p>Чтобы подчеркнуть нарастание, корейцы повторяют глагол дважды: сначала с <strong>-(으)면</strong>, потом с <strong>-(으)ㄹ수록</strong>. Получается выразительное «чем больше..., тем всё больше...».</p>
+
+            <div class="example-box">
+                <div class="korean-text">이 노래는 들으면 들을수록 좋아요. <button class="audio-btn" onclick="speakKorean('이 노래는 들으면 들을수록 좋아요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[i noraeneun deureumyeon deureulsurok joayo]</div>
+                <div class="translation">Эта песня — чем больше слушаешь, тем больше нравится.</div>
+                <div class="note">듣다 → 들으면 들을수록 (неправильный глагол на ㄷ: ㄷ → ㄹ!)</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">김치는 먹으면 먹을수록 맛있어요. <button class="audio-btn" onclick="speakKorean('김치는 먹으면 먹을수록 맛있어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[gimchineun meogeumyeon meogeulsurok masisseoyo]</div>
+                <div class="translation">Кимчхи — чем больше ешь, тем вкуснее.</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">그 사람은 보면 볼수록 매력적이에요. <button class="audio-btn" onclick="speakKorean('그 사람은 보면 볼수록 매력적이에요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[geu sarameun bomyeon bolsurok maeryeokjeogieyo]</div>
+                <div class="translation">Этот человек — чем больше на него смотришь, тем он обаятельнее.</div>
+                <div class="note">보면 볼수록 — самое частое сочетание, запомни целиком</div>
+            </div>
+
+            <div class="example-box">
+                <div class="korean-text">한국어는 알면 알수록 어려워요. <button class="audio-btn" onclick="speakKorean('한국어는 알면 알수록 어려워요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                <div class="romanization">[hangugeoneun almyeon alsurok eoryeowoyo]</div>
+                <div class="translation">Корейский — чем больше знаешь, тем сложнее.</div>
+                <div class="note">알다 → 알면 알수록 (основа на ㄹ)</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>5. Не путай с -도록!</h2>
+
+            <div class="comparison-table">
+                <div class="table-header">-(으)ㄹ수록 vs -도록</div>
+                <div class="table-row">
+                    <div class="table-cell header-cell">Конструкция</div>
+                    <div class="table-cell header-cell">Значение</div>
+                    <div class="table-cell header-cell">Пример</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-(으)ㄹ수록</div>
+                    <div class="table-cell">«чем..., тем...» — пропорция</div>
+                    <div class="table-cell korean">배울수록 재미있어요 — чем больше учу, тем интереснее</div>
+                </div>
+                <div class="table-row">
+                    <div class="table-cell korean">-도록</div>
+                    <div class="table-cell">«чтобы; до такой степени» — цель или предел</div>
+                    <div class="table-cell korean">늦지 않도록 서두르세요 — поторопитесь, чтобы не опоздать</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Типичная ошибка:</strong> из-за похожего звучания (수록 / 도록) учащиеся путают эти конструкции. Запомни: <strong>-(으)ㄹ수록</strong> всегда про нарастание «чем..., тем...», а <strong>-도록</strong> — про цель («чтобы») или предел действия. ❌ 배우도록 재미있어요 → [OK] 배울수록 재미있어요.
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>6. Диалог: Изучение корейского</h2>
+            <div class="dialogue-box">
+                <div class="dialogue-line">
+                    <div class="speaker">서연 [Soyeon]:</div>
+                    <div class="korean-text">민준 씨, 한국어 공부는 잘 돼 가요? <button class="audio-btn" onclick="speakKorean('민준 씨, 한국어 공부는 잘 돼 가요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Минджун, как продвигается изучение корейского?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민준 [Minjun]:</div>
+                    <div class="korean-text">네, 그런데 배울수록 어려워지는 것 같아요. <button class="audio-btn" onclick="speakKorean('네, 그런데 배울수록 어려워지는 것 같아요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Да, но, кажется, чем больше учу, тем сложнее становится.</div>
+                    <div class="grammar-note">배울수록 — чем больше учу, тем...</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">서연:</div>
+                    <div class="korean-text">맞아요. 하지만 알면 알수록 더 재미있지 않아요? <button class="audio-btn" onclick="speakKorean('맞아요. 하지만 알면 알수록 더 재미있지 않아요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Верно. Но разве чем больше узнаёшь, тем не интереснее?</div>
+                    <div class="grammar-note">알면 알수록 — усиленная форма -(으)면 -(으)ㄹ수록</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민준:</div>
+                    <div class="korean-text">그건 그래요. 특히 한국 드라마는 보면 볼수록 매력이 있어요. <button class="audio-btn" onclick="speakKorean('그건 그래요. 특히 한국 드라마는 보면 볼수록 매력이 있어요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Это правда. Особенно корейские дорамы — чем больше смотрю, тем больше очарования.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">서연:</div>
+                    <div class="korean-text">연습을 많이 할수록 실력이 빨리 늘어요. 힘내세요! <button class="audio-btn" onclick="speakKorean('연습을 많이 할수록 실력이 빨리 늘어요. 힘내세요!')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Чем больше практикуешься, тем быстрее растёт уровень. Держитесь!</div>
+                    <div class="grammar-note">할수록 — 하다 → 할수록</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민준:</div>
+                    <div class="korean-text">고마워요. 앞으로 더 열심히 할게요. <button class="audio-btn" onclick="speakKorean('고마워요. 앞으로 더 열심히 할게요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="translation">Спасибо. Буду стараться ещё усерднее.</div>
+                </div>
+            </div>
+            <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">🎭 Прослушать весь диалог</button>
+        </div>
+
+        <div class="remember-block">
+            <h2>📋 Запомни!</h2>
+            <div class="remember-item">
+                <strong>После гласной и ㄹ:</strong> -ㄹ수록 — 배울수록 (чем больше учишь), 살수록 (чем дольше живёшь)
+            </div>
+            <div class="remember-item">
+                <strong>После согласной:</strong> -을수록 — 먹을수록 (чем больше ешь), 많을수록 (чем больше)
+            </div>
+            <div class="remember-item">
+                <strong>Усиление:</strong> -(으)면 -(으)ㄹ수록 — 보면 볼수록 (чем больше смотришь, тем всё больше...)
+            </div>
+            <div class="remember-item">
+                <strong>С 이다:</strong> N + 일수록 — 좋은 물건일수록 비싸요 (чем лучше вещь, тем дороже)
+            </div>
+            <div class="remember-item">
+                <strong>Не путай:</strong> -(으)ㄹ수록 = «чем..., тем...», а -도록 = «чтобы» — это разные конструкции!
+            </div>
+        </div>
+
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-item">
+                <div class="exercise-question">1. «Чем больше учишь, тем интереснее» (배우다):</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">배울수록 재미있어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">배우을수록 재미있어요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">배운수록 재미있어요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">2. Основа на согласную: 먹다 →</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">먹수록</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">먹을수록</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">먹는수록</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">3. Основа на ㄹ: 살다 →</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">살을수록</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">살수록</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">사을수록</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">4. Усиленная форма от 보다 («чем больше смотришь...»):</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">보면 볼수록</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">볼수록 보면</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">보면 보을수록</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">5. «Чем лучше вещь, тем дороже» (물건이다):</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">좋은 물건을수록 비싸요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">좋은 물건일수록 비싸요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">좋은 물건이을수록 비싸요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">6. «Чем больше людей, тем лучше»:</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">사람이 많도록 좋아요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">사람이 많은수록 좋아요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">사람이 많을수록 좋아요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">7. Что означает конструкция -(으)ㄹ수록?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">«чем..., тем...»</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">«чтобы»</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">«поэтому»</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">8. Выбери правильную конструкцию: 늦지 않___ 서두르세요 («поторопитесь, ЧТОБЫ не опоздать»):</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">-을수록</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">-도록</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">-ㄹ수록</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="background: linear-gradient(135deg, #9C27B0, #6A1B9A); color: white; border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600; border-radius: 30px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(156,39,176,0.3); font-family: 'Noto Sans KR', sans-serif;">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level4_lesson_eulsurok';
+
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.speak(u);
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.previousElementSibling;
+            while (box && !box.classList.contains('dialogue-box')) box = box.previousElementSibling;
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line'); var i = 0; btn.disabled = true;
+            function playNext() {
+                if (i >= lines.length) { btn.disabled = false; return; }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(156,39,176,0.15)';
+                var text = lines[i].querySelector('.korean-text');
+                if (text) {
+                    var u = new SpeechSynthesisUtterance(text.textContent.replace(/🔊/g,'').trim());
+                    u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                    u.onend = function() { i++; setTimeout(playNext, 400); };
+                    window.speechSynthesis.speak(u);
+                } else { i++; setTimeout(playNext, 400); }
+            }
+            window.speechSynthesis.cancel(); playNext();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item'); var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) { if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; } });
+            }
+        }
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!'; btn.style.background = '#4A148C';
+                btn.style.cursor = 'default'; btn.disabled = true; btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) { btn.textContent = 'Пройдено!'; btn.style.background = '#4A148C'; btn.style.cursor = 'default'; btn.disabled = true; btn.style.opacity = '0.85'; }
+                }
+            }
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0'; section.style.transform = 'translateY(30px)';
+                setTimeout(function() { section.style.transition = 'all 0.6s ease'; section.style.opacity = '1'; section.style.transform = 'translateY(0)'; }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

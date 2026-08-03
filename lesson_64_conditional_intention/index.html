@@ -15,10 +15,45 @@
 
         body {
             font-family: 'Noto Sans KR', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background:
+                radial-gradient(circle at 30% 70%, rgba(255,255,255,0.12) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(118,75,162,0.3) 0%, transparent 50%),
+                repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255,255,255,0.02) 30px, rgba(255,255,255,0.02) 60px),
+                linear-gradient(135deg, #2f6fd0 0%, #1a3f8f 50%, #1a3f8f 100%);
             min-height: 100vh;
             color: #333;
             line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '🔀';
+            position: fixed;
+            top: 10%;
+            right: 6%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '💎';
+            position: fixed;
+            bottom: 8%;
+            left: 5%;
+            font-size: 90px;
+            opacity: 0.04;
+            animation: floatSlow 13s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-25px) scale(1.05); }
         }
 
         .container {
@@ -143,7 +178,7 @@
         }
 
         .lesson-intro {
-            background: linear-gradient(135deg, #667eea15, #764ba215);
+            background: linear-gradient(135deg, #2f6fd015, #1a3f8f15);
             padding: 25px;
             border-radius: 15px;
             border-left: 5px solid #667eea;
@@ -170,7 +205,7 @@
         }
 
         .dialogue {
-            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            background: linear-gradient(135deg, #fff8ec, #ffeccd);
             padding: 25px;
             border-radius: 15px;
             margin: 25px 0;
@@ -189,12 +224,12 @@
         }
 
         .dialogue-box strong {
-            color: #2d3748;
+            color: #ffffff;
             font-weight: 600;
         }
 
         .translation {
-            color: #718096;
+            color: #ffffff;
             font-style: italic;
             margin-left: 20px;
         }
@@ -221,7 +256,7 @@
         }
 
         .note, .grammar-note {
-            color: #718096;
+            color: #4a5568;
             font-size: 0.9em;
             font-style: italic;
         }
@@ -250,7 +285,7 @@
         }
 
         .sentence-structure {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
             color: white;
             padding: 25px;
             border-radius: 15px;
@@ -288,7 +323,7 @@
         }
 
         .usage-case {
-            background: linear-gradient(135deg, #667eea20, #764ba220);
+            background: linear-gradient(135deg, #2f6fd020, #1a3f8f20);
             padding: 20px;
             border-radius: 12px;
             margin: 15px 0;
@@ -332,7 +367,7 @@
         }
 
         .cultural-box {
-            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            background: linear-gradient(135deg, #fff8ec, #ffeccd);
             padding: 25px;
             border-radius: 15px;
             border-left: 5px solid #fab1a0;
@@ -341,7 +376,7 @@
         }
 
         .summary-box {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
             color: white;
             padding: 25px;
             border-radius: 15px;
@@ -382,7 +417,7 @@
         }
 
         .prev-lesson, .next-lesson {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #2f6fd0, #1a3f8f);
             color: white;
         }
 
@@ -424,6 +459,7 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="../css/lesson-theme.css">
 </head>
 <body>
     <div class="container">
@@ -673,18 +709,76 @@
             </section>
 
             <div class="navigation">
-                <a href="../lesson_63_ability/index.html" class="prev-lesson">← Урок 3</a>
-                <a href="../level_5/index.html" class="lessons-index">🌸 5급 Уровень</a>
-                <a href="../lesson_65_minimum_condition/index.html" class="next-lesson">Урок 5 →</a>
+                <a href="../lesson_48_after_action/index.html" class="prev-lesson">← Урок 3</a>
+                <a href="../level_4/index.html" class="lessons-index">🌸 4급 Уровень</a>
+                <a href="../lesson_50_before_action/index.html" class="next-lesson">Урок 5 →</a>
             </div>
         </main>
 
         <footer>
             <p>&copy; 2025 Корейский язык с Джейн. Все права защищены.</p>
         </footer>
-    </div>
     
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+</div>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    <script src="../js/progress-tracker.js"></script>
     <script>
+        // Кнопка завершения урока
+        var LESSON_ID = 'lesson_64_conditional_intention';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        // Проверяем статус при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+<script>
         // Добавляем интерактивность к корейским примерам
         document.querySelectorAll('.korean-example').forEach(example => {
             example.addEventListener('click', function() {
@@ -719,5 +813,8 @@
             observer.observe(el);
         });
     </script>
+<script src="../js/dictionary.js"></script>
+    <script src="../js/dictionary-inject.js"></script>
+    <script src="../js/global-nav.js"></script>
 </body>
 </html>

@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Время и возраст | 1급 Корейский язык</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            margin: 0; padding: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                repeating-linear-gradient(60deg, transparent, transparent 45px, rgba(255,255,255,0.02) 45px, rgba(255,255,255,0.02) 90px),
+                linear-gradient(135deg, #eefaf1 0%, #d8f0e0 50%, #d8f0e0 100%);
+            min-height: 100vh; color: #333;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; top: 15%; right: 4%;
+            font-size: 115px; opacity: 0.04;
+            animation: floatSlow 11s ease-in-out infinite;
+            pointer-events: none; z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-22px) scale(1.05); }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+        .navigation { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .navigation a {
+            color: white; text-decoration: none; padding: 12px 25px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 15px;
+            transition: all 0.3s ease; font-weight: 500;
+        }
+        .navigation a:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        .header {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 40px; margin-bottom: 30px;
+            text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .header h1 { margin: 0 0 15px 0; color: #388e3c; font-size: 2.5em; }
+        .header .korean-title { font-size: 1.3em; color: #4caf50; margin-bottom: 15px; font-weight: 500; }
+        .header .description { color: #666; font-size: 1.05em; }
+        .header .lesson-number { font-size: 0.95em; color: #ffffff; margin-bottom: 10px; }
+
+        .content-section {
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(15px);
+            border-radius: 20px; padding: 35px; margin-bottom: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+        }
+        .content-section h2 { color: #388e3c; margin-top: 0; font-size: 1.8em; border-bottom: 3px solid #4caf50; padding-bottom: 10px; }
+
+        .grammar-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 20px 0;
+        }
+        .grammar-table th { background: #4caf50; color: white; padding: 15px; text-align: center; font-weight: 600; }
+        .grammar-table td { padding: 12px 15px; border-bottom: 1px solid #e9ecef; text-align: center; }
+        .grammar-table tr:last-child td { border-bottom: none; }
+        .grammar-table tr:nth-child(even) { background: #f8f9fa; }
+
+        .example-card {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 20px; border-radius: 15px; margin: 12px 0;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+        }
+        .example-korean { font-size: 1.5em; font-weight: 700; }
+        .example-romanization { font-size: 0.9em; opacity: 0.85; margin-top: 4px; }
+        .example-meaning { font-size: 1em; opacity: 0.95; }
+        .example-info { flex: 1; min-width: 200px; }
+
+        .tip-box {
+            background: #e8f5e9; border-left: 4px solid #4caf50;
+            padding: 20px; border-radius: 0 15px 15px 0; margin: 20px 0;
+        }
+
+        .counter-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px; margin: 20px 0;
+        }
+        .counter-card {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 20px; border-radius: 15px; text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .counter-card:hover { transform: translateY(-5px); }
+        .counter-korean { font-size: 1.6em; font-weight: 700; }
+        .counter-romanization { font-size: 0.85em; opacity: 0.85; margin: 5px 0; }
+        .counter-meaning { font-size: 0.95em; }
+        .counter-example { font-size: 0.9em; opacity: 0.9; margin-top: 8px; background: rgba(255,255,255,0.15); padding: 8px; border-radius: 8px; }
+
+        .pattern-highlight {
+            background: #e8f5e9; border: 1px solid #4caf50; border-radius: 8px;
+            padding: 4px 10px; display: inline-block; font-weight: 600; color: #2e7d32; margin: 2px;
+        }
+
+        .dialogue-box {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 25px; border-radius: 15px; margin: 20px 0;
+        }
+        .dialogue-line { margin: 12px 0; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+        .speaker { font-weight: 700; margin-bottom: 5px; }
+        .korean-text { font-size: 1.1em; }
+        .translation { font-size: 0.9em; opacity: 0.85; margin-top: 5px; font-style: italic; }
+        .dialogue-play-btn {
+            background: rgba(255,255,255,0.25); color: #2b2440; border: 2px solid rgba(255,255,255,0.4);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer;
+            font-size: 1em; font-family: 'Noto Sans KR', sans-serif;
+            transition: all 0.3s ease; margin-bottom: 15px;
+        }
+        .dialogue-play-btn:hover { background: rgba(255,255,255,0.35); }
+
+        .audio-btn {
+            background: rgba(76,175,80,0.15); border: 2px solid rgba(76,175,80,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn:hover { background: rgba(76,175,80,0.3); transform: scale(1.1); }
+        .audio-btn-light {
+            background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%; width: 36px; height: 36px; font-size: 1.1em;
+            cursor: pointer; transition: all 0.3s ease; flex-shrink: 0;
+            display: inline-flex; align-items: center; justify-content: center;
+            vertical-align: middle; margin-left: 8px; padding: 0;
+        }
+        .audio-btn-light:hover { background: rgba(255,255,255,0.35); transform: scale(1.1); }
+
+        .practice-section {
+            background: linear-gradient(135deg, #eefaf1, #d8f0e0);
+            padding: 30px; border-radius: 15px; margin: 25px 0;
+        }
+        .practice-section h2 { color: #1b5e20; margin-bottom: 20px; font-size: 1.5em; border-bottom: none; }
+
+        .exercise-item { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .exercise-question { font-size: 1.1em; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+        .exercise-options { display: flex; flex-wrap: wrap; gap: 10px; }
+        .exercise-btn {
+            background: #4caf50; color: white; padding: 10px 20px; border: none;
+            border-radius: 25px; cursor: pointer; font-size: 1em;
+            font-family: 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .exercise-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(76,175,80,0.4); }
+        .exercise-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+        .exercise-result { margin-top: 10px; padding: 10px; border-radius: 8px; font-weight: 600; }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            border: none; padding: 18px 40px; font-size: 1.2em; font-weight: 600;
+            border-radius: 30px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(76,175,80,0.3); font-family: 'Noto Sans KR', sans-serif;
+        }
+        .complete-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(76,175,80,0.4); }
+        .complete-btn:disabled { opacity: 0.7; cursor: default; transform: none; }
+
+        .number-comparison {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;
+        }
+        .number-column {
+            background: linear-gradient(135deg, #2e9e5b, #14663a); color: white;
+            padding: 25px; border-radius: 15px;
+        }
+        .number-column h3 { margin-top: 0; font-size: 1.2em; text-align: center; }
+        .number-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 12px; margin: 6px 0;
+            background: rgba(255,255,255,0.1); border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6em; }
+            .content-section { padding: 25px; }
+            .exercise-options { flex-direction: column; }
+            .counter-grid { grid-template-columns: repeat(2, 1fr); }
+            .number-comparison { grid-template-columns: 1fr; }
+            .example-card { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+    <link rel="stylesheet" href="../../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <div class="navigation">
+            <a href="../../level_1/index.html">&#8592; 1&#44553; Уроки</a>
+            <a href="../../lessons.html">Все уровни</a>
+        </div>
+
+        <header class="header">
+            <div class="lesson-number">1&#44553; | Время и возраст</div>
+            <h1>Который час? Сколько лет?</h1>
+            <div class="korean-title">몇 시예요? 몇 살이에요? [myeot siyeyo? myeot sarieyo?]</div>
+            <div class="description">Учимся говорить о времени и спрашивать возраст. Часы считаются исконно-корейскими числами, минуты — китайскими</div>
+        </header>
+
+        <!-- Секция 1: Как спросить время -->
+        <div class="content-section">
+            <h2>1. Как спросить время?</h2>
+            <p>Основной вопрос о времени в корейском языке:</p>
+
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px; margin: 15px 0; text-align: center; font-size: 1.3em;">
+                <strong>몇 시예요?</strong> — Который час?
+                <button class="audio-btn-light" onclick="speakKorean('몇 시예요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                <br><span style="font-size: 0.75em; opacity: 0.85;">[myeot siyeyo]</span>
+            </div>
+
+            <div class="tip-box">
+                <strong>Главное правило:</strong> Для <strong>часов</strong> используются исконно-корейские числа (하나, 둘, 셋...), а для <strong>минут</strong> — сино-корейские (일, 이, 삼...). Не путайте!
+            </div>
+
+            <p>Части суток:</p>
+            <div class="counter-grid">
+                <div class="counter-card">
+                    <div class="counter-korean">오전 <button class="audio-btn-light" onclick="speakKorean('오전')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="counter-romanization">[ojeon]</div>
+                    <div class="counter-meaning">AM / до полудня</div>
+                </div>
+                <div class="counter-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                    <div class="counter-korean">오후 <button class="audio-btn-light" onclick="speakKorean('오후')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="counter-romanization">[ohu]</div>
+                    <div class="counter-meaning">PM / после полудня</div>
+                </div>
+                <div class="counter-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                    <div class="counter-korean">아침 <button class="audio-btn-light" onclick="speakKorean('아침')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="counter-romanization">[achim]</div>
+                    <div class="counter-meaning">утро</div>
+                </div>
+                <div class="counter-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                    <div class="counter-korean">점심 <button class="audio-btn-light" onclick="speakKorean('점심')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="counter-romanization">[jeomsim]</div>
+                    <div class="counter-meaning">обед / полдень</div>
+                </div>
+                <div class="counter-card" style="background: linear-gradient(135deg, #4caf50, #388e3c);">
+                    <div class="counter-korean">저녁 <button class="audio-btn-light" onclick="speakKorean('저녁')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="counter-romanization">[jeonyeok]</div>
+                    <div class="counter-meaning">вечер</div>
+                </div>
+                <div class="counter-card" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                    <div class="counter-korean">밤 <button class="audio-btn-light" onclick="speakKorean('밤')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="counter-romanization">[bam]</div>
+                    <div class="counter-meaning">ночь</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 2: Часы — исконно-корейские числа -->
+        <div class="content-section">
+            <h2>2. Часы — исконно-корейские числа</h2>
+            <p>Перед словом <strong>시</strong> (час) числа 1-4 принимают укороченную форму:</p>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Час</th>
+                        <th>Корейское число</th>
+                        <th>По-корейски</th>
+                        <th>Слушать</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1:00</strong></td>
+                        <td>하나 &#8594; 한</td>
+                        <td>한 시</td>
+                        <td><button class="audio-btn" onclick="speakKorean('한 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>2:00</strong></td>
+                        <td>둘 &#8594; 두</td>
+                        <td>두 시</td>
+                        <td><button class="audio-btn" onclick="speakKorean('두 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>3:00</strong></td>
+                        <td>셋 &#8594; 세</td>
+                        <td>세 시</td>
+                        <td><button class="audio-btn" onclick="speakKorean('세 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>4:00</strong></td>
+                        <td>넷 &#8594; 네</td>
+                        <td>네 시</td>
+                        <td><button class="audio-btn" onclick="speakKorean('네 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>5:00</strong></td>
+                        <td>다섯</td>
+                        <td>다섯 시</td>
+                        <td><button class="audio-btn" onclick="speakKorean('다섯 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>6:00</strong></td>
+                        <td>여섯</td>
+                        <td>여섯 시</td>
+                        <td><button class="audio-btn" onclick="speakKorean('여섯 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>7:00</strong></td>
+                        <td>일곱</td>
+                        <td>일곱 시</td>
+                        <td><button class="audio-btn" onclick="speakKorean('일곱 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>8:00</strong></td>
+                        <td>여덟</td>
+                        <td>여덟 시</td>
+                        <td><button class="audio-btn" onclick="speakKorean('여덟 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>9:00</strong></td>
+                        <td>아홉</td>
+                        <td>아홉 시</td>
+                        <td><button class="audio-btn" onclick="speakKorean('아홉 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>10:00</strong></td>
+                        <td>열</td>
+                        <td>열 시</td>
+                        <td><button class="audio-btn" onclick="speakKorean('열 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>11:00</strong></td>
+                        <td>열하나 &#8594; 열한</td>
+                        <td>열한 시</td>
+                        <td><button class="audio-btn" onclick="speakKorean('열한 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>12:00</strong></td>
+                        <td>열둘 &#8594; 열두</td>
+                        <td>열두 시</td>
+                        <td><button class="audio-btn" onclick="speakKorean('열두 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Секция 3: Минуты — сино-корейские числа -->
+        <div class="content-section">
+            <h2>3. Минуты — сино-корейские числа</h2>
+            <p>Минуты выражаются словом <strong>분</strong> [bun] с сино-корейскими числами:</p>
+
+            <div class="number-comparison">
+                <div class="number-column">
+                    <h3>Основные минуты</h3>
+                    <div class="number-item"><span>오 분 [o bun]</span> <span>5 мин</span> <button class="audio-btn-light" onclick="speakKorean('오 분')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="number-item"><span>십 분 [sip bun]</span> <span>10 мин</span> <button class="audio-btn-light" onclick="speakKorean('십 분')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="number-item"><span>십오 분 [sibo bun]</span> <span>15 мин</span> <button class="audio-btn-light" onclick="speakKorean('십오 분')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="number-item"><span>이십 분 [isip bun]</span> <span>20 мин</span> <button class="audio-btn-light" onclick="speakKorean('이십 분')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="number-item"><span>삼십 분 [samsip bun]</span> <span>30 мин</span> <button class="audio-btn-light" onclick="speakKorean('삼십 분')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                </div>
+                <div class="number-column" style="background: linear-gradient(135deg, #66bb6a, #43a047);">
+                    <h3>Также запомните</h3>
+                    <div class="number-item"><span>사십오 분</span> <span>45 мин</span> <button class="audio-btn-light" onclick="speakKorean('사십오 분')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="number-item"><span>오십 분</span> <span>50 мин</span> <button class="audio-btn-light" onclick="speakKorean('오십 분')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="number-item"><span>반 [ban]</span> <span>половина (30)</span> <button class="audio-btn-light" onclick="speakKorean('반')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                    <div class="number-item"><span>정각 [jeonggak]</span> <span>ровно</span> <button class="audio-btn-light" onclick="speakKorean('정각')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>Полезно:</strong> Вместо 삼십 분 можно сказать <strong>반</strong> (половина). Например: 세 시 반 = 3:30.
+                <button class="audio-btn" onclick="speakKorean('세 시 반')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+        </div>
+
+        <!-- Секция 4: Примеры времени -->
+        <div class="content-section">
+            <h2>4. Как сказать точное время</h2>
+            <p>Формула: <span class="pattern-highlight">[часть суток]</span> + <span class="pattern-highlight">[час (корейск.)]</span> + <span class="pattern-highlight">시</span> + <span class="pattern-highlight">[минуты (кит.)]</span> + <span class="pattern-highlight">분</span></p>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">오전 아홉 시 삼십 분이에요.</div>
+                    <div class="example-romanization">[ojeon ahop si samsip bunieyo]</div>
+                    <div class="example-meaning">Сейчас 9:30 утра.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('오전 아홉 시 삼십 분이에요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">오후 두 시 십오 분이에요.</div>
+                    <div class="example-romanization">[ohu du si sibo bunieyo]</div>
+                    <div class="example-meaning">Сейчас 2:15 дня.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('오후 두 시 십오 분이에요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">지금 열두 시예요. 점심시간이에요!</div>
+                    <div class="example-romanization">[jigeum yeoldu siyeyo. jeomsimsiganieyo]</div>
+                    <div class="example-meaning">Сейчас 12 часов. Время обеда!</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('지금 열두 시예요. 점심시간이에요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">저녁 여섯 시 반에 만나요.</div>
+                    <div class="example-romanization">[jeonyeok yeoseot si bane mannayo]</div>
+                    <div class="example-meaning">Встретимся в 6:30 вечера.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('저녁 여섯 시 반에 만나요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">아침 일곱 시에 일어나요.</div>
+                    <div class="example-romanization">[achim ilgop sie ireonayo]</div>
+                    <div class="example-meaning">Я встаю в 7 часов утра.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('아침 일곱 시에 일어나요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">밤 열한 시에 자요.</div>
+                    <div class="example-romanization">[bam yeolhan sie jayo]</div>
+                    <div class="example-meaning">Я ложусь спать в 11 ночи.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('밤 열한 시에 자요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+        </div>
+
+        <!-- Секция 5: Возраст -->
+        <div class="content-section">
+            <h2>5. Возраст — 몇 살이에요?</h2>
+            <p>Чтобы спросить возраст, используем:</p>
+
+            <div style="background: linear-gradient(135deg, #388e3c, #4caf50); color: white; padding: 25px; border-radius: 15px; margin: 15px 0; text-align: center; font-size: 1.3em;">
+                <strong>몇 살이에요?</strong> — Сколько вам лет?
+                <button class="audio-btn-light" onclick="speakKorean('몇 살이에요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                <br><span style="font-size: 0.75em; opacity: 0.85;">[myeot sarieyo]</span>
+            </div>
+
+            <div class="tip-box">
+                <strong>Важно:</strong> Для возраста используются <strong>исконно-корейские числа</strong> + 살 [sal]. Десятки имеют особые формы: 스물 (20), 서른 (30), 마흔 (40), 쉰 (50).
+            </div>
+
+            <table class="grammar-table">
+                <thead>
+                    <tr>
+                        <th>Возраст</th>
+                        <th>По-корейски</th>
+                        <th>Произношение</th>
+                        <th>Слушать</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1 год</strong></td>
+                        <td>한 살</td>
+                        <td>[han sal]</td>
+                        <td><button class="audio-btn" onclick="speakKorean('한 살')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>5 лет</strong></td>
+                        <td>다섯 살</td>
+                        <td>[daseot sal]</td>
+                        <td><button class="audio-btn" onclick="speakKorean('다섯 살')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>10 лет</strong></td>
+                        <td>열 살</td>
+                        <td>[yeol sal]</td>
+                        <td><button class="audio-btn" onclick="speakKorean('열 살')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>20 лет</strong></td>
+                        <td>스무 살</td>
+                        <td>[seumu sal]</td>
+                        <td><button class="audio-btn" onclick="speakKorean('스무 살')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>25 лет</strong></td>
+                        <td>스물다섯 살</td>
+                        <td>[seumuldaseot sal]</td>
+                        <td><button class="audio-btn" onclick="speakKorean('스물다섯 살')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>30 лет</strong></td>
+                        <td>서른 살</td>
+                        <td>[seoreun sal]</td>
+                        <td><button class="audio-btn" onclick="speakKorean('서른 살')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>40 лет</strong></td>
+                        <td>마흔 살</td>
+                        <td>[maheun sal]</td>
+                        <td><button class="audio-btn" onclick="speakKorean('마흔 살')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>50 лет</strong></td>
+                        <td>쉰 살</td>
+                        <td>[swin sal]</td>
+                        <td><button class="audio-btn" onclick="speakKorean('쉰 살')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="tip-box">
+                <strong>Обратите внимание:</strong> 스물 перед 살 становится <strong>스무</strong>: 스무 살 (20 лет). Но в составных числах остаётся 스물: 스물다섯 살 (25 лет).
+            </div>
+        </div>
+
+        <!-- Секция 6: Примеры с возрастом -->
+        <div class="content-section">
+            <h2>6. Примеры с возрастом</h2>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">저는 스물다섯 살이에요.</div>
+                    <div class="example-romanization">[jeoneun seumuldaseot sarieyo]</div>
+                    <div class="example-meaning">Мне 25 лет.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('저는 스물다섯 살이에요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">언니는 서른두 살이에요.</div>
+                    <div class="example-romanization">[eonnineun seoreundu sarieyo]</div>
+                    <div class="example-meaning">Старшей сестре 32 года.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('언니는 서른두 살이에요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">동생은 열여덟 살이에요.</div>
+                    <div class="example-romanization">[dongsaengeun yeolyeodeol sarieyo]</div>
+                    <div class="example-meaning">Младшему брату/сестре 18 лет.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('동생은 열여덟 살이에요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">할머니는 일흔 살이에요.</div>
+                    <div class="example-romanization">[halmeonineun ilheun sarieyo]</div>
+                    <div class="example-meaning">Бабушке 70 лет.</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('할머니는 일흔 살이에요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+        </div>
+
+        <!-- Секция 7: Мини-диалог 1 — Время -->
+        <div class="content-section">
+            <h2>7. Мини-диалог: Который час?</h2>
+
+            <div class="dialogue-box">
+                <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+                <div class="dialogue-line">
+                    <div class="speaker">민수 (Минсу):</div>
+                    <div class="korean-text">지금 몇 시예요?</div>
+                    <div class="translation">Который сейчас час?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지은 (Чиын):</div>
+                    <div class="korean-text">지금 오후 세 시 이십 분이에요.</div>
+                    <div class="translation">Сейчас 3:20 дня.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">아, 벌써요? 네 시에 수업이 있어요.</div>
+                    <div class="translation">А, уже? В 4 часа у меня занятия.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">지은:</div>
+                    <div class="korean-text">빨리 가세요! 사십 분밖에 안 남았어요.</div>
+                    <div class="translation">Скорее идите! Осталось всего 40 минут.</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">민수:</div>
+                    <div class="korean-text">네, 감사합니다! 안녕히 계세요.</div>
+                    <div class="translation">Да, спасибо! До свидания.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 8: Мини-диалог 2 — Возраст -->
+        <div class="content-section">
+            <h2>8. Мини-диалог: Сколько вам лет?</h2>
+
+            <div class="dialogue-box">
+                <button class="dialogue-play-btn" onclick="playDialogueSequence(this)">&#127917; Прослушать диалог</button>
+                <div class="dialogue-line">
+                    <div class="speaker">수지 (Суджи):</div>
+                    <div class="korean-text">안녕하세요! 이름이 뭐예요?</div>
+                    <div class="translation">Здравствуйте! Как вас зовут?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">토마스 (Томас):</div>
+                    <div class="korean-text">저는 토마스예요. 반갑습니다!</div>
+                    <div class="translation">Меня зовут Томас. Приятно познакомиться!</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">수지:</div>
+                    <div class="korean-text">몇 살이에요?</div>
+                    <div class="translation">Сколько вам лет?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">토마스:</div>
+                    <div class="korean-text">스물세 살이에요. 수지 씨는요?</div>
+                    <div class="translation">Мне 23 года. А вам, Суджи?</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">수지:</div>
+                    <div class="korean-text">저도 스물세 살이에요! 우리 동갑이네요!</div>
+                    <div class="translation">Мне тоже 23! Мы ровесники!</div>
+                </div>
+                <div class="dialogue-line">
+                    <div class="speaker">토마스:</div>
+                    <div class="korean-text">아, 정말요? 반가워요!</div>
+                    <div class="translation">О, правда? Рад!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Секция 9: Полезные фразы -->
+        <div class="content-section">
+            <h2>9. Полезные фразы о времени</h2>
+
+            <div class="example-card">
+                <div class="example-info">
+                    <div class="example-korean">지금 몇 시예요?</div>
+                    <div class="example-romanization">[jigeum myeot siyeyo]</div>
+                    <div class="example-meaning">Который сейчас час?</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('지금 몇 시예요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #43a047, #2e7d32);">
+                <div class="example-info">
+                    <div class="example-korean">몇 시에 만날까요?</div>
+                    <div class="example-romanization">[myeot sie mannalkkayo]</div>
+                    <div class="example-meaning">Во сколько встретимся?</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('몇 시에 만날까요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #2e7d32, #1b5e20);">
+                <div class="example-info">
+                    <div class="example-korean">수업이 몇 시에 시작해요?</div>
+                    <div class="example-romanization">[sueobi myeot sie sijakaeyo]</div>
+                    <div class="example-meaning">Во сколько начинаются занятия?</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('수업이 몇 시에 시작해요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+
+            <div class="example-card" style="background: linear-gradient(135deg, #558b2f, #33691e);">
+                <div class="example-info">
+                    <div class="example-korean">나이가 어떻게 되세요?</div>
+                    <div class="example-romanization">[naiga eotteoke doeseyo]</div>
+                    <div class="example-meaning">Сколько вам лет? (вежливо)</div>
+                </div>
+                <button class="audio-btn-light" onclick="speakKorean('나이가 어떻게 되세요')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+            </div>
+        </div>
+
+        <!-- Секция 10: Упражнения -->
+        <div class="practice-section">
+            <h2>Упражнения</h2>
+
+            <div class="exercise-item">
+                <div class="exercise-question">1. Как сказать "3 часа" по-корейски?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">삼 시</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">세 시</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">셋 시</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">서 시</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">2. Какие числа используются для минут?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">исконно-корейские</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">сино-корейские</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">любые</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">арабские</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">3. Переведите: 오후 두 시 삼십 분</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">2:30 утра</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">2:30 дня</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">3:20 дня</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">12:30 дня</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">4. Что означает 반 в контексте времени?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">четверть</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">половина (30 минут)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">ровно</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">полночь</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">5. Как сказать "мне 20 лет"?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">저는 이십 살이에요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">저는 스물 살이에요</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">저는 스무 살이에요</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">저는 열둘 살이에요</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">6. Что значит 오전?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">AM (до полудня)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">PM (после полудня)</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">вечер</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">ночь</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">7. 서른 살 — это сколько лет?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">13 лет</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">20 лет</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">30 лет</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">40 лет</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-question">8. Как вежливо спросить возраст?</div>
+                <div class="exercise-options">
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">몇 시예요?</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">이름이 뭐예요?</button>
+                    <button class="exercise-btn" data-correct="true" onclick="checkExercise(this)">나이가 어떻게 되세요?</button>
+                    <button class="exercise-btn" data-correct="false" onclick="checkExercise(this)">어디에서 왔어요?</button>
+                </div>
+                <div class="exercise-result"></div>
+            </div>
+        </div>
+
+        <!-- Запомни блок -->
+        <div class="content-section">
+            <div style="background: linear-gradient(135deg, rgba(76,175,80,0.08), rgba(76,175,80,0.15)); border-left: 4px solid #4caf50; border-radius: 12px; padding: 20px; margin: 20px 0;">
+                <h3 style="color: #2e7d32;">&#128204; Запомни</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                    <div style="background: rgba(76,175,80,0.1); padding: 15px; border-radius: 10px;">
+                        <strong>Часы = корейские числа</strong><br>
+                        한 시, 두 시, 세 시...<br>
+                        <em>+ 시 [si]</em>
+                        <button class="audio-btn" onclick="speakKorean('한 시, 두 시, 세 시')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                    </div>
+                    <div style="background: rgba(76,175,80,0.1); padding: 15px; border-radius: 10px;">
+                        <strong>Минуты = китайские числа</strong><br>
+                        오 분, 십 분, 삼십 분...<br>
+                        <em>+ 분 [bun]</em>
+                        <button class="audio-btn" onclick="speakKorean('오 분, 십 분, 삼십 분')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                    </div>
+                    <div style="background: rgba(76,175,80,0.1); padding: 15px; border-radius: 10px;">
+                        <strong>Возраст = корейские числа</strong><br>
+                        스무 살, 서른 살, 마흔 살<br>
+                        <em>+ 살 [sal]</em>
+                        <button class="audio-btn" onclick="speakKorean('스무 살, 서른 살, 마흔 살')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                    </div>
+                    <div style="background: rgba(76,175,80,0.1); padding: 15px; border-radius: 10px;">
+                        <strong>Ключевые вопросы</strong><br>
+                        몇 시예요? (Который час?)<br>
+                        몇 살이에요? (Сколько лет?)
+                        <button class="audio-btn" onclick="speakKorean('몇 시예요? 몇 살이에요?')"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка завершения -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" class="complete-btn">Отметить урок как пройденный</button>
+        </div>
+    </div>
+
+    <script>
+        function speakKorean(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = 1.0;
+            var voices = window.speechSynthesis.getVoices();
+            window.speechSynthesis.speak(u);
+        }
+        if ('speechSynthesis' in window && window.speechSynthesis.getVoices().length === 0) {
+            window.speechSynthesis.addEventListener('voiceschanged', function() {});
+        }
+
+        function playDialogueSequence(btn) {
+            var box = btn.closest('.dialogue-box');
+            if (!box) return;
+            var lines = box.querySelectorAll('.dialogue-line');
+            var texts = [];
+            lines.forEach(function(l) {
+                var k = l.querySelector('.korean-text');
+                if (k) {
+                    var t = k.textContent.replace(/\[.*?\]/g, '').replace(/\uD83D\uDD0A/g, '').trim();
+                    if (t) texts.push(t);
+                }
+            });
+            window.speechSynthesis.cancel();
+            var i = 0;
+            btn.innerHTML = '&#9208; Воспроизводится...';
+            btn.disabled = true;
+            function next() {
+                if (i >= texts.length) {
+                    btn.innerHTML = '&#127917; Прослушать диалог';
+                    btn.disabled = false;
+                    lines.forEach(function(l) { l.style.background = ''; });
+                    return;
+                }
+                lines.forEach(function(l) { l.style.background = ''; });
+                lines[i].style.background = 'rgba(255,255,255,0.15)';
+                var u = new SpeechSynthesisUtterance(texts[i]);
+                u.lang = 'ko-KR'; u.rate = 0.7; u.pitch = (i % 2 === 0) ? 1.1 : 0.9;
+                var v = window.speechSynthesis.getVoices();
+                u.onend = function() { i++; setTimeout(next, 400); };
+                window.speechSynthesis.speak(u);
+            }
+            next();
+        }
+
+        function checkExercise(btn) {
+            var parent = btn.closest('.exercise-item');
+            var result = parent.querySelector('.exercise-result');
+            var buttons = parent.querySelectorAll('.exercise-btn');
+            buttons.forEach(function(b) { b.disabled = true; });
+            if (btn.getAttribute('data-correct') === 'true') {
+                btn.style.background = '#4caf50'; btn.style.color = 'white';
+                result.textContent = '[OK] Правильно!'; result.style.color = '#4caf50';
+            } else {
+                btn.style.background = '#f44336'; btn.style.color = 'white';
+                result.textContent = '[-] Неправильно.'; result.style.color = '#f44336';
+                buttons.forEach(function(b) {
+                    if (b.getAttribute('data-correct') === 'true') { b.style.background = '#4caf50'; b.style.color = 'white'; }
+                });
+            }
+        }
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../../js/firebase-config.js"></script>
+    <script src="../../js/firebase-sync.js"></script>
+    <script src="../../js/firebase-auth.js"></script>
+    <script src="../../js/progress-tracker.js"></script>
+    <script>
+        var LESSON_ID = 'level1_lesson_time_age';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section, index) {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                setTimeout(function() {
+                    section.style.transition = 'all 0.6s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            console.log('[OK] Lesson loaded:', LESSON_ID);
+        });
+    </script>
+    <script src="../../js/global-nav.js"></script>
+</body>
+</html>

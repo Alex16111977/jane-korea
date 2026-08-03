@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📚 텍스트로 배우기 - Изучение корейского с текстами</title>
+    <meta name="description" content="Читайте тексты на корейском языке с переводом и аннотациями. 6 уровней сложности, 9 тематических категорий."/>
+    <meta property="og:title" content="Тексты для чтения на корейском — Miso: 한국어 수업"/>
+    <meta property="og:description" content="Интерактивные тексты на корейском языке с переводом, произношением и тестами."/>
+    <meta name="theme-color" content="#ff6b9d"/>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+    <title>Тексты для чтения на корейском | Miso: 한국어 수업</title>
     <link href="css/style.css" rel="stylesheet"/>
     <link rel="stylesheet" href="css/progress.css">
     <link href="css/auth-styles.css" rel="stylesheet"/>
@@ -135,13 +140,18 @@
             color: white;
             padding: 40px 20px;
             position: relative;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 24px;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
         .header h1 {
             font-size: 2.8em;
             margin-bottom: 10px;
-            text-shadow: 
-                0 0 10px rgba(255,255,255,0.5),
+            color: white;
+            text-shadow:
+                0 2px 8px rgba(0,0,0,0.4),
                 0 0 20px rgba(102, 126, 234, 0.5),
                 0 0 30px rgba(118, 75, 162, 0.5);
             animation: titleGlow 3s ease-in-out infinite;
@@ -243,6 +253,12 @@
             color: white;
             border-color: #4caf50;
             box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4);
+            cursor: pointer;
+        }
+
+        .step.completed:hover {
+            transform: scale(1.08);
+            filter: brightness(1.1);
         }
 
         .levels-grid {
@@ -590,14 +606,32 @@
             .levels-grid, .categories-grid, .texts-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .step-indicator {
-                gap: 10px;
+
+            .header h1 {
+                font-size: 1.8em;
             }
-            
+
+            .header .subtitle {
+                font-size: 1em;
+            }
+
+            .level-number, .category-icon {
+                font-size: 2.5em;
+            }
+
+            .level-name, .category-name {
+                font-size: 1.2em;
+            }
+
+            .step-indicator {
+                gap: 8px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
             .step {
                 padding: 8px 15px;
-                font-size: 0.9em;
+                font-size: 0.85em;
             }
 
             .back-button {
@@ -608,6 +642,37 @@
 
             .text-card {
                 padding: 20px;
+            }
+
+            .text-title {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .level-number, .category-icon {
+                font-size: 2em;
+            }
+
+            .level-name, .category-name {
+                font-size: 1.05em;
+            }
+
+            .level-description, .category-description {
+                font-size: 0.9em;
+            }
+
+            .step {
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+
+            .content-area {
+                padding: 10px;
             }
         }
     </style>
@@ -651,9 +716,9 @@
         <div id="progressDashboard"></div>
 
         <div class="step-indicator">
-            <div class="step active" id="step1">1. Выбор уровня</div>
-            <div class="step" id="step2">2. Категория текстов</div>
-            <div class="step" id="step3">3. Выбор текста</div>
+            <div class="step active" id="step1" onclick="onStepClick(1)">1. Выбор уровня</div>
+            <div class="step" id="step2" onclick="onStepClick(2)">2. Категория текстов</div>
+            <div class="step" id="step3" onclick="onStepClick(3)">3. Выбор текста</div>
             <div class="step" id="step4">4. Чтение</div>
         </div>
 
@@ -680,7 +745,7 @@
                     <div class="level-description">
                         Простые диалоги, повседневная лексика, базовая грамматика
                     </div>
-                    <div class="level-texts-count">12 текстов</div>
+                    <div class="level-texts-count">24 текста</div>
                 </div>
 
                 <div class="level-card level-3" onclick="selectLevel(3)">
@@ -786,6 +851,56 @@
                     </div>
                     <div class="category-texts-count" id="foodCount">4 текста</div>
                 </div>
+
+                <div class="category-card" onclick="selectCategory('health')">
+                    <div class="category-icon">🏥</div>
+                    <div class="category-name">Здоровье</div>
+                    <div class="category-korean">건강</div>
+                    <div class="category-description">
+                        Самочувствие, симптомы, аптека, визит к врачу
+                    </div>
+                    <div class="category-texts-count" id="healthCount">0 текстов</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('phone')">
+                    <div class="category-icon">📞</div>
+                    <div class="category-name">Общение</div>
+                    <div class="category-korean">통신</div>
+                    <div class="category-description">
+                        Телефонные разговоры, мессенджеры, связь
+                    </div>
+                    <div class="category-texts-count" id="phoneCount">0 текстов</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('sports')">
+                    <div class="category-icon">💪</div>
+                    <div class="category-name">Спорт</div>
+                    <div class="category-korean">스포츠</div>
+                    <div class="category-description">
+                        Фитнес, футбол, плавание, спортивные мероприятия
+                    </div>
+                    <div class="category-texts-count" id="sportsCount">0 текстов</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('office')">
+                    <div class="category-icon">🏢</div>
+                    <div class="category-name">Работа</div>
+                    <div class="category-korean">직장</div>
+                    <div class="category-description">
+                        Офис, коллеги, совещания, рабочие будни
+                    </div>
+                    <div class="category-texts-count" id="officeCount">0 текстов</div>
+                </div>
+
+                <div class="category-card" onclick="selectCategory('shopping')">
+                    <div class="category-icon">🛒</div>
+                    <div class="category-name">Шопинг</div>
+                    <div class="category-korean">쇼핑</div>
+                    <div class="category-description">
+                        Магазины, примерка, скидки, возврат товаров
+                    </div>
+                    <div class="category-texts-count" id="shoppingCount">0 текстов</div>
+                </div>
             </div>
         </div>
 
@@ -804,7 +919,12 @@
             culture: 'Культура',
             science: 'Наука',
             travel: 'Путешествия',
-            food: 'Еда'
+            food: 'Еда',
+            health: 'Здоровье',
+            phone: 'Общение',
+            sports: 'Спорт',
+            office: 'Работа',
+            shopping: 'Шопинг'
         };
 
         const textsDatabase = {
@@ -907,8 +1027,14 @@
                         title: "На рынке Намдемун",
                         subtitle: "남대문 시장에서",
                         preview: "Традиционный корейский рынок. Тток от бабушки, шарфы и сувениры. Дружелюбные продавцы!"
+                    },
+                    {
+                        id: 'travel-5',
+                        title: "День на пляже Хэундэ",
+                        subtitle: "해운대에서 보낸 하루",
+                        preview: "Поездка в Пусан на выходные: поезд, метро, море, хве на рынке и внезапный ливень после обеда."
                     }
-                ],
+                                ],
                 food: [
                     {
                         id: 'food-1',
@@ -933,8 +1059,22 @@
                         title: "Корейские напитки",
                         subtitle: "한국의 음료",
                         preview: "Вкусные корейские напитки: холодный сикхе, горячий юджа чха и популярное банановое молоко."
+                    },
+                    {
+                        id: 'food-6',
+                        title: "Заказываем доставку",
+                        subtitle: "치킨을 시켰어요",
+                        preview: "Пятничный вечер с другом: звонок в кафе, заказ курицы, адрес по SMS и доставка через полчаса."
                     }
-                ]
+                                ],
+                sports: [
+                    {
+                        id: 'sports-1',
+                        title: "Первый день в зале тхэквондо",
+                        subtitle: "태권도장 첫날",
+                        preview: "Занятия тхэквондо рядом с задними воротами школы: страшный первый день, разминка и удары ногами."
+                    }
+                ],
             },
             3: {
                 personal: [
@@ -995,6 +1135,24 @@
                         title: "Корейские технологии",
                         subtitle: "한국의 기술",
                         preview: "Samsung, LG, Hyundai - лидеры мировой технологии. Инновации и влияние на глобальный рынок."
+                    },
+                    {
+                        id: 'culture-4',
+                        title: "Мой первый корпоратив",
+                        subtitle: "나의 첫 회식",
+                        preview: "Первый 회식 в корейской компании: кто кому наливает, зачем отворачиваться при старшем и как уйти после 일차, никого не обидев."
+                    },
+                    {
+                        id: 'culture-5',
+                        title: "Свидание вслепую",
+                        subtitle: "소개팅",
+                        preview: "소개팅 в кафе в Каннаме: вопрос о возрасте, момент перехода с 존댓말 на 반말 и сообщение по дороге домой."
+                    },
+                    {
+                        id: 'culture-6',
+                        title: "Ночь в караоке",
+                        subtitle: "노래방에서의 밤",
+                        preview: "노래방 после экзаменов: отдельная комната, бубен, «노래 좀 하네!» и бесплатные тридцать минут в подарок от хозяина."
                     }
                 ],
                 science: [
@@ -1115,20 +1273,6 @@
                         preview: "Почему меняются сезоны? Наклон земной оси. Весна, лето, осень, зима в Корее."
                     }
                 ],
-                travel: [
-                    {
-                        id: 'travel-1',
-                        title: "Поездка в Пусан",
-                        subtitle: "부산 여행",
-                        preview: "Второй по величине город. Знаменитый пляж Хэундэ. Свежие морепродукты на рынке."
-                    },
-                    {
-                        id: 'travel-2',
-                        title: "Остров Чеджу",
-                        subtitle: "제주도",
-                        preview: "Тропический остров Кореи. Вулкан Халласан, водопады. Апельсиновые сады и черная свинина."
-                    }
-                ],
                 food: [
                     {
                         id: 'food-1',
@@ -1141,6 +1285,102 @@
                         title: "Корейское барбекю",
                         subtitle: "한국식 바비큐",
                         preview: "Самгёпсаль - жареная свиная грудинка. Готовим на столе. Заворачиваем в листья салата."
+                    }
+                ],
+                travel: [
+                    {
+                        id: 'travel-1',
+                        title: "Поездка в Пусан",
+                        subtitle: "부산 여행",
+                        preview: "Второй по величине город. Знаменитый пляж Хэундэ. Свежие морепродукты на рынке."
+                    },
+                    {
+                        id: 'travel-2',
+                        title: "Остров Чеджу",
+                        subtitle: "제주도",
+                        preview: "Тропический остров Кореи. Вулкан Халласан, водопады. Апельсиновые сады и черная свинина."
+                    },
+                    {
+                        id: 'travel-3',
+                        title: "В аэропорту",
+                        subtitle: "공항에서",
+                        preview: "Регистрация на рейс, паспортный контроль, посадочный талон. Дьюти-фри и посадка."
+                    },
+                    {
+                        id: 'travel-4',
+                        title: "В отеле",
+                        subtitle: "호텔에서",
+                        preview: "Бронирование и чек-ин. Просторный номер с видом на море. Завтрак-буфет."
+                    }
+                ],
+                health: [
+                    {
+                        id: 'health-1',
+                        title: "Я заболел",
+                        subtitle: "감기에 걸렸어요",
+                        preview: "Простуда и её симптомы. Визит к врачу. Лекарства и отдых дома."
+                    },
+                    {
+                        id: 'health-2',
+                        title: "В аптеке",
+                        subtitle: "약국에서",
+                        preview: "Покупка лекарств. Советы фармацевта. Как принимать таблетки."
+                    }
+                ],
+                phone: [
+                    {
+                        id: 'phone-1',
+                        title: "Телефонный разговор",
+                        subtitle: "전화 통화",
+                        preview: "Звонок подруге. Договариваемся о встрече. Место и время."
+                    },
+                    {
+                        id: 'phone-2',
+                        title: "Какаоток",
+                        subtitle: "카카오톡",
+                        preview: "Популярный мессенджер Кореи. Сообщения, фото, эмотиконы, групповые чаты."
+                    }
+                ],
+                sports: [
+                    {
+                        id: 'sports-1',
+                        title: "Фитнес-клуб",
+                        subtitle: "헬스장에서",
+                        preview: "Ежедневные тренировки: бег, силовые, йога, плавание. Здоровый образ жизни."
+                    },
+                    {
+                        id: 'sports-2',
+                        title: "Футбольный матч",
+                        subtitle: "축구 경기",
+                        preview: "Игра с друзьями в парке. Две команды, голы и болельщики. Курица после матча!"
+                    }
+                ],
+                office: [
+                    {
+                        id: 'office-1',
+                        title: "Первый рабочий день",
+                        subtitle: "첫 출근",
+                        preview: "Новая компания, знакомство с коллегами и начальником. Визитки и офис."
+                    },
+                    {
+                        id: 'office-2',
+                        title: "Совещание",
+                        subtitle: "회의",
+                        preview: "Презентация нового проекта. Дедлайны, отчёты и командная работа."
+                    }
+                ],
+                shopping: [
+                    {
+                        id: 'shopping-1',
+                        title: "В торговом центре",
+                        subtitle: "쇼핑몰에서",
+                        preview: "Примерка платья, подбор размера. Скидка 30%! Оплата картой."
+                    },
+                    {
+                        id: 'shopping-2',
+                        title: "Возврат товара",
+                        subtitle: "교환과 환불",
+                        preview: "Кроссовки не подошли. Обмен и возврат денег. Чек и вежливый продавец."
                     }
                 ]
             },
@@ -1515,21 +1755,51 @@
             }
         }
 
+        function pluralizeTexts(n) {
+            const mod10 = n % 10;
+            const mod100 = n % 100;
+            if (mod100 >= 11 && mod100 <= 19) return `${n} текстов`;
+            if (mod10 === 1) return `${n} текст`;
+            if (mod10 >= 2 && mod10 <= 4) return `${n} текста`;
+            return `${n} текстов`;
+        }
+
         function updateCategoryCounts(level) {
             const levelData = textsDatabase[level] || {};
-            
-            document.getElementById('personalCount').textContent = 
-                `${(levelData.personal || []).length} текстов`;
-            document.getElementById('storiesCount').textContent = 
-                `${(levelData.stories || []).length} текстов`;
-            document.getElementById('cultureCount').textContent = 
-                `${(levelData.culture || []).length} текстов`;
-            document.getElementById('scienceCount').textContent = 
-                `${(levelData.science || []).length} текстов`;
-            document.getElementById('travelCount').textContent = 
-                `${(levelData.travel || []).length} текста`;
-            document.getElementById('foodCount').textContent = 
-                `${(levelData.food || []).length} текстов`;
+            const progress = (typeof ProgressTracker !== 'undefined') ? ProgressTracker.get() : null;
+            const categories = ['personal', 'stories', 'culture', 'science', 'travel', 'food', 'health', 'phone', 'sports', 'office', 'shopping'];
+            const countIds = {
+                personal: 'personalCount',
+                stories: 'storiesCount',
+                culture: 'cultureCount',
+                science: 'scienceCount',
+                travel: 'travelCount',
+                food: 'foodCount',
+                health: 'healthCount',
+                phone: 'phoneCount',
+                sports: 'sportsCount',
+                office: 'officeCount',
+                shopping: 'shoppingCount'
+            };
+
+            categories.forEach(cat => {
+                const texts = levelData[cat] || [];
+                const total = texts.length;
+                let completed = 0;
+                if (progress) {
+                    completed = texts.filter(t =>
+                        progress.completedTexts[`${level}-${cat}-${t.id}`]
+                    ).length;
+                }
+                const el = document.getElementById(countIds[cat]);
+                if (el) {
+                    if (completed > 0) {
+                        el.textContent = `${completed}/${total} пройдено`;
+                    } else {
+                        el.textContent = pluralizeTexts(total);
+                    }
+                }
+            });
         }
 
         function selectCategory(category, options = {}) {
@@ -1591,6 +1861,9 @@
             categoryTexts.forEach((text, index) => {
                 let imageHtml = '';
                 const imageMap = {
+                    '1-sports-1': 'Корейское таэквондо.jpg',
+                    '1-travel-5': 'level2-busan-coast.svg',
+                    '1-food-6': 'еда.jpg',
                     'personal-1': 'флаг.jpg',
                     'personal-2': 'OIP.jpg',
                     'personal-3': 'OIP (1).jpg',
@@ -1645,7 +1918,19 @@
                     '2-travel-1': 'level2-busan-coast.svg',
                     '2-travel-2': 'level2-jeju-island.svg',
                     '2-food-1': 'level2-ramyeon.svg',
-                    '2-food-2': 'level2-korean-bbq.svg'
+                    '2-food-2': 'level2-korean-bbq.svg',
+                    '2-travel-3': 'level2-busan-coast.svg',
+                    '2-travel-4': 'level2-jeju-island.svg',
+                    '2-health-1': 'level2-korean-tea.svg',
+                    '2-health-2': 'level2-korean-tea.svg',
+                    '2-phone-1': 'level2-lost-phone.svg',
+                    '2-phone-2': 'level2-lost-phone.svg',
+                    '2-sports-1': 'level2-campus-study.svg',
+                    '2-sports-2': 'level2-campus-study.svg',
+                    '2-office-1': 'level2-campus-study.svg',
+                    '2-office-2': 'level2-campus-study.svg',
+                    '2-shopping-1': 'level2-cozy-apartment.svg',
+                    '2-shopping-2': 'level2-cozy-apartment.svg'
                 };
                 
                 const levelImageKey = selectedLevel ? `${selectedLevel}-${text.id}` : null;
@@ -1737,6 +2022,23 @@
             });
         }
         
+        function onStepClick(stepNum) {
+            const step = document.getElementById(`step${stepNum}`);
+            if (!step || !step.classList.contains('completed')) return;
+
+            if (stepNum === 1) {
+                goBackToLevels();
+            } else if (stepNum === 2) {
+                goBackToCategories();
+            } else if (stepNum === 3) {
+                // Already on texts page or navigate to it
+                const textsPageActive = document.getElementById('textsPage').classList.contains('active');
+                if (!textsPageActive && selectedLevel && selectedCategory) {
+                    selectCategory(selectedCategory, { skipHistory: true });
+                }
+            }
+        }
+
         function goBackToCategories() {
             document.getElementById('step3').classList.remove('active');
             document.getElementById('step2').classList.add('active');

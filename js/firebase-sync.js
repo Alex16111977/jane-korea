@@ -1,5 +1,5 @@
 /**
- * Jane Korea - Firebase Firestore Sync Module
+ * Miso: 한국어 수업 - Firebase Firestore Sync Module
  * Синхронизация данных пользователя с облаком
  */
 
@@ -7,6 +7,7 @@
 const LOCAL_PROGRESS_KEY = 'janeKoreaProgress';
 const LOCAL_WORDS_KEY = 'koreanLearnedWords';
 const LOCAL_TEXT_KEY = 'koreanCurrentTextKey';
+const LOCAL_DIARY_KEY = 'koreanDiary';
 
 // Firestore коллекции
 const USERS_COLLECTION = 'users';
@@ -55,10 +56,11 @@ async function syncOnLogin(user) {
         // Получаем локальные данные
         const localProgress = getLocalProgress();
         const localWords = getLocalWords();
+        const localDiary = getLocalDiary();
 
         if (cloudData) {
             // Объединяем данные (cloud + local)
-            const mergedData = mergeUserData(cloudData, localProgress, localWords);
+            const mergedData = mergeUserData(cloudData, localProgress, localWords, localDiary);
 
             // Сохраняем объединённые данные в облако
             await userRef.set(mergedData, { merge: true });
@@ -66,6 +68,7 @@ async function syncOnLogin(user) {
             // Обновляем локальное хранилище
             saveLocalProgress(mergedData.progress);
             saveLocalWords(mergedData.learnedWords);
+            saveLocalDiary(mergedData.diary);
 
             console.log('[Sync] Данные объединены и синхронизированы');
         } else {
@@ -77,7 +80,8 @@ async function syncOnLogin(user) {
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
                 lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
                 progress: localProgress,
-                learnedWords: localWords
+                learnedWords: localWords,
+                diary: localDiary
             };
 
             await userRef.set(userData);
@@ -144,6 +148,30 @@ async function saveWordsToCloud(words) {
 }
 
 /**
+ * Сохранить дневник в облако
+ */
+async function saveDiaryToCloud(diary) {
+    const user = window.FirebaseAuth?.getCurrentUser();
+    if (!user) return false;
+
+    try {
+        const userRef = getUserDocRef(user.uid);
+        if (!userRef) return false;
+
+        await userRef.set({
+            diary: diary,
+            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
+        console.log('[Sync] Дневник сохранён в облако');
+        return true;
+    } catch (error) {
+        console.error('[Sync] Ошибка сохранения дневника:', error);
+        return false;
+    }
+}
+
+/**
  * Загрузить данные из облака
  */
 async function loadFromCloud() {
@@ -168,7 +196,7 @@ async function loadFromCloud() {
 /**
  * Объединение данных из облака и локального хранилища
  */
-function mergeUserData(cloudData, localProgress, localWords) {
+function mergeUserData(cloudData, localProgress, localWords, localDiary) {
     // Объединяем прогресс
     const mergedProgress = mergeProgress(
         cloudData.progress || {},
@@ -181,10 +209,17 @@ function mergeUserData(cloudData, localProgress, localWords) {
         localWords || []
     );
 
+    // Объединяем записи дневника (убираем дубликаты по id)
+    const mergedDiary = mergeDiaryEntries(
+        cloudData.diary || { entries: [] },
+        localDiary || { entries: [] }
+    );
+
     return {
         ...cloudData,
         progress: mergedProgress,
         learnedWords: mergedWords,
+        diary: mergedDiary,
         lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
     };
 }
@@ -242,10 +277,11 @@ function mergeProgress(cloudProgress, localProgress) {
         localProgress.stats?.longestStreak || 0
     );
 
-    // Суммируем время обучения
-    merged.stats.studyTimeMinutes =
-        (cloudProgress.stats?.studyTimeMinutes || 0) +
-        (localProgress.stats?.studyTimeMinutes || 0);
+    // Берём максимум времени обучения (не суммируем, иначе удваивается при каждой синхронизации)
+    merged.stats.studyTimeMinutes = Math.max(
+        cloudProgress.stats?.studyTimeMinutes || 0,
+        localProgress.stats?.studyTimeMinutes || 0
+    );
 
     // Берём последнюю дату активности
     const cloudDate = cloudProgress.stats?.lastActivityDate;
@@ -289,6 +325,29 @@ function mergeWords(cloudWords, localWords) {
 }
 
 /**
+ * Объединение записей дневника (по id, побеждает более свежая версия)
+ */
+function mergeDiaryEntries(cloudDiary, localDiary) {
+    const entryMap = new Map();
+
+    (cloudDiary.entries || []).forEach(entry => entryMap.set(entry.id, entry));
+
+    (localDiary.entries || []).forEach(entry => {
+        const existing = entryMap.get(entry.id);
+        const localTime = entry.updatedAt || entry.createdAt || '';
+        const existingTime = existing ? (existing.updatedAt || existing.createdAt || '') : '';
+        if (!existing || localTime > existingTime) {
+            entryMap.set(entry.id, entry);
+        }
+    });
+
+    const merged = Array.from(entryMap.values());
+    merged.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    return { entries: merged };
+}
+
+/**
  * Локальные функции для работы с localStorage
  */
 function getLocalProgress() {
@@ -324,6 +383,24 @@ function saveLocalWords(words) {
         localStorage.setItem(LOCAL_WORDS_KEY, JSON.stringify(words));
     } catch (error) {
         console.error('[Sync] Ошибка сохранения локальных слов:', error);
+    }
+}
+
+function getLocalDiary() {
+    try {
+        const data = localStorage.getItem(LOCAL_DIARY_KEY);
+        return data ? JSON.parse(data) : { entries: [] };
+    } catch (error) {
+        console.error('[Sync] Ошибка чтения локального дневника:', error);
+        return { entries: [] };
+    }
+}
+
+function saveLocalDiary(diary) {
+    try {
+        localStorage.setItem(LOCAL_DIARY_KEY, JSON.stringify(diary));
+    } catch (error) {
+        console.error('[Sync] Ошибка сохранения локального дневника:', error);
     }
 }
 
@@ -379,11 +456,13 @@ async function manualSync() {
 async function exportUserData() {
     const progress = getLocalProgress();
     const words = getLocalWords();
+    const diary = getLocalDiary();
 
     const exportData = {
         exportDate: new Date().toISOString(),
         progress: progress,
-        learnedWords: words
+        learnedWords: words,
+        diary: diary
     };
 
     // Создаём и скачиваем файл
@@ -391,7 +470,7 @@ async function exportUserData() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `jane-korea-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `miso-backup-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
 
@@ -413,6 +492,9 @@ async function importUserData(file) {
                 }
                 if (data.learnedWords) {
                     saveLocalWords(data.learnedWords);
+                }
+                if (data.diary) {
+                    saveLocalDiary(data.diary);
                 }
 
                 // Синхронизируем с облаком если авторизован
@@ -437,6 +519,7 @@ window.FirebaseSync = {
     syncOnLogin,
     saveProgressToCloud,
     saveWordsToCloud,
+    saveDiaryToCloud,
     loadFromCloud,
     manualSync,
     exportUserData,
@@ -444,7 +527,9 @@ window.FirebaseSync = {
     getLocalProgress,
     saveLocalProgress,
     getLocalWords,
-    saveLocalWords
+    saveLocalWords,
+    getLocalDiary,
+    saveLocalDiary
 };
 
 console.log('[Sync] Module loaded');
