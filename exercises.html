@@ -3,15 +3,16 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="1227 заданий по корейской грамматике с ключами, 29 диалогов и 27 текстов со словариками. Грамматический курс и разговорные темы. Проверка ответа сразу на странице."/>
+    <meta name="description" content="3152 задания по корейской грамматике с ключами, 92 диалога и 44 текста. Четыре курса от 1급 до 6급: грамматика, разговорные темы, учебник 서울대 한국어 1 и продвинутые конструкции TOPIK II. Проверка ответа сразу на странице."/>
     <meta property="og:title" content="Упражнения по грамматике — Miso: 한국어 수업"/>
-    <meta property="og:description" content="31 урок, 178 упражнений, 1227 заданий с ключами, диалоги и тексты."/>
+    <meta property="og:description" content="99 уроков от 1급 до 6급, 567 упражнений, 3152 задания с ключами, диалоги и тексты."/>
     <meta name="theme-color" content="#667eea"/>
     <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
     <title>Упражнения по грамматике | Miso: 한국어 수업</title>
     <link href="css/style.css" rel="stylesheet"/>
     <link rel="stylesheet" href="css/progress.css">
     <link href="css/auth-styles.css" rel="stylesheet"/>
+    <link href="css/exercises.css" rel="stylesheet"/>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
 
@@ -44,6 +45,8 @@
         .unit-card[data-level="2"] { border-top-color: #2196F3; }
         .unit-card[data-level="3"] { border-top-color: #FF9800; }
         .unit-card[data-level="4"] { border-top-color: #9C27B0; }
+        .unit-card[data-level="5"] { border-top-color: #E91E63; }
+        .unit-card[data-level="6"] { border-top-color: #263238; }
 
         /* ---- страница урока ---- */
         .back-link { display: inline-block; margin-bottom: 18px; color: #fff; text-decoration: none; font-weight: 500; opacity: 0.9; }
@@ -64,6 +67,10 @@
         .task-a input:focus { border-color: #667eea; }
         .task-row.correct input { border-color: #4caf50; background: #f1f8f1; }
         .task-row.wrong input { border-color: #f44336; background: #fdf1f0; }
+        .task-row.near input { border-color: #ff9800; background: #fff8e6; }
+        .task-row.near .answer { color: #8a5a00; background: #fff8e6; }
+        .task-row.near .answer b { color: #7a5c00; }
+        .task-row.near .answer::after { content: ' — почти, ошибка в одном символе'; opacity: 0.75; }
         .answer { flex: 1 1 100%; font-size: 1em; color: #2e7d32; background: #f1f8f1; border-radius: 12px; padding: 10px 14px; line-height: 1.55; }
         .answer.hidden { display: none; }
         .answer b { color: #1b5e20; }
@@ -136,15 +143,22 @@
     <script src="js/progress-tracker.js"></script>
     <script src="js/book-exercises.js"></script>
     <script src="js/topic-exercises.js"></script>
+    <script src="js/snu-exercises.js"></script>
+    <script src="js/adv-exercises.js"></script>
+    <script src="js/exercise-trainer.js"></script>
     <script>
         'use strict';
 
-        // Два набора упражнений: грамматический курс и разговорные темы
+        // Три набора упражнений: грамматический курс, разговорные темы и курс СНУ
         var SOURCES = [
             { id: 'book',   title: 'Грамматический курс',
               note: '21 урок по порядку — от чтения патчхима до косвенной речи' },
             { id: 'topics', title: 'Разговорные темы',
-              note: '10 уроков: знакомство, дом, семья, еда, день, покупки, транспорт, телефон, погода, каникулы' }
+              note: '10 уроков: знакомство, дом, семья, еда, день, покупки, транспорт, телефон, погода, каникулы' },
+            { id: 'snu',    title: '서울대 한국어 1 — курс Сеульского университета',
+              note: '30 уроков учебника Института языкового образования СНУ: диалог, словарик и подстановочные упражнения' },
+            { id: 'adv',    title: 'Продвинутая грамматика 2–6급',
+              note: '38 конструкций уровня TOPIK II: правило, образование формы, выбор варианта, работа над ошибками и перевод' }
         ];
 
         function allUnits() {
@@ -152,7 +166,9 @@
                 if (!u.src) { u.src = 'book'; }
                 return u;
             });
-            return book.concat(window.topicExercises || []);
+            return book.concat(window.topicExercises || [],
+                               window.snuExercises || [],
+                               window.advExercises || []);
         }
 
         var KIND_LABEL = {
@@ -201,21 +217,66 @@
             return t;
         }
 
-        // Что ещё есть в уроке кроме упражнений — для карточки на хабе
+        // Что ещё есть в уроке кроме упражнений — теги для карточки на хабе
         function extras(u) {
             var parts = [];
-            if (u.dialog && u.dialog.length) parts.push('диалог');
-            if (u.text && u.text.ko && u.text.ko.length) parts.push('текст');
-            if (u.glossary && u.glossary.length) parts.push('словарик');
-            return parts.length ? '<br>' + parts.join(' · ') : '';
+            if (u.dialog && u.dialog.length) parts.push('💬 диалог');
+            if (u.text && u.text.ko && u.text.ko.length) parts.push('📖 текст');
+            if (u.glossary && u.glossary.length) parts.push('🗂️ ' + u.glossary.length + ' слов');
+            return parts.map(function (p) { return '<i>' + esc(p) + '</i>'; }).join('');
         }
 
         // =============================================
         // Список уроков
         // =============================================
-        function renderHub(level) {
+        var hubLevel = 0, hubQuery = '';
+
+        // Общая статистика по всем урокам
+        function hubTotals(units) {
+            var exTotal = 0, exDone = 0;
+            units.forEach(function (u) {
+                var p = ExerciseStats.unitProgress(u);
+                exTotal += p.total;
+                exDone += p.done;
+            });
+            return {
+                exTotal: exTotal,
+                exDone: exDone,
+                pct: exTotal ? Math.round(exDone / exTotal * 100) : 0,
+                xp: ExerciseStats.xp(),
+                lessons: units.filter(function (u) { return isDone(u.n); }).length
+            };
+        }
+
+        // Первый урок, где ещё не всё решено
+        function nextUnit(units) {
+            for (var i = 0; i < units.length; i++) {
+                if (ExerciseStats.unitProgress(units[i]).pct < 100) return units[i];
+            }
+            return units[0];
+        }
+
+        function ring(pct) {
+            var r = 40, c = 2 * Math.PI * r;
+            return '<div class="hub-ring">' +
+                '<svg width="92" height="92" viewBox="0 0 92 92">' +
+                    '<defs><linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">' +
+                        '<stop offset="0%" stop-color="#667eea"/><stop offset="100%" stop-color="#764ba2"/>' +
+                    '</linearGradient></defs>' +
+                    '<circle class="ring-bg" cx="46" cy="46" r="' + r + '"/>' +
+                    '<circle class="ring-fg" cx="46" cy="46" r="' + r + '" ' +
+                        'stroke-dasharray="' + c.toFixed(1) + '" ' +
+                        'stroke-dashoffset="' + (c * (1 - pct / 100)).toFixed(1) + '"/>' +
+                '</svg>' +
+                '<div class="ring-val">' + pct + '%</div></div>';
+        }
+
+        function renderHub() {
             var units = allUnits();
-            var levels = [0, 1, 2, 3, 4];
+            var t = hubTotals(units);
+            var nu = nextUnit(units);
+            var levels = [0, 1, 2, 3, 4, 5, 6];
+
             var html = '' +
                 '<div class="ex-header">' +
                     '<h1>Упражнения по грамматике</h1>' +
@@ -223,43 +284,137 @@
                     '<p>' + units.length + ' уроков, ' +
                         units.reduce(function (a, u) { return a + u.ex.length; }, 0) +
                         ' упражнений и ' + units.reduce(function (a, u) { return a + countTasks(u); }, 0) +
-                        ' заданий с ключами — от чтения патчхима до косвенной речи. ' +
-                        'В уроках также диалоги, тексты и словарики к ним. ' +
-                        'Короткие ответы проверяются прямо на странице.</p>' +
+                        ' заданий с ключами. В тренажёре задания идут по одному, ' +
+                        'ответ проверяется сразу, за серию верных ответов идёт бонус.</p>' +
                     '<div class="ex-source">Грамматический курс по порядку и разговорные темы для практики</div>' +
                 '</div>' +
+
+                '<div class="hub-stats">' +
+                    ring(t.pct) +
+                    '<div class="hub-stat"><div class="v">' + t.exDone + '<span style="font-size:.55em;color:#8b86a3"> / ' + t.exTotal + '</span></div>' +
+                        '<div class="l">упражнений решено</div></div>' +
+                    '<div class="hub-stat"><div class="v">' + t.xp + '</div><div class="l">XP за тренировки</div></div>' +
+                    '<div class="hub-stat"><div class="v">' + t.lessons + '</div><div class="l">уроков пройдено</div></div>' +
+                '</div>' +
+
+                '<div class="hub-actions">' +
+                    '<button class="btn-hero" data-go="' + nu.n + '">' +
+                        '<span class="ico">▶️</span><span><b>Продолжить: ' + esc(nu.name) + '</b>' +
+                        '<span>' + esc(nu.topic) + '</span></span></button>' +
+                    '<button class="btn-hero" data-random="1">' +
+                        '<span class="ico">🎲</span><span><b>Случайная тренировка</b>' +
+                        '<span>~20 заданий наугад из разных уроков</span></span></button>' +
+                '</div>' +
+
+                '<div class="hub-search"><input type="search" id="hubSearch" placeholder="Поиск по теме: вежливость, числительные, погода…" value="' + esc(hubQuery) + '"/></div>' +
+
                 '<div class="level-filter">';
 
             levels.forEach(function (l) {
                 var label = l === 0 ? 'Все уроки' : l + '급';
-                html += '<button class="filter-btn' + (l === level ? ' active' : '') +
+                html += '<button class="filter-btn' + (l === hubLevel ? ' active' : '') +
                         '" data-level="' + l + '">' + label + '</button>';
             });
             html += '</div>';
 
+            var q = hubQuery.trim().toLowerCase();
+            var found = 0;
+
             SOURCES.forEach(function (src) {
                 var list = units.filter(function (u) {
-                    return u.src === src.id && (!level || u.level === level);
+                    if (u.src !== src.id) return false;
+                    if (hubLevel && u.level !== hubLevel) return false;
+                    if (!q) return true;
+                    return (u.topic + ' ' + u.name).toLowerCase().indexOf(q) !== -1;
                 });
                 if (!list.length) return;
+                found += list.length;
                 html += '<div class="src-head"><h2>' + esc(src.title) + '</h2>' +
                             '<span>' + esc(src.note) + '</span></div>' +
                         '<div class="unit-grid">';
-                list.forEach(function (u) {
-                    html += '<a class="unit-card" data-level="' + u.level + '" href="?unit=' + u.n + '">' +
+                list.forEach(function (u, i) {
+                    var p = ExerciseStats.unitProgress(u);
+                    html += '<a class="unit-card" data-level="' + u.level + '" href="?unit=' + u.n + '" ' +
+                                'style="animation-delay:' + (i * 45) + 'ms">' +
+                                (p.pct === 100 ? '<div class="unit-fire">🏆</div>' : p.pct > 0 ? '<div class="unit-fire">🔥</div>' : '') +
                                 '<div class="unit-no">' + esc(u.name) + ' · ' + u.level + '급</div>' +
                                 '<h3>' + esc(u.topic) + '</h3>' +
-                                '<div class="unit-meta">' + u.ex.length + ' упражнений · ' +
-                                    countTasks(u) + ' заданий' + extras(u) + '</div>' +
+                                '<div class="unit-meta">' + u.ex.length + ' упражнений · ' + countTasks(u) + ' заданий</div>' +
+                                '<div class="unit-tags">' + extras(u) + '</div>' +
+                                '<div class="unit-bar"><i style="width:' + p.pct + '%"></i></div>' +
+                                '<div class="unit-pct">' + (p.pct ? p.done + ' из ' + p.total + ' упражнений · ' + p.pct + '%' : 'ещё не начат') + '</div>' +
                                 (isDone(u.n) ? '<div class="unit-done">[OK] Пройдено</div>' : '') +
                             '</a>';
                 });
                 html += '</div>';
             });
 
+            if (!found) {
+                html += '<div class="ex-block" style="text-align:center">Ничего не нашлось — попробуйте другое слово.</div>';
+            }
+
             document.getElementById('app').innerHTML = html;
+
             document.querySelectorAll('.filter-btn').forEach(function (b) {
-                b.addEventListener('click', function () { renderHub(Number(b.dataset.level)); });
+                b.addEventListener('click', function () { hubLevel = Number(b.dataset.level); renderHub(); });
+            });
+            document.querySelectorAll('[data-go]').forEach(function (b) {
+                b.addEventListener('click', function () { location.search = '?unit=' + b.dataset.go; });
+            });
+            var rnd = document.querySelector('[data-random]');
+            if (rnd) rnd.addEventListener('click', randomTraining);
+
+            var search = document.getElementById('hubSearch');
+            if (search) {
+                search.addEventListener('input', function () {
+                    hubQuery = search.value;
+                    var pos = search.selectionStart;
+                    renderHub();
+                    var s2 = document.getElementById('hubSearch');
+                    s2.focus();
+                    s2.setSelectionRange(pos, pos);
+                });
+            }
+
+            // Подсветка карточки под курсором
+            document.querySelectorAll('.unit-card').forEach(function (card) {
+                card.addEventListener('mousemove', function (e) {
+                    var r = card.getBoundingClientRect();
+                    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+                });
+            });
+        }
+
+        // Микс из случайных упражнений всех уроков
+        function randomTraining() {
+            var units = allUnits().filter(function (u) {
+                return !hubLevel || u.level === hubLevel;
+            });
+            var pool = [];
+            units.forEach(function (u) {
+                (u.ex || []).forEach(function (e) {
+                    if (ExerciseStats.playable(e)) pool.push({ u: u, e: e });
+                });
+            });
+            if (!pool.length) return;
+            for (var i = pool.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var tmp = pool[i]; pool[i] = pool[j]; pool[j] = tmp;
+            }
+            // Набираем упражнения, пока не наберётся ~20 заданий.
+            // Каждое упражнение помнит свой урок — прогресс запишется по месту
+            var pick = [], count = 0;
+            for (var k = 0; k < pool.length && count < 20; k++) {
+                var copy = Object.assign({}, pool[k].e);
+                copy._unit = pool[k].u;
+                pick.push(copy);
+                count += (copy.items || []).filter(function (it) { return !!it.a; }).length;
+            }
+            ExerciseTrainer.start({
+                unit: { n: 'mix', name: 'Случайная тренировка', src: 'mix', ex: pick },
+                exercises: pick,
+                onClose: renderHub
             });
         }
 
@@ -267,7 +422,17 @@
         // Один урок
         // =============================================
         function renderUnit(u) {
+            var prog = ExerciseStats.unitProgress(u);
+            var qCount = ExerciseTrainer.build(u, u.ex).length;
             var html = '<a class="back-link" href="exercises.html">&larr; Все уроки</a>' +
+                '<div class="unit-sticky">' +
+                    '<span class="s-name">' + esc(u.name) + '</span>' +
+                    '<div class="s-bar"><i style="width:' + prog.pct + '%"></i></div>' +
+                    '<span class="s-pct">' + prog.done + '/' + prog.total + '</span>' +
+                    '<button class="btn-train" data-train="all">🎯 Тренажёр · ' + qCount + ' заданий</button>' +
+                    (prog.done ? '<button class="btn-train" data-train="left" ' +
+                        'style="background:#eceaf5;color:#5b4bb5;box-shadow:none">🔁 Нерешённые</button>' : '') +
+                '</div>' +
                 '<div class="ex-header">' +
                     '<h1>' + esc(u.name) + '</h1>' +
                     '<div class="korean-title">' + u.level + '급</div>' +
@@ -333,7 +498,9 @@
             }
 
             u.ex.forEach(function (e, ei) {
-                html += '<div class="ex-block" data-ex="' + ei + '">' +
+                var best = ExerciseStats.get(u, e.id);
+                html += '<div class="ex-block' + (best && best.pct >= 60 ? ' done-ex' : '') + '" data-ex="' + ei + '">' +
+                            (best ? '<div class="ex-best">' + best.pct + '%</div>' : '') +
                             '<div class="ex-num">Упражнение ' + esc(e.id) + '</div>' +
                             '<h2>' + esc(e.title) + '</h2>' +
                             '<div class="ex-kind">' + KIND_LABEL[e.kind] + '</div>';
@@ -386,6 +553,11 @@
                     html += '<button class="btn btn-show" data-act="show">Показать ключ</button>' +
                             '<span class="ex-score"></span></div>';
                 }
+                if (ExerciseStats.playable(e)) {
+                    html += '<div class="ex-actions">' +
+                                '<button class="btn btn-play" data-train="' + ei + '">▶ Пройти в тренажёре</button>' +
+                            '</div>';
+                }
                 html += '</div>';
             });
 
@@ -412,6 +584,32 @@
         }
 
         function bindUnit(u) {
+            // Запуск тренажёра: всё упражнение или весь урок
+            document.querySelectorAll('[data-train]').forEach(function (b) {
+                b.addEventListener('click', function () {
+                    var v = b.dataset.train;
+                    var list;
+                    if (v === 'all') {
+                        list = u.ex.filter(ExerciseStats.playable);
+                    } else if (v === 'left') {
+                        list = u.ex.filter(function (e) {
+                            var r = ExerciseStats.get(u, e.id);
+                            return ExerciseStats.playable(e) && (!r || r.pct < 60);
+                        });
+                        if (!list.length) { list = u.ex.filter(ExerciseStats.playable); }
+                    } else {
+                        list = [u.ex[Number(v)]];
+                    }
+                    if (!list.length) return;
+                    var y = window.scrollY;
+                    ExerciseTrainer.start({
+                        unit: u,
+                        exercises: list,
+                        onClose: function () { renderUnit(u); window.scrollTo(0, y); }
+                    });
+                });
+            });
+
             document.querySelectorAll('.book-block').forEach(function (block) {
                 var btn = block.querySelector('[data-act="toggle-ru"]');
                 if (!btn) return;
@@ -437,29 +635,43 @@
                     if (!act) return;
 
                     if (act === 'show') {
-                        block.querySelectorAll('.answer').forEach(function (a) { a.classList.remove('hidden'); });
-                        evt.target.textContent = 'Ключ открыт';
-                        evt.target.disabled = true;
+                        // Ключ открывается и закрывается одной кнопкой
+                        var hidden = block.querySelector('.answer.hidden');
+                        block.querySelectorAll('.answer').forEach(function (a) {
+                            a.classList.toggle('hidden', !hidden);
+                        });
+                        evt.target.textContent = hidden ? 'Скрыть ключ' : 'Показать ключ';
                         return;
                     }
 
                     if (act === 'check') {
-                        var ok = 0, total = 0;
+                        var ok = 0, near = 0, empty = 0, total = 0;
                         block.querySelectorAll('.task-row').forEach(function (row) {
                             var inp = row.querySelector('input');
                             if (!inp) return;
                             total++;
-                            row.classList.remove('correct', 'wrong');
-                            if (norm(inp.value) && norm(inp.value) === norm(inp.dataset.check)) {
+                            var it = ex.items[Number(row.dataset.i)] || {};
+                            var res = ExerciseTrainer.match(it, inp.value);
+                            row.classList.remove('correct', 'wrong', 'near');
+                            if (res === 'ok') {
                                 row.classList.add('correct');
                                 ok++;
+                            } else if (res === 'near') {
+                                row.classList.add('near');
+                                near++;
+                                row.querySelector('.answer').classList.remove('hidden');
+                            } else if (res === 'empty') {
+                                empty++;   // пустое поле — не ошибка, ключ не открываем
                             } else {
                                 row.classList.add('wrong');
                                 row.querySelector('.answer').classList.remove('hidden');
                             }
                         });
-                        score.textContent = 'Верно: ' + ok + ' из ' + total;
-                        console.log('[OK] Упражнение ' + ex.id + ': ' + ok + '/' + total);
+                        score.textContent = 'Верно: ' + ok + ' из ' + total +
+                            (near ? ' · почти: ' + near : '') +
+                            (empty ? ' · без ответа: ' + empty : '');
+                        console.log('[OK] Упражнение ' + ex.id + ': ' + ok + '/' + total +
+                            (near ? ', почти ' + near : '') + (empty ? ', пропущено ' + empty : ''));
                         return;
                     }
 
@@ -511,7 +723,7 @@
             var unit = n === null ? null : allUnits().filter(function (u) {
                 return String(u.n) === String(n);
             })[0];
-            if (unit) { renderUnit(unit); } else { renderHub(0); }
+            if (unit) { renderUnit(unit); } else { renderHub(); }
         });
     </script>
 

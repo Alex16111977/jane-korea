@@ -23,6 +23,8 @@ import re
 import subprocess
 import sys
 
+from exercise_split import split_units
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_JS = os.path.join(ROOT, 'js', 'book-exercises.js')
 
@@ -562,6 +564,10 @@ def main():
         return node
 
     units = swap_deep(units)
+
+    # В книге один пункт часто содержит список слов, а ключ — список ответов.
+    # Разбиваем такие пункты на отдельные задания «одно слово — один ответ»
+    units = split_units(units)
 
     total_ex = sum(len(u['ex']) for u in units)
     total_items = sum(len(e.get('items', [])) for u in units for e in u['ex'])
