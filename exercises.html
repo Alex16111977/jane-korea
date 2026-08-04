@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="description" content="648 заданий по корейской грамматике с ключами, 19 диалогов и 17 текстов со словариками. Проверка ответа сразу на странице."/>
+    <meta name="description" content="1227 заданий по корейской грамматике с ключами, 29 диалогов и 27 текстов со словариками. Грамматический курс и разговорные темы. Проверка ответа сразу на странице."/>
     <meta property="og:title" content="Упражнения по грамматике — Miso: 한국어 수업"/>
-    <meta property="og:description" content="21 урок, 89 упражнений, 648 заданий с ключами, диалоги и тексты."/>
+    <meta property="og:description" content="31 урок, 178 упражнений, 1227 заданий с ключами, диалоги и тексты."/>
     <meta name="theme-color" content="#667eea"/>
     <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
     <title>Упражнения по грамматике | Miso: 한국어 수업</title>
@@ -28,6 +28,10 @@
         .filter-btn { padding: 10px 22px; background: rgba(255,255,255,0.2); color: #fff; border: 2px solid rgba(255,255,255,0.45); border-radius: 25px; font-size: 0.95em; cursor: pointer; transition: all 0.3s ease; font-weight: 500; font-family: inherit; }
         .filter-btn:hover { background: rgba(255,255,255,0.32); }
         .filter-btn.active { background: #fff; color: #5b4bb5; border-color: #fff; }
+
+        .src-head { margin: 8px 0 18px; color: #fff; }
+        .src-head h2 { font-size: 1.25em; margin: 0 0 4px; font-weight: 600; }
+        .src-head span { font-size: 0.9em; opacity: 0.85; }
 
         .unit-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
         .unit-card { background: #fff; border-radius: 20px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease; border-top: 5px solid #667eea; text-decoration: none; display: block; color: inherit; }
@@ -101,6 +105,10 @@
         .unit-links a { display: inline-block; margin: 4px 8px 4px 0; padding: 8px 16px; background: #eceaf5; color: #5b4bb5; border-radius: 18px; text-decoration: none; font-size: 0.9em; font-weight: 500; }
         .unit-links a:hover { background: #dcd8ec; }
 
+        .ex-links { margin: -6px 0 16px; font-size: 0.88em; color: #6b6684; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+        .ex-links a { display: inline-block; padding: 5px 12px; background: #eceaf5; color: #5b4bb5; border-radius: 14px; text-decoration: none; font-weight: 500; }
+        .ex-links a:hover { background: #dcd8ec; }
+
         .unit-nav { display: flex; justify-content: space-between; gap: 12px; margin: 10px 0 40px; flex-wrap: wrap; }
         .unit-nav a { flex: 1 1 200px; background: rgba(255,255,255,0.95); border-radius: 16px; padding: 16px 20px; text-decoration: none; color: #2c3e50; box-shadow: 0 8px 20px rgba(0,0,0,0.1); font-weight: 500; }
         .unit-nav a:hover { background: #fff; }
@@ -127,8 +135,25 @@
 
     <script src="js/progress-tracker.js"></script>
     <script src="js/book-exercises.js"></script>
+    <script src="js/topic-exercises.js"></script>
     <script>
         'use strict';
+
+        // Два набора упражнений: грамматический курс и разговорные темы
+        var SOURCES = [
+            { id: 'book',   title: 'Грамматический курс',
+              note: '21 урок по порядку — от чтения патчхима до косвенной речи' },
+            { id: 'topics', title: 'Разговорные темы',
+              note: '10 уроков: знакомство, дом, семья, еда, день, покупки, транспорт, телефон, погода, каникулы' }
+        ];
+
+        function allUnits() {
+            var book = (window.bookExercises || []).map(function (u) {
+                if (!u.src) { u.src = 'book'; }
+                return u;
+            });
+            return book.concat(window.topicExercises || []);
+        }
 
         var KIND_LABEL = {
             input:  'Впишите ответ и нажмите «Проверить»',
@@ -159,6 +184,17 @@
             return !!(p && p.completedLessons && p.completedLessons[unitId(n)]);
         }
 
+        // Ссылка на урок сайта: строка (старый формат) или {href, t} с готовым названием
+        function linkTag(link) {
+            var href = typeof link === 'string' ? link : link.href;
+            var name = typeof link === 'string' ? '' : link.t;
+            if (!name) {
+                name = href.split('/').pop().replace(/^lesson_\d+_/, '').replace(/_/g, ' ');
+                if (href.indexOf('vocabulary/') === 0) name = 'словарь: ' + name;
+            }
+            return '<a href="' + esc(href) + '/index.html">' + esc(name) + '</a>';
+        }
+
         function countTasks(u) {
             var t = 0;
             u.ex.forEach(function (e) { t += (e.items || []).length; });
@@ -178,18 +214,19 @@
         // Список уроков
         // =============================================
         function renderHub(level) {
-            var units = window.bookExercises;
+            var units = allUnits();
             var levels = [0, 1, 2, 3, 4];
             var html = '' +
                 '<div class="ex-header">' +
                     '<h1>Упражнения по грамматике</h1>' +
                     '<div class="korean-title">문법 연습 문제</div>' +
-                    '<p>21 урок, ' + units.reduce(function (a, u) { return a + u.ex.length; }, 0) +
+                    '<p>' + units.length + ' уроков, ' +
+                        units.reduce(function (a, u) { return a + u.ex.length; }, 0) +
                         ' упражнений и ' + units.reduce(function (a, u) { return a + countTasks(u); }, 0) +
                         ' заданий с ключами — от чтения патчхима до косвенной речи. ' +
                         'В уроках также диалоги, тексты и словарики к ним. ' +
                         'Короткие ответы проверяются прямо на странице.</p>' +
-                    '<div class="ex-source">По самоучителю А. В. Ана «Корейский язык без репетитора» (АСТ, 2019)</div>' +
+                    '<div class="ex-source">Грамматический курс по порядку и разговорные темы для практики</div>' +
                 '</div>' +
                 '<div class="level-filter">';
 
@@ -198,19 +235,27 @@
                 html += '<button class="filter-btn' + (l === level ? ' active' : '') +
                         '" data-level="' + l + '">' + label + '</button>';
             });
-            html += '</div><div class="unit-grid">';
-
-            units.forEach(function (u) {
-                if (level && u.level !== level) return;
-                html += '<a class="unit-card" data-level="' + u.level + '" href="?unit=' + u.n + '">' +
-                            '<div class="unit-no">' + esc(u.name) + ' · ' + u.level + '급</div>' +
-                            '<h3>' + esc(u.topic) + '</h3>' +
-                            '<div class="unit-meta">' + u.ex.length + ' упражнений · ' +
-                                countTasks(u) + ' заданий' + extras(u) + '</div>' +
-                            (isDone(u.n) ? '<div class="unit-done">[OK] Пройдено</div>' : '') +
-                        '</a>';
-            });
             html += '</div>';
+
+            SOURCES.forEach(function (src) {
+                var list = units.filter(function (u) {
+                    return u.src === src.id && (!level || u.level === level);
+                });
+                if (!list.length) return;
+                html += '<div class="src-head"><h2>' + esc(src.title) + '</h2>' +
+                            '<span>' + esc(src.note) + '</span></div>' +
+                        '<div class="unit-grid">';
+                list.forEach(function (u) {
+                    html += '<a class="unit-card" data-level="' + u.level + '" href="?unit=' + u.n + '">' +
+                                '<div class="unit-no">' + esc(u.name) + ' · ' + u.level + '급</div>' +
+                                '<h3>' + esc(u.topic) + '</h3>' +
+                                '<div class="unit-meta">' + u.ex.length + ' упражнений · ' +
+                                    countTasks(u) + ' заданий' + extras(u) + '</div>' +
+                                (isDone(u.n) ? '<div class="unit-done">[OK] Пройдено</div>' : '') +
+                            '</a>';
+                });
+                html += '</div>';
+            });
 
             document.getElementById('app').innerHTML = html;
             document.querySelectorAll('.filter-btn').forEach(function (b) {
@@ -227,16 +272,14 @@
                     '<h1>' + esc(u.name) + '</h1>' +
                     '<div class="korean-title">' + u.level + '급</div>' +
                     '<p>' + esc(u.topic) + '</p>' +
-                    '<div class="ex-source">' + u.ex.length + ' упражнений · ' + countTasks(u) + ' заданий</div>' +
+                    '<div class="ex-source">' + u.ex.length + ' упражнений · ' + countTasks(u) + ' заданий · ' +
+                        esc((SOURCES.filter(function (s) { return s.id === u.src; })[0] || {}).title || '') +
+                    '</div>' +
                 '</div>';
 
             if (u.links && u.links.length) {
                 html += '<div class="unit-links"><h3>Теория по этим темам на сайте</h3>';
-                u.links.forEach(function (href) {
-                    var name = href.split('/').pop().replace(/^lesson_\d+_/, '').replace(/_/g, ' ');
-                    if (href.indexOf('vocabulary/') === 0) name = 'словарь: ' + name;
-                    html += '<a href="' + esc(href) + '/index.html">' + esc(name) + '</a>';
-                });
+                u.links.forEach(function (link) { html += linkTag(link); });
                 html += '</div>';
             }
 
@@ -295,6 +338,12 @@
                             '<h2>' + esc(e.title) + '</h2>' +
                             '<div class="ex-kind">' + KIND_LABEL[e.kind] + '</div>';
 
+                if (e.links && e.links.length) {
+                    html += '<div class="ex-links"><span>Теория:</span>';
+                    e.links.forEach(function (link) { html += linkTag(link); });
+                    html += '</div>';
+                }
+
                 if (e.kind === 'open') {
                     html += '<div class="open-note">Задание без ключа: выполните его письменно ' +
                             'и сверьтесь с примерами из теории.</div>';
@@ -344,7 +393,8 @@
                         '<button class="btn btn-complete" id="completeBtn">Отметить урок пройденным</button>' +
                     '</div>';
 
-            var units = window.bookExercises;
+            // Листаем только внутри своего курса
+            var units = allUnits().filter(function (x) { return x.src === u.src; });
             var i = units.indexOf(u);
             html += '<div class="unit-nav">';
             if (i > 0) {
@@ -451,14 +501,14 @@
 
         // =============================================
         document.addEventListener('DOMContentLoaded', function () {
-            if (!window.bookExercises) {
+            if (!window.bookExercises && !window.topicExercises) {
                 document.getElementById('app').innerHTML =
                     '<div class="ex-header"><h1>Не удалось загрузить упражнения</h1></div>';
                 console.error('[ERROR] js/book-exercises.js не загружен');
                 return;
             }
             var n = new URLSearchParams(window.location.search).get('unit');
-            var unit = n === null ? null : window.bookExercises.filter(function (u) {
+            var unit = n === null ? null : allUnits().filter(function (u) {
                 return String(u.n) === String(n);
             })[0];
             if (unit) { renderUnit(unit); } else { renderHub(0); }
