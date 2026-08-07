@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Был занят -느라(고) - Корейский язык</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08) 0%, transparent 45%),
+                radial-gradient(circle at 80% 80%, rgba(239,108,0,0.3) 0%, transparent 50%),
+                repeating-linear-gradient(160deg, transparent, transparent 40px, rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 80px),
+                linear-gradient(135deg, #ef6c00 0%, #e65100 50%, #e65100 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '🔥';
+            position: fixed;
+            top: 14%;
+            right: 4%;
+            font-size: 100px;
+            opacity: 0.04;
+            animation: floatSlow 10s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '🎯';
+            position: fixed;
+            bottom: 8%;
+            left: 5%;
+            font-size: 90px;
+            opacity: 0.04;
+            animation: floatSlow 13s ease-in-out infinite reverse;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.03); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            text-align: center;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        main {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        section {
+            margin-bottom: 40px;
+            animation: slideInLeft 0.6s ease;
+            animation-fill-mode: both;
+        }
+
+        section:nth-child(2) { animation-delay: 0.2s; }
+        section:nth-child(3) { animation-delay: 0.4s; }
+        section:nth-child(4) { animation-delay: 0.6s; }
+        section:nth-child(5) { animation-delay: 0.8s; }
+
+        h2 {
+            color: #4a5568;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e65100;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: #f57c00;
+        }
+
+        h3 {
+            color: #2d3748;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+
+        h4 {
+            color: #4a5568;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .lesson-intro {
+            background: linear-gradient(135deg, #ef6c0015, #e6510015);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #e65100;
+        }
+
+        .lesson-intro ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .lesson-intro li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .lesson-intro li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #e65100;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .dialogue {
+            background: linear-gradient(135deg, #fff8ec, #ffeccd);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .dialogue-box {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .dialogue-box p {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .dialogue-box strong {
+            color: #e65100;
+            font-weight: 600;
+        }
+
+        .dialogue-box .translation {
+            color: #55506e;
+            font-style: italic;
+            margin-left: 20px;
+        }
+
+        .translation {
+            color: #55506e;
+            font-style: italic;
+            margin-left: 20px;
+        }
+
+        .grammar-rule {
+            background: rgba(239,108,0, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 4px solid #e65100;
+        }
+
+        .example {
+            background: rgba(239,108,0, 0.12);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .example p {
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        .note, .grammar-note {
+            color: #4a5568;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .korean-example {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #f57c00;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .korean-example:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .korean-example p:first-child {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, #ef6c00, #e65100);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .concept-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .consonant-rule {
+            background: linear-gradient(135deg, #fff0f5, #ffe0ea);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid #dc3545;
+        }
+
+        .vowel-rule {
+            background: linear-gradient(135deg, #edfafa, #d5f0f0);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid #17a2b8;
+        }
+
+        .adjective-rule {
+            background: linear-gradient(135deg, #eefaf1, #d8f0e0);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .summary-box {
+            background: linear-gradient(135deg, #ef6c00, #e65100);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .summary-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .summary-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .summary-box li::before {
+            content: '📌';
+            position: absolute;
+            left: 0;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .navigation a {
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .prev-lesson, .next-lesson {
+            background: linear-gradient(135deg, #ef6c00, #e65100);
+            color: white;
+        }
+
+        .prev-lesson:hover, .next-lesson:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239,108,0, 0.4);
+        }
+
+        .lessons-index {
+            background: rgba(239,108,0, 0.1);
+            color: #e65100;
+            border: 2px solid #e65100;
+        }
+
+        .lessons-index:hover {
+            background: #e65100;
+            color: white;
+        }
+
+        /* --- Блоки продвинутого урока --- */
+        .src-box {
+            background: #1f2430;
+            color: #e8e6f0;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .src-origin {
+            font-size: 0.85em;
+            opacity: 0.7;
+            margin-bottom: 18px;
+            letter-spacing: 0.03em;
+        }
+
+        .src-line {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+
+        .src-line:last-of-type { border-bottom: none; }
+
+        .src-ko {
+            font-size: 1.12em;
+            line-height: 1.75;
+            margin-bottom: 6px;
+        }
+
+        .src-ko b {
+            color: #ffd54f;
+            font-weight: 600;
+        }
+
+        .src-ru {
+            font-size: 0.95em;
+            opacity: 0.72;
+            font-style: italic;
+        }
+
+        .src-note {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            font-size: 0.95em;
+            opacity: 0.85;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .compare table {
+            width: 100%;
+            min-width: 560px;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .compare th {
+            background: linear-gradient(135deg, #ef6c00, #e65100);
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-size: 0.95em;
+        }
+
+        .compare td {
+            padding: 13px 12px;
+            border-bottom: 1px solid #eceaf3;
+            vertical-align: top;
+            font-size: 0.97em;
+        }
+
+        .compare tr:last-child td { border-bottom: none; }
+        .compare tr:nth-child(even) td { background: rgba(239,108,0, 0.05); }
+
+        .mistake {
+            background: white;
+            border-left: 4px solid #d64545;
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin: 15px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+        }
+
+        .mistake .wrong {
+            color: #c62828;
+            text-decoration: line-through;
+            text-decoration-color: rgba(198,40,40,0.4);
+            margin-bottom: 6px;
+        }
+
+        .mistake .right {
+            color: #2e7d32;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .mistake .why {
+            color: #55506e;
+            font-size: 0.93em;
+        }
+
+        .quiz-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+        }
+
+        .quiz-q {
+            font-weight: 500;
+            margin-bottom: 14px;
+            color: #2d3748;
+        }
+
+        .quiz-opts {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .quiz-opt {
+            text-align: left;
+            padding: 12px 16px;
+            border: 2px solid #e3e0ee;
+            background: #faf9fd;
+            border-radius: 10px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 1em;
+            color: #2d3748;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-opt:hover { border-color: #e65100; }
+        .quiz-opt.ok { background: #4caf50; border-color: #4caf50; color: white; }
+        .quiz-opt.no { background: #f44336; border-color: #f44336; color: white; }
+        .quiz-opt[disabled] { cursor: default; }
+
+        .quiz-why {
+            margin-top: 12px;
+            padding: 12px 14px;
+            background: rgba(239,108,0, 0.08);
+            border-radius: 8px;
+            font-size: 0.93em;
+            color: #55506e;
+            display: none;
+        }
+
+        .quiz-why.show { display: block; }
+
+        .quiz-score {
+            text-align: center;
+            font-size: 1.15em;
+            font-weight: 600;
+            color: #e65100;
+            margin-top: 18px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: white;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            main { padding: 22px; }
+            h1 { font-size: 1.8em; }
+            .navigation { flex-direction: column; gap: 12px; }
+        }
+    </style>
+    <link rel="stylesheet" href="../css/lesson-theme.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <nav>
+                <a href="../index.html">🏠 Главная</a>
+                <a href="../level_3/index.html">🔥 3급 Уровень</a>
+            </nav>
+            <h1>Был занят -느라(고)</h1>
+        </header>
+
+        <main>
+            <section class="lesson-intro">
+                <h2>📖 Что мы изучаем</h2>
+                <p><strong>-느라(고)</strong> объясняет неудачу через занятость: первое действие забрало время и силы, поэтому второе не получилось. Это не любая причина, а именно «пока я этим занимался».</p>
+                <ul>
+                    <li><strong>-느라(고)</strong> — «занимаясь тем-то», отсюда и результат во второй части</li>
+                    <li>Присоединяется к <strong>основе глагола</strong>, гласная или согласная — не важно</li>
+                    <li>Подлежащее в обеих частях <strong>одно и то же</strong></li>
+                    <li>Время ставится только во второй части: не 했느라, а 하느라</li>
+                    <li>Вторая часть — обычно неудача: не успел, не смог, устал</li>
+                </ul>
+            </section>
+
+            <section class="dialogue">
+                <h2>💬 Диалог урока</h2>
+                <div class="dialogue-box">
+                    <p><strong>민호:</strong> 어제 왜 전화를 안 받았어요?</p>
+                    <p class="translation">Минхо: Почему вчера не брали трубку?</p>
+                    <p><strong>수미:</strong> 아르바이트하느라 못 받았어요.</p>
+                    <p class="translation">Суми: Не смогла — была на подработке.</p>
+                    <p><strong>민호:</strong> 요즘 많이 바쁜가 봐요.</p>
+                    <p class="translation">Минхо: Похоже, вы сейчас очень заняты.</p>
+                    <p><strong>수미:</strong> 시험 준비하느라 잠도 제대로 못 자요.</p>
+                    <p class="translation">Суми: Готовлюсь к экзамену и толком не сплю.</p>
+                    <p><strong>민호:</strong> 무리하지 마세요.</p>
+                    <p class="translation">Минхо: Не перенапрягайтесь.</p>
+                    <p><strong>수미:</strong> 고마워요. 이번 주만 견디면 돼요.</p>
+                    <p class="translation">Суми: Спасибо. Надо продержаться только эту неделю.</p>
+                </div>
+            </section>
+
+            <section class="grammar-explanation">
+                <h2>📚 Грамматическое объяснение</h2>
+
+                <div class="concept-box">
+                    <h3>🔑 Чем это отличается от -아서</h3>
+                    <p>-아서 и -기 때문에 называют причину нейтрально: «пошёл дождь — не поехали». -느라고 говорит про <strong>потраченный ресурс</strong>: время, силы, внимание. Поэтому у него жёсткие условия: действие должно быть сознательным, деятель — один и тот же, а во второй части почти всегда стоит что-то отрицательное. Сказать «비가 오느라 못 갔어요» нельзя: дождь идёт сам по себе, он ничем не занят.</p>
+                </div>
+
+                <h3>Раздел 1: форма — одна для всех глаголов</h3>
+
+                <div class="consonant-rule">
+                    <h4>Основа глагола + -느라(고)</h4>
+                    <p>Окончание присоединяется напрямую, без 으. Единственное исключение — основы на ㄹ: там ㄹ выпадает.</p>
+                    <div class="example">
+                        <p>공부하다 → <strong>공부하느라</strong></p>
+                        <p class="grammar-note">занимаясь учёбой</p>
+                    </div>
+                    <div class="example">
+                        <p>찾다 → <strong>찾느라</strong></p>
+                        <p class="grammar-note">разыскивая</p>
+                    </div>
+                    <div class="example">
+                        <p>만들다 → <strong>만드느라</strong></p>
+                        <p class="grammar-note">делая (ㄹ выпадает)</p>
+                    </div>
+                    <div class="example">
+                        <p>놀다 → <strong>노느라</strong></p>
+                        <p class="grammar-note">развлекаясь (ㄹ выпадает)</p>
+                    </div>
+                </div>
+
+                <h3>Раздел 2: что ставить во вторую часть</h3>
+
+                <div class="vowel-rule">
+                    <h4>Обычно — то, что не удалось</h4>
+                    <p>Вторая часть сообщает последствие: не успел, не смог, забыл, устал. Положительный результат с -느라고 звучит странно.</p>
+                    <div class="example">
+                        <p>청소하느라 <strong>못 나갔어요</strong>.</p>
+                        <p class="grammar-note">убирался и не вышел</p>
+                    </div>
+                    <div class="example">
+                        <p>일하느라 <strong>바빴어요</strong>.</p>
+                        <p class="grammar-note">был занят работой</p>
+                    </div>
+                    <div class="example">
+                        <p>게임하느라 <strong>시간 가는 줄 몰랐어요</strong>.</p>
+                        <p class="grammar-note">заигрался и не заметил времени</p>
+                    </div>
+                    <div class="example">
+                        <p>짐을 싸느라 <strong>정신이 없었어요</strong>.</p>
+                        <p class="grammar-note">собирал вещи и был как в тумане</p>
+                    </div>
+                </div>
+
+                <h3>Раздел 3: три запрета</h3>
+
+                <div class="adjective-rule">
+                    <h4>Одно подлежащее, без прошедшего, без приказа</h4>
+                    <p>Здесь чаще всего ошибаются. Запомните три ограничения — и конструкция перестанет подводить.</p>
+                    <div class="example">
+                        <p>✗ 동생이 자느라 제가 못 나갔어요 → ✓ <strong>동생을 재우느라</strong> 못 나갔어요</p>
+                        <p class="grammar-note">деятель должен быть один</p>
+                    </div>
+                    <div class="example">
+                        <p>✗ 공부했느라 → ✓ <strong>공부하느라</strong></p>
+                        <p class="grammar-note">прошедшее время только во второй части</p>
+                    </div>
+                    <div class="example">
+                        <p>✗ 일하느라 쉬세요 → ✓ 일하느라 <strong>못 쉬었어요</strong></p>
+                        <p class="grammar-note">приказ и предложение не годятся</p>
+                    </div>
+                </div>
+
+                <h3>Раздел 4: -느라고 против -아서</h3>
+
+                <div class="consonant-rule">
+                    <h4>Потраченное время или обычная причина</h4>
+                    <p>Если деятеля нет или он ничем не занимался — только -아서 / -기 때문에.</p>
+                    <div class="example">
+                        <p>감기에 <strong>걸려서</strong> 못 갔어요.</p>
+                        <p class="grammar-note">заболел — обычная причина</p>
+                    </div>
+                    <div class="example">
+                        <p>친구를 <strong>만나느라</strong> 못 갔어요.</p>
+                        <p class="grammar-note">потратил время на встречу с другом</p>
+                    </div>
+                    <div class="example">
+                        <p>비가 <strong>와서</strong> 취소됐어요.</p>
+                        <p class="grammar-note">дождь идёт сам — 느라 нельзя</p>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="examples">
+                <h2>📝 Примеры использования</h2>
+
+                <div class="korean-example">
+                    <p>숙제하느라 잠을 못 잤어요.</p>
+                    <p class="translation">Не выспался из-за домашки.</p>
+                </div>
+                <div class="korean-example">
+                    <p>친구를 기다리느라 밥을 못 먹었어요.</p>
+                    <p class="translation">Ждал друга и не успел поесть.</p>
+                </div>
+                <div class="korean-example">
+                    <p>짐을 싸느라 정신이 없었어요.</p>
+                    <p class="translation">Собирал вещи и был как в тумане.</p>
+                </div>
+                <div class="korean-example">
+                    <p>노느라 시간 가는 줄 몰랐어요.</p>
+                    <p class="translation">Заигрался и не заметил, как прошло время.</p>
+                </div>
+                <div class="korean-example">
+                    <p>발표를 준비하느라 주말을 다 썼어요.</p>
+                    <p class="translation">На подготовку доклада ушли все выходные.</p>
+                </div>
+                <div class="korean-example">
+                    <p>아이를 돌보느라 힘들었어요.</p>
+                    <p class="translation">Умаялся, присматривая за ребёнком.</p>
+                </div>
+            </section>
+
+
+            <section class="summary">
+                <h2>📋 Краткое содержание</h2>
+                <div class="summary-box">
+                    <ul>
+                        <li><strong>-느라(고)</strong> — «пока занимался этим», поэтому второе не вышло</li>
+                        <li>Основа глагола без 으; у основ на ㄹ этот ㄹ выпадает</li>
+                        <li>Деятель в обеих частях один и тот же</li>
+                        <li>Прошедшее время — только во второй части</li>
+                        <li>Про дождь, погоду и болезнь — не -느라고, а -아서</li>
+                    </ul>
+                </div>
+            </section>
+
+            <div class="navigation">
+                <a href="../lesson_117_state_chae/index.html" class="prev-lesson">← Урок 117</a>
+                <a href="../level_3/index.html" class="lessons-index">🔥 3급 Уровень</a>
+                <a href="../lesson_119_causative_ge_hada/index.html" class="next-lesson">Урок 119 →</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Корейский язык с Джейн. Все права защищены.</p>
+        </footer>
+
+        <!-- Кнопка завершения урока -->
+        <div style="text-align: center; margin: 40px 0; padding: 30px;">
+            <button id="completeLessonBtn" onclick="completeLesson()" style="
+                background: linear-gradient(135deg, #4CAF50, #45a049);
+                color: white;
+                border: none;
+                padding: 18px 40px;
+                font-size: 1.2em;
+                font-weight: 600;
+                border-radius: 30px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 6px 20px rgba(76,175,80,0.3);
+                font-family: 'Noto Sans KR', sans-serif;
+            ">Отметить урок как пройденный</button>
+        </div>
+</div>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="../js/firebase-config.js"></script>
+    <script src="../js/firebase-sync.js"></script>
+    <script src="../js/firebase-auth.js"></script>
+    <script src="../js/progress-tracker.js"></script>
+    <script>
+        // Мини-тест урока
+        var QUIZ_ANSWERS = [];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var answered = {};
+            document.querySelectorAll('.quiz-opt').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var q = +btn.dataset.q, o = +btn.dataset.o;
+                    if (answered[q] !== undefined) return;
+                    answered[q] = o;
+                    var correct = QUIZ_ANSWERS[q];
+                    document.querySelectorAll('.quiz-opt[data-q="' + q + '"]').forEach(function(b) {
+                        b.disabled = true;
+                        if (+b.dataset.o === correct) b.classList.add('ok');
+                        else if (+b.dataset.o === o) b.classList.add('no');
+                    });
+                    var why = document.getElementById('why' + q);
+                    if (why) why.classList.add('show');
+
+                    var done = Object.keys(answered).length;
+                    if (done === QUIZ_ANSWERS.length) {
+                        var right = 0;
+                        for (var k in answered) if (answered[k] === QUIZ_ANSWERS[k]) right++;
+                        var score = document.getElementById('quizScore');
+                        if (score) score.textContent = 'Результат: ' + right + ' из ' + QUIZ_ANSWERS.length;
+                        console.log('[OK] Quiz finished:', right + '/' + QUIZ_ANSWERS.length);
+                    }
+                });
+            });
+        });
+
+        // Кнопка завершения урока
+        var LESSON_ID = 'lesson_118_busy_neurago';
+
+        function completeLesson() {
+            if (window.ProgressTracker) {
+                if (!ProgressTracker.markLessonCompleted(LESSON_ID)) return;
+                var btn = document.getElementById('completeLessonBtn');
+                btn.textContent = 'Пройдено!';
+                btn.style.background = '#2e7d32';
+                btn.style.cursor = 'default';
+                btn.disabled = true;
+                btn.style.opacity = '0.85';
+                console.log('[OK] Lesson completed:', LESSON_ID);
+            }
+        }
+
+        // Проверяем статус при загрузке
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.ProgressTracker) {
+                var progress = ProgressTracker.get();
+                if (progress && progress.completedLessons && progress.completedLessons[LESSON_ID]) {
+                    var btn = document.getElementById('completeLessonBtn');
+                    if (btn) {
+                        btn.textContent = 'Пройдено!';
+                        btn.style.background = '#2e7d32';
+                        btn.style.cursor = 'default';
+                        btn.disabled = true;
+                        btn.style.opacity = '0.85';
+                    }
+                }
+            }
+        });
+    </script>
+<script src="../js/dictionary.js"></script>
+    <script src="../js/dictionary-inject.js"></script>
+    <script src="../js/global-nav.js"></script>
+</body>
+</html>

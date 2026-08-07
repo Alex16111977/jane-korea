@@ -31,6 +31,11 @@ from romanize import romanize  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONTENT = os.path.join(ROOT, 'reading-content.html')
 TEXTS = os.path.join(ROOT, 'reading-texts.html')
+# Тексты 1-2급 лежат в storyDatabase внутри reading-content.html, а 3-6급 —
+# в отдельных файлах level-N-texts.js: там объект плоский (сразу категории)
+# и абзацы обёрнуты в <p>...</p>. Объявлен он по-разному: 3급 через window.,
+# остальные через const.
+LEVEL_FILE = {n: os.path.join(ROOT, 'level-%d-texts.js' % n) for n in (3, 4, 5, 6)}
 REQUIRED = ('level', 'category', 'id', 'title', 'subtitle', 'preview', 'image',
             'paragraphs', 'translation', 'quiz')
 
@@ -59,8 +64,13 @@ def esc(s):
     return s.replace('&', '&amp;').replace('"', '&quot;')
 
 
-def build_korean(paragraphs):
-    """Список абзацев -> строка с размеченными словами."""
+def build_korean(paragraphs, wrap=False):
+    """Список абзацев -> строка с размеченными словами.
+
+    wrap=True оборачивает каждый абзац в <p>...</p> — так размечены тексты
+    в level-N-texts.js, тогда как в reading-content.html абзацы разделены
+    пустой строкой.
+    """
     out = []
     for para in paragraphs:
         chunks = []
@@ -78,6 +88,8 @@ def build_korean(paragraphs):
                     % (esc(tr), esc(word), romanize(word), word, tail))
             chunks.append(('' if glue or not chunks else ' ') + span)
         out.append(''.join(chunks))
+    if wrap:
+        return '\n'.join('<p>%s</p>' % p for p in out)
     return '\n\n'.join(out)
 
 
@@ -85,13 +97,19 @@ def js(s):
     return "'%s'" % s.replace('\\', '\\\\').replace("'", "\\'")
 
 
-def build_story_entry(d, indent):
+def jstr(s):
+    """Содержимое двойных кавычек в JS: перенос строки в литерал не влезает."""
+    return (s.replace('\\', '\\\\').replace('"', '\\"')
+             .replace('\n', '\\n').replace('\r', ''))
+
+
+def build_story_entry(d, indent, wrap=False):
     p = ' ' * indent
     quiz = []
     for q in d['quiz']:
-        opts = ', '.join('"%s"' % o for o in q['options'])
+        opts = ', '.join('"%s"' % jstr(o) for o in q['options'])
         quiz += [p + '    {',
-                 p + '        question: "%s",' % q['question'],
+                 p + '        question: "%s",' % jstr(q['question']),
                  p + '        options: [%s],' % opts,
                  p + '        correct: %d' % q['correct'],
                  p + '    },']
@@ -99,10 +117,10 @@ def build_story_entry(d, indent):
     return '\n'.join([
         p + '{',
         p + "    id: '%s'," % d['id'],
-        p + '    title: "%s",' % d['title'],
-        p + '    subtitle: "%s",' % d['subtitle'],
-        p + '    korean: `%s`,' % build_korean(d['paragraphs']),
-        p + '    translation: "%s",' % d['translation'],
+        p + '    title: "%s",' % jstr(d['title']),
+        p + '    subtitle: "%s",' % jstr(d['subtitle']),
+        p + '    korean: `%s`,' % build_korean(d['paragraphs'], wrap),
+        p + '    translation: "%s",' % jstr(d['translation']),
         p + '    quiz: [',
         '\n'.join(quiz),
         p + '    ]',
@@ -115,9 +133,9 @@ def build_list_entry(d, indent):
     return '\n'.join([
         p + '{',
         p + "    id: '%s'," % d['id'],
-        p + '    title: "%s",' % d['title'],
-        p + '    subtitle: "%s",' % d['subtitle'],
-        p + '    preview: "%s"' % d['preview'],
+        p + '    title: "%s",' % jstr(d['title']),
+        p + '    subtitle: "%s",' % jstr(d['subtitle']),
+        p + '    preview: "%s"' % jstr(d['preview']),
         p + '}',
     ])
 
@@ -129,16 +147,21 @@ def find_category_array(text, root_marker, level, category):
     data-pronunciation="한국 [hanguk]", и скобки внутри строк сбили бы счёт.
     """
     i = text.index(root_marker)
-    m = re.search(r'\n(\s{4,})%d: \{' % level, text[i:])
-    if not m:
-        raise SystemExit('[ERROR] в %s нет уровня %d' % (root_marker, level))
-    level_pad = m.group(1)
-    i += m.end()
+    if level is None:
+        # плоский файл level-N-texts.js: категории лежат прямо в корне
+        i += len(root_marker)
+        level_pad = ''
+    else:
+        m = re.search(r'\n(\s{4,})%d: \{' % level, text[i:])
+        if not m:
+            raise SystemExit('[ERROR] в %s нет уровня %d' % (root_marker, level))
+        level_pad = m.group(1)
+        i += m.end()
     # блок уровня заканчивается "}" с тем же отступом; искать категорию можно
     # только внутри него, иначе поиск уедет в соседний уровень
-    block_end = re.search(r'\n%s\},?\n' % level_pad, text[i:])
+    block_end = re.search(r'\n%s\};?,?\n' % level_pad, text[i:])
     if not block_end:
-        raise SystemExit('[ERROR] не найден конец блока уровня %d' % level)
+        raise SystemExit('[ERROR] не найден конец блока уровня %s' % level)
     block = text[i:i + block_end.start()]
 
     cat_pad = level_pad + '    '
@@ -154,7 +177,7 @@ def find_category_array(text, root_marker, level, category):
 def add_category(text, level_info, category, entry, indent):
     """Создаёт массив новой категории в конце блока уровня."""
     i, level_pad = level_info
-    end = re.search(r'\n%s\},?\n' % level_pad, text[i:])
+    end = re.search(r'\n%s\};?,?\n' % level_pad, text[i:])
     if not end:
         raise SystemExit('[ERROR] не найден конец блока уровня')
     pos = i + end.start()
@@ -203,13 +226,33 @@ def main():
     # `map[level-id] || map[id]` — без префикса запись перехватила бы чужой текст.
     key = '%d-%s' % (d['level'], d['id'])
 
-    for path, marker, img_marker, builder, label in (
-            (CONTENT, 'const storyDatabase', 'const storyImageMap = {',
-             build_story_entry, 'reading-content.html: текст'),
-            (TEXTS, 'const textsDatabase', 'const imageMap = {',
+    if d['level'] in LEVEL_FILE:
+        store_path = LEVEL_FILE[d['level']]
+        head = open(store_path, encoding='utf-8').read()
+        store_marker = next((c for c in ('window.level%dTexts = {' % d['level'],
+                                         'const level%dTexts = {' % d['level'])
+                             if c in head), None)
+        if not store_marker:
+            raise SystemExit('[ERROR] в %s не найден объект level%dTexts'
+                             % (os.path.basename(store_path), d['level']))
+        # 4급 хранит категории под ключом уровня (level4Texts[4]), остальные —
+        # прямо в корне объекта
+        nested = re.match(r'\s*\n\s*%d: \{' % d['level'],
+                          head[head.index(store_marker) + len(store_marker):])
+        store_level, wrap = (d['level'] if nested else None), True
+    else:
+        store_path, store_marker = CONTENT, 'const storyDatabase'
+        store_level, wrap = d['level'], False
+
+    for path, marker, lvl, img_marker, builder, label in (
+            (store_path, store_marker, store_level,
+             'const storyImageMap = {' if store_path == CONTENT else None,
+             lambda d, i: build_story_entry(d, i, wrap),
+             os.path.basename(store_path) + ': текст'),
+            (TEXTS, 'const textsDatabase', d['level'], 'const imageMap = {',
              build_list_entry, 'reading-texts.html: карточка')):
         text = open(path, encoding='utf-8').read()
-        pos, indent, level_info = find_category_array(text, marker, d['level'], d['category'])
+        pos, indent, level_info = find_category_array(text, marker, lvl, d['category'])
         # id уникален в пределах уровня: sports-1 может быть и в 1급, и во 2급
         if pos is not None:
             start = text.rindex('[', 0, pos)
@@ -223,9 +266,20 @@ def main():
         else:
             text = text[:pos].rstrip() + ',\n' + entry + '\n' + ' ' * (indent - 4) + text[pos:]
             note = ''
-        text, added = insert_image(text, key, d['image'], d.get('alt', d['title']), img_marker)
+        added = True
+        if img_marker:      # в level-N-texts.js карты картинок нет
+            text, added = insert_image(text, key, d['image'], d.get('alt', d['title']), img_marker)
         open(path, 'w', encoding='utf-8').write(text)
         print('[+] %s добавлен%s%s' % (label, note, '' if added else ' (картинка уже была)'))
+
+    if store_path != CONTENT:
+        # картинку всё равно ищет reading-content.html — дописываем туда
+        text = open(CONTENT, encoding='utf-8').read()
+        text, added = insert_image(text, key, d['image'], d.get('alt', d['title']),
+                                   'const storyImageMap = {')
+        if added:
+            open(CONTENT, 'w', encoding='utf-8').write(text)
+            print('[+] reading-content.html: картинка добавлена')
     print('[i] дальше: озвучка файла audio/%d-%s-%s.mp3'
           % (d['level'], d['category'], d['id']))
 
