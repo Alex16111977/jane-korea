@@ -760,7 +760,7 @@
                     <div class="level-description">
                         Complex grammar, business communication, culture
                     </div>
-                    <div class="level-texts-count">9 texts</div>
+                    <div class="level-texts-count">15 texts</div>
                 </div>
 
                 <div class="level-card level-5" onclick="selectLevel(5)">
@@ -770,7 +770,7 @@
                     <div class="level-description">
                         Fluent communication, academic texts, professional vocabulary
                     </div>
-                    <div class="level-texts-count">12 texts</div>
+                    <div class="level-texts-count">24 texts</div>
                 </div>
 
                 <div class="level-card level-6" onclick="selectLevel(6)">
@@ -1716,6 +1716,15 @@
             return `${n} text${n === 1 ? '' : 's'}`;
         }
 
+        function updateLevelCounts() {
+            for (let level = 1; level <= 6; level++) {
+                const levelData = textsDatabase[level] || {};
+                const total = Object.values(levelData).reduce((sum, texts) => sum + texts.length, 0);
+                const el = document.querySelector(`.level-${level} .level-texts-count`);
+                if (el) el.textContent = pluralizeTexts(total);
+            }
+        }
+
         function updateCategoryCounts(level) {
             const levelData = textsDatabase[level] || {};
             const progress = (typeof ProgressTracker !== 'undefined') ? ProgressTracker.get() : null;
@@ -2082,6 +2091,8 @@
             restoreStateFromURL();
 
             setupSmartBackButton();
+
+            updateLevelCounts();
 
             const cards = document.querySelectorAll('.level-card');
             cards.forEach((card, index) => {

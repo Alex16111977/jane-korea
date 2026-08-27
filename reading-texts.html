@@ -735,7 +735,7 @@
                     <div class="level-description">
                         Алфавит хангыль, базовые фразы, простые предложения
                     </div>
-                    <div class="level-texts-count">19 текстов</div>
+                    <div class="level-texts-count">24 текста</div>
                 </div>
 
                 <div class="level-card level-2" onclick="selectLevel(2)">
@@ -755,7 +755,7 @@
                     <div class="level-description">
                         Повседневное общение, работа, учеба, хобби
                     </div>
-                    <div class="level-texts-count">18 текстов</div>
+                    <div class="level-texts-count">24 текста</div>
                 </div>
 
                 <div class="level-card level-4" onclick="selectLevel(4)">
@@ -765,7 +765,7 @@
                     <div class="level-description">
                         Сложная грамматика, деловое общение, культура
                     </div>
-                    <div class="level-texts-count">9 текстов</div>
+                    <div class="level-texts-count">17 текстов</div>
                 </div>
 
                 <div class="level-card level-5" onclick="selectLevel(5)">
@@ -775,7 +775,7 @@
                     <div class="level-description">
                         Свободное общение, академические тексты, профессиональная лексика
                     </div>
-                    <div class="level-texts-count">12 текстов</div>
+                    <div class="level-texts-count">25 текстов</div>
                 </div>
 
                 <div class="level-card level-6" onclick="selectLevel(6)">
@@ -1828,6 +1828,15 @@
             return `${n} текстов`;
         }
 
+        function updateLevelCounts() {
+            for (let level = 1; level <= 6; level++) {
+                const levelData = textsDatabase[level] || {};
+                const total = Object.values(levelData).reduce((sum, texts) => sum + texts.length, 0);
+                const el = document.querySelector(`.level-${level} .level-texts-count`);
+                if (el) el.textContent = pluralizeTexts(total);
+            }
+        }
+
         function updateCategoryCounts(level) {
             const levelData = textsDatabase[level] || {};
             const progress = (typeof ProgressTracker !== 'undefined') ? ProgressTracker.get() : null;
@@ -2203,8 +2212,10 @@
             }
             
             restoreStateFromURL();
-            
+
             setupSmartBackButton();
+
+            updateLevelCounts();
             
             const cards = document.querySelectorAll('.level-card');
             cards.forEach((card, index) => {

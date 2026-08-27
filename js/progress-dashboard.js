@@ -32,7 +32,7 @@ function renderProgressDashboard(containerId) {
             
             <div class="stats-grid">
                 <!-- Интерактивные тексты -->
-                <div class="stat-card">
+                <div class="stat-card" data-stat="texts">
                     <div class="stat-icon">📖</div>
                     <div class="stat-value">${totalTexts}</div>
                     <div class="stat-label">Текстов пройдено</div>
@@ -40,9 +40,9 @@ function renderProgressDashboard(containerId) {
                         <div class="progress-fill" style="width: ${Math.min((totalTexts/6)*100, 100)}%"></div>
                     </div>
                 </div>
-                
+
                 <!-- Грамматические уроки -->
-                <div class="stat-card">
+                <div class="stat-card" data-stat="lessons">
                     <div class="stat-icon">📝</div>
                     <div class="stat-value">${totalLessons}</div>
                     <div class="stat-label">Уроков пройдено</div>
@@ -50,9 +50,9 @@ function renderProgressDashboard(containerId) {
                         <div class="progress-fill" style="width: ${Math.min((totalLessons/50)*100, 100)}%"></div>
                     </div>
                 </div>
-                
+
                 <!-- Серия дней -->
-                <div class="stat-card">
+                <div class="stat-card" data-stat="streak">
                     <div class="stat-icon">🔥</div>
                     <div class="stat-value">${streak}</div>
                     <div class="stat-label">Дней подряд</div>
